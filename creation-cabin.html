@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🌌 星途·创作舱 · 巡游轨迹/角色/多格式工坊</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* ===== 原有样式完整保留 ===== */
+        * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; }
+        :root {
+            --bg-body: #fef7e8; --bg-app: #fffcf5; --border-light: #f0e5d2; --header-bg: #fff9ef; --sidebar-bg: #fdf6ea;
+            --sidebar-border: #e8dcc8; --card-bg: #ffffff; --card-border: #eadfc9; --accent-border: #c9a87b;
+            --text-primary: #3a2c1f; --text-secondary: #5c4a34; --text-muted: #8b765a; --btn-bg: #ffffffd9;
+            --btn-border: #e0cfb8; --form-bg: #fef7ec; --record-bg: white; --shadow: 0 4px 12px rgba(0,0,0,0.04);
+            --tag-bg: #f0e5d6; --tag-text: #5a3e2a; --modal-overlay: rgba(0,0,0,0.2); --toast-bg: #3a2c1fe6;
+            --role-bg: #fff9f0; --role-border: #e9dbc9;
+        }
+        body.theme-lightgray {
+            --bg-body: #eef2f5; --bg-app: #f8fafd; --border-light: #dfe5ec; --header-bg: #f4f7fb; --sidebar-bg: #f1f4f8;
+            --sidebar-border: #e0e6ed; --card-bg: #ffffff; --card-border: #e2e8f0; --accent-border: #7f8c8d;
+            --text-primary: #2c3e50; --text-secondary: #4a627a; --text-muted: #7f8c9a; --btn-bg: #ffffff;
+            --btn-border: #cfdde6; --form-bg: #f0f4f9; --record-bg: #ffffff; --tag-bg: #e6edf4; --tag-text: #2c5a7a;
+            --toast-bg: #2c3e50e6; --role-bg: #f0f6fc; --role-border: #e2eaf1;
+        }
+        body.theme-dark {
+            --bg-body: #1a1a1c; --bg-app: #262629; --border-light: #3a3a40; --header-bg: #2e2e32; --sidebar-bg: #242427;
+            --sidebar-border: #3e3e44; --card-bg: #2f2f33; --card-border: #44444a; --accent-border: #7a8b9e;
+            --text-primary: #ececec; --text-secondary: #cdcdd2; --text-muted: #a0a0a8; --btn-bg: #3a3a40;
+            --btn-border: #5a5a62; --form-bg: #313136; --record-bg: #2b2b2f; --tag-bg: #4a4d55; --tag-text: #e0e0e0;
+            --toast-bg: #ececece6; --role-bg: #2e2e34; --role-border: #43434b;
+        }
+        body.theme-mint {
+            --bg-body: #e3f0ea; --bg-app: #f0f9f4; --border-light: #cde0d6; --header-bg: #eaf5ee; --sidebar-bg: #e3efe8;
+            --sidebar-border: #c5dbd0; --card-bg: #ffffffdb; --card-border: #bcd0c4; --accent-border: #6e9b89;
+            --text-primary: #1e3a2f; --text-secondary: #2c4e3f; --text-muted: #4f6e5e; --btn-bg: #f6fffa;
+            --btn-border: #a8c3b7; --form-bg: #def0e5; --record-bg: #ffffff; --tag-bg: #c3dfd1; --tag-text: #1b4b3b;
+            --toast-bg: #1e3a2fe6; --role-bg: #e4f3ec; --role-border: #c6dfd3;
+        }
+        /* 新增：墨水屏主题 (ink) —— 高对比度、无彩色、无阴影，适合电纸书 */
+        body.theme-ink {
+            --bg-body: #f5f5f5;            /* 浅灰底，模拟纸张 */
+            --bg-app: #ffffff;
+            --border-light: #cccccc;
+            --header-bg: #fafafa;
+            --sidebar-bg: #f0f0f0;
+            --sidebar-border: #bbbbbb;
+            --card-bg: #ffffff;
+            --card-border: #aaaaaa;
+            --accent-border: #333333;        /* 深灰强调边框 */
+            --text-primary: #111111;
+            --text-secondary: #333333;
+            --text-muted: #555555;
+            --btn-bg: #f8f8f8;
+            --btn-border: #888888;
+            --form-bg: #fcfcfc;
+            --record-bg: #ffffff;
+            --shadow: none;                  /* 去除阴影，减少残影 */
+            --tag-bg: #e0e0e0;
+            --tag-text: #111111;
+            --modal-overlay: rgba(0,0,0,0.3);
+            --toast-bg: #222222e6;
+            --role-bg: #fafafa;
+            --role-border: #bbbbbb;
+        }
+        body { background: var(--bg-body); min-height: 100vh; padding: 24px 20px; display: flex; justify-content: center; transition: background 0.2s; }
+        .app { max-width: 1500px; width: 100%; background: var(--bg-app); border-radius: 32px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-light); }
+        .app-header { padding: 20px 28px; border-bottom: 1px solid var(--border-light); background: var(--header-bg); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        h1 { font-weight: 500; font-size: 1.9rem; color: var(--text-primary); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .greeting-wrapper { display: inline-flex; align-items: center; gap: 8px; background: var(--tag-bg); padding: 4px 12px; border-radius: 40px; font-size: 0.9rem; font-weight: normal; }
+        .greeting-text { cursor: pointer; user-select: none; transition: opacity 0.2s; }
+        .greeting-text:hover { opacity: 0.7; }
+        .greeting-actions { display: inline-flex; gap: 6px; }
+        .icon-btn { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-secondary); padding: 0 4px; border-radius: 30px; transition: 0.1s; }
+        .icon-btn:hover { background: var(--btn-border); }
+        .header-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .theme-switcher { display: flex; gap: 8px; }
+        .theme-btn { width: 40px; height: 36px; border-radius: 30px; border: 2px solid transparent; background: var(--btn-bg); color: var(--text-primary); font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; border: 1px solid var(--btn-border); }
+        .theme-btn.active { border: 2px solid var(--accent-border); transform: scale(1.05); }
+        .storage-badge { background: var(--sidebar-bg); padding: 6px 16px; border-radius: 60px; font-size: 0.9rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-light); flex-wrap: wrap; }
+        .storage-badge button { background: none; border: 1px solid var(--btn-border); padding: 4px 12px; border-radius: 30px; font-size: 0.8rem; cursor: pointer; color: var(--text-primary); }
+        .main-layout { display: flex; flex: 1; min-height: 650px; }
+        .script-sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border); padding: 22px 16px; display: flex; flex-direction: column; }
+        .sidebar-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; color: var(--text-secondary); }
+        .btn-icon { background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 30px; width: 38px; height: 38px; font-size: 22px; cursor: pointer; color: var(--text-primary); display: inline-flex; align-items: center; justify-content: center; }
+        .manage-tags-btn { margin-top: 8px; width: 100%; padding: 12px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 40px; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 450; }
+        .auto-backup-toggle { margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary); }
+        .script-list { list-style: none; margin-top: 6px; flex: 1; overflow-y: auto; }
+        .script-item { padding: 14px 16px; margin-bottom: 8px; background: var(--card-bg); border-radius: 18px; border: 1px solid var(--card-border); cursor: pointer; transition: 0.15s; box-shadow: var(--shadow); }
+        .script-item.active { border: 2px solid var(--accent-border); background: var(--record-bg); }
+        .script-name { font-weight: 550; color: var(--text-primary); }
+        .script-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+        .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 2px; }
+        .tag { background: var(--tag-bg); color: var(--tag-text); padding: 2px 10px; border-radius: 30px; font-size: 0.7rem; white-space: nowrap; }
+        .content-panel { flex: 1; padding: 24px 28px; background: var(--bg-app); overflow-y: auto; }
+        .current-script-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .current-script-title { font-size: 1.8rem; font-weight: 450; color: var(--text-primary); }
+        .edit-name-btn { background: none; border: 1px dashed var(--accent-border); padding: 6px 16px; border-radius: 30px; cursor: pointer; color: var(--text-secondary); }
+        .record-form-card, .role-world-section, .outline-section, .references-section, .title-lottery-section { background: var(--form-bg); border-radius: 24px; padding: 22px 24px; margin-bottom: 28px; border: 1px solid var(--card-border); }
+        .section-title { font-size: 1.2rem; font-weight: 550; margin-bottom: 14px; color: var(--text-primary); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .character-grid { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0 12px; }
+        .character-card { background: var(--card-bg); border-radius: 20px; padding: 12px 16px; width: calc(33% - 12px); min-width: 180px; border: 1px solid var(--card-border); }
+        .character-name { font-weight: 700; font-size: 1rem; color: var(--accent-border); }
+        .character-desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; word-break: break-word; }
+        .char-actions { margin-top: 8px; display: flex; gap: 8px; justify-content: flex-end; }
+        .world-textarea, .outline-textarea { width: 100%; background: var(--record-bg); border: 1px solid var(--btn-border); border-radius: 20px; padding: 12px; color: var(--text-primary); margin-top: 8px; }
+        .outline-textarea { min-height: 220px; font-family: monospace; }
+        .file-upload-row, .lottery-actions, .lottery-custom-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 12px 0; }
+        .btn, .btn-sm, .btn-primary { background: var(--btn-bg); border: 1px solid var(--btn-border); padding: 8px 18px; border-radius: 40px; cursor: pointer; color: var(--text-primary); transition: 0.15s; font-size: 0.9rem; }
+        .btn-primary { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg-app); }
+        .btn-sm { padding: 4px 12px; font-size: 0.75rem; }
+        .btn-link { background: none; border: none; color: var(--accent-border); text-decoration: underline; cursor: pointer; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--modal-overlay); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 1000; visibility: hidden; }
+        .modal-card { background: var(--bg-app); border-radius: 32px; padding: 28px 30px; width: 500px; max-width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid var(--border-light); position: relative; }
+        .close-modal-icon { position: absolute; top: 20px; right: 24px; font-size: 24px; cursor: pointer; background: none; border: none; color: var(--text-muted); }
+        /* 优化标签容器 —— 防止堆叠重叠 */
+        #tagSelectorContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0 12px;
+        }
+        #tagManagerList {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tag-chip { 
+            background: var(--tag-bg); 
+            color: var(--tag-text); 
+            padding: 6px 18px; 
+            border-radius: 40px; 
+            cursor: pointer; 
+            border: 1.5px solid transparent; 
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.1s;
+            font-size: 0.9rem;
+        }
+        .tag-chip.selected { background: var(--accent-border); color: white; border-color: var(--accent-border); }
+        /* 确保模态框内添加标签区域也整齐 */
+        .modal-card .add-tag-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .record-card { background: var(--record-bg); border-radius: 24px; padding: 18px; margin-bottom: 16px; border: 1px solid var(--card-border); }
+        .preview-content { margin-top: 12px; background: var(--form-bg); border-radius: 18px; padding: 14px; white-space: pre-wrap; max-height: 200px; overflow: auto; }
+        .toast-message { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--toast-bg); color: var(--bg-app); padding: 10px 24px; border-radius: 60px; z-index: 2000; backdrop-filter: blur(8px); font-weight: 500; }
+        .markdown-preview { background: var(--card-bg); border-radius: 20px; padding: 16px; margin-top: 12px; max-height: 300px; overflow: auto; border: 1px solid var(--card-border); }
+        .ref-item { background: var(--card-bg); border-radius: 18px; padding: 12px 16px; margin-bottom: 12px; border-left: 4px solid var(--accent-border); }
+        .lottery-display { background: var(--card-bg); border-radius: 24px; padding: 20px; text-align: center; margin: 16px 0; border: 2px dashed var(--accent-border); }
+        .lottery-title-big { font-size: 2rem; font-weight: 600; color: var(--text-primary); }
+        .ref-meta { font-size:0.85rem; color:var(--text-muted); margin-top:4px; display:flex; gap:16px; flex-wrap:wrap; }
+
+        /* ===== 右下角柔和反馈标识 —— 极致缩小 + 半透明 (只修改尺寸/透明度, 其他功能完全保留) ===== */
+        .dev-credit {
+            position: fixed;
+            bottom: 14px;
+            right: 14px;
+            background: var(--card-bg);
+            backdrop-filter: blur(4px);
+            padding: 3px 10px;          /* 更小内边距 */
+            border-radius: 36px;
+            box-shadow: var(--shadow);
+            font-size: 0.68rem;          /* 更小字体 */
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+            z-index: 900;
+            max-width: 200px;            /* 进一步缩小宽度 */
+            text-align: right;
+            line-height: 1.35;
+            opacity: 0.68;               /* 半透明 (原0.92) */
+            transition: opacity 0.2s, background 0.2s;
+            pointer-events: auto;
+        }
+        .dev-credit:hover {
+            opacity: 0.98;               /* 悬停时几乎不透明 */
+            background: var(--record-bg);
+        }
+        .dev-credit a {
+            color: var(--accent-border);
+            text-decoration: none;
+            font-weight: 450;
+            border-bottom: 1px dotted var(--accent-border);
+            font-size: 0.68rem;
+        }
+        .dev-credit a:hover {
+            border-bottom: 1px solid;
+        }
+        .demo-note {
+            font-size: 0.58rem;          /* 备注更小 */
+            opacity: 0.8;
+            margin-top: 3px;
+            color: var(--text-muted);
+        }
+        /* 移动端适配：更极致缩小，不遮挡内容 */
+        @media (max-width: 600px) {
+            .dev-credit {
+                bottom: 8px;
+                right: 8px;
+                padding: 3px 8px;
+                font-size: 0.6rem;
+                max-width: 160px;
+                opacity: 0.65;
+                border-radius: 30px;
+            }
+            .demo-note {
+                font-size: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <header class="app-header"><div><h1>🌌 星途·创作舱 <div class="greeting-wrapper"><span id="greetingText" class="greeting-text">✨ 灵感闪耀 ✨</span><div class="greeting-actions"><button class="icon-btn" id="editNicknameBtn" title="设置称呼">✏️</button><button class="icon-btn" id="randomGreetingBtn" title="随机鼓励语">🎲</button><button class="icon-btn" id="manageEncouragementBtn" title="管理鼓励语库">📝</button></div></div></h1></div>
+        <div class="header-actions">
+            <div class="theme-switcher">
+                <button class="theme-btn active" data-theme="default">暖</button>
+                <button class="theme-btn" data-theme="lightgray">灰</button>
+                <button class="theme-btn" data-theme="mint">清</button>
+                <button class="theme-btn" data-theme="dark">夜</button>
+                <!-- 新增墨水屏主题按钮 -->
+                <button class="theme-btn" data-theme="ink">墨</button>
+            </div>
+            <button class="btn" id="monthlyReviewBtn">📊 星际回顾</button>
+            <div class="storage-badge"><span>💾 本地星核</span><button id="exportDataBtn">⬇️ 导出</button><button id="importDataBtn">⬆️ 导入</button><input type="file" id="importFileInput" accept=".json" style="display:none"></div>
+        </div>
+    </header>
+    <div class="main-layout">
+        <div class="script-sidebar"><div class="sidebar-title"><span>📚 我的星舰项目</span><button class="btn-icon" id="addScriptBtn">➕</button></div><ul class="script-list" id="scriptListContainer"></ul><button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button><div class="auto-backup-toggle"><input type="checkbox" id="autoBackupCheckbox"> <label>退出/刷新时自动备份</label></div></div>
+        <div class="content-panel"><div class="current-script-header"><div class="current-script-title" id="currentScriptNameDisplay">选择项目</div><button class="edit-name-btn" id="renameScriptBtn">✏️ 编辑信息</button></div>
+            <!-- 大纲区域：标题改为星海巡游轨迹 -->
+            <div class="outline-section"><div class="section-title">🚀 星海巡游轨迹 <input type="text" id="outlineTypeInput" style="width:120px; padding:4px 8px;" list="outlineTypeOptions"><datalist id="outlineTypeOptions"></datalist><button class="btn-sm" id="saveOutlineTypeBtn">💾 存为新类型</button><button class="btn-sm" id="manageOutlineTypesBtn">⚙️ 类型管理</button></div>
+                <div class="outline-toolbar" style="display:flex; gap:6px; margin-bottom:6px;"><button class="btn-sm" id="insertHeadingBtn">📌 二级标题</button><button class="btn-sm" id="insertListBtn">• 列表项</button><button class="btn-sm" id="insertBoldBtn">𝐁 加粗</button><button class="btn-sm" id="insertDividerBtn">⎯ 分隔线</button><button class="btn-sm" id="toggleMdPreviewBtn">👁️ 预览</button></div>
+                <textarea id="outlineTextArea" class="outline-textarea" placeholder="先写总体目标/分卷 · 再细化段落情节点与时间线 · 排布章纲 · 下笔前理清本章要写什么…… 支持Markdown"></textarea><div id="outlineMdPreview" class="markdown-preview" style="display:none;"></div>
+                <div class="file-upload-row"><button class="btn" id="uploadOutlineBtn">📂 上传大纲文件</button><div id="outlineFileInfo" style="display:none;"><span>📎 <span id="outlineFileName" class="file-link"></span></span><button class="btn-sm" id="openOutlineFileBtn">打开</button><button class="btn-sm" id="clearOutlineFileBtn">清除</button></div><button class="btn btn-primary" id="saveOutlineBtn">💾 保存大纲</button><button class="btn-sm" id="previewOutlineBtn">预览</button></div>
+            </div>
+            <div class="role-world-section"><div class="section-title">🎭 角色设定 · 世界观</div><div id="charactersListContainer" class="character-grid"></div><div class="add-char-form" style="display:flex; gap:8px; margin:10px 0;"><input type="text" id="newCharName" placeholder="角色名"><textarea id="newCharDesc" placeholder="简介/性格" rows="1"></textarea><button class="btn-primary" id="addCharacterBtn">➕ 添加</button></div><div><label>🌍 世界观</label><textarea id="worldSettingText" class="world-textarea" rows="3"></textarea><button class="btn-sm" id="saveWorldBtn">保存世界观</button></div></div>
+            <!-- 参考书目：增加页数和链接 -->
+            <div class="references-section"><div class="section-title">📚 参考书目</div><div id="referencesListContainer"></div><div class="add-ref-form" style="display:flex; gap:8px; flex-wrap:wrap;"><input type="text" id="refTitle" placeholder="书名*"><input type="text" id="refAuthor" placeholder="作者"><input type="text" id="refYear" placeholder="年份"><input type="text" id="refPages" placeholder="页数"><input type="text" id="refLink" placeholder="链接"><textarea id="refNote" placeholder="备注" rows="1"></textarea><button class="btn-primary" id="addReferenceBtn">添加</button></div></div>
+            <div class="title-lottery-section"><div class="section-title">🌠 星光·标题签 <span id="titleStatsDisplay"></span><button class="btn-sm" id="openTitleManagerBtn">管理标题库</button></div><div class="lottery-display"><div class="lottery-sub">✨ 星轨指引 ✨</div><div class="lottery-title-big" id="lotteryResultDisplay">抽签</div></div><div class="lottery-actions"><button class="btn-primary" id="drawLotteryBtn">🎲 随机抽取</button><button class="btn" id="copyLotteryTitleBtn">📋 复制</button></div><div class="lottery-custom-row"><input type="text" id="newCustomTitleInput" placeholder="自定义标题"><button class="btn-primary" id="addCustomTitleBtn">➕ 添加至灵感库</button></div></div>
+            <div class="record-form-card"><div class="form-title"><span>✍️ 添加创作记录</span><button class="btn-link" id="cancelEditBtn" style="display:none;">取消编辑</button></div><div class="form-grid"><div><label>📅 日期</label><input type="date" id="recordDate" class="form-control"></div><div><label>📌 章节/片段</label><input type="text" id="recordTitle" placeholder="章节名"></div><div><label>📎 草稿文件</label><div><button class="btn-sm" id="uploadTriggerBtn">选择文件</button><span id="fileNameDisplay">未选择</span><button class="btn-sm btn-link" id="clearFileBtn">清除</button></div></div><div><label>💭 创作笔记</label><textarea id="recordReflection" rows="3"></textarea></div><button class="btn-primary" id="saveRecordBtn">💾 保存章节</button></div><input type="hidden" id="editingRecordId"><input type="hidden" id="currentFileContent"></div>
+            <div class="records-feed"><h3>📖 创作历程</h3><span id="recordCount"></span><div id="recordsContainer"></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框 (原样保留) -->
+<div id="scriptModal" class="modal-overlay"><div class="modal-card"><h3>星舰项目</h3><input type="text" id="modalScriptName" placeholder="项目名称"><div id="tagSelectorContainer" class="tag-selector"></div><div class="add-tag-row"><input type="text" id="newTagInput" placeholder="新标签"><button id="addNewTagBtn">添加标签</button></div><div class="modal-actions"><button id="modalCancelBtn">取消</button><button class="btn-primary" id="modalSaveBtn">保存</button></div></div></div>
+<div id="tagManagerModal" class="modal-overlay"><div class="modal-card"><h3>管理标签库</h3><div id="tagManagerList"></div><div><input type="text" id="managerNewTagInput"><button id="managerAddTagBtn">添加</button></div><button id="closeTagManagerBtn">关闭</button></div></div>
+<div id="characterModal" class="modal-overlay"><div class="modal-card"><h3>编辑角色</h3><input id="charEditName"><textarea id="charEditDesc" rows="3"></textarea><div><button id="charModalCancel">取消</button><button class="btn-primary" id="charModalSave">保存</button></div></div></div>
+<div id="reviewModal" class="modal-overlay"><div class="modal-card"><h3>月度回顾</h3><select id="monthSelect"></select><button id="refreshReviewBtn">查看</button><div id="reviewStatsContainer"></div><button id="closeReviewBtn">关闭</button></div></div>
+<div id="manageOutlineTypesModal" class="modal-overlay"><div class="modal-card"><h3>大纲类型管理</h3><div id="customOutlineTypesList"></div><input type="text" id="newOutlineTypeInput"><button id="addOutlineTypeBtn">添加</button><button id="closeOutlineTypesBtn">关闭</button></div></div>
+<div id="titleManagerModal" class="modal-overlay"><div class="modal-card"><h3>管理自定义标题</h3><div id="titleManagerListContainer"></div><input type="text" id="managerNewTitleInput"><button id="managerAddTitleBtn">添加</button><button id="closeTitleManagerBtn">关闭</button></div></div>
+<div id="encouragementModal" class="modal-overlay"><div class="modal-card"><h3>💬 鼓励语管理</h3><div id="encouragementListContainer" style="max-height:300px; overflow:auto; margin-bottom:12px;"></div><div style="display:flex; gap:8px;"><input type="text" id="newEncouragementInput"><button id="addEncouragementBtn">添加</button><button id="resetDefaultEncouragementBtn">重置默认</button></div><div class="modal-actions"><button id="closeEncouragementBtn">关闭</button></div></div></div>
+<div id="nicknameModal" class="modal-overlay"><div class="modal-card"><h3>设置称呼</h3><input id="nicknameInput" maxlength="20"><div><button id="nicknameCancelBtn">取消</button><button class="btn-primary" id="nicknameSaveBtn">保存</button></div></div></div>
+<div id="outlinePreviewModal" class="modal-overlay"><div class="modal-card"><h3>大纲预览</h3><div id="outlinePreviewContent" class="markdown-preview" style="max-height:400px;"></div><button id="closePreviewBtn">关闭</button></div></div>
+<!-- 参考书目编辑模态框增加页数链接 -->
+<div id="refEditModal" class="modal-overlay"><div class="modal-card"><h3>编辑参考书目</h3><input id="editRefTitle" placeholder="书名"><input id="editRefAuthor" placeholder="作者"><input id="editRefYear" placeholder="年份"><input id="editRefPages" placeholder="页数"><input id="editRefLink" placeholder="链接"><textarea id="editRefNote" placeholder="备注"></textarea><div><button id="refModalCancel">取消</button><button class="btn-primary" id="refModalSave">保存</button></div></div></div>
+
+<!-- 右下角柔和反馈标识 (尺寸极致缩小、半透明，其余完全不变) -->
+<div class="dev-credit">
+    <div>✍️ 使用反馈 ✍️ <a href="mailto:ilikeitnow@qq.com">📧 ilikeitnow@qq.com</a></div>
+    <div class="demo-note">✨ 测试版本待完善 ✨</div>
+</div>
+
+<script>
+(function(){
+    const STORAGE_KEY = 'star_trail_novel_v3_enriched';
+    // 扩展默认标签: 增加人物小传等
+    const DEFAULT_TAGS = ['原创','同人','奇幻','科幻','都市','古风','悬疑','言情','冒险','星际'];
+    const DEFAULT_OUTLINE_TYPES = ['大纲','细纲','章纲','粗纲','节纲','卷纲','人物小传','设定集','时间线','场景','灵感','随笔'];
+    const DEFAULT_ENCOURAGEMENTS = ["开始创作吧！", "灵感如泉涌！", "加油，作家！", "星辰大海等你书写", "笔耕不辍，故事不息", "每一个字都是星光", "创作不死", "故事正在生长", "你的想象无边界", "让文字飞翔"];
+    
+    // 合并原内置标题 + 同人女词牌名 (去重)
+    const ORIGINAL_BUILTIN = ["当……","生长痛","无人区玫瑰","生如夏花","故人叹","日落大道","苦夏","凄美地","阿克琉斯之踵","孤雏","丛林法则","人非草木","戒断反应","无尽夏","让ta降落","智齿","暗涌","重庆森林","春光乍泄","阿拉斯加海湾","玫瑰之名","向死而生","斯德哥尔摩情人","病名为爱","飞鸟症","花吐症","失控","洛希极限","破茧","天生一对","百年不合","花样年华","苏州河","失忆蝴蝶","十年","最佳损友","真相是真","真相是假","葡萄成熟时","白月光与朱砂痣","百年孤独","傲慢与偏见","临时标记","纸飞机","春日宴","长相思","疯子","起风了","罗曼蒂克","匆匆那年","得寸进尺","鲸落","富士山下","词不达意","Soulmate","挪威的森林","爱人错过","台风眼","蝴蝶效应","平行世界","戒烟","与妻书","史密斯夫妇","天若有情","白日焰火","菟丝花","悖论","再世为人","纯真年代","低烧","夜色","美丽新世界","合租室友","假装情侣","蓄谋已久","修炼爱情","清醒梦","荒腔走板","不要温和地走入那个良夜","连名带姓","影子爱人","最优解","择日疯","溺水小刀","乌托邦","越人歌","枯木逢春","远大前程","盛夏光年","殊途同归","苦海慈航","窄门","晚婚","你一生的故事","灵与肉","kilig","打上花火","达尔文","莫比乌斯环","吴哥窟","失乐园","上瘾","恋爱的犀牛","普通朋友","从良","大眠","破晓","余震","悬溺","参商","说谎","梅雨季","感同身受","杀死玫瑰","漩涡","劳斯莱斯","黑羊","万叶集","枕草子","斜阳","孤独患者","从零开始的xx生活","爱的曝光","燕尾蝶","让她降落","裙下之臣","杀死一只知更鸟","故梦"];
+    
+    const EXTRA_TITLES_FROM_EXCEL = [
+        "仿生xx会梦见电子xx吗？","xx爱情故事","露水玫瑰","枪与玫瑰","战地玫瑰","红白玫瑰","禁区玫瑰","野草","半生缘","降雨几率","仲夏夜之梦","致命温差","流浪玫瑰","今夜无人坠入情网","斯德哥尔摩","斯德哥尔摩综合症","金风玉露","xxx的使用/喂养手册","请以你的名字呼唤我","xx山顶","于无声处","错火","不xxx就出不去的房间","耳洞","初智齿","杀死美丽","新少年","理智与情感","最后的吻","金玉在外","入鞘","微光","长夜","为人师表","戒断","苦月亮","胆小鬼","天真有邪","涛声依旧","磨合期","春夏秋冬","命中注定","白饭粒与蚊子血","xx效应","寻人启事","但求疼","xx曝光实录","特别的人","穿男朋友/女朋友的衣服","狼人杀","xx思考期","往后余生","肌肤饥渴症","药石无医","热夏症候群","献给xx的xx","七年之痒","暴风雪山庄","xx几次做x事，还有一次他没有","二律背反","xx主义","欲壑难填","小姐","xx的喂养手册","xx相性一百问","关于我xx这回事","失眠飞行","恋爱日记","街尾蛇","命运螺旋","永冻河","昨夜星辰","梦在黎明破晓时","xx小时","xx之歌","最佳/模范+拍档/男友/丈夫/爱人/室友","十日谈","xxx的x天","过火","梦魔","初吻","初次发烧","筑果","金丝雀","笼中鸟","荷尔蒙偏差","玫瑰与子弹/野兽","九号房间","读心术是个好东西/当xx拥有了读心术","五十度灰","夜奔","不冻港","橘子汽水","长岛冰茶","弃猫效应","茉莉香片","当我们在谈论xx的时候我们在谈论什么","春日潮汐","台风过境","季风过境","吊桥效应","巴别塔","过敏","到此为止","灵魂印记","就回家吧","赤潮","爱人如养花","xx论坛体","创世纪","见春台","有情饮水饱","黑杰克","悖德供述","致xx","天才在左疯子在右","千禧曼波","不xx的xx不是好xx","告白","反方向的钟","xx是人生大事","得偿所愿","xx来信","爱在黄昏日落时","阅后即焚","冬令时","归途","x年又x年","流星夜/流星雨","编号89757","赏味期限","seeyouagain","相见不如怀念","干性溺水","樱花树下","爱是xx","隐秘之夜","狗/猫塑","日记","天时光利人不利","xx定理/定律效","Young And Beautiful","快把 xxx 带走","救风尘","xx，xx，xxx","教父","伐别礼","xx时期的爱情","无解","理想国","一流爱情","撞日死","xx旧事","xx文学","xx图鉴","万水千山","非典型 xxx","爱在黎明破晓前","倒淌河","最後的夜晚","当 xx 一觉醒来发现...","自深深处","天上再见","xx 礼赞","口腹之欲","love letter","说谎话要吞干根针","获得 xxx 的正确方式","谁的一辈子","枯木常青","xx选择xx","灵魂互换","诀别书","疼痛共感","One last kiss","遗憾","x 宗罪","26 个字母","楞次定律","同道殊途","一次 xx","至若春和景明","我最好朋友的婚礼","顽石","冻疮","太平山顶","远在咫尺","长路归家","因为一次意外xx竟然穿越到了xx","弄假成真","囚爱","子不语","echo","势同水火","哀的美敦书","第xx年的见异思迁","酷暑将至","自首","刺猬法则","灯塔","假如给我三天xx","敏感期","医者不自医","春风不度","嘉年华","忘不掉的人","如果我们第一次见面就接吻","xx贩卖机","恶性依赖","恨之入骨","电灯胆","可一可再","涩果","白日梦我","克莱因瓶","恨爱交加","热岛效应","时差","四时","匿名好友","自我催眠","回南天","倒春寒","思凡","败犬","禁","舌尖纹了玛丽亚","吃鲸鱼的人","字典与圣经","情感与废墟","溯洄","上元","冬暖","流金岁月","一路向西","飞蛾扑火","亡妻回忆录","漂亮朋友","负负得正","夜幕之后，天明之前","我亦飘零久","环岛公路","一個xxx準備去死","万古长青","蝶","毕业歌","弥赛亚","应许之地","xx突然变小了怎么办","xx突然变成猫了怎么办","xx饲养日记","人生余量九十天","望山跑死马","西雅图不眠夜","纽约往事","三十岁还是处会变成魔法师","当我们xx时我们在干什么","潮水不如期而来","吻","君不见","沉锚效应","雪落时","乞力马扎罗的雪","last night","亲密关系","xx综合症","刺探仪","夏日限定","十四行诗","茕茕","石楠小札","槲寄生","春日来信","秋日来信","秋收冬藏","感官世界","大小说家","拾荒","勉强幸福","县城文学","断点","粉丝来信","不协和音","沉默的大多数","涩谷川","十年樱","xx之上","xx至上","xx物语","xx失格","xx是xx（如“他是龙”）","海边的卡夫卡","四季歌","xx太受欢迎l怎么办","冰冷热带鱼","恋之罪","在无爱之森呐喊","山手线","燕尾蝶（ageha）","烂山竹","不启唇","潮间带","霉","思美人","xx观影xxxx（某人观影某行为/某世界…）","变成了最讨厌的样子","如果xx穿越进xx","素昧平生","第x种xx","原生之罪","传闻中的xx","能养猫吗","xx的快问快答","养只xx吧","我的一个xx朋友","第三十八年夏至"
+    ];
+    const BUILTIN_TITLES = [...new Set([...ORIGINAL_BUILTIN, ...EXTRA_TITLES_FROM_EXCEL])];
+    
+    let appData = { scripts: [], activeScriptId: null, customTags: [], customOutlineTypes: [], customTitles: [], encouragements: [] };
+    let globalTags = [];
+    let currentEditingCharId = null;
+    let editingRefId = null;
+
+    function generateId(){ return Date.now()+'_'+Math.random().toString(36).substr(2,8); }
+    function escapeHtml(s){ return String(s).replace(/[&<>]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]); }
+    function showToast(msg,d=2000){ let t=document.querySelector('.toast-message'); if(t)t.remove(); t=document.createElement('div'); t.className='toast-message'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),d); }
+    function saveData(){ appData.customTags = globalTags.filter(t=>!DEFAULT_TAGS.includes(t)); localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
+    function loadData(){
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if(stored) try{ appData = JSON.parse(stored); }catch(e){}
+        if(!appData.scripts || !appData.scripts.length){
+            let sampleId=generateId();
+            appData.scripts=[{id:sampleId,name:'星海·启程',createdAt:new Date().toISOString(),records:[],tags:['原创','科幻'],characters:[],worldSetting:'',outline:{text:'',fileName:'',fileContent:'',fileType:''},outlineType:'细纲',references:[]}];
+            appData.activeScriptId=sampleId;
+        }
+        if(!appData.customTags) appData.customTags=[];
+        globalTags=[...new Set([...DEFAULT_TAGS,...appData.customTags])];
+        if(!appData.customOutlineTypes) appData.customOutlineTypes=[];
+        if(!appData.customTitles) appData.customTitles=[];
+        if(!appData.encouragements) appData.encouragements=[...DEFAULT_ENCOURAGEMENTS];
+        appData.scripts.forEach(s=>{ 
+            if(!s.outline) s.outline={text:'',fileName:'',fileContent:'',fileType:''}; 
+            if(!s.characters) s.characters=[]; 
+            if(!s.references) s.references=[]; 
+            s.references = s.references.map(ref=>({...ref, pages: ref.pages||'', link: ref.link||''}));
+            if(s.outlineType===undefined) s.outlineType='细纲'; 
+            if(s.worldSetting===undefined) s.worldSetting=''; 
+            if(!s.records) s.records=[]; 
+        });
+        if(!appData.activeScriptId || !appData.scripts.find(s=>s.id===appData.activeScriptId)) appData.activeScriptId=appData.scripts[0]?.id;
+        updateGreetingText();
+        updateTitleStats();
+        renderOutlineDatalist();
+    }
+    function getActiveScript(){ return appData.scripts.find(s=>s.id===appData.activeScriptId); }
+    function setDefaultDate(){ document.getElementById('recordDate').value = new Date().toISOString().slice(0,10); }
+    function resetForm(){ setDefaultDate(); document.getElementById('recordTitle').value=''; document.getElementById('recordReflection').value=''; document.getElementById('fileNameDisplay').textContent='未选择'; document.getElementById('editingRecordId').value=''; document.getElementById('cancelEditBtn').style.display='none'; document.getElementById('currentFileContent').value=''; }
+    
+    function updateGreetingText(override=null){
+        let span=document.getElementById('greetingText'); if(!span) return;
+        let nickname = localStorage.getItem('user_nickname') || '';
+        if(override) span.textContent=override;
+        else if(nickname) span.textContent=`欢迎回来，${nickname}！`;
+        else span.textContent= appData.encouragements[Math.floor(Math.random()*appData.encouragements.length)];
+    }
+    function renderEncouragementManager(){
+        let container=document.getElementById('encouragementListContainer'); if(!container) return;
+        container.innerHTML=appData.encouragements.map((e,idx)=>`<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>✨ ${escapeHtml(e)}</span><button class="btn-sm del-encouragement" data-index="${idx}">删除</button></div>`).join('');
+        document.querySelectorAll('.del-encouragement').forEach(btn=>btn.addEventListener('click',(e)=>{
+            let idx=parseInt(btn.dataset.index); if(!isNaN(idx)){ appData.encouragements.splice(idx,1); if(appData.encouragements.length===0) appData.encouragements=['灵感永不枯竭']; saveData(); renderEncouragementManager(); updateGreetingText(); showToast('已删除'); }
+        }));
+    }
+    function resetEncouragements(){ appData.encouragements=[...DEFAULT_ENCOURAGEMENTS]; saveData(); renderEncouragementManager(); updateGreetingText(); showToast('已重置默认鼓励语'); }
+    function addEncouragement(text){ if(text && !appData.encouragements.includes(text)){ appData.encouragements.push(text); saveData(); renderEncouragementManager(); updateGreetingText(); showToast(`添加“${text}”`); return true; } return false; }
+    function getAllTitles(){ return [...BUILTIN_TITLES, ...appData.customTitles]; }
+    function drawRandomTitle(){ let all=getAllTitles(); return all.length?all[Math.floor(Math.random()*all.length)]:'星辰之约'; }
+    function renderLotteryResult(){ document.getElementById('lotteryResultDisplay').textContent=drawRandomTitle(); }
+    function updateTitleStats(){ let span=document.getElementById('titleStatsDisplay'); if(span) span.textContent=`📚 内置${BUILTIN_TITLES.length}+自定义${appData.customTitles.length}`; }
+    function addCustomTitle(title){ if(title && !appData.customTitles.includes(title)){ appData.customTitles.push(title); saveData(); updateTitleStats(); renderTitleManagerList(); showToast(`添加标题“${title}”`); return true; } return false; }
+    function removeCustomTitle(title){ let idx=appData.customTitles.indexOf(title); if(idx!==-1){ appData.customTitles.splice(idx,1); saveData(); updateTitleStats(); renderTitleManagerList(); showToast(`删除“${title}”`); } }
+    function renderTitleManagerList(){ let container=document.getElementById('titleManagerListContainer'); if(!container) return; if(!appData.customTitles.length) container.innerHTML='<div>暂无自定义标题</div>'; else container.innerHTML=appData.customTitles.map(t=>`<div style="display:flex;justify-content:space-between;"><span>📌 ${escapeHtml(t)}</span><button class="btn-sm del-title" data-title="${escapeHtml(t)}">删除</button></div>`).join(''); document.querySelectorAll('.del-title').forEach(btn=>btn.addEventListener('click',()=>removeCustomTitle(btn.dataset.title))); }
+    
+    function renderSidebar(){
+        let container=document.getElementById('scriptListContainer'); if(!container) return;
+        container.innerHTML=appData.scripts.map(s=>`<li class="script-item ${s.id===appData.activeScriptId?'active':''}" data-id="${s.id}"><div class="script-name">${escapeHtml(s.name)}</div><div class="tag-list">${(s.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div><div class="script-actions"><button class="btn-sm edit-script" data-id="${s.id}">✏️</button><button class="btn-sm del-script" data-id="${s.id}">🗑️</button></div></li>`).join('');
+        document.querySelectorAll('.script-item').forEach(el=>{ el.addEventListener('click',(e)=>{ if(!e.target.classList.contains('edit-script')&&!e.target.classList.contains('del-script')){ appData.activeScriptId=el.dataset.id; saveData(); refreshUI(); } }); });
+        document.querySelectorAll('.edit-script').forEach(btn=>btn.addEventListener('click',(e)=>{ e.stopPropagation(); let id=btn.dataset.id; let script=appData.scripts.find(s=>s.id===id); if(script) openScriptModal(script); }));
+        document.querySelectorAll('.del-script').forEach(btn=>btn.addEventListener('click',(e)=>{ e.stopPropagation(); let id=btn.dataset.id; if(confirm('删除项目不可恢复')){ appData.scripts=appData.scripts.filter(s=>s.id!==id); if(appData.activeScriptId===id) appData.activeScriptId=appData.scripts[0]?.id; saveData(); refreshUI(); showToast('已删除'); } }));
+        document.getElementById('currentScriptNameDisplay').innerText=getActiveScript()?.name||'未选择';
+    }
+    function renderRecords(){
+        let script=getActiveScript(); if(!script) return;
+        let container=document.getElementById('recordsContainer'); let countSpan=document.getElementById('recordCount');
+        if(!script.records.length){ container.innerHTML='<div class="empty-message">暂无创作记录</div>'; countSpan.innerText='0条'; return; }
+        let html=script.records.map(rec=>`<div class="record-card"><div><strong>${escapeHtml(rec.title||'无标题')}</strong> (${rec.date||'未知日期'})</div><div class="preview-content">${escapeHtml((rec.reflection||'').slice(0,150))}${rec.reflection?.length>150?'...':''}</div><div class="char-actions"><button class="btn-sm edit-record" data-id="${rec.id}">编辑</button><button class="btn-sm del-record" data-id="${rec.id}">删除</button>${rec.fileName?`<span class="tag">📎 ${escapeHtml(rec.fileName)}</span>`:''}</div></div>`).join('');
+        container.innerHTML=html; countSpan.innerText=`${script.records.length}条`;
+        document.querySelectorAll('.edit-record').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; let rec=script.records.find(r=>r.id===id); if(rec){ document.getElementById('recordDate').value=rec.date||''; document.getElementById('recordTitle').value=rec.title||''; document.getElementById('recordReflection').value=rec.reflection||''; document.getElementById('editingRecordId').value=rec.id; document.getElementById('cancelEditBtn').style.display='inline-block'; document.getElementById('fileNameDisplay').innerText=rec.fileName||'未选择'; showToast('进入编辑模式'); } }));
+        document.querySelectorAll('.del-record').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; script.records=script.records.filter(r=>r.id!==id); saveData(); renderRecords(); showToast('已删除'); }));
+    }
+    function renderCharactersAndWorld(){
+        let script=getActiveScript(); if(!script) return;
+        let charDiv=document.getElementById('charactersListContainer'); if(!charDiv) return;
+        charDiv.innerHTML=(script.characters||[]).map(c=>`<div class="character-card"><div class="character-name">${escapeHtml(c.name)}</div><div class="character-desc">${escapeHtml(c.description||'')}</div><div class="char-actions"><button class="btn-sm edit-char" data-id="${c.id}">编辑</button><button class="btn-sm del-char" data-id="${c.id}">删除</button></div></div>`).join('');
+        document.querySelectorAll('.edit-char').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; let c=script.characters.find(ch=>ch.id===id); if(c){ currentEditingCharId=c.id; document.getElementById('charEditName').value=c.name; document.getElementById('charEditDesc').value=c.description||''; document.getElementById('characterModal').style.visibility='visible'; } }));
+        document.querySelectorAll('.del-char').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; script.characters=script.characters.filter(ch=>ch.id!==id); saveData(); renderCharactersAndWorld(); showToast('角色已删除'); }));
+        document.getElementById('worldSettingText').value=script.worldSetting||'';
+    }
+    function renderOutline(){
+        let script=getActiveScript(); if(!script) return;
+        document.getElementById('outlineTextArea').value=script.outline?.text||'';
+        document.getElementById('outlineTypeInput').value=script.outlineType||'细纲';
+        if(script.outline?.fileName){ document.getElementById('outlineFileInfo').style.display='flex'; document.getElementById('outlineFileName').innerText=script.outline.fileName; }else{ document.getElementById('outlineFileInfo').style.display='none'; }
+    }
+    function renderReferences(){
+        let script=getActiveScript(); let container=document.getElementById('referencesListContainer'); if(!container) return;
+        let refs=script.references||[];
+        if(!refs.length){ container.innerHTML='<div class="empty-message">暂无参考书目</div>'; return; }
+        container.innerHTML=refs.map(ref=>`<div class="ref-item"><div><strong>${escapeHtml(ref.title)}</strong> ${ref.author?`- ${escapeHtml(ref.author)}`:''} ${ref.year?`(${escapeHtml(ref.year)})`:''}</div><div class="ref-meta">${ref.pages?`📄 ${escapeHtml(ref.pages)}页`:''} ${ref.link?`🔗 <a href="${escapeHtml(ref.link)}" target="_blank">链接</a>`:''}</div><div class="ref-meta">${escapeHtml(ref.note||'')}</div><div class="ref-actions"><button class="btn-sm edit-ref" data-id="${ref.id}">编辑</button><button class="btn-sm del-ref" data-id="${ref.id}">删除</button></div></div>`).join('');
+        document.querySelectorAll('.edit-ref').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; let ref=refs.find(r=>r.id===id); if(ref) openRefEditModal(ref); }));
+        document.querySelectorAll('.del-ref').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; script.references=refs.filter(r=>r.id!==id); saveData(); renderReferences(); showToast('已删除'); }));
+    }
+    function openRefEditModal(ref){ 
+        editingRefId = ref.id;
+        document.getElementById('editRefTitle').value=ref.title; 
+        document.getElementById('editRefAuthor').value=ref.author||''; 
+        document.getElementById('editRefYear').value=ref.year||''; 
+        document.getElementById('editRefPages').value=ref.pages||''; 
+        document.getElementById('editRefLink').value=ref.link||''; 
+        document.getElementById('editRefNote').value=ref.note||''; 
+        document.getElementById('refEditModal').style.visibility='visible'; 
+    }
+    function refreshUI(){ renderSidebar(); renderRecords(); renderCharactersAndWorld(); renderOutline(); renderReferences(); renderLotteryResult(); }
+    function openScriptModal(script){ let modal=document.getElementById('scriptModal'); document.getElementById('modalScriptName').value=script?script.name:''; renderTagSelector(script?.tags||[]); window._editingScriptId=script?.id; modal.style.visibility='visible'; }
+    function renderTagSelector(selected=[]){ let container=document.getElementById('tagSelectorContainer'); if(!container) return; container.innerHTML=globalTags.map(t=>`<span class="tag-chip ${selected.includes(t)?'selected':''}" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join(''); document.querySelectorAll('.tag-chip').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('selected'))); }
+    function renderOutlineDatalist(){ let datalist=document.getElementById('outlineTypeOptions'); let allTypes=[...DEFAULT_OUTLINE_TYPES,...appData.customOutlineTypes]; datalist.innerHTML=allTypes.map(t=>`<option value="${escapeHtml(t)}">`).join(''); }
+    function saveOutline(){ let script=getActiveScript(); if(!script) return; script.outline.text=document.getElementById('outlineTextArea').value; script.outlineType=document.getElementById('outlineTypeInput').value; saveData(); showToast('轨迹已保存'); }
+    
+    function bindEvents(){
+        document.getElementById('addScriptBtn')?.addEventListener('click',()=>openScriptModal(null));
+        document.getElementById('renameScriptBtn')?.addEventListener('click',()=>{ let s=getActiveScript(); if(s) openScriptModal(s); });
+        document.getElementById('modalCancelBtn')?.addEventListener('click',()=>document.getElementById('scriptModal').style.visibility='hidden');
+        document.getElementById('modalSaveBtn')?.addEventListener('click',()=>{ let name=document.getElementById('modalScriptName').value.trim(); if(!name) return showToast('请输入项目名'); let selectedTags=[...document.querySelectorAll('#tagSelectorContainer .tag-chip.selected')].map(el=>el.dataset.tag); let scriptId=window._editingScriptId; if(scriptId){ let s=appData.scripts.find(s=>s.id===scriptId); if(s){ s.name=name; s.tags=selectedTags; saveData(); refreshUI(); } }else{ let newId=generateId(); appData.scripts.push({id:newId,name:name,createdAt:new Date().toISOString(),records:[],tags:selectedTags,characters:[],worldSetting:'',outline:{text:'',fileName:'',fileContent:'',fileType:''},outlineType:'细纲',references:[]}); if(!appData.activeScriptId) appData.activeScriptId=newId; saveData(); refreshUI(); } document.getElementById('scriptModal').style.visibility='hidden'; });
+        document.getElementById('openTagManagerBtn')?.addEventListener('click',()=>{ renderTagManagerList(); document.getElementById('tagManagerModal').style.visibility='visible'; });
+        document.getElementById('closeTagManagerBtn')?.addEventListener('click',()=>document.getElementById('tagManagerModal').style.visibility='hidden');
+        function renderTagManagerList(){ let container=document.getElementById('tagManagerList'); if(!container) return; container.innerHTML=globalTags.map(t=>`<div style="display:flex;justify-content:space-between;"><span>🏷️ ${escapeHtml(t)}</span>${!DEFAULT_TAGS.includes(t)?`<button class="btn-sm del-tag" data-tag="${escapeHtml(t)}">删除</button>`:'<span>内置</span>'}</div>`).join(''); document.querySelectorAll('.del-tag').forEach(btn=>btn.addEventListener('click',()=>{ let tag=btn.dataset.tag; globalTags=globalTags.filter(g=>g!==tag); appData.customTags=globalTags.filter(g=>!DEFAULT_TAGS.includes(g)); saveData(); renderTagManagerList(); showToast('已删除标签'); })); }
+        document.getElementById('managerAddTagBtn')?.addEventListener('click',()=>{ let newTag=document.getElementById('managerNewTagInput').value.trim(); if(newTag && !globalTags.includes(newTag)){ globalTags.push(newTag); saveData(); renderTagManagerList(); document.getElementById('managerNewTagInput').value=''; showToast('添加标签'); } });
+        document.getElementById('addNewTagBtn')?.addEventListener('click',()=>{ let newTag=document.getElementById('newTagInput').value.trim(); if(newTag && !globalTags.includes(newTag)){ globalTags.push(newTag); renderTagSelector(); document.getElementById('newTagInput').value=''; } });
+        document.getElementById('addCharacterBtn')?.addEventListener('click',()=>{ let name=document.getElementById('newCharName').value.trim(); let desc=document.getElementById('newCharDesc').value.trim(); if(!name) return showToast('角色名不能为空'); let script=getActiveScript(); if(script){ script.characters.push({id:generateId(),name:name,description:desc}); saveData(); renderCharactersAndWorld(); document.getElementById('newCharName').value=''; document.getElementById('newCharDesc').value=''; showToast('角色已添加'); } });
+        document.getElementById('saveWorldBtn')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script){ script.worldSetting=document.getElementById('worldSettingText').value; saveData(); showToast('世界观已保存'); } });
+        document.getElementById('saveOutlineBtn')?.addEventListener('click',saveOutline);
+        document.getElementById('previewOutlineBtn')?.addEventListener('click',()=>{ let val=document.getElementById('outlineTextArea').value; let previewDiv=document.getElementById('outlinePreviewContent'); previewDiv.innerHTML=marked.parse(val||''); document.getElementById('outlinePreviewModal').style.visibility='visible'; });
+        document.getElementById('closePreviewBtn')?.addEventListener('click',()=>document.getElementById('outlinePreviewModal').style.visibility='hidden');
+        document.getElementById('toggleMdPreviewBtn')?.addEventListener('click',()=>{ let previewDiv=document.getElementById('outlineMdPreview'); let textarea=document.getElementById('outlineTextArea'); if(previewDiv.style.display==='none'){ previewDiv.style.display='block'; previewDiv.innerHTML=marked.parse(textarea.value||''); textarea.style.display='none'; }else{ previewDiv.style.display='none'; textarea.style.display='block'; } });
+        document.getElementById('saveRecordBtn')?.addEventListener('click',()=>{ let script=getActiveScript(); if(!script) return; let id=document.getElementById('editingRecordId').value; let date=document.getElementById('recordDate').value; let title=document.getElementById('recordTitle').value; let reflection=document.getElementById('recordReflection').value; let fileName=document.getElementById('fileNameDisplay').innerText!=='未选择'?document.getElementById('fileNameDisplay').innerText:''; let fileContent=document.getElementById('currentFileContent').value; if(id){ let idx=script.records.findIndex(r=>r.id===id); if(idx!==-1) script.records[idx]={...script.records[idx],date,title,reflection,fileName,fileContent}; }else{ script.records.push({id:generateId(),date,title,reflection,fileName,fileContent}); } saveData(); resetForm(); renderRecords(); showToast('已保存'); });
+        document.getElementById('cancelEditBtn')?.addEventListener('click',resetForm);
+        document.getElementById('uploadTriggerBtn')?.addEventListener('click',()=>{ let input=document.createElement('input'); input.type='file'; input.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ document.getElementById('currentFileContent').value=ev.target.result; document.getElementById('fileNameDisplay').innerText=file.name; showToast('文件已加载'); }; reader.readAsDataURL(file); } }; input.click(); });
+        document.getElementById('clearFileBtn')?.addEventListener('click',()=>{ document.getElementById('fileNameDisplay').innerText='未选择'; document.getElementById('currentFileContent').value=''; });
+        document.getElementById('exportDataBtn')?.addEventListener('click',()=>{ let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(appData,null,2)],{type:'application/json'})); a.download=`星途备份_${new Date().toISOString().slice(0,19)}.json`; a.click(); showToast('导出成功'); });
+        document.getElementById('importDataBtn')?.addEventListener('click',()=>document.getElementById('importFileInput').click());
+        document.getElementById('importFileInput')?.addEventListener('change',e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ try{ let imported=JSON.parse(ev.target.result); appData=imported; saveData(); loadData(); refreshUI(); showToast('导入成功'); }catch(e){ showToast('文件格式错误'); } }; reader.readAsText(file); } });
+        document.getElementById('monthlyReviewBtn')?.addEventListener('click',()=>{ let modal=document.getElementById('reviewModal'); let select=document.getElementById('monthSelect'); select.innerHTML=['1月','2月','3月'].map(m=>`<option>${m}</option>`).join(''); document.getElementById('reviewStatsContainer').innerText='创作统计占位'; modal.style.visibility='visible'; });
+        document.getElementById('closeReviewBtn')?.addEventListener('click',()=>document.getElementById('reviewModal').style.visibility='hidden');
+        document.getElementById('drawLotteryBtn')?.addEventListener('click',()=>{ renderLotteryResult(); showToast('✨ 星轨指引'); });
+        document.getElementById('copyLotteryTitleBtn')?.addEventListener('click',()=>{ let title=document.getElementById('lotteryResultDisplay').innerText; navigator.clipboard?.writeText(title).then(()=>showToast('已复制标题')).catch(()=>showToast('复制失败')); });
+        document.getElementById('addCustomTitleBtn')?.addEventListener('click',()=>{ let inp=document.getElementById('newCustomTitleInput'); if(inp.value.trim()) addCustomTitle(inp.value.trim()); inp.value=''; });
+        document.getElementById('openTitleManagerBtn')?.addEventListener('click',()=>{ renderTitleManagerList(); document.getElementById('titleManagerModal').style.visibility='visible'; });
+        document.getElementById('closeTitleManagerBtn')?.addEventListener('click',()=>document.getElementById('titleManagerModal').style.visibility='hidden');
+        document.getElementById('managerAddTitleBtn')?.addEventListener('click',()=>{ let inp=document.getElementById('managerNewTitleInput'); if(inp.value.trim()) addCustomTitle(inp.value.trim()); inp.value=''; });
+        document.getElementById('manageEncouragementBtn')?.addEventListener('click',()=>{ renderEncouragementManager(); document.getElementById('encouragementModal').style.visibility='visible'; });
+        document.getElementById('closeEncouragementBtn')?.addEventListener('click',()=>document.getElementById('encouragementModal').style.visibility='hidden');
+        document.getElementById('addEncouragementBtn')?.addEventListener('click',()=>{ let inp=document.getElementById('newEncouragementInput'); if(inp.value.trim()) addEncouragement(inp.value.trim()); inp.value=''; });
+        document.getElementById('resetDefaultEncouragementBtn')?.addEventListener('click',resetEncouragements);
+        document.getElementById('randomGreetingBtn')?.addEventListener('click',()=>{ let randomMsg=appData.encouragements[Math.floor(Math.random()*appData.encouragements.length)]; updateGreetingText(randomMsg); showToast(`✨ ${randomMsg}`); });
+        document.getElementById('editNicknameBtn')?.addEventListener('click',()=>{ document.getElementById('nicknameInput').value=localStorage.getItem('user_nickname')||''; document.getElementById('nicknameModal').style.visibility='visible'; });
+        document.getElementById('nicknameSaveBtn')?.addEventListener('click',()=>{ let val=document.getElementById('nicknameInput').value.trim(); if(val) localStorage.setItem('user_nickname',val); else localStorage.removeItem('user_nickname'); updateGreetingText(); document.getElementById('nicknameModal').style.visibility='hidden'; });
+        document.getElementById('nicknameCancelBtn')?.addEventListener('click',()=>document.getElementById('nicknameModal').style.visibility='hidden');
+        document.getElementById('charModalSave')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script&&currentEditingCharId){ let char=script.characters.find(c=>c.id===currentEditingCharId); if(char){ char.name=document.getElementById('charEditName').value; char.description=document.getElementById('charEditDesc').value; saveData(); renderCharactersAndWorld(); } } document.getElementById('characterModal').style.visibility='hidden'; });
+        document.getElementById('charModalCancel')?.addEventListener('click',()=>document.getElementById('characterModal').style.visibility='hidden');
+        document.getElementById('addReferenceBtn')?.addEventListener('click',()=>{ let title=document.getElementById('refTitle').value.trim(); if(!title) return showToast('请输入书名'); let script=getActiveScript(); if(script){ script.references.push({id:generateId(),title:title,author:document.getElementById('refAuthor').value,year:document.getElementById('refYear').value,pages:document.getElementById('refPages').value,link:document.getElementById('refLink').value,note:document.getElementById('refNote').value}); saveData(); renderReferences(); document.getElementById('refTitle').value=''; document.getElementById('refAuthor').value=''; document.getElementById('refYear').value=''; document.getElementById('refPages').value=''; document.getElementById('refLink').value=''; document.getElementById('refNote').value=''; showToast('已添加引用'); } });
+        document.querySelectorAll('.theme-btn').forEach(btn=>btn.addEventListener('click',()=>{ document.body.className=`theme-${btn.dataset.theme}`; document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }));
+        document.getElementById('autoBackupCheckbox').checked=localStorage.getItem('autoBackupEnabled')==='true';
+        document.getElementById('autoBackupCheckbox').addEventListener('change',e=>localStorage.setItem('autoBackupEnabled',e.target.checked));
+        window.addEventListener('beforeunload',()=>{ saveData(); if(localStorage.getItem('autoBackupEnabled')==='true'){ let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(appData)],{type:'application/json'})); a.download=`autobackup_${Date.now()}.json`; a.click(); } });
+        document.getElementById('saveOutlineTypeBtn')?.addEventListener('click',()=>{ let newType=document.getElementById('outlineTypeInput').value.trim(); if(newType && !DEFAULT_OUTLINE_TYPES.includes(newType) && !appData.customOutlineTypes.includes(newType)){ appData.customOutlineTypes.push(newType); saveData(); renderOutlineDatalist(); showToast('新类型已保存'); } });
+        document.getElementById('manageOutlineTypesBtn')?.addEventListener('click',()=>{ let container=document.getElementById('customOutlineTypesList'); container.innerHTML=appData.customOutlineTypes.map((t,idx)=>`<div style="display:flex;justify-content:space-between;"><span>📌 ${escapeHtml(t)}</span><button class="btn-sm del-type" data-idx="${idx}">删除</button></div>`).join(''); document.querySelectorAll('.del-type').forEach(btn=>btn.addEventListener('click',()=>{ let idx=parseInt(btn.dataset.idx); appData.customOutlineTypes.splice(idx,1); saveData(); renderOutlineDatalist(); document.getElementById('manageOutlineTypesModal').style.visibility='hidden'; showToast('已删除'); })); document.getElementById('manageOutlineTypesModal').style.visibility='visible'; });
+        document.getElementById('addOutlineTypeBtn')?.addEventListener('click',()=>{ let val=document.getElementById('newOutlineTypeInput').value.trim(); if(val && !DEFAULT_OUTLINE_TYPES.includes(val) && !appData.customOutlineTypes.includes(val)){ appData.customOutlineTypes.push(val); saveData(); renderOutlineDatalist(); document.getElementById('newOutlineTypeInput').value=''; showToast('已添加'); } });
+        document.getElementById('closeOutlineTypesBtn')?.addEventListener('click',()=>document.getElementById('manageOutlineTypesModal').style.visibility='hidden');
+        ['insertHeadingBtn','insertListBtn','insertBoldBtn','insertDividerBtn'].forEach(id=>{ document.getElementById(id)?.addEventListener('click',()=>{ let ta=document.getElementById('outlineTextArea'); let start=ta.selectionStart; let end=ta.selectionEnd; let text=ta.value; let insert=''; if(id==='insertHeadingBtn') insert='\n## 二级标题\n'; else if(id==='insertListBtn') insert='\n- 列表项\n'; else if(id==='insertBoldBtn') insert='**加粗文字**'; else if(id==='insertDividerBtn') insert='\n---\n'; ta.value=text.slice(0,start)+insert+text.slice(end); ta.focus(); }); });
+        document.getElementById('uploadOutlineBtn')?.addEventListener('click',()=>{ let input=document.createElement('input'); input.type='file'; input.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ let b64=ev.target.result; if(file.name.endsWith('.txt')||file.name.endsWith('.md')){ let text=atob(b64.split(',')[1]); document.getElementById('outlineTextArea').value=text; } let script=getActiveScript(); if(script){ script.outline.fileName=file.name; script.outline.fileContent=b64; saveData(); renderOutline(); } }; reader.readAsDataURL(file); } }; input.click(); });
+        document.getElementById('openOutlineFileBtn')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script?.outline?.fileContent){ let a=document.createElement('a'); a.href=script.outline.fileContent; a.download=script.outline.fileName; a.click(); } });
+        document.getElementById('clearOutlineFileBtn')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script){ script.outline.fileName=''; script.outline.fileContent=''; saveData(); renderOutline(); showToast('已清除附件'); } });
+        document.getElementById('refModalCancel')?.addEventListener('click',()=>document.getElementById('refEditModal').style.visibility='hidden');
+        document.getElementById('refModalSave')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script && editingRefId){ let ref=script.references.find(r=>r.id===editingRefId); if(ref){ ref.title=document.getElementById('editRefTitle').value; ref.author=document.getElementById('editRefAuthor').value; ref.year=document.getElementById('editRefYear').value; ref.pages=document.getElementById('editRefPages').value; ref.link=document.getElementById('editRefLink').value; ref.note=document.getElementById('editRefNote').value; saveData(); renderReferences(); } } document.getElementById('refEditModal').style.visibility='hidden'; });
+    }
+    function init(){ loadData(); setDefaultDate(); refreshUI(); bindEvents(); setInterval(()=>saveData(), 30000); }
+    init();
+})();
+</script>
+</body>
+</html>
