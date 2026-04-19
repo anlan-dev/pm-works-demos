@@ -2,78 +2,139 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>王天娇 · 产品作品集</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>王天娇 · AI驱动产品设计作品集</title>
     <style>
         * { box-sizing: border-box; margin: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f7f5f2; min-height: 100vh; padding: 24px 16px; display: flex; justify-content: center; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #faf8f5; min-height: 100vh; padding: 24px 16px; display: flex; justify-content: center; }
         .container { max-width: 680px; width: 100%; }
-        .header { margin-bottom: 32px; }
-        h1 { font-size: 2rem; font-weight: 500; color: #2e241e; margin-bottom: 4px; }
-        .subtitle { color: #7f6e5e; font-size: 1rem; border-bottom: 1px solid #e1d4c8; padding-bottom: 20px; }
-        .project-grid { display: flex; flex-direction: column; gap: 18px; }
-        .project-card { background: #fffcf9; border-radius: 28px; padding: 24px; border: 1px solid #e1d4c8; box-shadow: 0 6px 14px rgba(0,0,0,0.02); transition: 0.15s; text-decoration: none; color: inherit; display: block; }
+        .hero { margin-bottom: 40px; text-align: center; }
+        h1 { font-size: 2.4rem; font-weight: 500; color: #2e241e; margin-bottom: 4px; }
+        .badge { background: #e8ddd2; color: #3f3228; padding: 4px 14px; border-radius: 30px; font-size: 0.8rem; font-weight: 500; display: inline-block; margin: 8px 4px; }
+        .subtitle { color: #7f6e5e; font-size: 1.1rem; max-width: 500px; margin: 16px auto; line-height: 1.5; }
+        .divider { border-top: 2px solid #e1d4c8; margin: 32px 0; }
+        .project-grid { display: flex; flex-direction: column; gap: 24px; }
+        .project-card { background: #fffcf9; border-radius: 28px; padding: 28px; border: 1px solid #e1d4c8; box-shadow: 0 6px 14px rgba(0,0,0,0.02); transition: 0.15s; text-decoration: none; color: inherit; display: block; }
         .project-card:hover { border-color: #b7a089; box-shadow: 0 8px 20px rgba(0,0,0,0.04); }
         .project-emoji { font-size: 2.2rem; margin-bottom: 8px; }
-        .project-title { font-size: 1.4rem; font-weight: 550; color: #2e241e; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-        .project-desc { color: #4a3f36; line-height: 1.5; margin-bottom: 14px; }
-        .project-tag { display: inline-block; background: #e8ddd2; color: #3f3228; padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; margin-right: 8px; }
-        .project-link { color: #b7a089; font-weight: 500; display: inline-block; margin-top: 8px; }
-        .footer { margin-top: 40px; text-align: center; color: #8b7b6e; font-size: 0.85rem; padding: 20px 0; border-top: 1px solid #e1d4c8; }
-        .footer a { color: #7f6e5e; }
-        .qr-hint { background: #f0ebe6; border-radius: 20px; padding: 12px 18px; margin: 24px 0; display: flex; align-items: center; gap: 16px; font-size: 0.9rem; color: #4a3f36; }
-        .qr-code-placeholder { width: 70px; height: 70px; background: #d9cdc2; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; text-align: center; }
+        .project-title { font-size: 1.5rem; font-weight: 550; color: #2e241e; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .project-subtitle { color: #7f6e5e; font-weight: 500; margin-bottom: 16px; font-size: 1rem; }
+        .project-desc { color: #4a3f36; line-height: 1.6; margin-bottom: 18px; }
+        .project-tag { display: inline-block; background: #f0eae4; color: #3f3228; padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; margin-right: 8px; margin-bottom: 8px; }
+        .project-link { color: #b7a089; font-weight: 500; display: inline-block; margin-top: 8px; text-decoration: none; }
+        .footer { margin-top: 48px; text-align: center; color: #8b7b6e; font-size: 0.9rem; padding: 24px 0; border-top: 1px solid #e1d4c8; }
+        .footer a { color: #7f6e5e; text-decoration: none; margin: 0 8px; }
+        .footer a:hover { text-decoration: underline; }
+        .cta-section { background: #f0eae4; border-radius: 20px; padding: 20px; text-align: center; margin: 32px 0; }
+        .cta-section p { margin-bottom: 12px; color: #2e241e; }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="header">
+    <!-- 首屏 Hero 区：一句话价值主张 + 核心能力标签 -->
+    <div class="hero">
         <h1>王天娇</h1>
-        <div class="subtitle">产品设计作品集 · 扫码即可体验</div>
+        <div>
+            <span class="badge">🎯 AI驱动 · 独立开发</span>
+            <span class="badge">📊 数据驱动决策</span>
+            <span class="badge">⚡ 从0到1落地</span>
+        </div>
+        <div class="subtitle">
+            香港理工大学 · 中国语言学研究生<br>
+            具备全栈产品思维，能用 AI Coding 快速将想法落地为可交互原型
+        </div>
     </div>
 
-    <!-- 二维码提示区（等你部署后用真实二维码替换） -->
-    <div class="qr-hint">
-        <div class="qr-code-placeholder">📱 二维码<br>占位</div>
-        <div>🔗 部署后在此处粘贴二维码<br>链接: https://你的用户名.github.io/仓库名/</div>
-    </div>
+    <div class="divider"></div>
 
     <div class="project-grid">
+        <!-- 项目 1: 毛孩疫苗本 -->
         <a class="project-card" href="./pet-vaccine.html" target="_blank">
             <div class="project-emoji">🐾</div>
             <div class="project-title">毛孩疫苗本</div>
-            <div class="project-desc">宠物健康管理工具 · 离线OCR识别疫苗信息、智能提醒、花费看板、数据本地存储</div>
-            <div><span class="project-tag">OCR识别</span><span class="project-tag">提醒系统</span><span class="project-tag">PWA</span></div>
+            <div class="project-subtitle">AI驱动的宠物健康管理工具</div>
+            <div class="project-desc">
+                <strong>背景：</strong>宠物主记录疫苗/花费不便，市面工具臃肿。<br>
+                <strong>我的方案：</strong>设计轻量工具，集成离线OCR识别疫苗信息，设计智能提醒系统，数据本地存储。<br>
+                <strong>成果：</strong>OCR识别准确率从40%提升至80%+，完成从Idea到可安装APK的全链路。
+            </div>
+            <div>
+                <span class="project-tag">OCR识别</span>
+                <span class="project-tag">PWA</span>
+                <span class="project-tag">Vibe Coding</span>
+            </div>
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
+        <!-- 项目 2: 星途·创作舱 -->
         <a class="project-card" href="./creation-cabin.html" target="_blank">
             <div class="project-emoji">✍️</div>
             <div class="project-title">星途·创作舱</div>
-            <div class="project-desc">网文创作者效率工具 · 大纲编辑器、灵感库、角色设定、多项目管理</div>
-            <div><span class="project-tag">Markdown</span><span class="project-tag">本地存储</span><span class="project-tag">主题切换</span></div>
+            <div class="project-subtitle">网文创作者效率工具</div>
+            <div class="project-desc">
+                <strong>背景：</strong>创作者面临素材管理混乱、大纲与写作割裂的痛点。<br>
+                <strong>我的方案：</strong>集成大纲编辑器、角色设定、灵感库等模块，设计清晰的信息架构。<br>
+                <strong>成果：</strong>交付2000+行纯前端应用，迭代10+项体验优化。
+            </div>
+            <div>
+                <span class="project-tag">Markdown</span>
+                <span class="project-tag">本地存储</span>
+                <span class="project-tag">多主题</span>
+            </div>
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
+        <!-- 项目 3: 剧本·复盘舱 -->
         <a class="project-card" href="./script-review.html" target="_blank">
             <div class="project-emoji">📋</div>
             <div class="project-title">剧本·复盘舱</div>
-            <div class="project-desc">编剧进度管理 · 版本追踪、修改原因复盘、月度回顾看板、文件管理</div>
-            <div><span class="project-tag">复盘闭环</span><span class="project-tag">标签系统</span><span class="project-tag">文件预览</span></div>
+            <div class="project-subtitle">编剧进度管理与版本复盘</div>
+            <div class="project-desc">
+                <strong>背景：</strong>长内容创作中“版本迭代难追踪、修改原因易遗忘”。<br>
+                <strong>我的方案：</strong>设计“剧本-进度-复盘”三位一体模型，构建修改与复盘的闭环。<br>
+                <strong>成果：</strong>内置月度看板与高频词分析，填补“写后管理”工具空白。
+            </div>
+            <div>
+                <span class="project-tag">复盘闭环</span>
+                <span class="project-tag">标签系统</span>
+                <span class="project-tag">文件管理</span>
+            </div>
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
+        <!-- 项目 4: 会议·反刍舱 -->
         <a class="project-card" href="./meeting-ruminant.html" target="_blank">
             <div class="project-emoji">🎙️</div>
             <div class="project-title">会议·反刍舱</div>
-            <div class="project-desc">AI会议复盘 · 语音转文字、DeepSeek提取待办、反刍提醒、待办追踪</div>
-            <div><span class="project-tag">Whisper</span><span class="project-tag">AI分析</span><span class="project-tag">本地模型</span></div>
+            <div class="project-subtitle">AI会议复盘与行动管理</div>
+            <div class="project-desc">
+                <strong>背景：</strong>会议“记录即遗忘”，待办难追踪。<br>
+                <strong>我的方案：</strong>打造“录音→AI提取→待办追踪→反刍提醒”闭环，集成Whisper与DeepSeek。<br>
+                <strong>成果：</strong>交付零服务端成本的轻量AI复盘工具。
+            </div>
+            <div>
+                <span class="project-tag">Whisper</span>
+                <span class="project-tag">DeepSeek API</span>
+                <span class="project-tag">本地模型</span>
+            </div>
             <div class="project-link">→ 体验 Demo</div>
         </a>
     </div>
 
+    <!-- 联系与行动区 -->
+    <div class="cta-section">
+        <p>📬 三天内到岗 · 实习6个月 · 每周5天</p>
+        <p style="font-size: 1.1rem;">📧 Wangtj0212@outlook.com  ·  📞 +86 </p>
+    </div>
+
     <div class="footer">
-        📧 Wangtj0212@outlook.com  ·  香港理工大学 中国语言学 研究生  ·  求职产品经理实习
+        © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 求职产品经理实习<br>
+        <span style="margin-top: 8px; display: block;">
+            <a href="./pet-vaccine.html">毛孩疫苗本</a> · 
+            <a href="./creation-cabin.html">星途创作舱</a> · 
+            <a href="./script-review.html">剧本复盘舱</a> · 
+            <a href="./meeting-ruminant.html">会议反刍舱</a>
+        </span>
     </div>
 </div>
 </body>
