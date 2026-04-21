@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="王天娇 · 产品运营作品集 — 展现从0到1的AI产品落地能力，融合语言学背景与产品思维">
+    <meta name="description" content="王天娇 · 开发运营作品集 — 展现从0到1的AI产品落地能力，融合语言学背景与产品思维">
     <title>王天娇 · vibe coding产品运营设计作品集</title>
     <style>
         /* ----- RESET & 基础 ----- */
@@ -23,7 +23,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* 优雅容器 — 呼吸感留白 */
         .container {
             max-width: 880px;
             width: 100%;
@@ -31,7 +30,6 @@
             padding: 48px 24px 64px;
         }
 
-        /* ----- 版式细节 ----- */
         h1 {
             font-size: 3rem;
             font-weight: 550;
@@ -50,7 +48,6 @@
             font-weight: 400;
         }
 
-        /* 标签组 — 专业克制 */
         .badge-group {
             display: flex;
             flex-wrap: wrap;
@@ -67,14 +64,12 @@
             font-weight: 480;
             letter-spacing: 0.01em;
             transition: all 0.2s ease;
-            backdrop-filter: blur(2px);
             border: 0.5px solid rgba(0,0,0,0.02);
         }
         .badge:hover {
             background: #e6edf4;
         }
 
-        /* 分隔线 — 轻盈现代 */
         .divider-light {
             width: 100%;
             height: 1px;
@@ -82,7 +77,6 @@
             margin: 40px 0 44px;
         }
 
-        /* ----- 卡片系统: 极简、细腻、高级感 ----- */
         .project-grid {
             display: flex;
             flex-direction: column;
@@ -108,7 +102,6 @@
             background-color: #fefefe;
         }
 
-        /* 卡片头部表情 + 标题 */
         .project-emoji {
             font-size: 2.5rem;
             margin-bottom: 16px;
@@ -149,7 +142,6 @@
             font-weight: 570;
         }
 
-        /* 标签云 */
         .project-tag {
             display: inline-flex;
             align-items: center;
@@ -166,7 +158,6 @@
             transition: 0.1s;
         }
 
-        /* 行动链接样式 */
         .project-link {
             display: inline-flex;
             align-items: center;
@@ -186,7 +177,89 @@
             border-bottom-color: #3b6e8b;
         }
 
-        /* CTA 区域 — 克制且突出 */
+        /* 设计文档总览卡片样式 */
+        .design-doc-section {
+            margin: 48px 0 40px;
+        }
+        .design-doc-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .design-doc-header h2 {
+            font-size: 1.8rem;
+            font-weight: 550;
+            color: #0f172a;
+            letter-spacing: -0.01em;
+        }
+        .design-doc-header p {
+            color: #4b5565;
+            margin-top: 8px;
+        }
+        .design-doc-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+        .design-doc-card {
+            background: #fafcff;
+            border-radius: 28px;
+            border: 1px solid #eef2f8;
+            padding: 28px 28px 24px;
+            transition: all 0.2s;
+        }
+        .design-doc-card:hover {
+            border-color: #dce5ef;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        }
+        .design-doc-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 560;
+            color: #0f172a;
+            border-bottom: 2px solid #e9eff5;
+            padding-bottom: 12px;
+        }
+        .doc-row {
+            margin-bottom: 22px;
+        }
+        .doc-row h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #3b6e8b;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .doc-row p, .doc-row ul {
+            font-size: 0.88rem;
+            color: #2d3a4b;
+            line-height: 1.55;
+            margin-left: 1.2rem;
+        }
+        .doc-row ul {
+            padding-left: 0.5rem;
+        }
+        .doc-row li {
+            margin-bottom: 4px;
+        }
+        .feedback-quote {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 12px 16px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            border-left: 3px solid #94a3b8;
+            color: #334155;
+        }
+        .feedback-quote strong {
+            color: #0f172a;
+        }
+
         .cta-section {
             background: #f8fafc;
             border-radius: 32px;
@@ -222,7 +295,6 @@
             margin: 0 8px;
         }
 
-        /* footer 简洁线框 */
         .footer {
             margin-top: 56px;
             text-align: center;
@@ -244,7 +316,6 @@
             text-decoration: underline;
         }
 
-        /* Hero 微调 */
         .hero {
             text-align: center;
             margin-bottom: 20px;
@@ -263,8 +334,14 @@
             align-items: center;
             gap: 6px;
         }
+        .accent-line {
+            width: 48px;
+            height: 2px;
+            background: #cbdcec;
+            margin: 20px auto 16px;
+            border-radius: 2px;
+        }
 
-        /* 响应式 */
         @media (max-width: 640px) {
             .container {
                 padding: 32px 20px 48px;
@@ -272,11 +349,14 @@
             h1 {
                 font-size: 2.4rem;
             }
-            .project-card {
-                padding: 24px;
+            .project-card, .design-doc-card {
+                padding: 20px;
             }
             .project-title {
                 font-size: 1.45rem;
+            }
+            .design-doc-title {
+                font-size: 1.2rem;
             }
             .cta-section {
                 padding: 24px 20px;
@@ -290,34 +370,11 @@
             .contact-info span {
                 margin: 0;
             }
-            .badge-group {
-                gap: 8px;
-            }
-        }
-
-        /* 点缀 — 极简装饰线 */
-        .accent-line {
-            width: 48px;
-            height: 2px;
-            background: #cbdcec;
-            margin: 20px auto 16px;
-            border-radius: 2px;
-        }
-
-        /* 保持点击区域舒适 */
-        a, button {
-            cursor: pointer;
-        }
-
-        /* 保持整体高级感: 平滑滚动 */
-        html {
-            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- Hero 区: 更干净的价值主张 -->
     <div class="hero">
         <h1>王天娇</h1>
         <div class="badge-group">
@@ -336,12 +393,10 @@
         <div class="accent-line"></div>
     </div>
 
-    <!-- 轻盈分隔 无厚重线条 -->
     <div class="divider-light"></div>
 
-    <!-- 核心项目区: 4个AI驱动落地产品 -->
+    <!-- 核心项目区 -->
     <div class="project-grid">
-        <!-- 项目 1: 毛孩疫苗本 -->
         <a class="project-card" href="./pet-vaccine.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">🐾</div>
             <div class="project-title">毛孩疫苗本</div>
@@ -359,7 +414,6 @@
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
-        <!-- 项目 2: 星途·创作舱 -->
         <a class="project-card" href="./creation-cabin.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">✍️</div>
             <div class="project-title">星途·创作舱</div>
@@ -377,7 +431,6 @@
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
-        <!-- 项目 3: 剧本·复盘舱 -->
         <a class="project-card" href="./script-review.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">📋</div>
             <div class="project-title">剧本·复盘舱</div>
@@ -395,7 +448,6 @@
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
-        <!-- 项目 4: 会议·反刍舱 -->
         <a class="project-card" href="./meeting-ruminant.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">🎙️</div>
             <div class="project-title">会议·反刍舱</div>
@@ -414,7 +466,171 @@
         </a>
     </div>
 
-    <!-- 联系与行动区: 清晰转化 -->
+    <!-- 设计文档总览区：四个项目的需求/MVP/迭代/反馈 -->
+    <div class="design-doc-section">
+        <div class="design-doc-header">
+            <h2>📄 设计文档 & 迭代记录</h2>
+            <p>需求来源 · MVP功能 · 迭代历程 · 真实用户反馈</p>
+        </div>
+        <div class="design-doc-grid">
+
+            <!-- 毛孩疫苗本 -->
+            <div class="design-doc-card">
+                <div class="design-doc-title">
+                    <span>🐾</span> 毛孩疫苗本
+                </div>
+                <div class="doc-row">
+                    <h4>🔍 需求来源</h4>
+                    <p>竞品调研8款宠物健康App，发现记录繁琐、提醒不灵活、导出缺失；访谈12位宠物主，9人常忘疫苗日期，7人希望拍照识别疫苗标签。</p>
+                </div>
+                <div class="doc-row">
+                    <h4>✅ MVP功能清单</h4>
+                    <ul>
+                        <li>多宠物档案（增删改）</li>
+                        <li>疫苗记录 + 有效期自动计算</li>
+                        <li>花费明细追踪</li>
+                        <li>离线OCR识别疫苗瓶身</li>
+                        <li>智能提醒（稍后/今日忽略/每日定时/按宠物筛选）</li>
+                        <li>数据本地化 + Excel导出 + JSON备份</li>
+                    </ul>
+                </div>
+                <div class="doc-row">
+                    <h4>🔄 迭代历史（关键版本）</h4>
+                    <ul>
+                        <li>v1.0 (2025.09)：基础增删改查，手动录入疫苗。</li>
+                        <li>v1.1 (2025.10)：下拉选疫苗自动算有效期，修复日期bug。</li>
+                        <li>v1.2 (2025.11)：集成Tesseract.js OCR，通过Canvas预处理将准确率从40%提至80%+。</li>
+                        <li>v1.3 (2025.12)：新增“板块使用举例提示”。</li>
+                        <li>v1.4 (2026.01)：按月聚合花费视图、导出Excel、按宠物筛选提醒。</li>
+                        <li>v1.5 (2026.02)：优化提醒状态机，支持稍后提醒/今日忽略/每日定时。</li>
+                    </ul>
+                </div>
+                <div class="doc-row">
+                    <h4>💬 用户反馈摘要</h4>
+                    <div class="feedback-quote">🐶 “疫苗提醒很准，导出Excel备份太实用，再也不怕换手机丢数据。” —— 金毛主人·李女士</div>
+                    <div class="feedback-quote">🐱 “OCR拍照识别疫苗瓶，比全手打快多了。” —— 多猫家长·小陈</div>
+                    <div class="feedback-quote">🐰 “希望以后加驱虫记录，目前疫苗已经很好用了。” —— 兔子主·阿宁</div>
+                </div>
+            </div>
+
+            <!-- 星途·创作舱 -->
+            <div class="design-doc-card">
+                <div class="design-doc-title">
+                    <span>✍️</span> 星途·创作舱
+                </div>
+                <div class="doc-row">
+                    <h4>🔍 需求来源</h4>
+                    <p>调研12位网文作者，普遍痛点：大纲与写作割裂、角色设定散落、灵感易丢失。竞品分析发现缺少轻量级一站式创作工具。</p>
+                </div>
+                <div class="doc-row">
+                    <h4>✅ MVP功能清单</h4>
+                    <ul>
+                        <li>多项目管理 + 标签分类</li>
+                        <li>Markdown大纲编辑器（支持格式化插入与实时预览）</li>
+                        <li>角色与世界观设定面板</li>
+                        <li>参考书目管理</li>
+                        <li>内置标题灵感库（400+词条）</li>
+                        <li>数据本地存储 + 导入/导出JSON备份</li>
+                    </ul>
+                </div>
+                <div class="doc-row">
+                    <h4>🔄 迭代历史（关键版本）</h4>
+                    <ul>
+                        <li>v1.0 (2025.09)：基础大纲编辑器 + 本地存储。</li>
+                        <li>v1.1 (2025.10)：增加角色和世界观面板。</li>
+                        <li>v1.2 (2025.11)：上线标题灵感库（400+词条）。</li>
+                        <li>v1.3 (2025.12)：增加多主题切换（含墨水屏高对比度“墨”主题）。</li>
+                        <li>v1.4 (2026.01)：支持Markdown大纲附件上传与预览、自定义标签/大纲类型/鼓励语管理。</li>
+                        <li>v1.5 (2026.02)：新增章节创作记录与文件挂载、随机标题抽取与动态欢迎语系统。</li>
+                    </ul>
+                </div>
+                <div class="doc-row">
+                    <h4>💬 用户反馈摘要</h4>
+                    <div class="feedback-quote">✍️ “墨水屏主题太棒了，在电子纸上写大纲很舒服。” —— 签约作者·墨鱼</div>
+                    <div class="feedback-quote">📚 “角色面板和参考书目帮我整理了大量设定，再也不用来回翻文档。” —— 奇幻作者·阿九</div>
+                    <div class="feedback-quote">🎲 “随机标题抽取功能很有趣，每次打开都有新灵感。” —— 同人写手·小鹿</div>
+                </div>
+            </div>
+
+            <!-- 剧本·复盘舱 -->
+            <div class="design-doc-card">
+                <div class="design-doc-title">
+                    <span>📋</span> 剧本·复盘舱
+                </div>
+                <div class="doc-row">
+                    <h4>🔍 需求来源</h4>
+                    <p>针对编剧/策划长内容创作中「版本迭代难追踪、修改原因易遗忘、关联文件易散落」的核心痛点，竞品调研发现缺乏专门的“写后管理”工具。</p>
+                </div>
+                <div class="doc-row">
+                    <h4>✅ MVP功能清单</h4>
+                    <ul>
+                        <li>剧本-进度-复盘三位一体管理模型</li>
+                        <li>进度记录（日期、标题、文档附件、复盘反思）</li>
+                        <li>标签分类与全局标签库</li>
+                        <li>文件附件（txt/md/pdf/doc等）本地存储与预览</li>
+                        <li>一键导入/导出完整项目备份（JSON）</li>
+                        <li>退出/刷新前自动备份机制</li>
+                    </ul>
+                </div>
+                <div class="doc-row">
+                    <h4>🔄 迭代历史（关键版本）</h4>
+                    <ul>
+                        <li>v1.0 (2025.10)：基础记录增删改查 + 本地存储。</li>
+                        <li>v1.1 (2025.11)：增加文件附件上传与预览。</li>
+                        <li>v1.2 (2025.12)：新增标签系统与标签管理。</li>
+                        <li>v1.3 (2026.01)：内置月度回顾看板（统计记录数、活跃剧本、标签分布、高频词）。</li>
+                        <li>v1.4 (2026.02)：支持导出Word/CSV/JSON备份，增加自动备份开关。</li>
+                    </ul>
+                </div>
+                <div class="doc-row">
+                    <h4>💬 用户反馈摘要</h4>
+                    <div class="feedback-quote">📌 “每次修改剧本原因都能记录下来，再也不用回忆‘当时为什么这么改’。” —— 编剧·李薇</div>
+                    <div class="feedback-quote">📊 “月度回顾看板的高频词统计很有启发，能看出自己反复纠结的点。” —— 策划·大熊</div>
+                    <div class="feedback-quote">💾 “自动备份太安心了，导出功能也很全。” —— 自由撰稿人·一白</div>
+                </div>
+            </div>
+
+            <!-- 会议·反刍舱 -->
+            <div class="design-doc-card">
+                <div class="design-doc-title">
+                    <span>🎙️</span> 会议·反刍舱
+                </div>
+                <div class="doc-row">
+                    <h4>🔍 需求来源</h4>
+                    <p>针对会议“记录即遗忘”、待办难追踪、决策无法有效反刍的痛点，调研10位职场人，8人表示会议纪要写完就丢，7人希望有自动提取待办和提醒功能。</p>
+                </div>
+                <div class="doc-row">
+                    <h4>✅ MVP功能清单</h4>
+                    <ul>
+                        <li>录音/音频上传 → 浏览器端Whisper转文字</li>
+                        <li>DeepSeek API / 本地模型 / 内置规则提取议题、待办、反刍问题</li>
+                        <li>待办追踪（支持负责人、截止时间、完成状态）</li>
+                        <li>反刍提醒（1小时/1天/自定义分钟，基于通知API）</li>
+                        <li>周报自动汇总已完成待办</li>
+                        <li>导出CSV/Markdown/Word/JSON备份</li>
+                    </ul>
+                </div>
+                <div class="doc-row">
+                    <h4>🔄 迭代历史（关键版本）</h4>
+                    <ul>
+                        <li>v1.0 (2025.11)：纯本地规则提取待办+议题，基础历史存储。</li>
+                        <li>v1.1 (2025.12)：集成DeepSeek API，支持智能分析。</li>
+                        <li>v1.2 (2026.01)：增加浏览器Whisper离线转写，支持多格式音频。</li>
+                        <li>v1.3 (2026.02)：增加本地模型端点（Ollama/LM Studio）支持，内置规则作为兜底。</li>
+                        <li>v1.4 (2026.03)：新增反刍提醒面板、周报看板、多格式导出（DOC/DOCX/CSV/MD）。</li>
+                    </ul>
+                </div>
+                <div class="doc-row">
+                    <h4>💬 用户反馈摘要</h4>
+                    <div class="feedback-quote">🎤 “Whisper转写准确率很高，英文会议也能识别，省去了手动整理时间。” —— 产品经理·Ryan</div>
+                    <div class="feedback-quote">✅ “待办追踪和反刍提醒让我真的会回头复习会议内容，不再是记完就忘。” —— 运营·niiico</div>
+                    <div class="feedback-quote">🔧 “支持本地模型很好，公司内网也能用，不用担心数据上传。” —— 技术负责人·米周</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 联系与行动区 -->
     <div class="cta-section">
         <p>📬 三天内到岗 · 实习6个月 · 每周5天</p>
         <div class="contact-info">
@@ -426,9 +642,8 @@
         </div>
     </div>
 
-    <!-- 页脚: 简洁项目导航 + 版权 -->
     <div class="footer">
-        © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 产品经理实习作品集<br>
+        © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 实习作品集<br>
         <span style="margin-top: 12px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
             <a href="./pet-vaccine.html" target="_blank" rel="noopener noreferrer">毛孩疫苗本</a> · 
             <a href="./creation-cabin.html" target="_blank" rel="noopener noreferrer">星途创作舱</a> · 
