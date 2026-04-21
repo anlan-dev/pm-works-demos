@@ -31,46 +31,92 @@
             padding: 48px 32px 64px 32px;
         }
 
-        /* 右侧大纲浮标轴 (简洁固定导航) */
+        /* ----- 右侧浮标轴 · 极简微缩 + 可折叠 (不挡视线) ----- */
         .toc-float {
             position: fixed;
-            right: 28px;
+            right: 12px;          /* 更靠边 */
             top: 50%;
             transform: translateY(-50%);
             width: auto;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
-            border: 0.5px solid rgba(203, 213, 225, 0.6);
-            padding: 16px 12px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(10px);
+            border-radius: 36px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+            border: 0.5px solid rgba(203, 213, 225, 0.5);
+            padding: 8px 5px;      /* 大幅缩小内边距 */
             z-index: 1000;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         .toc-float:hover {
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-            border-color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        /* 折叠状态：只显示一个小按钮条，宽度极窄 */
+        .toc-float.collapsed {
+            padding: 6px 4px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+        }
+
+        /* 标题栏：包含“快速跳转”文字 + 折叠按钮 */
+        .toc-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 0.5px solid rgba(148, 163, 184, 0.3);
         }
 
         .toc-title {
-            font-size: 0.7rem;
+            font-size: 0.58rem;       /* 非常小 */
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #5b6e8c;
-            text-align: center;
-            margin-bottom: 14px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid #e9edf2;
+            letter-spacing: 0.8px;
+            color: #4b6589;
+            line-height: 1.2;
+            white-space: nowrap;
         }
 
+        /* 折叠/展开按钮 — 小巧精致 */
+        .toc-toggle {
+            background: transparent;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #3a5670;
+            cursor: pointer;
+            transition: all 0.15s;
+            line-height: 1;
+            padding: 0;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+
+        .toc-toggle:hover {
+            background: rgba(100, 130, 160, 0.12);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .toc-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* 大纲列表 — 进一步缩小间距和字体 */
         .toc-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 6px;               /* 原12px → 6px */
         }
 
         .toc-item {
@@ -81,52 +127,74 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;               /* 缩小间隙 */
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.62rem;      /* 更小 */
             font-weight: 500;
-            color: #334155;
-            padding: 6px 12px;
-            border-radius: 40px;
-            transition: all 0.2s ease;
+            color: #2c3e50;
+            padding: 3px 6px;        /* 原6px 12px → 极度压缩 */
+            border-radius: 30px;
+            transition: all 0.15s ease;
             background: transparent;
             white-space: nowrap;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.1px;
         }
 
         .toc-link .toc-icon {
-            font-size: 1rem;
-            opacity: 0.7;
+            font-size: 0.85rem;      /* 图标也缩小 */
+            opacity: 0.75;
         }
 
         .toc-link:hover {
-            background: #f1f5f9;
-            color: #0f172a;
-            transform: translateX(-2px);
+            background: #ecf3fa;
+            color: #0b1e2e;
+            transform: translateX(-1px);
         }
 
-        .toc-link:active {
-            transform: translateX(0px);
+        /* 折叠状态：隐藏标题文字、列表，只显示折叠按钮（位于浮标中心） */
+        .toc-float.collapsed .toc-header .toc-title,
+        .toc-float.collapsed .toc-list {
+            display: none;
         }
 
-        /* 响应式: 中等屏幕缩小间距，小屏幕隐藏浮标或缩小 */
+        .toc-float.collapsed .toc-header {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            justify-content: center;
+        }
+
+        .toc-float.collapsed .toc-toggle {
+            margin: 0 auto;
+            width: 26px;
+            height: 26px;
+            font-size: 1.2rem;
+            background: rgba(220, 235, 250, 0.4);
+            opacity: 0.9;
+        }
+
+        /* 响应式：中等屏幕进一步调整 */
         @media (max-width: 1000px) {
             .toc-float {
-                right: 16px;
-                padding: 12px 8px;
+                right: 8px;
+                padding: 6px 4px;
             }
             .toc-link {
-                padding: 4px 8px;
-                font-size: 0.7rem;
+                padding: 2px 5px;
+                font-size: 0.58rem;
             }
             .toc-link .toc-icon {
-                font-size: 0.85rem;
+                font-size: 0.75rem;
+            }
+            .toc-title {
+                font-size: 0.5rem;
             }
         }
 
+        /* 移动端完全隐藏浮标（已经设计，保留） */
         @media (max-width: 760px) {
             .toc-float {
-                display: none;  /* 移动端隐藏浮标，保持内容纯净简洁，可用底部导航替代但为了干净暂时隐藏 */
+                display: none;
             }
             .container {
                 padding: 32px 20px 48px;
@@ -180,11 +248,10 @@
             margin: 40px 0 44px;
         }
 
-        /* 核心项目区 — 四个demo之间间距调小 */
         .project-grid {
             display: flex;
             flex-direction: column;
-            gap: 20px;  /* 原32px -> 20px 让四个demo之间更紧凑 */
+            gap: 20px;
         }
 
         .project-card {
@@ -281,7 +348,6 @@
             border-bottom-color: #3b6e8b;
         }
 
-        /* 设计文档总览卡片样式 */
         .design-doc-section {
             margin: 48px 0 40px;
         }
@@ -364,7 +430,6 @@
             color: #0f172a;
         }
 
-        /* 商业指标模拟报告专用样式 */
         .abtest-card {
             background: linear-gradient(135deg, #fef9f0 0%, #ffffff 100%);
             border-left: 4px solid #e67e22;
@@ -469,7 +534,6 @@
             border-radius: 2px;
         }
 
-        /* 滚动偏移避免固定浮标遮盖 */
         .scroll-margin {
             scroll-margin-top: 80px;
         }
@@ -510,9 +574,12 @@
 </head>
 <body>
 
-<!-- 右侧简洁大纲浮标轴 (快速跳转) -->
-<aside class="toc-float" aria-label="页面大纲导航">
-    <div class="toc-title">快速跳转</div>
+<!-- 右侧极简大纲浮标 · 可折叠 (不再挡视线) -->
+<aside class="toc-float" id="tocFloat" aria-label="页面大纲导航 (可折叠)">
+    <div class="toc-header">
+        <span class="toc-title">快速跳转</span>
+        <button class="toc-toggle" id="tocToggleBtn" aria-label="折叠或展开大纲" title="折叠/展开大纲">◀</button>
+    </div>
     <ul class="toc-list">
         <li class="toc-item"><a href="#project-pet" class="toc-link" data-nav="pet"><span class="toc-icon">🐾</span><span>毛孩疫苗本</span></a></li>
         <li class="toc-item"><a href="#project-creation" class="toc-link" data-nav="creation"><span class="toc-icon">✍️</span><span>星途创作舱</span></a></li>
@@ -548,7 +615,6 @@
 
     <!-- 核心项目区：四个demo之间间距调近，并为每个项目添加锚点id -->
     <div class="project-grid">
-        <!-- 毛孩疫苗本卡片 添加id -->
         <a id="project-pet" class="project-card scroll-margin" href="./pet-vaccine.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">🐾</div>
             <div class="project-title">毛孩疫苗本</div>
@@ -566,7 +632,6 @@
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
-        <!-- 星途·创作舱 -->
         <a id="project-creation" class="project-card scroll-margin" href="./creation-cabin.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">✍️</div>
             <div class="project-title">星途·创作舱</div>
@@ -584,7 +649,6 @@
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
-        <!-- 剧本·复盘舱 -->
         <a id="project-script" class="project-card scroll-margin" href="./script-review.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">📋</div>
             <div class="project-title">剧本·复盘舱</div>
@@ -602,7 +666,6 @@
             <div class="project-link">→ 体验 Demo</div>
         </a>
 
-        <!-- 会议·反刍舱 -->
         <a id="project-meeting" class="project-card scroll-margin" href="./meeting-ruminant.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">🎙️</div>
             <div class="project-title">会议·反刍舱</div>
@@ -621,211 +684,59 @@
         </a>
     </div>
 
-    <!-- 设计文档总览区：四个项目的需求/MVP/迭代/反馈 (整体区域加id) -->
+    <!-- 设计文档总览区 -->
     <div id="design-docs" class="design-doc-section scroll-margin">
         <div class="design-doc-header">
             <h2>📄 设计文档 & 迭代记录</h2>
             <p>需求来源 · MVP功能 · 迭代历程 · 真实用户反馈</p>
         </div>
         <div class="design-doc-grid">
-            <!-- 毛孩疫苗本 -->
             <div class="design-doc-card">
-                <div class="design-doc-title">
-                    <span>🐾</span> 毛孩疫苗本
-                </div>
-                <div class="doc-row">
-                    <h4>🔍 需求来源</h4>
-                    <p>竞品调研8款宠物健康App，发现记录繁琐、提醒不灵活、导出缺失；访谈12位宠物主，9人常忘疫苗日期，7人希望拍照识别疫苗标签。</p>
-                </div>
-                <div class="doc-row">
-                    <h4>✅ MVP功能清单</h4>
-                    <ul>
-                        <li>多宠物档案（增删改）</li>
-                        <li>疫苗记录 + 有效期自动计算</li>
-                        <li>花费明细追踪</li>
-                        <li>离线OCR识别疫苗瓶身</li>
-                        <li>智能提醒（稍后/今日忽略/每日定时/按宠物筛选）</li>
-                        <li>数据本地化 + Excel导出 + JSON备份</li>
-                    </ul>
-                </div>
-                <div class="doc-row">
-                    <h4>🔄 迭代历史（关键版本）</h4>
-                    <ul>
-                        <li>v1.0 (2025.09)：基础增删改查，手动录入疫苗。</li>
-                        <li>v1.1 (2025.10)：下拉选疫苗自动算有效期，修复日期bug。</li>
-                        <li>v1.2 (2025.11)：集成Tesseract.js OCR，通过Canvas预处理将准确率从40%提至80%+。</li>
-                        <li>v1.3 (2025.12)：新增“板块使用举例提示”。</li>
-                        <li>v1.4 (2026.01)：按月聚合花费视图、导出Excel、按宠物筛选提醒。</li>
-                        <li>v1.5 (2026.02)：优化提醒状态机，支持稍后提醒/今日忽略/每日定时。</li>
-                    </ul>
-                </div>
-                <div class="doc-row">
-                    <h4>💬 用户反馈摘要</h4>
-                    <div class="feedback-quote">🐶 “疫苗提醒很准，导出Excel备份太实用，再也不怕换手机丢数据。” —— 金毛主人·李女士</div>
-                    <div class="feedback-quote">🐱 “OCR拍照识别疫苗瓶，比全手打快多了。” —— 多猫家长·小陈</div>
-                </div>
+                <div class="design-doc-title"><span>🐾</span> 毛孩疫苗本</div>
+                <div class="doc-row"><h4>🔍 需求来源</h4><p>竞品调研8款宠物健康App，发现记录繁琐、提醒不灵活、导出缺失；访谈12位宠物主，9人常忘疫苗日期，7人希望拍照识别疫苗标签。</p></div>
+                <div class="doc-row"><h4>✅ MVP功能清单</h4><ul><li>多宠物档案（增删改）</li><li>疫苗记录 + 有效期自动计算</li><li>花费明细追踪</li><li>离线OCR识别疫苗瓶身</li><li>智能提醒（稍后/今日忽略/每日定时/按宠物筛选）</li><li>数据本地化 + Excel导出 + JSON备份</li></ul></div>
+                <div class="doc-row"><h4>🔄 迭代历史</h4><ul><li>v1.0 (2025.09)：基础增删改查</li><li>v1.1 (2025.10)：自动算有效期</li><li>v1.2 (2025.11)：集成Tesseract.js OCR，准确率提至80%+</li><li>v1.3~v1.5：提示/花费视图/提醒状态机</li></ul></div>
+                <div class="doc-row"><h4>💬 用户反馈</h4><div class="feedback-quote">🐶 “疫苗提醒很准，导出Excel备份这个功能很实用。” —— 金毛妮可（六岁）·李女士</div><div class="feedback-quote">🐱 “OCR拍照识别疫苗瓶，比全手打快多了。” —— 多猫家长·小陈</div></div>
             </div>
-
-            <!-- 星途·创作舱 -->
             <div class="design-doc-card">
-                <div class="design-doc-title">
-                    <span>✍️</span> 星途·创作舱
-                </div>
-                <div class="doc-row">
-                    <h4>🔍 需求来源</h4>
-                    <p>调研12位网文作者，普遍痛点：大纲与写作割裂、角色设定散落、灵感易丢失。竞品分析发现缺少轻量级一站式创作工具。</p>
-                </div>
-                <div class="doc-row">
-                    <h4>✅ MVP功能清单</h4>
-                    <ul>
-                        <li>多项目管理 + 标签分类</li>
-                        <li>Markdown大纲编辑器（支持格式化插入与实时预览）</li>
-                        <li>角色与世界观设定面板</li>
-                        <li>参考书目管理</li>
-                        <li>内置标题灵感库（400+词条）</li>
-                        <li>数据本地存储 + 导入/导出JSON备份</li>
-                    </ul>
-                </div>
-                <div class="doc-row">
-                    <h4>🔄 迭代历史（关键版本）</h4>
-                    <ul>
-                        <li>v1.0~v1.5：从基础大纲到多主题、墨水屏模式，新增章节创作记录与随机标题抽取。</li>
-                        <li>支持Markdown大纲附件上传与预览、自定义标签/鼓励语管理。</li>
-                    </ul>
-                </div>
-                <div class="doc-row">
-                    <h4>💬 用户反馈摘要</h4>
-                    <div class="feedback-quote">✍️ “墨水屏主题太棒了，在电子纸上写大纲很舒服。” —— 签约作者·墨鱼</div>
-                    <div class="feedback-quote">📚 “角色面板和参考书目帮我整理了大量设定。” —— 奇幻作者·阿九</div>
-                </div>
+                <div class="design-doc-title"><span>✍️</span> 星途·创作舱</div>
+                <div class="doc-row"><h4>🔍 需求来源</h4><p>调研12位网文作者，痛点：大纲与写作割裂、角色设定散落。竞品缺少轻量一站式工具。</p></div>
+                <div class="doc-row"><h4>✅ MVP功能清单</h4><ul><li>多项目管理+标签</li><li>Markdown大纲编辑器</li><li>角色/世界观面板</li><li>参考书目管理</li><li>标题灵感库(400+)</li><li>本地存储+导入导出</li></ul></div>
+                <div class="doc-row"><h4>🔄 迭代历史</h4><ul><li>v1.0~v1.5：多主题/墨水屏模式/随机标题/鼓励语管理</li></ul></div>
+                <div class="doc-row"><h4>💬 用户反馈</h4><div class="feedback-quote">✍️ “墨水屏主题好用，在电子纸上写大纲很舒服。” —— 签约作者·miki</div></div>
             </div>
-
-            <!-- 剧本·复盘舱 -->
             <div class="design-doc-card">
-                <div class="design-doc-title">
-                    <span>📋</span> 剧本·复盘舱
-                </div>
-                <div class="doc-row">
-                    <h4>🔍 需求来源</h4>
-                    <p>针对编剧/策划长内容创作中「版本迭代难追踪、修改原因易遗忘」的核心痛点，填补“写后管理”工具空白。</p>
-                </div>
-                <div class="doc-row">
-                    <h4>✅ MVP功能清单</h4>
-                    <ul>
-                        <li>剧本-进度-复盘三位一体管理模型</li>
-                        <li>进度记录、标签分类与全局标签库</li>
-                        <li>文件附件本地存储与预览，一键导入/导出完整项目备份</li>
-                        <li>退出/刷新前自动备份机制</li>
-                    </ul>
-                </div>
-                <div class="doc-row">
-                    <h4>🔄 迭代历史（关键版本）</h4>
-                    <ul>
-                        <li>v1.3 (2026.01)：内置月度回顾看板（统计记录数、活跃剧本、标签分布、高频词）。</li>
-                        <li>v1.4 (2026.02)：支持导出Word/CSV/JSON备份，增加自动备份开关。</li>
-                    </ul>
-                </div>
-                <div class="doc-row">
-                    <h4>💬 用户反馈摘要</h4>
-                    <div class="feedback-quote">📌 “每次修改剧本原因都能记录下来，再也不用回忆‘当时为什么这么改’。” —— 编剧·李薇</div>
-                </div>
+                <div class="design-doc-title"><span>📋</span> 剧本·复盘舱</div>
+                <div class="doc-row"><h4>🔍 需求来源</h4><p>编剧/策划长内容创作中「版本迭代难追踪、修改原因易遗忘」，填补“写后管理”空白。</p></div>
+                <div class="doc-row"><h4>✅ MVP功能清单</h4><ul><li>剧本-进度-复盘三位一体</li><li>进度记录/全局标签库</li><li>附件本地存储+预览</li><li>自动备份机制</li></ul></div>
+                <div class="doc-row"><h4>🔄 迭代历史</h4><ul><li>v1.3 (2026.01)：月度回顾看板/高频词</li><li>v1.4 (2026.02)：导出Word/CSV/JSON</li></ul></div>
+                <div class="doc-row"><h4>💬 用户反馈</h4><div class="feedback-quote">📌 “每次修改剧本原因都能记录下来。” —— 编剧·veka</div></div>
             </div>
-
-            <!-- 会议·反刍舱 -->
             <div class="design-doc-card">
-                <div class="design-doc-title">
-                    <span>🎙️</span> 会议·反刍舱
-                </div>
-                <div class="doc-row">
-                    <h4>🔍 需求来源</h4>
-                    <p>针对会议“记录即遗忘”、待办难追踪的痛点，实现闭环复盘。</p>
-                </div>
-                <div class="doc-row">
-                    <h4>✅ MVP功能清单</h4>
-                    <ul>
-                        <li>录音/音频上传 → 浏览器端Whisper转文字</li>
-                        <li>DeepSeek API / 本地模型提取议题、待办</li>
-                        <li>待办追踪与反刍提醒，周报自动汇总已完成待办</li>
-                        <li>导出CSV/Markdown/Word/JSON备份</li>
-                    </ul>
-                </div>
-                <div class="doc-row">
-                    <h4>💬 用户反馈摘要</h4>
-                    <div class="feedback-quote">🎤 “Whisper转写准确率很高，省去手动整理。” —— 产品经理·Ryan</div>
-                    <div class="feedback-quote">✅ “待办追踪和反刍提醒让我真的会回头复习会议内容。” —— 运营·niiico</div>
-                </div>
+                <div class="design-doc-title"><span>🎙️</span> 会议·反刍舱</div>
+                <div class="doc-row"><h4>🔍 需求来源</h4><p>会议“记录即遗忘”、待办难追踪，实现闭环复盘。</p></div>
+                <div class="doc-row"><h4>✅ MVP功能清单</h4><ul><li>录音→Whisper转文字</li><li>DeepSeek/本地模型提取待办</li><li>待办追踪与反刍提醒</li><li>导出CSV/Markdown/Word</li></ul></div>
+                <div class="doc-row"><h4>💬 用户反馈</h4><div class="feedback-quote">🎤 “Whisper转写相对来说准确率还算高。” —— 产品经理·Ryan</div></div>
             </div>
         </div>
     </div>
 
-    <!-- 商业指标模拟 · A/B测试报告（单独id） -->
+    <!-- A/B测试报告 -->
     <div id="abtest-report" class="design-doc-section scroll-margin">
         <div class="design-doc-header">
             <h2>📊 商业指标模拟 · A/B测试报告</h2>
             <p>转化率 · 留存率 · ROI · 补贴策略 · 流量分发 · 完整实验框架</p>
         </div>
         <div class="design-doc-card abtest-card" style="border-left: 4px solid #e67e22;">
-            <div class="design-doc-title" style="border-bottom-color: #fcd5a5;">
-                <span>🧪</span> A/B测试模拟报告：提醒策略优化
-                <span style="font-size:0.7rem; background:#fef3c7; padding:2px 10px; border-radius:40px;">基于真实用户反馈设计</span>
-            </div>
-            
-            <div class="doc-row">
-                <h4>🎯 实验背景与业务目标</h4>
-                <p>毛孩疫苗本v1.4版本中，提醒功能设置转化率仅为<span class="stat-number">24%</span>，大量用户完成疫苗记录后未开启提醒，导致后续留存偏低。业务目标是：<strong>提升提醒设置转化率，并验证新提醒策略对7日留存的影响</strong>。</p>
-            </div>
-            
-            <div class="doc-row">
-                <h4>🔬 实验设计（A/B Testing）</h4>
-                <ul>
-                    <li><strong>实验对象</strong>：新注册用户200人，随机分为A组（对照组）与B组（实验组），各100人。</li>
-                    <li><strong>对照组（A组）</strong>：固定提醒样式，仅提供“每日定时”单一选项。</li>
-                    <li><strong>实验组（B组）</strong>：新提醒面板，包含 <span class="metric-badge">按宠物筛选</span> + <span class="metric-badge">稍后提醒</span> + <span class="metric-badge">今日忽略</span> 三种灵活状态。</li>
-                    <li><strong>单一变量</strong>：提醒交互逻辑与灵活度，其余功能完全相同。</li>
-                    <li><strong>实验周期</strong>：14天（观测提醒设置后7日留存）。</li>
-                </ul>
-            </div>
-
-            <div class="doc-row">
-                <h4>📈 核心指标定义</h4>
-                <ul>
-                    <li><strong>提醒设置转化率</strong> = 完成提醒设置人数 / 进入提醒页人数</li>
-                    <li><strong>7日留存率</strong> = 第7天仍使用应用的用户数 / 新增用户数</li>
-                    <li><strong>相对提升</strong> = (实验组指标 - 对照组指标) / 对照组指标 × 100%</li>
-                </ul>
-            </div>
-
-            <div class="doc-row">
-                <h4>🧮 模拟数据与统计检验</h4>
-                <ul>
-                    <li><strong>提醒设置转化率</strong>：对照组 26% → 实验组 <span class="stat-number">42%</span> （+61.5%相对提升）</li>
-                    <li><strong>7日留存率</strong>：对照组 31% → 实验组 <span class="stat-number">44%</span> （+41.9%相对提升）</li>
-                    <li><strong>卡方检验（Chi-square）</strong>：p值 &lt; 0.05 → 差异具有统计显著性，实验组显著优于对照组。</li>
-                </ul>
-                <div class="feedback-quote" style="margin-top: 12px;">
-                    📌 <strong>运营结论</strong>：实验组提醒策略有效提升用户设置意愿及长期粘性，建议全量上线。
-                </div>
-            </div>
-
-            <div class="doc-row">
-                <h4>💰 ROI与优先级排序</h4>
-                <p>开发成本约3人天(≈3000元)，预期提醒设置转化率提升后月度新增有效提醒用户约150人，LTV 30元估算，月度增量收益4500元。<br>
-                <strong>ROI = 50%</strong>，高于多主题切换等优化，提醒策略优化优先级第一。</p>
-            </div>
-
-            <div class="doc-row">
-                <h4>🎛️ 其他商业指标理解</h4>
-                <ul>
-                    <li><strong>流量分发</strong>：基于点击率动态调整首页模块顺序，提升核心功能曝光。</li>
-                    <li><strong>补贴策略模拟</strong>：连续使用解锁主题皮肤，留存提升约18%。</li>
-                    <li><strong>留存分析</strong>：使用提醒功能的用户次月留存高22%，验证提醒是留存钩子。</li>
-                </ul>
-            </div>
-            <div class="project-link" style="cursor: default; border-bottom: none;">✓ 具备转化率/留存/ROI/A/B测试/补贴策略/流量分发完整认知框架</div>
+            <div class="design-doc-title"><span>🧪</span> A/B测试模拟报告：提醒策略优化</div>
+            <div class="doc-row"><h4>🎯 实验背景</h4><p>毛孩疫苗本v1.4提醒设置转化率仅<span class="stat-number">24%</span>，影响留存。目标：提升提醒设置转化率及7日留存。</p></div>
+            <div class="doc-row"><h4>🔬 实验设计</h4><ul><li>200人，A/B各100人</li><li>A组：单一每日定时；B组：按宠物筛选+稍后+今日忽略</li><li>周期14天</li></ul></div>
+            <div class="doc-row"><h4>📈 核心指标</h4><ul><li>提醒设置转化率：26% → <span class="stat-number">42%</span> (+61.5%)</li><li>7日留存：31% → <span class="stat-number">44%</span> (+41.9%)</li><li>p<0.05，显著</li></ul></div>
+            <div class="doc-row"><h4>💰 ROI</h4><p>开发成本约3人天，月度增量收益4500元，ROI 50%，优先级第一。</p></div>
+            <div class="project-link" style="cursor: default;">✓ 具备转化/留存/ROI/A/B测试/补贴策略/流量分发完整认知框架</div>
         </div>
     </div>
 
-    <!-- 联系与行动区 加id方便跳转 -->
     <div id="contact-section" class="cta-section scroll-margin">
         <p>📬 三天内到岗 · 实习6个月 · 每周5天</p>
         <div class="contact-info">
@@ -848,27 +759,54 @@
     </div>
 </div>
 
-<!-- 平滑滚动+防止默认跳转锚点行为，保证右侧浮标轴点击平滑跳转 -->
+<!-- 平滑滚动 + 大纲折叠功能 -->
 <script>
     (function() {
-        // 平滑滚动，并处理固定浮标遮挡偏移 (使用 scroll-margin-top 已在样式中定义)
+        // 平滑滚动
         const links = document.querySelectorAll('.toc-link');
         links.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');  // 例如 #project-pet
+                const targetId = this.getAttribute('href');
                 if (targetId && targetId !== '#') {
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                        // 可选: 更新url hash但不触发跳动
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         history.pushState(null, null, targetId);
                     }
                 }
             });
+        });
+
+        // 折叠/展开大纲 (极简，不挡视线)
+        const tocFloat = document.getElementById('tocFloat');
+        const toggleBtn = document.getElementById('tocToggleBtn');
+        
+        function updateToggleIcon() {
+            if (tocFloat.classList.contains('collapsed')) {
+                toggleBtn.textContent = '☰';   // 展开图标
+                toggleBtn.setAttribute('aria-label', '展开大纲');
+                toggleBtn.title = '展开大纲';
+            } else {
+                toggleBtn.textContent = '◀';    // 折叠图标
+                toggleBtn.setAttribute('aria-label', '折叠大纲');
+                toggleBtn.title = '折叠大纲';
+            }
+        }
+
+        toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            tocFloat.classList.toggle('collapsed');
+            updateToggleIcon();
+        });
+
+        // 初始图标状态 (默认未折叠)
+        updateToggleIcon();
+
+        // 可选：点击浮标空白区域不触发折叠 (防止误触)
+        tocFloat.addEventListener('click', function(e) {
+            // 如果点击的是按钮本身，上面已经处理；如果是链接，允许跳转。
+            // 不做额外操作
         });
     })();
 </script>
