@@ -3,53 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>王天娇 · AI驱动产品设计作品集</title>
+    <meta name="description" content="王天娇 · 产品运营作品集 — 展现从0到1的AI产品落地能力，融合语言学背景与产品思维">
+    <title>王天娇 · vibe coding产品运营设计作品集</title>
     <style>
-        * { box-sizing: border-box; margin: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #faf8f5; min-height: 100vh; padding: 24px 16px; display: flex; justify-content: center; }
-        .container { max-width: 680px; width: 100%; }
-        .hero { margin-bottom: 40px; text-align: center; }
-        h1 { font-size: 2.4rem; font-weight: 500; color: #2e241e; margin-bottom: 4px; }
-        .badge { background: #e8ddd2; color: #3f3228; padding: 4px 14px; border-radius: 30px; font-size: 0.8rem; font-weight: 500; display: inline-block; margin: 8px 4px; }
-        .subtitle { color: #7f6e5e; font-size: 1.1rem; max-width: 500px; margin: 16px auto; line-height: 1.5; }
-        .divider { border-top: 2px solid #e1d4c8; margin: 32px 0; }
-        .project-grid { display: flex; flex-direction: column; gap: 24px; }
-        .project-card { background: #fffcf9; border-radius: 28px; padding: 28px; border: 1px solid #e1d4c8; box-shadow: 0 6px 14px rgba(0,0,0,0.02); transition: 0.15s; text-decoration: none; color: inherit; display: block; }
-        .project-card:hover { border-color: #b7a089; box-shadow: 0 8px 20px rgba(0,0,0,0.04); }
-        .project-emoji { font-size: 2.2rem; margin-bottom: 8px; }
-        .project-title { font-size: 1.5rem; font-weight: 550; color: #2e241e; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .project-subtitle { color: #7f6e5e; font-weight: 500; margin-bottom: 16px; font-size: 1rem; }
-        .project-desc { color: #4a3f36; line-height: 1.6; margin-bottom: 18px; }
-        .project-tag { display: inline-block; background: #f0eae4; color: #3f3228; padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; margin-right: 8px; margin-bottom: 8px; }
-        .project-link { color: #b7a089; font-weight: 500; display: inline-block; margin-top: 8px; text-decoration: none; }
-        .footer { margin-top: 48px; text-align: center; color: #8b7b6e; font-size: 0.9rem; padding: 24px 0; border-top: 1px solid #e1d4c8; }
-        .footer a { color: #7f6e5e; text-decoration: none; margin: 0 8px; }
-        .footer a:hover { text-decoration: underline; }
-        .cta-section { background: #f0eae4; border-radius: 20px; padding: 20px; text-align: center; margin: 32px 0; }
-        .cta-section p { margin-bottom: 12px; color: #2e241e; }
+        /* ----- RESET & 基础 ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #ffffff;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            color: #1a1f2b;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 优雅容器 — 呼吸感留白 */
+        .container {
+            max-width: 880px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 48px 24px 64px;
+        }
+
+        /* ----- 版式细节 ----- */
+        h1 {
+            font-size: 3rem;
+            font-weight: 550;
+            letter-spacing: -0.02em;
+            color: #0f1419;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #4a5568;
+            max-width: 560px;
+            margin: 18px auto 0;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* 标签组 — 专业克制 */
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 16px 0 8px;
+        }
+        .badge {
+            background: #f1f5f9;
+            color: #1e293b;
+            padding: 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 480;
+            letter-spacing: 0.01em;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(2px);
+            border: 0.5px solid rgba(0,0,0,0.02);
+        }
+        .badge:hover {
+            background: #e6edf4;
+        }
+
+        /* 分隔线 — 轻盈现代 */
+        .divider-light {
+            width: 100%;
+            height: 1px;
+            background: radial-gradient(circle, #e2e8f0 30%, transparent 100%);
+            margin: 40px 0 44px;
+        }
+
+        /* ----- 卡片系统: 极简、细腻、高级感 ----- */
+        .project-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .project-card {
+            display: block;
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 32px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            border: 1px solid #eef2f6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .project-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.08), 0 4px 8px -4px rgba(0, 0, 0, 0.02);
+            transform: translateY(-3px);
+            background-color: #fefefe;
+        }
+
+        /* 卡片头部表情 + 标题 */
+        .project-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+
+        .project-title {
+            font-size: 1.7rem;
+            font-weight: 570;
+            letter-spacing: -0.01em;
+            color: #0f172a;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .project-subtitle {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4b5565;
+            margin-bottom: 20px;
+            letter-spacing: 0.2px;
+            border-left: 3px solid #94a3b8;
+            padding-left: 12px;
+        }
+
+        .project-desc {
+            color: #2d3a4b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .project-desc strong {
+            color: #0f172a;
+            font-weight: 570;
+        }
+
+        /* 标签云 */
+        .project-tag {
+            display: inline-flex;
+            align-items: center;
+            background: #f8fafc;
+            color: #334155;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            border: 0.5px solid #e2e8f0;
+            transition: 0.1s;
+        }
+
+        /* 行动链接样式 */
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 18px;
+            font-size: 0.85rem;
+            font-weight: 520;
+            color: #3b6e8b;
+            letter-spacing: 0.2px;
+            border-bottom: 1px solid transparent;
+            transition: 0.2s;
+        }
+
+        .project-card:hover .project-link {
+            color: #1e4a6b;
+            gap: 10px;
+            border-bottom-color: #3b6e8b;
+        }
+
+        /* CTA 区域 — 克制且突出 */
+        .cta-section {
+            background: #f8fafc;
+            border-radius: 32px;
+            padding: 32px 28px;
+            text-align: center;
+            margin: 48px 0 24px;
+            border: 1px solid #ecf3f9;
+            transition: 0.2s;
+        }
+        .cta-section p {
+            color: #1e2a3a;
+            font-weight: 470;
+        }
+        .cta-section p:first-child {
+            font-size: 1rem;
+            font-weight: 540;
+            letter-spacing: -0.2px;
+            background: #ffffffcc;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            backdrop-filter: blur(2px);
+            margin-bottom: 18px;
+        }
+        .contact-info {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1f3b4c;
+            word-break: break-word;
+        }
+        .contact-info span {
+            display: inline-block;
+            margin: 0 8px;
+        }
+
+        /* footer 简洁线框 */
+        .footer {
+            margin-top: 56px;
+            text-align: center;
+            color: #5b6e8c;
+            font-size: 0.8rem;
+            padding: 24px 0 12px;
+            border-top: 1px solid #edf2f7;
+            letter-spacing: 0.2px;
+        }
+        .footer a {
+            color: #436c8c;
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.2s;
+            font-weight: 470;
+        }
+        .footer a:hover {
+            color: #1e405b;
+            text-decoration: underline;
+        }
+
+        /* Hero 微调 */
+        .hero {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hero-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px 24px;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .hero-detail span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 20px 48px;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+            .project-card {
+                padding: 24px;
+            }
+            .project-title {
+                font-size: 1.45rem;
+            }
+            .cta-section {
+                padding: 24px 20px;
+            }
+            .contact-info {
+                font-size: 0.9rem;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+            .contact-info span {
+                margin: 0;
+            }
+            .badge-group {
+                gap: 8px;
+            }
+        }
+
+        /* 点缀 — 极简装饰线 */
+        .accent-line {
+            width: 48px;
+            height: 2px;
+            background: #cbdcec;
+            margin: 20px auto 16px;
+            border-radius: 2px;
+        }
+
+        /* 保持点击区域舒适 */
+        a, button {
+            cursor: pointer;
+        }
+
+        /* 保持整体高级感: 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- 首屏 Hero 区：一句话价值主张 + 核心能力标签 -->
+    <!-- Hero 区: 更干净的价值主张 -->
     <div class="hero">
         <h1>王天娇</h1>
-        <div>
-            <span class="badge">🎯 AI驱动 · 独立开发</span>
-            <span class="badge">📊 数据驱动决策</span>
+        <div class="badge-group">
+            <span class="badge">✨ AI驱动 · 独立开发</span>
+            <span class="badge">📈 数据驱动决策</span>
             <span class="badge">⚡ 从0到1落地</span>
         </div>
         <div class="subtitle">
             香港理工大学 · 中国语言学研究生<br>
-            具备全栈产品思维，能用 AI Coding 快速将想法落地为可交互原型
+            全栈产品思维 + AI Coding 快速将想法落地为可交互原型
         </div>
+        <div class="hero-detail">
+            <span>📍 可立即到岗</span>
+            <span>🔍 实习3 - 6个月 · 每周5天</span>
+        </div>
+        <div class="accent-line"></div>
     </div>
 
-    <div class="divider"></div>
+    <!-- 轻盈分隔 无厚重线条 -->
+    <div class="divider-light"></div>
 
+    <!-- 核心项目区: 4个AI驱动落地产品 -->
     <div class="project-grid">
         <!-- 项目 1: 毛孩疫苗本 -->
-        <a class="project-card" href="./pet-vaccine.html" target="_blank">
+        <a class="project-card" href="./pet-vaccine.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">🐾</div>
             <div class="project-title">毛孩疫苗本</div>
             <div class="project-subtitle">AI驱动的宠物健康管理工具</div>
@@ -67,7 +360,7 @@
         </a>
 
         <!-- 项目 2: 星途·创作舱 -->
-        <a class="project-card" href="./creation-cabin.html" target="_blank">
+        <a class="project-card" href="./creation-cabin.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">✍️</div>
             <div class="project-title">星途·创作舱</div>
             <div class="project-subtitle">网文创作者效率工具</div>
@@ -85,7 +378,7 @@
         </a>
 
         <!-- 项目 3: 剧本·复盘舱 -->
-        <a class="project-card" href="./script-review.html" target="_blank">
+        <a class="project-card" href="./script-review.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">📋</div>
             <div class="project-title">剧本·复盘舱</div>
             <div class="project-subtitle">编剧进度管理与版本复盘</div>
@@ -103,7 +396,7 @@
         </a>
 
         <!-- 项目 4: 会议·反刍舱 -->
-        <a class="project-card" href="./meeting-ruminant.html" target="_blank">
+        <a class="project-card" href="./meeting-ruminant.html" target="_blank" rel="noopener noreferrer">
             <div class="project-emoji">🎙️</div>
             <div class="project-title">会议·反刍舱</div>
             <div class="project-subtitle">AI会议复盘与行动管理</div>
@@ -121,19 +414,26 @@
         </a>
     </div>
 
-    <!-- 联系与行动区 -->
+    <!-- 联系与行动区: 清晰转化 -->
     <div class="cta-section">
         <p>📬 三天内到岗 · 实习6个月 · 每周5天</p>
-        <p style="font-size: 1.1rem;">📧 Wangtj0212@outlook.com  ·  📞 +86 </p>
+        <div class="contact-info">
+            <span>📧 Wangtj0212@outlook.com</span>
+            <span>📞 +86 </span>
+        </div>
+        <div style="margin-top: 18px; font-size: 0.85rem; color: #5f6c80;">
+             <p>展现从0到1的AI产品落地能力，融合语言学背景与产品思维</p>
+        </div>
     </div>
 
+    <!-- 页脚: 简洁项目导航 + 版权 -->
     <div class="footer">
-        © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 求职产品经理实习<br>
-        <span style="margin-top: 8px; display: block;">
-            <a href="./pet-vaccine.html">毛孩疫苗本</a> · 
-            <a href="./creation-cabin.html">星途创作舱</a> · 
-            <a href="./script-review.html">剧本复盘舱</a> · 
-            <a href="./meeting-ruminant.html">会议反刍舱</a>
+        © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 产品经理实习作品集<br>
+        <span style="margin-top: 12px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+            <a href="./pet-vaccine.html" target="_blank" rel="noopener noreferrer">毛孩疫苗本</a> · 
+            <a href="./creation-cabin.html" target="_blank" rel="noopener noreferrer">星途创作舱</a> · 
+            <a href="./script-review.html" target="_blank" rel="noopener noreferrer">剧本复盘舱</a> · 
+            <a href="./meeting-ruminant.html" target="_blank" rel="noopener noreferrer">会议反刍舱</a>
         </span>
     </div>
 </div>
