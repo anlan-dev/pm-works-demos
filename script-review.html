@@ -5,98 +5,678 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>剧本·进度复盘 · 完整功能版</title>
     <style>
-        * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Android Emoji', 'EmojiOne Color', sans-serif; }
-        :root {
-            --bg-body: #f5f3f0; --bg-app: #fefcf8; --border-light: #ede6dc; --header-bg: #fffbf7; --sidebar-bg: #f8f3ed;
-            --sidebar-border: #e2d6cb; --card-bg: #fffcf9; --card-border: #e1d4c8; --accent-border: #b7a089;
-            --text-primary: #2e241e; --text-secondary: #4a3f36; --text-muted: #7f6e5e; --btn-bg: #ffffffd0;
-            --btn-border: #cfc1b4; --form-bg: #f6efe8; --record-bg: white; --shadow: 0 4px 12px rgba(0,0,0,0.03);
-            --tag-bg: #e8ddd2; --tag-text: #3f3228; --modal-overlay: rgba(0,0,0,0.2);
-            --toast-bg: #2e241ee6;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Android Emoji', 'EmojiOne Color', sans-serif;
         }
-        body.theme-lightgray { --bg-body: #e9e7e4; --bg-app: #f5f4f2; --border-light: #d6d2cc; --header-bg: #f0ede8; --sidebar-bg: #ece9e4; --sidebar-border: #d4cec6; --card-bg: #faf9f7; --card-border: #d1cbc4; --accent-border: #9b9085; --text-primary: #2b2a27; --text-secondary: #4d4944; --text-muted: #6e6861; --btn-bg: #fefefe; --btn-border: #c2bab2; --form-bg: #eae5df; --record-bg: #ffffff; --tag-bg: #dbd4cc; --tag-text: #3a3530; --toast-bg: #2b2a27e6; }
-        body.theme-dark { --bg-body: #1a1a1c; --bg-app: #262629; --border-light: #3a3a40; --header-bg: #2e2e32; --sidebar-bg: #242427; --sidebar-border: #3e3e44; --card-bg: #2f2f33; --card-border: #44444a; --accent-border: #7a8b9e; --text-primary: #ececec; --text-secondary: #cdcdd2; --text-muted: #a0a0a8; --btn-bg: #3a3a40; --btn-border: #5a5a62; --form-bg: #313136; --record-bg: #2b2b2f; --tag-bg: #4a4d55; --tag-text: #e0e0e0; --toast-bg: #ececece6; --toast-text: #1a1a1c; }
-        body.theme-mint { --bg-body: #e3f0ea; --bg-app: #f0f9f4; --border-light: #cde0d6; --header-bg: #eaf5ee; --sidebar-bg: #e3efe8; --sidebar-border: #c5dbd0; --card-bg: #ffffffdb; --card-border: #bcd0c4; --accent-border: #6e9b89; --text-primary: #1e3a2f; --text-secondary: #2c4e3f; --text-muted: #4f6e5e; --btn-bg: #f6fffa; --btn-border: #a8c3b7; --form-bg: #def0e5; --record-bg: #ffffff; --tag-bg: #c3dfd1; --tag-text: #1b4b3b; --toast-bg: #1e3a2fe6; }
-        body { background: var(--bg-body); min-height: 100vh; padding: 24px 20px; display: flex; justify-content: center; transition: background 0.2s; position: relative; }
-        .app { max-width: 1400px; width: 100%; background: var(--bg-app); border-radius: 32px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-light); }
-        .app-header { padding: 20px 28px; border-bottom: 1px solid var(--border-light); background: var(--header-bg); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-        h1 { font-weight: 500; font-size: 1.9rem; color: var(--text-primary); display: flex; align-items: center; gap: 12px; }
-        h1 small { font-size: 0.9rem; background: var(--tag-bg); color: var(--tag-text); padding: 4px 12px; border-radius: 40px; margin-left: 8px; }
-        .header-actions { display: flex; align-items: center; gap: 16px; }
-        .theme-switcher { display: flex; gap: 8px; }
-        .theme-btn { width: 40px; height: 36px; border-radius: 30px; border: 2px solid transparent; background: var(--btn-bg); color: var(--text-primary); font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border: 1px solid var(--btn-border); }
-        .theme-btn.active { border: 2px solid var(--accent-border); transform: scale(1.05); }
-        .storage-badge { background: var(--sidebar-bg); padding: 6px 16px; border-radius: 60px; font-size: 0.9rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-light); }
-        .storage-badge button { background: none; border: 1px solid var(--btn-border); padding: 4px 12px; border-radius: 30px; font-size: 0.8rem; cursor: pointer; color: var(--text-primary); }
-        .main-layout { display: flex; flex: 1; min-height: 600px; }
-        .script-sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border); padding: 22px 16px; display: flex; flex-direction: column; }
-        .sidebar-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; color: var(--text-secondary); }
-        .btn-icon { background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 30px; width: 38px; height: 38px; font-size: 22px; cursor: pointer; color: var(--text-primary); display: inline-flex; align-items: center; justify-content: center; }
-        .manage-tags-btn { margin-top: 8px; width: 100%; padding: 12px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 40px; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 450; }
-        .auto-backup-toggle { margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary); }
-        .script-list { list-style: none; margin-top: 6px; flex: 1; overflow-y: auto; }
-        .script-item { padding: 14px 16px; margin-bottom: 8px; background: var(--card-bg); border-radius: 18px; border: 1px solid var(--card-border); cursor: pointer; transition: 0.15s; box-shadow: var(--shadow); }
-        .script-item.active { border: 2px solid var(--accent-border); background: var(--record-bg); }
-        .script-name { font-weight: 550; color: var(--text-primary); }
-        .script-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
-        .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 2px; }
-        .tag { background: var(--tag-bg); color: var(--tag-text); padding: 2px 10px; border-radius: 30px; font-size: 0.7rem; }
-        .script-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
-        .content-panel { flex: 1; padding: 24px 28px; background: var(--bg-app); overflow-y: auto; }
-        .current-script-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; }
-        .current-script-title { font-size: 1.8rem; font-weight: 450; color: var(--text-primary); }
-        .edit-name-btn { background: none; border: 1px dashed var(--accent-border); padding: 6px 16px; border-radius: 30px; cursor: pointer; color: var(--text-secondary); }
-        .record-form-card { background: var(--form-bg); border-radius: 24px; padding: 22px 24px; margin-bottom: 32px; border: 1px solid var(--card-border); }
-        .form-title { font-weight: 500; margin-bottom: 16px; color: var(--text-secondary); display: flex; align-items: center; }
-        .form-grid { display: flex; flex-direction: column; gap: 16px; }
-        .form-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-        .form-row label { width: 100px; font-weight: 450; color: var(--text-secondary); }
-        .form-control { flex: 1; padding: 10px 14px; border: 1px solid var(--btn-border); border-radius: 20px; background: var(--record-bg); color: var(--text-primary); font-size: 0.95rem; }
-        .btn { background: var(--btn-bg); border: 1px solid var(--btn-border); padding: 10px 22px; border-radius: 40px; cursor: pointer; color: var(--text-primary); transition: 0.15s; font-size: 0.95rem; }
-        .btn-primary { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg-app); }
-        .btn-sm { padding: 4px 12px; font-size: 0.8rem; background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 30px; cursor: pointer; }
-        .btn-link { background: none; border: none; color: var(--accent-border); text-decoration: underline; cursor: pointer; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--modal-overlay); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 1000; visibility: hidden; }
-        .modal-card { background: var(--bg-app); border-radius: 32px; padding: 28px 30px; width: 500px; max-width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid var(--border-light); position: relative; }
-        .modal-card h3 { color: var(--text-primary); margin-bottom: 20px; }
-        .close-modal-icon { position: absolute; top: 20px; right: 24px; font-size: 24px; cursor: pointer; color: var(--text-muted); background: none; border: none; padding: 0; line-height: 1; }
-        .close-modal-icon:hover { color: var(--text-primary); }
-        .tag-selector { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0 10px; max-height: 180px; overflow-y: auto; padding: 4px; }
-        .tag-chip { background: var(--tag-bg); color: var(--tag-text); padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; cursor: pointer; border: 1.5px solid transparent; transition: 0.1s; }
-        .tag-chip.selected { background: var(--accent-border); color: white; border-color: var(--text-primary); }
-        .add-tag-section { display: flex; gap: 8px; margin: 12px 0; }
-        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; }
-        .tag-manager-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: var(--form-bg); border-radius: 30px; margin-bottom: 8px; }
-        .delete-tag-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px; }
-        .file-info-tip { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
-        .preview-content { margin-top: 12px; background: var(--form-bg); border: 1px dashed var(--btn-border); border-radius: 18px; padding: 14px; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; max-height: 200px; overflow: auto; color: var(--text-primary); }
-        .record-file-actions { display: flex; gap: 12px; align-items: center; margin: 8px 0; flex-wrap: wrap; }
-        .file-link { cursor: pointer; color: var(--accent-border); text-decoration: underline; text-underline-offset: 2px; }
-        .record-card { background: var(--record-bg); border-radius: 24px; padding: 18px; margin-bottom: 16px; border: 1px solid var(--card-border); }
-        .empty-message { text-align: center; color: var(--text-muted); padding: 40px 20px; font-style: italic; }
-        .month-selector { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; }
-        #tagStatsContainer span { background: var(--tag-bg); padding: 4px 12px; border-radius: 30px; font-size: 0.85rem; }
-        .reflection-box { background: var(--form-bg); padding: 10px; border-radius: 16px; margin-top: 8px; }
+        :root {
+            --bg-body: #f5f3f0;
+            --bg-app: #fefcf8;
+            --border-light: #ede6dc;
+            --header-bg: #fffbf7;
+            --sidebar-bg: #f8f3ed;
+            --sidebar-border: #e2d6cb;
+            --card-bg: #fffcf9;
+            --card-border: #e1d4c8;
+            --accent-border: #b7a089;
+            --text-primary: #2e241e;
+            --text-secondary: #4a3f36;
+            --text-muted: #7f6e5e;
+            --btn-bg: #ffffffd0;
+            --btn-border: #cfc1b4;
+            --form-bg: #f6efe8;
+            --record-bg: white;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            --tag-bg: #e8ddd2;
+            --tag-text: #3f3228;
+            --modal-overlay: rgba(0, 0, 0, 0.2);
+            --toast-bg: #2e241ee6;
+            --toast-text: #fefcf8;
+            --filter-active-bg: #b7a089;
+            --filter-active-text: #fff;
+        }
+        body.theme-lightgray {
+            --bg-body: #e9e7e4;
+            --bg-app: #f5f4f2;
+            --border-light: #d6d2cc;
+            --header-bg: #f0ede8;
+            --sidebar-bg: #ece9e4;
+            --sidebar-border: #d4cec6;
+            --card-bg: #faf9f7;
+            --card-border: #d1cbc4;
+            --accent-border: #9b9085;
+            --text-primary: #2b2a27;
+            --text-secondary: #4d4944;
+            --text-muted: #6e6861;
+            --btn-bg: #fefefe;
+            --btn-border: #c2bab2;
+            --form-bg: #eae5df;
+            --record-bg: #ffffff;
+            --tag-bg: #dbd4cc;
+            --tag-text: #3a3530;
+            --toast-bg: #2b2a27e6;
+            --toast-text: #f5f4f2;
+            --filter-active-bg: #9b9085;
+            --filter-active-text: #fff;
+        }
+        body.theme-dark {
+            --bg-body: #1a1a1c;
+            --bg-app: #262629;
+            --border-light: #3a3a40;
+            --header-bg: #2e2e32;
+            --sidebar-bg: #242427;
+            --sidebar-border: #3e3e44;
+            --card-bg: #2f2f33;
+            --card-border: #44444a;
+            --accent-border: #7a8b9e;
+            --text-primary: #ececec;
+            --text-secondary: #cdcdd2;
+            --text-muted: #a0a0a8;
+            --btn-bg: #3a3a40;
+            --btn-border: #5a5a62;
+            --form-bg: #313136;
+            --record-bg: #2b2b2f;
+            --tag-bg: #4a4d55;
+            --tag-text: #e0e0e0;
+            --toast-bg: #3a3a40e6;
+            --toast-text: #ececec;
+            --filter-active-bg: #7a8b9e;
+            --filter-active-text: #1a1a1c;
+        }
+        body.theme-mint {
+            --bg-body: #e3f0ea;
+            --bg-app: #f0f9f4;
+            --border-light: #cde0d6;
+            --header-bg: #eaf5ee;
+            --sidebar-bg: #e3efe8;
+            --sidebar-border: #c5dbd0;
+            --card-bg: #ffffffdb;
+            --card-border: #bcd0c4;
+            --accent-border: #6e9b89;
+            --text-primary: #1e3a2f;
+            --text-secondary: #2c4e3f;
+            --text-muted: #4f6e5e;
+            --btn-bg: #f6fffa;
+            --btn-border: #a8c3b7;
+            --form-bg: #def0e5;
+            --record-bg: #ffffff;
+            --tag-bg: #c3dfd1;
+            --tag-text: #1b4b3b;
+            --toast-bg: #1e3a2fe6;
+            --toast-text: #f0f9f4;
+            --filter-active-bg: #6e9b89;
+            --filter-active-text: #fff;
+        }
+        body {
+            background: var(--bg-body);
+            min-height: 100vh;
+            padding: 24px 20px;
+            display: flex;
+            justify-content: center;
+            transition: background 0.2s;
+            position: relative;
+        }
+        .app {
+            max-width: 1400px;
+            width: 100%;
+            background: var(--bg-app);
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-light);
+        }
+        .app-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--header-bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        h1 {
+            font-weight: 500;
+            font-size: 1.9rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        h1 small {
+            font-size: 0.9rem;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 4px 12px;
+            border-radius: 40px;
+            margin-left: 8px;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .theme-switcher {
+            display: flex;
+            gap: 8px;
+        }
+        .theme-btn {
+            width: 40px;
+            height: 36px;
+            border-radius: 30px;
+            border: 2px solid transparent;
+            background: var(--btn-bg);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.15s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--btn-border);
+        }
+        .theme-btn.active {
+            border: 2px solid var(--accent-border);
+            transform: scale(1.05);
+        }
+        .storage-badge {
+            background: var(--sidebar-bg);
+            padding: 6px 14px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            white-space: nowrap;
+        }
+        .storage-badge button {
+            background: none;
+            border: 1px solid var(--btn-border);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+        .main-layout {
+            display: flex;
+            flex: 1;
+            min-height: 600px;
+        }
+        .script-sidebar {
+            width: 300px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            padding: 22px 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+        .btn-icon {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            border-radius: 30px;
+            width: 38px;
+            height: 38px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-primary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .manage-tags-btn {
+            margin-top: 8px;
+            width: 100%;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 40px;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-weight: 450;
+        }
+        .auto-backup-toggle {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .script-list {
+            list-style: none;
+            margin-top: 6px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .script-item {
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            background: var(--card-bg);
+            border-radius: 18px;
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: var(--shadow);
+        }
+        .script-item.active {
+            border: 2px solid var(--accent-border);
+            background: var(--record-bg);
+        }
+        .script-name {
+            font-weight: 550;
+            color: var(--text-primary);
+        }
+        .script-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 6px 0 2px;
+        }
+        .tag {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+        }
+        .script-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 6px;
+        }
+        .content-panel {
+            flex: 1;
+            padding: 24px 28px;
+            background: var(--bg-app);
+            overflow-y: auto;
+        }
+        .current-script-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .current-script-title {
+            font-size: 1.8rem;
+            font-weight: 450;
+            color: var(--text-primary);
+        }
+        .edit-name-btn {
+            background: none;
+            border: 1px dashed var(--accent-border);
+            padding: 6px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .record-form-card {
+            background: var(--form-bg);
+            border-radius: 24px;
+            padding: 22px 24px;
+            margin-bottom: 32px;
+            border: 1px solid var(--card-border);
+        }
+        .form-title {
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+        .form-row label {
+            width: 100px;
+            font-weight: 450;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+        .form-control {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--btn-border);
+            border-radius: 20px;
+            background: var(--record-bg);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            min-width: 180px;
+        }
+        .btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            padding: 10px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: 0.15s;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+            color: var(--bg-app);
+        }
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            border-radius: 30px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .btn-link {
+            background: none;
+            border: none;
+            color: var(--accent-border);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .btn-xs {
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid var(--btn-border);
+            background: var(--btn-bg);
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-overlay);
+            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+        }
+        .modal-card {
+            background: var(--bg-app);
+            border-radius: 32px;
+            padding: 28px 30px;
+            width: 500px;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+        .modal-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        .close-modal-icon {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+        }
+        .close-modal-icon:hover {
+            color: var(--text-primary);
+        }
+        .tag-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0 10px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+        .tag-chip {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            transition: 0.1s;
+            user-select: none;
+        }
+        .tag-chip.selected {
+            background: var(--accent-border);
+            color: white;
+            border-color: var(--text-primary);
+        }
+        .tag-chip.small {
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            border-radius: 30px;
+        }
+        .add-tag-section {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .tag-manager-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: var(--form-bg);
+            border-radius: 30px;
+            margin-bottom: 8px;
+        }
+        .delete-tag-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .file-info-tip {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .preview-content {
+            margin-top: 12px;
+            background: var(--form-bg);
+            border: 1px dashed var(--btn-border);
+            border-radius: 18px;
+            padding: 14px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow: auto;
+            color: var(--text-primary);
+        }
+        .record-file-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+        .file-link {
+            cursor: pointer;
+            color: var(--accent-border);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .record-card {
+            background: var(--record-bg);
+            border-radius: 24px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid var(--card-border);
+            transition: 0.15s;
+        }
+        .record-card.filtered-out {
+            display: none;
+        }
+        .empty-message {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 40px 20px;
+            font-style: italic;
+        }
+        .month-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        #tagStatsContainer span {
+            background: var(--tag-bg);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+        }
+        .reflection-box {
+            background: var(--form-bg);
+            padding: 10px;
+            border-radius: 16px;
+            margin-top: 8px;
+        }
+        .record-tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+        .record-tag-row .tag-chip {
+            padding: 3px 10px;
+            font-size: 0.73rem;
+            border-radius: 30px;
+            cursor: pointer;
+            user-select: none;
+            border: 1.5px solid transparent;
+            transition: 0.1s;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+        }
+        .record-tag-row .tag-chip.selected {
+            background: var(--accent-border);
+            color: white;
+            border-color: var(--text-primary);
+        }
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            background: var(--form-bg);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+        }
+        .filter-bar .filter-chip {
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+            border: 1.5px solid transparent;
+            transition: 0.1s;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            white-space: nowrap;
+        }
+        .filter-bar .filter-chip.active {
+            background: var(--filter-active-bg);
+            color: var(--filter-active-text);
+            border-color: var(--text-primary);
+            font-weight: 600;
+        }
+        .filter-bar .filter-clear {
+            font-size: 0.7rem;
+            cursor: pointer;
+            color: var(--accent-border);
+            text-decoration: underline;
+            margin-left: 4px;
+            white-space: nowrap;
+        }
+        .filter-bar-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-right: 4px;
+            white-space: nowrap;
+            font-weight: 500;
+        }
         .toast-message {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--toast-bg);
-            color: var(--bg-app);
+            color: var(--toast-text);
             padding: 10px 24px;
             border-radius: 60px;
             font-size: 0.95rem;
             z-index: 2000;
             backdrop-filter: blur(8px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             pointer-events: none;
             transition: opacity 0.2s;
             font-weight: 500;
             white-space: nowrap;
         }
-        body.theme-dark .toast-message { color: #ececec; background: #3a3a40e6; }
-        /* 角落标识：极简，不影响使用 */
         .dev-credit {
             position: fixed;
             bottom: 12px;
@@ -115,636 +695,1021 @@
             text-align: right;
             line-height: 1.3;
         }
-        .dev-credit:hover { opacity: 0.9; pointer-events: auto; cursor: default; }
+        .dev-credit:hover {
+            opacity: 0.9;
+            pointer-events: auto;
+            cursor: default;
+        }
         .dev-credit .demo-note {
             font-size: 0.55rem;
             opacity: 0.7;
             margin-top: 2px;
         }
-        @media (max-width: 640px) { .dev-credit { font-size: 0.6rem; bottom: 8px; right: 8px; } }
+        @media (max-width: 900px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            .script-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--sidebar-border);
+                max-height: 280px;
+            }
+            .content-panel {
+                padding: 16px;
+            }
+            .app-header {
+                padding: 14px 16px;
+            }
+            h1 {
+                font-size: 1.4rem;
+            }
+            .form-row label {
+                width: 70px;
+                font-size: 0.85rem;
+            }
+            .form-control {
+                min-width: 120px;
+                font-size: 0.85rem;
+            }
+        }
+        @media (max-width: 640px) {
+            .dev-credit {
+                font-size: 0.6rem;
+                bottom: 8px;
+                right: 8px;
+            }
+            .header-actions {
+                gap: 6px;
+            }
+            .header-actions .btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            .storage-badge {
+                padding: 4px 10px;
+                font-size: 0.75rem;
+                gap: 4px;
+            }
+            .storage-badge button {
+                padding: 3px 8px;
+                font-size: 0.7rem;
+            }
+            .current-script-title {
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 <body class="theme-default">
-<div class="app">
-    <header class="app-header">
-        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-            <h1>📋 剧本·复盘舱 <small>本地·标签</small></h1>
-            <div class="theme-switcher">
-                <button class="theme-btn" data-theme="default" title="暖白">暖</button>
-                <button class="theme-btn" data-theme="lightgray" title="浅灰">灰</button>
-                <button class="theme-btn" data-theme="mint" title="薄荷">清</button>
-                <button class="theme-btn" data-theme="dark" title="夜间">夜</button>
-            </div>
-        </div>
-        <div class="header-actions">
-            <button class="btn" id="monthlyReviewBtn">📊 月度回顾</button>
-            <div class="storage-badge">
-                <span>💾 本地</span>
-                <button id="exportDataBtn">⬇️ 导出</button>
-                <button id="importDataBtn">⬆️ 导入</button>
-                <input type="file" id="importFileInput" accept=".json,application/json" style="display:none">
-            </div>
-        </div>
-    </header>
-
-    <div class="main-layout">
-        <div class="script-sidebar">
-            <div class="sidebar-title">
-                <span>📚 我的剧本</span>
-                <button class="btn-icon" id="addScriptBtn" title="新建剧本">➕</button>
-            </div>
-            <ul class="script-list" id="scriptListContainer"></ul>
-            <button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button>
-            <div class="auto-backup-toggle">
-                <input type="checkbox" id="autoBackupCheckbox"> 
-                <label for="autoBackupCheckbox">退出/刷新时自动备份到下载</label>
-            </div>
-        </div>
-
-        <div class="content-panel">
-            <div class="current-script-header">
-                <div class="current-script-title" id="currentScriptNameDisplay">选择或创建剧本</div>
-                <button class="edit-name-btn" id="renameScriptBtn" style="display:none;">✏️ 编辑信息</button>
-            </div>
-
-            <div class="record-form-card">
-                <div class="form-title">
-                    <span id="formModeLabel">📝 添加新进度</span>
-                    <button class="btn-sm btn-link" id="cancelEditBtn" style="display:none; margin-left:12px;">取消</button>
-                    <span style="flex:1;"></span>
-                    <span id="autoSaveIndicator">⏺️ 已自动保存</span>
+    <div class="app">
+        <header class="app-header">
+            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <h1>📋 剧本·复盘舱 <small>本地·标签</small></h1>
+                <div class="theme-switcher">
+                    <button class="theme-btn" data-theme="default" title="暖白">暖</button>
+                    <button class="theme-btn" data-theme="lightgray" title="浅灰">灰</button>
+                    <button class="theme-btn" data-theme="mint" title="薄荷">清</button>
+                    <button class="theme-btn" data-theme="dark" title="夜间">夜</button>
                 </div>
-                <div class="form-grid">
-                    <div class="form-row"><label>📅 日期</label><input type="date" id="recordDate" class="form-control"></div>
-                    <div class="form-row"><label>📌 标题</label><input type="text" id="recordTitle" class="form-control" placeholder="例如：第三幕修改"></div>
-                    <div class="form-row">
-                        <label>📄 文档</label>
-                        <div style="flex:1;">
-                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                                <input type="file" id="docUpload" accept=".txt,.md,.fountain,.doc,.docx,.pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" style="display:none;">
-                                <button type="button" class="btn" id="uploadTriggerBtn">📎 选择文件</button>
-                                <span id="fileNameDisplay" style="cursor:pointer;" title="双击打开文件">未选择文件</span>
-                                <button type="button" class="btn-sm btn-link" id="clearFileBtn">清除</button>
-                            </div>
-                            <div class="file-info-tip">支持 txt, md, pdf (在线预览) — 双击文件名打开。单文件建议不超过15MB</div>
-                        </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn" id="monthlyReviewBtn">📊 月度回顾</button>
+                <button class="btn" id="exportCSVBtn" title="导出当前剧本记录为CSV">📊 CSV</button>
+                <button class="btn" id="exportWordBtn" title="导出当前剧本记录为Word">📝 Word</button>
+                <div class="storage-badge">
+                    <span>💾 本地</span>
+                    <button id="exportDataBtn" title="导出全部数据为JSON备份">⬇️ JSON</button>
+                    <button id="importDataBtn">⬆️ 导入</button>
+                    <input type="file" id="importFileInput" accept=".json,application/json" style="display:none">
+                </div>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <div class="script-sidebar">
+                <div class="sidebar-title">
+                    <span>📚 我的剧本</span>
+                    <button class="btn-icon" id="addScriptBtn" title="新建剧本">➕</button>
+                </div>
+                <ul class="script-list" id="scriptListContainer"></ul>
+                <button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button>
+                <div class="auto-backup-toggle">
+                    <input type="checkbox" id="autoBackupCheckbox">
+                    <label for="autoBackupCheckbox">退出/刷新时自动备份到下载</label>
+                </div>
+            </div>
+
+            <div class="content-panel">
+                <div class="current-script-header">
+                    <div class="current-script-title" id="currentScriptNameDisplay">选择或创建剧本</div>
+                    <button class="edit-name-btn" id="renameScriptBtn" style="display:none;">✏️ 编辑信息</button>
+                </div>
+
+                <div class="record-form-card">
+                    <div class="form-title">
+                        <span id="formModeLabel">📝 添加新进度</span>
+                        <button class="btn-sm btn-link" id="cancelEditBtn" style="display:none; margin-left:12px;">取消</button>
+                        <span style="flex:1;"></span>
+                        <span id="autoSaveIndicator">⏺️ 已自动保存</span>
                     </div>
-                    <div class="form-row"><label>💬 复盘</label><textarea id="recordReflection" class="form-control" placeholder="为什么这样修改？"></textarea></div>
-                    <div class="form-row" style="justify-content: flex-end;"><button class="btn btn-primary" id="saveRecordBtn">💾 保存记录</button></div>
+                    <div class="form-grid">
+                        <div class="form-row"><label>📅 日期</label><input type="date" id="recordDate" class="form-control"></div>
+                        <div class="form-row"><label>📌 标题</label><input type="text" id="recordTitle" class="form-control" placeholder="例如：第三幕修改"></div>
+                        <div class="form-row">
+                            <label>📄 文档</label>
+                            <div style="flex:1;">
+                                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                    <input type="file" id="docUpload" accept=".txt,.md,.fountain,.doc,.docx,.pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf" style="display:none;">
+                                    <button type="button" class="btn" id="uploadTriggerBtn">📎 选择文件</button>
+                                    <span id="fileNameDisplay" style="cursor:pointer;" title="双击打开文件">未选择文件</span>
+                                    <button type="button" class="btn-sm btn-link" id="clearFileBtn">清除</button>
+                                </div>
+                                <div class="file-info-tip">支持 txt, md, pdf (在线预览) — 双击文件名打开。单文件建议不超过15MB</div>
+                            </div>
+                        </div>
+                        <div class="form-row"><label>💬 复盘</label><textarea id="recordReflection" class="form-control" placeholder="为什么这样修改？" rows="3" style="resize:vertical;"></textarea></div>
+                        <div class="form-row">
+                            <label>🏷️ 记录标签</label>
+                            <div style="flex:1;">
+                                <div class="record-tag-row" id="recordTagSelectorContainer"></div>
+                                <div class="file-info-tip">点击标签为当前记录分类（如"第一幕""高潮""待讨论"），可在列表上方过滤</div>
+                            </div>
+                        </div>
+                        <div class="form-row" style="justify-content: flex-end;"><button class="btn btn-primary" id="saveRecordBtn">💾 保存记录</button></div>
+                    </div>
+                    <input type="hidden" id="editingRecordId">
+                    <input type="hidden" id="currentFileContent">
+                    <input type="hidden" id="currentFileName">
+                    <input type="hidden" id="currentFileType">
                 </div>
-                <input type="hidden" id="editingRecordId">
-                <input type="hidden" id="currentFileContent">
-                <input type="hidden" id="currentFileName">
-                <input type="hidden" id="currentFileType">
-            </div>
 
-            <div class="records-feed">
-                <div style="display:flex; justify-content:space-between;"><h3 style="color:var(--text-secondary);">📋 修改历程</h3><span id="recordCount">0 条记录</span></div>
-                <div id="recordsContainer"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="dev-credit">
-    <div>✍️ 编剧小助手 · 反馈 📧 ilikeitnow@qq.com</div>
-    <div class="demo-note">⚠️ 当前为测试预览版，功能仍在完善中</div>
-</div>
-
-<!-- 剧本编辑模态框 -->
-<div class="modal-overlay" id="scriptModal">
-    <div class="modal-card">
-        <h3 id="modalTitle">新建剧本</h3>
-        <label>剧本名称</label>
-        <input type="text" id="modalScriptName" class="form-control" placeholder="输入名称" style="margin:8px 0 16px;">
-        <label>标签 (可多选)</label>
-        <div class="tag-selector" id="tagSelectorContainer"></div>
-        <div class="add-tag-section">
-            <input type="text" id="newTagInput" class="form-control" placeholder="输入新标签" maxlength="15">
-            <button class="btn" id="addNewTagBtn">➕ 添加</button>
-        </div>
-        <div class="modal-actions">
-            <button class="btn" id="modalCancelBtn">取消</button>
-            <button class="btn btn-primary" id="modalSaveBtn">保存</button>
-        </div>
-    </div>
-</div>
-
-<!-- 月度回顾模态框 -->
-<div class="modal-overlay" id="reviewModal">
-    <div class="modal-card" style="width:600px;">
-        <h3>📆 月度总结回顾</h3>
-        <div class="month-selector">
-            <select id="monthSelect" class="form-control"></select>
-            <button class="btn btn-primary" id="refreshReviewBtn">查看</button>
-        </div>
-        <div id="reviewStatsContainer">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0;">
-                <div style="background:var(--form-bg); border-radius:20px; padding:16px; text-align:center;">
-                    <div style="font-size:2rem; color:var(--accent-border);" id="totalRecordsStat">0</div><div>总记录数</div>
-                </div>
-                <div style="background:var(--form-bg); border-radius:20px; padding:16px; text-align:center;">
-                    <div style="font-size:2rem; color:var(--accent-border);" id="activeScriptsStat">0</div><div>活跃剧本</div>
+                <div class="records-feed">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <h3 style="color:var(--text-secondary);">📋 修改历程</h3>
+                        <span id="recordCount">0 条记录</span>
+                    </div>
+                    <div class="filter-bar" id="recordFilterBar" style="display:none;">
+                        <span class="filter-bar-label">🔍 过滤：</span>
+                        <span id="filterChipsContainer"></span>
+                        <span class="filter-clear" id="clearFilterBtn" style="display:none;">✖ 清除过滤</span>
+                    </div>
+                    <div id="recordsContainer"></div>
                 </div>
             </div>
-            <div><strong>🏷️ 标签分布</strong></div>
-            <div id="tagStatsContainer" style="display:flex; flex-wrap:wrap; gap:6px; margin:10px 0;"></div>
-            <div><strong>💡 高频复盘词</strong></div>
-            <div id="keywordStatsContainer" style="background:var(--form-bg); padding:14px; border-radius:20px;"></div>
-        </div>
-        <div class="modal-actions"><button class="btn" id="closeReviewBtn">关闭</button></div>
-    </div>
-</div>
-
-<!-- 标签管理模态框（已优化：增加关闭图标、移除预设标注） -->
-<div class="modal-overlay" id="tagManagerModal">
-    <div class="modal-card">
-        <button class="close-modal-icon" id="closeTagManagerIcon" aria-label="关闭">✖</button>
-        <h3>🏷️ 管理标签库</h3>
-        <div id="tagManagerList" style="max-height: 300px; overflow-y:auto;"></div>
-        <div class="add-tag-section" style="margin-top:16px;">
-            <input type="text" id="managerNewTagInput" class="form-control" placeholder="新标签名称" maxlength="15">
-            <button class="btn btn-primary" id="managerAddTagBtn">添加</button>
-        </div>
-        <div class="modal-actions">
-            <button class="btn" id="closeTagManagerBtn">关闭</button>
         </div>
     </div>
-</div>
 
-<script>
-    (function(){
-        "use strict";
-        const DEFAULT_TAGS = ['女频','男频','复仇','赘婿','神医','穿越重生','打脸虐渣','都市情感','女性成长'];
-        let globalTags = [];
-        let appData = { scripts: [], activeScriptId: null, customTags: [] };
-        const STORAGE_KEY = 'script_progress_v8_final';
-        const AUTO_BACKUP_KEY = 'autoBackupEnabled';
-        const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+    <div class="dev-credit">
+        <div>✍️ 编剧小助手 · 反馈 📧 ilikeitnow@qq.com</div>
+        <div class="demo-note">⚠️ 当前为测试预览版，功能仍在完善中</div>
+    </div>
 
-        function showToast(message, duration = 2000) {
-            let toast = document.querySelector('.toast-message');
-            if(toast) toast.remove();
-            toast = document.createElement('div');
-            toast.className = 'toast-message';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => { if(toast) toast.style.opacity = '0'; setTimeout(() => toast?.remove(), 300); }, duration);
-        }
+    <!-- 剧本编辑模态框 -->
+    <div class="modal-overlay" id="scriptModal">
+        <div class="modal-card">
+            <h3 id="modalTitle">新建剧本</h3>
+            <label>剧本名称</label>
+            <input type="text" id="modalScriptName" class="form-control" placeholder="输入名称" style="margin:8px 0 16px;">
+            <label>标签 (可多选)</label>
+            <div class="tag-selector" id="tagSelectorContainer"></div>
+            <div class="add-tag-section">
+                <input type="text" id="newTagInput" class="form-control" placeholder="输入新标签" maxlength="15">
+                <button class="btn" id="addNewTagBtn">➕ 添加</button>
+            </div>
+            <div class="modal-actions">
+                <button class="btn" id="modalCancelBtn">取消</button>
+                <button class="btn btn-primary" id="modalSaveBtn">保存</button>
+            </div>
+        </div>
+    </div>
 
-        function generateId() { return 'id_'+Date.now()+'_'+Math.random().toString(36).substr(2,9); }
-        function base64DecodeUnicode(str) {
-            try { return decodeURIComponent(escape(atob(str))); } catch(e) { return str; }
-        }
+    <!-- 月度回顾模态框 -->
+    <div class="modal-overlay" id="reviewModal">
+        <div class="modal-card" style="width:600px;">
+            <h3>📆 月度总结回顾</h3>
+            <div class="month-selector">
+                <select id="monthSelect" class="form-control"></select>
+                <button class="btn btn-primary" id="refreshReviewBtn">查看</button>
+            </div>
+            <div id="reviewStatsContainer">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0;">
+                    <div style="background:var(--form-bg); border-radius:20px; padding:16px; text-align:center;">
+                        <div style="font-size:2rem; color:var(--accent-border);" id="totalRecordsStat">0</div><div>总记录数</div>
+                    </div>
+                    <div style="background:var(--form-bg); border-radius:20px; padding:16px; text-align:center;">
+                        <div style="font-size:2rem; color:var(--accent-border);" id="activeScriptsStat">0</div><div>活跃剧本</div>
+                    </div>
+                </div>
+                <div><strong>🏷️ 标签分布</strong></div>
+                <div id="tagStatsContainer" style="display:flex; flex-wrap:wrap; gap:6px; margin:10px 0;"></div>
+                <div><strong>💡 高频复盘词</strong></div>
+                <div id="keywordStatsContainer" style="background:var(--form-bg); padding:14px; border-radius:20px;"></div>
+            </div>
+            <div class="modal-actions"><button class="btn" id="closeReviewBtn">关闭</button></div>
+        </div>
+    </div>
 
-        function cleanTestDocuments() {
-            let cleaned = false;
-            appData.scripts.forEach(script => {
-                if (script.records) {
-                    script.records = script.records.filter(rec => {
-                        if (rec.fileName && (rec.fileName.toLowerCase().includes('test.doc') || rec.fileName === 'test.doc')) {
-                            cleaned = true;
-                            return false;
-                        }
-                        if (rec.fileName && !rec.fileContent) {
-                            rec.fileName = '';
-                            rec.fileContent = '';
-                            rec.fileType = '';
-                            cleaned = true;
-                        }
-                        return true;
-                    });
-                }
-            });
-            const firstScript = appData.scripts[0];
-            if (firstScript && (!firstScript.records || firstScript.records.length === 0)) {
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                const yyyymmdd = yesterday.toISOString().slice(0,10);
-                firstScript.records = [{
-                    id: generateId(),
-                    date: yyyymmdd,
-                    title: '✨ 第一幕大纲初稿',
-                    reflection: '确立了故事主线，人物关系清晰。后续需要细化冲突和高潮部分。\n可以尝试增加一场追逐戏来强化节奏。',
-                    fileName: '',
-                    fileContent: '',
-                    fileType: ''
-                }];
-                cleaned = true;
+    <!-- 标签管理模态框 -->
+    <div class="modal-overlay" id="tagManagerModal">
+        <div class="modal-card">
+            <button class="close-modal-icon" id="closeTagManagerIcon" aria-label="关闭">✖</button>
+            <h3>🏷️ 管理标签库</h3>
+            <div id="tagManagerList" style="max-height: 300px; overflow-y:auto;"></div>
+            <div class="add-tag-section" style="margin-top:16px;">
+                <input type="text" id="managerNewTagInput" class="form-control" placeholder="新标签名称" maxlength="15">
+                <button class="btn btn-primary" id="managerAddTagBtn">添加</button>
+            </div>
+            <div class="modal-actions">
+                <button class="btn" id="closeTagManagerBtn">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+            const DEFAULT_TAGS = ['女频', '男频', '复仇', '赘婿', '神医', '穿越重生', '打脸虐渣', '都市情感', '女性成长'];
+            const SCENE_TAGS = ['第一幕', '第二幕', '第三幕', '第四幕', '开场', '高潮', '结尾', '转折', '删改争议', '待讨论', '定稿', '文戏', '武戏',
+                '情感戏', '冲突戏'
+            ];
+            let globalTags = [];
+            let appData = { scripts: [], activeScriptId: null, customTags: [] };
+            let recordTagFilter = null;
+            const STORAGE_KEY = 'script_progress_v9_full';
+            const AUTO_BACKUP_KEY = 'autoBackupEnabled';
+            const MAX_FILE_SIZE = 15 * 1024 * 1024;
+            const AUTO_SAVE_INTERVAL = 120000;
+            const DEBOUNCE_SAVE_MS = 3000;
+
+            function showToast(message, duration = 2000) {
+                let toast = document.querySelector('.toast-message');
+                if (toast) toast.remove();
+                toast = document.createElement('div');
+                toast.className = 'toast-message';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => { if (toast) toast.style.opacity = '0';
+                    setTimeout(() => toast?.remove(), 300); }, duration);
             }
-            if (cleaned) saveData(false);
-        }
 
-        function loadData() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            const isNewUser = !stored;
-            if(stored) { 
-                try { 
-                    appData = JSON.parse(stored);
-                } catch(e){} 
-            }
-            if(!appData.scripts || appData.scripts.length===0) {
-                const id = generateId();
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                const yyyymmdd = yesterday.toISOString().slice(0,10);
-                appData.scripts = [{ 
-                    id, 
-                    name:'我的第一个剧本', 
-                    createdAt: new Date().toISOString(), 
-                    records: [{
+            function generateId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9); }
+
+            function base64DecodeUnicode(str) { try { return decodeURIComponent(escape(atob(str))); } catch (
+                e) { return str; } }
+
+            function debounce(fn, delay) { let timer; return function(...args) { clearTimeout(timer);
+                    timer = setTimeout(() => fn.apply(this, args), delay); }; }
+
+            function cleanTestDocuments() {
+                let cleaned = false;
+                appData.scripts.forEach(script => {
+                    if (script.records) {
+                        script.records = script.records.filter(rec => {
+                            if (rec.fileName && (rec.fileName.toLowerCase().includes(
+                                    'test.doc') || rec.fileName === 'test.doc')) { cleaned = true; return false; }
+                            if (rec.fileName && !rec.fileContent) { rec.fileName = '';
+                                rec.fileContent = '';
+                                rec.fileType = '';
+                                cleaned = true; }
+                            if (!rec.tags) rec.tags = [];
+                            return true;
+                        });
+                    }
+                });
+                const firstScript = appData.scripts[0];
+                if (firstScript && (!firstScript.records || firstScript.records.length === 0)) {
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const yyyymmdd = yesterday.toISOString().slice(0, 10);
+                    firstScript.records = [{
                         id: generateId(),
                         date: yyyymmdd,
                         title: '✨ 第一幕大纲初稿',
                         reflection: '确立了故事主线，人物关系清晰。后续需要细化冲突和高潮部分。\n可以尝试增加一场追逐戏来强化节奏。',
                         fileName: '',
                         fileContent: '',
-                        fileType: ''
-                    }], 
-                    tags: ['都市情感', '女性成长']
-                }];
-                appData.activeScriptId = id;
+                        fileType: '',
+                        tags: ['第一幕', '待讨论']
+                    }];
+                    cleaned = true;
+                }
+                if (cleaned) saveData(false);
             }
-            if(!appData.customTags) appData.customTags = [...DEFAULT_TAGS];
-            globalTags = [...new Set([...DEFAULT_TAGS, ...appData.customTags])];
-            if(!appData.activeScriptId || !appData.scripts.find(s=>s.id===appData.activeScriptId))
-                appData.activeScriptId = appData.scripts[0]?.id;
-            cleanTestDocuments();
 
-            const totalRecords = appData.scripts.reduce((sum, s) => sum + (s.records?.length || 0), 0);
-            if (!isNewUser && totalRecords > 1) {
-                showToast(`欢迎回来！📚 当前共 ${totalRecords} 条进度`, 2500);
-            } else {
-                showToast(`✨ 欢迎使用剧本复盘舱，可点击「导入」恢复备份`, 2500);
+            function loadData() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                const isNewUser = !stored;
+                if (stored) { try { appData = JSON.parse(stored); } catch (e) {} }
+                if (!appData.scripts || appData.scripts.length === 0) {
+                    const id = generateId();
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const yyyymmdd = yesterday.toISOString().slice(0, 10);
+                    appData.scripts = [{
+                        id,
+                        name: '我的第一个剧本',
+                        createdAt: new Date().toISOString(),
+                        records: [{
+                            id: generateId(),
+                            date: yyyymmdd,
+                            title: '✨ 第一幕大纲初稿',
+                            reflection: '确立了故事主线，人物关系清晰。后续需要细化冲突和高潮部分。\n可以尝试增加一场追逐戏来强化节奏。',
+                            fileName: '',
+                            fileContent: '',
+                            fileType: '',
+                            tags: ['第一幕', '待讨论']
+                        }],
+                        tags: ['都市情感', '女性成长']
+                    }];
+                    appData.activeScriptId = id;
+                }
+                if (!appData.customTags) appData.customTags = [...DEFAULT_TAGS];
+                globalTags = [...new Set([...DEFAULT_TAGS, ...SCENE_TAGS, ...appData.customTags])];
+                if (!appData.activeScriptId || !appData.scripts.find(s => s.id === appData.activeScriptId))
+                    appData.activeScriptId = appData.scripts[0]?.id;
+                appData.scripts.forEach(script => {
+                    if (script.records) {
+                        script.records.forEach(rec => { if (!rec.tags) rec.tags = []; });
+                    }
+                });
+                cleanTestDocuments();
+                const totalRecords = appData.scripts.reduce((sum, s) => sum + (s.records?.length || 0), 0);
+                if (!isNewUser && totalRecords > 1) { showToast(
+                    `欢迎回来！📚 当前共 ${totalRecords} 条进度`, 2500); } else { showToast(
+                    `✨ 欢迎使用剧本复盘舱，可点击「导入」恢复备份`, 2500); }
             }
-        }
-        
-        function saveData(quiet = true) {
-            appData.customTags = globalTags.filter(t => !DEFAULT_TAGS.includes(t));
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-            if(!quiet) {
-                document.getElementById('autoSaveIndicator').textContent = '💾 已保存';
-                setTimeout(() => document.getElementById('autoSaveIndicator').textContent = '⏺️ 已自动保存', 1500);
+
+            function saveData(quiet = true) {
+                appData.customTags = globalTags.filter(t => !DEFAULT_TAGS.includes(t) && !SCENE_TAGS.includes(t));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+                if (!quiet) { document.getElementById('autoSaveIndicator').textContent = '💾 已保存';
+                    setTimeout(() => document.getElementById('autoSaveIndicator').textContent =
+                        '⏺️ 已自动保存', 1500); }
+                isFormDirty = false;
             }
-            isFormDirty = false;
-        }
-        
-        function downloadBackup(showMsg = true) {
-            const dataStr = JSON.stringify(appData, null, 2);
-            const blob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `script_backup_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            if (showMsg) showToast('📦 备份已保存到下载文件夹', 2000);
-        }
-        
-        function removeTagFromAllScripts(tag) {
-            appData.scripts.forEach(script => {
-                if(script.tags && script.tags.includes(tag)) script.tags = script.tags.filter(t => t !== tag);
+
+            function downloadBlob(blob, filename) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast(`📥 已导出：${filename}`);
+            }
+
+            function downloadBackup(showMsg = true) {
+                const dataStr = JSON.stringify(appData, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const filename =
+                    `script_backup_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`;
+                downloadBlob(blob, filename);
+                if (!showMsg) { showToast('📦 备份已保存到下载文件夹', 2000); }
+            }
+
+            function exportCSV() {
+                const script = getActiveScript();
+                if (!script || !script.records?.length) { showToast('⚠️ 当前剧本暂无记录可导出', 1500); return; }
+                const headers = ['日期', '标题', '复盘', '附件文件名', '记录标签'];
+                const rows = script.records.map(r => [
+                    r.date || '',
+                    '"' + (r.title || '').replace(/"/g, '""') + '"',
+                    '"' + (r.reflection || '').replace(/"/g, '""').replace(/\n/g, ' ') + '"',
+                    '"' + (r.fileName || '').replace(/"/g, '""') + '"',
+                    '"' + ((r.tags || []).join('、')) + '"'
+                ]);
+                const csvContent = '\uFEFF' + headers.join(',') + '\n' + rows.map(r => r.join(',')).join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                downloadBlob(blob, `${script.name}_记录_${new Date().toISOString().slice(0,10)}.csv`);
+            }
+
+            function exportWord() {
+                const script = getActiveScript();
+                if (!script || !script.records?.length) { showToast('⚠️ 当前剧本暂无记录可导出', 1500); return; }
+                let html =
+                    `<html><head><meta charset="utf-8"><style>body{font-family:'微软雅黑',sans-serif;padding:20px;line-height:1.6;} h1{font-size:18px;border-bottom:2px solid #333;padding-bottom:8px;} .record{margin-bottom:18px;border-bottom:1px solid #ccc;padding-bottom:10px;} .date{color:#666;font-size:12px;} .title{font-size:15px;font-weight:bold;} .reflection{color:#333;margin-top:4px;white-space:pre-wrap;} .tags{color:#888;font-size:11px;margin-top:2px;} .file{color:#555;font-size:12px;}</style></head><body><h1>${escapeHtml(script.name)} · 复盘记录</h1><p>导出时间：${new Date().toLocaleString()}</p>`;
+                const sorted = [...script.records].sort((a, b) => (b.date > a.date) ? 1 : -1);
+                sorted.forEach(r => {
+                    html +=
+                        `<div class="record"><div class="date">📅 ${escapeHtml(r.date)}</div><div class="title">${escapeHtml(r.title||'无标题')}</div>`;
+                    if (r.fileName) html +=
+                        `<div class="file">📎 ${escapeHtml(r.fileName)}</div>`;
+                    if (r.tags && r.tags.length) html +=
+                        `<div class="tags">🏷️ ${escapeHtml(r.tags.join('、'))}</div>`;
+                    if (r.reflection) html +=
+                        `<div class="reflection">💭 ${escapeHtml(r.reflection).replace(/\n/g,'<br>')}</div>`;
+                    html += `</div>`;
+                });
+                html += `</body></html>`;
+                const blob = new Blob([html], { type: 'application/msword;charset=utf-8;' });
+                downloadBlob(blob, `${script.name}_复盘_${new Date().toISOString().slice(0,10)}.doc`);
+            }
+
+            function removeTagFromAllScripts(tag) {
+                appData.scripts.forEach(script => {
+                    if (script.tags && script.tags.includes(tag)) script.tags = script.tags.filter(t => t !==
+                        tag);
+                });
+            }
+
+            function syncTagSelectorIfNeeded() {
+                const modal = document.getElementById('scriptModal');
+                if (modal.style.visibility === 'visible') {
+                    const currentSelected = Array.from(document.querySelectorAll(
+                        '#tagSelectorContainer .tag-chip.selected')).map(c => c.dataset.tag);
+                    renderTagSelector(currentSelected);
+                }
+                renderRecordTagSelector(getSelectedRecordTags());
+            }
+
+            function getSelectedRecordTags() {
+                return Array.from(document.querySelectorAll('#recordTagSelectorContainer .tag-chip.selected'))
+                    .map(c => c.dataset.tag);
+            }
+
+            function setSelectedRecordTags(tags) {
+                const chips = document.querySelectorAll('#recordTagSelectorContainer .tag-chip');
+                chips.forEach(chip => {
+                    if (tags.includes(chip.dataset.tag)) { chip.classList.add('selected'); } else { chip
+                            .classList.remove('selected'); }
+                });
+            }
+
+            function clearRecordTagSelection() {
+                const chips = document.querySelectorAll('#recordTagSelectorContainer .tag-chip.selected');
+                chips.forEach(chip => chip.classList.remove('selected'));
+            }
+
+            function renderRecordTagSelector(selectedTags = []) {
+                const container = document.getElementById('recordTagSelectorContainer');
+                let html = '';
+                globalTags.forEach(tag => {
+                    const selected = selectedTags.includes(tag) ? 'selected' : '';
+                    html +=
+                        `<span class="tag-chip small ${selected}" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</span>`;
+                });
+                container.innerHTML = html || '<span style="color:var(--text-muted);font-size:0.8rem;">暂无标签，请先在标签库中添加</span>';
+            }
+
+            let autoSaveTimer;
+
+            function startAutoSave() {
+                if (autoSaveTimer) clearInterval(autoSaveTimer);
+                autoSaveTimer = setInterval(() => { if (isFormDirty) saveData(true); }, AUTO_SAVE_INTERVAL);
+            }
+
+            function handleBeforeUnload() {
+                saveData(true);
+                if (localStorage.getItem(AUTO_BACKUP_KEY) === 'true') { downloadBackup(false); }
+            }
+
+            let isFormDirty = false;
+
+            function markDirty() { isFormDirty = true; }
+            window.addEventListener('beforeunload', (e) => {
+                if (isFormDirty) { e.preventDefault();
+                    e.returnValue = '有未保存的更改'; }
+                handleBeforeUnload();
             });
-        }
-        function syncTagSelectorIfNeeded() {
-            const modal = document.getElementById('scriptModal');
-            if(modal.style.visibility === 'visible') {
-                const currentSelected = Array.from(document.querySelectorAll('#tagSelectorContainer .tag-chip.selected')).map(c=>c.dataset.tag);
-                renderTagSelector(currentSelected);
+
+            function getActiveScript() { return appData.scripts.find(s => s.id === appData.activeScriptId); }
+
+            function escapeHtml(t) { return String(t).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;',
+                    '>': '&gt;' })[c]); }
+
+            function setDefaultDate() { const d = new Date();
+                document.getElementById('recordDate').value = d.toISOString().slice(0, 10); }
+
+            function resetForm() {
+                setDefaultDate();
+                document.getElementById('recordTitle').value = '';
+                document.getElementById('recordReflection').value = '';
+                resetFileDisplay();
+                clearRecordTagSelection();
+                document.getElementById('editingRecordId').value = '';
+                document.getElementById('formModeLabel').textContent = '📝 添加新进度';
+                document.getElementById('cancelEditBtn').style.display = 'none';
+                recordTagFilter = null;
+                isFormDirty = false;
+                renderRecords();
             }
-        }
-        let autoSaveTimer;
-        function startAutoSave() {
-            if(autoSaveTimer) clearInterval(autoSaveTimer);
-            autoSaveTimer = setInterval(() => { saveData(true); }, 1800000);
-        }
-        
-        function handleBeforeUnload() {
-            saveData(true);
-            if (localStorage.getItem(AUTO_BACKUP_KEY) === 'true') {
-                downloadBackup(false);
+
+            function renderTagSelector(selectedTags = []) {
+                const container = document.getElementById('tagSelectorContainer');
+                let html = '';
+                globalTags.forEach(tag => {
+                    const selected = selectedTags.includes(tag) ? 'selected' : '';
+                    html +=
+                        `<span class="tag-chip ${selected}" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</span>`;
+                });
+                container.innerHTML = html;
             }
-        }
-        
-        let isFormDirty = false;
-        function markDirty() { isFormDirty = true; }
-        window.addEventListener('beforeunload', (e) => { 
-            if(isFormDirty) { 
-                e.preventDefault(); 
-                e.returnValue = '有未保存的更改'; 
-            }
-            handleBeforeUnload(); 
-        });
-        
-        function getActiveScript() { return appData.scripts.find(s=>s.id===appData.activeScriptId); }
-        function escapeHtml(t){ return String(t).replace(/[&<>]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]); }
-        function setDefaultDate() { const d=new Date(); document.getElementById('recordDate').value = d.toISOString().slice(0,10); }
-        function resetForm() { 
-            setDefaultDate(); document.getElementById('recordTitle').value=''; document.getElementById('recordReflection').value=''; 
-            resetFileDisplay();
-            document.getElementById('editingRecordId').value=''; document.getElementById('formModeLabel').textContent='📝 添加新进度'; 
-            document.getElementById('cancelEditBtn').style.display='none';
-            isFormDirty = false;
-        }
-        function renderTagSelector(selectedTags = []) {
-            const container = document.getElementById('tagSelectorContainer');
-            let html = '';
-            globalTags.forEach(tag => {
-                const selected = selectedTags.includes(tag) ? 'selected' : '';
-                html += `<span class="tag-chip ${selected}" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</span>`;
-            });
-            container.innerHTML = html;
-        }
-        function refreshUI() { renderSidebar(); renderRecords(); }
-        function renderSidebar() {
-            let html = '';
-            appData.scripts.forEach(s => {
-                const recordCount = s.records ? s.records.length : 0;
-                const activeClass = s.id === appData.activeScriptId ? 'active' : '';
-                const tagsHtml = (s.tags && s.tags.length) ? `<div class="tag-list">${s.tags.slice(0,3).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}${s.tags.length>3?`<span class="tag">+${s.tags.length-3}</span>`:''}</div>` : '';
-                html += `<li class="script-item ${activeClass}" data-script-id="${s.id}">
+
+            function refreshUI() { renderSidebar();
+                renderRecords(); }
+
+            function renderSidebar() {
+                let html = '';
+                appData.scripts.forEach(s => {
+                    const recordCount = s.records ? s.records.length : 0;
+                    const activeClass = s.id === appData.activeScriptId ? 'active' : '';
+                    const tagsHtml = (s.tags && s.tags.length) ?
+                        `<div class="tag-list">${s.tags.slice(0,3).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}${s.tags.length>3?`<span class="tag">+${s.tags.length-3}</span>`:''}</div>` :
+                        '';
+                    html += `<li class="script-item ${activeClass}" data-script-id="${s.id}">
                     <div><div class="script-name">${escapeHtml(s.name)}</div><div class="script-meta">📄 ${recordCount} 条</div>${tagsHtml}</div>
                     <div class="script-actions"><button class="edit-script-btn btn-sm">✏️</button><button class="delete-script-btn btn-sm">🗑️</button></div>
                 </li>`;
-            });
-            document.getElementById('scriptListContainer').innerHTML = html || '<li class="empty-message">暂无剧本</li>';
-        }
-        
-        function openFileSmart(dataUrl, fileName, fileType) {
-            if (!dataUrl || dataUrl === '') { showToast('⚠️ 无文件内容', 1000); return; }
-            const lowerName = fileName.toLowerCase();
-            if (fileType === 'application/pdf' || lowerName.endsWith('.pdf')) {
-                const win = window.open();
-                if(win) win.document.write(`<iframe src="${dataUrl}" width="100%" height="100%" style="border:none;"></iframe>`);
-                else { const a=document.createElement('a'); a.href=dataUrl; a.download=fileName; a.click(); }
-            } 
-            else if (fileType.startsWith('text/') || lowerName.endsWith('.txt') || lowerName.endsWith('.md')) {
-                const win = window.open();
-                if(win) win.document.write(`<pre style="padding:20px;font-family:monospace;">${escapeHtml(base64DecodeUnicode(dataUrl.split(',')[1] || ''))}</pre>`);
-                else { const a=document.createElement('a'); a.href=dataUrl; a.download=fileName; a.click(); }
+                });
+                document.getElementById('scriptListContainer').innerHTML = html ||
+                    '<li class="empty-message">暂无剧本</li>';
             }
-            else {
-                const a=document.createElement('a'); a.href=dataUrl; a.download=fileName; a.click();
-                showToast(`📄 文件已开始下载，请用 WPS/Office 打开`, 2500);
+
+            function openFileSmart(dataUrl, fileName, fileType) {
+                if (!dataUrl || dataUrl === '') { showToast('⚠️ 无文件内容', 1000); return; }
+                const lowerName = fileName.toLowerCase();
+                if (fileType === 'application/pdf' || lowerName.endsWith('.pdf')) { const win = window.open(); if (
+                        win) win.document.write(
+                        `<iframe src="${dataUrl}" width="100%" height="100%" style="border:none;"></iframe>`); else { const a =
+                            document.createElement('a');
+                        a.href = dataUrl;
+                        a.download = fileName;
+                        a.click(); } } else if (fileType.startsWith('text/') || lowerName.endsWith('.txt') ||
+                    lowerName.endsWith('.md')) { const win = window.open(); if (win) win.document.write(
+                        `<pre style="padding:20px;font-family:monospace;">${escapeHtml(base64DecodeUnicode(dataUrl.split(',')[1] || ''))}</pre>`
+                        ); else { const a = document.createElement('a');
+                    a.href = dataUrl;
+                    a.download = fileName;
+                    a.click(); } } else { const a = document.createElement('a');
+                    a.href = dataUrl;
+                    a.download = fileName;
+                    a.click();
+                    showToast(`📄 文件已开始下载，请用 WPS/Office 打开`, 2500); }
             }
-        }
-        
-        function renderRecords() {
-            const script = getActiveScript();
-            if(!script) { document.getElementById('recordsContainer').innerHTML = '<div class="empty-message">请选择剧本</div>'; document.getElementById('recordCount').textContent='0条'; document.getElementById('currentScriptNameDisplay').textContent='无'; document.getElementById('renameScriptBtn').style.display='none'; return; }
-            document.getElementById('currentScriptNameDisplay').textContent = script.name;
-            document.getElementById('renameScriptBtn').style.display = 'inline-block';
-            const records = script.records || [];
-            document.getElementById('recordCount').textContent = `${records.length} 条记录`;
-            if(records.length===0) { document.getElementById('recordsContainer').innerHTML = '<div class="empty-message">✨ 还没有进度记录</div>'; return; }
-            const sorted = [...records].sort((a,b)=> (b.date>a.date)?1:-1);
-            let cards = '';
-            sorted.forEach(rec => {
-                let fileSection = '';
-                if(rec.fileName && rec.fileContent) {
-                    const fileDataUrl = rec.fileContent;
-                    const fileName = rec.fileName;
-                    const fileType = rec.fileType || '';
-                    fileSection = `<div class="record-file-actions">
+
+            function getFilterTagsFromCurrentScript() {
+                const script = getActiveScript();
+                if (!script || !script.records) return [];
+                const tagSet = new Set();
+                script.records.forEach(rec => { if (rec.tags) rec.tags.forEach(t => tagSet.add(t)); });
+                return Array.from(tagSet).sort();
+            }
+
+            function renderFilterBar() {
+                const filterBar = document.getElementById('recordFilterBar');
+                const chipsContainer = document.getElementById('filterChipsContainer');
+                const clearBtn = document.getElementById('clearFilterBtn');
+                const filterTags = getFilterTagsFromCurrentScript();
+                if (filterTags.length === 0) { filterBar.style.display = 'none';
+                    recordTagFilter = null;
+                    clearBtn.style.display = 'none'; return; }
+                filterBar.style.display = 'flex';
+                let html = '';
+                filterTags.forEach(tag => {
+                    const activeClass = recordTagFilter === tag ? 'active' : '';
+                    html +=
+                        `<span class="filter-chip ${activeClass}" data-filter-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</span>`;
+                });
+                chipsContainer.innerHTML = html;
+                clearBtn.style.display = recordTagFilter ? 'inline' : 'none';
+            }
+
+            function renderRecords() {
+                const script = getActiveScript();
+                if (!script) {
+                    document.getElementById('recordsContainer').innerHTML =
+                        '<div class="empty-message">请选择剧本</div>';
+                    document.getElementById('recordCount').textContent = '0条';
+                    document.getElementById('currentScriptNameDisplay').textContent = '无';
+                    document.getElementById('renameScriptBtn').style.display = 'none';
+                    document.getElementById('recordFilterBar').style.display = 'none';
+                    return;
+                }
+                document.getElementById('currentScriptNameDisplay').textContent = script.name;
+                document.getElementById('renameScriptBtn').style.display = 'inline-block';
+                const records = script.records || [];
+                document.getElementById('recordCount').textContent = `${records.length} 条记录`;
+                renderFilterBar();
+                if (records.length === 0) {
+                    document.getElementById('recordsContainer').innerHTML =
+                        '<div class="empty-message">✨ 还没有进度记录</div>';
+                    document.getElementById('recordFilterBar').style.display = 'none';
+                    return;
+                }
+                const sorted = [...records].sort((a, b) => (b.date > a.date) ? 1 : -1);
+                let cards = '';
+                sorted.forEach(rec => {
+                    const recTags = rec.tags || [];
+                    const matchesFilter = !recordTagFilter || recTags.includes(recordTagFilter);
+                    const filteredClass = matchesFilter ? '' : 'filtered-out';
+                    let fileSection = '';
+                    if (rec.fileName && rec.fileContent) {
+                        const fileDataUrl = rec.fileContent;
+                        const fileName = rec.fileName;
+                        const fileType = rec.fileType || '';
+                        fileSection = `<div class="record-file-actions">
                         <span>📎 <span class="file-link" data-url="${encodeURIComponent(fileDataUrl)}" data-name="${escapeHtml(fileName)}" data-type="${fileType}" style="cursor:pointer;">${escapeHtml(fileName)}</span></span>
                         <button class="open-file-btn btn-sm btn-link" data-url="${encodeURIComponent(fileDataUrl)}" data-name="${escapeHtml(fileName)}" data-type="${fileType}">📂 打开文件</button>`;
-                    if (fileType.startsWith('text/') || fileName.endsWith('.txt')||fileName.endsWith('.md')) {
-                        fileSection += `<button class="toggle-preview-btn btn-sm btn-link" data-id="${rec.id}">👁️ 预览内容</button>`;
-                    }
-                    fileSection += `</div>`;
-                    if (fileType.startsWith('text/') || fileName.endsWith('.txt')||fileName.endsWith('.md')) {
-                        let textContent = '';
-                        if (fileDataUrl && fileDataUrl.startsWith('data:')) {
-                            try { 
-                                const base64 = fileDataUrl.split(',')[1];
-                                textContent = base64DecodeUnicode(base64);
-                            } catch(e) { textContent = '[无法解码]'; }
+                        if (fileType.startsWith('text/') || fileName.endsWith('.txt') || fileName.endsWith(
+                                '.md')) {
+                            fileSection +=
+                                `<button class="toggle-preview-btn btn-sm btn-link" data-id="${rec.id}">👁️ 预览内容</button>`;
                         }
-                        fileSection += `<div id="preview-${rec.id}" class="preview-content" style="display:none;">${escapeHtml(textContent)}</div>`;
+                        fileSection += `</div>`;
+                        if (fileType.startsWith('text/') || fileName.endsWith('.txt') || fileName.endsWith(
+                                '.md')) {
+                            let textContent = '';
+                            if (fileDataUrl && fileDataUrl.startsWith('data:')) { try { const base64 =
+                                        fileDataUrl.split(',')[1];
+                                    textContent = base64DecodeUnicode(base64); } catch (e) { textContent =
+                                        '[无法解码]'; } }
+                            fileSection +=
+                                `<div id="preview-${rec.id}" class="preview-content" style="display:none;">${escapeHtml(textContent)}</div>`;
+                        }
                     }
-                }
-                const reflection = rec.reflection ? `<div class="reflection-box"><div>💭 复盘</div><div>${escapeHtml(rec.reflection).replace(/\n/g,'<br>')}</div></div>` : '';
-                cards += `<div class="record-card" data-record-id="${rec.id}"><div>📅 ${rec.date}</div><div style="font-size:1.2rem;">${escapeHtml(rec.title||'无标题')}</div>${fileSection}${reflection}<div style="margin-top:12px;"><button class="edit-record-btn btn-sm">✏️</button><button class="delete-record-btn btn-sm">🗑️</button></div></div>`;
-            });
-            document.getElementById('recordsContainer').innerHTML = cards;
-            document.querySelectorAll('.open-file-btn, .file-link').forEach(el => {
-                const openHandler = (e) => {
-                    e.stopPropagation();
-                    const url = decodeURIComponent(el.dataset.url);
-                    const name = el.dataset.name;
-                    const type = el.dataset.type;
-                    if (url && url !== 'undefined') openFileSmart(url, name, type);
-                };
-                el.addEventListener('click', openHandler);
-                el.addEventListener('dblclick', openHandler);
-            });
-            document.querySelectorAll('.toggle-preview-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const preview = document.getElementById(`preview-${btn.dataset.id}`);
-                    if(preview) preview.style.display = preview.style.display === 'none' ? 'block' : 'none';
+                    const reflection = rec.reflection ?
+                        `<div class="reflection-box"><div>💭 复盘</div><div>${escapeHtml(rec.reflection).replace(/\n/g,'<br>')}</div></div>` :
+                        '';
+                    const tagsHtml = recTags.length ?
+                        `<div class="tag-list" style="margin-top:4px;">${recTags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>` :
+                        '';
+                    cards +=
+                        `<div class="record-card ${filteredClass}" data-record-id="${rec.id}"><div>📅 ${escapeHtml(rec.date)}</div><div style="font-size:1.2rem;">${escapeHtml(rec.title||'无标题')}</div>${tagsHtml}${fileSection}${reflection}<div style="margin-top:12px;"><button class="edit-record-btn btn-sm">✏️</button><button class="delete-record-btn btn-sm">🗑️</button></div></div>`;
                 });
-            });
-        }
-
-        function populateMonthSelect() {
-            const select = document.getElementById('monthSelect');
-            const now = new Date();
-            let html = '';
-            for(let i=0;i<12;i++) {
-                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-                const val = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-                const label = `${d.getFullYear()}年${d.getMonth()+1}月`;
-                html += `<option value="${val}">${label}</option>`;
+                document.getElementById('recordsContainer').innerHTML = cards;
+                document.querySelectorAll('.open-file-btn, .file-link').forEach(el => {
+                    const openHandler = (e) => {
+                        e.stopPropagation();
+                        const url = decodeURIComponent(el.dataset.url);
+                        const name = el.dataset.name;
+                        const type = el.dataset.type;
+                        if (url && url !== 'undefined') openFileSmart(url, name, type);
+                    };
+                    el.addEventListener('click', openHandler);
+                    el.addEventListener('dblclick', openHandler);
+                });
+                document.querySelectorAll('.toggle-preview-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const preview = document.getElementById(`preview-${btn.dataset.id}`);
+                        if (preview) preview.style.display = preview.style.display === 'none' ?
+                            'block' : 'none';
+                    });
+                });
             }
-            select.innerHTML = html;
-        }
-        function refreshMonthlyStats() {
-            const monthVal = document.getElementById('monthSelect').value;
-            const [year, month] = monthVal.split('-').map(Number);
-            let totalRecords = 0;
-            const tagCount = new Map();
-            const wordFreq = new Map();
-            appData.scripts.forEach(script => {
-                (script.records || []).forEach(rec => {
-                    const recDate = new Date(rec.date);
-                    if(recDate.getFullYear() === year && recDate.getMonth()+1 === month) {
-                        totalRecords++;
-                        (script.tags || []).forEach(t => tagCount.set(t, (tagCount.get(t)||0)+1));
-                        if(rec.reflection) {
-                            const words = rec.reflection.toLowerCase().match(/[\u4e00-\u9fa5a-z]+/g) || [];
-                            words.forEach(w => { if(w.length>=2) wordFreq.set(w, (wordFreq.get(w)||0)+1); });
-                        }
-                    }
-                });
-            });
-            document.getElementById('totalRecordsStat').innerText = totalRecords;
-            document.getElementById('activeScriptsStat').innerText = appData.scripts.filter(s => (s.records||[]).some(r => {
-                const d = new Date(r.date); return d.getFullYear()===year && d.getMonth()+1===month;
-            })).length;
-            const tagDiv = document.getElementById('tagStatsContainer');
-            tagDiv.innerHTML = tagCount.size ? Array.from(tagCount.entries()).map(([t,c]) => `<span>${escapeHtml(t)} (${c})</span>`).join('') : '<span>无标签数据</span>';
-            const sortedWords = Array.from(wordFreq.entries()).sort((a,b)=>b[1]-a[1]).slice(0,12);
-            document.getElementById('keywordStatsContainer').innerHTML = sortedWords.length ? sortedWords.map(([w,c])=>`<span style="display:inline-block; margin:4px 8px;">${escapeHtml(w)} (${c})</span>`).join('') : '暂无高频词';
-        }
 
-        function bindEvents() {
-            document.getElementById('tagSelectorContainer').addEventListener('click', (e) => {
-                const chip = e.target.closest('.tag-chip');
-                if(chip) chip.classList.toggle('selected');
-            });
-            document.getElementById('addScriptBtn').addEventListener('click', () => openScriptModal(null));
-            document.getElementById('renameScriptBtn').addEventListener('click', () => { const active = getActiveScript(); if(active) openScriptModal(active); });
-            document.getElementById('modalCancelBtn').addEventListener('click', () => document.getElementById('scriptModal').style.visibility='hidden');
-            document.getElementById('modalSaveBtn').addEventListener('click', () => {
-                const name = document.getElementById('modalScriptName').value.trim();
-                if(!name) { alert('名称不能为空'); return; }
-                const selectedTags = Array.from(document.querySelectorAll('#tagSelectorContainer .tag-chip.selected')).map(c=>c.dataset.tag);
-                if(editingScriptId) {
-                    const script = appData.scripts.find(s=>s.id===editingScriptId);
-                    if(script) { script.name = name; script.tags = selectedTags; }
-                } else {
-                    const newScript = { id: generateId(), name, createdAt: new Date().toISOString(), records: [], tags: selectedTags };
-                    appData.scripts.push(newScript);
-                    appData.activeScriptId = newScript.id;
-                }
-                saveData(false); document.getElementById('scriptModal').style.visibility='hidden'; refreshUI(); resetForm();
-                showToast('✅ 剧本已保存');
-            });
-            document.getElementById('addNewTagBtn').addEventListener('click', () => {
-                const newTag = document.getElementById('newTagInput').value.trim();
-                if(!newTag) return;
-                if(globalTags.includes(newTag)) { alert('标签已存在'); return; }
-                globalTags.push(newTag);
-                saveData(false);
-                const currentSelected = Array.from(document.querySelectorAll('#tagSelectorContainer .tag-chip.selected')).map(c=>c.dataset.tag);
-                renderTagSelector(currentSelected);
-                document.getElementById('newTagInput').value = '';
-                showToast(`🏷️ 标签“${newTag}”已添加`);
-            });
-            document.getElementById('scriptListContainer').addEventListener('click', (e) => {
-                const item = e.target.closest('.script-item'); if(!item) return;
-                const sid = item.dataset.scriptId;
-                if(e.target.classList.contains('edit-script-btn')) { e.stopPropagation(); const s=appData.scripts.find(x=>x.id===sid); if(s) openScriptModal(s); }
-                else if(e.target.classList.contains('delete-script-btn')) { e.stopPropagation(); if(appData.scripts.length<=1) { alert('至少保留一个'); return; } if(confirm('删除剧本？')) { appData.scripts = appData.scripts.filter(s=>s.id!==sid); if(appData.activeScriptId===sid) appData.activeScriptId=appData.scripts[0]?.id; saveData(false); resetForm(); refreshUI(); showToast('🗑️ 剧本已删除'); } }
-                else { if(sid!==appData.activeScriptId) { if(isFormDirty && !confirm('表单未保存，切换？')) return; appData.activeScriptId = sid; saveData(false); resetForm(); refreshUI(); } }
-            });
-            document.getElementById('uploadTriggerBtn').addEventListener('click', ()=>document.getElementById('docUpload').click());
-            document.getElementById('docUpload').addEventListener('change', (e) => { 
-                const file = e.target.files[0]; 
-                if(file) handleFileUpload(file); 
-                else resetFileDisplay();
-                e.target.value = '';
-            });
-            document.getElementById('clearFileBtn').addEventListener('click', ()=>{ document.getElementById('docUpload').value=''; resetFileDisplay(); markDirty(); });
-            document.getElementById('saveRecordBtn').addEventListener('click', ()=>{
-                const script = getActiveScript(); if(!script) return;
-                const date = document.getElementById('recordDate').value; if(!date) { alert('请填写日期'); return; }
-                const title = document.getElementById('recordTitle').value.trim(); const reflection = document.getElementById('recordReflection').value.trim();
-                const recId = document.getElementById('editingRecordId').value;
-                const fileRecord = { fileName: document.getElementById('currentFileName').value, fileContent: document.getElementById('currentFileContent').value, fileType: document.getElementById('currentFileType').value };
-                if(recId) {
-                    const idx = script.records.findIndex(r=>r.id===recId);
-                    if(idx!==-1) script.records[idx] = { ...script.records[idx], date, title, ...fileRecord, reflection };
-                    saveData(false); resetForm(); refreshUI();
-                    showToast('✏️ 记录已更新');
-                } else {
-                    script.records.push({ id: generateId(), date, title, ...fileRecord, reflection });
-                    saveData(false); resetForm(); refreshUI();
-                    showToast('💾 进度已保存');
-                }
-            });
-            document.getElementById('recordsContainer').addEventListener('click', (e)=>{
-                const card = e.target.closest('.record-card'); if(!card) return;
-                const rid = card.dataset.recordId; const script = getActiveScript(); if(!script) return;
-                const rec = script.records.find(r=>r.id===rid);
-                if(e.target.classList.contains('edit-record-btn')) {
-                    if(isFormDirty && !confirm('未保存，确定编辑？')) return;
-                    document.getElementById('recordDate').value = rec.date; document.getElementById('recordTitle').value = rec.title; document.getElementById('recordReflection').value = rec.reflection||'';
-                    document.getElementById('fileNameDisplay').textContent = rec.fileName||'未选择文件'; document.getElementById('currentFileName').value=rec.fileName||''; document.getElementById('currentFileContent').value=rec.fileContent||''; document.getElementById('currentFileType').value=rec.fileType||'';
-                    document.getElementById('editingRecordId').value = rec.id; document.getElementById('formModeLabel').textContent='✏️ 编辑记录'; document.getElementById('cancelEditBtn').style.display='inline-block';
-                    isFormDirty = false;
-                } else if(e.target.classList.contains('delete-record-btn')) {
-                    if(confirm('删除记录？')) { script.records = script.records.filter(r=>r.id!==rid); saveData(false); resetForm(); refreshUI(); showToast('🗑️ 记录已删除'); }
-                }
-            });
-            document.getElementById('cancelEditBtn').addEventListener('click', ()=> { if(isFormDirty && !confirm('放弃更改？')) return; resetForm(); });
-            document.getElementById('exportDataBtn').addEventListener('click', ()=>{ downloadBackup(true); });
-            document.getElementById('importDataBtn').addEventListener('click', ()=>document.getElementById('importFileInput').click());
-            document.getElementById('importFileInput').addEventListener('change', (e)=>{ const f=e.target.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=ev=>{ try{ const d=JSON.parse(ev.target.result); if(d.scripts){ appData=d; globalTags = [...new Set([...DEFAULT_TAGS, ...(appData.customTags||[])])]; if(!appData.activeScriptId) appData.activeScriptId=appData.scripts[0]?.id; saveData(false); resetForm(); refreshUI(); showToast('✅ 导入成功，数据已恢复'); cleanTestDocuments(); } else throw new Error(); }catch{ alert('无效的备份文件'); } e.target.value=''; }; reader.readAsText(f); });
-            document.getElementById('openTagManagerBtn').addEventListener('click', () => {
+            function populateMonthSelect() {
+                const select = document.getElementById('monthSelect');
+                const now = new Date();
                 let html = '';
-                globalTags.forEach(tag => {
-                    html += `<div class="tag-manager-item"><span>${escapeHtml(tag)}</span>
-                        <button class="delete-tag-btn" data-tag="${tag}" ${DEFAULT_TAGS.includes(tag) ? 'disabled style="opacity:0.4;"' : ''}>🗑️</button></div>`;
-                });
-                document.getElementById('tagManagerList').innerHTML = html;
-                document.getElementById('tagManagerModal').style.visibility = 'visible';
-            });
-            const closeTagManager = () => document.getElementById('tagManagerModal').style.visibility='hidden';
-            document.getElementById('closeTagManagerBtn').addEventListener('click', closeTagManager);
-            document.getElementById('closeTagManagerIcon').addEventListener('click', closeTagManager);
-            document.getElementById('tagManagerList').addEventListener('click', (e) => { const btn = e.target.closest('.delete-tag-btn'); if(!btn || btn.disabled) return; const tag = btn.dataset.tag; if(confirm(`删除标签 "${tag}"？`)) { globalTags = globalTags.filter(t => t !== tag); removeTagFromAllScripts(tag); saveData(false); syncTagSelectorIfNeeded(); closeTagManager(); setTimeout(() => document.getElementById('openTagManagerBtn').click(), 100); showToast(`🏷️ 标签“${tag}”已删除`); } });
-            document.getElementById('managerAddTagBtn').addEventListener('click', () => { const newTag = document.getElementById('managerNewTagInput').value.trim(); if(!newTag) return; if(globalTags.includes(newTag)) { alert('已存在'); return; } globalTags.push(newTag); saveData(false); syncTagSelectorIfNeeded(); document.getElementById('managerNewTagInput').value=''; closeTagManager(); setTimeout(() => document.getElementById('openTagManagerBtn').click(), 100); showToast(`🏷️ 标签“${newTag}”已添加`); });
-            document.getElementById('monthlyReviewBtn').addEventListener('click', () => { populateMonthSelect(); refreshMonthlyStats(); document.getElementById('reviewModal').style.visibility='visible'; });
-            document.getElementById('closeReviewBtn').addEventListener('click', () => document.getElementById('reviewModal').style.visibility='hidden');
-            document.getElementById('refreshReviewBtn').addEventListener('click', () => refreshMonthlyStats());
-            const fileNameSpan = document.getElementById('fileNameDisplay');
-            fileNameSpan.addEventListener('dblclick', () => {
-                const fileContent = document.getElementById('currentFileContent').value;
-                const fileName = document.getElementById('currentFileName').value;
-                const fileType = document.getElementById('currentFileType').value;
-                if(fileContent && fileName) openFileSmart(fileContent, fileName, fileType);
-                else showToast('📂 请先选择文件', 1000);
-            });
-        }
-        function resetFileDisplay() {
-            document.getElementById('fileNameDisplay').textContent='未选择文件';
-            document.getElementById('currentFileContent').value='';
-            document.getElementById('currentFileName').value='';
-            document.getElementById('currentFileType').value='';
-        }
-        function handleFileUpload(file) {
-            if(!file) return;
-            if (file.size > MAX_FILE_SIZE) {
-                alert(`文件过大 (${(file.size/1024/1024).toFixed(2)}MB)，请选择小于15MB的文件。\n较大的文件会占用较多本地存储，建议压缩后上传。`);
-                return;
+                for (let i = 0; i < 12; i++) {
+                    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                    const val = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+                    const label = `${d.getFullYear()}年${d.getMonth()+1}月`;
+                    html += `<option value="${val}">${label}</option>`;
+                }
+                select.innerHTML = html;
             }
-            document.getElementById('currentFileName').value = file.name;
-            document.getElementById('fileNameDisplay').textContent = file.name;
-            document.getElementById('currentFileType').value = file.type || 'application/octet-stream';
-            const reader = new FileReader();
-            reader.onload = (e) => { document.getElementById('currentFileContent').value = e.target.result; markDirty(); };
-            reader.readAsDataURL(file);
-        }
-        let editingScriptId = null;
-        function openScriptModal(script) {
-            editingScriptId = script ? script.id : null;
-            document.getElementById('modalTitle').textContent = script ? '编辑剧本' : '新建剧本';
-            document.getElementById('modalScriptName').value = script ? script.name : '';
-            renderTagSelector(script ? (script.tags || []) : []);
-            document.getElementById('scriptModal').style.visibility = 'visible';
-            document.getElementById('newTagInput').value = '';
-        }
-        function initTheme() {
-            const btns = document.querySelectorAll('.theme-btn');
-            btns.forEach(b=> b.addEventListener('click', ()=>{
-                const theme = b.dataset.theme;
-                document.body.className = ''; if(theme!=='default') document.body.classList.add(`theme-${theme}`);
-                btns.forEach(btn=>btn.classList.remove('active')); b.classList.add('active');
-                localStorage.setItem('script_theme', theme);
-            }));
-            const saved = localStorage.getItem('script_theme') || 'default';
-            if(saved!=='default') document.body.classList.add(`theme-${saved}`);
-            document.querySelector(`.theme-btn[data-theme="${saved}"]`)?.classList.add('active');
-        }
-        document.getElementById('autoBackupCheckbox').checked = localStorage.getItem(AUTO_BACKUP_KEY) === 'true';
-        document.getElementById('autoBackupCheckbox').addEventListener('change', (e) => localStorage.setItem(AUTO_BACKUP_KEY, e.target.checked));
-        function init() { loadData(); setDefaultDate(); renderSidebar(); renderRecords(); bindEvents(); initTheme(); startAutoSave(); }
-        init();
-    })();
-</script>
+
+            function refreshMonthlyStats() {
+                const monthVal = document.getElementById('monthSelect').value;
+                const [year, month] = monthVal.split('-').map(Number);
+                let totalRecords = 0;
+                const tagCount = new Map();
+                const wordFreq = new Map();
+                const stopWords = new Set(['的', '了', '在', '是', '我', '有', '和', '就', '不', '人', '都', '一', '一个',
+                    '因为', '所以', '但是', '可以', '这个', '那个', '他们', '我们', '没有', '还是', '应该', '需要', '也',
+                    '很', '要', '会', '去', '能', '说', '看', '把', '被', '让', '从', '到', '与', '或', '而', '且',
+                    '虽然', '如果', '然后', '接着', '之后', '之前', '已经', '正在', '将', '着', '过', '得', '地', '这',
+                    '那', '什么', '怎么', '哪', '谁', '它', '他', '她', '你', '吗', '呢', '吧', '啊', '哦', '嗯'
+                ]);
+                appData.scripts.forEach(script => {
+                    (script.records || []).forEach(rec => {
+                        const recDate = new Date(rec.date);
+                        if (recDate.getFullYear() === year && recDate.getMonth() + 1 === month) {
+                            totalRecords++;
+                            (script.tags || []).forEach(t => tagCount.set(t, (tagCount.get(t) || 0) +
+                                1));
+                            if (rec.reflection) {
+                                const words = rec.reflection.match(
+                                    /[\u4e00-\u9fa5]{2,}|[a-zA-Z]{2,}/g) || [];
+                                words.forEach(w => {
+                                    const lower = w.toLowerCase();
+                                    if (!stopWords.has(lower) && lower.length >= 2) {
+                                        wordFreq.set(lower, (wordFreq.get(lower) || 0) + 1);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+                document.getElementById('totalRecordsStat').innerText = totalRecords;
+                document.getElementById('activeScriptsStat').innerText = appData.scripts.filter(s => (s.records ||
+                    []).some(r => { const d = new Date(r.date); return d.getFullYear() === year && d.getMonth() +
+                        1 === month; })).length;
+                const tagDiv = document.getElementById('tagStatsContainer');
+                tagDiv.innerHTML = tagCount.size ? Array.from(tagCount.entries()).map(([t, c]) =>
+                    `<span>${escapeHtml(t)} (${c})</span>`).join('') : '<span>无标签数据</span>';
+                const sortedWords = Array.from(wordFreq.entries()).sort((a, b) => b[1] - a[1]).slice(0, 12);
+                document.getElementById('keywordStatsContainer').innerHTML = sortedWords.length ? sortedWords.map((
+                    [w, c]) =>
+                    `<span style="display:inline-block; margin:4px 8px;">${escapeHtml(w)} (${c})</span>`).join(
+                    '') : '暂无高频词';
+            }
+
+            function bindEvents() {
+                document.getElementById('tagSelectorContainer').addEventListener('click', (e) => {
+                    const chip = e.target.closest('.tag-chip');
+                    if (chip) chip.classList.toggle('selected');
+                });
+                document.getElementById('recordTagSelectorContainer').addEventListener('click', (e) => {
+                    const chip = e.target.closest('.tag-chip');
+                    if (chip) { chip.classList.toggle('selected');
+                        markDirty(); }
+                });
+                document.getElementById('addScriptBtn').addEventListener('click', () => openScriptModal(
+                null));
+                document.getElementById('renameScriptBtn').addEventListener('click', () => { const active =
+                        getActiveScript(); if (active) openScriptModal(active); });
+                document.getElementById('modalCancelBtn').addEventListener('click', () => document.getElementById(
+                    'scriptModal').style.visibility = 'hidden');
+                document.getElementById('modalSaveBtn').addEventListener('click', () => {
+                    const name = document.getElementById('modalScriptName').value.trim();
+                    if (!name) { alert('名称不能为空'); return; }
+                    const selectedTags = Array.from(document.querySelectorAll(
+                        '#tagSelectorContainer .tag-chip.selected')).map(c => c.dataset.tag);
+                    if (editingScriptId) { const script = appData.scripts.find(s => s.id ===
+                            editingScriptId); if (script) { script.name = name;
+                            script.tags = selectedTags; } } else { const newScript = { id: generateId(),
+                            name,
+                            createdAt: new Date().toISOString(), records: [], tags: selectedTags };
+                        appData.scripts.push(newScript);
+                        appData.activeScriptId = newScript.id; }
+                    saveData(false);
+                    document.getElementById('scriptModal').style.visibility = 'hidden';
+                    refreshUI();
+                    resetForm();
+                    showToast('✅ 剧本已保存');
+                });
+                document.getElementById('addNewTagBtn').addEventListener('click', () => {
+                    const newTag = document.getElementById('newTagInput').value.trim();
+                    if (!newTag) return;
+                    if (globalTags.includes(newTag)) { alert('标签已存在'); return; }
+                    globalTags.push(newTag);
+                    saveData(false);
+                    const currentSelected = Array.from(document.querySelectorAll(
+                        '#tagSelectorContainer .tag-chip.selected')).map(c => c.dataset.tag);
+                    renderTagSelector(currentSelected);
+                    renderRecordTagSelector(getSelectedRecordTags());
+                    document.getElementById('newTagInput').value = '';
+                    showToast(`🏷️ 标签"${newTag}"已添加`);
+                });
+                document.getElementById('scriptListContainer').addEventListener('click', (e) => {
+                    const item = e.target.closest('.script-item');
+                    if (!item) return;
+                    const sid = item.dataset.scriptId;
+                    if (e.target.classList.contains('edit-script-btn')) { e.stopPropagation(); const s =
+                            appData.scripts.find(x => x.id === sid); if (s) openScriptModal(s); } else if (
+                        e.target.classList.contains('delete-script-btn')) { e.stopPropagation(); if (appData
+                            .scripts.length <= 1) { alert('至少保留一个'); return; } if (confirm('删除剧本？')) {
+                            appData.scripts = appData.scripts.filter(s => s.id !== sid); if (appData
+                                .activeScriptId === sid) appData.activeScriptId = appData.scripts[0]
+                                ?.id;
+                            saveData(false);
+                            resetForm();
+                            refreshUI();
+                            showToast('🗑️ 剧本已删除'); } } else { if (sid !== appData.activeScriptId) { if (
+                                isFormDirty && !confirm('表单未保存，切换？')) return;
+                            appData.activeScriptId = sid;
+                            recordTagFilter = null;
+                            saveData(false);
+                            resetForm();
+                            refreshUI(); } }
+                });
+                document.getElementById('uploadTriggerBtn').addEventListener('click', () => document.getElementById(
+                    'docUpload').click());
+                document.getElementById('docUpload').addEventListener('change', (e) => { const file = e.target
+                        .files[0]; if (file) handleFileUpload(file); else resetFileDisplay();
+                    e.target.value = ''; });
+                document.getElementById('clearFileBtn').addEventListener('click', () => { document.getElementById(
+                        'docUpload').value = '';
+                    resetFileDisplay();
+                    markDirty(); });
+                document.getElementById('saveRecordBtn').addEventListener('click', () => {
+                    const script = getActiveScript();
+                    if (!script) return;
+                    const date = document.getElementById('recordDate').value;
+                    if (!date) { alert('请填写日期'); return; }
+                    const title = document.getElementById('recordTitle').value.trim();
+                    const reflection = document.getElementById('recordReflection').value.trim();
+                    const recId = document.getElementById('editingRecordId').value;
+                    const recordTags = getSelectedRecordTags();
+                    const fileRecord = { fileName: document.getElementById('currentFileName').value,
+                        fileContent: document.getElementById('currentFileContent').value, fileType: document
+                            .getElementById('currentFileType').value };
+                    if (recId) { const idx = script.records.findIndex(r => r.id === recId); if (idx !== -
+                            1) script.records[idx] = { ...script.records[idx], date, title, ...fileRecord,
+                            reflection, tags: recordTags };
+                        saveData(false);
+                        resetForm();
+                        refreshUI();
+                        showToast('✏️ 记录已更新'); } else {
+                        script.records.push({ id: generateId(), date, title, ...fileRecord, reflection,
+                            tags: recordTags });
+                        saveData(false);
+                        resetForm();
+                        refreshUI();
+                        showToast('💾 进度已保存'); }
+                });
+                document.getElementById('recordsContainer').addEventListener('click', (e) => {
+                    const card = e.target.closest('.record-card');
+                    if (!card) return;
+                    const rid = card.dataset.recordId;
+                    const script = getActiveScript();
+                    if (!script) return;
+                    const rec = script.records.find(r => r.id === rid);
+                    if (e.target.classList.contains('edit-record-btn')) {
+                        if (isFormDirty && !confirm('未保存，确定编辑？')) return;
+                        document.getElementById('recordDate').value = rec.date;
+                        document.getElementById('recordTitle').value = rec.title;
+                        document.getElementById('recordReflection').value = rec.reflection || '';
+                        document.getElementById('fileNameDisplay').textContent = rec.fileName ||
+                            '未选择文件';
+                        document.getElementById('currentFileName').value = rec.fileName || '';
+                        document.getElementById('currentFileContent').value = rec.fileContent || '';
+                        document.getElementById('currentFileType').value = rec.fileType || '';
+                        document.getElementById('editingRecordId').value = rec.id;
+                        document.getElementById('formModeLabel').textContent = '✏️ 编辑记录';
+                        document.getElementById('cancelEditBtn').style.display = 'inline-block';
+                        setSelectedRecordTags(rec.tags || []);
+                        isFormDirty = false;
+                    } else if (e.target.classList.contains('delete-record-btn')) { if (confirm('删除记录？')) {
+                            script.records = script.records.filter(r => r.id !== rid);
+                            saveData(false);
+                            resetForm();
+                            refreshUI();
+                            showToast('🗑️ 记录已删除'); } }
+                });
+                document.getElementById('cancelEditBtn').addEventListener('click', () => { if (isFormDirty && !confirm(
+                        '放弃更改？')) return;
+                    resetForm(); });
+                document.getElementById('exportDataBtn').addEventListener('click', () => { downloadBackup(
+                true); });
+                document.getElementById('exportCSVBtn').addEventListener('click', () => { exportCSV(); });
+                document.getElementById('exportWordBtn').addEventListener('click', () => { exportWord(); });
+                document.getElementById('importDataBtn').addEventListener('click', () => document.getElementById(
+                    'importFileInput').click());
+                document.getElementById('importFileInput').addEventListener('change', (e) => { const f = e.target
+                        .files[0]; if (!f) return;
+                    const reader = new FileReader();
+                    reader.onload = ev => { try { const d = JSON.parse(ev.target.result); if (d.scripts) {
+                                appData = d;
+                                globalTags = [...new Set([...DEFAULT_TAGS, ...SCENE_TAGS, ...(appData
+                                    .customTags || [])])];
+                                appData.scripts.forEach(script => { if (script.records) script.records
+                                        .forEach(rec => { if (!rec.tags) rec.tags = []; }); });
+                                if (!appData.activeScriptId) appData.activeScriptId = appData.scripts[
+                                    0]?.id;
+                                recordTagFilter = null;
+                                saveData(false);
+                                resetForm();
+                                refreshUI();
+                                showToast('✅ 导入成功，数据已恢复');
+                                cleanTestDocuments(); } else throw new Error(); } catch { alert(
+                                '无效的备份文件'); }
+                        e.target.value = ''; };
+                    reader.readAsText(f); });
+                document.getElementById('openTagManagerBtn').addEventListener('click', () => {
+                    let html = '';
+                    globalTags.forEach(tag => {
+                        const isDefaultOrScene = DEFAULT_TAGS.includes(tag) || SCENE_TAGS.includes(tag);
+                        html +=
+                            `<div class="tag-manager-item"><span>${escapeHtml(tag)}${isDefaultOrScene ? ' <small style="opacity:0.5;">(预设)</small>' : ''}</span>
+                        <button class="delete-tag-btn" data-tag="${escapeHtml(tag)}" ${isDefaultOrScene ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''}>🗑️</button></div>`;
+                    });
+                    document.getElementById('tagManagerList').innerHTML = html;
+                    document.getElementById('tagManagerModal').style.visibility = 'visible';
+                });
+                const closeTagManager = () => document.getElementById('tagManagerModal').style.visibility =
+                    'hidden';
+                document.getElementById('closeTagManagerBtn').addEventListener('click', closeTagManager);
+                document.getElementById('closeTagManagerIcon').addEventListener('click', closeTagManager);
+                document.getElementById('tagManagerList').addEventListener('click', (e) => { const btn = e.target
+                        .closest('.delete-tag-btn'); if (!btn || btn.disabled) return;
+                    const tag = btn.dataset.tag; if (confirm(`删除标签 "${tag}"？`)) { globalTags = globalTags
+                            .filter(t => t !== tag);
+                        removeTagFromAllScripts(tag);
+                        saveData(false);
+                        syncTagSelectorIfNeeded();
+                        closeTagManager();
+                        setTimeout(() => document.getElementById('openTagManagerBtn').click(), 100);
+                        showToast(`🏷️ 标签"${tag}"已删除`); } });
+                document.getElementById('managerAddTagBtn').addEventListener('click', () => { const newTag =
+                        document.getElementById('managerNewTagInput').value.trim(); if (!newTag) return; if (
+                        globalTags.includes(newTag)) { alert('已存在'); return; }
+                    globalTags.push(newTag);
+                    saveData(false);
+                    syncTagSelectorIfNeeded();
+                    document.getElementById('managerNewTagInput').value = '';
+                    closeTagManager();
+                    setTimeout(() => document.getElementById('openTagManagerBtn').click(), 100);
+                    showToast(`🏷️ 标签"${newTag}"已添加`); });
+                document.getElementById('monthlyReviewBtn').addEventListener('click', () => { populateMonthSelect();
+                    refreshMonthlyStats();
+                    document.getElementById('reviewModal').style.visibility = 'visible'; });
+                document.getElementById('closeReviewBtn').addEventListener('click', () => document.getElementById(
+                    'reviewModal').style.visibility = 'hidden');
+                document.getElementById('refreshReviewBtn').addEventListener('click', () => refreshMonthlyStats());
+                const fileNameSpan = document.getElementById('fileNameDisplay');
+                fileNameSpan.addEventListener('dblclick', () => { const fileContent = document.getElementById(
+                        'currentFileContent').value;
+                    const fileName = document.getElementById('currentFileName').value;
+                    const fileType = document.getElementById('currentFileType').value; if (fileContent &&
+                        fileName) openFileSmart(fileContent, fileName, fileType); else showToast(
+                        '📂 请先选择文件', 1000); });
+                document.getElementById('filterChipsContainer').addEventListener('click', (e) => {
+                    const chip = e.target.closest('.filter-chip');
+                    if (!chip) return;
+                    const tag = chip.dataset.filterTag;
+                    if (recordTagFilter === tag) { recordTagFilter = null; } else { recordTagFilter =
+                    tag; }
+                    renderRecords();
+                });
+                document.getElementById('clearFilterBtn').addEventListener('click', () => { recordTagFilter =
+                    null;
+                    renderRecords(); });
+                const formFields = ['recordDate', 'recordTitle', 'recordReflection'];
+                const debouncedSave = debounce(() => { if (isFormDirty) saveData(true); },
+                DEBOUNCE_SAVE_MS);
+                formFields.forEach(id => { document.getElementById(id).addEventListener('input', () => {
+                        markDirty();
+                        debouncedSave(); }); });
+            }
+
+            function resetFileDisplay() {
+                document.getElementById('fileNameDisplay').textContent = '未选择文件';
+                document.getElementById('currentFileContent').value = '';
+                document.getElementById('currentFileName').value = '';
+                document.getElementById('currentFileType').value = '';
+            }
+
+            function handleFileUpload(file) {
+                if (!file) return;
+                if (file.size > MAX_FILE_SIZE) {
+                    alert(
+                        `文件过大 (${(file.size/1024/1024).toFixed(2)}MB)，请选择小于15MB的文件。\n较大的文件会占用较多本地存储，建议压缩后上传。`
+                        );
+                    return;
+                }
+                document.getElementById('currentFileName').value = file.name;
+                document.getElementById('fileNameDisplay').textContent = file.name;
+                document.getElementById('currentFileType').value = file.type || 'application/octet-stream';
+                const reader = new FileReader();
+                reader.onload = (e) => { document.getElementById('currentFileContent').value = e.target.result;
+                    markDirty(); };
+                reader.readAsDataURL(file);
+            }
+            let editingScriptId = null;
+
+            function openScriptModal(script) {
+                editingScriptId = script ? script.id : null;
+                document.getElementById('modalTitle').textContent = script ? '编辑剧本' : '新建剧本';
+                document.getElementById('modalScriptName').value = script ? script.name : '';
+                renderTagSelector(script ? (script.tags || []) : []);
+                document.getElementById('scriptModal').style.visibility = 'visible';
+                document.getElementById('newTagInput').value = '';
+            }
+
+            function initTheme() {
+                const btns = document.querySelectorAll('.theme-btn');
+                btns.forEach(b => b.addEventListener('click', () => { const theme = b.dataset.theme;
+                    document.body.className = ''; if (theme !== 'default') document.body.classList.add(
+                        `theme-${theme}`);
+                    btns.forEach(btn => btn.classList.remove('active'));
+                    b.classList.add('active');
+                    localStorage.setItem('script_theme', theme); }));
+                const saved = localStorage.getItem('script_theme') || 'default';
+                if (saved !== 'default') document.body.classList.add(`theme-${saved}`);
+                document.querySelector(`.theme-btn[data-theme="${saved}"]`)?.classList.add('active');
+            }
+            document.getElementById('autoBackupCheckbox').checked = localStorage.getItem(AUTO_BACKUP_KEY) ===
+                'true';
+            document.getElementById('autoBackupCheckbox').addEventListener('change', (e) => localStorage.setItem(
+                AUTO_BACKUP_KEY, e.target.checked));
+
+            function init() { loadData();
+                setDefaultDate();
+                renderSidebar();
+                renderRecords();
+                renderRecordTagSelector([]);
+                bindEvents();
+                initTheme();
+                startAutoSave(); }
+            init();
+        })();
+    </script>
 </body>
 </html>
