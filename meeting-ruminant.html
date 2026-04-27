@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>会议·反刍舱｜AI 复盘 & 行动管理 · 增强版</title>
+    <title>会议·反刍舱｜AI 复盘 & 行动管理 · 完整版</title>
     <style>
         /* ===== 基础变量与主题 ===== */
         * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; transition: background-color 0.2s ease, border-color 0.2s; }
-        
-        /* 默认暖色调 (warm) */
+
         :root {
             --bg-body: #fdf8f0;
             --card-bg: #fffbf5;
@@ -232,7 +231,7 @@
             color: var(--accent-color); text-decoration: none; font-weight: 500;
         }
         .feedback-label a:hover { text-decoration: underline; }
-        
+
         .export-dropdown { position: relative; display: inline-block; }
         .export-content {
             display: none; position: absolute; background: var(--card-bg);
@@ -281,7 +280,7 @@
             <button class="btn btn-outline" id="useMockBtn">🧠 本地智能分析</button>
             <span style="font-size:0.8rem; opacity:0.8;">(无key时自动本地规则)</span>
         </div>
-        <!-- 本地模型端点 (新增) -->
+        <!-- 本地模型端点 -->
         <div class="api-config" style="margin-top:-8px;">
             <span style="font-weight:600;">🖥️ 本地模型端点:</span>
             <input type="text" id="localEndpoint" placeholder="http://localhost:11434/v1/chat/completions" value="">
@@ -391,11 +390,12 @@
     let useLocalFallback = true;      // 内置规则模式
     let useLocalModelEndpoint = false; // 是否启用本地端点
     let recognition, isRecording = false;
-    
+    let reminderTimers = []; // 存储定时器ID
+
     // ---- IndexedDB ----
     function initDB() {
         return new Promise((res, rej) => {
-            const req = indexedDB.open("MeetingRuminantDB_v4", 1);
+            const req = indexedDB.open("MeetingRuminantDB_v5", 1);
             req.onerror = () => rej(req.error);
             req.onsuccess = () => { db = req.result; res(); };
             req.onupgradeneeded = (e) => {
@@ -407,8 +407,8 @@
     async function saveMeeting(meeting) {
         const tx = db.transaction("meetings", "readwrite");
         const store = tx.objectStore("meetings");
-        const id = meeting.id;
-        if (id) {
+        // 如果 meeting 有 id 且存在则更新，否则新增
+        if (meeting.id != null) {
             return new Promise((res, rej) => {
                 const putReq = store.put(meeting);
                 putReq.onsuccess = () => { currentMeetingId = putReq.result; res(putReq.result); };
@@ -428,12 +428,18 @@
         const req = tx.objectStore("meetings").getAll();
         return new Promise((res, rej) => { req.onsuccess = () => res(req.result); req.onerror = rej; });
     }
+    async function deleteMeetingById(id) {
+        const tx = db.transaction("meetings", "readwrite");
+        tx.objectStore("meetings").delete(id);
+        return new Promise(r => { tx.oncomplete = r; });
+    }
     async function deleteAllMeetings() {
         const tx = db.transaction("meetings", "readwrite");
         tx.objectStore("meetings").clear();
         return new Promise(r => { tx.oncomplete = r; });
     }
-    
+
+    // ---- 历史渲染 ----
     async function renderHistory() {
         const meetings = await loadMeetings();
         const cont = document.getElementById("historyList");
@@ -451,7 +457,7 @@
                 <span class="delete-history" data-delete-id="${m.id}" title="删除此条">🗑️</span>
             </div>
         `}).join("");
-        
+
         cont.querySelectorAll('.history-item').forEach(el => el.addEventListener('click', async (e) => {
             if (e.target.classList.contains('delete-history')) {
                 e.stopPropagation();
@@ -478,15 +484,9 @@
         }));
     }
 
-    async function deleteMeetingById(id) {
-        const tx = db.transaction("meetings", "readwrite");
-        tx.objectStore("meetings").delete(id);
-        return new Promise(r => { tx.oncomplete = r; });
-    }
-
     // ---- 语音识别 ----
     function initSpeech() {
-        if(!('webkitSpeechRecognition' in window)) { alert("浏览器不支持"); return null; }
+        if(!('webkitSpeechRecognition' in window)) { alert("浏览器不支持语音识别"); return null; }
         const r = new webkitSpeechRecognition(); r.continuous = true; r.interimResults = true; r.lang='zh-CN';
         r.onresult = e => {
             let final='', interim='';
@@ -627,7 +627,7 @@
                     method: "POST",
                     headers,
                     body: JSON.stringify({
-                        model: "local-model",  // 通用字段
+                        model: "local-model",
                         messages: [{ role: "user", content: prompt }],
                         temperature: 0.2,
                         response_format: { type: "json_object" }
@@ -661,12 +661,11 @@
         }
     }
 
-    // 主分析函数 (支持三种模式: DeepSeek / 本地端点 / 内置规则)
+    // 主分析函数
     async function callAI(text) {
         const localEndpoint = document.getElementById("localEndpoint").value.trim();
         const deepseekKey = document.getElementById("apiKey").value.trim() || localStorage.getItem("deepseek_key");
         
-        // 1. 优先本地端点模式
         if (useLocalModelEndpoint && localEndpoint) {
             try {
                 return await callOpenAICompatible(localEndpoint, text, '');
@@ -676,10 +675,8 @@
             }
         }
         
-        // 2. DeepSeek API 模式
         if (!useLocalFallback && deepseekKey) {
             try {
-                // 复用已有的 callDeepSeekWithRetry (保留原函数)
                 return await callDeepSeekWithRetry(text, deepseekKey);
             } catch (e) {
                 alert(`⚠️ DeepSeek失败，使用内置规则\n${e.message}`);
@@ -687,11 +684,9 @@
             }
         }
         
-        // 3. 默认内置规则
         return localAnalyze(text);
     }
 
-    // 保留原有的DeepSeek调用函数
     async function callDeepSeekWithRetry(text, apiKey, retries = 2) {
         const prompt = `你是一个专业的会议纪要分析助手。请严格按以下JSON格式输出（不要包含任何额外解释）：
 {
@@ -773,7 +768,176 @@ ${text.substring(0, 4000)}`;
         if(a){ currentAnalysis = a; displayAnalysis(a); document.getElementById("analysisResult").style.display='block'; }
     };
 
-    // 按钮事件：切换模式
+    // ---- 保存会议 ----
+    document.getElementById("saveMeetingBtn").onclick = async () => {
+        const transcript = document.getElementById("transcriptText").value.trim();
+        if (!transcript && !currentAnalysis) return alert("没有内容可保存");
+        const meeting = {
+            id: currentMeetingId || undefined,
+            transcript: transcript,
+            analysis: currentAnalysis,
+            createdAt: new Date().toISOString()
+        };
+        if (currentMeetingId) {
+            // 更新已有会议的时间（保留原创建时间）
+            const existing = (await loadMeetings()).find(m => m.id === currentMeetingId);
+            if (existing) meeting.createdAt = existing.createdAt;
+        }
+        await saveMeeting(meeting);
+        alert("会议已保存");
+        await renderHistory();
+    };
+
+    // ---- 导出功能 ----
+    function exportData(format) {
+        if (!currentAnalysis) return alert("暂无分析结果可导出");
+        const a = currentAnalysis;
+        const text = document.getElementById("transcriptText").value || '';
+        const timestamp = new Date().toISOString().slice(0,10);
+        let content = '', filename = '', mimeType = 'text/plain';
+        
+        switch(format) {
+            case 'csv':
+                content = '任务,负责人,截止日期,已完成\n' + a.todos.map(t => `"${t.task}","${t.owner}","${t.deadline}","${t.completed? '是':'否'}"`).join('\n');
+                filename = `待办_${timestamp}.csv`;
+                break;
+            case 'md':
+                content = `# 会议纪要\n\n## 议题\n${a.topics.map(t=>'- '+t).join('\n')}\n\n## 待办\n${a.todos.map(t=>`- [${t.completed?'x':' '}] ${t.task} (${t.owner}, ${t.deadline})`).join('\n')}\n\n## 需跟进问题\n${a.questions.map(q=>'- '+q).join('\n')}`;
+                filename = `会议纪要_${timestamp}.md`;
+                break;
+            case 'txt':
+                content = `议题：\n${a.topics.join('\n')}\n\n待办：\n${a.todos.map(t=>`[${t.completed?'✓':' '}] ${t.task} ${t.owner} ${t.deadline}`).join('\n')}\n\n问题：\n${a.questions.join('\n')}`;
+                filename = `会议记录_${timestamp}.txt`;
+                break;
+            case 'doc':
+                content = `<html><meta charset="UTF-8"><body><h2>会议纪要</h2><h3>议题</h3><ul>${a.topics.map(t=>`<li>${t}</li>`).join('')}</ul><h3>待办</h3><ul>${a.todos.map(t=>`<li>[${t.completed?'✓':' '}] ${t.task} (${t.owner}, ${t.deadline})</li>`).join('')}</ul><h3>问题</h3><ul>${a.questions.map(q=>`<li>${q}</li>`).join('')}</ul></body></html>`;
+                filename = `会议纪要_${timestamp}.doc`;
+                mimeType = 'application/msword';
+                break;
+            case 'docx':
+                content = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset="UTF-8"><title>会议纪要</title></head><body><h2>会议纪要</h2>...${a.topics.join(', ')}...</body></html>`;
+                filename = `会议纪要_${timestamp}.docx`;
+                mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                break;
+            case 'json':
+                content = JSON.stringify({ transcript: text, analysis: a }, null, 2);
+                filename = `会议备份_${timestamp}.json`;
+                mimeType = 'application/json';
+                break;
+        }
+        const blob = new Blob(['\uFEFF' + content], {type: mimeType + ';charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const aEl = document.createElement('a');
+        aEl.href = url; aEl.download = filename;
+        aEl.click(); URL.revokeObjectURL(url);
+    }
+    document.querySelectorAll('[data-export]').forEach(btn => {
+        btn.addEventListener('click', () => exportData(btn.dataset.export));
+    });
+
+    // ---- 周报生成 ----
+    document.getElementById("generateWeekReportBtn").onclick = async () => {
+        const meetings = await loadMeetings();
+        const now = new Date();
+        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        const recentMeetings = meetings.filter(m => new Date(m.createdAt) >= weekAgo);
+        if (recentMeetings.length === 0) return alert("近7天无会议记录");
+        
+        let totalTodos = 0, completedTodos = 0;
+        const allTodos = [];
+        recentMeetings.forEach(m => {
+            if (m.analysis?.todos) {
+                m.analysis.todos.forEach(t => {
+                    totalTodos++;
+                    if (t.completed) completedTodos++;
+                    allTodos.push({...t, meetingDate: m.createdAt});
+                });
+            }
+        });
+        
+        const completionRate = totalTodos ? ((completedTodos / totalTodos) * 100).toFixed(1) : 0;
+        let report = `📊 本周会议反刍周报 (${new Date(weekAgo).toLocaleDateString()} - ${now.toLocaleDateString()})\n`;
+        report += `━━━━━━━━━━━━━━━━━━\n`;
+        report += `📅 会议场次：${recentMeetings.length}\n`;
+        report += `✅ 待办完成率：${completedTodos}/${totalTodos} (${completionRate}%)\n\n`;
+        report += `📋 待办清单：\n`;
+        allTodos.forEach((t, i) => {
+            report += `  ${t.completed ? '✓' : '○'} ${t.task} (${t.owner || '未指派'}) ${t.deadline ? '截止:'+t.deadline : ''}\n`;
+        });
+        
+        document.getElementById("weeklyReportContent").textContent = report;
+        document.getElementById("weeklyReportSection").style.display = 'block';
+    };
+    document.getElementById("copyWeekReportBtn").onclick = () => {
+        const content = document.getElementById("weeklyReportContent").textContent;
+        navigator.clipboard.writeText(content).then(() => alert("已复制"));
+    };
+
+    // ---- 反刍提醒 ----
+    function setReminder(minutes) {
+        if (!currentMeetingId) return alert("请先保存会议或加载一个会议");
+        const triggerTime = Date.now() + minutes * 60 * 1000;
+        const timerId = setTimeout(async () => {
+            if (Notification.permission === "granted") {
+                new Notification("会议反刍提醒", { body: "该回顾会议并检查待办完成情况了", icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🔄%3C/text%3E%3C/svg%3E" });
+            }
+            // 同时高亮对应的历史项
+            const historyItems = document.querySelectorAll('.history-item');
+            historyItems.forEach(el => {
+                if (el.dataset.id == currentMeetingId) {
+                    el.style.background = 'var(--accent-light)';
+                    setTimeout(() => el.style.background = '', 3000);
+                }
+            });
+            document.getElementById("reminderFeedback").textContent = '🔔 已提醒';
+            // 清除已触发的计时器
+            reminderTimers = reminderTimers.filter(t => t.id !== timerId);
+        }, minutes * 60 * 1000);
+        reminderTimers.push({ id: timerId, meetingId: currentMeetingId });
+        document.getElementById("reminderFeedback").textContent = `⏰ 将在${minutes}分钟后提醒`;
+    }
+    document.querySelector('[data-remind="1h"]').onclick = () => setReminder(60);
+    document.querySelector('[data-remind="1d"]').onclick = () => setReminder(1440);
+    document.getElementById("setCustomRemind").onclick = () => {
+        const mins = parseInt(document.getElementById("customMinutes").value);
+        if (mins > 0) setReminder(mins);
+    };
+    document.getElementById("closeReminderPanel").onclick = () => {
+        document.getElementById("reminderPanel").style.display = 'none';
+    };
+    // 显示/隐藏提醒面板
+    document.getElementById("saveMeetingBtn").addEventListener('click', () => {
+        document.getElementById("reminderPanel").style.display = 'flex';
+    });
+    // 加载历史时也显示面板
+    const origRenderHistory = renderHistory;
+    renderHistory = async function() {
+        await origRenderHistory();
+        if (currentMeetingId) document.getElementById("reminderPanel").style.display = 'flex';
+    };
+
+    // ---- 历史操作 ----
+    document.getElementById("clearAllHistoryBtn").onclick = async () => {
+        if (confirm("确定清空全部历史？")) {
+            await deleteAllMeetings();
+            currentMeetingId = null; currentAnalysis = null;
+            document.getElementById("analysisResult").style.display = 'none';
+            document.getElementById("transcriptText").value = '';
+            await renderHistory();
+        }
+    };
+    document.getElementById("exportAllJsonBtn").onclick = async () => {
+        const meetings = await loadMeetings();
+        if (meetings.length === 0) return alert("无数据");
+        const json = JSON.stringify(meetings, null, 2);
+        const blob = new Blob([json], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `全部会议备份_${new Date().toISOString().slice(0,10)}.json`;
+        a.click(); URL.revokeObjectURL(url);
+    };
+
+    // ---- 模式切换按钮 ----
     document.getElementById("useMockBtn").onclick = ()=> { useLocalFallback = true; useLocalModelEndpoint = false; alert("✅ 内置智能规则已激活"); };
     document.getElementById("saveApiKeyBtn").onclick = ()=> { 
         const k=document.getElementById("apiKey").value.trim(); 
@@ -788,10 +952,6 @@ ${text.substring(0, 4000)}`;
         alert(`✅ 已切换到本地模型: ${ep}`);
     };
 
-    // 其余功能 (保存、提醒、导出、周报) 保持原有逻辑不变 ...
-    // (为节省篇幅，此处省略与上一版完全相同的函数，实际使用时需保留全部)
-    // 注意：导出、周报、历史等功能必须保留，以下仅列出关键绑定，完整代码请参照之前版本。
-    
     // 启动
     (async ()=>{
         await initDB(); await renderHistory();
@@ -799,6 +959,5 @@ ${text.substring(0, 4000)}`;
         if(Notification.permission==='default') Notification.requestPermission();
     })();
 </script>
-<!-- 注意：为保证完整性，请将之前版本中的保存、提醒、导出、周报等函数完整粘贴至此 -->
 </body>
 </html>
