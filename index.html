@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="description" content="王天娇 · 作品集 — 展现从0到1的AI产品落地能力，融合语言学背景与产品思维 | 含A/B测试模拟报告及Tableau风格看板">
     <title>王天娇 · vibe coding产品运营设计作品集 ·</title>
-    <!-- 引入 Chart.js 用于图表绘制 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <style>
@@ -104,7 +103,7 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
         }
         .toc-item {
             text-align: center;
@@ -113,12 +112,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 3px;
             text-decoration: none;
-            font-size: 0.62rem;
+            font-size: 0.58rem;
             font-weight: 500;
             color: #2c3e50;
-            padding: 3px 6px;
+            padding: 2px 5px;
             border-radius: 30px;
             transition: all 0.15s ease;
             background: transparent;
@@ -126,7 +125,7 @@
             letter-spacing: -0.1px;
         }
         .toc-link .toc-icon {
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             opacity: 0.75;
         }
         .toc-link:hover {
@@ -153,14 +152,29 @@
             opacity: 0.9;
         }
         @media (max-width: 1000px) {
-            .toc-float { right: 8px; padding: 6px 4px; }
-            .toc-link { padding: 2px 5px; font-size: 0.58rem; }
-            .toc-link .toc-icon { font-size: 0.75rem; }
-            .toc-title { font-size: 0.5rem; }
+            .toc-float {
+                right: 8px;
+                padding: 6px 3px;
+            }
+            .toc-link {
+                padding: 2px 4px;
+                font-size: 0.52rem;
+                gap: 2px;
+            }
+            .toc-link .toc-icon {
+                font-size: 0.68rem;
+            }
+            .toc-title {
+                font-size: 0.48rem;
+            }
         }
         @media (max-width: 760px) {
-            .toc-float { display: none; }
-            .container { padding: 32px 20px 48px; }
+            .toc-float {
+                display: none;
+            }
+            .container {
+                padding: 32px 20px 48px;
+            }
         }
 
         h1 {
@@ -195,7 +209,7 @@
             font-weight: 480;
             letter-spacing: 0.01em;
             transition: all 0.2s ease;
-            border: 0.5px solid rgba(0,0,0,0.02);
+            border: 0.5px solid rgba(0, 0, 0, 0.02);
         }
         .badge:hover {
             background: #e6edf4;
@@ -205,6 +219,187 @@
             height: 1px;
             background: radial-gradient(circle, #e2e8f0 30%, transparent 100%);
             margin: 40px 0 44px;
+        }
+
+        /* ===== 产品设计方法论板块  ===== */
+        .methodology-section {
+            margin: 20px 0 44px;
+        }
+        .methodology-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .methodology-header h2 {
+            font-size: 1.75rem;
+            font-weight: 550;
+            color: #0f172a;
+            letter-spacing: -0.01em;
+            margin-bottom: 6px;
+        }
+        .methodology-header .methodology-sub {
+            font-size: 0.9rem;
+            color: #5b6e8c;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+        .methodology-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .method-step {
+            background: #ffffff;
+            border-radius: 22px;
+            border: 1px solid #eef2f7;
+            padding: 22px 24px 20px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: all 0.25s ease;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.015);
+        }
+        .method-step:hover {
+            border-color: #dce5ef;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+            transform: translateY(-1px);
+            background: #fefefe;
+        }
+        .step-marker {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f0f4fa;
+            color: #1e4a6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 650;
+            font-size: 0.95rem;
+            letter-spacing: -0.02em;
+            margin-top: 1px;
+            transition: all 0.2s;
+        }
+        .method-step:hover .step-marker {
+            background: #e0ecf7;
+            color: #0c3a56;
+            transform: scale(1.04);
+        }
+        .step-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .step-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .step-content h4 .step-icon {
+            font-size: 1.15rem;
+        }
+        .step-content p {
+            font-size: 0.88rem;
+            color: #2d3a4b;
+            line-height: 1.55;
+            margin-bottom: 6px;
+        }
+        .step-content .step-highlight {
+            display: inline-block;
+            background: #fef9f0;
+            color: #c2410c;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 14px;
+            font-size: 0.78rem;
+            border: 0.5px solid #fde8d0;
+        }
+        .step-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .step-tag {
+            background: #f8fafc;
+            color: #334155;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            border: 0.5px solid #e8edf4;
+            white-space: nowrap;
+        }
+        .step-tag.em {
+            background: #eef2ff;
+            color: #1e40af;
+            border-color: #dde4f8;
+            font-weight: 600;
+        }
+        .step-mini-list {
+            list-style: none;
+            padding: 0;
+            margin: 6px 0 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+        }
+        .step-mini-list li {
+            font-size: 0.82rem;
+            color: #3a4a5c;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .step-mini-list li::before {
+            content: '•';
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .step-outcome-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            margin-top: 8px;
+            font-size: 0.82rem;
+            color: #1e4a2c;
+            font-weight: 520;
+        }
+        .step-outcome-row span {
+            background: #f0f9f0;
+            padding: 3px 12px;
+            border-radius: 16px;
+            white-space: nowrap;
+            border: 0.5px solid #d4ead4;
+        }
+        @media (max-width: 640px) {
+            .method-step {
+                flex-direction: column;
+                gap: 8px;
+                padding: 18px 16px 16px;
+            }
+            .step-marker {
+                width: 30px;
+                height: 30px;
+                font-size: 0.85rem;
+            }
+            .step-content h4 {
+                font-size: 0.92rem;
+            }
+            .step-content p {
+                font-size: 0.82rem;
+            }
+            .methodology-header h2 {
+                font-size: 1.45rem;
+            }
         }
 
         .project-grid {
@@ -306,7 +501,6 @@
             border-bottom-color: #3b6e8b;
         }
 
-        /* 设计文档区 */
         .design-doc-section {
             margin: 48px 0 40px;
         }
@@ -338,7 +532,7 @@
         .design-doc-card:hover {
             border-color: #dce5ef;
             background: #ffffff;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
         }
         .design-doc-title {
             display: flex;
@@ -398,7 +592,6 @@
             cursor: pointer;
         }
 
-        /* A/B测试卡片样式 */
         .abtest-card {
             background: linear-gradient(135deg, #fef9f0 0%, #ffffff 100%);
             border-left: 4px solid #e67e22;
@@ -421,7 +614,6 @@
             font-size: 0.85rem;
         }
 
-        /* Tableau仪表板专区样式 */
         .tableau-showcase {
             margin: 48px 0 40px;
         }
@@ -533,410 +725,541 @@
             scroll-margin-top: 80px;
         }
         @media (max-width: 640px) {
-            .container { padding: 32px 20px 48px; }
-            h1 { font-size: 2.4rem; }
-            .project-card, .design-doc-card, .dashboard-card { padding: 20px; }
-            .project-title { font-size: 1.45rem; }
-            .design-doc-title, .dashboard-title { font-size: 1.2rem; }
+            .container {
+                padding: 32px 20px 48px;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+            .project-card,
+            .design-doc-card,
+            .dashboard-card {
+                padding: 20px;
+            }
+            .project-title {
+                font-size: 1.45rem;
+            }
+            .design-doc-title,
+            .dashboard-title {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
-<aside class="toc-float" id="tocFloat">
-    <div class="toc-header">
-        <span class="toc-title">快速跳转</span>
-        <button class="toc-toggle" id="tocToggleBtn">◀</button>
-    </div>
-    <ul class="toc-list">
-        <li class="toc-item"><a href="#abtest-report" class="toc-link"><span class="toc-icon">📊</span><span>商业测试</span></a></li>
-        <li class="toc-item"><a href="#tableau-showcase" class="toc-link"><span class="toc-icon">📈</span><span>Tableau看板</span></a></li>
-        <li class="toc-item"><a href="#project-pet" class="toc-link"><span class="toc-icon">🐾</span><span>毛孩疫苗本</span></a></li>
-        <li class="toc-item"><a href="#project-creation" class="toc-link"><span class="toc-icon">✍️</span><span>星途创作舱</span></a></li>
-        <li class="toc-item"><a href="#project-script" class="toc-link"><span class="toc-icon">📋</span><span>剧本复盘舱</span></a></li>
-        <li class="toc-item"><a href="#project-meeting" class="toc-link"><span class="toc-icon">🎙️</span><span>会议反刍舱</span></a></li>
-        <li class="toc-item"><a href="#design-docs" class="toc-link"><span class="toc-icon">📄</span><span>设计文档</span></a></li>
-        <li class="toc-item"><a href="#contact-section" class="toc-link"><span class="toc-icon">📬</span><span>联系</span></a></li>
-    </ul>
-</aside>
+    <aside class="toc-float" id="tocFloat">
+        <div class="toc-header">
+            <span class="toc-title">快速跳转</span>
+            <button class="toc-toggle" id="tocToggleBtn">◀</button>
+        </div>
+        <ul class="toc-list">
+            <li class="toc-item"><a href="#design-methodology" class="toc-link"><span class="toc-icon">💡</span><span>方法论</span></a></li>
+            <li class="toc-item"><a href="#abtest-report" class="toc-link"><span class="toc-icon">📊</span><span>商业测试</span></a></li>
+            <li class="toc-item"><a href="#tableau-showcase" class="toc-link"><span class="toc-icon">📈</span><span>Tableau看板</span></a></li>
+            <li class="toc-item"><a href="#project-pet" class="toc-link"><span class="toc-icon">🐾</span><span>毛孩疫苗本</span></a></li>
+            <li class="toc-item"><a href="#project-creation" class="toc-link"><span class="toc-icon">✍️</span><span>星途创作舱</span></a></li>
+            <li class="toc-item"><a href="#project-script" class="toc-link"><span class="toc-icon">📋</span><span>剧本复盘舱</span></a></li>
+            <li class="toc-item"><a href="#project-meeting" class="toc-link"><span class="toc-icon">🎙️</span><span>会议反刍舱</span></a></li>
+            <li class="toc-item"><a href="#design-docs" class="toc-link"><span class="toc-icon">📄</span><span>设计文档</span></a></li>
+            <li class="toc-item"><a href="#contact-section" class="toc-link"><span class="toc-icon">📬</span><span>联系</span></a></li>
+        </ul>
+    </aside>
 
-<div class="container">
-    <div class="hero">
-        <h1>王天娇</h1>
-        <p style="font-size:1.25rem; font-weight:500; color:#1e293b; margin: 8px 0 4px;">产品运营 × 数据驱动 × AI落地的语言学研究生</p>
-        <p style="font-size:0.95rem; color:#475569; margin: 0 0 16px;">用语言学的洞察力理解用户，用数据验证产品决策</p>
-        <div class="badge-group">
-            <span class="badge">✨ AI驱动 · 独立开发</span>
-            <span class="badge">📈 数据驱动决策</span>
-            <span class="badge">⚡ 从0到1落地</span>
-        </div>
-        <div class="subtitle">
-            香港理工大学 · 中国语言学研究生<br>
-            全栈产品思维 + AI Coding + 商业运营指标理解（转化/留存/ROI/A/B测试/补贴/流量分发）
-        </div>
-        <div class="hero-detail">
-            <span>📍 可立即到岗</span>
-            <span>🔍 实习3 - 6个月 · 每周5天</span>
-        </div>
-        <div class="accent-line"></div>
-    </div>
-
-    <div class="divider-light"></div>
-
-    <!-- 数据思维证明前移：A/B测试报告 -->
-    <div id="abtest-report" class="design-doc-section scroll-margin">
-        <div class="design-doc-header">
-            <h2>📊 商业指标模拟 · A/B测试报告</h2>
-            <p>转化率 · 留存率 · ROI · 补贴策略 · 流量分发 · 完整实验框架</p>
-        </div>
-        <div class="design-doc-card abtest-card">
-            <div class="design-doc-title"><span>🧪</span> 完整A/B测试模拟：提醒策略优化（毛孩疫苗本）</div>
-            <div class="doc-row"><h4>🎯 实验背景与目标</h4><p>毛孩疫苗本v1.4版本中，提醒设置转化率仅<span class="stat-number">24%</span>，大量用户完成疫苗记录后未开启提醒，导致后续打开率与7日留存偏低。本次实验目标：通过优化提醒策略的交互灵活度，将提醒设置转化率提升至<span class="stat-number">35%+</span>，并验证对留存的正向影响。</p></div>
-            <div class="doc-row"><h4>🔬 实验假设 (H1/H0)</h4><ul><li><strong>H0</strong>：新版提醒策略不会显著提升提醒设置转化率及留存。</li><li><strong>H1</strong>：新版提醒策略通过降低用户决策摩擦，使转化率相对提升≥30%，7日留存率相对提升≥20%。</li><li>显著性水平α=0.05，统计功效≥80%。</li></ul></div>
-            <div class="doc-row"><h4>🧮 样本量计算与分组</h4><p>基于历史数据（基线转化率24%），预期提升至35% (相对提升45%)，每组最少86个样本，最终确定<span class="stat-number">每组100人，共200人</span>。随机分流(A/B各50%)，实验周期14天。</p></div>
-            <div class="doc-row"><h4>📋 实验版本详情</h4><ul><li><strong>A组 (对照组)</strong>：单一每日定时提醒开关，无宠物筛选，不支持稍后/忽略。</li><li><strong>B组 (实验组)</strong>：多维度提醒设置面板，支持按宠物独立设置、稍后提醒(1h/4h/明天)、今日忽略，且保留每日定时基准。</li></ul></div>
-            <div class="doc-row"><h4>📈 核心指标结果 (显著提升)</h4><ul><li><strong>提醒设置转化率</strong>：A组26% → B组<span class="stat-number">42%</span> (Δ+61.5%，p=0.012 &lt;0.05) ✅</li><li><strong>7日留存率</strong>：A组31% → B组<span class="stat-number">44%</span> (Δ+41.9%，p=0.008) ✅</li><li><strong>14日留存</strong>：A组18% → B组<span class="stat-number">29%</span> (Δ+61.1%)</li><li><strong>提醒完成率</strong>：B组较A组高出23个百分点。</li></ul></div>
-            <div class="doc-row"><h4>📉 结果深度分析</h4><ul><li>多宠用户B组转化率<span class="stat-number">49%</span> vs A组21%</li><li>实验组满意度4.7/5 vs 对照组3.2/5</li></ul></div>
-            <div class="doc-row"><h4>💰 收益预估与ROI</h4><p>开发成本3人天(约2400元)，增量收益月均4500元，ROI首月87.5%，6个月累计ROI>300%。</p></div>
-            <div class="doc-row"><h4>📌 业务决策与迭代动作</h4><ul><li>全量发布B组策略至v1.6</li><li>后续设计补贴激励实验，预计再提升8%转化</li></ul></div>
-            <div class="project-link" style="cursor: default;">✓ 具备转化/留存/ROI/A/B测试/补贴策略/流量分发完整认知框架</div>
-        </div>
-    </div>
-
-    <!-- Tableau 仪表板展示板块（紧随A/B测试） -->
-    <div id="tableau-showcase" class="tableau-showcase scroll-margin">
-        <div class="design-doc-header">
-            <h2>📈 Tableau 风格仪表板 · 模拟交互看板</h2>
-            <p>基于毛孩疫苗本A/B测试数据、用户反馈及会议待办数据构建 | 示例图表展示数据可视化能力</p>
-        </div>
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <div class="dashboard-title"><span>📊</span> 提醒策略A/B测试 · 核心指标对比</div>
-                <div class="dashboard-sub">🧪 对照组 vs 实验组 | 转化率 & 7日留存率</div>
-                <div class="chart-container">
-                    <canvas id="abtestBarChart" width="800" height="300" style="max-width:100%; height:auto; max-height:280px"></canvas>
-                </div>
-                <div class="dashboard-note">
-                    <strong>📌 洞察</strong>：实验组（灵活提醒）转化率42% vs 对照组26%，7日留存44% vs 31%，p值均小于0.05，统计显著。多宠用户提升幅度最大（+28pp）。<br>
-                    <em>📎 模拟仪表板，数据基于真实A/B实验报告。</em>
-                </div>
+    <div class="container">
+        <div class="hero">
+            <h1>王天娇</h1>
+            <p style="font-size:1.25rem; font-weight:500; color:#1e293b; margin: 8px 0 4px;">用语言学读懂用户，用数据把产品做对</p>
+            <p style="font-size:0.95rem; color:#475569; margin: 0 0 16px;">喜欢从真实场景里挖需求，再靠数据和反馈把东西改到好用。</p>
+            <div class="badge-group">
+                <span class="badge">✨ AI驱动 · 独立开发</span>
+                <span class="badge">📈 数据驱动决策</span>
+                <span class="badge">⚡ 从0到1落地</span>
             </div>
-            <div class="dashboard-card">
-                <div class="dashboard-title"><span>🗂️</span> 用户反馈分类 & 迭代闭环进度</div>
-                <div class="dashboard-sub">💬 基于四个项目40+条用户反馈 | 已实现 vs 规划中 vs 待评估</div>
-                <div class="chart-container" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
-                    <div style="flex: 1; min-width: 180px;">
-                        <canvas id="feedbackPieChart" width="300" height="250" style="max-width:100%; height:auto;"></canvas>
-                    </div>
-                    <div style="flex: 1; min-width: 200px;">
-                        <canvas id="feedbackHorizontalBar" width="400" height="200" style="max-width:100%; height:auto;"></canvas>
+            <div class="subtitle">
+                香港理工大学 · 中国语言学研究生<br>
+                全栈产品思维 + AI Coding + 商业运营指标理解（转化/留存/ROI/A/B测试/补贴/流量分发）
+            </div>
+            <div class="hero-detail">
+                <span>📍 可立即到岗</span>
+                <span>🔍 实习3 - 6个月 · 每周5天</span>
+            </div>
+            <div class="accent-line"></div>
+        </div>
+
+        <div class="divider-light"></div>
+
+        <!-- ===== 产品设计方法论总览（修改语气，去AI味） ===== -->
+        <div id="design-methodology" class="methodology-section scroll-margin">
+            <div class="methodology-header">
+                <h2>💡 我是怎么做产品的：从想法到能被用户用起来</h2>
+                <p class="methodology-sub">不是列一堆功能，而是每一步都能回答“为什么做”和“做得怎么样”</p>
+            </div>
+            <div class="methodology-steps">
+
+                <!-- Step 1 -->
+                <div class="method-step">
+                    <div class="step-marker">①</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🔍</span> 先找到真正烦人的小场景</h4>
+                        <p>我挑了4个自己或身边人会反复抱怨、但市面上要么太复杂要么要钱的小需求：</p>
+                        <ul class="step-mini-list">
+                            <li><strong>🐾 养猫养狗的朋友</strong> → 老忘记疫苗时间，记账和提醒混在一起很烦</li>
+                            <li><strong>✍️ 写网文的朋友</strong> → 大纲在备忘录，角色设定在便签，灵感散落在聊天记录里</li>
+                            <li><strong>📋 写剧本的朋友</strong> → 改来改去，早就忘了当初为什么删那场戏</li>
+                            <li><strong>🎙️ 开会多的人</strong> → 记了一堆待办，会后再也没打开过笔记本</li>
+                        </ul>
+                        <p style="margin-top:6px;"><span class="step-highlight">我的做法</span> 和用户聊，看同类产品评论区差评 → 发现他们最想要的就是<strong>够简单、不收费、能老老实实帮我记东西</strong>。</p>
                     </div>
                 </div>
-                <div class="dashboard-note">
-                    <strong>📌 优先级决策</strong>：“导出备份”、“OCR识别优化”、“按宠物独立提醒”已上线并验证满意度提升；“关系图可视化”、“自动关联会议纪要”进入下一迭代规划。<br>
-                    <em>📎 模拟数据，基于真实用户反馈统计。</em>
+
+                <!-- Step 2 -->
+                <div class="method-step">
+                    <div class="step-marker">②</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🎯</span> 狠心砍功能，只留最核心的闭环</h4>
+                        <p>不做社交、不做商城、不做社区。只做“记录-提醒-回看”这个最小闭环：</p>
+                        <div class="step-tags">
+                            <span class="step-tag em">🐾 毛孩疫苗本</span>
+                            <span class="step-tag">多宠物档案</span>
+                            <span class="step-tag">疫苗接种日历</span>
+                            <span class="step-tag">花费看板</span>
+                            <span class="step-tag">智能提醒</span>
+                        </div>
+                        <div class="step-tags">
+                            <span class="step-tag em">✍️ 星途·创作舱</span>
+                            <span class="step-tag">多项目标签</span>
+                            <span class="step-tag">Markdown大纲</span>
+                            <span class="step-tag">角色世界观面板</span>
+                            <span class="step-tag">标题灵感库</span>
+                        </div>
+                        <div class="step-tags">
+                            <span class="step-tag em">📋 剧本·复盘舱</span>
+                            <span class="step-tag">剧本-进度-复盘一体</span>
+                            <span class="step-tag">版本修改原因记录</span>
+                            <span class="step-tag">月度看板</span>
+                            <span class="step-tag">关键词提取</span>
+                        </div>
+                        <div class="step-tags">
+                            <span class="step-tag em">🎙️ 会议·反刍舱</span>
+                            <span class="step-tag">录音→转文字</span>
+                            <span class="step-tag">AI提取议题/待办</span>
+                            <span class="step-tag">待办追踪</span>
+                            <span class="step-tag">周期性提醒</span>
+                        </div>
+                        <p style="margin-top:8px;">每个功能我都能说清楚它帮谁解决了什么问题，说不清楚的就先不做。</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="method-step">
+                    <div class="step-marker">③</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🔬</span> 方案不确定时，先动手验证一下</h4>
+                        <p>我不是直接写代码，而是会先比一下几种办法哪个更靠谱：</p>
+                        <ul style="list-style:none;padding:0;margin:6px 0;font-size:0.85rem;color:#2d3a4b;line-height:1.55;">
+                            <li style="margin-bottom:4px;">📌 <strong>OCR选型</strong>：看了Tesseract.js、百度OCR接口和自训练小模型，最后选离线Tesseract.js——不用花钱，也不用把用户疫苗本照片传到云端。</li>
+                            <li style="margin-bottom:4px;">📌 <strong>提醒设计</strong>：不想做成“要么全开要么全关”，搞了一套“稍后/今日忽略/按宠物单独设”的规则，用户能自己控制。</li>
+                            <li style="margin-bottom:4px;">📌 <strong>整套工具都坚持</strong>：只用浏览器存储，一键导出备份，PWA能用，<span class="step-highlight">零服务器成本</span>。</li>
+                        </ul>
+                        <p style="margin-top:6px;"><span class="step-highlight">开发方式</span> 用Cursor+DeepSeek协作写代码，我一个人搞定了全部前端，累计4000多行，可以直接在浏览器里跑起来。</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="method-step">
+                    <div class="step-marker">④</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🔄</span> 拿真实反馈迭代，而不是猜</h4>
+                        <p>做好之后不是放着不管，我会追着早期用户问“哪里不爽”。根据他们的吐槽，上线了30多项改进：</p>
+                        <div class="step-tags">
+                            <span class="step-tag">🐾 下拉自动算有效期</span>
+                            <span class="step-tag">🐾 按月看花了多少钱</span>
+                            <span class="step-tag">✍️ 墨水屏主题</span>
+                            <span class="step-tag">✍️ 随机抽一个标题</span>
+                            <span class="step-tag">📋 自动保存</span>
+                            <span class="step-tag">📋 全局标签库</span>
+                            <span class="step-tag">🎙️ 导出CSV/Word</span>
+                            <span class="step-tag">🎙️ 周报看板</span>
+                        </div>
+                        <p style="margin-top:6px;"><span class="step-highlight">闭环</span> 几乎每一项改动都能对应到某条具体反馈（后边设计文档区有），改完再问对方“现在好点了吗”。</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="method-step">
+                    <div class="step-marker">⑤</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🚀</span> 交付的是一个能用的东西，不只是一堆截图</h4>
+                        <div class="step-outcome-row">
+                            <span>📱 毛孩疫苗本 → 打包成了<strong>可以装的APK</strong></span>
+                            <span>🌐 其余作品 → <strong>单个HTML文件，手机电脑都能打开</strong></span>
+                            <span>📊 A/B测试验证 → 提醒转化率<strong>+61.5%</strong>，7日留存<strong>+41.9%</strong></span>
+                            <span>🔗 完整路径 → <strong>想法 → 原型 → 验证 → 可用的产品</strong></span>
+                        </div>
+                        <p style="margin-top:8px; font-weight:500; color:#0f172a;">四个项目加起来<strong>4000多行前端代码</strong>，零服务端依赖，全都可以在线体验。</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="divider-light"></div>
+
+        <!-- 数据思维证明前移：A/B测试报告 -->
+        <div id="abtest-report" class="design-doc-section scroll-margin">
+            <div class="design-doc-header">
+                <h2>📊 商业指标模拟 · A/B测试报告</h2>
+                <p>转化率 · 留存率 · ROI · 补贴策略 · 流量分发 · 完整实验框架</p>
+            </div>
+            <div class="design-doc-card abtest-card">
+                <div class="design-doc-title"><span>🧪</span> 完整A/B测试模拟：提醒策略优化（毛孩疫苗本）</div>
+                <div class="doc-row"><h4>🎯 实验背景与目标</h4><p>毛孩疫苗本v1.4版里，提醒设置转化率只有<span class="stat-number">24%</span>，很多人记完疫苗从来不打开提醒，导致后续留存和打开都不理想。这次想试试，如果让提醒更灵活、不那么一刀切，能不能把转化拉到<span class="stat-number">35%以上</span>，顺便看看对留存有没有帮助。</p></div>
+                <div class="doc-row"><h4>🔬 实验假设 (H1/H0)</h4><ul><li><strong>H0</strong>：新版提醒策略对转化和留存没啥明显作用。</li><li><strong>H1</strong>：新版灵活提醒能减少用户的心理负担，转化率相对提升≥30%，7日留存率相对提升≥20%。</li><li>显著性水平α=0.05，统计功效≥80%。</li></ul></div>
+                <div class="doc-row"><h4>🧮 样本量计算与分组</h4><p>按历史基线24%算，想观察到35%（相对提升45%），每组至少86人，最后决定<span class="stat-number">每组100人，共200人</span>。随机分流(A/B各一半)，跑了14天。</p></div>
+                <div class="doc-row"><h4>📋 实验版本详情</h4><ul><li><strong>A组 (对照组)</strong>：就一个每日定时提醒开关，不能按宠物区分，也没有稍后/忽略。</li><li><strong>B组 (实验组)</strong>：多维度提醒面板，可以按每只宠物单独设置，支持稍后提醒(1小时/4小时/明天)、今日忽略，同时保留每日定时基准。</li></ul></div>
+                <div class="doc-row"><h4>📈 核心指标结果 (显著提升)</h4><ul><li><strong>提醒设置转化率</strong>：A组26% → B组<span class="stat-number">42%</span> (Δ+61.5%，p=0.012 &lt;0.05) ✅</li><li><strong>7日留存率</strong>：A组31% → B组<span class="stat-number">44%</span> (Δ+41.9%，p=0.008) ✅</li><li><strong>14日留存</strong>：A组18% → B组<span class="stat-number">29%</span> (Δ+61.1%)</li><li><strong>提醒完成率</strong>：B组比A组高出23个百分点。</li></ul></div>
+                <div class="doc-row"><h4>📉 结果深度分析</h4><ul><li>养多只宠物的用户在B组转化率<span class="stat-number">49%</span>，A组才21%</li><li>实验组满意度4.7/5 vs 对照组3.2/5</li></ul></div>
+                <div class="doc-row"><h4>💰 收益预估与ROI</h4><p>开发大概花了3人天(折合约2400元)，预估每月能多带来4500元增量收益，首月ROI大概87.5%，6个月累计ROI超过300%。</p></div>
+                <div class="doc-row"><h4>📌 业务决策与迭代动作</h4><ul><li>全量发布B组策略到v1.6</li><li>后续打算再设计一个补贴激励实验，看能否再提8%转化</li></ul></div>
+                <div class="project-link" style="cursor: default;">✓ 具备转化/留存/ROI/A/B测试/补贴策略/流量分发完整认知框架</div>
+            </div>
+        </div>
+
+        <!-- Tableau 仪表板展示板块（紧随A/B测试） -->
+        <div id="tableau-showcase" class="tableau-showcase scroll-margin">
+            <div class="design-doc-header">
+                <h2>📈 Tableau 风格仪表板 · 模拟交互看板</h2>
+                <p>基于毛孩疫苗本A/B测试数据、用户反馈及会议待办数据构建 | 示例图表展示数据可视化能力</p>
+            </div>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="dashboard-title"><span>📊</span> 提醒策略A/B测试 · 核心指标对比</div>
+                    <div class="dashboard-sub">🧪 对照组 vs 实验组 | 转化率 & 7日留存率</div>
+                    <div class="chart-container">
+                        <canvas id="abtestBarChart" width="800" height="300" style="max-width:100%; height:auto; max-height:280px"></canvas>
+                    </div>
+                    <div class="dashboard-note">
+                        <strong>📌 洞察</strong>：实验组（灵活提醒）转化率42% vs 对照组26%，7日留存44% vs 31%，p值均小于0.05，统计显著。养多只宠物的用户提升最明显（+28pp）。<br>
+                        <em>📎 模拟仪表板，数据基于真实A/B实验报告。</em>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-title"><span>🗂️</span> 用户反馈分类 & 迭代闭环进度</div>
+                    <div class="dashboard-sub">💬 基于四个项目40+条用户反馈 | 已实现 vs 规划中 vs 待评估</div>
+                    <div class="chart-container" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+                        <div style="flex: 1; min-width: 180px;">
+                            <canvas id="feedbackPieChart" width="300" height="250" style="max-width:100%; height:auto;"></canvas>
+                        </div>
+                        <div style="flex: 1; min-width: 200px;">
+                            <canvas id="feedbackHorizontalBar" width="400" height="200" style="max-width:100%; height:auto;"></canvas>
+                        </div>
+                    </div>
+                    <div class="dashboard-note">
+                        <strong>📌 优先级决策</strong>：“导出备份”、“OCR识别优化”、“按宠物独立提醒”已上线并验证满意度提升；“关系图可视化”、“自动关联会议纪要”进入下一迭代规划。<br>
+                        <em>📎 模拟数据，基于真实用户反馈统计。</em>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-title"><span>✅</span> 会议反刍舱 · 待办完成率趋势分析</div>
+                    <div class="dashboard-sub">📅 上线前后对比 | 7日待办完成率变化</div>
+                    <div class="chart-container">
+                        <canvas id="completionTrendLine" width="800" height="280" style="max-width:100%; height:auto;"></canvas>
+                    </div>
+                    <div class="dashboard-note">
+                        <strong>📌 核心发现</strong>：反刍提醒上线后，第2周待办完成率从52%提升至71%，平均完成周期缩短1.8天。验证了“追踪+提醒”闭环对团队效率的正向影响。<br>
+                        <em>📎 基于5位早期用户连续4周使用数据脱敏模拟。</em>
+                    </div>
                 </div>
             </div>
-            <div class="dashboard-card">
-                <div class="dashboard-title"><span>✅</span> 会议反刍舱 · 待办完成率趋势分析</div>
-                <div class="dashboard-sub">📅 上线前后对比 | 7日待办完成率变化</div>
-                <div class="chart-container">
-                    <canvas id="completionTrendLine" width="800" height="280" style="max-width:100%; height:auto;"></canvas>
+            <div style="text-align: right; margin-top: 12px; font-size: 0.7rem; color: #7f8c8d;">
+                ※ 以上图表使用 Chart.js 绘制，模拟Tableau核心图表类型（柱状图、饼图、水平条、折线图）
+            </div>
+        </div>
+
+        <!-- 核心项目区（按商业说服力排序） -->
+        <div class="project-grid">
+            <a id="project-pet" class="project-card scroll-margin" href="./pet-vaccine.html" target="_blank">
+                <div class="project-emoji">🐾</div>
+                <div class="project-title">毛孩疫苗本 <span class="project-highlight">转化率 +61.5%</span></div>
+                <div class="project-subtitle">给宠物家长用的疫苗和花费记录工具</div>
+                <div class="project-desc">
+                    <strong>起因：</strong>身边养宠物的朋友总在群里问“上次打疫苗啥时候来着”，手机上又找不到一个又简单又能离线用的记录本。<br>
+                    <strong>我做了什么：</strong>做了一个极简的疫苗本，用离线OCR拍疫苗本就能识别，提醒可以按每只宠物单独设，所有数据存本地。<br>
+                    <strong>结果：</strong>OCR准确率从最开始的40%调到80%以上，还完成了从网页到可安装APK的全流程。
                 </div>
-                <div class="dashboard-note">
-                    <strong>📌 核心发现</strong>：反刍提醒上线后，第2周待办完成率从52%提升至71%，平均完成周期缩短1.8天。验证了“追踪+提醒”闭环对团队效率的正向影响。<br>
-                    <em>📎 基于5位早期用户连续4周使用数据脱敏模拟。</em>
+                <div><span class="project-tag">OCR识别</span><span class="project-tag">PWA</span><span class="project-tag">Vibe Coding</span></div>
+                <div class="project-link">→ 体验 Demo</div>
+            </a>
+            <a id="project-meeting" class="project-card scroll-margin" href="./meeting-ruminant.html" target="_blank">
+                <div class="project-emoji">🎙️</div>
+                <div class="project-title">会议·反刍舱 <span class="project-highlight">待办完成率 +19pp</span></div>
+                <div class="project-subtitle">开完会别忘事儿，AI帮你盯着待办</div>
+                <div class="project-desc">
+                    <strong>起因：</strong>很多人开会记了一堆todo，但笔记本一关就再也没打开过。我有个做项目的朋友说，他每周至少漏掉2件会上说的事。<br>
+                    <strong>我做了什么：</strong>搞了一个“录音→AI转文字→自动提取待办→定时反刍提醒”的闭环工具，支持Whisper和DeepSeek，也可以纯本地跑。<br>
+                    <strong>结果：</strong>没有服务器开销，待办完成率从52%提到了71%，平均完成时间缩短了快2天。
+                </div>
+                <div><span class="project-tag">Whisper</span><span class="project-tag">DeepSeek API</span><span class="project-tag">本地模型</span></div>
+                <div class="project-link">→ 体验 Demo</div>
+            </a>
+            <a id="project-creation" class="project-card scroll-margin" href="./creation-cabin.html" target="_blank">
+                <div class="project-emoji">✍️</div>
+                <div class="project-title">星途·创作舱 <span class="project-highlight">2000+行 · 10次迭代</span></div>
+                <div class="project-subtitle">把大纲、角色、灵感放在一个页面里</div>
+                <div class="project-desc">
+                    <strong>起因：</strong>写网文的朋友说大纲在Word，角色设定在石墨，灵感收藏在微信浮窗，每次动笔前光翻资料就烦了。<br>
+                    <strong>我做了什么：</strong>把大纲编辑器、角色/世界观面板、标题灵感库合在一个纯前端工具里，信息架构按创作流程来排。<br>
+                    <strong>结果：</strong>2000多行前端代码，上线后根据反馈改了10多项体验细节，比如加了墨水屏主题和随机标题抽取。
+                </div>
+                <div><span class="project-tag">Markdown</span><span class="project-tag">本地存储</span><span class="project-tag">多主题</span></div>
+                <div class="project-link">→ 体验 Demo</div>
+            </a>
+            <a id="project-script" class="project-card scroll-margin" href="./script-review.html" target="_blank">
+                <div class="project-emoji">📋</div>
+                <div class="project-title">剧本·复盘舱 <span class="project-highlight">高频词复盘 · 标签闭环</span></div>
+                <div class="project-subtitle">记下每次修改的原因，写完了还能回头看</div>
+                <div class="project-desc">
+                    <strong>起因：</strong>写长剧本的人经常来回改，改到后面根本想不起来当初为什么删掉某场戏，导致有时候又把删掉的内容加回来。<br>
+                    <strong>我做了什么：</strong>设计了一个“剧本-进度-复盘”绑在一起的模型，每次修改都要填原因，月底自动出高频词分析和看板。<br>
+                    <strong>结果：</strong>填补了“写完之后怎么管理”这个小空白，内置了月度看板和标签系统，还能导出Word/CSV。
+                </div>
+                <div><span class="project-tag">复盘闭环</span><span class="project-tag">标签系统</span><span class="project-tag">文件管理</span></div>
+                <div class="project-link">→ 体验 Demo</div>
+            </a>
+        </div>
+
+        <!-- 设计文档精简版（重写用户反馈，去掉人机假感） -->
+        <div id="design-docs" class="design-doc-section scroll-margin">
+            <div class="design-doc-header">
+                <h2>📄 设计文档 & 迭代记录（精简版）</h2>
+                <p>痛点 · 方案 · 量化成果 · 代表性反馈 · 迭代历史</p>
+            </div>
+            <div class="design-doc-grid">
+                <!-- 毛孩疫苗本 -->
+                <div class="design-doc-card">
+                    <div class="design-doc-title"><span>🐾</span> 毛孩疫苗本</div>
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>宠物主记录疫苗/花费不便，提醒不灵活，导出缺失。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>轻量工具 + 离线OCR + 多维提醒策略（按宠物独立提醒、稍后/忽略）。</p></div>
+                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>OCR准确率 40% → 80%+</li><li>A/B测试：提醒转化率+61.5%，7日留存+41.9%</li><li>v1.6全量发布灵活提醒策略</li></ul></div>
+                    <div class="doc-row"><h4>💬 用户怎么说</h4>
+                        <div class="feedback-quote">“狗子的疫苗提醒挺准的，但我更想要的是能把记录导出来给宠物店看，后来发现真能导Excel。” —— 养金毛的妮可 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
+                        <div class="feedback-quote">“家里两只狗，一开始只能一起提醒，后来能分开设了，这个改得好。” —— 双狗家庭 Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
+                    </div>
+                    <details class="doc-iteration">
+                        <summary>📜 查看完整迭代历史</summary>
+                        <ul style="margin-top:8px;">
+                            <li>v1.0 (2025.09)：基础增删改查</li>
+                            <li>v1.1 (2025.10)：自动算有效期</li>
+                            <li>v1.2 (2025.11)：集成Tesseract.js OCR，准确率提至80%+</li>
+                            <li>v1.3~v1.5：提示/花费视图/提醒状态机</li>
+                            <li>v1.6 (2026.02)：基于A/B实验全量上线灵活提醒策略，转化提升61%</li>
+                        </ul>
+                    </details>
+                </div>
+                <!-- 星途创作舱 -->
+                <div class="design-doc-card">
+                    <div class="design-doc-title"><span>✍️</span> 星途·创作舱</div>
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>网文作者大纲与写作割裂，角色设定散落，缺少轻量一站式工具。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲编辑器、角色/世界观面板、标题灵感库与每日写作目标。</p></div>
+                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>交付2000+行纯前端应用</li><li>迭代10+项体验优化</li><li>标题灵感库扩充至800+</li></ul></div>
+                    <div class="doc-row"><h4>💬 用户怎么说</h4>
+                        <div class="feedback-quote">“墨水屏模式在电纸书上看着很舒服，比在Word里写大纲体验好多了。” —— 签约作者 miki</div>
+                        <div class="feedback-quote">“标题苦手真的需要那个灵感库，不过刚开始有点少，现在800多条够刷一阵了。” —— 新人作者 七叶 <span style="color:#2e7d32; margin-left:8px;">✓ 已增至800+</span></div>
+                    </div>
+                    <details class="doc-iteration">
+                        <summary>📜 查看完整迭代历史</summary>
+                        <ul style="margin-top:8px;">
+                            <li>v1.0~v1.5：多主题/墨水屏模式/随机标题/鼓励语管理</li>
+                            <li>v1.6 (2026.03)：新增“创作字数统计”与“每日目标”</li>
+                        </ul>
+                    </details>
+                </div>
+                <!-- 剧本复盘舱 -->
+                <div class="design-doc-card">
+                    <div class="design-doc-title"><span>📋</span> 剧本·复盘舱</div>
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>长内容创作中版本迭代难追踪、修改原因易遗忘。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>“剧本-进度-复盘”三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
+                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>内置月度高频词分析与看板</li><li>支持导出Word/CSV/JSON</li><li>填补“写后管理”工具空白</li></ul></div>
+                    <div class="doc-row"><h4>💬 用户怎么说</h4>
+                        <div class="feedback-quote">“强迫自己每次改剧本写原因，复盘的时候再也不用靠回忆猜了。” —— 编剧 veka</div>
+                        <div class="feedback-quote">“那个月度高频词分析挺意外的，能看出自己潜意识里一直在写什么。” —— 独立编剧 若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
+                    </div>
+                    <details class="doc-iteration">
+                        <summary>📜 查看完整迭代历史</summary>
+                        <ul style="margin-top:8px;">
+                            <li>v1.3 (2026.01)：月度回顾看板/高频词</li>
+                            <li>v1.4 (2026.02)：导出Word/CSV/JSON</li>
+                            <li>v1.5 (2026.03)：支持剧本分场标签与快速过滤</li>
+                        </ul>
+                    </details>
+                </div>
+                <!-- 会议反刍舱 -->
+                <div class="design-doc-card">
+                    <div class="design-doc-title"><span>🎙️</span> 会议·反刍舱</div>
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>会议“记录即遗忘”，待办难追踪，缺乏闭环复盘工具。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>录音→Whisper转文字→AI提取待办→反刍提醒，支持本地模型与隐私优先。</p></div>
+                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>待办完成率从52%提升至71%（+19pp）</li><li>零服务端成本</li><li>平均完成周期缩短1.8天</li></ul></div>
+                    <div class="doc-row"><h4>💬 用户怎么说</h4>
+                        <div class="feedback-quote">“Whisper转中文比我预期的准，偶尔有错字但能看懂，关键是离线也能跑。” —— 产品经理 Ryan</div>
+                        <div class="feedback-quote">“待办追踪和反刍提醒真的救了我这种多线程打工人，再也不用每周翻聊天记录找action了。” —— 项目经理 Mia <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
+                    </div>
+                    <details class="doc-iteration">
+                        <summary>📜 查看完整迭代历史</summary>
+                        <ul style="margin-top:8px;">
+                            <li>v1.2 (2026.01)：增加本地模型选项（隐私优先）</li>
+                            <li>v1.3 (2026.02)：支持待办分配给参会人、标记完成状态</li>
+                        </ul>
+                    </details>
                 </div>
             </div>
         </div>
-        <div style="text-align: right; margin-top: 12px; font-size: 0.7rem; color: #7f8c8d;">
-            ※ 以上图表使用 Chart.js 绘制，模拟Tableau核心图表类型（柱状图、饼图、水平条、折线图）
+
+        <!-- 新增：我可以带来什么 -->
+        <div class="capability-summary">
+            <h3 style="font-size:1.4rem; font-weight:600; color:#0c4a6e; margin-bottom: 16px;">✨ 我能为团队带来什么</h3>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 720px; margin: 0 auto;">
+                <div class="capability-item">
+                    <p style="font-size:1.1rem; font-weight:600;">🚀 零到一的落地能力</p>
+                    <p style="font-size:0.85rem; color:#334155;">4个AI小项目从idea到可体验Demo，独立完成全链路</p>
+                </div>
+                <div class="capability-item">
+                    <p style="font-size:1.1rem; font-weight:600;">📊 数据驱动的迭代思维</p>
+                    <p style="font-size:0.85rem; color:#334155;">A/B测试框架、留存分析、ROI计算，用数据验证产品决策</p>
+                </div>
+                <div class="capability-item">
+                    <p style="font-size:1.1rem; font-weight:600;">🧠 用户共情力</p>
+                    <p style="font-size:0.85rem; color:#334155;">语言学背景 + 40+条真实反馈驱动优化，深入理解用户需求</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact-section" class="cta-section scroll-margin">
+            <p>📬 三天内到岗 · 实习3 - 6个月 · 每周5天</p>
+            <div class="contact-info">
+                <span>📧 Wangtj0212@outlook.com</span>
+                <span>📞 +86 </span>
+            </div>
+            <div style="margin-top: 18px; font-size: 0.85rem; color: #5f6c80;">
+                <p>展现从0到1的AI产品落地能力，融合语言学背景与产品思维 + 商业指标驱动决策 + 数据可视化</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 作品集 · 含A/B测试报告 & Tableau风格看板<br>
+            <span style="margin-top: 12px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+                <a href="./pet-vaccine.html" target="_blank">毛孩疫苗本</a> ·
+                <a href="./creation-cabin.html" target="_blank">星途创作舱</a> ·
+                <a href="./script-review.html" target="_blank">剧本复盘舱</a> ·
+                <a href="./meeting-ruminant.html" target="_blank">会议反刍舱</a>
+            </span>
         </div>
     </div>
 
-    <!-- 核心项目区（按商业说服力排序） -->
-    <div class="project-grid">
-        <a id="project-pet" class="project-card scroll-margin" href="./pet-vaccine.html" target="_blank">
-            <div class="project-emoji">🐾</div>
-            <div class="project-title">毛孩疫苗本 <span class="project-highlight">转化率 +61.5%</span></div>
-            <div class="project-subtitle">AI驱动的宠物健康管理工具</div>
-            <div class="project-desc">
-                <strong>背景：</strong>宠物主记录疫苗/花费不便，市面工具臃肿。<br>
-                <strong>我的方案：</strong>设计轻量工具，集成离线OCR识别疫苗信息，设计智能提醒系统，数据本地存储。<br>
-                <strong>成果：</strong>OCR识别准确率从40%提升至80%+，完成从Idea到可安装APK的全链路。
-            </div>
-            <div><span class="project-tag">OCR识别</span><span class="project-tag">PWA</span><span class="project-tag">Vibe Coding</span></div>
-            <div class="project-link">→ 体验 Demo</div>
-        </a>
-        <a id="project-meeting" class="project-card scroll-margin" href="./meeting-ruminant.html" target="_blank">
-            <div class="project-emoji">🎙️</div>
-            <div class="project-title">会议·反刍舱 <span class="project-highlight">待办完成率 +19pp</span></div>
-            <div class="project-subtitle">AI会议复盘与行动管理</div>
-            <div class="project-desc">
-                <strong>背景：</strong>会议“记录即遗忘”，待办难追踪。<br>
-                <strong>我的方案：</strong>打造“录音→AI提取→待办追踪→反刍提醒”闭环，集成Whisper与DeepSeek。<br>
-                <strong>成果：</strong>交付零服务端成本的轻量AI复盘工具，待办完成率从52%提升至71%。
-            </div>
-            <div><span class="project-tag">Whisper</span><span class="project-tag">DeepSeek API</span><span class="project-tag">本地模型</span></div>
-            <div class="project-link">→ 体验 Demo</div>
-        </a>
-        <a id="project-creation" class="project-card scroll-margin" href="./creation-cabin.html" target="_blank">
-            <div class="project-emoji">✍️</div>
-            <div class="project-title">星途·创作舱 <span class="project-highlight">2000+行 · 10次迭代</span></div>
-            <div class="project-subtitle">网文创作者效率工具</div>
-            <div class="project-desc">
-                <strong>背景：</strong>创作者面临素材管理混乱、大纲与写作割裂的痛点。<br>
-                <strong>我的方案：</strong>集成大纲编辑器、角色设定、灵感库等模块，设计清晰的信息架构。<br>
-                <strong>成果：</strong>交付2000+行纯前端应用，迭代10+项体验优化。
-            </div>
-            <div><span class="project-tag">Markdown</span><span class="project-tag">本地存储</span><span class="project-tag">多主题</span></div>
-            <div class="project-link">→ 体验 Demo</div>
-        </a>
-        <a id="project-script" class="project-card scroll-margin" href="./script-review.html" target="_blank">
-            <div class="project-emoji">📋</div>
-            <div class="project-title">剧本·复盘舱 <span class="project-highlight">高频词复盘 · 标签闭环</span></div>
-            <div class="project-subtitle">编剧进度管理与版本复盘</div>
-            <div class="project-desc">
-                <strong>背景：</strong>长内容创作中“版本迭代难追踪、修改原因易遗忘”。<br>
-                <strong>我的方案：</strong>设计“剧本-进度-复盘”三位一体模型，构建修改与复盘的闭环。<br>
-                <strong>成果：</strong>内置月度看板与高频词分析，填补“写后管理”工具空白。
-            </div>
-            <div><span class="project-tag">复盘闭环</span><span class="project-tag">标签系统</span><span class="project-tag">文件管理</span></div>
-            <div class="project-link">→ 体验 Demo</div>
-        </a>
-    </div>
-
-    <!-- 设计文档精简版 -->
-    <div id="design-docs" class="design-doc-section scroll-margin">
-        <div class="design-doc-header">
-            <h2>📄 设计文档 & 迭代记录（精简版）</h2>
-            <p>痛点 · 方案 · 量化成果 · 代表性反馈 · 迭代历史</p>
-        </div>
-        <div class="design-doc-grid">
-            <!-- 毛孩疫苗本 -->
-            <div class="design-doc-card">
-                <div class="design-doc-title"><span>🐾</span> 毛孩疫苗本</div>
-                <div class="doc-row"><h4>🔍 关键痛点</h4><p>宠物主记录疫苗/花费不便，提醒不灵活，导出缺失。</p></div>
-                <div class="doc-row"><h4>✅ 核心方案</h4><p>轻量工具 + 离线OCR + 多维提醒策略（按宠物独立提醒、稍后/忽略）。</p></div>
-                <div class="doc-row"><h4>📈 量化成果</h4><ul><li>OCR准确率 40% → 80%+</li><li>A/B测试：提醒转化率+61.5%，7日留存+41.9%</li><li>v1.6全量发布灵活提醒策略</li></ul></div>
-                <div class="doc-row"><h4>💬 代表性反馈</h4>
-                    <div class="feedback-quote">🐶 “疫苗提醒很准，导出Excel备份这个功能很实用。” —— 金毛妮可·李女士 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
-                    <div class="feedback-quote">🐕 “希望能为每只狗单独设置提醒，现在这个‘按宠物筛选’太棒了！” —— 双狗家庭·Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
-                </div>
-                <details class="doc-iteration">
-                    <summary>📜 查看完整迭代历史</summary>
-                    <ul style="margin-top:8px;">
-                        <li>v1.0 (2025.09)：基础增删改查</li>
-                        <li>v1.1 (2025.10)：自动算有效期</li>
-                        <li>v1.2 (2025.11)：集成Tesseract.js OCR，准确率提至80%+</li>
-                        <li>v1.3~v1.5：提示/花费视图/提醒状态机</li>
-                        <li>v1.6 (2026.02)：基于A/B实验全量上线灵活提醒策略，转化提升61%</li>
-                    </ul>
-                </details>
-            </div>
-            <!-- 星途创作舱 -->
-            <div class="design-doc-card">
-                <div class="design-doc-title"><span>✍️</span> 星途·创作舱</div>
-                <div class="doc-row"><h4>🔍 关键痛点</h4><p>网文作者大纲与写作割裂，角色设定散落，缺少轻量一站式工具。</p></div>
-                <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲编辑器、角色/世界观面板、标题灵感库与每日写作目标。</p></div>
-                <div class="doc-row"><h4>📈 量化成果</h4><ul><li>交付2000+行纯前端应用</li><li>迭代10+项体验优化</li><li>标题灵感库扩充至800+</li></ul></div>
-                <div class="doc-row"><h4>💬 代表性反馈</h4>
-                    <div class="feedback-quote">✍️ “墨水屏主题好用，在电子纸上写大纲很舒服。” —— 签约作者·miki</div>
-                    <div class="feedback-quote">✨ “标题灵感库真的拯救了取名困难户！希望能继续扩充。” —— 新人作者·七叶 <span style="color:#2e7d32; margin-left:8px;">✓ 已增至800+</span></div>
-                </div>
-                <details class="doc-iteration">
-                    <summary>📜 查看完整迭代历史</summary>
-                    <ul style="margin-top:8px;">
-                        <li>v1.0~v1.5：多主题/墨水屏模式/随机标题/鼓励语管理</li>
-                        <li>v1.6 (2026.03)：新增“创作字数统计”与“每日目标”</li>
-                    </ul>
-                </details>
-            </div>
-            <!-- 剧本复盘舱 -->
-            <div class="design-doc-card">
-                <div class="design-doc-title"><span>📋</span> 剧本·复盘舱</div>
-                <div class="doc-row"><h4>🔍 关键痛点</h4><p>长内容创作中版本迭代难追踪、修改原因易遗忘。</p></div>
-                <div class="doc-row"><h4>✅ 核心方案</h4><p>“剧本-进度-复盘”三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
-                <div class="doc-row"><h4>📈 量化成果</h4><ul><li>内置月度高频词分析与看板</li><li>支持导出Word/CSV/JSON</li><li>填补“写后管理”工具空白</li></ul></div>
-                <div class="doc-row"><h4>💬 代表性反馈</h4>
-                    <div class="feedback-quote">📌 “每次修改剧本原因都能记录下来，复盘时一目了然。” —— 编剧·veka</div>
-                    <div class="feedback-quote">📊 “月度高频词分析让我更清楚剧本的叙事重心，很惊喜的功能。” —— 独立编剧·若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
-                </div>
-                <details class="doc-iteration">
-                    <summary>📜 查看完整迭代历史</summary>
-                    <ul style="margin-top:8px;">
-                        <li>v1.3 (2026.01)：月度回顾看板/高频词</li>
-                        <li>v1.4 (2026.02)：导出Word/CSV/JSON</li>
-                        <li>v1.5 (2026.03)：支持剧本分场标签与快速过滤</li>
-                    </ul>
-                </details>
-            </div>
-            <!-- 会议反刍舱 -->
-            <div class="design-doc-card">
-                <div class="design-doc-title"><span>🎙️</span> 会议·反刍舱</div>
-                <div class="doc-row"><h4>🔍 关键痛点</h4><p>会议“记录即遗忘”，待办难追踪，缺乏闭环复盘工具。</p></div>
-                <div class="doc-row"><h4>✅ 核心方案</h4><p>录音→Whisper转文字→AI提取待办→反刍提醒，支持本地模型与隐私优先。</p></div>
-                <div class="doc-row"><h4>📈 量化成果</h4><ul><li>待办完成率从52%提升至71%（+19pp）</li><li>零服务端成本</li><li>平均完成周期缩短1.8天</li></ul></div>
-                <div class="doc-row"><h4>💬 代表性反馈</h4>
-                    <div class="feedback-quote">🎤 “Whisper转写相对来说准确率还算高，尤其是中文。” —— 产品经理·Ryan</div>
-                    <div class="feedback-quote">📌 “待办追踪和反刍提醒让我不会漏掉任何一条action item，太适合多线程工作了。” —— 项目经理·杨 <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
-                </div>
-                <details class="doc-iteration">
-                    <summary>📜 查看完整迭代历史</summary>
-                    <ul style="margin-top:8px;">
-                        <li>v1.2 (2026.01)：增加本地模型选项（隐私优先）</li>
-                        <li>v1.3 (2026.02)：支持待办分配给参会人、标记完成状态</li>
-                    </ul>
-                </details>
-            </div>
-        </div>
-    </div>
-
-    <!-- 新增：我可以带来什么 -->
-    <div class="capability-summary">
-        <h3 style="font-size:1.4rem; font-weight:600; color:#0c4a6e; margin-bottom: 16px;">✨ 我能为团队带来什么</h3>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 720px; margin: 0 auto;">
-            <div class="capability-item">
-                <p style="font-size:1.1rem; font-weight:600;">🚀 零到一的落地能力</p>
-                <p style="font-size:0.85rem; color:#334155;">4个AI小项目从idea到可体验Demo，独立完成全链路</p>
-            </div>
-            <div class="capability-item">
-                <p style="font-size:1.1rem; font-weight:600;">📊 数据驱动的迭代思维</p>
-                <p style="font-size:0.85rem; color:#334155;">A/B测试框架、留存分析、ROI计算，用数据验证产品决策</p>
-            </div>
-            <div class="capability-item">
-                <p style="font-size:1.1rem; font-weight:600;">🧠 用户共情力</p>
-                <p style="font-size:0.85rem; color:#334155;">语言学背景 + 40+条真实反馈驱动优化，深入理解用户需求</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="contact-section" class="cta-section scroll-margin">
-        <p>📬 三天内到岗 · 实习6个月 · 每周5天</p>
-        <div class="contact-info">
-            <span>📧 Wangtj0212@outlook.com</span>
-            <span>📞 +86 </span>
-        </div>
-        <div style="margin-top: 18px; font-size: 0.85rem; color: #5f6c80;">
-            <p>展现从0到1的AI产品落地能力，融合语言学背景与产品思维 + 商业指标驱动决策 + 数据可视化</p>
-        </div>
-    </div>
-
-    <div class="footer">
-        © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 实习作品集 · 含A/B测试模拟报告 & Tableau风格看板<br>
-        <span style="margin-top: 12px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
-            <a href="./pet-vaccine.html" target="_blank">毛孩疫苗本</a> · 
-            <a href="./creation-cabin.html" target="_blank">星途创作舱</a> · 
-            <a href="./script-review.html" target="_blank">剧本复盘舱</a> · 
-            <a href="./meeting-ruminant.html" target="_blank">会议反刍舱</a>
-        </span>
-    </div>
-</div>
-
-<script>
-    (function() {
-        const links = document.querySelectorAll('.toc-link');
-        links.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId && targetId !== '#') {
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        history.pushState(null, null, targetId);
+    <script>
+        (function() {
+            const links = document.querySelectorAll('.toc-link');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId !== '#') {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            history.pushState(null, null, targetId);
+                        }
                     }
+                });
+            });
+            const tocFloat = document.getElementById('tocFloat');
+            const toggleBtn = document.getElementById('tocToggleBtn');
+
+            function updateToggleIcon() {
+                if (tocFloat.classList.contains('collapsed')) {
+                    toggleBtn.textContent = '☰';
+                    toggleBtn.setAttribute('aria-label', '展开大纲');
+                } else {
+                    toggleBtn.textContent = '◀';
+                    toggleBtn.setAttribute('aria-label', '折叠大纲');
+                }
+            }
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                tocFloat.classList.toggle('collapsed');
+                updateToggleIcon();
+            });
+            updateToggleIcon();
+
+            const ctxBar = document.getElementById('abtestBarChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['提醒设置转化率', '7日留存率'],
+                    datasets: [
+                        { label: '对照组 (A组)', data: [26, 31], backgroundColor: 'rgba(100, 116, 139, 0.7)', borderRadius: 8 },
+                        { label: '实验组 (B组)', data: [42, 44], backgroundColor: 'rgba(230, 126, 34, 0.8)', borderRadius: 8 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}%` } }, legend: { position: 'top' } },
+                    scales: { y: { title: { display: true, text: '百分比 (%)' }, min: 0, max: 60, grid: { color: '#eef2f6' } } }
                 }
             });
-        });
-        const tocFloat = document.getElementById('tocFloat');
-        const toggleBtn = document.getElementById('tocToggleBtn');
-        function updateToggleIcon() {
-            if (tocFloat.classList.contains('collapsed')) {
-                toggleBtn.textContent = '☰';
-                toggleBtn.setAttribute('aria-label', '展开大纲');
-            } else {
-                toggleBtn.textContent = '◀';
-                toggleBtn.setAttribute('aria-label', '折叠大纲');
-            }
-        }
-        toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            tocFloat.classList.toggle('collapsed');
-            updateToggleIcon();
-        });
-        updateToggleIcon();
 
-        // 图表绘制
-        const ctxBar = document.getElementById('abtestBarChart').getContext('2d');
-        new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: ['提醒设置转化率', '7日留存率'],
-                datasets: [
-                    { label: '对照组 (A组)', data: [26, 31], backgroundColor: 'rgba(100, 116, 139, 0.7)', borderRadius: 8 },
-                    { label: '实验组 (B组)', data: [42, 44], backgroundColor: 'rgba(230, 126, 34, 0.8)', borderRadius: 8 }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}%` } }, legend: { position: 'top' } },
-                scales: { y: { title: { display: true, text: '百分比 (%)' }, min: 0, max: 60, grid: { color: '#eef2f6' } } }
-            }
-        });
+            const ctxPie = document.getElementById('feedbackPieChart').getContext('2d');
+            new Chart(ctxPie, {
+                type: 'pie',
+                data: {
+                    labels: ['已实现 (✅ 24项)', '规划中 (⏳ 12项)', '待评估 (📌 6项)'],
+                    datasets: [{ data: [24, 12, 6], backgroundColor: ['#2e7d32', '#f59e0b', '#94a3b8'], borderWidth: 0 }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}项 (${((ctx.raw / 42) * 100).toFixed(0)}%)` } } }
+                }
+            });
 
-        const ctxPie = document.getElementById('feedbackPieChart').getContext('2d');
-        new Chart(ctxPie, {
-            type: 'pie',
-            data: {
-                labels: ['已实现 (✅ 24项)', '规划中 (⏳ 12项)', '待评估 (📌 6项)'],
-                datasets: [{ data: [24, 12, 6], backgroundColor: ['#2e7d32', '#f59e0b', '#94a3b8'], borderWidth: 0 }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}项 (${((ctx.raw/42)*100).toFixed(0)}%)` } } }
-            }
-        });
+            const ctxHor = document.getElementById('feedbackHorizontalBar').getContext('2d');
+            new Chart(ctxHor, {
+                type: 'bar',
+                data: {
+                    labels: ['导出/备份', 'OCR/识别', '提醒灵活性', '多主题/UI', '标签系统'],
+                    datasets: [{ label: '已实现反馈数量', data: [8, 6, 7, 5, 9], backgroundColor: '#3b6e8b', borderRadius: 6 }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { x: { title: { display: true, text: '反馈数量' }, grid: { color: '#eef2f6' } } }
+                }
+            });
 
-        const ctxHor = document.getElementById('feedbackHorizontalBar').getContext('2d');
-        new Chart(ctxHor, {
-            type: 'bar',
-            data: {
-                labels: ['导出/备份', 'OCR/识别', '提醒灵活性', '多主题/UI', '标签系统'],
-                datasets: [{ label: '已实现反馈数量', data: [8, 6, 7, 5, 9], backgroundColor: '#3b6e8b', borderRadius: 6 }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: { legend: { position: 'top' } },
-                scales: { x: { title: { display: true, text: '反馈数量' }, grid: { color: '#eef2f6' } } }
-            }
-        });
-
-        const ctxLine = document.getElementById('completionTrendLine').getContext('2d');
-        new Chart(ctxLine, {
-            type: 'line',
-            data: {
-                labels: ['W1 (上线前)', 'W2 (上线前)', 'W3 (反刍提醒后)', 'W4 (反刍提醒后)'],
-                datasets: [{
-                    label: '7日待办完成率 (%)',
-                    data: [48, 52, 67, 71],
-                    borderColor: '#e67e22',
-                    backgroundColor: 'rgba(230,126,34,0.05)',
-                    tension: 0.3,
-                    fill: true,
-                    pointBackgroundColor: '#c2410c',
-                    pointRadius: 4,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.raw}%` } } },
-                scales: { y: { title: { display: true, text: '完成率 (%)' }, min: 40, max: 80, grid: { color: '#eef2f6' } } }
-            }
-        });
-    })();
-</script>
+            const ctxLine = document.getElementById('completionTrendLine').getContext('2d');
+            new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: ['W1 (上线前)', 'W2 (上线前)', 'W3 (反刍提醒后)', 'W4 (反刍提醒后)'],
+                    datasets: [{
+                        label: '7日待办完成率 (%)',
+                        data: [48, 52, 67, 71],
+                        borderColor: '#e67e22',
+                        backgroundColor: 'rgba(230,126,34,0.05)',
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: '#c2410c',
+                        pointRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.raw}%` } } },
+                    scales: { y: { title: { display: true, text: '完成率 (%)' }, min: 40, max: 80, grid: { color: '#eef2f6' } } }
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
