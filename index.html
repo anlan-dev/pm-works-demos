@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="description" content="王天娇 · 作品集 — 展现从0到1的AI产品落地能力，融合语言学背景与产品思维 | 含A/B测试模拟报告及Tableau风格看板">
     <title>王天娇 · vibe coding产品运营设计作品集 ·</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
@@ -22,23 +22,27 @@
             scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
             max-width: 880px;
             width: 100%;
             margin: 0 auto;
-            padding: 48px 32px 64px 32px;
+            padding: clamp(28px, 4vw, 48px) clamp(16px, 4vw, 32px) clamp(36px, 5vw, 64px) clamp(16px, 4vw, 32px);
         }
 
+        /* ===== 浮动目录 (TOC) ===== */
         .toc-float {
             position: fixed;
-            right: 12px;
+            right: clamp(6px, 1.2vw, 12px);
             top: 50%;
             transform: translateY(-50%);
             width: auto;
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 36px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
             border: 0.5px solid rgba(203, 213, 225, 0.5);
@@ -65,7 +69,7 @@
             border-bottom: 0.5px solid rgba(148, 163, 184, 0.3);
         }
         .toc-title {
-            font-size: 0.58rem;
+            font-size: clamp(0.48rem, 0.7vw, 0.58rem);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -90,6 +94,8 @@
             padding: 0;
             opacity: 0.7;
             flex-shrink: 0;
+            min-width: 30px;
+            min-height: 30px;
         }
         .toc-toggle:hover {
             background: rgba(100, 130, 160, 0.12);
@@ -114,15 +120,16 @@
             justify-content: center;
             gap: 3px;
             text-decoration: none;
-            font-size: 0.58rem;
+            font-size: clamp(0.5rem, 0.7vw, 0.58rem);
             font-weight: 500;
             color: #2c3e50;
-            padding: 2px 5px;
+            padding: 3px 6px;
             border-radius: 30px;
             transition: all 0.15s ease;
             background: transparent;
             white-space: nowrap;
             letter-spacing: -0.1px;
+            min-height: 32px;
         }
         .toc-link .toc-icon {
             font-size: 0.78rem;
@@ -150,35 +157,113 @@
             font-size: 1.2rem;
             background: rgba(220, 235, 250, 0.4);
             opacity: 0.9;
+            min-width: 34px;
+            min-height: 34px;
         }
+
         @media (max-width: 1000px) {
             .toc-float {
-                right: 8px;
+                right: 6px;
                 padding: 6px 3px;
+                border-radius: 28px;
             }
             .toc-link {
-                padding: 2px 4px;
-                font-size: 0.52rem;
+                padding: 3px 5px;
+                font-size: 0.5rem;
                 gap: 2px;
+                min-height: 28px;
             }
             .toc-link .toc-icon {
-                font-size: 0.68rem;
+                font-size: 0.65rem;
             }
             .toc-title {
-                font-size: 0.48rem;
+                font-size: 0.45rem;
+            }
+            .toc-toggle {
+                min-width: 28px;
+                min-height: 28px;
             }
         }
-        @media (max-width: 760px) {
+        @media (max-width: 820px) {
             .toc-float {
                 display: none;
             }
-            .container {
-                padding: 32px 20px 48px;
+        }
+
+        /* ===== 移动端底部简化导航 ===== */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-top: 1px solid #e8ecf2;
+            z-index: 999;
+            padding: 8px 6px max(8px, env(safe-area-inset-bottom)) 6px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .mobile-bottom-nav::-webkit-scrollbar {
+            display: none;
+        }
+        .mobile-bottom-nav-inner {
+            display: flex;
+            gap: 6px;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            min-width: min-content;
+            padding: 0 4px;
+        }
+        .mobile-bottom-nav a {
+            flex-shrink: 0;
+            text-decoration: none;
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: #3a5670;
+            background: #f5f7fa;
+            padding: 7px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+            letter-spacing: 0.1px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            border: 0.5px solid #e4eaf2;
+            min-height: 36px;
+        }
+        .mobile-bottom-nav a:active {
+            background: #e0ecf7;
+            color: #0c3a56;
+            transform: scale(0.96);
+        }
+        @media (max-width: 820px) {
+            .mobile-bottom-nav {
+                display: block;
+            }
+            body {
+                padding-bottom: 72px;
+            }
+            .footer {
+                padding-bottom: 20px !important;
+            }
+            .cta-section {
+                margin-bottom: 12px !important;
+            }
+        }
+        @media (min-width: 821px) {
+            .mobile-bottom-nav {
+                display: none;
             }
         }
 
+        /* ===== 标题与Hero ===== */
         h1 {
-            font-size: 3rem;
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 550;
             letter-spacing: -0.02em;
             color: #0f1419;
@@ -186,30 +271,33 @@
             line-height: 1.2;
         }
         .subtitle {
-            font-size: 1.1rem;
+            font-size: clamp(0.85rem, 1.4vw, 1.1rem);
             color: #4a5568;
             max-width: 560px;
             margin: 18px auto 0;
             line-height: 1.5;
             font-weight: 400;
+            padding: 0 8px;
         }
         .badge-group {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: clamp(6px, 1vw, 10px);
             margin: 16px 0 8px;
+            padding: 0 4px;
         }
         .badge {
             background: #f1f5f9;
             color: #1e293b;
-            padding: 5px 16px;
+            padding: 5px 14px;
             border-radius: 40px;
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 1vw, 0.8rem);
             font-weight: 480;
             letter-spacing: 0.01em;
             transition: all 0.2s ease;
             border: 0.5px solid rgba(0, 0, 0, 0.02);
+            white-space: nowrap;
         }
         .badge:hover {
             background: #e6edf4;
@@ -218,26 +306,52 @@
             width: 100%;
             height: 1px;
             background: radial-gradient(circle, #e2e8f0 30%, transparent 100%);
-            margin: 40px 0 44px;
+            margin: clamp(28px, 4vw, 40px) 0 clamp(30px, 4.5vw, 44px);
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hero-detail {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(8px, 1.5vw, 12px) clamp(14px, 2.5vw, 24px);
+            margin-top: 12px;
+            font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+            color: #475569;
+            padding: 0 4px;
+        }
+        .accent-line {
+            width: 48px;
+            height: 2px;
+            background: #cbdcec;
+            margin: 20px auto 16px;
+            border-radius: 2px;
+        }
+        .scroll-margin {
+            scroll-margin-top: clamp(60px, 10vh, 80px);
         }
 
-        /* ===== 产品设计方法论板块  ===== */
+        /* ===== 产品设计方法论板块 ===== */
         .methodology-section {
-            margin: 20px 0 44px;
+            margin: 20px 0 clamp(30px, 4vw, 44px);
         }
         .methodology-header {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: clamp(20px, 3vw, 28px);
+            padding: 0 4px;
         }
         .methodology-header h2 {
-            font-size: 1.75rem;
+            font-size: clamp(1.3rem, 2.2vw, 1.75rem);
             font-weight: 550;
             color: #0f172a;
             letter-spacing: -0.01em;
             margin-bottom: 6px;
+            line-height: 1.3;
         }
         .methodology-header .methodology-sub {
-            font-size: 0.9rem;
+            font-size: clamp(0.78rem, 1.1vw, 0.9rem);
             color: #5b6e8c;
             font-weight: 400;
             letter-spacing: 0.2px;
@@ -245,15 +359,15 @@
         .methodology-steps {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: clamp(12px, 2vw, 18px);
         }
         .method-step {
             background: #ffffff;
-            border-radius: 22px;
+            border-radius: clamp(16px, 2.5vw, 22px);
             border: 1px solid #eef2f7;
-            padding: 22px 24px 20px;
+            padding: clamp(16px, 2.5vw, 22px) clamp(14px, 2.8vw, 24px) clamp(14px, 2.2vw, 20px);
             display: flex;
-            gap: 16px;
+            gap: clamp(10px, 1.8vw, 16px);
             align-items: flex-start;
             transition: all 0.25s ease;
             position: relative;
@@ -267,8 +381,8 @@
         }
         .step-marker {
             flex-shrink: 0;
-            width: 36px;
-            height: 36px;
+            width: clamp(28px, 4vw, 36px);
+            height: clamp(28px, 4vw, 36px);
             border-radius: 50%;
             background: #f0f4fa;
             color: #1e4a6b;
@@ -276,10 +390,11 @@
             align-items: center;
             justify-content: center;
             font-weight: 650;
-            font-size: 0.95rem;
+            font-size: clamp(0.8rem, 1.1vw, 0.95rem);
             letter-spacing: -0.02em;
             margin-top: 1px;
             transition: all 0.2s;
+            min-width: 28px;
         }
         .method-step:hover .step-marker {
             background: #e0ecf7;
@@ -291,7 +406,7 @@
             min-width: 0;
         }
         .step-content h4 {
-            font-size: 1rem;
+            font-size: clamp(0.88rem, 1.2vw, 1rem);
             font-weight: 600;
             color: #0f172a;
             margin-bottom: 6px;
@@ -300,12 +415,13 @@
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
+            line-height: 1.35;
         }
         .step-content h4 .step-icon {
             font-size: 1.15rem;
         }
         .step-content p {
-            font-size: 0.88rem;
+            font-size: clamp(0.8rem, 1vw, 0.88rem);
             color: #2d3a4b;
             line-height: 1.55;
             margin-bottom: 6px;
@@ -317,21 +433,21 @@
             font-weight: 600;
             padding: 2px 10px;
             border-radius: 14px;
-            font-size: 0.78rem;
+            font-size: clamp(0.7rem, 0.9vw, 0.78rem);
             border: 0.5px solid #fde8d0;
         }
         .step-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: clamp(4px, 0.7vw, 6px);
             margin-top: 8px;
         }
         .step-tag {
             background: #f8fafc;
             color: #334155;
-            padding: 3px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: clamp(0.64rem, 0.8vw, 0.7rem);
             font-weight: 500;
             letter-spacing: 0.2px;
             border: 0.5px solid #e8edf4;
@@ -349,69 +465,110 @@
             margin: 6px 0 0;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px 16px;
+            gap: 6px 12px;
         }
         .step-mini-list li {
-            font-size: 0.82rem;
+            font-size: clamp(0.74rem, 0.95vw, 0.82rem);
             color: #3a4a5c;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 4px;
+            line-height: 1.45;
         }
         .step-mini-list li::before {
             content: '•';
             color: #94a3b8;
             font-weight: 700;
             font-size: 1.1rem;
+            flex-shrink: 0;
         }
         .step-outcome-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px 18px;
+            gap: 8px 14px;
             margin-top: 8px;
-            font-size: 0.82rem;
+            font-size: clamp(0.74rem, 0.95vw, 0.82rem);
             color: #1e4a2c;
             font-weight: 520;
         }
         .step-outcome-row span {
             background: #f0f9f0;
-            padding: 3px 12px;
+            padding: 3px 10px;
             border-radius: 16px;
             white-space: nowrap;
             border: 0.5px solid #d4ead4;
+            font-size: clamp(0.7rem, 0.9vw, 0.8rem);
         }
         @media (max-width: 640px) {
             .method-step {
                 flex-direction: column;
                 gap: 8px;
-                padding: 18px 16px 16px;
+                padding: 16px 14px 14px;
+                border-radius: 18px;
             }
             .step-marker {
-                width: 30px;
-                height: 30px;
-                font-size: 0.85rem;
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+                min-width: 28px;
             }
             .step-content h4 {
-                font-size: 0.92rem;
+                font-size: 0.88rem;
             }
             .step-content p {
-                font-size: 0.82rem;
+                font-size: 0.8rem;
             }
             .methodology-header h2 {
-                font-size: 1.45rem;
+                font-size: 1.3rem;
+            }
+            .step-mini-list li {
+                font-size: 0.76rem;
+                width: 100%;
+            }
+            .step-outcome-row span {
+                font-size: 0.72rem;
+                padding: 3px 8px;
+            }
+            .step-tag {
+                font-size: 0.64rem;
+                padding: 3px 8px;
+            }
+            .step-tag.em {
+                font-size: 0.64rem;
+            }
+        }
+        @media (max-width: 380px) {
+            .method-step {
+                padding: 12px 10px 12px;
+                border-radius: 14px;
+                gap: 6px;
+            }
+            .step-content h4 {
+                font-size: 0.8rem;
+            }
+            .step-content p {
+                font-size: 0.74rem;
+            }
+            .step-outcome-row {
+                gap: 5px 8px;
+            }
+            .step-outcome-row span {
+                font-size: 0.68rem;
+                padding: 2px 7px;
             }
         }
 
+        /* ===== 项目卡片 ===== */
         .project-grid {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: clamp(14px, 2vw, 20px);
         }
         .project-card {
             display: block;
             background: #ffffff;
-            border-radius: 28px;
-            padding: 28px 28px;
+            border-radius: clamp(18px, 3vw, 28px);
+            padding: clamp(18px, 2.8vw, 28px) clamp(16px, 2.8vw, 28px);
             text-decoration: none;
             color: inherit;
             transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
@@ -424,46 +581,64 @@
             transform: translateY(-3px);
             background-color: #fefefe;
         }
+        @media (max-width: 640px) {
+            .project-card:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+            }
+        }
         .project-emoji {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            margin-bottom: clamp(10px, 1.8vw, 16px);
             line-height: 1;
         }
         .project-title {
-            font-size: 1.7rem;
+            font-size: clamp(1.3rem, 2vw, 1.7rem);
             font-weight: 570;
             letter-spacing: -0.01em;
             color: #0f172a;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
+            line-height: 1.3;
         }
         .project-highlight {
-            font-size: 0.75rem;
+            font-size: clamp(0.68rem, 0.85vw, 0.75rem);
             font-weight: 600;
             background: #eef2ff;
             color: #1e40af;
-            padding: 2px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
             margin-left: auto;
             white-space: nowrap;
+            flex-shrink: 0;
+        }
+        @media (max-width: 500px) {
+            .project-highlight {
+                margin-left: 0;
+                margin-top: 2px;
+            }
+            .project-title {
+                gap: 6px;
+            }
         }
         .project-subtitle {
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
             font-weight: 500;
             color: #4b5565;
-            margin-bottom: 20px;
+            margin-bottom: clamp(14px, 2vw, 20px);
             letter-spacing: 0.2px;
             border-left: 3px solid #94a3b8;
-            padding-left: 12px;
+            padding-left: 10px;
+            line-height: 1.4;
         }
         .project-desc {
             color: #2d3a4b;
-            font-size: 0.95rem;
+            font-size: clamp(0.84rem, 1.05vw, 0.95rem);
             line-height: 1.6;
-            margin-bottom: 24px;
+            margin-bottom: clamp(16px, 2.5vw, 24px);
         }
         .project-desc strong {
             color: #0f172a;
@@ -474,26 +649,29 @@
             align-items: center;
             background: #f8fafc;
             color: #334155;
-            padding: 4px 14px;
+            padding: 4px 12px;
             border-radius: 30px;
-            font-size: 0.7rem;
+            font-size: clamp(0.64rem, 0.8vw, 0.7rem);
             font-weight: 500;
             letter-spacing: 0.3px;
-            margin-right: 8px;
-            margin-bottom: 8px;
+            margin-right: 6px;
+            margin-bottom: 6px;
             border: 0.5px solid #e2e8f0;
+            white-space: nowrap;
         }
         .project-link {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            margin-top: 18px;
-            font-size: 0.85rem;
+            margin-top: clamp(12px, 2vw, 18px);
+            font-size: clamp(0.78rem, 1vw, 0.85rem);
             font-weight: 520;
             color: #3b6e8b;
             letter-spacing: 0.2px;
             border-bottom: 1px solid transparent;
             transition: 0.2s;
+            cursor: pointer;
+            min-height: 36px;
         }
         .project-card:hover .project-link {
             color: #1e4a6b;
@@ -501,33 +679,37 @@
             border-bottom-color: #3b6e8b;
         }
 
+        /* ===== 设计文档区 ===== */
         .design-doc-section {
-            margin: 48px 0 40px;
+            margin: clamp(32px, 5vw, 48px) 0 clamp(28px, 4vw, 40px);
         }
         .design-doc-header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: clamp(20px, 3.5vw, 32px);
+            padding: 0 4px;
         }
         .design-doc-header h2 {
-            font-size: 1.8rem;
+            font-size: clamp(1.3rem, 2.2vw, 1.8rem);
             font-weight: 550;
             color: #0f172a;
             letter-spacing: -0.01em;
+            line-height: 1.3;
         }
         .design-doc-header p {
             color: #4b5565;
             margin-top: 8px;
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
         }
         .design-doc-grid {
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: clamp(18px, 3vw, 28px);
         }
         .design-doc-card {
             background: #fafcff;
-            border-radius: 28px;
+            border-radius: clamp(18px, 3vw, 28px);
             border: 1px solid #eef2f8;
-            padding: 28px 28px 24px;
+            padding: clamp(18px, 2.8vw, 28px) clamp(16px, 2.8vw, 28px) clamp(16px, 2.5vw, 24px);
         }
         .design-doc-card:hover {
             border-color: #dce5ef;
@@ -537,32 +719,34 @@
         .design-doc-title {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+            gap: 10px;
+            margin-bottom: clamp(14px, 2vw, 20px);
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem);
             font-weight: 560;
             color: #0f172a;
             border-bottom: 2px solid #e9eff5;
-            padding-bottom: 12px;
+            padding-bottom: 10px;
+            flex-wrap: wrap;
         }
         .doc-row {
-            margin-bottom: 22px;
+            margin-bottom: clamp(14px, 2.2vw, 22px);
         }
         .doc-row h4 {
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 1vw, 0.9rem);
             font-weight: 600;
             color: #3b6e8b;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
+            line-height: 1.35;
         }
         .doc-row p,
         .doc-row ul {
-            font-size: 0.88rem;
+            font-size: clamp(0.8rem, 1vw, 0.88rem);
             color: #2d3a4b;
             line-height: 1.55;
-            margin-left: 1.2rem;
+            margin-left: clamp(0.6rem, 1.5vw, 1.2rem);
         }
         .doc-row ul {
             padding-left: 0.5rem;
@@ -572,26 +756,30 @@
         }
         .feedback-quote {
             background: #f8fafc;
-            border-radius: 20px;
-            padding: 12px 16px;
+            border-radius: clamp(14px, 2vw, 20px);
+            padding: 10px 14px;
             margin-top: 8px;
-            font-size: 0.85rem;
+            font-size: clamp(0.76rem, 0.95vw, 0.85rem);
             border-left: 3px solid #94a3b8;
             color: #334155;
+            line-height: 1.5;
         }
         details.doc-iteration {
             margin-top: 10px;
             background: #f9fafb;
-            border-radius: 16px;
-            padding: 8px 14px;
-            font-size: 0.85rem;
+            border-radius: 14px;
+            padding: 8px 12px;
+            font-size: clamp(0.76rem, 0.95vw, 0.85rem);
         }
         details.doc-iteration summary {
             font-weight: 600;
             color: #1e4a6b;
             cursor: pointer;
+            min-height: 34px;
+            display: flex;
+            align-items: center;
+            padding: 2px 0;
         }
-
         .abtest-card {
             background: linear-gradient(135deg, #fef9f0 0%, #ffffff 100%);
             border-left: 4px solid #e67e22;
@@ -599,11 +787,12 @@
         .metric-badge {
             background: #eef2ff;
             color: #1e40af;
-            padding: 2px 12px;
+            padding: 2px 10px;
             border-radius: 24px;
-            font-size: 0.7rem;
+            font-size: clamp(0.64rem, 0.8vw, 0.7rem);
             font-weight: 600;
-            margin-right: 8px;
+            margin-right: 6px;
+            white-space: nowrap;
         }
         .stat-number {
             font-weight: 650;
@@ -611,150 +800,254 @@
             background: #fff1e6;
             padding: 0 6px;
             border-radius: 12px;
-            font-size: 0.85rem;
+            font-size: clamp(0.76rem, 0.95vw, 0.85rem);
+            white-space: nowrap;
         }
 
+        /* ===== SQL 证明板块 ===== */
+        .sql-proof .sql-code {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: clamp(10px, 1.5vw, 16px);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            font-size: clamp(0.7rem, 0.85vw, 0.8rem);
+            line-height: 1.6;
+            border: 1px solid #e8ecf2;
+            margin: 12px 0;
+            -webkit-text-size-adjust: none;
+        }
+        .sql-proof .sql-code code {
+            font-family: "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", "Menlo", "Consolas", monospace;
+            font-size: clamp(0.68rem, 0.8vw, 0.78rem);
+            color: #1e293b;
+            white-space: pre;
+            -webkit-text-size-adjust: none;
+        }
+        .sql-proof .sql-keyword {
+            color: #0550ae;
+            font-weight: 600;
+        }
+        .sql-proof .sql-function {
+            color: #8250df;
+        }
+        .sql-proof .sql-string {
+            color: #0a3069;
+        }
+        .sql-proof .sql-comment {
+            color: #6e7781;
+            font-style: italic;
+        }
+        .sql-proof .sql-table {
+            color: #1a5d4e;
+            font-weight: 500;
+        }
+        .sql-proof .sql-number {
+            color: #0550ae;
+        }
+        @media (max-width: 480px) {
+            .sql-proof .sql-code {
+                padding: 8px 10px;
+                border-radius: 8px;
+                font-size: 0.66rem;
+            }
+            .sql-proof .sql-code code {
+                font-size: 0.64rem;
+            }
+        }
+
+        /* ===== Tableau 仪表板展示 ===== */
         .tableau-showcase {
-            margin: 48px 0 40px;
+            margin: clamp(32px, 5vw, 48px) 0 clamp(28px, 4vw, 40px);
         }
         .dashboard-grid {
             display: flex;
             flex-direction: column;
-            gap: 36px;
+            gap: clamp(22px, 3.5vw, 36px);
         }
         .dashboard-card {
             background: #ffffff;
-            border-radius: 28px;
+            border-radius: clamp(18px, 3vw, 28px);
             border: 1px solid #eef2f8;
-            padding: 24px 24px 28px;
+            padding: clamp(16px, 2.5vw, 24px) clamp(14px, 2.5vw, 24px) clamp(18px, 2.8vw, 28px);
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
         }
         .dashboard-title {
-            font-size: 1.3rem;
+            font-size: clamp(1.05rem, 1.5vw, 1.3rem);
             font-weight: 560;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
+            line-height: 1.3;
         }
         .dashboard-sub {
-            font-size: 0.85rem;
+            font-size: clamp(0.74rem, 0.95vw, 0.85rem);
             color: #4b5565;
-            margin-bottom: 20px;
+            margin-bottom: clamp(14px, 2vw, 20px);
             border-left: 3px solid #cbd5e1;
-            padding-left: 12px;
+            padding-left: 10px;
+            line-height: 1.4;
         }
         .chart-container {
-            margin: 20px 0 20px;
+            margin: 16px 0 16px;
             height: auto;
-            min-height: 280px;
+            min-height: clamp(200px, 30vw, 280px);
         }
         canvas {
-            max-height: 280px;
-            width: 100%;
+            max-height: clamp(200px, 30vw, 280px);
+            width: 100% !important;
+            height: auto !important;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                min-height: 180px;
+            }
+            canvas {
+                max-height: 220px !important;
+            }
+        }
+        @media (max-width: 400px) {
+            .chart-container {
+                min-height: 150px;
+            }
+            canvas {
+                max-height: 180px !important;
+            }
+        }
+        /* 双图表行在移动端堆叠 */
+        .chart-row-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+        .chart-row-flex .chart-col {
+            flex: 1;
+            min-width: 180px;
+        }
+        @media (max-width: 640px) {
+            .chart-row-flex {
+                flex-direction: column !important;
+                gap: 16px;
+                align-items: stretch;
+            }
+            .chart-row-flex .chart-col {
+                min-width: auto;
+                width: 100%;
+            }
         }
         .dashboard-note {
             background: #f8fafc;
-            border-radius: 18px;
-            padding: 12px 16px;
-            margin-top: 16px;
-            font-size: 0.8rem;
+            border-radius: clamp(12px, 2vw, 18px);
+            padding: 10px 14px;
+            margin-top: 14px;
+            font-size: clamp(0.7rem, 0.9vw, 0.8rem);
             color: #3a5670;
             border: 0.5px solid #e2edf7;
+            line-height: 1.5;
         }
         .dashboard-note strong {
             color: #1e4a6b;
         }
 
+        /* ===== CTA与联系区域 ===== */
         .cta-section {
             background: #f8fafc;
-            border-radius: 32px;
-            padding: 32px 28px;
+            border-radius: clamp(20px, 3.5vw, 32px);
+            padding: clamp(20px, 3vw, 32px) clamp(16px, 2.8vw, 28px);
             text-align: center;
-            margin: 48px 0 24px;
+            margin: clamp(32px, 5vw, 48px) 0 clamp(16px, 2.5vw, 24px);
             border: 1px solid #ecf3f9;
         }
         .contact-info {
-            font-size: 1.05rem;
+            font-size: clamp(0.9rem, 1.2vw, 1.05rem);
             font-weight: 500;
             color: #1f3b4c;
             word-break: break-word;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 20px;
+        }
+        @media (max-width: 480px) {
+            .contact-info {
+                flex-direction: column;
+                gap: 6px;
+                font-size: 0.88rem;
+            }
         }
         .capability-summary {
             background: #f0f9ff;
-            border-radius: 24px;
-            padding: 24px;
-            margin: 40px 0 20px;
+            border-radius: clamp(16px, 2.8vw, 24px);
+            padding: clamp(16px, 2.5vw, 24px);
+            margin: clamp(28px, 4vw, 40px) 0 clamp(14px, 2vw, 20px);
             border: 1px solid #bae6fd;
             text-align: center;
         }
         .capability-item {
             flex: 1;
-            min-width: 180px;
+            min-width: 160px;
             text-align: left;
+            padding: 4px 0;
+        }
+        @media (max-width: 500px) {
+            .capability-item {
+                min-width: 130px;
+                text-align: center;
+            }
         }
         .footer {
-            margin-top: 56px;
+            margin-top: clamp(36px, 5vw, 56px);
             text-align: center;
             color: #5b6e8c;
-            font-size: 0.8rem;
-            padding: 24px 0 12px;
+            font-size: clamp(0.7rem, 0.9vw, 0.8rem);
+            padding: 20px 0 12px;
             border-top: 1px solid #edf2f7;
+            line-height: 1.6;
         }
-        .hero {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .hero-detail {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px 24px;
-            margin-top: 12px;
-            font-size: 0.9rem;
-            color: #475569;
-        }
-        .accent-line {
-            width: 48px;
-            height: 2px;
-            background: #cbdcec;
-            margin: 20px auto 16px;
-            border-radius: 2px;
-        }
-        .scroll-margin {
-            scroll-margin-top: 80px;
-        }
-        @media (max-width: 640px) {
+
+        /* ===== 全局小屏优化 ===== */
+        @media (max-width: 380px) {
             .container {
-                padding: 32px 20px 48px;
+                padding: 20px 10px 32px;
             }
-            h1 {
-                font-size: 2.4rem;
+            .badge {
+                padding: 4px 10px;
+                font-size: 0.66rem;
             }
             .project-card,
             .design-doc-card,
             .dashboard-card {
-                padding: 20px;
+                padding: 14px 12px;
+                border-radius: 14px;
             }
             .project-title {
-                font-size: 1.45rem;
+                font-size: 1.2rem;
             }
             .design-doc-title,
             .dashboard-title {
-                font-size: 1.2rem;
+                font-size: 1.05rem;
+            }
+            .feedback-quote {
+                padding: 8px 10px;
+                font-size: 0.72rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- ===== 桌面端浮动目录 ===== -->
     <aside class="toc-float" id="tocFloat">
         <div class="toc-header">
             <span class="toc-title">快速跳转</span>
-            <button class="toc-toggle" id="tocToggleBtn">◀</button>
+            <button class="toc-toggle" id="tocToggleBtn" aria-label="折叠大纲">◀</button>
         </div>
         <ul class="toc-list">
             <li class="toc-item"><a href="#design-methodology" class="toc-link"><span class="toc-icon">💡</span><span>方法论</span></a></li>
             <li class="toc-item"><a href="#abtest-report" class="toc-link"><span class="toc-icon">📊</span><span>商业测试</span></a></li>
+            <li class="toc-item"><a href="#sql-proof" class="toc-link"><span class="toc-icon">🛠️</span><span>SQL验证</span></a></li>
             <li class="toc-item"><a href="#tableau-showcase" class="toc-link"><span class="toc-icon">📈</span><span>Tableau看板</span></a></li>
             <li class="toc-item"><a href="#project-pet" class="toc-link"><span class="toc-icon">🐾</span><span>毛孩疫苗本</span></a></li>
             <li class="toc-item"><a href="#project-creation" class="toc-link"><span class="toc-icon">✍️</span><span>星途创作舱</span></a></li>
@@ -765,11 +1058,27 @@
         </ul>
     </aside>
 
+    <!-- ===== 移动端底部导航 ===== -->
+    <nav class="mobile-bottom-nav" aria-label="移动端快速导航">
+        <div class="mobile-bottom-nav-inner">
+            <a href="#design-methodology">💡 方法论</a>
+            <a href="#abtest-report">📊 商业测试</a>
+            <a href="#sql-proof">🛠️ SQL</a>
+            <a href="#tableau-showcase">📈 看板</a>
+            <a href="#project-pet">🐾 疫苗本</a>
+            <a href="#project-creation">✍️ 创作舱</a>
+            <a href="#project-script">📋 复盘舱</a>
+            <a href="#project-meeting">🎙️ 反刍舱</a>
+            <a href="#design-docs">📄 文档</a>
+            <a href="#contact-section">📬 联系</a>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="hero">
             <h1>王天娇</h1>
-            <p style="font-size:1.25rem; font-weight:500; color:#1e293b; margin: 8px 0 4px;">用语言学读懂用户，用数据把产品做对</p>
-            <p style="font-size:0.95rem; color:#475569; margin: 0 0 16px;">喜欢从真实场景里挖需求，再靠数据和反馈把东西改到好用。</p>
+            <p style="font-size:clamp(1rem, 1.6vw, 1.25rem); font-weight:500; color:#1e293b; margin: 8px 0 4px;">用语言学读懂用户，用数据把产品做对</p>
+            <p style="font-size:clamp(0.8rem, 1.1vw, 0.95rem); color:#475569; margin: 0 0 16px;">喜欢从真实场景里挖需求，再靠数据和反馈把东西改到好用。</p>
             <div class="badge-group">
                 <span class="badge">✨ AI驱动 · 独立开发</span>
                 <span class="badge">📈 数据驱动决策</span>
@@ -788,15 +1097,13 @@
 
         <div class="divider-light"></div>
 
-        <!-- ===== 产品设计方法论总览（修改语气，去AI味） ===== -->
+        <!-- ===== 产品设计方法论总览 ===== -->
         <div id="design-methodology" class="methodology-section scroll-margin">
             <div class="methodology-header">
                 <h2>💡 我是怎么做产品的：从想法到能被用户用起来</h2>
-                <p class="methodology-sub">不是列一堆功能，而是每一步都能回答“为什么做”和“做得怎么样”</p>
+                <p class="methodology-sub">不是列一堆功能，而是每一步都能回答"为什么做"和"做得怎么样"</p>
             </div>
             <div class="methodology-steps">
-
-                <!-- Step 1 -->
                 <div class="method-step">
                     <div class="step-marker">①</div>
                     <div class="step-content">
@@ -811,13 +1118,11 @@
                         <p style="margin-top:6px;"><span class="step-highlight">我的做法</span> 和用户聊，看同类产品评论区差评 → 发现他们最想要的就是<strong>够简单、不收费、能老老实实帮我记东西</strong>。</p>
                     </div>
                 </div>
-
-                <!-- Step 2 -->
                 <div class="method-step">
                     <div class="step-marker">②</div>
                     <div class="step-content">
                         <h4><span class="step-icon">🎯</span> 狠心砍功能，只留最核心的闭环</h4>
-                        <p>不做社交、不做商城、不做社区。只做“记录-提醒-回看”这个最小闭环：</p>
+                        <p>不做社交、不做商城、不做社区。只做"记录-提醒-回看"这个最小闭环：</p>
                         <div class="step-tags">
                             <span class="step-tag em">🐾 毛孩疫苗本</span>
                             <span class="step-tag">多宠物档案</span>
@@ -849,28 +1154,24 @@
                         <p style="margin-top:8px;">每个功能我都能说清楚它帮谁解决了什么问题，说不清楚的就先不做。</p>
                     </div>
                 </div>
-
-                <!-- Step 3 -->
                 <div class="method-step">
                     <div class="step-marker">③</div>
                     <div class="step-content">
                         <h4><span class="step-icon">🔬</span> 方案不确定时，先动手验证一下</h4>
                         <p>我不是直接写代码，而是会先比一下几种办法哪个更靠谱：</p>
-                        <ul style="list-style:none;padding:0;margin:6px 0;font-size:0.85rem;color:#2d3a4b;line-height:1.55;">
+                        <ul style="list-style:none;padding:0;margin:6px 0;font-size:clamp(0.76rem,0.95vw,0.85rem);color:#2d3a4b;line-height:1.55;">
                             <li style="margin-bottom:4px;">📌 <strong>OCR选型</strong>：看了Tesseract.js、百度OCR接口和自训练小模型，最后选离线Tesseract.js——不用花钱，也不用把用户疫苗本照片传到云端。</li>
-                            <li style="margin-bottom:4px;">📌 <strong>提醒设计</strong>：不想做成“要么全开要么全关”，搞了一套“稍后/今日忽略/按宠物单独设”的规则，用户能自己控制。</li>
+                            <li style="margin-bottom:4px;">📌 <strong>提醒设计</strong>：不想做成"要么全开要么全关"，搞了一套"稍后/今日忽略/按宠物单独设"的规则，用户能自己控制。</li>
                             <li style="margin-bottom:4px;">📌 <strong>整套工具都坚持</strong>：只用浏览器存储，一键导出备份，PWA能用，<span class="step-highlight">零服务器成本</span>。</li>
                         </ul>
                         <p style="margin-top:6px;"><span class="step-highlight">开发方式</span> 用Cursor+DeepSeek协作写代码，我一个人搞定了全部前端，累计4000多行，可以直接在浏览器里跑起来。</p>
                     </div>
                 </div>
-
-                <!-- Step 4 -->
                 <div class="method-step">
                     <div class="step-marker">④</div>
                     <div class="step-content">
                         <h4><span class="step-icon">🔄</span> 拿真实反馈迭代，而不是猜</h4>
-                        <p>做好之后不是放着不管，我会追着早期用户问“哪里不爽”。根据他们的吐槽，上线了30多项改进：</p>
+                        <p>做好之后不是放着不管，我会追着早期用户问"哪里不爽"。根据他们的吐槽，上线了30多项改进：</p>
                         <div class="step-tags">
                             <span class="step-tag">🐾 下拉自动算有效期</span>
                             <span class="step-tag">🐾 按月看花了多少钱</span>
@@ -881,11 +1182,9 @@
                             <span class="step-tag">🎙️ 导出CSV/Word</span>
                             <span class="step-tag">🎙️ 周报看板</span>
                         </div>
-                        <p style="margin-top:6px;"><span class="step-highlight">闭环</span> 几乎每一项改动都能对应到某条具体反馈（后边设计文档区有），改完再问对方“现在好点了吗”。</p>
+                        <p style="margin-top:6px;"><span class="step-highlight">闭环</span> 几乎每一项改动都能对应到某条具体反馈（后边设计文档区有），改完再问对方"现在好点了吗"。</p>
                     </div>
                 </div>
-
-                <!-- Step 5 -->
                 <div class="method-step">
                     <div class="step-marker">⑤</div>
                     <div class="step-content">
@@ -899,7 +1198,6 @@
                         <p style="margin-top:8px; font-weight:500; color:#0f172a;">四个项目加起来<strong>4000多行前端代码</strong>，零服务端依赖，全都可以在线体验。</p>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -925,7 +1223,49 @@
             </div>
         </div>
 
-        <!-- Tableau 仪表板展示板块（紧随A/B测试） -->
+        <!-- 新增：SQL 能力证明板块 -->
+        <div id="sql-proof" class="design-doc-section scroll-margin sql-proof">
+            <div class="design-doc-header">
+                <h2>🛠️ 技术实现 · SQL 数据验证</h2>
+                <p>模拟对接埋点库 experiment_events 的取数逻辑，展示从数据到指标的计算过程</p>
+            </div>
+            <div class="design-doc-card">
+                <div class="design-doc-title"><span>🧪</span> A/B 实验数据提取与计算</div>
+                <details class="doc-iteration" open>
+                    <summary>在真实数据环境里，我会怎么取数验证？</summary>
+                    <p style="margin:8px 0; font-size:clamp(0.76rem,0.95vw,0.85rem); color:#2d3a4b;">
+                        实际工作中，A/B 指标不可能靠手动数出来。这段 SQL 是模拟对接埋点库 <code style="background:#eef2fb;color:#4a6cf7;padding:2px 7px;border-radius:5px;">experiment_events</code> 时，我提取核心指标（转化率、7日留存）的思路，跟报告里的数据一一对应：
+                    </p>
+                    <pre class="sql-code"><code><span class="sql-comment">-- 转化率：按实验组统计"设置提醒"行为</span>
+<span class="sql-keyword">SELECT</span>
+    group_type,
+    <span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> user_id) <span class="sql-keyword">AS</span> total_users,
+    <span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> <span class="sql-keyword">CASE</span> <span class="sql-keyword">WHEN</span> event_name = <span class="sql-string">'set_reminder'</span> <span class="sql-keyword">THEN</span> user_id <span class="sql-keyword">END</span>) <span class="sql-keyword">AS</span> converted_users,
+    <span class="sql-function">ROUND</span>(<span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> <span class="sql-keyword">CASE</span> <span class="sql-keyword">WHEN</span> event_name = <span class="sql-string">'set_reminder'</span> <span class="sql-keyword">THEN</span> user_id <span class="sql-keyword">END</span>) * <span class="sql-number">1.0</span> / <span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> user_id), <span class="sql-number">2</span>) <span class="sql-keyword">AS</span> conversion_rate
+<span class="sql-keyword">FROM</span> <span class="sql-table">experiment_events</span>
+<span class="sql-keyword">WHERE</span> date <span class="sql-keyword">BETWEEN</span> <span class="sql-string">'2026-02-01'</span> <span class="sql-keyword">AND</span> <span class="sql-string">'2026-02-14'</span>
+<span class="sql-keyword">GROUP BY</span> group_type;
+
+<span class="sql-comment">-- 7日留存：匹配首日与第7天活跃用户</span>
+<span class="sql-keyword">SELECT</span>
+    a.group_type,
+    <span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> a.user_id) <span class="sql-keyword">AS</span> d0_users,
+    <span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> b.user_id) <span class="sql-keyword">AS</span> d7_users,
+    <span class="sql-function">ROUND</span>(<span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> b.user_id) * <span class="sql-number">1.0</span> / <span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> a.user_id), <span class="sql-number">2</span>) <span class="sql-keyword">AS</span> d7_retention
+<span class="sql-keyword">FROM</span>
+    (<span class="sql-keyword">SELECT DISTINCT</span> user_id, group_type <span class="sql-keyword">FROM</span> <span class="sql-table">experiment_events</span> <span class="sql-keyword">WHERE</span> date = first_open_date) a
+<span class="sql-keyword">LEFT JOIN</span>
+    (<span class="sql-keyword">SELECT DISTINCT</span> user_id <span class="sql-keyword">FROM</span> <span class="sql-table">experiment_events</span> <span class="sql-keyword">WHERE</span> date = <span class="sql-function">DATE_ADD</span>(first_open_date, <span class="sql-keyword">INTERVAL</span> <span class="sql-number">7</span> <span class="sql-keyword">DAY</span>)) b
+<span class="sql-keyword">ON</span> a.user_id = b.user_id
+<span class="sql-keyword">GROUP BY</span> a.group_type;</code></pre>
+                    <div class="dashboard-note">
+                        <strong>📎 提示</strong>：这里展示的是从数据清洗到指标计算的基本功，也是后面 Tableau 看板的数据来源。真实场景还会加上假阳性校验、分层分析（比如按宠物数量拆分），逻辑和上面一脉相承。
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <!-- Tableau 仪表板展示板块 -->
         <div id="tableau-showcase" class="tableau-showcase scroll-margin">
             <div class="design-doc-header">
                 <h2>📈 Tableau 风格仪表板 · 模拟交互看板</h2>
@@ -946,16 +1286,16 @@
                 <div class="dashboard-card">
                     <div class="dashboard-title"><span>🗂️</span> 用户反馈分类 & 迭代闭环进度</div>
                     <div class="dashboard-sub">💬 基于四个项目40+条用户反馈 | 已实现 vs 规划中 vs 待评估</div>
-                    <div class="chart-container" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
-                        <div style="flex: 1; min-width: 180px;">
+                    <div class="chart-container chart-row-flex">
+                        <div class="chart-col" style="flex:1; min-width:180px;">
                             <canvas id="feedbackPieChart" width="300" height="250" style="max-width:100%; height:auto;"></canvas>
                         </div>
-                        <div style="flex: 1; min-width: 200px;">
+                        <div class="chart-col" style="flex:1; min-width:200px;">
                             <canvas id="feedbackHorizontalBar" width="400" height="200" style="max-width:100%; height:auto;"></canvas>
                         </div>
                     </div>
                     <div class="dashboard-note">
-                        <strong>📌 优先级决策</strong>：“导出备份”、“OCR识别优化”、“按宠物独立提醒”已上线并验证满意度提升；“关系图可视化”、“自动关联会议纪要”进入下一迭代规划。<br>
+                        <strong>📌 优先级决策</strong>："导出备份"、"OCR识别优化"、"按宠物独立提醒"已上线并验证满意度提升；"关系图可视化"、"自动关联会议纪要"进入下一迭代规划。<br>
                         <em>📎 模拟数据，基于真实用户反馈统计。</em>
                     </div>
                 </div>
@@ -966,24 +1306,24 @@
                         <canvas id="completionTrendLine" width="800" height="280" style="max-width:100%; height:auto;"></canvas>
                     </div>
                     <div class="dashboard-note">
-                        <strong>📌 核心发现</strong>：反刍提醒上线后，第2周待办完成率从52%提升至71%，平均完成周期缩短1.8天。验证了“追踪+提醒”闭环对团队效率的正向影响。<br>
+                        <strong>📌 核心发现</strong>：反刍提醒上线后，第2周待办完成率从52%提升至71%，平均完成周期缩短1.8天。验证了"追踪+提醒"闭环对团队效率的正向影响。<br>
                         <em>📎 基于5位早期用户连续4周使用数据脱敏模拟。</em>
                     </div>
                 </div>
             </div>
-            <div style="text-align: right; margin-top: 12px; font-size: 0.7rem; color: #7f8c8d;">
+            <div style="text-align: right; margin-top: 12px; font-size: clamp(0.62rem, 0.8vw, 0.7rem); color: #7f8c8d;">
                 ※ 以上图表使用 Chart.js 绘制，模拟Tableau核心图表类型（柱状图、饼图、水平条、折线图）
             </div>
         </div>
 
-        <!-- 核心项目区（按商业说服力排序） -->
+        <!-- 核心项目区 -->
         <div class="project-grid">
             <a id="project-pet" class="project-card scroll-margin" href="./pet-vaccine.html" target="_blank">
                 <div class="project-emoji">🐾</div>
                 <div class="project-title">毛孩疫苗本 <span class="project-highlight">转化率 +61.5%</span></div>
                 <div class="project-subtitle">给宠物家长用的疫苗和花费记录工具</div>
                 <div class="project-desc">
-                    <strong>起因：</strong>身边养宠物的朋友总在群里问“上次打疫苗啥时候来着”，手机上又找不到一个又简单又能离线用的记录本。<br>
+                    <strong>起因：</strong>身边养宠物的朋友总在群里问"上次打疫苗啥时候来着"，手机上又找不到一个又简单又能离线用的记录本。<br>
                     <strong>我做了什么：</strong>做了一个极简的疫苗本，用离线OCR拍疫苗本就能识别，提醒可以按每只宠物单独设，所有数据存本地。<br>
                     <strong>结果：</strong>OCR准确率从最开始的40%调到80%以上，还完成了从网页到可安装APK的全流程。
                 </div>
@@ -996,7 +1336,7 @@
                 <div class="project-subtitle">开完会别忘事儿，AI帮你盯着待办</div>
                 <div class="project-desc">
                     <strong>起因：</strong>很多人开会记了一堆todo，但笔记本一关就再也没打开过。我有个做项目的朋友说，他每周至少漏掉2件会上说的事。<br>
-                    <strong>我做了什么：</strong>搞了一个“录音→AI转文字→自动提取待办→定时反刍提醒”的闭环工具，支持Whisper和DeepSeek，也可以纯本地跑。<br>
+                    <strong>我做了什么：</strong>搞了一个"录音→AI转文字→自动提取待办→定时反刍提醒"的闭环工具，支持Whisper和DeepSeek，也可以纯本地跑。<br>
                     <strong>结果：</strong>没有服务器开销，待办完成率从52%提到了71%，平均完成时间缩短了快2天。
                 </div>
                 <div><span class="project-tag">Whisper</span><span class="project-tag">DeepSeek API</span><span class="project-tag">本地模型</span></div>
@@ -1020,30 +1360,29 @@
                 <div class="project-subtitle">记下每次修改的原因，写完了还能回头看</div>
                 <div class="project-desc">
                     <strong>起因：</strong>写长剧本的人经常来回改，改到后面根本想不起来当初为什么删掉某场戏，导致有时候又把删掉的内容加回来。<br>
-                    <strong>我做了什么：</strong>设计了一个“剧本-进度-复盘”绑在一起的模型，每次修改都要填原因，月底自动出高频词分析和看板。<br>
-                    <strong>结果：</strong>填补了“写完之后怎么管理”这个小空白，内置了月度看板和标签系统，还能导出Word/CSV。
+                    <strong>我做了什么：</strong>设计了一个"剧本-进度-复盘"绑在一起的模型，每次修改都要填原因，月底自动出高频词分析和看板。<br>
+                    <strong>结果：</strong>填补了"写完之后怎么管理"这个小空白，内置了月度看板和标签系统，还能导出Word/CSV。
                 </div>
                 <div><span class="project-tag">复盘闭环</span><span class="project-tag">标签系统</span><span class="project-tag">文件管理</span></div>
                 <div class="project-link">→ 体验 Demo</div>
             </a>
         </div>
 
-        <!-- 设计文档精简版（重写用户反馈，去掉人机假感） -->
+        <!-- 设计文档精简版 -->
         <div id="design-docs" class="design-doc-section scroll-margin">
             <div class="design-doc-header">
                 <h2>📄 设计文档 & 迭代记录（精简版）</h2>
                 <p>痛点 · 方案 · 量化成果 · 代表性反馈 · 迭代历史</p>
             </div>
             <div class="design-doc-grid">
-                <!-- 毛孩疫苗本 -->
                 <div class="design-doc-card">
                     <div class="design-doc-title"><span>🐾</span> 毛孩疫苗本</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>宠物主记录疫苗/花费不便，提醒不灵活，导出缺失。</p></div>
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>轻量工具 + 离线OCR + 多维提醒策略（按宠物独立提醒、稍后/忽略）。</p></div>
                     <div class="doc-row"><h4>📈 量化成果</h4><ul><li>OCR准确率 40% → 80%+</li><li>A/B测试：提醒转化率+61.5%，7日留存+41.9%</li><li>v1.6全量发布灵活提醒策略</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">“狗子的疫苗提醒挺准的，但我更想要的是能把记录导出来给宠物店看，后来发现真能导Excel。” —— 养金毛的妮可 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
-                        <div class="feedback-quote">“家里两只狗，一开始只能一起提醒，后来能分开设了，这个改得好。” —— 双狗家庭 Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
+                        <div class="feedback-quote">"狗子的疫苗提醒挺准的，但我更想要的是能把记录导出来给宠物店看，后来发现真能导Excel。" —— 养金毛的妮可 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
+                        <div class="feedback-quote">"家里两只狗，一开始只能一起提醒，后来能分开设了，这个改得好。" —— 双狗家庭 Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
@@ -1056,33 +1395,31 @@
                         </ul>
                     </details>
                 </div>
-                <!-- 星途创作舱 -->
                 <div class="design-doc-card">
                     <div class="design-doc-title"><span>✍️</span> 星途·创作舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>网文作者大纲与写作割裂，角色设定散落，缺少轻量一站式工具。</p></div>
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲编辑器、角色/世界观面板、标题灵感库与每日写作目标。</p></div>
                     <div class="doc-row"><h4>📈 量化成果</h4><ul><li>交付2000+行纯前端应用</li><li>迭代10+项体验优化</li><li>标题灵感库扩充至800+</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">“墨水屏模式在电纸书上看着很舒服，比在Word里写大纲体验好多了。” —— 签约作者 miki</div>
-                        <div class="feedback-quote">“标题苦手真的需要那个灵感库，不过刚开始有点少，现在800多条够刷一阵了。” —— 新人作者 七叶 <span style="color:#2e7d32; margin-left:8px;">✓ 已增至800+</span></div>
+                        <div class="feedback-quote">"墨水屏模式在电纸书上看着很舒服，比在Word里写大纲体验好多了。" —— 签约作者 miki</div>
+                        <div class="feedback-quote">"标题苦手真的需要那个灵感库，不过刚开始有点少，现在800多条够刷一阵了。" —— 新人作者 七叶 <span style="color:#2e7d32; margin-left:8px;">✓ 已增至800+</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
                         <ul style="margin-top:8px;">
                             <li>v1.0~v1.5：多主题/墨水屏模式/随机标题/鼓励语管理</li>
-                            <li>v1.6 (2026.03)：新增“创作字数统计”与“每日目标”</li>
+                            <li>v1.6 (2026.03)：新增"创作字数统计"与"每日目标"</li>
                         </ul>
                     </details>
                 </div>
-                <!-- 剧本复盘舱 -->
                 <div class="design-doc-card">
                     <div class="design-doc-title"><span>📋</span> 剧本·复盘舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>长内容创作中版本迭代难追踪、修改原因易遗忘。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>“剧本-进度-复盘”三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
-                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>内置月度高频词分析与看板</li><li>支持导出Word/CSV/JSON</li><li>填补“写后管理”工具空白</li></ul></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>"剧本-进度-复盘"三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
+                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>内置月度高频词分析与看板</li><li>支持导出Word/CSV/JSON</li><li>填补"写后管理"工具空白</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">“强迫自己每次改剧本写原因，复盘的时候再也不用靠回忆猜了。” —— 编剧 veka</div>
-                        <div class="feedback-quote">“那个月度高频词分析挺意外的，能看出自己潜意识里一直在写什么。” —— 独立编剧 若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
+                        <div class="feedback-quote">"强迫自己每次改剧本写原因，复盘的时候再也不用靠回忆猜了。" —— 编剧 veka</div>
+                        <div class="feedback-quote">"那个月度高频词分析挺意外的，能看出自己潜意识里一直在写什么。" —— 独立编剧 若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
@@ -1093,15 +1430,14 @@
                         </ul>
                     </details>
                 </div>
-                <!-- 会议反刍舱 -->
                 <div class="design-doc-card">
                     <div class="design-doc-title"><span>🎙️</span> 会议·反刍舱</div>
-                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>会议“记录即遗忘”，待办难追踪，缺乏闭环复盘工具。</p></div>
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>会议"记录即遗忘"，待办难追踪，缺乏闭环复盘工具。</p></div>
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>录音→Whisper转文字→AI提取待办→反刍提醒，支持本地模型与隐私优先。</p></div>
                     <div class="doc-row"><h4>📈 量化成果</h4><ul><li>待办完成率从52%提升至71%（+19pp）</li><li>零服务端成本</li><li>平均完成周期缩短1.8天</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">“Whisper转中文比我预期的准，偶尔有错字但能看懂，关键是离线也能跑。” —— 产品经理 Ryan</div>
-                        <div class="feedback-quote">“待办追踪和反刍提醒真的救了我这种多线程打工人，再也不用每周翻聊天记录找action了。” —— 项目经理 Mia <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
+                        <div class="feedback-quote">"Whisper转中文比我预期的准，偶尔有错字但能看懂，关键是离线也能跑。" —— 产品经理 Ryan</div>
+                        <div class="feedback-quote">"待办追踪和反刍提醒真的救了我这种多线程打工人，再也不用每周翻聊天记录找action了。" —— 项目经理 Mia <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
@@ -1114,39 +1450,38 @@
             </div>
         </div>
 
-        <!-- 新增：我可以带来什么 -->
         <div class="capability-summary">
-            <h3 style="font-size:1.4rem; font-weight:600; color:#0c4a6e; margin-bottom: 16px;">✨ 我能为团队带来什么</h3>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 720px; margin: 0 auto;">
+            <h3 style="font-size:clamp(1.1rem,1.6vw,1.4rem); font-weight:600; color:#0c4a6e; margin-bottom: 16px;">✨ 我能为团队带来什么</h3>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(12px,2vw,20px); max-width: 720px; margin: 0 auto;">
                 <div class="capability-item">
-                    <p style="font-size:1.1rem; font-weight:600;">🚀 零到一的落地能力</p>
-                    <p style="font-size:0.85rem; color:#334155;">4个AI小项目从idea到可体验Demo，独立完成全链路</p>
+                    <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">🚀 零到一的落地能力</p>
+                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">4个AI小项目从idea到可体验Demo，独立完成全链路</p>
                 </div>
                 <div class="capability-item">
-                    <p style="font-size:1.1rem; font-weight:600;">📊 数据驱动的迭代思维</p>
-                    <p style="font-size:0.85rem; color:#334155;">A/B测试框架、留存分析、ROI计算，用数据验证产品决策</p>
+                    <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">📊 数据驱动的迭代思维</p>
+                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">A/B测试框架、留存分析、ROI计算，用数据验证产品决策</p>
                 </div>
                 <div class="capability-item">
-                    <p style="font-size:1.1rem; font-weight:600;">🧠 用户共情力</p>
-                    <p style="font-size:0.85rem; color:#334155;">语言学背景 + 40+条真实反馈驱动优化，深入理解用户需求</p>
+                    <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">🧠 用户共情力</p>
+                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">语言学背景 + 40+条真实反馈驱动优化，深入理解用户需求</p>
                 </div>
             </div>
         </div>
 
         <div id="contact-section" class="cta-section scroll-margin">
-            <p>📬 三天内到岗 · 实习3 - 6个月 · 每周5天</p>
+            <p style="font-size:clamp(0.85rem,1.1vw,0.95rem);">📬 三天内到岗 · 实习3 - 6个月 · 每周5天</p>
             <div class="contact-info">
                 <span>📧 Wangtj0212@outlook.com</span>
                 <span>📞 +86 18992042758</span>
             </div>
-            <div style="margin-top: 18px; font-size: 0.85rem; color: #5f6c80;">
+            <div style="margin-top: 18px; font-size: clamp(0.74rem,0.95vw,0.85rem); color: #5f6c80;">
                 <p>展现从0到1的AI产品落地能力，融合语言学背景与产品思维 + 商业指标驱动决策 + 数据可视化</p>
             </div>
         </div>
 
         <div class="footer">
             © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 作品集 · 含A/B测试报告 & Tableau风格看板<br>
-            <span style="margin-top: 12px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+            <span style="margin-top: 12px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: clamp(4px,1vw,8px);">
                 <a href="./pet-vaccine.html" target="_blank">毛孩疫苗本</a> ·
                 <a href="./creation-cabin.html" target="_blank">星途创作舱</a> ·
                 <a href="./script-review.html" target="_blank">剧本复盘舱</a> ·
@@ -1157,6 +1492,7 @@
 
     <script>
         (function() {
+            // ===== 桌面端TOC交互 =====
             const links = document.querySelectorAll('.toc-link');
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -1165,12 +1501,35 @@
                     if (targetId && targetId !== '#') {
                         const targetElement = document.querySelector(targetId);
                         if (targetElement) {
-                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            const offset = 70;
+                            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            const offsetPosition = elementPosition - offset;
+                            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                             history.pushState(null, null, targetId);
                         }
                     }
                 });
             });
+
+            // 移动端底部导航同样处理
+            const mobileLinks = document.querySelectorAll('.mobile-bottom-nav a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId !== '#') {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            const offset = 60;
+                            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                            const offsetPosition = elementPosition - offset;
+                            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                            history.pushState(null, null, targetId);
+                        }
+                    }
+                });
+            });
+
             const tocFloat = document.getElementById('tocFloat');
             const toggleBtn = document.getElementById('tocToggleBtn');
 
@@ -1183,82 +1542,120 @@
                     toggleBtn.setAttribute('aria-label', '折叠大纲');
                 }
             }
-            toggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                tocFloat.classList.toggle('collapsed');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    tocFloat.classList.toggle('collapsed');
+                    updateToggleIcon();
+                });
                 updateToggleIcon();
-            });
-            updateToggleIcon();
+            }
 
-            const ctxBar = document.getElementById('abtestBarChart').getContext('2d');
-            new Chart(ctxBar, {
-                type: 'bar',
-                data: {
-                    labels: ['提醒设置转化率', '7日留存率'],
-                    datasets: [
-                        { label: '对照组 (A组)', data: [26, 31], backgroundColor: 'rgba(100, 116, 139, 0.7)', borderRadius: 8 },
-                        { label: '实验组 (B组)', data: [42, 44], backgroundColor: 'rgba(230, 126, 34, 0.8)', borderRadius: 8 }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}%` } }, legend: { position: 'top' } },
-                    scales: { y: { title: { display: true, text: '百分比 (%)' }, min: 0, max: 60, grid: { color: '#eef2f6' } } }
-                }
-            });
+            // ===== Chart.js 图表初始化 =====
+            const ctxBar = document.getElementById('abtestBarChart')?.getContext('2d');
+            if (ctxBar) {
+                new Chart(ctxBar, {
+                    type: 'bar',
+                    data: {
+                        labels: ['提醒设置转化率', '7日留存率'],
+                        datasets: [
+                            { label: '对照组 (A组)', data: [26, 31], backgroundColor: 'rgba(100, 116, 139, 0.7)',
+                                borderRadius: 8 },
+                            { label: '实验组 (B组)', data: [42, 44], backgroundColor: 'rgba(230, 126, 34, 0.8)',
+                                borderRadius: 8 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}%` } },
+                            legend: { position: 'top', labels: { boxWidth: 12, padding: 12,
+                                    font: { size: 11 } } }
+                        },
+                        scales: {
+                            y: { title: { display: true, text: '百分比 (%)', font: { size: 10 } }, min: 0,
+                                max: 60, grid: { color: '#eef2f6' } },
+                            x: { ticks: { font: { size: 10 } } }
+                        }
+                    }
+                });
+            }
 
-            const ctxPie = document.getElementById('feedbackPieChart').getContext('2d');
-            new Chart(ctxPie, {
-                type: 'pie',
-                data: {
-                    labels: ['已实现 (✅ 24项)', '规划中 (⏳ 12项)', '待评估 (📌 6项)'],
-                    datasets: [{ data: [24, 12, 6], backgroundColor: ['#2e7d32', '#f59e0b', '#94a3b8'], borderWidth: 0 }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}项 (${((ctx.raw / 42) * 100).toFixed(0)}%)` } } }
-                }
-            });
+            const ctxPie = document.getElementById('feedbackPieChart')?.getContext('2d');
+            if (ctxPie) {
+                new Chart(ctxPie, {
+                    type: 'pie',
+                    data: {
+                        labels: ['已实现 (✅ 24项)', '规划中 (⏳ 12项)', '待评估 (📌 6项)'],
+                        datasets: [{ data: [24, 12, 6], backgroundColor: ['#2e7d32', '#f59e0b', '#94a3b8'],
+                            borderWidth: 0 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { boxWidth: 10, padding: 10,
+                                    font: { size: 10 } } },
+                            tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}项 (${((ctx.raw / 42) * 100).toFixed(0)}%)` } }
+                        }
+                    }
+                });
+            }
 
-            const ctxHor = document.getElementById('feedbackHorizontalBar').getContext('2d');
-            new Chart(ctxHor, {
-                type: 'bar',
-                data: {
-                    labels: ['导出/备份', 'OCR/识别', '提醒灵活性', '多主题/UI', '标签系统'],
-                    datasets: [{ label: '已实现反馈数量', data: [8, 6, 7, 5, 9], backgroundColor: '#3b6e8b', borderRadius: 6 }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: { legend: { position: 'top' } },
-                    scales: { x: { title: { display: true, text: '反馈数量' }, grid: { color: '#eef2f6' } } }
-                }
-            });
+            const ctxHor = document.getElementById('feedbackHorizontalBar')?.getContext('2d');
+            if (ctxHor) {
+                new Chart(ctxHor, {
+                    type: 'bar',
+                    data: {
+                        labels: ['导出/备份', 'OCR/识别', '提醒灵活性', '多主题/UI', '标签系统'],
+                        datasets: [{ label: '已实现反馈数量', data: [8, 6, 7, 5, 9], backgroundColor: '#3b6e8b',
+                            borderRadius: 6 }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+                        scales: { x: { title: { display: true, text: '反馈数量', font: { size: 10 } },
+                                grid: { color: '#eef2f6' }, ticks: { font: { size: 9 } } },
+                            y: { ticks: { font: { size: 9 } } } }
+                    }
+                });
+            }
 
-            const ctxLine = document.getElementById('completionTrendLine').getContext('2d');
-            new Chart(ctxLine, {
-                type: 'line',
-                data: {
-                    labels: ['W1 (上线前)', 'W2 (上线前)', 'W3 (反刍提醒后)', 'W4 (反刍提醒后)'],
-                    datasets: [{
-                        label: '7日待办完成率 (%)',
-                        data: [48, 52, 67, 71],
-                        borderColor: '#e67e22',
-                        backgroundColor: 'rgba(230,126,34,0.05)',
-                        tension: 0.3,
-                        fill: true,
-                        pointBackgroundColor: '#c2410c',
-                        pointRadius: 4,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.raw}%` } } },
-                    scales: { y: { title: { display: true, text: '完成率 (%)' }, min: 40, max: 80, grid: { color: '#eef2f6' } } }
-                }
-            });
+            const ctxLine = document.getElementById('completionTrendLine')?.getContext('2d');
+            if (ctxLine) {
+                new Chart(ctxLine, {
+                    type: 'line',
+                    data: {
+                        labels: ['W1 (上线前)', 'W2 (上线前)', 'W3 (反刍提醒后)', 'W4 (反刍提醒后)'],
+                        datasets: [{
+                            label: '7日待办完成率 (%)',
+                            data: [48, 52, 67, 71],
+                            borderColor: '#e67e22',
+                            backgroundColor: 'rgba(230,126,34,0.05)',
+                            tension: 0.3,
+                            fill: true,
+                            pointBackgroundColor: '#c2410c',
+                            pointRadius: 4,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            tooltip: { callbacks: { label: (ctx) => `${ctx.raw}%` } },
+                            legend: { labels: { font: { size: 10 } } }
+                        },
+                        scales: {
+                            y: { title: { display: true, text: '完成率 (%)', font: { size: 10 } }, min: 40,
+                                max: 80, grid: { color: '#eef2f6' }, ticks: { font: { size: 9 } } },
+                            x: { ticks: { font: { size: 9 } } }
+                        }
+                    }
+                });
+            }
         })();
     </script>
 </body>
