@@ -1,0 +1,17 @@
+{
+  "name": "星途·创作舱",
+  "short_name": "创作舱",
+  "start_url": "./creation-cabin.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fef7e8",
+  "theme_color": "#c9a87b",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+

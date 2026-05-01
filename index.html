@@ -1035,9 +1035,100 @@
                 font-size: 0.72rem;
             }
         }
+        .ui-mode-dock {
+            position: fixed;
+            left: 12px;
+            bottom: 12px;
+            z-index: 1200;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid rgba(148,163,184,0.35);
+            border-radius: 14px;
+            padding: 8px 10px;
+            backdrop-filter: blur(6px);
+        }
+        .ui-mode-dock select {
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+            padding: 7px 12px;
+            background: #fff;
+            color: #1f2937;
+            font-size: 0.86rem;
+        }
+        body.elder-mode { font-size: 19px; line-height: 1.65; }
+        body.elder-mode .toc-link,
+        body.elder-mode .project-tag,
+        body.elder-mode .cta-button,
+        body.elder-mode button,
+        body.elder-mode a { min-height: 44px; }
+        body[data-theme="ink"] { background: #efefef; color: #111111; filter: grayscale(1); }
+        body[data-theme="ink"] .container,
+        body[data-theme="ink"] .project-card,
+        body[data-theme="ink"] .design-doc-card,
+        body[data-theme="ink"] .toc-float {
+            background: #fafafa !important;
+            box-shadow: none !important;
+            border-color: #bdbdbd !important;
+        }
+        body[data-theme="ink"] .ui-mode-dock { backdrop-filter: none; background: #f5f5f5; }
+
+        /* 视觉细节统一打磨 */
+        .project-card, .design-doc-card, .dashboard-card, .capability-summary {
+            border-radius: clamp(18px, 2.8vw, 26px);
+            box-shadow: 0 10px 24px rgba(16,24,40,0.06);
+            border-width: 1.2px;
+        }
+        .project-card:hover, .design-doc-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(16,24,40,0.09);
+        }
+        .toc-link, .toc-toggle, .project-link, .project-tag, .mobile-bottom-nav a {
+            min-height: 40px;
+            border-radius: 999px;
+            font-weight: 550;
+        }
+        .badge, .feedback-quote, .metric-chip {
+            border-radius: 14px;
+        }
+        @media (max-width: 700px) {
+            .project-card, .design-doc-card, .dashboard-card { border-radius: 18px; }
+            .toc-link, .project-link, .mobile-bottom-nav a { min-height: 44px; }
+        }
+
+        /* 高级统一：字体/间距比例尺 */
+        :root {
+            --fs-h1: clamp(1.7rem, 2.6vw, 2.3rem);
+            --fs-h2: clamp(1.25rem, 1.9vw, 1.6rem);
+            --fs-body: clamp(0.96rem, 1vw, 1.02rem);
+            --fs-caption: clamp(0.82rem, 0.9vw, 0.9rem);
+            --sp-1: 8px;
+            --sp-2: 12px;
+            --sp-3: 16px;
+            --sp-4: 24px;
+            --sp-5: 32px;
+        }
+        body { font-size: var(--fs-body); line-height: 1.68; }
+        h1 { font-size: var(--fs-h1); letter-spacing: 0.2px; }
+        h2, h3, .section-title, .project-title, .design-doc-title { font-size: var(--fs-h2); letter-spacing: 0.15px; }
+        .project-desc, .design-doc-body, .dashboard-desc { margin-top: var(--sp-2); margin-bottom: var(--sp-3); }
+        .feedback-quote, .badge, .project-tag, .toc-title { font-size: var(--fs-caption); }
+        .project-card, .design-doc-card, .dashboard-card { padding: var(--sp-4); margin-bottom: var(--sp-4); }
+        body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.42rem; --fs-caption: 0.98rem; }
     </style>
 </head>
 <body>
+    <div class="ui-mode-dock">
+        <select id="globalThemeSelect" aria-label="界面主题">
+            <option value="warm">暖</option>
+            <option value="ink">Ink</option>
+        </select>
+        <select id="globalA11ySelect" aria-label="辅助模式">
+            <option value="normal">标准模式</option>
+            <option value="elder">长辈模式</option>
+        </select>
+    </div>
     <!-- ===== 桌面端浮动目录 ===== -->
     <aside class="toc-float" id="tocFloat">
         <div class="toc-header">
@@ -1320,40 +1411,44 @@
         <div class="project-grid">
             <a id="project-pet" class="project-card scroll-margin" href="./pet-vaccine.html" target="_blank">
                 <div class="project-emoji">🐾</div>
-                <div class="project-title">毛孩疫苗本 <span class="project-highlight">转化率 +61.5%</span></div>
-                <div class="project-subtitle">给宠物家长用的疫苗和花费记录工具</div>
-                <!-- ★ 更新项目描述，加入六大新功能 -->
+                <div class="project-title">毛孩疫苗本 <span class="project-highlight">提醒转化率 +61.5%</span></div>
+                <div class="project-subtitle">离线优先的宠物健康管理工具（疫苗/驱虫/花费/体重）</div>
                 <div class="project-desc">
                     <strong>起因：</strong>身边养宠物的朋友总在群里问"上次打疫苗啥时候来着"，手机上又找不到一个又简单又能离线用的记录本。<br>
-                    <strong>我做了什么：</strong>做了一个极简的疫苗本，用离线OCR拍疫苗本就能识别，提醒可以按每只宠物单独设，所有数据存本地。后续迭代中新增了<b>疫苗品牌/批号追溯、独立体重管理、月历视图、多宠对比表</b>和<b>健康评分</b>，并接入了<b>Service Worker推送通知</b>。<br>
-                    <strong>结果：</strong>OCR准确率从最开始的40%调到80%以上，还完成了从网页到可安装APK的全流程。
+                    <strong>我做了什么：</strong>做了一个可离线运行的健康记录系统：<b>OCR识别疫苗本、品牌/批号追溯、驱虫独立管理、体重独立记录、看板与年报、健康评分、多宠对比</b>，并补上<b>可点击日历清单 + 已预约可回退</b>，形成提醒转化闭环。<br>
+                    <strong>结果：</strong>OCR准确率从40%提升到80%+；A/B测试后提醒转化率提升61.5%；并完成了PWA能力（Service Worker + 通知权限）和手机/平板/PC响应式重构。
                 </div>
-                <!-- ★ 更新标签 -->
-                <div><span class="project-tag">OCR识别</span><span class="project-tag">PWA推送</span><span class="project-tag">健康评分</span><span class="project-tag">Vibe Coding</span></div>
+                <div>
+                    <span class="project-tag">离线OCR</span>
+                    <span class="project-tag">健康评分</span>
+                    <span class="project-tag">多宠对比</span>
+                    <span class="project-tag">PWA通知</span>
+                    <span class="project-tag">响应式重构</span>
+                </div>
                 <div class="project-link">→ 体验 Demo</div>
             </a>
             <a id="project-meeting" class="project-card scroll-margin" href="./meeting-ruminant.html" target="_blank">
                 <div class="project-emoji">🎙️</div>
                 <div class="project-title">会议·反刍舱 <span class="project-highlight">待办完成率 +19pp</span></div>
-                <div class="project-subtitle">开完会别忘事儿，AI帮你盯着待办</div>
+                <div class="project-subtitle">会议记录到行动闭环：转写、追踪、复盘一体化</div>
                 <div class="project-desc">
                     <strong>起因：</strong>很多人开会记了一堆todo，但笔记本一关就再也没打开过。我有个做项目的朋友说，他每周至少漏掉2件会上说的事。<br>
-                    <strong>我做了什么：</strong>搞了一个"录音→AI转文字→自动提取待办→定时反刍提醒"的闭环工具，支持Whisper和DeepSeek，也可以纯本地跑。<br>
-                    <strong>结果：</strong>没有服务器开销，待办完成率从52%提到了71%，平均完成时间缩短了快2天。
+                    <strong>我做了什么：</strong>做了一个"录音/上传→Whisper转写→AI结构化待办→状态流转→周报/月报"闭环系统，新增了历史搜索筛选、超期识别、会议健康评分和TOP关键词分析，并完成了手机/平板/PC响应式优化。<br>
+                    <strong>结果：</strong>保持零服务端成本，待办完成率从52%提到了71%，平均完成时间缩短了快2天；管理侧可直接看到近7天KPI与超期风险。
                 </div>
-                <div><span class="project-tag">Whisper</span><span class="project-tag">DeepSeek API</span><span class="project-tag">本地模型</span></div>
+                <div><span class="project-tag">Whisper</span><span class="project-tag">待办状态流转</span><span class="project-tag">周/月报</span><span class="project-tag">健康评分</span><span class="project-tag">响应式重构</span></div>
                 <div class="project-link">→ 体验 Demo</div>
             </a>
             <a id="project-creation" class="project-card scroll-margin" href="./creation-cabin.html" target="_blank">
                 <div class="project-emoji">✍️</div>
-                <div class="project-title">星途·创作舱 <span class="project-highlight">2000+行 · 10次迭代</span></div>
-                <div class="project-subtitle">把大纲、角色、灵感放在一个页面里</div>
+                <div class="project-title">星途·创作舱 <span class="project-highlight">写作闭环 + 效率看板</span></div>
+                <div class="project-subtitle">从灵感管理升级到创作执行与复盘系统</div>
                 <div class="project-desc">
                     <strong>起因：</strong>写网文的朋友说大纲在Word，角色设定在石墨，灵感收藏在微信浮窗，每次动笔前光翻资料就烦了。<br>
-                    <strong>我做了什么：</strong>把大纲编辑器、角色/世界观面板、标题灵感库合在一个纯前端工具里，信息架构按创作流程来排。<br>
-                    <strong>结果：</strong>2000多行前端代码，上线后根据反馈改了10多项体验细节，比如加了墨水屏主题和随机标题抽取。
+                    <strong>我做了什么：</strong>在原有大纲/角色/灵感基础上新增了目标追踪（日/周字数进度条）、章节状态流转、全文搜索筛选、时间线视图、创作健康评分、多项目对比、周/月报导出、快照回滚与本地点评锚点，并接入PWA离线缓存。<br>
+                    <strong>结果：</strong>从“信息收纳页”升级成“创作管理台”，支持写作执行、进度监控和复盘汇报三条链路。
                 </div>
-                <div><span class="project-tag">Markdown</span><span class="project-tag">本地存储</span><span class="project-tag">多主题</span></div>
+                <div><span class="project-tag">创作目标追踪</span><span class="project-tag">状态流转</span><span class="project-tag">快照回滚</span><span class="project-tag">PWA离线</span></div>
                 <div class="project-link">→ 体验 Demo</div>
             </a>
             <a id="project-script" class="project-card scroll-margin" href="./script-review.html" target="_blank">
@@ -1379,22 +1474,21 @@
             <div class="design-doc-grid">
                 <div class="design-doc-card">
                     <div class="design-doc-title"><span>🐾</span> 毛孩疫苗本</div>
-                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>宠物主记录疫苗/花费不便，提醒不灵活，导出缺失。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>轻量工具 + 离线OCR + 多维提醒策略（按宠物独立提醒、稍后/忽略）。</p></div>
-                    <!-- ★ 更新量化成果，加入v1.7新功能 -->
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>宠物主记录分散（疫苗、驱虫、花费、体重），到期容易漏；医院回访场景还需要品牌/批号追溯。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>离线优先单页应用：OCR录入 + 品牌批号追溯 + 智能提醒 + 日历清单 + 看板/年报 + 多宠对比 + 健康评分。</p></div>
                     <div class="doc-row"><h4>📈 量化成果</h4>
                         <ul>
                             <li>OCR准确率 40% → 80%+</li>
                             <li>A/B测试：提醒转化率+61.5%，7日留存+41.9%</li>
                             <li>v1.6全量发布灵活提醒策略</li>
-                            <li><strong>v1.7新增品牌/批号、体重独立管理、月历视图、多宠对比、健康评分、PWA推送</strong></li>
+                            <li><strong>v1.8新增可点击日历清单、当日“已预约/取消预约”双态回退、对比表本月花费与超期项</strong></li>
+                            <li><strong>完成手机/平板/PC三端响应式视觉重构（清新淡雅风格）</strong></li>
                         </ul>
                     </div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">"狗子的疫苗提醒挺准的，但我更想要的是能把记录导出来给宠物店看，后来发现真能导Excel。" —— 养金毛的妮可 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
-                        <div class="feedback-quote">"家里两只狗，一开始只能一起提醒，后来能分开设了，这个改得好。" —— 双狗家庭 Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
+                        <div class="feedback-quote">"去医院复诊时我直接把Excel给医生看，疫苗时间和品牌都清清楚楚，省得我现场翻半天相册。" —— 养金毛的妮可 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
+                        <div class="feedback-quote">"两只狗以前老是提醒串台，现在终于能分开设，谁该打针一眼就看出来了。" —— 双狗家庭 Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
                     </div>
-                    <!-- ★ 更新迭代历史，加入v1.7 -->
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
                         <ul style="margin-top:8px;">
@@ -1404,23 +1498,25 @@
                             <li>v1.3~v1.5：提示/花费视图/提醒状态机</li>
                             <li>v1.6 (2026.02)：基于A/B实验全量上线灵活提醒策略，转化提升61%</li>
                             <li>v1.7 (2026.04)：品牌批号追溯、独立体重管理、月历视图、多宠对比表、健康评分、PWA推送通知</li>
+                            <li>v1.8 (2026.05)：日历可点开当日清单、预约状态可回退、对比表补充本月花费/超期项、整体UI响应式重构</li>
                         </ul>
                     </details>
                 </div>
                 <div class="design-doc-card">
                     <div class="design-doc-title"><span>✍️</span> 星途·创作舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>网文作者大纲与写作割裂，角色设定散落，缺少轻量一站式工具。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲编辑器、角色/世界观面板、标题灵感库与每日写作目标。</p></div>
-                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>交付2000+行纯前端应用</li><li>迭代10+项体验优化</li><li>标题灵感库扩充至800+</li></ul></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲编辑器、角色/世界观面板、标题灵感库，并补齐“目标追踪→状态流转→时间线→周/月报”创作闭环。</p></div>
+                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>交付2000+行纯前端应用</li><li>迭代10+项体验优化</li><li>新增目标追踪/搜索筛选/健康评分/多项目对比/快照回滚/PWA离线缓存</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">"墨水屏模式在电纸书上看着很舒服，比在Word里写大纲体验好多了。" —— 签约作者 miki</div>
-                        <div class="feedback-quote">"标题苦手真的需要那个灵感库，不过刚开始有点少，现在800多条够刷一阵了。" —— 新人作者 七叶 <span style="color:#2e7d32; margin-left:8px;">✓ 已增至800+</span></div>
+                        <div class="feedback-quote">"以前开一堆文档找设定很烦，现在这个页面就是我的写作桌面，打开就能直接写。" —— 签约作者 miki</div>
+                        <div class="feedback-quote">"我取名特别慢，这个标题库真的实用，现在量够大，卡文的时候随手一抽就有灵感。" —— 新人作者 七叶 <span style="color:#2e7d32; margin-left:8px;">✓ 已增至800+</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
                         <ul style="margin-top:8px;">
                             <li>v1.0~v1.5：多主题/墨水屏模式/随机标题/鼓励语管理</li>
                             <li>v1.6 (2026.03)：新增"创作字数统计"与"每日目标"</li>
+                            <li>v1.7 (2026.05)：章节状态流转、全文搜索筛选、时间线视图、创作健康评分、周/月报导出、快照回滚、本地点评锚点、PWA离线缓存</li>
                         </ul>
                     </details>
                 </div>
@@ -1430,8 +1526,8 @@
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>"剧本-进度-复盘"三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
                     <div class="doc-row"><h4>📈 量化成果</h4><ul><li>内置月度高频词分析与看板</li><li>支持导出Word/CSV/JSON</li><li>填补"写后管理"工具空白</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">"强迫自己每次改剧本写原因，复盘的时候再也不用靠回忆猜了。" —— 编剧 veka</div>
-                        <div class="feedback-quote">"那个月度高频词分析挺意外的，能看出自己潜意识里一直在写什么。" —— 独立编剧 若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
+                        <div class="feedback-quote">"每次改动都留痕后，回头看为什么删这场戏就很清楚，不会再反复打回重写。" —— 编剧 veka</div>
+                        <div class="feedback-quote">"高频词那块很有意思，我才发现自己最近一直在写同一种情绪，复盘很有帮助。" —— 独立编剧 若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
@@ -1445,17 +1541,18 @@
                 <div class="design-doc-card">
                     <div class="design-doc-title"><span>🎙️</span> 会议·反刍舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>会议"记录即遗忘"，待办难追踪，缺乏闭环复盘工具。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>录音→Whisper转文字→AI提取待办→反刍提醒，支持本地模型与隐私优先。</p></div>
-                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>待办完成率从52%提升至71%（+19pp）</li><li>零服务端成本</li><li>平均完成周期缩短1.8天</li></ul></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>录音→Whisper转文字→AI提取待办→状态流转→反刍提醒→周/月报，支持本地模型与隐私优先。</p></div>
+                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>待办完成率从52%提升至71%（+19pp）</li><li>零服务端成本</li><li>新增历史搜索筛选、超期识别、TOP关键词、健康评分与KPI看板</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">"Whisper转中文比我预期的准，偶尔有错字但能看懂，关键是离线也能跑。" —— 产品经理 Ryan</div>
-                        <div class="feedback-quote">"待办追踪和反刍提醒真的救了我这种多线程打工人，再也不用每周翻聊天记录找action了。" —— 项目经理 Mia <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
+                        <div class="feedback-quote">"转写结果基本够用，重点是不用把会议内容传外网，这点我们团队很看重。" —— 产品经理 Ryan</div>
+                        <div class="feedback-quote">"以前会后要翻群聊找 action，现在一打开就能看到状态和超期项，推进效率高很多。" —— 项目经理 Mia <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
                         <ul style="margin-top:8px;">
                             <li>v1.2 (2026.01)：增加本地模型选项（隐私优先）</li>
                             <li>v1.3 (2026.02)：支持待办分配给参会人、标记完成状态</li>
+                            <li>v1.4 (2026.05)：待办状态流转、历史筛选、周报/月报+TOP关键词、会议健康评分、KPI总览、UI响应式重构</li>
                         </ul>
                     </details>
                 </div>
@@ -1504,6 +1601,27 @@
 
     <script>
         (function() {
+            const themeSelect = document.getElementById('globalThemeSelect');
+            const a11ySelect = document.getElementById('globalA11ySelect');
+            const savedTheme = localStorage.getItem('index_theme_mode') || 'warm';
+            const savedA11y = localStorage.getItem('index_a11y_mode') || 'normal';
+            function applyIndexMode(theme, a11y) {
+                document.body.setAttribute('data-theme', theme === 'ink' ? 'ink' : 'warm');
+                document.body.classList.toggle('elder-mode', a11y === 'elder');
+                if (themeSelect) themeSelect.value = theme === 'ink' ? 'ink' : 'warm';
+                if (a11ySelect) a11ySelect.value = a11y === 'elder' ? 'elder' : 'normal';
+            }
+            applyIndexMode(savedTheme, savedA11y);
+            themeSelect?.addEventListener('change', (e) => {
+                const t = e.target.value === 'ink' ? 'ink' : 'warm';
+                localStorage.setItem('index_theme_mode', t);
+                applyIndexMode(t, localStorage.getItem('index_a11y_mode') || 'normal');
+            });
+            a11ySelect?.addEventListener('change', (e) => {
+                const m = e.target.value === 'elder' ? 'elder' : 'normal';
+                localStorage.setItem('index_a11y_mode', m);
+                applyIndexMode(localStorage.getItem('index_theme_mode') || 'warm', m);
+            });
             const links = document.querySelectorAll('.toc-link');
             links.forEach(link => {
                 link.addEventListener('click', function(e) {

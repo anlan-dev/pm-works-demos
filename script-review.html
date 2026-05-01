@@ -108,6 +108,31 @@
             --filter-active-bg: #6e9b89;
             --filter-active-text: #fff;
         }
+        body.theme-ink {
+            --bg-body: #efefef;
+            --bg-app: #fbfbfb;
+            --border-light: #c7c7c7;
+            --header-bg: #f5f5f5;
+            --sidebar-bg: #f0f0f0;
+            --sidebar-border: #bbbbbb;
+            --card-bg: #ffffff;
+            --card-border: #b6b6b6;
+            --accent-border: #333333;
+            --text-primary: #111111;
+            --text-secondary: #2f2f2f;
+            --text-muted: #565656;
+            --btn-bg: #f7f7f7;
+            --btn-border: #888888;
+            --form-bg: #f7f7f7;
+            --record-bg: #ffffff;
+            --shadow: none;
+            --tag-bg: #e2e2e2;
+            --tag-text: #111111;
+            --toast-bg: #1e1e1ee6;
+            --toast-text: #f8f8f8;
+            --filter-active-bg: #2d2d2d;
+            --filter-active-text: #f8f8f8;
+        }
         body {
             background: var(--bg-body);
             min-height: 100vh;
@@ -117,6 +142,9 @@
             transition: background 0.2s;
             position: relative;
         }
+        body.theme-ink .script-item,
+        body.theme-ink .record-card,
+        body.theme-ink .modal-card { box-shadow: none; }
         .app {
             max-width: 1400px;
             width: 100%;
@@ -759,6 +787,49 @@
                 font-size: 1.3rem;
             }
         }
+        body.elder-mode { font-size: 18px; }
+        body.elder-mode input,
+        body.elder-mode select,
+        body.elder-mode textarea { min-height: 46px; font-size: 1rem; }
+        body.elder-mode .btn,
+        body.elder-mode .theme-btn { min-height: 44px; font-size: 0.98rem; }
+        body.elder-mode .app { border-radius: 24px; }
+
+        /* 视觉细节统一打磨 */
+        .record-form-card, .outline-section, .references-section, .title-lottery-section,
+        .record-card, .modal-card, .script-item { border-radius: 22px; }
+        .btn, .btn-sm, .theme-btn, .manage-tags-btn, .btn-icon { min-height: 42px; font-weight: 600; letter-spacing: 0.1px; }
+        input, textarea, select, .outline-textarea, .world-textarea {
+            border-radius: 14px;
+            border-width: 1.5px;
+            min-height: 42px;
+        }
+        .app-header { padding-top: 22px; padding-bottom: 22px; }
+        .record-card, .script-item { box-shadow: 0 8px 22px rgba(16,24,40,0.05); }
+        @media (max-width: 640px) {
+            .btn, .theme-btn { min-height: 44px; }
+        }
+
+        /* 高级统一：字体/间距比例尺 */
+        :root {
+            --fs-h1: clamp(1.45rem, 2.2vw, 1.95rem);
+            --fs-h2: clamp(1.12rem, 1.6vw, 1.34rem);
+            --fs-body: clamp(0.95rem, 1vw, 1rem);
+            --fs-caption: clamp(0.8rem, 0.85vw, 0.86rem);
+            --sp-1: 8px;
+            --sp-2: 12px;
+            --sp-3: 16px;
+            --sp-4: 24px;
+            --sp-5: 32px;
+        }
+        body { font-size: var(--fs-body); line-height: 1.62; }
+        h1 { font-size: var(--fs-h1); }
+        .section-title, .current-script-title { font-size: var(--fs-h2); margin-bottom: var(--sp-2); }
+        .script-meta, .dev-credit, .demo-note { font-size: var(--fs-caption); }
+        .record-form-card, .outline-section, .references-section, .title-lottery-section,
+        .record-card { margin-bottom: var(--sp-4); }
+        .app-header { padding: var(--sp-4) calc(var(--sp-4) + 4px); }
+        body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.28rem; --fs-caption: 0.96rem; }
     </style>
 </head>
 <body class="theme-default">
@@ -771,9 +842,11 @@
                     <button class="theme-btn" data-theme="lightgray" title="浅灰">灰</button>
                     <button class="theme-btn" data-theme="mint" title="薄荷">清</button>
                     <button class="theme-btn" data-theme="dark" title="夜间">夜</button>
+                    <button class="theme-btn" data-theme="ink" title="墨水屏">墨</button>
                 </div>
             </div>
             <div class="header-actions">
+                <button class="btn" id="elderModeBtn">👓 长辈模式</button>
                 <button class="btn" id="monthlyReviewBtn">📊 月度回顾</button>
                 <button class="btn" id="exportCSVBtn" title="导出当前剧本记录为CSV">📊 CSV</button>
                 <button class="btn" id="exportWordBtn" title="导出当前剧本记录为Word">📝 Word</button>
@@ -861,8 +934,8 @@
     </div>
 
     <div class="dev-credit">
-        <div>✍️ 编剧小助手 · 反馈 📧 ilikeitnow@qq.com</div>
-        <div class="demo-note">⚠️ 当前为测试预览版，功能仍在完善中</div>
+        <div>✍️ 编剧小助手 · 你用着哪儿别扭就告诉我 📧 ilikeitnow@qq.com</div>
+        <div class="demo-note">我会按真实写作场景持续打磨，不做花架子</div>
     </div>
 
     <!-- 剧本编辑模态框 -->
@@ -1685,15 +1758,29 @@
 
             function initTheme() {
                 const btns = document.querySelectorAll('.theme-btn');
-                btns.forEach(b => b.addEventListener('click', () => { const theme = b.dataset.theme;
-                    document.body.className = ''; if (theme !== 'default') document.body.classList.add(
-                        `theme-${theme}`);
-                    btns.forEach(btn => btn.classList.remove('active'));
-                    b.classList.add('active');
-                    localStorage.setItem('script_theme', theme); }));
+                const applyTheme = (theme) => {
+                    const t = theme || 'default';
+                    const elder = document.body.classList.contains('elder-mode');
+                    document.body.className = elder ? 'elder-mode' : '';
+                    if (t !== 'default') document.body.classList.add(`theme-${t}`);
+                    btns.forEach(btn => btn.classList.toggle('active', btn.dataset.theme === t));
+                    localStorage.setItem('script_theme', t);
+                };
+                btns.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.theme)));
                 const saved = localStorage.getItem('script_theme') || 'default';
-                if (saved !== 'default') document.body.classList.add(`theme-${saved}`);
-                document.querySelector(`.theme-btn[data-theme="${saved}"]`)?.classList.add('active');
+                if (localStorage.getItem('script_elder_mode') === '1') document.body.classList.add('elder-mode');
+                applyTheme(saved);
+                const elderBtn = document.getElementById('elderModeBtn');
+                if (elderBtn) {
+                    elderBtn.textContent = document.body.classList.contains('elder-mode') ? '👓 退出长辈模式' : '👓 长辈模式';
+                    elderBtn.addEventListener('click', () => {
+                        const next = !document.body.classList.contains('elder-mode');
+                        document.body.classList.toggle('elder-mode', next);
+                        localStorage.setItem('script_elder_mode', next ? '1' : '0');
+                        elderBtn.textContent = next ? '👓 退出长辈模式' : '👓 长辈模式';
+                        applyTheme(localStorage.getItem('script_theme') || 'default');
+                    });
+                }
             }
             document.getElementById('autoBackupCheckbox').checked = localStorage.getItem(AUTO_BACKUP_KEY) ===
                 'true';

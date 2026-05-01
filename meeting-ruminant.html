@@ -79,6 +79,16 @@
             --pre-bg: #2a2a2a;
             --pre-color: #f0f0f0;
         }
+        body.theme-ink .card,
+        body.theme-ink .history-item,
+        body.theme-ink .todo-item {
+            box-shadow: none;
+            background-image: none;
+        }
+        body.theme-ink .btn,
+        body.theme-ink .theme-dot {
+            filter: grayscale(1);
+        }
 
         body {
             background: var(--bg-body);
@@ -252,6 +262,103 @@
         .delete-history { margin-left: 8px; color: #b91c1c; cursor: pointer; opacity: 0.7; }
         .delete-history:hover { opacity: 1; }
         .endpoint-hint { font-size:0.75rem; opacity:0.7; margin-left:8px; }
+
+        /* ===== 2026 UI polish + responsive ===== */
+        body {
+            background:
+                radial-gradient(1200px 320px at 50% -170px, rgba(180,95,43,0.14), transparent 70%),
+                var(--bg-body);
+            line-height: 1.45;
+        }
+        .card {
+            border-radius: 22px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+        }
+        .btn { border-radius: 999px; transition: all 0.18s ease; }
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
+        textarea, .api-config input, .custom-remind {
+            border-radius: 12px;
+        }
+        textarea:focus, .api-config input:focus, .custom-remind:focus {
+            outline: none;
+            border-color: var(--accent-border);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 18%, transparent);
+        }
+        .history-tools { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+        .history-tools input, .history-tools select {
+            border:1px solid var(--card-border); border-radius:10px; padding:8px 10px; background:var(--card-bg); color:var(--text-primary);
+        }
+        .kpi-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; margin-top:12px; }
+        .kpi-card { background: var(--accent-light); border:1px solid var(--accent-border); border-radius:14px; padding:10px 12px; }
+        .kpi-title { font-size:0.78rem; opacity:0.8; }
+        .kpi-value { font-size:1.15rem; font-weight:700; margin-top:2px; }
+        .score-bar { height:10px; background:var(--badge-bg); border-radius:999px; overflow:hidden; margin-top:8px; }
+        .score-fill { height:10px; background:var(--accent-color); width:0%; transition:width .2s ease; }
+        .todo-status {
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            padding: 4px 8px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.78rem;
+        }
+        @media (max-width: 900px) {
+            body { padding: 10px; }
+            .card { padding: 16px; border-radius: 18px; margin-bottom: 14px; }
+            .flex-between { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .kpi-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            h1 { font-size: 1.45rem; }
+            .row { flex-direction: column; align-items: stretch; }
+            .row .btn, .api-config .btn { width: 100%; }
+            .api-config { padding: 12px; }
+            .feedback-label { display:none; }
+        }
+
+        /* 长辈模式 */
+        body.elder-mode { font-size: 18px; }
+        body.elder-mode .btn { min-height: 46px; font-size: 1rem; }
+        body.elder-mode textarea,
+        body.elder-mode input,
+        body.elder-mode select { min-height: 46px; font-size: 1rem; }
+        body.elder-mode .card { border-radius: 24px; padding: 26px; }
+        body.elder-mode .theme-dot { width: 28px; height: 28px; }
+
+        /* 视觉细节统一打磨 */
+        .card { border-radius: 22px; box-shadow: 0 10px 24px rgba(16,24,40,0.06); }
+        .btn, .btn-outline, .btn-primary { min-height: 42px; padding: 9px 16px; font-weight: 600; letter-spacing: 0.1px; }
+        textarea, .api-config input, .custom-remind, .history-tools input, .history-tools select {
+            border-radius: 14px;
+            border-width: 1.5px;
+            min-height: 42px;
+        }
+        .kpi-card, .history-item, .todo-item { border-radius: 16px; }
+        h1, h2, h3 { letter-spacing: 0.2px; }
+        @media (max-width: 640px) {
+            .btn { min-height: 44px; }
+            .card { border-radius: 18px; }
+        }
+
+        /* 高级统一：字体/间距比例尺 */
+        :root {
+            --fs-h1: clamp(1.45rem, 2.1vw, 1.9rem);
+            --fs-h2: clamp(1.1rem, 1.55vw, 1.3rem);
+            --fs-body: clamp(0.95rem, 1vw, 1rem);
+            --fs-caption: clamp(0.8rem, 0.85vw, 0.86rem);
+            --sp-1: 8px;
+            --sp-2: 12px;
+            --sp-3: 16px;
+            --sp-4: 24px;
+            --sp-5: 32px;
+        }
+        body { font-size: var(--fs-body); line-height: 1.62; }
+        h1 { font-size: var(--fs-h1); margin-bottom: var(--sp-2); }
+        h2, h3, label { font-size: var(--fs-h2); }
+        .endpoint-hint, .feedback-label, .stats-badge { font-size: var(--fs-caption); }
+        .card { padding: var(--sp-4); margin-bottom: var(--sp-4); }
+        .row { gap: var(--sp-2); margin-bottom: var(--sp-3); }
+        body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.24rem; --fs-caption: 0.96rem; }
     </style>
     <!-- transformers.js -->
     <script type="importmap">
@@ -269,6 +376,7 @@
                 <div class="theme-dot mint" data-theme="mint" title="清"></div>
                 <div class="theme-dot ink" data-theme="ink" title="ink"></div>
             </div>
+            <button class="btn" id="elderModeBtn">👓 长辈模式</button>
         </div>
         <p>录音 / 上传音频 → 自动转文字 → AI 提取议题、待办、反刍 · 支持本地智能 & 待办追踪</p>
 
@@ -321,6 +429,7 @@
                 </div>
             </div>
             <button class="btn btn-outline" id="generateWeekReportBtn">📊 周报生成</button>
+            <button class="btn btn-outline" id="generateMonthReportBtn">🗓️ 月报生成</button>
         </div>
 
         <!-- 反刍提醒面板 -->
@@ -348,6 +457,13 @@
                 <div id="weeklyReportContent" class="pre-block"></div>
             </div>
         </div>
+
+        <div class="result-section" style="margin-top:16px;">
+            <h3>🏅 会议健康评分</h3>
+            <div id="healthScoreText" style="font-size:0.95rem;">等待会议数据...</div>
+            <div class="score-bar"><div id="healthScoreFill" class="score-fill"></div></div>
+            <div class="small-note" id="healthScoreMeta" style="margin-top:8px; opacity:0.8;"></div>
+        </div>
     </div>
 
     <!-- 历史列表 -->
@@ -359,12 +475,27 @@
                 <button class="btn btn-outline" id="clearAllHistoryBtn" style="border-color:#b91c1c; color:#b91c1c;">🗑️ 清空历史</button>
             </div>
         </div>
+        <div class="history-tools">
+            <input type="text" id="historySearchInput" placeholder="搜索历史会议关键词...">
+            <select id="historyTodoFilter">
+                <option value="">全部会议</option>
+                <option value="withTodos">有待办</option>
+                <option value="withOverdue">含超期任务</option>
+                <option value="completionLow">完成率<50%</option>
+            </select>
+            <button class="btn" id="clearHistoryFilterBtn">清空筛选</button>
+        </div>
+        <div class="kpi-grid">
+            <div class="kpi-card"><div class="kpi-title">近7天会议数</div><div class="kpi-value" id="kpiMeetings">0</div></div>
+            <div class="kpi-card"><div class="kpi-title">待办完成率</div><div class="kpi-value" id="kpiCompletion">0%</div></div>
+            <div class="kpi-card"><div class="kpi-title">超期任务数</div><div class="kpi-value" id="kpiOverdue">0</div></div>
+        </div>
         <div id="historyList" class="meeting-history" style="max-height:400px; overflow-y:auto;">暂无记录</div>
     </div>
 </div>
 
 <div class="feedback-label">
-    📬 <a href="mailto:ilikeitnow@qq.com">反馈</a> · <span style="opacity:0.7;">本地智能+待办追踪</span>
+    📬 <a href="mailto:ilikeitnow@qq.com">提个建议</a> · <span style="opacity:0.7;">你真实怎么开会，我就怎么改</span>
 </div>
 
 <script type="module">
@@ -373,17 +504,30 @@
 
     // ---- 主题切换 ----
     const themeDots = document.querySelectorAll('.theme-dot');
+    function applyMeetingTheme(theme){
+        const t = theme || 'warm';
+        const elder = document.body.classList.contains('elder-mode');
+        document.body.className = `theme-${t}` + (elder ? ' elder-mode' : '');
+        localStorage.setItem('theme', t);
+        themeDots.forEach(d => d.classList.toggle('active', d.dataset.theme === t));
+    }
     themeDots.forEach(dot => {
         dot.addEventListener('click', () => {
-            document.body.className = `theme-${dot.dataset.theme}`;
-            themeDots.forEach(d => d.classList.remove('active'));
-            dot.classList.add('active');
-            localStorage.setItem('theme', dot.dataset.theme);
+            applyMeetingTheme(dot.dataset.theme);
         });
     });
     const savedTheme = localStorage.getItem('theme') || 'warm';
-    document.body.className = `theme-${savedTheme}`;
-    themeDots.forEach(d => { if(d.dataset.theme === savedTheme) d.classList.add('active'); });
+    applyMeetingTheme(savedTheme);
+    const elderSaved = localStorage.getItem('meeting_elder_mode') === '1';
+    if (elderSaved) document.body.classList.add('elder-mode');
+    document.getElementById('elderModeBtn')?.addEventListener('click', ()=>{
+        const next = !document.body.classList.contains('elder-mode');
+        document.body.classList.toggle('elder-mode', next);
+        localStorage.setItem('meeting_elder_mode', next ? '1' : '0');
+        document.getElementById('elderModeBtn').textContent = next ? '👓 退出长辈模式' : '👓 长辈模式';
+        applyMeetingTheme(localStorage.getItem('theme') || 'warm');
+    });
+    document.getElementById('elderModeBtn').textContent = document.body.classList.contains('elder-mode') ? '👓 退出长辈模式' : '👓 长辈模式';
 
     // ---- 全局变量 ----
     let db, whisperPipeline, currentAnalysis = null, currentMeetingId = null;
@@ -391,6 +535,8 @@
     let useLocalModelEndpoint = false; // 是否启用本地端点
     let recognition, isRecording = false;
     let reminderTimers = []; // 存储定时器ID
+    let historySearchKeyword = '';
+    let historyTodoFilter = '';
 
     // ---- IndexedDB ----
     function initDB() {
@@ -439,14 +585,91 @@
         return new Promise(r => { tx.oncomplete = r; });
     }
 
+    function normalizeTodoStatus(todo){
+        const t = todo || {};
+        if (t.status) return t.status;
+        return t.completed ? '完成' : '待办';
+    }
+    function isTodoOverdue(todo){
+        const d = (todo?.deadline || '').trim();
+        if (!d) return false;
+        const md = d.match(/(\d{4})[-\/\.](\d{1,2})[-\/\.](\d{1,2})/);
+        if(!md) return false;
+        const dt = new Date(`${md[1]}-${md[2].padStart(2,'0')}-${md[3].padStart(2,'0')}`);
+        const today = new Date(); today.setHours(0,0,0,0);
+        return dt < today && normalizeTodoStatus(todo) !== '完成';
+    }
+    function extractTopKeywords(texts, limit=8){
+        const stop = new Set(['的','了','和','是','在','我','你','他','她','它','有','与','及','并','就','都','而','或','到','为','把','被','这','那','一个','我们','他们','自己','以及','然后','因为','所以','但是','如果','这个','那个','进行','已经','可以','需要']);
+        const map = new Map();
+        texts.forEach(t=>{
+            const tokens = String(t||'').toLowerCase().match(/[\u4e00-\u9fa5]{2,}|[a-z]{3,}/g) || [];
+            tokens.forEach(tok=>{ if(stop.has(tok)) return; map.set(tok,(map.get(tok)||0)+1); });
+        });
+        return [...map.entries()].sort((a,b)=>b[1]-a[1]).slice(0,limit);
+    }
+    function updateKpis(meetings){
+        const weekAgo = new Date(Date.now() - 7*24*60*60*1000);
+        const recent = meetings.filter(m => new Date(m.createdAt) >= weekAgo);
+        let total=0, done=0, overdue=0;
+        recent.forEach(m=>{
+            (m.analysis?.todos||[]).forEach(t=>{
+                total += 1;
+                if (normalizeTodoStatus(t) === '完成') done += 1;
+                if (isTodoOverdue(t)) overdue += 1;
+            });
+        });
+        document.getElementById('kpiMeetings').textContent = String(recent.length);
+        document.getElementById('kpiCompletion').textContent = `${total ? Math.round(done/total*100) : 0}%`;
+        document.getElementById('kpiOverdue').textContent = String(overdue);
+    }
+    function updateHealthScore(){
+        const a = currentAnalysis;
+        const scoreText = document.getElementById('healthScoreText');
+        const scoreFill = document.getElementById('healthScoreFill');
+        const scoreMeta = document.getElementById('healthScoreMeta');
+        if(!a){ scoreText.textContent='等待会议数据...'; scoreFill.style.width='0%'; scoreMeta.textContent=''; return; }
+        const todos = a.todos || [];
+        const total = todos.length;
+        const done = todos.filter(t=>normalizeTodoStatus(t)==='完成').length;
+        const overdue = todos.filter(isTodoOverdue).length;
+        const completion = total ? (done/total*100) : 0;
+        let score = 50 + completion * 0.4 - overdue * 8 + Math.min(20, (a.questions||[]).length * 2);
+        score = Math.max(0, Math.min(100, Math.round(score)));
+        const grade = score >= 85 ? 'A' : (score >= 65 ? 'B' : 'C');
+        const color = grade === 'A' ? '#2e7d32' : (grade === 'B' ? '#e09f3e' : '#c0392b');
+        scoreText.innerHTML = `当前评分：<strong style="color:${color};">${score}（${grade}）</strong>`;
+        scoreFill.style.width = `${score}%`;
+        scoreMeta.textContent = `完成率 ${Math.round(completion)}% · 超期 ${overdue} 项 · 反刍问题 ${(a.questions||[]).length} 条`;
+    }
+
     // ---- 历史渲染 ----
     async function renderHistory() {
         const meetings = await loadMeetings();
         const cont = document.getElementById("historyList");
+        updateKpis(meetings);
         if (!meetings.length) { cont.innerHTML = "暂无会议记录"; return; }
-        cont.innerHTML = meetings.reverse().map(m => {
+        let list = meetings.slice().reverse();
+        const kw = historySearchKeyword.trim().toLowerCase();
+        if (kw) {
+            list = list.filter(m => `${m.transcript||''} ${(m.analysis?.topics||[]).join(' ')} ${(m.analysis?.questions||[]).join(' ')}`.toLowerCase().includes(kw));
+        }
+        if (historyTodoFilter) {
+            list = list.filter(m => {
+                const todos = m.analysis?.todos || [];
+                if (historyTodoFilter === 'withTodos') return todos.length > 0;
+                if (historyTodoFilter === 'withOverdue') return todos.some(isTodoOverdue);
+                if (historyTodoFilter === 'completionLow') {
+                    if (!todos.length) return false;
+                    const done = todos.filter(t => normalizeTodoStatus(t) === '完成').length;
+                    return done / todos.length < 0.5;
+                }
+                return true;
+            });
+        }
+        cont.innerHTML = list.map(m => {
             const todoCount = m.analysis?.todos?.length || 0;
-            const completed = m.analysis?.todos?.filter(t=>t.completed).length || 0;
+            const completed = m.analysis?.todos?.filter(t=>normalizeTodoStatus(t)==='完成').length || 0;
             return `
             <div class="history-item" data-id="${m.id}">
                 <div style="flex:1">
@@ -475,9 +698,11 @@
                     currentAnalysis = m.analysis; 
                     displayAnalysis(m.analysis); 
                     document.getElementById("analysisResult").style.display='block'; 
+                    updateHealthScore();
                 } else {
                     currentAnalysis = null;
                     document.getElementById("analysisResult").style.display='none';
+                    updateHealthScore();
                 }
                 document.getElementById("weeklyReportSection").style.display='none';
             }
@@ -646,7 +871,8 @@
                         task: t.task || '未命名任务',
                         owner: t.owner || '',
                         deadline: t.deadline || '',
-                        completed: false
+                        completed: false,
+                        status: t.status || '待办'
                     }));
                     parsed.topics = parsed.topics || [];
                     parsed.questions = parsed.questions || [];
@@ -717,7 +943,7 @@ ${text.substring(0, 4000)}`;
                 const jsonMatch = content.match(/\{[\s\S]*\}/);
                 if (jsonMatch) {
                     const parsed = JSON.parse(jsonMatch[0]);
-                    parsed.todos = (parsed.todos || []).map(t => ({ task: t.task || '未命名任务', owner: t.owner || '', deadline: t.deadline || '', completed: false }));
+                    parsed.todos = (parsed.todos || []).map(t => ({ task: t.task || '未命名任务', owner: t.owner || '', deadline: t.deadline || '', completed: false, status: '待办' }));
                     return parsed;
                 }
                 throw new Error("返回内容非JSON");
@@ -741,6 +967,12 @@ ${text.substring(0, 4000)}`;
                         <strong>${t.task}</strong><br>
                         <span class="badge">👤 ${t.owner||'未指派'}</span>
                         <span class="badge">⏰ ${t.deadline||'无截止'}</span>
+                        <select class="todo-status" data-status-index="${idx}">
+                            <option value="待办" ${normalizeTodoStatus(t)==='待办'?'selected':''}>待办</option>
+                            <option value="进行中" ${normalizeTodoStatus(t)==='进行中'?'selected':''}>进行中</option>
+                            <option value="阻塞" ${normalizeTodoStatus(t)==='阻塞'?'selected':''}>阻塞</option>
+                            <option value="完成" ${normalizeTodoStatus(t)==='完成'?'selected':''}>完成</option>
+                        </select>
                     </div>
                 </div>
             `).join('');
@@ -749,11 +981,31 @@ ${text.substring(0, 4000)}`;
                     const idx = e.target.dataset.index;
                     if (currentAnalysis && currentAnalysis.todos && currentAnalysis.todos[idx]) {
                         currentAnalysis.todos[idx].completed = e.target.checked;
+                        currentAnalysis.todos[idx].status = e.target.checked ? '完成' : (currentAnalysis.todos[idx].status === '完成' ? '待办' : normalizeTodoStatus(currentAnalysis.todos[idx]));
                         if (currentMeetingId) {
                             const meetings = await loadMeetings();
                             const meeting = meetings.find(m => m.id === currentMeetingId);
                             if (meeting) { meeting.analysis = currentAnalysis; await saveMeeting(meeting); }
                         }
+                        updateHealthScore();
+                    }
+                });
+            });
+            todosDiv.querySelectorAll('.todo-status').forEach(sel => {
+                sel.addEventListener('change', async (e) => {
+                    const idx = e.target.dataset.statusIndex;
+                    if (currentAnalysis?.todos?.[idx]) {
+                        currentAnalysis.todos[idx].status = e.target.value;
+                        currentAnalysis.todos[idx].completed = e.target.value === '完成';
+                        const cb = todosDiv.querySelector(`.todo-check[data-index="${idx}"]`);
+                        if (cb) cb.checked = currentAnalysis.todos[idx].completed;
+                        if (currentMeetingId) {
+                            const meetings = await loadMeetings();
+                            const meeting = meetings.find(m => m.id === currentMeetingId);
+                            if (meeting) { meeting.analysis = currentAnalysis; await saveMeeting(meeting); }
+                        }
+                        updateHealthScore();
+                        renderHistory();
                     }
                 });
             });
@@ -765,7 +1017,7 @@ ${text.substring(0, 4000)}`;
         const text = document.getElementById("transcriptText").value.trim();
         if(!text) return alert("无内容");
         const a = await callAI(text);
-        if(a){ currentAnalysis = a; displayAnalysis(a); document.getElementById("analysisResult").style.display='block'; }
+        if(a){ currentAnalysis = a; displayAnalysis(a); document.getElementById("analysisResult").style.display='block'; updateHealthScore(); }
     };
 
     // ---- 保存会议 ----
@@ -862,8 +1114,10 @@ ${text.substring(0, 4000)}`;
         report += `✅ 待办完成率：${completedTodos}/${totalTodos} (${completionRate}%)\n\n`;
         report += `📋 待办清单：\n`;
         allTodos.forEach((t, i) => {
-            report += `  ${t.completed ? '✓' : '○'} ${t.task} (${t.owner || '未指派'}) ${t.deadline ? '截止:'+t.deadline : ''}\n`;
+            report += `  ${t.completed ? '✓' : '○'} [${normalizeTodoStatus(t)}] ${t.task} (${t.owner || '未指派'}) ${t.deadline ? '截止:'+t.deadline : ''}\n`;
         });
+        const topKeywords = extractTopKeywords(recentMeetings.map(m => m.transcript || ''), 8);
+        report += `\n🔥 TOP关键词：${topKeywords.length ? topKeywords.map(([k,v])=>`${k}(${v})`).join('、') : '暂无足够文本'}\n`;
         
         document.getElementById("weeklyReportContent").textContent = report;
         document.getElementById("weeklyReportSection").style.display = 'block';
@@ -871,6 +1125,30 @@ ${text.substring(0, 4000)}`;
     document.getElementById("copyWeekReportBtn").onclick = () => {
         const content = document.getElementById("weeklyReportContent").textContent;
         navigator.clipboard.writeText(content).then(() => alert("已复制"));
+    };
+    document.getElementById("generateMonthReportBtn").onclick = async () => {
+        const meetings = await loadMeetings();
+        const now = new Date();
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthly = meetings.filter(m => new Date(m.createdAt) >= monthStart);
+        if (!monthly.length) return alert("本月无会议记录");
+        let total=0, done=0, overdue=0;
+        monthly.forEach(m => (m.analysis?.todos||[]).forEach(t => {
+            total += 1;
+            if (normalizeTodoStatus(t) === '完成') done += 1;
+            if (isTodoOverdue(t)) overdue += 1;
+        }));
+        const topKeywords = extractTopKeywords(monthly.map(m => m.transcript || ''), 10);
+        const report = [
+            `📈 月度反刍报告 (${monthStart.toLocaleDateString()} - ${now.toLocaleDateString()})`,
+            `━━━━━━━━━━━━━━━━━━`,
+            `📅 会议场次：${monthly.length}`,
+            `✅ 待办完成率：${done}/${total} (${total ? ((done/total)*100).toFixed(1) : 0}%)`,
+            `⚠️ 超期任务：${overdue}`,
+            `🔥 TOP关键词：${topKeywords.length ? topKeywords.map(([k,v])=>`${k}(${v})`).join('、') : '暂无足够文本'}`
+        ].join('\n');
+        document.getElementById("weeklyReportContent").textContent = report;
+        document.getElementById("weeklyReportSection").style.display = 'block';
     };
 
     // ---- 反刍提醒 ----
@@ -952,11 +1230,28 @@ ${text.substring(0, 4000)}`;
         alert(`✅ 已切换到本地模型: ${ep}`);
     };
 
+    document.getElementById("historySearchInput").addEventListener('input', (e) => {
+        historySearchKeyword = e.target.value || '';
+        renderHistory();
+    });
+    document.getElementById("historyTodoFilter").addEventListener('change', (e) => {
+        historyTodoFilter = e.target.value || '';
+        renderHistory();
+    });
+    document.getElementById("clearHistoryFilterBtn").addEventListener('click', () => {
+        historySearchKeyword = '';
+        historyTodoFilter = '';
+        document.getElementById("historySearchInput").value = '';
+        document.getElementById("historyTodoFilter").value = '';
+        renderHistory();
+    });
+
     // 启动
     (async ()=>{
         await initDB(); await renderHistory();
         const k = localStorage.getItem("deepseek_key"); if(k) document.getElementById("apiKey").value=k;
         if(Notification.permission==='default') Notification.requestPermission();
+        updateHealthScore();
     })();
 </script>
 </body>

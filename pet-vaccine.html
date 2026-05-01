@@ -78,90 +78,254 @@
         }
 
         body[data-theme="ink"]{
-            --bg: #0b0f14;
-            --header-bg: #0f141c;
-            --header-border: #1f2a3a;
-            --text: #e8f0ff;
-            --muted: #aab8d6;
-            --card-bg: #0f141c;
-            --card-border: #1f2a3a;
-            --panel-bg: #121a24;
-            --soft-bg: #121a24;
-            --accent: #7cf7d4;
-            --primary: #00d1ff;
-            --primary-border: #00a8cc;
-            --btn-bg: #0f141c;
-            --btn-border: #1f2a3a;
-            --tab-bg: rgba(15,20,28,0.92);
-            --tab-active-bg: rgba(124,247,212,0.12);
-            --shadow: 0 10px 26px rgba(0,0,0,0.4);
+            /* 墨水屏：灰阶、高对比、低干扰 */
+            --bg: #f2f2f2;
+            --header-bg: #f8f8f8;
+            --header-border: #b8b8b8;
+            --text: #111111;
+            --muted: #4d4d4d;
+            --card-bg: #ffffff;
+            --card-border: #bdbdbd;
+            --panel-bg: #f3f3f3;
+            --soft-bg: #ffffff;
+            --accent: #111111;
+            --primary: #2e2e2e;
+            --primary-border: #666666;
+            --btn-bg: #f7f7f7;
+            --btn-border: #8a8a8a;
+            --tab-bg: rgba(245,245,245,0.95);
+            --tab-active-bg: #dedede;
+            --shadow: none;
         }
 
-        * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
-        body { background: var(--bg); padding-bottom: 70px; min-height: 100vh; color: var(--text); }
-        .app-header { background: var(--header-bg); padding: 20px 16px 12px; border-bottom: 2px solid var(--header-border); text-align: center; color: var(--text); }
-        .container { max-width: 600px; margin: 0 auto; padding: 16px 12px; }
+        * { box-sizing: border-box; margin: 0; font-family: "SF Pro Text", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        html { font-size: 16px; }
+        body {
+            background:
+                radial-gradient(1200px 320px at 50% -160px, rgba(193,162,139,0.18), transparent 70%),
+                var(--bg);
+            padding-bottom: 84px;
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.45;
+        }
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 9;
+            background: color-mix(in srgb, var(--header-bg) 90%, white 10%);
+            padding: 18px 16px 12px;
+            border-bottom: 1px solid var(--header-border);
+            text-align: center;
+            color: var(--text);
+            backdrop-filter: blur(8px);
+        }
+        .app-header h1 { font-size: 1.35rem; letter-spacing: 0.3px; margin-bottom: 2px; }
+        .app-header p { font-size: 0.88rem; color: var(--muted); }
+        .container { max-width: 1160px; margin: 0 auto; padding: 16px 14px; }
         .page { display: none; }
         .page.active { display: block; }
-        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 600px; margin: 0 auto; background: var(--tab-bg); backdrop-filter: blur(8px); display: flex; justify-content: space-around; padding: 8px 8px 12px; border-top: 1px solid var(--card-border); z-index: 10; }
-        .tab-item { flex: 1; text-align: center; color: var(--muted); font-size: 0.75rem; padding: 4px 0; border-radius: 30px; cursor: pointer; }
+        .tab-bar {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 20px);
+            max-width: 760px;
+            background: var(--tab-bg);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+        .tab-item { flex: 1; text-align: center; color: var(--muted); font-size: 0.76rem; padding: 6px 0; border-radius: 999px; cursor: pointer; transition: all 0.18s ease; }
         .tab-item.active { color: var(--accent); font-weight: 600; background: var(--tab-active-bg); }
-        .tab-icon { font-size: 1.6rem; display: block; margin-bottom: 2px; }
-        .card { background: var(--card-bg); border-radius: 24px; padding: 18px 16px; margin-bottom: 18px; box-shadow: var(--shadow); border: 1px solid var(--card-border); }
-        .btn { background: var(--btn-bg); border: 1px solid var(--btn-border); padding: 8px 16px; border-radius: 40px; color: var(--text); cursor: pointer; font-size: 0.9rem; }
+        .tab-icon { font-size: 1.45rem; display: block; margin-bottom: 2px; }
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--card-border);
+        }
+        .btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            padding: 9px 15px;
+            border-radius: 999px;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.18s ease;
+        }
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
         .btn-primary { background: var(--primary); border-color: var(--primary-border); color: white; }
         .btn-link { background: transparent; border: none; color: var(--muted); text-decoration: underline; padding: 4px 8px; }
         .input-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
-        .input-group input, .input-group select { flex: 1 0 140px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 30px; padding: 10px 14px; color: var(--text); }
+        .input-group input, .input-group select {
+            flex: 1 0 140px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: var(--text);
+            min-height: 42px;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);
+        }
         .month-selector { display: flex; align-items: center; justify-content: center; margin: 12px 0; }
-        .month-selector input { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 30px; padding: 10px 16px; font-size: 1rem; width: 100%; max-width: 220px; color: var(--text); }
+        .month-selector input { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 10px 12px; font-size: 0.95rem; width: 100%; max-width: 240px; color: var(--text); min-height: 42px; }
         .vaccine-item, .expense-item { background: var(--soft-bg); border-radius: 16px; padding: 12px; margin-bottom: 8px; border-left: 6px solid var(--primary); }
         .reminder-badge { background: rgba(160,69,43,0.18); color: var(--accent); padding: 2px 10px; border-radius: 30px; font-size: 0.8rem; }
         .example-hint { background: var(--panel-bg); border-radius: 16px; padding: 12px; color: var(--muted); font-size: 0.85rem; margin-bottom: 12px; border: 1px dashed var(--primary); }
         .modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.2); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .modal { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text); border-radius: 32px; padding: 24px; width: 90%; max-width: 400px; max-height: 85vh; overflow-y: auto; }
+        .modal { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text); border-radius: 22px; padding: 20px; width: 92%; max-width: 430px; max-height: 86vh; overflow-y: auto; }
         .fake-link { color: var(--muted); text-decoration: underline dotted; cursor: pointer; }
         .empty-state { text-align: center; padding: 40px 20px; color: #ab988b; }
         .big-add-btn { background: var(--panel-bg); border: 2px dashed var(--primary); border-radius: 30px; padding: 20px; margin: 20px 0; cursor: pointer; text-align: center; color: var(--accent); font-weight: 600; }
         .expense-summary { background: var(--panel-bg); border-radius: 20px; padding: 16px; margin-bottom: 16px; }
-        .small-note { font-size: 0.75rem; color: #8f7768; margin: 4px 0; }
+        .small-note { font-size: 0.75rem; color: var(--muted); margin: 4px 0; }
 
         /* 宠物头像 */
         .avatar-upload { display: flex; flex-direction: column; align-items: center; margin-bottom: 12px; }
-        .avatar-preview { width: 80px; height: 80px; border-radius: 50%; background: #f3e7de; border: 2px solid #d9b8a4; display: flex; align-items: center; justify-content: center; font-size: 36px; overflow: hidden; cursor: pointer; margin-bottom: 6px; }
+        .avatar-preview { width: 80px; height: 80px; border-radius: 50%; background: var(--panel-bg); border: 2px solid var(--header-border); display: flex; align-items: center; justify-content: center; font-size: 36px; overflow: hidden; cursor: pointer; margin-bottom: 6px; }
         .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
-        .pet-avatar-small { width: 40px; height: 40px; border-radius: 50%; background: #f3e7de; border: 1px solid #d9b8a4; display: inline-flex; align-items: center; justify-content: center; font-size: 20px; overflow: hidden; margin-right: 6px; vertical-align: middle; }
+        .pet-avatar-small { width: 40px; height: 40px; border-radius: 50%; background: var(--panel-bg); border: 1px solid var(--header-border); display: inline-flex; align-items: center; justify-content: center; font-size: 20px; overflow: hidden; margin-right: 6px; vertical-align: middle; }
         .pet-avatar-small img { width: 100%; height: 100%; object-fit: cover; }
 
         /* 提醒项悬停 */
-        .reminder-item:hover { background: #fde2d9 !important; transition: 0.2s; }
+        .reminder-item:hover { background: color-mix(in srgb, var(--panel-bg) 70%, white 30%) !important; transition: 0.2s; }
 
         /* OCR 样式 */
-        .preprocess-controls { margin-top: 15px; padding: 12px; background: #faf5f2; border-radius: 16px; }
+        .preprocess-controls { margin-top: 15px; padding: 12px; background: var(--panel-bg); border-radius: 16px; }
         .slider-container { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .slider-container input { flex: 1; }
         .preview-area { margin-top: 15px; text-align: center; }
-        .preview-area canvas { max-width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #efe2d9; }
-        .progress-bar { width: 100%; height: 6px; background: #eee; border-radius: 3px; margin: 12px 0; overflow: hidden; }
-        .progress-fill { height: 100%; background: #c1a28b; width: 0%; transition: width 0.3s; }
+        .preview-area canvas { max-width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--card-border); }
+        .progress-bar { width: 100%; height: 6px; background: color-mix(in srgb, var(--card-border) 70%, #ddd 30%); border-radius: 3px; margin: 12px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s; }
 
         /* 看板 */
         .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-        .chart-wrap { background: #fff; border: 1px solid #efe2d9; border-radius: 18px; padding: 12px; }
+        .chart-wrap { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 12px; }
         .chart-wrap canvas { width: 100% !important; height: 220px !important; }
-        .report-box { background: #fef6f2; border: 1px solid #efe2d9; border-radius: 16px; padding: 12px; white-space: pre-wrap; line-height: 1.5; color: #4a3728; }
+        .report-box { background: var(--soft-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; white-space: pre-wrap; line-height: 1.5; color: var(--text); }
 
         /* 疫苗知识提示 */
         .kb-tip { margin-top: 10px; background:var(--panel-bg); border: 1px dashed var(--primary); border-radius: 16px; padding: 10px 12px; color:var(--muted); font-size: 0.85rem; }
 
         /* 浮动快捷 + */
-        .fab { position: fixed; right: 16px; bottom: 86px; width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 22px rgba(0,0,0,0.15); cursor: pointer; z-index: 20; border: 1px solid var(--primary-border); user-select: none; }
+        .fab { position: fixed; right: 16px; bottom: 92px; width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 22px rgba(0,0,0,0.15); cursor: pointer; z-index: 20; border: 1px solid var(--primary-border); user-select: none; font-size: 1.6rem; }
         .fab:active { transform: scale(0.98); }
         .fab-menu { position: fixed; right: 16px; bottom: 150px; display: none; flex-direction: column; gap: 10px; z-index: 20; }
         .fab-action { background: rgba(255,251,248,0.98); border: 1px solid var(--card-border); border-radius: 999px; padding: 10px 12px; box-shadow: 0 8px 18px rgba(0,0,0,0.08); cursor: pointer; color:var(--text); }
         body[data-theme="night"] .fab-action,
         body[data-theme="ink"] .fab-action { background: rgba(18,24,38,0.92); }
         .fab-action strong { color:var(--accent); }
+
+        /* 平板端 */
+        @media (min-width: 768px) {
+            body { padding-bottom: 96px; }
+            .app-header { padding: 20px 24px 14px; }
+            .app-header h1 { font-size: 1.52rem; }
+            .container { padding: 22px 20px; }
+            .page.active {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 16px;
+                align-items: start;
+            }
+            #page-home .example-hint,
+            #page-home .card:nth-of-type(1) { grid-column: 1 / -1; }
+            #page-dashboard .card:nth-of-type(1) { grid-column: 1 / -1; }
+            .tab-bar { max-width: 820px; }
+            .fab { right: 22px; bottom: 104px; }
+            .fab-menu { right: 22px; bottom: 166px; }
+        }
+
+        /* PC 端 */
+        @media (min-width: 1100px) {
+            .container { padding: 26px 28px 24px; }
+            .card { padding: 20px 18px; }
+            .page.active { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+            #page-home .example-hint,
+            #page-home .card:nth-of-type(1),
+            #page-home .card:nth-of-type(2),
+            #page-dashboard .card:nth-of-type(1) { grid-column: 1 / -1; }
+            .tab-bar { max-width: 900px; }
+        }
+
+        /* 小屏手机优化 */
+        @media (max-width: 480px) {
+            .app-header h1 { font-size: 1.2rem; }
+            .app-header p { font-size: 0.8rem; }
+            .container { padding: 12px 10px; }
+            .card { padding: 14px 12px; border-radius: 16px; }
+            .btn { font-size: 0.82rem; padding: 8px 12px; }
+            .tab-item { font-size: 0.68rem; }
+            .tab-icon { font-size: 1.25rem; }
+            .fab { width: 52px; height: 52px; right: 12px; bottom: 84px; }
+            .fab-menu { right: 12px; bottom: 142px; }
+        }
+
+        /* 长辈模式：更大字号、触达更友好 */
+        body.elder-mode { font-size: 18px; }
+        body.elder-mode .btn { min-height: 46px; font-size: 0.98rem; }
+        body.elder-mode .tab-item { font-size: 0.86rem; }
+        body.elder-mode .tab-icon { font-size: 1.6rem; }
+        body.elder-mode input,
+        body.elder-mode select,
+        body.elder-mode textarea { min-height: 46px; font-size: 1rem; }
+        body.elder-mode .small-note { font-size: 0.85rem; }
+        body.elder-mode .card { padding: 20px 18px; }
+
+        /* 视觉细节统一打磨 */
+        .card { border-radius: 22px; box-shadow: 0 10px 24px rgba(16,24,40,0.06); }
+        .btn { min-height: 42px; padding: 9px 16px; font-weight: 600; letter-spacing: 0.1px; }
+        .btn:active { transform: translateY(0); }
+        .input-group input, .input-group select, textarea {
+            min-height: 42px;
+            border-radius: 14px;
+            border-width: 1.5px;
+        }
+        h1, h2, h3, .section-title { letter-spacing: 0.2px; }
+        .vaccine-item, .expense-item, .deworm-item, .weight-item {
+            border-radius: 18px;
+            padding: 13px;
+        }
+        @media (max-width: 640px) {
+            .btn { min-height: 44px; }
+            .card { border-radius: 18px; }
+        }
+
+        /* 高级统一：字体/间距比例尺 */
+        :root {
+            --fs-h1: clamp(1.45rem, 2.2vw, 1.95rem);
+            --fs-h2: clamp(1.12rem, 1.6vw, 1.35rem);
+            --fs-body: clamp(0.95rem, 1vw, 1rem);
+            --fs-caption: clamp(0.8rem, 0.85vw, 0.86rem);
+            --sp-1: 8px;
+            --sp-2: 12px;
+            --sp-3: 16px;
+            --sp-4: 24px;
+            --sp-5: 32px;
+        }
+        body { font-size: var(--fs-body); line-height: 1.62; }
+        h1 { font-size: var(--fs-h1); margin-bottom: var(--sp-2); }
+        h2, h3, .section-title { font-size: var(--fs-h2); margin-bottom: var(--sp-2); }
+        .small-note, .muted, .hint, .kb-tip { font-size: var(--fs-caption); }
+        .card { margin-bottom: var(--sp-4); padding: var(--sp-4); }
+        .input-group { margin: var(--sp-3) 0; gap: var(--sp-2); }
+        body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.28rem; --fs-caption: 0.96rem; }
     </style>
 </head>
 <body>
@@ -176,6 +340,10 @@
             <option value="gray">灰</option>
             <option value="night">夜</option>
             <option value="ink">Ink</option>
+        </select>
+        <select id="accessibilityModeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
+            <option value="normal">标准模式</option>
+            <option value="elder">长辈模式</option>
         </select>
     </div>
 </div>
@@ -511,6 +679,17 @@
     </div>
 </div>
 
+<!-- 日历当日清单弹窗 -->
+<div id="calendarDayModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3 id="calendarDayTitle">🗓️ 当日到期清单</h3>
+        <div id="calendarDayContent" style="margin:16px 0;">...</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="closeCalendarDayModal">关闭</button>
+        </div>
+    </div>
+</div>
+
 <!-- 导入备份文件 input (隐藏) -->
 <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;">
 
@@ -536,6 +715,7 @@
         const STORAGE_REMINDER_CONV = 'reminderConversions_v1';
         const STORAGE_THEME = 'ui_theme_v1';
         const STORAGE_NOTIF = 'ui_notif_enabled_v1';
+        const STORAGE_A11Y_MODE = 'ui_accessibility_mode_v1';
 
         const VACCINE_CYCLES = { '猫三联':365, '狂犬疫苗':365, '犬六联':1095, '犬八联':1095 };
         const VACCINE_KB = {
@@ -573,6 +753,13 @@
             localStorage.setItem(STORAGE_THEME, t);
             const sel = document.getElementById('themeSelect');
             if (sel && sel.value !== t) sel.value = t;
+        }
+        function applyAccessibilityMode(mode) {
+            const m = mode === 'elder' ? 'elder' : 'normal';
+            document.body.classList.toggle('elder-mode', m === 'elder');
+            localStorage.setItem(STORAGE_A11Y_MODE, m);
+            const sel = document.getElementById('accessibilityModeSelect');
+            if (sel && sel.value !== m) sel.value = m;
         }
 
         async function registerServiceWorker() {
@@ -832,13 +1019,52 @@
                 const bg = isToday ? 'rgba(106,166,255,0.12)' : 'transparent';
                 const border = items.length ? `1px solid var(--card-border)` : '1px dashed rgba(0,0,0,0.08)';
                 const mark = hasScheduled ? ' ✅' : '';
-                html += `<div style="height:54px; border:${border}; border-radius:14px; padding:6px; background:${bg}; overflow:hidden;">`;
+                html += `<div data-calendar-date="${dateStr}" style="height:54px; border:${border}; border-radius:14px; padding:6px; background:${bg}; overflow:hidden; cursor:pointer;" title="点击查看当日到期清单">`;
                 html += `<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.9rem;"><span style="font-weight:700; color:var(--text);">${dayNum}</span><span style="font-size:0.8rem;">${mark}</span></div>`;
                 html += `<div style="font-size:0.9rem; margin-top:4px;">${dots}</div>`;
                 html += `</div>`;
             }
             html += `</div>`;
             container.innerHTML = html;
+        }
+
+        function openCalendarDayModal(dateStr) {
+            const modal = document.getElementById('calendarDayModal');
+            const title = document.getElementById('calendarDayTitle');
+            const content = document.getElementById('calendarDayContent');
+            if(!modal || !title || !content || !dateStr) return;
+
+            const vItems = vaccines
+                .filter(v => v.nextDue === dateStr)
+                .map(v => ({ kind: 'vaccine', id: v.id, petId: v.petId, text: `${v.name}${v.brand ? ' · ' + v.brand : ''}${v.batch ? ' · 批号:' + v.batch : ''}` }));
+            const dItems = deworms
+                .filter(d => d.nextDue === dateStr)
+                .map(d => ({ kind: 'deworm', id: d.id, petId: d.petId, text: `驱虫 · ${d.type}${d.product ? ' · ' + d.product : ''}` }));
+            const items = [...vItems, ...dItems];
+
+            title.textContent = `🗓️ ${dateStr} 当日到期清单`;
+            if(!items.length) {
+                content.innerHTML = '<div class="empty-state" style="padding:16px 8px;">这一天没有到期事项</div>';
+                modal.style.display = 'flex';
+                return;
+            }
+
+            let html = '';
+            items.forEach(item => {
+                const pet = pets.find(p => p.id === item.petId) || { name: '未知' };
+                const key = `${item.kind}:${item.id}`;
+                const scheduled = reminderConversions?.[key]?.status === 'scheduled';
+                html += `<div class="expense-item" style="margin-bottom:10px;">`;
+                html += `<div style="display:flex; justify-content:space-between; gap:8px;">`;
+                html += `<div><strong>${pet.name}</strong> · ${item.text}<div style="font-size:0.8rem; color:var(--muted);">到期日：${dateStr}</div></div>`;
+                html += `<div style="text-align:right;">`;
+                html += `<div>${item.kind === 'vaccine' ? '💉' : '🪱'}${scheduled ? ' ✅' : ''}</div>`;
+                html += `<button class="btn btn-sm" style="margin-top:6px; padding:6px 10px;" data-mark-scheduled="${item.kind}:${item.id}" data-scheduled="${scheduled ? '1' : '0'}">${scheduled ? '取消预约' : '标记已预约'}</button>`;
+                html += `</div>`;
+                html += `</div></div>`;
+            });
+            content.innerHTML = html;
+            modal.style.display = 'flex';
         }
 
         function renderHealthScores() {
@@ -1099,11 +1325,17 @@
             if(!pets.length) { table.innerHTML = `<tr><td style="padding:10px; color:var(--muted);">暂无宠物</td></tr>`; return; }
 
             const yearStr = String(year);
+            const monthStr = currentMonth || `${yearStr}-01`;
             const ytdExpenseByPet = new Map();
+            const mtdExpenseByPet = new Map();
             expenses.forEach(e => {
                 if(!e.date || !e.date.startsWith(yearStr)) return;
                 const v = ytdExpenseByPet.get(e.petId) || 0;
                 ytdExpenseByPet.set(e.petId, v + (parseFloat(e.amount)||0));
+                if (e.date.startsWith(monthStr)) {
+                    const mv = mtdExpenseByPet.get(e.petId) || 0;
+                    mtdExpenseByPet.set(e.petId, mv + (parseFloat(e.amount)||0));
+                }
             });
             const vaccineCountByPet = new Map();
             vaccines.forEach(v => {
@@ -1120,32 +1352,46 @@
                 .filter(w => w.petId && w.date)
                 .sort((a,b)=> b.date.localeCompare(a.date))
                 .forEach(w => { if(!latestWeightByPet.has(w.petId)) latestWeightByPet.set(w.petId, w); });
+            const overdueByPet = new Map();
+            const today = formatDateKey(new Date());
+            vaccines.forEach(v => {
+                if(v.petId && v.nextDue && v.nextDue < today) overdueByPet.set(v.petId, (overdueByPet.get(v.petId) || 0) + 1);
+            });
+            deworms.forEach(d => {
+                if(d.petId && d.nextDue && d.nextDue < today) overdueByPet.set(d.petId, (overdueByPet.get(d.petId) || 0) + 1);
+            });
 
             const header = `
                 <tr style="text-align:left; border-bottom:1px solid var(--card-border);">
                     <th style="padding:10px 8px;">宠物</th>
                     <th style="padding:10px 8px;">月龄</th>
                     <th style="padding:10px 8px;">最新体重</th>
+                    <th style="padding:10px 8px;">本月花费</th>
                     <th style="padding:10px 8px;">本年花费</th>
                     <th style="padding:10px 8px;">疫苗(本年)</th>
                     <th style="padding:10px 8px;">驱虫(本年)</th>
+                    <th style="padding:10px 8px;">超期项</th>
                 </tr>`;
 
             let rows = '';
             pets.forEach(p => {
                 const age = getPetAgeMonths(p);
                 const lw = latestWeightByPet.get(p.id);
+                const mexp = mtdExpenseByPet.get(p.id) || 0;
                 const exp = ytdExpenseByPet.get(p.id) || 0;
                 const vc = vaccineCountByPet.get(p.id) || 0;
                 const dc = dewormCountByPet.get(p.id) || 0;
+                const overdue = overdueByPet.get(p.id) || 0;
                 rows += `
                     <tr style="border-bottom:1px solid var(--card-border);">
                         <td style="padding:10px 8px;"><strong>${p.name}</strong><div style="font-size:0.75rem; color:var(--muted);">${p.species}${p.breed ? ' · ' + p.breed : ''}</div></td>
                         <td style="padding:10px 8px;">${age === null ? '-' : age}</td>
                         <td style="padding:10px 8px;">${lw ? (parseFloat(lw.weight).toFixed(1) + 'kg') : '-'}</td>
+                        <td style="padding:10px 8px;">¥${mexp.toFixed(2)}</td>
                         <td style="padding:10px 8px;">¥${exp.toFixed(2)}</td>
                         <td style="padding:10px 8px;">${vc}</td>
                         <td style="padding:10px 8px;">${dc}</td>
+                        <td style="padding:10px 8px; color:${overdue ? 'var(--accent)' : 'var(--muted)'};">${overdue}</td>
                     </tr>`;
             });
             table.innerHTML = header + rows;
@@ -1240,7 +1486,7 @@
             if (items.length > 0 || showEvenIfEmpty) {
                 let msg = '';
                 if (items.length === 0) {
-                    msg = '✨ 未来 ' + days + ' 天内没有到期事项，太棒了！';
+                    msg = '✨ 未来 ' + days + ' 天内没有到期事项，最近照顾得很稳！';
                 } else {
                     items.forEach(item => { msg += buildReminderItemHtml(item); });
                 }
@@ -1741,6 +1987,37 @@
                 alert('已开启系统通知：到期提醒弹窗出现时，会同时发一条系统通知（无需后端推送）。');
             });
 
+            // 日历点击查看当日清单（新增）
+            document.getElementById('calendarContainer').addEventListener('click', (e) => {
+                const cell = e.target.closest('[data-calendar-date]');
+                if (!cell) return;
+                openCalendarDayModal(cell.dataset.calendarDate);
+            });
+            document.getElementById('calendarDayContent').addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-mark-scheduled]');
+                if (!btn) return;
+                const key = btn.dataset.markScheduled;
+                if (!key) return;
+                const isScheduled = btn.dataset.scheduled === '1';
+                if (isScheduled) {
+                    delete reminderConversions[key];
+                    btn.dataset.scheduled = '0';
+                    btn.textContent = '标记已预约';
+                } else {
+                    reminderConversions[key] = { status: 'scheduled', at: formatDateKey(new Date()) };
+                    btn.dataset.scheduled = '1';
+                    btn.textContent = '取消预约';
+                }
+                saveAll();
+                renderCalendar();
+                renderHealthScores();
+                // 看板页的年度统计与对比表也会读取该转化数据
+                renderDashboard();
+            });
+            document.getElementById('closeCalendarDayModal').addEventListener('click', () => {
+                document.getElementById('calendarDayModal').style.display = 'none';
+            });
+
             // 导入导出
             document.getElementById('exportDataBtn').addEventListener('click', exportData);
             document.getElementById('importDataBtn').addEventListener('click', ()=> document.getElementById('importFileInput').click());
@@ -1860,8 +2137,11 @@
         function init() {
             // 主题（尽早应用，避免闪烁）
             applyTheme(localStorage.getItem(STORAGE_THEME) || 'warm');
+            applyAccessibilityMode(localStorage.getItem(STORAGE_A11Y_MODE) || 'normal');
             const themeSelect = document.getElementById('themeSelect');
             if (themeSelect) themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
+            const modeSelect = document.getElementById('accessibilityModeSelect');
+            if (modeSelect) modeSelect.addEventListener('change', (e) => applyAccessibilityMode(e.target.value));
 
             loadData();
             refreshPetSelects();

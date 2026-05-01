@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>🌌 星途·创作舱 · 巡游轨迹/角色/多格式工坊</title>
+    <link rel="manifest" href="creation-manifest.json">
+    <link rel="apple-touch-icon" href="icon.svg">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         /* ===== 原有样式完整保留 ===== */
@@ -212,6 +214,206 @@
                 font-size: 0.5rem;
             }
         }
+
+        /* ===== 2026 UI refresh：与疫苗本风格统一 ===== */
+        :root {
+            --radius-xl: 22px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --space-sm: 10px;
+            --space-md: 14px;
+            --space-lg: 18px;
+        }
+        body {
+            background:
+                radial-gradient(1200px 340px at 50% -180px, rgba(201, 168, 123, 0.16), transparent 72%),
+                var(--bg-body);
+            padding: 16px;
+        }
+        .app {
+            border-radius: 24px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+            min-height: calc(100vh - 32px);
+        }
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light);
+        }
+        h1 {
+            font-size: clamp(1.2rem, 2.1vw, 1.7rem);
+            gap: 8px;
+        }
+        .greeting-wrapper {
+            padding: 5px 12px;
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+        }
+        .btn, .btn-sm, .btn-primary, .btn-icon, .theme-btn, .storage-badge button {
+            border-radius: 999px;
+            transition: all 0.18s ease;
+        }
+        .btn:hover, .btn-sm:hover, .btn-primary:hover, .btn-icon:hover, .theme-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+        }
+        .btn-primary {
+            background: var(--accent-border);
+            border-color: var(--accent-border);
+            color: #fff;
+        }
+        .script-sidebar {
+            width: 320px;
+            padding: 16px 14px;
+            border-right: 1px solid var(--sidebar-border);
+        }
+        .script-item {
+            border-radius: var(--radius-lg);
+            padding: 12px 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .script-item.active {
+            box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+        }
+        .content-panel {
+            padding: 20px 20px;
+        }
+        .record-form-card, .role-world-section, .outline-section, .references-section, .title-lottery-section {
+            border-radius: var(--radius-xl);
+            padding: 18px 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        }
+        .section-title {
+            font-size: 1.08rem;
+            margin-bottom: 12px;
+        }
+        .character-card, .record-card, .ref-item, .markdown-preview {
+            border-radius: var(--radius-lg);
+        }
+        input, textarea, select, .world-textarea, .outline-textarea, #newCharName, #newCharDesc,
+        #recordDate, #recordTitle, #recordReflection, #outlineTypeInput, #refTitle, #refAuthor, #refYear, #refPages, #refLink, #refNote, #newCustomTitleInput {
+            border-radius: var(--radius-md);
+            border: 1px solid var(--btn-border);
+            padding: 10px 12px;
+            background: var(--record-bg);
+            color: var(--text-primary);
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-border);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-border) 18%, transparent);
+        }
+        .outline-toolbar { flex-wrap: wrap; }
+        .modal-card {
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* 平板布局 */
+        @media (max-width: 1080px) {
+            body { padding: 10px; }
+            .app { min-height: calc(100vh - 20px); }
+            .main-layout { flex-direction: column; min-height: unset; }
+            .script-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--sidebar-border);
+            }
+            .script-list {
+                max-height: 240px;
+                overflow-y: auto;
+            }
+            .content-panel { padding: 16px 14px 22px; }
+            .character-card { width: calc(50% - 8px); min-width: 160px; }
+        }
+
+        /* 手机布局 */
+        @media (max-width: 700px) {
+            .app-header {
+                padding: 14px 12px;
+                gap: 8px;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+                gap: 8px;
+            }
+            .theme-switcher { gap: 6px; flex-wrap: wrap; }
+            .theme-btn { width: 34px; height: 32px; font-size: 14px; }
+            .storage-badge {
+                width: 100%;
+                justify-content: space-between;
+                padding: 8px 10px;
+                border-radius: 14px;
+            }
+            .current-script-header {
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .current-script-title { font-size: 1.35rem; }
+            .character-card { width: 100%; }
+            .add-char-form, .add-ref-form, .file-upload-row, .lottery-actions, .lottery-custom-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .outline-toolbar { gap: 8px; }
+            .outline-toolbar .btn-sm { flex: 1 1 calc(50% - 8px); text-align: center; }
+            .record-form-card .form-grid { display: flex; flex-direction: column; gap: 10px; }
+            .record-form-card .form-grid > div { width: 100%; }
+            .btn, .btn-primary { width: 100%; justify-content: center; }
+            .dev-credit { display: none; }
+        }
+
+        /* 长辈模式 */
+        body.elder-mode { font-size: 18px; }
+        body.elder-mode .btn,
+        body.elder-mode .btn-sm,
+        body.elder-mode .btn-primary,
+        body.elder-mode .theme-btn { min-height: 44px; font-size: 0.98rem; }
+        body.elder-mode input,
+        body.elder-mode textarea,
+        body.elder-mode select { font-size: 1rem; min-height: 46px; }
+        body.elder-mode .section-title { font-size: 1.2rem; }
+        body.elder-mode .script-item { padding: 14px 16px; }
+
+        /* 视觉细节统一打磨 */
+        .record-form-card, .role-world-section, .outline-section, .references-section, .title-lottery-section,
+        .record-card, .modal-card { border-radius: 22px; }
+        .btn, .btn-sm, .btn-primary, .theme-btn, .manage-tags-btn { min-height: 42px; font-weight: 600; letter-spacing: 0.1px; }
+        input, textarea, select, .world-textarea, .outline-textarea {
+            border-radius: 14px;
+            border-width: 1.5px;
+            min-height: 42px;
+        }
+        .app-header { padding-top: 22px; padding-bottom: 22px; }
+        .script-item, .character-card, .ref-item { box-shadow: 0 8px 22px rgba(16,24,40,0.05); }
+        @media (max-width: 700px) {
+            .btn, .btn-sm, .btn-primary, .theme-btn { min-height: 44px; }
+        }
+
+        /* 高级统一：字体/间距比例尺 */
+        :root {
+            --fs-h1: clamp(1.45rem, 2.2vw, 1.95rem);
+            --fs-h2: clamp(1.12rem, 1.6vw, 1.34rem);
+            --fs-body: clamp(0.95rem, 1vw, 1rem);
+            --fs-caption: clamp(0.8rem, 0.85vw, 0.86rem);
+            --sp-1: 8px;
+            --sp-2: 12px;
+            --sp-3: 16px;
+            --sp-4: 24px;
+            --sp-5: 32px;
+        }
+        body { font-size: var(--fs-body); line-height: 1.62; }
+        h1 { font-size: var(--fs-h1); }
+        .section-title, .current-script-title { font-size: var(--fs-h2); margin-bottom: var(--sp-2); }
+        .script-meta, .dev-credit, .demo-note { font-size: var(--fs-caption); }
+        .record-form-card, .role-world-section, .outline-section, .references-section, .title-lottery-section,
+        .record-card { margin-bottom: var(--sp-4); }
+        .app-header { padding: var(--sp-4) calc(var(--sp-4) + 4px); }
+        body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.28rem; --fs-caption: 0.96rem; }
     </style>
 </head>
 <body>
@@ -226,6 +428,7 @@
                 <!-- 新增墨水屏主题按钮 -->
                 <button class="theme-btn" data-theme="ink">墨</button>
             </div>
+            <button class="btn" id="elderModeBtn">👓 长辈模式</button>
             <button class="btn" id="monthlyReviewBtn">📊 星际回顾</button>
             <div class="storage-badge"><span>💾 本地星核</span><button id="exportDataBtn">⬇️ 导出</button><button id="importDataBtn">⬆️ 导入</button><input type="file" id="importFileInput" accept=".json" style="display:none"></div>
         </div>
@@ -243,7 +446,88 @@
             <!-- 参考书目：增加页数和链接 -->
             <div class="references-section"><div class="section-title">📚 参考书目</div><div id="referencesListContainer"></div><div class="add-ref-form" style="display:flex; gap:8px; flex-wrap:wrap;"><input type="text" id="refTitle" placeholder="书名*"><input type="text" id="refAuthor" placeholder="作者"><input type="text" id="refYear" placeholder="年份"><input type="text" id="refPages" placeholder="页数"><input type="text" id="refLink" placeholder="链接"><textarea id="refNote" placeholder="备注" rows="1"></textarea><button class="btn-primary" id="addReferenceBtn">添加</button></div></div>
             <div class="title-lottery-section"><div class="section-title">🌠 星光·标题签 <span id="titleStatsDisplay"></span><button class="btn-sm" id="openTitleManagerBtn">管理标题库</button></div><div class="lottery-display"><div class="lottery-sub">✨ 星轨指引 ✨</div><div class="lottery-title-big" id="lotteryResultDisplay">抽签</div></div><div class="lottery-actions"><button class="btn-primary" id="drawLotteryBtn">🎲 随机抽取</button><button class="btn" id="copyLotteryTitleBtn">📋 复制</button></div><div class="lottery-custom-row"><input type="text" id="newCustomTitleInput" placeholder="自定义标题"><button class="btn-primary" id="addCustomTitleBtn">➕ 添加至灵感库</button></div></div>
-            <div class="record-form-card"><div class="form-title"><span>✍️ 添加创作记录</span><button class="btn-link" id="cancelEditBtn" style="display:none;">取消编辑</button></div><div class="form-grid"><div><label>📅 日期</label><input type="date" id="recordDate" class="form-control"></div><div><label>📌 章节/片段</label><input type="text" id="recordTitle" placeholder="章节名"></div><div><label>📎 草稿文件</label><div><button class="btn-sm" id="uploadTriggerBtn">选择文件</button><span id="fileNameDisplay">未选择</span><button class="btn-sm btn-link" id="clearFileBtn">清除</button></div></div><div><label>💭 创作笔记</label><textarea id="recordReflection" rows="3"></textarea></div><button class="btn-primary" id="saveRecordBtn">💾 保存章节</button></div><input type="hidden" id="editingRecordId"><input type="hidden" id="currentFileContent"></div>
+            <div class="record-form-card">
+                <div class="form-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <span>✍️ 添加创作记录</span>
+                    <button class="btn-link" id="cancelEditBtn" style="display:none;">取消编辑</button>
+                </div>
+                <div class="form-grid">
+                    <div><label>📅 日期</label><input type="date" id="recordDate" class="form-control"></div>
+                    <div><label>📌 章节/片段</label><input type="text" id="recordTitle" placeholder="章节名"></div>
+                    <div><label>🔄 章节状态</label><select id="recordStatus"><option value="草稿">草稿</option><option value="修改中">修改中</option><option value="完稿">完稿</option><option value="待审">待审</option></select></div>
+                    <div><label>📎 草稿文件</label><div><button class="btn-sm" id="uploadTriggerBtn">选择文件</button><span id="fileNameDisplay">未选择</span><button class="btn-sm btn-link" id="clearFileBtn">清除</button></div></div>
+                    <div><label>💭 创作笔记</label><textarea id="recordReflection" rows="3"></textarea></div>
+                    <button class="btn-primary" id="saveRecordBtn">💾 保存章节</button>
+                </div>
+                <input type="hidden" id="editingRecordId">
+                <input type="hidden" id="currentFileContent">
+            </div>
+
+            <div class="record-form-card">
+                <div class="section-title">🎯 写作目标追踪（今日/本周）</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <input type="number" id="dailyGoalInput" placeholder="今日目标字数" min="100" step="100" style="max-width:180px;">
+                    <input type="number" id="weeklyGoalInput" placeholder="本周目标字数" min="500" step="100" style="max-width:180px;">
+                    <button class="btn-sm btn-primary" id="saveGoalBtn">保存目标</button>
+                </div>
+                <div style="margin-top:10px;">
+                    <div style="font-size:0.86rem; color:var(--text-secondary);">今日：<span id="todayWordText">0/0</span></div>
+                    <div style="height:10px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="todayWordBar" style="height:10px; width:0%; background:var(--accent-border);"></div></div>
+                    <div style="font-size:0.86rem; color:var(--text-secondary); margin-top:10px;">本周：<span id="weekWordText">0/0</span></div>
+                    <div style="height:10px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="weekWordBar" style="height:10px; width:0%; background:var(--accent-border);"></div></div>
+                </div>
+            </div>
+
+            <div class="record-form-card">
+                <div class="section-title">🔎 快速搜索与筛选</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <input type="text" id="globalSearchInput" placeholder="搜索章节名/角色名/标签/参考书目关键词..." style="flex:1; min-width:260px;">
+                    <select id="statusFilterSelect" style="max-width:180px;">
+                        <option value="">全部状态</option>
+                        <option value="草稿">草稿</option>
+                        <option value="修改中">修改中</option>
+                        <option value="完稿">完稿</option>
+                        <option value="待审">待审</option>
+                    </select>
+                    <button class="btn-sm" id="clearFilterBtn">清空</button>
+                </div>
+                <div id="searchResultSummary" class="small-note" style="margin-top:8px;">输入关键词开始搜索</div>
+            </div>
+
+            <div class="record-form-card">
+                <div class="section-title">🗓️ 时间线视图（甘特简版）</div>
+                <div id="timelineContainer"></div>
+            </div>
+
+            <div class="record-form-card">
+                <div class="section-title">🏅 创作健康评分</div>
+                <div id="healthScoreBox"></div>
+            </div>
+
+            <div class="record-form-card">
+                <div class="section-title">📊 多项目对比看板</div>
+                <div style="overflow:auto;">
+                    <table id="projectCompareTable" style="width:100%; border-collapse:collapse; font-size:0.9rem;"></table>
+                </div>
+            </div>
+
+            <div class="record-form-card">
+                <div class="section-title">🧾 导出周报/月报</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn-sm btn-primary" id="exportWeeklyReportBtn">导出本周摘要</button>
+                    <button class="btn-sm btn-primary" id="exportMonthlyReportBtn">导出本月摘要</button>
+                </div>
+            </div>
+
+            <div class="record-form-card">
+                <div class="section-title">🕘 版本快照 + 回滚</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                    <button class="btn-sm" id="createSnapshotBtn">创建快照</button>
+                    <button class="btn-sm" id="openSnapshotManagerBtn">管理快照</button>
+                    <span class="small-note">每次保存章节/大纲也会自动生成快照</span>
+                </div>
+            </div>
+
             <div class="records-feed"><h3>📖 创作历程</h3><span id="recordCount"></span><div id="recordsContainer"></div></div>
         </div>
     </div>
@@ -261,16 +545,17 @@
 <div id="outlinePreviewModal" class="modal-overlay"><div class="modal-card"><h3>大纲预览</h3><div id="outlinePreviewContent" class="markdown-preview" style="max-height:400px;"></div><button id="closePreviewBtn">关闭</button></div></div>
 <!-- 参考书目编辑模态框增加页数链接 -->
 <div id="refEditModal" class="modal-overlay"><div class="modal-card"><h3>编辑参考书目</h3><input id="editRefTitle" placeholder="书名"><input id="editRefAuthor" placeholder="作者"><input id="editRefYear" placeholder="年份"><input id="editRefPages" placeholder="页数"><input id="editRefLink" placeholder="链接"><textarea id="editRefNote" placeholder="备注"></textarea><div><button id="refModalCancel">取消</button><button class="btn-primary" id="refModalSave">保存</button></div></div></div>
+<div id="snapshotModal" class="modal-overlay"><div class="modal-card"><h3>快照管理</h3><div id="snapshotListContainer" style="max-height:340px; overflow:auto;"></div><div style="margin-top:10px;"><button id="closeSnapshotModalBtn">关闭</button></div></div></div>
 
 <!-- 右下角柔和反馈标识 (尺寸极致缩小、半透明，其余完全不变) -->
 <div class="dev-credit">
-    <div>✍️ 使用反馈 ✍️ <a href="mailto:ilikeitnow@qq.com">📧 ilikeitnow@qq.com</a></div>
-    <div class="demo-note">✨ 测试版本待完善 ✨</div>
+    <div>✍️ 这页好不好用，直接告诉我 <a href="mailto:ilikeitnow@qq.com">📧 ilikeitnow@qq.com</a></div>
+    <div class="demo-note">最近在持续迭代，欢迎提真实使用场景</div>
 </div>
 
 <script>
 (function(){
-    const STORAGE_KEY = 'star_trail_novel_v3_enriched';
+    const STORAGE_KEY = 'star_trail_novel_v4_enriched';
     // 扩展默认标签: 增加人物小传等
     const DEFAULT_TAGS = ['原创','同人','奇幻','科幻','都市','古风','悬疑','言情','冒险','星际'];
     const DEFAULT_OUTLINE_TYPES = ['大纲','细纲','章纲','粗纲','节纲','卷纲','人物小传','设定集','时间线','场景','灵感','随笔'];
@@ -288,10 +573,28 @@
     let globalTags = [];
     let currentEditingCharId = null;
     let editingRefId = null;
+    let currentSearchKeyword = '';
+    let currentStatusFilter = '';
+    let currentTimelineDateFilter = '';
 
     function generateId(){ return Date.now()+'_'+Math.random().toString(36).substr(2,8); }
     function escapeHtml(s){ return String(s).replace(/[&<>]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]); }
     function showToast(msg,d=2000){ let t=document.querySelector('.toast-message'); if(t)t.remove(); t=document.createElement('div'); t.className='toast-message'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),d); }
+    function countWords(text){ return (String(text || '').match(/[\u4e00-\u9fa5]|[A-Za-z0-9_]+/g) || []).length; }
+    function extractTopKeywords(texts, limit=8){
+        const stop = new Set(['的','了','和','是','在','我','你','他','她','它','有','与','及','并','就','都','而','或','到','为','把','被','这','那','一个','我们','他们','自己','以及','然后','因为','所以','但是','如果','这个','那个','进行','已经','可以','需要','以及','the','and','for','with','that','this','from','into','about']);
+        const cnt = new Map();
+        texts.forEach(t=>{
+            const tokens = String(t||'').toLowerCase().match(/[\u4e00-\u9fa5]{2,}|[a-zA-Z]{3,}/g) || [];
+            tokens.forEach(tok=>{
+                if(stop.has(tok)) return;
+                cnt.set(tok, (cnt.get(tok)||0)+1);
+            });
+        });
+        return [...cnt.entries()].sort((a,b)=>b[1]-a[1]).slice(0,limit);
+    }
+    function weekStart(date){ const d=new Date(date); const day=d.getDay()||7; d.setDate(d.getDate()-day+1); d.setHours(0,0,0,0); return d; }
+    function dateKey(d){ return new Date(d).toISOString().slice(0,10); }
     function saveData(){ appData.customTags = globalTags.filter(t=>!DEFAULT_TAGS.includes(t)); localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
     function loadData(){
         const stored = localStorage.getItem(STORAGE_KEY);
@@ -310,10 +613,13 @@
             if(!s.outline) s.outline={text:'',fileName:'',fileContent:'',fileType:''}; 
             if(!s.characters) s.characters=[]; 
             if(!s.references) s.references=[]; 
+            if(!s.goals) s.goals={daily:1200,weekly:6000};
+            if(!s.snapshots) s.snapshots=[];
             s.references = s.references.map(ref=>({...ref, pages: ref.pages||'', link: ref.link||''}));
             if(s.outlineType===undefined) s.outlineType='细纲'; 
             if(s.worldSetting===undefined) s.worldSetting=''; 
-            if(!s.records) s.records=[]; 
+            if(!s.records) s.records=[];
+            s.records = s.records.map(r=>({...r,status:r.status||'草稿',comments:r.comments||[]}));
         });
         if(!appData.activeScriptId || !appData.scripts.find(s=>s.id===appData.activeScriptId)) appData.activeScriptId=appData.scripts[0]?.id;
         updateGreetingText();
@@ -322,7 +628,7 @@
     }
     function getActiveScript(){ return appData.scripts.find(s=>s.id===appData.activeScriptId); }
     function setDefaultDate(){ document.getElementById('recordDate').value = new Date().toISOString().slice(0,10); }
-    function resetForm(){ setDefaultDate(); document.getElementById('recordTitle').value=''; document.getElementById('recordReflection').value=''; document.getElementById('fileNameDisplay').textContent='未选择'; document.getElementById('editingRecordId').value=''; document.getElementById('cancelEditBtn').style.display='none'; document.getElementById('currentFileContent').value=''; }
+    function resetForm(){ setDefaultDate(); document.getElementById('recordTitle').value=''; document.getElementById('recordReflection').value=''; document.getElementById('recordStatus').value='草稿'; document.getElementById('fileNameDisplay').textContent='未选择'; document.getElementById('editingRecordId').value=''; document.getElementById('cancelEditBtn').style.display='none'; document.getElementById('currentFileContent').value=''; }
     
     function updateGreetingText(override=null){
         let span=document.getElementById('greetingText'); if(!span) return;
@@ -360,10 +666,35 @@
         let script=getActiveScript(); if(!script) return;
         let container=document.getElementById('recordsContainer'); let countSpan=document.getElementById('recordCount');
         if(!script.records.length){ container.innerHTML='<div class="empty-message">暂无创作记录</div>'; countSpan.innerText='0条'; return; }
-        let html=script.records.map(rec=>`<div class="record-card"><div><strong>${escapeHtml(rec.title||'无标题')}</strong> (${rec.date||'未知日期'})</div><div class="preview-content">${escapeHtml((rec.reflection||'').slice(0,150))}${rec.reflection?.length>150?'...':''}</div><div class="char-actions"><button class="btn-sm edit-record" data-id="${rec.id}">编辑</button><button class="btn-sm del-record" data-id="${rec.id}">删除</button>${rec.fileName?`<span class="tag">📎 ${escapeHtml(rec.fileName)}</span>`:''}</div></div>`).join('');
-        container.innerHTML=html; countSpan.innerText=`${script.records.length}条`;
-        document.querySelectorAll('.edit-record').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; let rec=script.records.find(r=>r.id===id); if(rec){ document.getElementById('recordDate').value=rec.date||''; document.getElementById('recordTitle').value=rec.title||''; document.getElementById('recordReflection').value=rec.reflection||''; document.getElementById('editingRecordId').value=rec.id; document.getElementById('cancelEditBtn').style.display='inline-block'; document.getElementById('fileNameDisplay').innerText=rec.fileName||'未选择'; showToast('进入编辑模式'); } }));
+
+        const kw = currentSearchKeyword.trim().toLowerCase();
+        let filtered = [...script.records];
+        if(currentStatusFilter) filtered = filtered.filter(r=>(r.status||'草稿')===currentStatusFilter);
+        if(currentTimelineDateFilter) filtered = filtered.filter(r=>(r.date||'')===currentTimelineDateFilter);
+        if(kw){
+            const roleText = (script.characters||[]).map(c=>`${c.name} ${c.description||''}`).join(' ').toLowerCase();
+            const tagText = (script.tags||[]).join(' ').toLowerCase();
+            const refText = (script.references||[]).map(r=>`${r.title} ${r.author||''} ${r.note||''}`).join(' ').toLowerCase();
+            filtered = filtered.filter(rec => (`${rec.title||''} ${rec.reflection||''}`.toLowerCase().includes(kw) || roleText.includes(kw) || tagText.includes(kw) || refText.includes(kw)));
+        }
+        filtered.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+        let html=filtered.map(rec=>`<div class="record-card"><div style="display:flex; justify-content:space-between; gap:8px;"><div><strong>${escapeHtml(rec.title||'无标题')}</strong> (${rec.date||'未知日期'})</div><span class="tag">${rec.status||'草稿'}</span></div><div class="preview-content">${escapeHtml((rec.reflection||'').slice(0,150))}${rec.reflection?.length>150?'...':''}</div><div class="char-actions"><button class="btn-sm edit-record" data-id="${rec.id}">编辑</button><button class="btn-sm del-record" data-id="${rec.id}">删除</button>${rec.fileName?`<span class="tag">📎 ${escapeHtml(rec.fileName)}</span>`:''}</div><div style="margin-top:8px;"><textarea data-comment-input="${rec.id}" rows="1" placeholder="添加本地点评锚点..."></textarea><button class="btn-sm add-comment-btn" data-id="${rec.id}" style="margin-top:6px;">添加点评</button><div class="small-note">${(rec.comments||[]).slice(-3).map(c=>`• ${escapeHtml(c.text)} (${c.at.slice(0,10)})`).join('<br>') || '暂无点评'}</div></div></div>`).join('');
+        container.innerHTML=html; countSpan.innerText=`${filtered.length}/${script.records.length}条`;
+        const summary=document.getElementById('searchResultSummary');
+        if(summary){
+            const filters = [];
+            if(kw) filters.push(`关键词:${kw}`);
+            if(currentStatusFilter) filters.push(`状态:${currentStatusFilter}`);
+            if(currentTimelineDateFilter) filters.push(`日期:${currentTimelineDateFilter}`);
+            summary.textContent = filters.length ? `当前筛选(${filters.join(' / ')})：${countSpan.innerText}` : '输入关键词开始搜索';
+        }
+        document.querySelectorAll('.edit-record').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; let rec=script.records.find(r=>r.id===id); if(rec){ document.getElementById('recordDate').value=rec.date||''; document.getElementById('recordTitle').value=rec.title||''; document.getElementById('recordReflection').value=rec.reflection||''; document.getElementById('recordStatus').value=rec.status||'草稿'; document.getElementById('editingRecordId').value=rec.id; document.getElementById('cancelEditBtn').style.display='inline-block'; document.getElementById('fileNameDisplay').innerText=rec.fileName||'未选择'; document.getElementById('currentFileContent').value=rec.fileContent||''; showToast('进入编辑模式'); } }));
         document.querySelectorAll('.del-record').forEach(btn=>btn.addEventListener('click',()=>{ let id=btn.dataset.id; script.records=script.records.filter(r=>r.id!==id); saveData(); renderRecords(); showToast('已删除'); }));
+        document.querySelectorAll('.add-comment-btn').forEach(btn=>btn.addEventListener('click',()=>{
+            const id=btn.dataset.id; const rec=script.records.find(r=>r.id===id); if(!rec) return;
+            const input=container.querySelector(`[data-comment-input="${id}"]`); const text=(input?.value||'').trim(); if(!text) return showToast('请输入点评');
+            rec.comments = rec.comments || []; rec.comments.push({id:generateId(), text, at:new Date().toISOString()}); saveData(); renderRecords(); showToast('点评已添加');
+        }));
     }
     function renderCharactersAndWorld(){
         let script=getActiveScript(); if(!script) return;
@@ -397,7 +728,168 @@
         document.getElementById('editRefNote').value=ref.note||''; 
         document.getElementById('refEditModal').style.visibility='visible'; 
     }
-    function refreshUI(){ renderSidebar(); renderRecords(); renderCharactersAndWorld(); renderOutline(); renderReferences(); renderLotteryResult(); }
+    function createSnapshot(reason='自动快照'){
+        const script=getActiveScript(); if(!script) return;
+        const snapshot = {
+            id: generateId(),
+            at: new Date().toISOString(),
+            reason,
+            data: {
+                records: JSON.parse(JSON.stringify(script.records||[])),
+                outline: JSON.parse(JSON.stringify(script.outline||{})),
+                references: JSON.parse(JSON.stringify(script.references||[])),
+                characters: JSON.parse(JSON.stringify(script.characters||[])),
+                worldSetting: script.worldSetting || ''
+            }
+        };
+        script.snapshots.unshift(snapshot);
+        if(script.snapshots.length>30) script.snapshots = script.snapshots.slice(0,30);
+    }
+
+    function renderSnapshotList(){
+        const container=document.getElementById('snapshotListContainer'); const script=getActiveScript();
+        if(!container || !script) return;
+        if(!script.snapshots?.length){ container.innerHTML='<div class="empty-message">暂无快照</div>'; return; }
+        container.innerHTML = script.snapshots.map(s=>`
+            <div class="record-card" style="margin-bottom:10px;">
+                <div><strong>${new Date(s.at).toLocaleString()}</strong></div>
+                <div class="small-note">${escapeHtml(s.reason||'自动快照')}</div>
+                <div style="margin-top:8px; display:flex; gap:8px;">
+                    <button class="btn-sm restore-snapshot" data-id="${s.id}">回滚到此版本</button>
+                    <button class="btn-sm del-snapshot" data-id="${s.id}">删除</button>
+                </div>
+            </div>
+        `).join('');
+        container.querySelectorAll('.restore-snapshot').forEach(btn=>btn.addEventListener('click',()=>{
+            const sid=btn.dataset.id; const snap=script.snapshots.find(x=>x.id===sid); if(!snap) return;
+            if(!confirm('确认回滚到该快照？当前未保存变更将丢失。')) return;
+            script.records = JSON.parse(JSON.stringify(snap.data.records||[]));
+            script.outline = JSON.parse(JSON.stringify(snap.data.outline||{text:'',fileName:'',fileContent:'',fileType:''}));
+            script.references = JSON.parse(JSON.stringify(snap.data.references||[]));
+            script.characters = JSON.parse(JSON.stringify(snap.data.characters||[]));
+            script.worldSetting = snap.data.worldSetting || '';
+            saveData(); refreshUI(); showToast('已回滚');
+        }));
+        container.querySelectorAll('.del-snapshot').forEach(btn=>btn.addEventListener('click',()=>{
+            script.snapshots = script.snapshots.filter(x=>x.id!==btn.dataset.id); saveData(); renderSnapshotList();
+        }));
+    }
+
+    function renderGoalTracking(){
+        const script=getActiveScript(); if(!script) return;
+        const dailyTarget = parseInt(script.goals?.daily || 1200,10);
+        const weeklyTarget = parseInt(script.goals?.weekly || 6000,10);
+        const today = dateKey(new Date());
+        const ws = weekStart(new Date());
+        const todayWords = countWords(script.outline?.text || '') + (script.records||[]).filter(r=>r.date===today).reduce((s,r)=>s+countWords(r.reflection),0);
+        const weekWords = (script.records||[]).filter(r=>{ if(!r.date) return false; const d=new Date(r.date); d.setHours(0,0,0,0); return d>=ws; }).reduce((s,r)=>s+countWords(r.reflection),0) + countWords(script.outline?.text || '');
+        const todayPct = Math.min(100, Math.round(todayWords / Math.max(1,dailyTarget) * 100));
+        const weekPct = Math.min(100, Math.round(weekWords / Math.max(1,weeklyTarget) * 100));
+        document.getElementById('dailyGoalInput').value = dailyTarget;
+        document.getElementById('weeklyGoalInput').value = weeklyTarget;
+        document.getElementById('todayWordText').textContent = `${todayWords}/${dailyTarget}`;
+        document.getElementById('weekWordText').textContent = `${weekWords}/${weeklyTarget}`;
+        document.getElementById('todayWordBar').style.width = `${todayPct}%`;
+        document.getElementById('weekWordBar').style.width = `${weekPct}%`;
+    }
+
+    function renderTimeline(){
+        const script=getActiveScript(); const container=document.getElementById('timelineContainer'); if(!script||!container) return;
+        const records=[...(script.records||[])].filter(r=>r.date).sort((a,b)=>a.date.localeCompare(b.date));
+        if(!records.length){ container.innerHTML='<div class="empty-message">暂无时间线数据</div>'; return; }
+        const grouped={};
+        records.forEach(r=>{ grouped[r.date]=(grouped[r.date]||0)+1; });
+        const max = Math.max(...Object.values(grouped),1);
+        container.innerHTML = Object.entries(grouped).map(([d,c])=>`
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <button class="btn-sm timeline-date-btn ${currentTimelineDateFilter===d ? 'btn-primary' : ''}" data-date="${d}" style="width:110px; text-align:left; border-radius:10px;">${d}</button>
+                <div style="flex:1; height:10px; background:var(--tag-bg); border-radius:999px; overflow:hidden;">
+                    <div style="height:10px; width:${Math.round(c/max*100)}%; background:var(--accent-border);"></div>
+                </div>
+                <div style="width:52px; font-size:0.82rem;">${c}条</div>
+            </div>
+        `).join('') + `<div style="margin-top:8px;"><button class="btn-sm" id="clearTimelineFilterBtn">清除日期过滤</button></div>`;
+        container.querySelectorAll('.timeline-date-btn').forEach(btn=>btn.addEventListener('click',()=>{
+            const d=btn.dataset.date||'';
+            currentTimelineDateFilter = (currentTimelineDateFilter===d) ? '' : d;
+            renderTimeline();
+            renderRecords();
+        }));
+        container.querySelector('#clearTimelineFilterBtn')?.addEventListener('click',()=>{
+            currentTimelineDateFilter='';
+            renderTimeline();
+            renderRecords();
+        });
+    }
+
+    function renderHealthScore(){
+        const script=getActiveScript(); const box=document.getElementById('healthScoreBox'); if(!script||!box) return;
+        const records=script.records||[];
+        if(!records.length){ box.innerHTML='<div class="empty-message">暂无记录，先写一条吧</div>'; return; }
+        const today = new Date(); today.setHours(0,0,0,0);
+        const dates = [...new Set(records.filter(r=>r.date).map(r=>r.date))].sort();
+        let streak=0; let cursor=new Date(today);
+        while(dates.includes(dateKey(cursor))){ streak++; cursor.setDate(cursor.getDate()-1); }
+        const doneCount = records.filter(r=>r.status==='完稿').length;
+        const doneRate = Math.round(doneCount / records.length * 100);
+        const goalDaily = parseInt(script.goals?.daily || 1200,10);
+        const todayWords = countWords(script.outline?.text || '') + records.filter(r=>r.date===dateKey(today)).reduce((s,r)=>s+countWords(r.reflection),0);
+        const goalScore = Math.min(100, Math.round(todayWords/Math.max(1,goalDaily)*100));
+        const lastDate = dates[dates.length-1]; const delayDays = lastDate ? Math.max(0, Math.floor((today - new Date(lastDate))/(1000*60*60*24))) : 30;
+        let score = 50 + Math.min(20, streak*3) + Math.round(doneRate*0.2) + Math.round(goalScore*0.15) - Math.min(20, delayDays);
+        score = Math.max(0, Math.min(100, score));
+        const grade = score >= 85 ? 'A' : (score >= 65 ? 'B' : 'C');
+        const gradeColor = grade === 'A' ? '#2e7d32' : (grade === 'B' ? '#e09f3e' : '#c0392b');
+        box.innerHTML = `
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><strong>当前健康评分</strong><strong style="color:${gradeColor};">${score}（${grade}）</strong></div>
+            <div style="height:10px; background:var(--tag-bg); border-radius:999px; overflow:hidden;"><div style="height:10px; width:${score}%; background:var(--accent-border);"></div></div>
+            <div class="small-note" style="margin-top:8px;">连续创作 ${streak} 天 · 完稿率 ${doneRate}% · 今日目标达成 ${goalScore}% · 最近拖延 ${delayDays} 天 · 等级 ${grade}</div>
+        `;
+    }
+
+    function renderProjectCompare(){
+        const table=document.getElementById('projectCompareTable'); if(!table) return;
+        if(!appData.scripts?.length){ table.innerHTML='<tr><td>暂无项目</td></tr>'; return; }
+        const rows = appData.scripts.map(s=>{
+            const records=s.records||[];
+            const done=records.filter(r=>r.status==='完稿').length;
+            const doneRate = records.length ? Math.round(done/records.length*100) : 0;
+            const latestDate = [...records].filter(r=>r.date).sort((a,b)=>b.date.localeCompare(a.date))[0]?.date || '-';
+            return `<tr style="border-bottom:1px solid var(--card-border);"><td style="padding:8px;">${escapeHtml(s.name)}</td><td style="padding:8px;">${records.length}</td><td style="padding:8px;">${doneRate}%</td><td style="padding:8px;">${latestDate}</td></tr>`;
+        }).join('');
+        table.innerHTML = `
+            <tr style="text-align:left; border-bottom:1px solid var(--card-border);">
+                <th style="padding:8px;">项目</th><th style="padding:8px;">记录数</th><th style="padding:8px;">完稿率</th><th style="padding:8px;">最近活跃</th>
+            </tr>${rows}
+        `;
+    }
+
+    function buildReportText(mode='week'){
+        const script=getActiveScript(); if(!script) return '';
+        const now=new Date(); const start = new Date(now); start.setHours(0,0,0,0);
+        if(mode==='week'){ const d=start.getDay()||7; start.setDate(start.getDate()-d+1); }
+        else { start.setDate(1); }
+        const records=(script.records||[]).filter(r=>r.date && new Date(r.date)>=start);
+        const totalWords = countWords(script.outline?.text||'') + records.reduce((s,r)=>s+countWords(r.reflection),0);
+        const statusCount = {草稿:0,修改中:0,完稿:0,待审:0}; records.forEach(r=>statusCount[r.status||'草稿']=(statusCount[r.status||'草稿']||0)+1);
+        const topKeywords = extractTopKeywords(records.map(r=>r.reflection||''), 8);
+        return [
+            `${script.name} ${mode==='week'?'本周':'本月'}创作摘要`,
+            `统计区间开始：${dateKey(start)}`,
+            `记录数：${records.length}`,
+            `字数（大纲+笔记）：${totalWords}`,
+            `状态分布：草稿${statusCount['草稿']} / 修改中${statusCount['修改中']} / 完稿${statusCount['完稿']} / 待审${statusCount['待审']}`,
+            `TOP 关键词：${topKeywords.length ? topKeywords.map(([k,v])=>`${k}(${v})`).join('、') : '暂无足够文本数据'}`,
+            `最近更新：${records.sort((a,b)=>(b.date||'').localeCompare(a.date||''))[0]?.date || '-'}`,
+            `建议：优先清理“待审”和“修改中”章节，形成稳定完稿节奏。`
+        ].join('\n');
+    }
+
+    function downloadTextFile(filename, text){
+        const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
+    }
+
+    function refreshUI(){ renderSidebar(); renderRecords(); renderCharactersAndWorld(); renderOutline(); renderReferences(); renderLotteryResult(); renderGoalTracking(); renderTimeline(); renderHealthScore(); renderProjectCompare(); }
     function openScriptModal(script){ let modal=document.getElementById('scriptModal'); document.getElementById('modalScriptName').value=script?script.name:''; renderTagSelector(script?.tags||[]); window._editingScriptId=script?.id; modal.style.visibility='visible'; }
     function renderTagSelector(selected=[]){ let container=document.getElementById('tagSelectorContainer'); if(!container) return; container.innerHTML=globalTags.map(t=>`<span class="tag-chip ${selected.includes(t)?'selected':''}" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join(''); document.querySelectorAll('.tag-chip').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('selected'))); }
     function renderOutlineDatalist(){ let datalist=document.getElementById('outlineTypeOptions'); let allTypes=[...DEFAULT_OUTLINE_TYPES,...appData.customOutlineTypes]; datalist.innerHTML=allTypes.map(t=>`<option value="${escapeHtml(t)}">`).join(''); }
@@ -407,7 +899,7 @@
         document.getElementById('addScriptBtn')?.addEventListener('click',()=>openScriptModal(null));
         document.getElementById('renameScriptBtn')?.addEventListener('click',()=>{ let s=getActiveScript(); if(s) openScriptModal(s); });
         document.getElementById('modalCancelBtn')?.addEventListener('click',()=>document.getElementById('scriptModal').style.visibility='hidden');
-        document.getElementById('modalSaveBtn')?.addEventListener('click',()=>{ let name=document.getElementById('modalScriptName').value.trim(); if(!name) return showToast('请输入项目名'); let selectedTags=[...document.querySelectorAll('#tagSelectorContainer .tag-chip.selected')].map(el=>el.dataset.tag); let scriptId=window._editingScriptId; if(scriptId){ let s=appData.scripts.find(s=>s.id===scriptId); if(s){ s.name=name; s.tags=selectedTags; saveData(); refreshUI(); } }else{ let newId=generateId(); appData.scripts.push({id:newId,name:name,createdAt:new Date().toISOString(),records:[],tags:selectedTags,characters:[],worldSetting:'',outline:{text:'',fileName:'',fileContent:'',fileType:''},outlineType:'细纲',references:[]}); if(!appData.activeScriptId) appData.activeScriptId=newId; saveData(); refreshUI(); } document.getElementById('scriptModal').style.visibility='hidden'; });
+        document.getElementById('modalSaveBtn')?.addEventListener('click',()=>{ let name=document.getElementById('modalScriptName').value.trim(); if(!name) return showToast('请输入项目名'); let selectedTags=[...document.querySelectorAll('#tagSelectorContainer .tag-chip.selected')].map(el=>el.dataset.tag); let scriptId=window._editingScriptId; if(scriptId){ let s=appData.scripts.find(s=>s.id===scriptId); if(s){ s.name=name; s.tags=selectedTags; saveData(); refreshUI(); } }else{ let newId=generateId(); appData.scripts.push({id:newId,name:name,createdAt:new Date().toISOString(),records:[],tags:selectedTags,characters:[],worldSetting:'',outline:{text:'',fileName:'',fileContent:'',fileType:''},outlineType:'细纲',references:[],goals:{daily:1200,weekly:6000},snapshots:[]}); if(!appData.activeScriptId) appData.activeScriptId=newId; saveData(); refreshUI(); } document.getElementById('scriptModal').style.visibility='hidden'; });
         document.getElementById('openTagManagerBtn')?.addEventListener('click',()=>{ renderTagManagerList(); document.getElementById('tagManagerModal').style.visibility='visible'; });
         document.getElementById('closeTagManagerBtn')?.addEventListener('click',()=>document.getElementById('tagManagerModal').style.visibility='hidden');
         function renderTagManagerList(){ let container=document.getElementById('tagManagerList'); if(!container) return; container.innerHTML=globalTags.map(t=>`<div style="display:flex;justify-content:space-between;"><span>🏷️ ${escapeHtml(t)}</span>${!DEFAULT_TAGS.includes(t)?`<button class="btn-sm del-tag" data-tag="${escapeHtml(t)}">删除</button>`:'<span>内置</span>'}</div>`).join(''); document.querySelectorAll('.del-tag').forEach(btn=>btn.addEventListener('click',()=>{ let tag=btn.dataset.tag; globalTags=globalTags.filter(g=>g!==tag); appData.customTags=globalTags.filter(g=>!DEFAULT_TAGS.includes(g)); saveData(); renderTagManagerList(); showToast('已删除标签'); })); }
@@ -415,11 +907,11 @@
         document.getElementById('addNewTagBtn')?.addEventListener('click',()=>{ let newTag=document.getElementById('newTagInput').value.trim(); if(newTag && !globalTags.includes(newTag)){ globalTags.push(newTag); renderTagSelector(); document.getElementById('newTagInput').value=''; } });
         document.getElementById('addCharacterBtn')?.addEventListener('click',()=>{ let name=document.getElementById('newCharName').value.trim(); let desc=document.getElementById('newCharDesc').value.trim(); if(!name) return showToast('角色名不能为空'); let script=getActiveScript(); if(script){ script.characters.push({id:generateId(),name:name,description:desc}); saveData(); renderCharactersAndWorld(); document.getElementById('newCharName').value=''; document.getElementById('newCharDesc').value=''; showToast('角色已添加'); } });
         document.getElementById('saveWorldBtn')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script){ script.worldSetting=document.getElementById('worldSettingText').value; saveData(); showToast('世界观已保存'); } });
-        document.getElementById('saveOutlineBtn')?.addEventListener('click',saveOutline);
+        document.getElementById('saveOutlineBtn')?.addEventListener('click',()=>{ createSnapshot('保存大纲'); saveOutline(); refreshUI(); });
         document.getElementById('previewOutlineBtn')?.addEventListener('click',()=>{ let val=document.getElementById('outlineTextArea').value; let previewDiv=document.getElementById('outlinePreviewContent'); previewDiv.innerHTML=marked.parse(val||''); document.getElementById('outlinePreviewModal').style.visibility='visible'; });
         document.getElementById('closePreviewBtn')?.addEventListener('click',()=>document.getElementById('outlinePreviewModal').style.visibility='hidden');
         document.getElementById('toggleMdPreviewBtn')?.addEventListener('click',()=>{ let previewDiv=document.getElementById('outlineMdPreview'); let textarea=document.getElementById('outlineTextArea'); if(previewDiv.style.display==='none'){ previewDiv.style.display='block'; previewDiv.innerHTML=marked.parse(textarea.value||''); textarea.style.display='none'; }else{ previewDiv.style.display='none'; textarea.style.display='block'; } });
-        document.getElementById('saveRecordBtn')?.addEventListener('click',()=>{ let script=getActiveScript(); if(!script) return; let id=document.getElementById('editingRecordId').value; let date=document.getElementById('recordDate').value; let title=document.getElementById('recordTitle').value; let reflection=document.getElementById('recordReflection').value; let fileName=document.getElementById('fileNameDisplay').innerText!=='未选择'?document.getElementById('fileNameDisplay').innerText:''; let fileContent=document.getElementById('currentFileContent').value; if(id){ let idx=script.records.findIndex(r=>r.id===id); if(idx!==-1) script.records[idx]={...script.records[idx],date,title,reflection,fileName,fileContent}; }else{ script.records.push({id:generateId(),date,title,reflection,fileName,fileContent}); } saveData(); resetForm(); renderRecords(); showToast('已保存'); });
+        document.getElementById('saveRecordBtn')?.addEventListener('click',()=>{ let script=getActiveScript(); if(!script) return; let id=document.getElementById('editingRecordId').value; let date=document.getElementById('recordDate').value; let title=document.getElementById('recordTitle').value; let reflection=document.getElementById('recordReflection').value; let status=document.getElementById('recordStatus').value||'草稿'; let fileName=document.getElementById('fileNameDisplay').innerText!=='未选择'?document.getElementById('fileNameDisplay').innerText:''; let fileContent=document.getElementById('currentFileContent').value; createSnapshot(id?'编辑章节':'新增章节'); if(id){ let idx=script.records.findIndex(r=>r.id===id); if(idx!==-1) script.records[idx]={...script.records[idx],date,title,reflection,status,fileName,fileContent}; }else{ script.records.push({id:generateId(),date,title,reflection,status,fileName,fileContent,comments:[]}); } saveData(); resetForm(); refreshUI(); showToast('已保存'); });
         document.getElementById('cancelEditBtn')?.addEventListener('click',resetForm);
         document.getElementById('uploadTriggerBtn')?.addEventListener('click',()=>{ let input=document.createElement('input'); input.type='file'; input.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ document.getElementById('currentFileContent').value=ev.target.result; document.getElementById('fileNameDisplay').innerText=file.name; showToast('文件已加载'); }; reader.readAsDataURL(file); } }; input.click(); });
         document.getElementById('clearFileBtn')?.addEventListener('click',()=>{ document.getElementById('fileNameDisplay').innerText='未选择'; document.getElementById('currentFileContent').value=''; });
@@ -445,7 +937,35 @@
         document.getElementById('charModalSave')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script&&currentEditingCharId){ let char=script.characters.find(c=>c.id===currentEditingCharId); if(char){ char.name=document.getElementById('charEditName').value; char.description=document.getElementById('charEditDesc').value; saveData(); renderCharactersAndWorld(); } } document.getElementById('characterModal').style.visibility='hidden'; });
         document.getElementById('charModalCancel')?.addEventListener('click',()=>document.getElementById('characterModal').style.visibility='hidden');
         document.getElementById('addReferenceBtn')?.addEventListener('click',()=>{ let title=document.getElementById('refTitle').value.trim(); if(!title) return showToast('请输入书名'); let script=getActiveScript(); if(script){ script.references.push({id:generateId(),title:title,author:document.getElementById('refAuthor').value,year:document.getElementById('refYear').value,pages:document.getElementById('refPages').value,link:document.getElementById('refLink').value,note:document.getElementById('refNote').value}); saveData(); renderReferences(); document.getElementById('refTitle').value=''; document.getElementById('refAuthor').value=''; document.getElementById('refYear').value=''; document.getElementById('refPages').value=''; document.getElementById('refLink').value=''; document.getElementById('refNote').value=''; showToast('已添加引用'); } });
-        document.querySelectorAll('.theme-btn').forEach(btn=>btn.addEventListener('click',()=>{ document.body.className=`theme-${btn.dataset.theme}`; document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }));
+        function applyCreationTheme(theme){
+            const t = theme || 'default';
+            const elder = document.body.classList.contains('elder-mode');
+            document.body.className = `theme-${t}` + (elder ? ' elder-mode' : '');
+            localStorage.setItem('creation_theme', t);
+            document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active', b.dataset.theme===t));
+        }
+        document.querySelectorAll('.theme-btn').forEach(btn=>btn.addEventListener('click',()=>{ applyCreationTheme(btn.dataset.theme); }));
+        const savedTheme = localStorage.getItem('creation_theme') || 'default';
+        applyCreationTheme(savedTheme);
+        const elderSaved = localStorage.getItem('creation_elder_mode') === '1';
+        if (elderSaved) document.body.classList.add('elder-mode');
+        document.getElementById('elderModeBtn')?.addEventListener('click', ()=>{
+            const next = !document.body.classList.contains('elder-mode');
+            document.body.classList.toggle('elder-mode', next);
+            localStorage.setItem('creation_elder_mode', next ? '1' : '0');
+            document.getElementById('elderModeBtn').textContent = next ? '👓 退出长辈模式' : '👓 长辈模式';
+            applyCreationTheme(localStorage.getItem('creation_theme') || 'default');
+        });
+        document.getElementById('elderModeBtn').textContent = document.body.classList.contains('elder-mode') ? '👓 退出长辈模式' : '👓 长辈模式';
+        document.getElementById('saveGoalBtn')?.addEventListener('click',()=>{ const s=getActiveScript(); if(!s) return; s.goals={daily: parseInt(document.getElementById('dailyGoalInput').value||1200,10), weekly: parseInt(document.getElementById('weeklyGoalInput').value||6000,10)}; saveData(); renderGoalTracking(); renderHealthScore(); showToast('目标已保存'); });
+        document.getElementById('globalSearchInput')?.addEventListener('input',(e)=>{ currentSearchKeyword=e.target.value||''; renderRecords(); });
+        document.getElementById('statusFilterSelect')?.addEventListener('change',(e)=>{ currentStatusFilter=e.target.value||''; renderRecords(); });
+        document.getElementById('clearFilterBtn')?.addEventListener('click',()=>{ currentSearchKeyword=''; currentStatusFilter=''; currentTimelineDateFilter=''; document.getElementById('globalSearchInput').value=''; document.getElementById('statusFilterSelect').value=''; renderTimeline(); renderRecords(); });
+        document.getElementById('exportWeeklyReportBtn')?.addEventListener('click',()=> downloadTextFile(`周报_${Date.now()}.txt`, buildReportText('week')));
+        document.getElementById('exportMonthlyReportBtn')?.addEventListener('click',()=> downloadTextFile(`月报_${Date.now()}.txt`, buildReportText('month')));
+        document.getElementById('createSnapshotBtn')?.addEventListener('click',()=>{ createSnapshot('手动快照'); saveData(); showToast('快照已创建'); });
+        document.getElementById('openSnapshotManagerBtn')?.addEventListener('click',()=>{ renderSnapshotList(); document.getElementById('snapshotModal').style.visibility='visible'; });
+        document.getElementById('closeSnapshotModalBtn')?.addEventListener('click',()=>document.getElementById('snapshotModal').style.visibility='hidden');
         document.getElementById('autoBackupCheckbox').checked=localStorage.getItem('autoBackupEnabled')==='true';
         document.getElementById('autoBackupCheckbox').addEventListener('change',e=>localStorage.setItem('autoBackupEnabled',e.target.checked));
         window.addEventListener('beforeunload',()=>{ saveData(); if(localStorage.getItem('autoBackupEnabled')==='true'){ let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(appData)],{type:'application/json'})); a.download=`autobackup_${Date.now()}.json`; a.click(); } });
@@ -460,7 +980,11 @@
         document.getElementById('refModalCancel')?.addEventListener('click',()=>document.getElementById('refEditModal').style.visibility='hidden');
         document.getElementById('refModalSave')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script && editingRefId){ let ref=script.references.find(r=>r.id===editingRefId); if(ref){ ref.title=document.getElementById('editRefTitle').value; ref.author=document.getElementById('editRefAuthor').value; ref.year=document.getElementById('editRefYear').value; ref.pages=document.getElementById('editRefPages').value; ref.link=document.getElementById('editRefLink').value; ref.note=document.getElementById('editRefNote').value; saveData(); renderReferences(); } } document.getElementById('refEditModal').style.visibility='hidden'; });
     }
-    function init(){ loadData(); setDefaultDate(); refreshUI(); bindEvents(); setInterval(()=>saveData(), 30000); }
+    async function registerCreationSW(){
+        if(!('serviceWorker' in navigator)) return;
+        try { await navigator.serviceWorker.register('./creation-sw.js'); } catch(e) {}
+    }
+    function init(){ loadData(); setDefaultDate(); refreshUI(); bindEvents(); setInterval(()=>saveData(), 30000); registerCreationSW(); }
     init();
 })();
 </script>
