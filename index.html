@@ -1322,12 +1322,14 @@
                 <div class="project-emoji">🐾</div>
                 <div class="project-title">毛孩疫苗本 <span class="project-highlight">转化率 +61.5%</span></div>
                 <div class="project-subtitle">给宠物家长用的疫苗和花费记录工具</div>
+                <!-- ★ 更新项目描述，加入六大新功能 -->
                 <div class="project-desc">
                     <strong>起因：</strong>身边养宠物的朋友总在群里问"上次打疫苗啥时候来着"，手机上又找不到一个又简单又能离线用的记录本。<br>
-                    <strong>我做了什么：</strong>做了一个极简的疫苗本，用离线OCR拍疫苗本就能识别，提醒可以按每只宠物单独设，所有数据存本地。<br>
+                    <strong>我做了什么：</strong>做了一个极简的疫苗本，用离线OCR拍疫苗本就能识别，提醒可以按每只宠物单独设，所有数据存本地。后续迭代中新增了<b>疫苗品牌/批号追溯、独立体重管理、月历视图、多宠对比表</b>和<b>健康评分</b>，并接入了<b>Service Worker推送通知</b>。<br>
                     <strong>结果：</strong>OCR准确率从最开始的40%调到80%以上，还完成了从网页到可安装APK的全流程。
                 </div>
-                <div><span class="project-tag">OCR识别</span><span class="project-tag">PWA</span><span class="project-tag">Vibe Coding</span></div>
+                <!-- ★ 更新标签 -->
+                <div><span class="project-tag">OCR识别</span><span class="project-tag">PWA推送</span><span class="project-tag">健康评分</span><span class="project-tag">Vibe Coding</span></div>
                 <div class="project-link">→ 体验 Demo</div>
             </a>
             <a id="project-meeting" class="project-card scroll-margin" href="./meeting-ruminant.html" target="_blank">
@@ -1379,11 +1381,20 @@
                     <div class="design-doc-title"><span>🐾</span> 毛孩疫苗本</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>宠物主记录疫苗/花费不便，提醒不灵活，导出缺失。</p></div>
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>轻量工具 + 离线OCR + 多维提醒策略（按宠物独立提醒、稍后/忽略）。</p></div>
-                    <div class="doc-row"><h4>📈 量化成果</h4><ul><li>OCR准确率 40% → 80%+</li><li>A/B测试：提醒转化率+61.5%，7日留存+41.9%</li><li>v1.6全量发布灵活提醒策略</li></ul></div>
+                    <!-- ★ 更新量化成果，加入v1.7新功能 -->
+                    <div class="doc-row"><h4>📈 量化成果</h4>
+                        <ul>
+                            <li>OCR准确率 40% → 80%+</li>
+                            <li>A/B测试：提醒转化率+61.5%，7日留存+41.9%</li>
+                            <li>v1.6全量发布灵活提醒策略</li>
+                            <li><strong>v1.7新增品牌/批号、体重独立管理、月历视图、多宠对比、健康评分、PWA推送</strong></li>
+                        </ul>
+                    </div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
                         <div class="feedback-quote">"狗子的疫苗提醒挺准的，但我更想要的是能把记录导出来给宠物店看，后来发现真能导Excel。" —— 养金毛的妮可 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
                         <div class="feedback-quote">"家里两只狗，一开始只能一起提醒，后来能分开设了，这个改得好。" —— 双狗家庭 Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
                     </div>
+                    <!-- ★ 更新迭代历史，加入v1.7 -->
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
                         <ul style="margin-top:8px;">
@@ -1392,6 +1403,7 @@
                             <li>v1.2 (2025.11)：集成Tesseract.js OCR，准确率提至80%+</li>
                             <li>v1.3~v1.5：提示/花费视图/提醒状态机</li>
                             <li>v1.6 (2026.02)：基于A/B实验全量上线灵活提醒策略，转化提升61%</li>
+                            <li>v1.7 (2026.04)：品牌批号追溯、独立体重管理、月历视图、多宠对比表、健康评分、PWA推送通知</li>
                         </ul>
                     </details>
                 </div>
@@ -1492,7 +1504,6 @@
 
     <script>
         (function() {
-            // ===== 桌面端TOC交互 =====
             const links = document.querySelectorAll('.toc-link');
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -1511,7 +1522,6 @@
                 });
             });
 
-            // 移动端底部导航同样处理
             const mobileLinks = document.querySelectorAll('.mobile-bottom-nav a');
             mobileLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -1551,7 +1561,6 @@
                 updateToggleIcon();
             }
 
-            // ===== Chart.js 图表初始化 =====
             const ctxBar = document.getElementById('abtestBarChart')?.getContext('2d');
             if (ctxBar) {
                 new Chart(ctxBar, {
