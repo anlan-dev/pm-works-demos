@@ -8,81 +8,82 @@
         * {
             box-sizing: border-box;
             margin: 0;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Android Emoji', 'EmojiOne Color', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', sans-serif;
         }
         :root {
-            --bg-body: #f5f3f0;
-            --bg-app: #fefcf8;
-            --border-light: #ede6dc;
-            --header-bg: #fffbf7;
-            --sidebar-bg: #f8f3ed;
-            --sidebar-border: #e2d6cb;
-            --card-bg: #fffcf9;
-            --card-border: #e1d4c8;
-            --accent-border: #b7a089;
-            --text-primary: #2e241e;
-            --text-secondary: #4a3f36;
-            --text-muted: #7f6e5e;
-            --btn-bg: #ffffffd0;
-            --btn-border: #cfc1b4;
-            --form-bg: #f6efe8;
-            --record-bg: white;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-            --tag-bg: #e8ddd2;
-            --tag-text: #3f3228;
-            --modal-overlay: rgba(0, 0, 0, 0.2);
-            --toast-bg: #2e241ee6;
-            --toast-text: #fefcf8;
-            --filter-active-bg: #b7a089;
+            --bg-body: #f5f5f7;
+            --bg-app: #ffffff;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --header-bg: rgba(255, 255, 255, 0.72);
+            --sidebar-bg: #f5f5f7;
+            --sidebar-border: rgba(0, 0, 0, 0.06);
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.08);
+            --accent-border: #0071e3;
+            --text-primary: #1d1d1f;
+            --text-secondary: #424245;
+            --text-muted: #86868b;
+            --btn-bg: #f5f5f7;
+            --btn-border: rgba(0, 0, 0, 0.1);
+            --form-bg: #fafafa;
+            --record-bg: #ffffff;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --tag-bg: #f2f2f7;
+            --tag-text: #1d1d1f;
+            --modal-overlay: rgba(0, 0, 0, 0.28);
+            --toast-bg: #1d1d1fe6;
+            --toast-text: #f5f5f7;
+            --filter-active-bg: #0071e3;
             --filter-active-text: #fff;
         }
         body.theme-lightgray {
-            --bg-body: #e9e7e4;
-            --bg-app: #f5f4f2;
-            --border-light: #d6d2cc;
-            --header-bg: #f0ede8;
-            --sidebar-bg: #ece9e4;
-            --sidebar-border: #d4cec6;
-            --card-bg: #faf9f7;
-            --card-border: #d1cbc4;
-            --accent-border: #9b9085;
-            --text-primary: #2b2a27;
-            --text-secondary: #4d4944;
-            --text-muted: #6e6861;
-            --btn-bg: #fefefe;
-            --btn-border: #c2bab2;
-            --form-bg: #eae5df;
+            --bg-body: #e8e8ed;
+            --bg-app: #ffffff;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --header-bg: rgba(255, 255, 255, 0.78);
+            --sidebar-bg: #f2f2f7;
+            --sidebar-border: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.1);
+            --accent-border: #0071e3;
+            --text-primary: #1d1d1f;
+            --text-secondary: #424245;
+            --text-muted: #6e6e73;
+            --btn-bg: #f2f2f7;
+            --btn-border: rgba(0, 0, 0, 0.1);
+            --form-bg: #fafafa;
             --record-bg: #ffffff;
-            --tag-bg: #dbd4cc;
-            --tag-text: #3a3530;
-            --toast-bg: #2b2a27e6;
-            --toast-text: #f5f4f2;
-            --filter-active-bg: #9b9085;
+            --tag-bg: #ececf1;
+            --tag-text: #1d1d1f;
+            --toast-bg: #1d1d1fe6;
+            --toast-text: #f5f5f7;
+            --filter-active-bg: #0071e3;
             --filter-active-text: #fff;
         }
         body.theme-dark {
-            --bg-body: #1a1a1c;
-            --bg-app: #262629;
-            --border-light: #3a3a40;
-            --header-bg: #2e2e32;
-            --sidebar-bg: #242427;
-            --sidebar-border: #3e3e44;
-            --card-bg: #2f2f33;
-            --card-border: #44444a;
-            --accent-border: #7a8b9e;
-            --text-primary: #ececec;
-            --text-secondary: #cdcdd2;
-            --text-muted: #a0a0a8;
-            --btn-bg: #3a3a40;
-            --btn-border: #5a5a62;
-            --form-bg: #313136;
-            --record-bg: #2b2b2f;
-            --tag-bg: #4a4d55;
-            --tag-text: #e0e0e0;
-            --toast-bg: #3a3a40e6;
-            --toast-text: #ececec;
-            --filter-active-bg: #7a8b9e;
-            --filter-active-text: #1a1a1c;
+            /* Apple-style dark: True Black canvas → 1C / 2C / 3A surfaces */
+            --bg-body: #000000;
+            --bg-app: #1c1c1e;
+            --border-light: rgba(255, 255, 255, 0.12);
+            --header-bg: rgba(28, 28, 30, 0.92);
+            --sidebar-bg: #1c1c1e;
+            --sidebar-border: rgba(84, 84, 88, 0.36);
+            --card-bg: #2c2c2e;
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-border: #0a84ff;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(235, 235, 245, 0.72);
+            --text-muted: #8e8e93;
+            --btn-bg: #3a3a3c;
+            --btn-border: rgba(255, 255, 255, 0.16);
+            --form-bg: #1c1c1e;
+            --record-bg: #2c2c2e;
+            --tag-bg: #3a3a3c;
+            --tag-text: #ebebf5;
+            --toast-bg: #3a3a3ce6;
+            --toast-text: #ffffff;
+            --filter-active-bg: #0a84ff;
+            --filter-active-text: #ffffff;
         }
         body.theme-mint {
             --bg-body: #e3f0ea;
@@ -141,6 +142,8 @@
             justify-content: center;
             transition: background 0.2s;
             position: relative;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.022em;
         }
         body.theme-ink .script-item,
         body.theme-ink .record-card,
@@ -149,17 +152,19 @@
             max-width: 1400px;
             width: 100%;
             background: var(--bg-app);
-            border-radius: 32px;
+            border-radius: 20px;
             box-shadow: var(--shadow);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            border: 1px solid var(--border-light);
+            border: 0.5px solid var(--border-light);
         }
         .app-header {
             padding: 20px 28px;
-            border-bottom: 1px solid var(--border-light);
+            border-bottom: 0.5px solid var(--border-light);
             background: var(--header-bg);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -167,13 +172,19 @@
             gap: 12px;
         }
         h1 {
-            font-weight: 500;
-            font-size: 1.9rem;
+            font-weight: 600;
+            font-size: 1.75rem;
+            letter-spacing: -0.03em;
             color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
+        }
+        body.theme-ink .app-header {
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            background: var(--header-bg);
         }
         h1 small {
             font-size: 0.9rem;
@@ -859,6 +870,16 @@
             </div>
         </header>
 
+        <div style="padding:10px 24px; background:var(--form-bg); border-bottom:1px solid var(--border-light); font-size:0.88rem; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+            <span style="font-weight:600;">☁️ 云端同步</span>
+            <input type="text" id="portfolioCloudBase" placeholder="http://localhost:3789" style="flex:1; min-width:180px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border); background:var(--card-bg); color:var(--text-primary);">
+            <input type="password" id="portfolioCloudToken" placeholder="X-API-Key 可选" style="max-width:130px; padding:8px 12px; border-radius:12px;">
+            <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="scriptCloudSync"> 启用云端备份</label>
+            <button type="button" class="btn btn-sm" id="scriptCloudPullBtn">拉取</button>
+            <button type="button" class="btn btn-sm" id="scriptCloudHealthBtn">测连接</button>
+            <span id="scriptCloudStatus" style="font-size:0.8rem; color:var(--text-secondary);"></span>
+        </div>
+
         <div class="main-layout">
             <div class="script-sidebar">
                 <div class="sidebar-title">
@@ -1014,6 +1035,69 @@
             const MAX_FILE_SIZE = 15 * 1024 * 1024;
             const AUTO_SAVE_INTERVAL = 120000;
             const DEBOUNCE_SAVE_MS = 3000;
+            let scriptCloudTimer = null;
+
+            function getApiBase() {
+                const u = document.getElementById('portfolioCloudBase')?.value?.trim()
+                    || localStorage.getItem('portfolio_cloud_base') || '';
+                return u.replace(/\/$/, '');
+            }
+            function apiHeaders(json) {
+                const h = {};
+                if (json !== false) h['Content-Type'] = 'application/json';
+                const token = document.getElementById('portfolioCloudToken')?.value?.trim()
+                    || localStorage.getItem('portfolio_cloud_token') || '';
+                if (token) h['X-API-Key'] = token;
+                return h;
+            }
+            function restoreScriptCloudUI() {
+                const b = localStorage.getItem('portfolio_cloud_base');
+                const t = localStorage.getItem('portfolio_cloud_token');
+                const baseEl = document.getElementById('portfolioCloudBase');
+                const tokEl = document.getElementById('portfolioCloudToken');
+                if (b && baseEl) baseEl.value = b;
+                if (t && tokEl) tokEl.value = t;
+                const cb = document.getElementById('scriptCloudSync');
+                if (cb) cb.checked = localStorage.getItem('script_cloud_sync') === '1';
+            }
+            function persistScriptCloudSettings() {
+                localStorage.setItem('portfolio_cloud_base', document.getElementById('portfolioCloudBase')?.value?.trim() || '');
+                localStorage.setItem('portfolio_cloud_token', document.getElementById('portfolioCloudToken')?.value?.trim() || '');
+                localStorage.setItem('script_cloud_sync', document.getElementById('scriptCloudSync')?.checked ? '1' : '0');
+            }
+            async function tryPullScriptCloud() {
+                if (!document.getElementById('scriptCloudSync')?.checked || !getApiBase()) return false;
+                try {
+                    const r = await fetch(`${getApiBase()}/api/demo/script-review`, { headers: apiHeaders(false) });
+                    if (!r.ok) return false;
+                    const data = await r.json();
+                    if (!data.payload) return false;
+                    appData = data.payload;
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+                    return true;
+                } catch (e) {
+                    console.warn(e);
+                    return false;
+                }
+            }
+            async function pushScriptCloud() {
+                if (!document.getElementById('scriptCloudSync')?.checked || !getApiBase()) return;
+                try {
+                    const r = await fetch(`${getApiBase()}/api/demo/script-review`, {
+                        method: 'PUT',
+                        headers: apiHeaders(),
+                        body: JSON.stringify({ payload: appData })
+                    });
+                    if (!r.ok) console.warn('云端备份', r.status);
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+            function scheduleScriptCloudPush() {
+                if (!document.getElementById('scriptCloudSync')?.checked || !getApiBase()) return;
+                clearTimeout(scriptCloudTimer);
+                scriptCloudTimer = setTimeout(() => pushScriptCloud(), 650);
+            }
 
             function showToast(message, duration = 2000) {
                 let toast = document.querySelector('.toast-message');
@@ -1116,6 +1200,7 @@
             function saveData(quiet = true) {
                 appData.customTags = globalTags.filter(t => !DEFAULT_TAGS.includes(t) && !SCENE_TAGS.includes(t));
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+                scheduleScriptCloudPush();
                 if (!quiet) { document.getElementById('autoSaveIndicator').textContent = '💾 已保存';
                     setTimeout(() => document.getElementById('autoSaveIndicator').textContent =
                         '⏺️ 已自动保存', 1500); }
@@ -1787,14 +1872,48 @@
             document.getElementById('autoBackupCheckbox').addEventListener('change', (e) => localStorage.setItem(
                 AUTO_BACKUP_KEY, e.target.checked));
 
-            function init() { loadData();
+            async function init() {
+                restoreScriptCloudUI();
+                document.getElementById('scriptCloudSync')?.addEventListener('change', persistScriptCloudSettings);
+                document.getElementById('portfolioCloudBase')?.addEventListener('blur', persistScriptCloudSettings);
+                document.getElementById('portfolioCloudToken')?.addEventListener('blur', persistScriptCloudSettings);
+                document.getElementById('scriptCloudPullBtn')?.addEventListener('click', async () => {
+                    persistScriptCloudSettings();
+                    const st = document.getElementById('scriptCloudStatus');
+                    if (!getApiBase()) { st.textContent = '请填写 API 地址'; return; }
+                    st.textContent = '拉取中…';
+                    await tryPullScriptCloud();
+                    loadData();
+                    setDefaultDate();
+                    renderSidebar();
+                    renderRecords();
+                    renderRecordTagSelector([]);
+                    st.textContent = '已从云端合并';
+                });
+                document.getElementById('scriptCloudHealthBtn')?.addEventListener('click', async () => {
+                    persistScriptCloudSettings();
+                    const st = document.getElementById('scriptCloudStatus');
+                    const base = getApiBase();
+                    if (!base) { st.textContent = '请填写 API 地址'; return; }
+                    st.textContent = '检测中…';
+                    try {
+                        const r = await fetch(`${base}/api/health`, { headers: apiHeaders(false) });
+                        const j = await r.json().catch(() => ({}));
+                        st.textContent = r.ok ? `✅ ${j.service || 'OK'}` : `HTTP ${r.status}`;
+                    } catch (e) {
+                        st.textContent = '❌ ' + e.message;
+                    }
+                });
+                await tryPullScriptCloud();
+                loadData();
                 setDefaultDate();
                 renderSidebar();
                 renderRecords();
                 renderRecordTagSelector([]);
                 bindEvents();
                 initTheme();
-                startAutoSave(); }
+                startAutoSave();
+            }
             init();
         })();
     </script>

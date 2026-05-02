@@ -6,58 +6,58 @@
     <title>会议·反刍舱｜AI 复盘 & 行动管理 · 完整版</title>
     <style>
         /* ===== 基础变量与主题 ===== */
-        * { box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; transition: background-color 0.2s ease, border-color 0.2s; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, sans-serif; transition: background-color 0.2s ease, border-color 0.2s; }
 
         :root {
-            --bg-body: #fdf8f0;
-            --card-bg: #fffbf5;
-            --card-border: #f0e4d5;
-            --text-primary: #2c1e0e;
-            --accent-color: #b45f2b;
-            --accent-light: #fbe9d2;
-            --accent-border: #e3c299;
-            --badge-bg: #f5e6d3;
-            --ruminant-bg: #f5ede1;
-            --api-bg: #fff4e0;
-            --history-hover: #f7ede0;
-            --btn-bg: white;
-            --btn-border: #d4b594;
-            --pre-bg: #1e1a16;
-            --pre-color: #f3e9dd;
+            --bg-body: #f5f5f7;
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.08);
+            --text-primary: #1d1d1f;
+            --accent-color: #0071e3;
+            --accent-light: rgba(0,113,227,0.1);
+            --accent-border: rgba(0,113,227,0.25);
+            --badge-bg: #f2f2f7;
+            --ruminant-bg: #f5f5f7;
+            --api-bg: #fafafa;
+            --history-hover: #f2f2f7;
+            --btn-bg: #ffffff;
+            --btn-border: rgba(0,0,0,0.12);
+            --pre-bg: #1d1d1f;
+            --pre-color: #f5f5f7;
         }
 
         body.theme-gray {
-            --bg-body: #f2f4f7;
+            --bg-body: #e8e8ed;
             --card-bg: #ffffff;
-            --card-border: #d0d5dd;
-            --text-primary: #1e293b;
-            --accent-color: #475569;
-            --accent-light: #eef2f6;
-            --accent-border: #cbd5e1;
-            --badge-bg: #e9eef4;
-            --ruminant-bg: #f1f5f9;
-            --api-bg: #f8fafc;
-            --history-hover: #f1f5f9;
-            --btn-bg: white;
-            --btn-border: #cbd5e1;
-            --pre-bg: #1e293b;
-            --pre-color: #e2e8f0;
+            --card-border: rgba(0,0,0,0.1);
+            --text-primary: #1d1d1f;
+            --accent-color: #0071e3;
+            --accent-light: rgba(0,113,227,0.1);
+            --accent-border: rgba(0,113,227,0.25);
+            --badge-bg: #f2f2f7;
+            --ruminant-bg: #f2f2f7;
+            --api-bg: #fafafa;
+            --history-hover: #ececf1;
+            --btn-bg: #ffffff;
+            --btn-border: rgba(0,0,0,0.12);
+            --pre-bg: #1d1d1f;
+            --pre-color: #f5f5f7;
         }
 
         body.theme-mint {
-            --bg-body: #ecf9f5;
-            --card-bg: #ffffffec;
-            --card-border: #c2e3d8;
-            --text-primary: #1e3a3a;
+            --bg-body: #eef9f4;
+            --card-bg: #ffffff;
+            --card-border: rgba(14,107,94,0.18);
+            --text-primary: #1e3a2f;
             --accent-color: #0e6b5e;
-            --accent-light: #d1f0e8;
-            --accent-border: #9fd3c2;
-            --badge-bg: #d6efe7;
-            --ruminant-bg: #e2f3ec;
-            --api-bg: #f0faf7;
-            --history-hover: #e0f2eb;
-            --btn-bg: white;
-            --btn-border: #a6cec0;
+            --accent-light: rgba(14,107,94,0.1);
+            --accent-border: rgba(14,107,94,0.28);
+            --badge-bg: #e3f2ec;
+            --ruminant-bg: #f0f9f5;
+            --api-bg: #f6fcf9;
+            --history-hover: #e8f5ef;
+            --btn-bg: #ffffff;
+            --btn-border: rgba(14,107,94,0.22);
             --pre-bg: #1c3530;
             --pre-color: #d4ede5;
         }
@@ -95,28 +95,31 @@
             margin: 0;
             padding: 20px;
             color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.022em;
         }
         .container { max-width: 1300px; margin: 0 auto; }
         .card {
             background: var(--card-bg);
-            border-radius: 28px;
+            border-radius: 16px;
             padding: 24px;
             margin-bottom: 24px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            border: 1px solid var(--card-border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 0.5px solid var(--card-border);
         }
-        h1 { margin: 0 0 8px; font-size: 1.9rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        h1 small { font-size: 0.8rem; background: var(--accent-light); padding: 4px 14px; border-radius: 30px; color: var(--accent-color); font-weight: 500; }
+        body.theme-ink .card { box-shadow: none; }
+        h1 { margin: 0 0 8px; font-size: 1.75rem; font-weight: 600; letter-spacing: -0.03em; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        h1 small { font-size: 0.8rem; background: var(--accent-light); padding: 4px 12px; border-radius: 100px; color: var(--accent-color); font-weight: 500; }
         .row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; align-items: center; }
         .btn {
             background: var(--btn-bg);
-            border: 1px solid var(--btn-border);
+            border: 0.5px solid var(--btn-border);
             padding: 8px 18px;
-            border-radius: 40px;
+            border-radius: 980px;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: 0.15s;
+            transition: opacity 0.15s;
             color: var(--text-primary);
         }
         .btn-primary {
@@ -124,7 +127,8 @@
             border-color: var(--accent-color);
             color: white;
         }
-        .btn-primary:hover { filter: brightness(0.9); }
+        .btn-primary:hover { opacity: 0.88; }
+        body.theme-ink .btn-primary:hover { opacity: 1; }
         .btn-outline {
             border-color: var(--accent-color);
             color: var(--accent-color);
@@ -396,6 +400,17 @@
             <span class="endpoint-hint">支持 Ollama / LM Studio / 豆包本地等 (OpenAI兼容)</span>
         </div>
 
+        <!-- 云端 API：前后端分离 + SQLite + 服务端 AI -->
+        <div class="api-config" style="margin-top:-8px;">
+            <span style="font-weight:600;">☁️ 云端 API</span>
+            <input type="text" id="portfolioCloudBase" placeholder="http://localhost:3789 或 https://你的域名" style="flex:2; min-width:220px;">
+            <input type="password" id="portfolioCloudToken" placeholder="X-API-Key（可选）" style="max-width:160px;">
+            <label style="display:flex; align-items:center; gap:6px; white-space:nowrap;"><input type="checkbox" id="useCloudSync"> 会议存云端库</label>
+            <label style="display:flex; align-items:center; gap:6px; white-space:nowrap;"><input type="checkbox" id="useServerAI"> 服务端 AI（密钥在服务器）</label>
+            <button class="btn" type="button" id="cloudHealthBtn">🔌 测连接</button>
+            <span id="cloudStatus" class="endpoint-hint" style="font-size:0.8rem;"></span>
+        </div>
+
         <!-- 录音 & Whisper -->
         <div class="row">
             <button class="btn btn-primary" id="startRecordBtn">🎙️ 开始录音</button>
@@ -538,6 +553,50 @@
     let historySearchKeyword = '';
     let historyTodoFilter = '';
 
+    // ---- 云端 API（前后端分离 + 数据库 + 服务端 AI）----
+    function getApiBase() {
+        const u = document.getElementById('portfolioCloudBase')?.value?.trim()
+            || localStorage.getItem('portfolio_cloud_base')
+            || localStorage.getItem('meeting_cloud_base')
+            || '';
+        return u.replace(/\/$/, '');
+    }
+    function apiHeaders(json = true) {
+        const h = {};
+        if (json) h['Content-Type'] = 'application/json';
+        const token = document.getElementById('portfolioCloudToken')?.value?.trim()
+            || localStorage.getItem('portfolio_cloud_token')
+            || localStorage.getItem('meeting_cloud_token')
+            || '';
+        if (token) h['X-API-Key'] = token;
+        return h;
+    }
+    function useCloudStorage() {
+        return Boolean(document.getElementById('useCloudSync')?.checked && getApiBase());
+    }
+    function useServerAnalyzeMode() {
+        return Boolean(document.getElementById('useServerAI')?.checked && getApiBase());
+    }
+    function persistCloudSettings() {
+        localStorage.setItem('portfolio_cloud_base', document.getElementById('portfolioCloudBase')?.value?.trim() || '');
+        localStorage.setItem('portfolio_cloud_token', document.getElementById('portfolioCloudToken')?.value?.trim() || '');
+        localStorage.setItem('meeting_cloud_base', document.getElementById('portfolioCloudBase')?.value?.trim() || '');
+        localStorage.setItem('meeting_cloud_token', document.getElementById('portfolioCloudToken')?.value?.trim() || '');
+        localStorage.setItem('meeting_use_cloud', document.getElementById('useCloudSync')?.checked ? '1' : '0');
+        localStorage.setItem('meeting_use_server_ai', document.getElementById('useServerAI')?.checked ? '1' : '0');
+    }
+    async function callServerAnalyze(text) {
+        const base = getApiBase();
+        const r = await fetch(`${base}/api/analyze`, {
+            method: 'POST',
+            headers: apiHeaders(),
+            body: JSON.stringify({ transcript: text })
+        });
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+        return data.analysis;
+    }
+
     // ---- IndexedDB ----
     function initDB() {
         return new Promise((res, rej) => {
@@ -551,6 +610,42 @@
         });
     }
     async function saveMeeting(meeting) {
+        if (useCloudStorage()) {
+            const base = getApiBase();
+            try {
+                if (meeting.id != null) {
+                    const r = await fetch(`${base}/api/meetings/${meeting.id}`, {
+                        method: 'PUT',
+                        headers: apiHeaders(),
+                        body: JSON.stringify({
+                            transcript: meeting.transcript,
+                            analysis: meeting.analysis != null ? meeting.analysis : null
+                        })
+                    });
+                    const data = await r.json().catch(() => ({}));
+                    if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+                    currentMeetingId = data.id;
+                    return data.id;
+                }
+                const r = await fetch(`${base}/api/meetings`, {
+                    method: 'POST',
+                    headers: apiHeaders(),
+                    body: JSON.stringify({
+                        transcript: meeting.transcript || '',
+                        analysis: meeting.analysis != null ? meeting.analysis : null,
+                        createdAt: meeting.createdAt
+                    })
+                });
+                const data = await r.json().catch(() => ({}));
+                if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+                currentMeetingId = data.id;
+                return data.id;
+            } catch (e) {
+                console.error(e);
+                alert('云端保存失败：' + e.message);
+                throw e;
+            }
+        }
         const tx = db.transaction("meetings", "readwrite");
         const store = tx.objectStore("meetings");
         // 如果 meeting 有 id 且存在则更新，否则新增
@@ -570,16 +665,54 @@
         }
     }
     async function loadMeetings() {
+        if (useCloudStorage()) {
+            try {
+                const r = await fetch(`${getApiBase()}/api/meetings`, { headers: apiHeaders(false) });
+                const data = await r.json().catch(() => []);
+                if (!r.ok) throw new Error((data && data.error) || `HTTP ${r.status}`);
+                return Array.isArray(data) ? data : [];
+            } catch (e) {
+                console.error(e);
+                alert('云端加载失败：' + e.message);
+                return [];
+            }
+        }
         const tx = db.transaction("meetings", "readonly");
         const req = tx.objectStore("meetings").getAll();
         return new Promise((res, rej) => { req.onsuccess = () => res(req.result); req.onerror = rej; });
     }
     async function deleteMeetingById(id) {
+        if (useCloudStorage()) {
+            try {
+                const r = await fetch(`${getApiBase()}/api/meetings/${id}`, { method: 'DELETE', headers: apiHeaders(false) });
+                if (!r.ok) {
+                    const d = await r.json().catch(() => ({}));
+                    throw new Error(d.error || `HTTP ${r.status}`);
+                }
+            } catch (e) {
+                alert('云端删除失败：' + e.message);
+                throw e;
+            }
+            return;
+        }
         const tx = db.transaction("meetings", "readwrite");
         tx.objectStore("meetings").delete(id);
         return new Promise(r => { tx.oncomplete = r; });
     }
     async function deleteAllMeetings() {
+        if (useCloudStorage()) {
+            try {
+                const r = await fetch(`${getApiBase()}/api/meetings`, { method: 'DELETE', headers: apiHeaders(false) });
+                if (!r.ok) {
+                    const d = await r.json().catch(() => ({}));
+                    throw new Error(d.error || `HTTP ${r.status}`);
+                }
+            } catch (e) {
+                alert('云端清空失败：' + e.message);
+                throw e;
+            }
+            return;
+        }
         const tx = db.transaction("meetings", "readwrite");
         tx.objectStore("meetings").clear();
         return new Promise(r => { tx.oncomplete = r; });
@@ -889,6 +1022,15 @@
 
     // 主分析函数
     async function callAI(text) {
+        if (useServerAnalyzeMode()) {
+            try {
+                const a = await callServerAnalyze(text);
+                if (a) return a;
+            } catch (e) {
+                console.warn(e);
+                alert('⚠️ 服务端 AI 分析失败：' + e.message + '\n将尝试其他已配置渠道。');
+            }
+        }
         const localEndpoint = document.getElementById("localEndpoint").value.trim();
         const deepseekKey = document.getElementById("apiKey").value.trim() || localStorage.getItem("deepseek_key");
         
@@ -1248,6 +1390,40 @@ ${text.substring(0, 4000)}`;
 
     // 启动
     (async ()=>{
+        const baseEl = document.getElementById('portfolioCloudBase');
+        const tokEl = document.getElementById('portfolioCloudToken');
+        const cbCloud = document.getElementById('useCloudSync');
+        const cbAi = document.getElementById('useServerAI');
+        const savedBase = localStorage.getItem('portfolio_cloud_base') || localStorage.getItem('meeting_cloud_base');
+        const savedTok = localStorage.getItem('portfolio_cloud_token') || localStorage.getItem('meeting_cloud_token');
+        if (savedBase && baseEl) baseEl.value = savedBase;
+        if (savedTok && tokEl) tokEl.value = savedTok;
+        if (cbCloud) cbCloud.checked = localStorage.getItem('meeting_use_cloud') === '1';
+        if (cbAi) cbAi.checked = localStorage.getItem('meeting_use_server_ai') === '1';
+        [baseEl, tokEl, cbCloud, cbAi].forEach((el) => {
+            if (!el) return;
+            el.addEventListener('change', persistCloudSettings);
+            if (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'password')) {
+                el.addEventListener('blur', persistCloudSettings);
+            }
+        });
+        document.getElementById('cloudHealthBtn')?.addEventListener('click', async () => {
+            const st = document.getElementById('cloudStatus');
+            persistCloudSettings();
+            const base = getApiBase();
+            if (!base) { st.textContent = '请先填写云端 API 地址'; return; }
+            st.textContent = '检测中…';
+            try {
+                const r = await fetch(`${base}/api/health`, { headers: apiHeaders(false) });
+                const j = await r.json().catch(() => ({}));
+                st.textContent = r.ok
+                    ? `✅ ${j.service || 'OK'} · 服务端 DeepSeek：${j.hasDeepSeekKey ? '已配置' : '未配置'}`
+                    : `❌ HTTP ${r.status}`;
+            } catch (e) {
+                st.textContent = '❌ ' + e.message;
+            }
+        });
+
         await initDB(); await renderHistory();
         const k = localStorage.getItem("deepseek_key"); if(k) document.getElementById("apiKey").value=k;
         if(Notification.permission==='default') Notification.requestPermission();

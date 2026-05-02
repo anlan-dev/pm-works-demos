@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>🐾 毛孩子の疫苗本</title>
+    <title>宠伴·健康台账 — 养宠全周期档案</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.svg">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#c1a28b">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     
     <!-- Tesseract.js 核心库 -->
     <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
@@ -17,128 +17,130 @@
     
     <style>
         :root{
-            /* 默认：暖（Warm） */
-            --bg: #f9f7f3;
-            --header-bg: #e6d5c9;
-            --header-border: #d9b8a4;
-            --text: #4a3728;
-            --muted: #7b5e4b;
-            --card-bg: #fffbf8;
-            --card-border: #efe2d9;
-            --panel-bg: #f0e5de;
-            --soft-bg: #fef6f2;
-            --accent: #a0452b;
-            --primary: #c1a28b;
-            --primary-border: #a78772;
-            --btn-bg: #e6d5c9;
-            --btn-border: #d4bfb0;
-            --tab-bg: rgba(255,245,240,0.95);
-            --tab-active-bg: #f3ded7;
-            --shadow: 0 4px 12px rgba(0,0,0,0.04);
+            /* 默认：极简浅色（Apple-like） */
+            --bg: #f5f5f7;
+            --header-bg: rgba(255,255,255,0.72);
+            --header-border: rgba(0,0,0,0.08);
+            --text: #1d1d1f;
+            --muted: #86868b;
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.06);
+            --panel-bg: #f5f5f7;
+            --soft-bg: #fafafa;
+            --accent: #0071e3;
+            --primary: #0071e3;
+            --primary-border: #0077ed;
+            --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.1);
+            --tab-bg: rgba(255,255,255,0.82);
+            --tab-active-bg: rgba(0,113,227,0.1);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         body[data-theme="gray"]{
-            --bg: #f6f7f9;
-            --header-bg: #e8eaee;
-            --header-border: #cfd5dd;
-            --text: #222831;
-            --muted: #5b6573;
+            --bg: #e8e8ed;
+            --header-bg: rgba(255,255,255,0.78);
+            --header-border: rgba(0,0,0,0.08);
+            --text: #1d1d1f;
+            --muted: #6e6e73;
             --card-bg: #ffffff;
-            --card-border: #e3e7ee;
-            --panel-bg: #eef1f5;
-            --soft-bg: #f7f8fb;
-            --accent: #2f3b4a;
-            --primary: #7b8796;
-            --primary-border: #667180;
-            --btn-bg: #e8eaee;
-            --btn-border: #cfd5dd;
-            --tab-bg: rgba(245,246,248,0.95);
-            --tab-active-bg: #e6e9ef;
-            --shadow: 0 6px 16px rgba(12,18,28,0.06);
+            --card-border: rgba(0,0,0,0.08);
+            --panel-bg: #f2f2f7;
+            --soft-bg: #fafafa;
+            --accent: #0071e3;
+            --primary: #0071e3;
+            --primary-border: #0077ed;
+            --btn-bg: #f2f2f7;
+            --btn-border: rgba(0,0,0,0.1);
+            --tab-bg: rgba(255,255,255,0.88);
+            --tab-active-bg: rgba(0,113,227,0.1);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         body[data-theme="night"]{
-            --bg: #0f131a;
-            --header-bg: #141a23;
-            --header-border: #263245;
-            --text: #e9eef6;
-            --muted: #b3bfd3;
-            --card-bg: #121826;
-            --card-border: #263245;
-            --panel-bg: #141a23;
-            --soft-bg: #172033;
-            --accent: #ffcf7a;
-            --primary: #6aa6ff;
-            --primary-border: #4d86db;
-            --btn-bg: #141a23;
-            --btn-border: #263245;
-            --tab-bg: rgba(18,24,38,0.92);
-            --tab-active-bg: rgba(106,166,255,0.18);
-            --shadow: 0 10px 26px rgba(0,0,0,0.35);
+            --bg: #000000;
+            --header-bg: rgba(28,28,30,0.86);
+            --header-border: rgba(255,255,255,0.12);
+            --text: #f5f5f7;
+            --muted: #a1a1a6;
+            --card-bg: #1c1c1e;
+            --card-border: rgba(255,255,255,0.1);
+            --panel-bg: #2c2c2e;
+            --soft-bg: #3a3a3c;
+            --accent: #0a84ff;
+            --primary: #0a84ff;
+            --primary-border: #409cff;
+            --btn-bg: #2c2c2e;
+            --btn-border: rgba(255,255,255,0.15);
+            --tab-bg: rgba(28,28,30,0.92);
+            --tab-active-bg: rgba(10,132,255,0.22);
+            --shadow: 0 2px 8px rgba(0,0,0,0.45);
         }
 
         body[data-theme="ink"]{
-            /* 墨水屏：灰阶、高对比、低干扰 */
+            /* 墨水屏：灰阶、高对比、无阴影 */
             --bg: #f2f2f2;
-            --header-bg: #f8f8f8;
-            --header-border: #b8b8b8;
+            --header-bg: #fafafa;
+            --header-border: #bbbbbb;
             --text: #111111;
-            --muted: #4d4d4d;
+            --muted: #555555;
             --card-bg: #ffffff;
-            --card-border: #bdbdbd;
-            --panel-bg: #f3f3f3;
+            --card-border: #aaaaaa;
+            --panel-bg: #f0f0f0;
             --soft-bg: #ffffff;
             --accent: #111111;
             --primary: #2e2e2e;
             --primary-border: #666666;
-            --btn-bg: #f7f7f7;
-            --btn-border: #8a8a8a;
-            --tab-bg: rgba(245,245,245,0.95);
-            --tab-active-bg: #dedede;
+            --btn-bg: #f8f8f8;
+            --btn-border: #888888;
+            --tab-bg: rgba(250,250,250,0.95);
+            --tab-active-bg: #e0e0e0;
             --shadow: none;
         }
 
-        * { box-sizing: border-box; margin: 0; font-family: "SF Pro Text", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
-        html { font-size: 16px; }
+        * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif; }
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; }
         body {
-            background:
-                radial-gradient(1200px 320px at 50% -160px, rgba(193,162,139,0.18), transparent 70%),
-                var(--bg);
+            background: var(--bg);
             padding-bottom: 84px;
             min-height: 100vh;
             color: var(--text);
-            line-height: 1.45;
+            line-height: 1.47059;
+            letter-spacing: -0.022em;
         }
         .app-header {
             position: sticky;
             top: 0;
             z-index: 9;
-            background: color-mix(in srgb, var(--header-bg) 90%, white 10%);
-            padding: 18px 16px 12px;
-            border-bottom: 1px solid var(--header-border);
+            background: var(--header-bg);
+            padding: 20px 16px 14px;
+            border-bottom: 0.5px solid var(--header-border);
             text-align: center;
             color: var(--text);
-            backdrop-filter: blur(8px);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
         }
-        .app-header h1 { font-size: 1.35rem; letter-spacing: 0.3px; margin-bottom: 2px; }
+        .app-header h1 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 2px; }
         .app-header p { font-size: 0.88rem; color: var(--muted); }
+        body[data-theme="ink"] .app-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--header-bg); }
         .container { max-width: 1160px; margin: 0 auto; padding: 16px 14px; }
         .page { display: none; }
         .page.active { display: block; }
         .tab-bar {
             position: fixed;
-            bottom: 8px;
+            bottom: max(8px, env(safe-area-inset-bottom));
             left: 50%;
             transform: translateX(-50%);
-            width: calc(100% - 20px);
+            width: calc(100% - 24px);
             max-width: 760px;
             background: var(--tab-bg);
-            backdrop-filter: blur(12px);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
             display: flex;
             justify-content: space-around;
-            padding: 8px;
-            border: 1px solid var(--card-border);
-            border-radius: 999px;
+            padding: 8px 6px;
+            border: 0.5px solid var(--card-border);
+            border-radius: 16px;
             box-shadow: var(--shadow);
             z-index: 10;
         }
@@ -147,11 +149,11 @@
         .tab-icon { font-size: 1.45rem; display: block; margin-bottom: 2px; }
         .card {
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: 14px;
             padding: 18px 16px;
             margin-bottom: 16px;
             box-shadow: var(--shadow);
-            border: 1px solid var(--card-border);
+            border: 0.5px solid var(--card-border);
         }
         .btn {
             background: var(--btn-bg);
@@ -164,7 +166,8 @@
             font-weight: 500;
             transition: all 0.18s ease;
         }
-        .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .btn:hover { opacity: 0.92; }
+        body[data-theme="ink"] .btn:hover { opacity: 1; }
         .btn-primary { background: var(--primary); border-color: var(--primary-border); color: white; }
         .btn-link { background: transparent; border: none; color: var(--muted); text-decoration: underline; padding: 4px 8px; }
         .input-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
@@ -185,12 +188,14 @@
         .month-selector { display: flex; align-items: center; justify-content: center; margin: 12px 0; }
         .month-selector input { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 10px 12px; font-size: 0.95rem; width: 100%; max-width: 240px; color: var(--text); min-height: 42px; }
         .vaccine-item, .expense-item { background: var(--soft-bg); border-radius: 16px; padding: 12px; margin-bottom: 8px; border-left: 6px solid var(--primary); }
-        .reminder-badge { background: rgba(160,69,43,0.18); color: var(--accent); padding: 2px 10px; border-radius: 30px; font-size: 0.8rem; }
+        .reminder-badge { background: rgba(0,113,227,0.12); color: var(--accent); padding: 2px 10px; border-radius: 100px; font-size: 0.8rem; }
+        body[data-theme="night"] .reminder-badge { background: rgba(10,132,255,0.2); }
+        body[data-theme="ink"] .reminder-badge { background: #e8e8e8; color: #111; }
         .example-hint { background: var(--panel-bg); border-radius: 16px; padding: 12px; color: var(--muted); font-size: 0.85rem; margin-bottom: 12px; border: 1px dashed var(--primary); }
         .modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.2); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
         .modal { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text); border-radius: 22px; padding: 20px; width: 92%; max-width: 430px; max-height: 86vh; overflow-y: auto; }
         .fake-link { color: var(--muted); text-decoration: underline dotted; cursor: pointer; }
-        .empty-state { text-align: center; padding: 40px 20px; color: #ab988b; }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
         .big-add-btn { background: var(--panel-bg); border: 2px dashed var(--primary); border-radius: 30px; padding: 20px; margin: 20px 0; cursor: pointer; text-align: center; color: var(--accent); font-weight: 600; }
         .expense-summary { background: var(--panel-bg); border-radius: 20px; padding: 16px; margin-bottom: 16px; }
         .small-note { font-size: 0.75rem; color: var(--muted); margin: 4px 0; }
@@ -224,12 +229,13 @@
         .kb-tip { margin-top: 10px; background:var(--panel-bg); border: 1px dashed var(--primary); border-radius: 16px; padding: 10px 12px; color:var(--muted); font-size: 0.85rem; }
 
         /* 浮动快捷 + */
-        .fab { position: fixed; right: 16px; bottom: 92px; width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 22px rgba(0,0,0,0.15); cursor: pointer; z-index: 20; border: 1px solid var(--primary-border); user-select: none; font-size: 1.6rem; }
+        .fab { position: fixed; right: 16px; bottom: 92px; width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,113,227,0.35); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.6rem; }
+        body[data-theme="ink"] .fab { box-shadow: none; border: 2px solid #111; }
         .fab:active { transform: scale(0.98); }
         .fab-menu { position: fixed; right: 16px; bottom: 150px; display: none; flex-direction: column; gap: 10px; z-index: 20; }
-        .fab-action { background: rgba(255,251,248,0.98); border: 1px solid var(--card-border); border-radius: 999px; padding: 10px 12px; box-shadow: 0 8px 18px rgba(0,0,0,0.08); cursor: pointer; color:var(--text); }
-        body[data-theme="night"] .fab-action,
-        body[data-theme="ink"] .fab-action { background: rgba(18,24,38,0.92); }
+        .fab-action { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 12px; padding: 10px 12px; box-shadow: var(--shadow); cursor: pointer; color:var(--text); }
+        body[data-theme="night"] .fab-action { background: var(--card-bg); }
+        body[data-theme="ink"] .fab-action { box-shadow: none; }
         .fab-action strong { color:var(--accent); }
 
         /* 平板端 */
@@ -331,8 +337,8 @@
 <body>
 
 <div class="app-header">
-    <h1>🐱🐶 毛孩子の疫苗本</h1>
-    <p>宠物 · 疫苗 · 花费 · 全掌控</p>
+    <h1>🐱🐶 宠伴·健康台账</h1>
+    <p>养宠全周期健康台账：免疫、驱虫、花费与提醒闭环</p>
     <div style="margin-top:10px; display:flex; justify-content:center; gap:8px; flex-wrap:wrap; align-items:center;">
         <span style="font-size:0.85rem; color:var(--muted);">风格</span>
         <select id="themeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
@@ -345,6 +351,18 @@
             <option value="normal">标准模式</option>
             <option value="elder">长辈模式</option>
         </select>
+    </div>
+    <div style="margin-top:12px; padding:12px 14px; background:var(--panel-bg); border-radius:16px; border:1px dashed var(--card-border); max-width:760px; margin-left:auto; margin-right:auto;">
+        <div style="font-size:0.85rem; font-weight:600; margin-bottom:8px; color:var(--accent);">☁️ 云端同步（可选）</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:center;">
+            <input type="text" id="portfolioCloudBase" placeholder="API 根地址，如 http://localhost:3789" style="flex:1; min-width:200px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border); background:var(--card-bg); color:var(--text);">
+            <input type="password" id="portfolioCloudToken" placeholder="X-API-Key 可选" style="max-width:140px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border);">
+            <label style="font-size:0.85rem; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="petCloudSync"> 启用云端备份</label>
+            <button type="button" class="btn btn-sm" id="petCloudPullBtn">从云端拉取</button>
+            <button type="button" class="btn btn-sm btn-outline" id="petCloudHealthBtn">测连接</button>
+            <span id="petCloudStatus" style="font-size:0.78rem; color:var(--muted); max-width:100%;"></span>
+        </div>
+        <div style="font-size:0.75rem; color:var(--muted); margin-top:8px;">需先部署 <code style="font-size:0.85em;">server/</code> 后端；启用后编辑会自动增量备份到服务端 SQLite。</div>
     </div>
 </div>
 
@@ -536,7 +554,7 @@
     <div id="page-ocr" class="page">
         <div class="card">
             <div class="card-header">📷 智能识别 (真实OCR)</div>
-            <p>上传疫苗本照片，AI将自动识别并生成记录</p>
+            <p>上传接种凭证或免疫记录单照片，本地 OCR 识别并生成台账记录</p>
             <div class="ocr-demo" style="background:#f0e5de; border-radius:20px; padding:16px; text-align:center; margin-top:12px;">
                 <input type="file" id="ocrImageInput" accept="image/*" capture="environment" style="display:none;">
                 <button class="btn btn-primary" id="triggerOCR">📸 拍照/选图</button>
@@ -742,6 +760,85 @@
         let vaccineCoverageChartInstance = null;
         let weightTrendChartInstance = null;
 
+        let petCloudPushTimer = null;
+        function getApiBase() {
+            const u = document.getElementById('portfolioCloudBase')?.value?.trim()
+                || localStorage.getItem('portfolio_cloud_base') || '';
+            return u.replace(/\/$/, '');
+        }
+        function apiHeaders(json = true) {
+            const h = {};
+            if (json) h['Content-Type'] = 'application/json';
+            const token = document.getElementById('portfolioCloudToken')?.value?.trim()
+                || localStorage.getItem('portfolio_cloud_token') || '';
+            if (token) h['X-API-Key'] = token;
+            return h;
+        }
+        function restorePortfolioCloudInputs() {
+            const b = localStorage.getItem('portfolio_cloud_base');
+            const t = localStorage.getItem('portfolio_cloud_token');
+            const baseEl = document.getElementById('portfolioCloudBase');
+            const tokEl = document.getElementById('portfolioCloudToken');
+            if (b && baseEl) baseEl.value = b;
+            if (t && tokEl) tokEl.value = t;
+            const cb = document.getElementById('petCloudSync');
+            if (cb) cb.checked = localStorage.getItem('pet_cloud_sync') === '1';
+        }
+        function persistPetCloudSettings() {
+            localStorage.setItem('portfolio_cloud_base', document.getElementById('portfolioCloudBase')?.value?.trim() || '');
+            localStorage.setItem('portfolio_cloud_token', document.getElementById('portfolioCloudToken')?.value?.trim() || '');
+            localStorage.setItem('pet_cloud_sync', document.getElementById('petCloudSync')?.checked ? '1' : '0');
+        }
+        async function tryLoadPetFromCloud() {
+            if (!document.getElementById('petCloudSync')?.checked || !getApiBase()) return false;
+            try {
+                const r = await fetch(`${getApiBase()}/api/demo/pet-vaccine`, { headers: apiHeaders(false) });
+                if (!r.ok) return false;
+                const data = await r.json();
+                if (!data.payload) return false;
+                const p = data.payload;
+                if (Array.isArray(p.pets)) pets = p.pets;
+                if (Array.isArray(p.vaccines)) vaccines = p.vaccines;
+                if (Array.isArray(p.expenses)) expenses = p.expenses;
+                if (Array.isArray(p.deworms)) deworms = p.deworms;
+                if (Array.isArray(p.weightLogs)) weightLogs = p.weightLogs;
+                if (p.reminderConversions && typeof p.reminderConversions === 'object') reminderConversions = p.reminderConversions;
+                saveAll();
+                return true;
+            } catch (e) {
+                console.warn(e);
+                return false;
+            }
+        }
+        async function pushPetToCloud() {
+            if (!document.getElementById('petCloudSync')?.checked || !getApiBase()) return;
+            try {
+                const r = await fetch(`${getApiBase()}/api/demo/pet-vaccine`, {
+                    method: 'PUT',
+                    headers: apiHeaders(),
+                    body: JSON.stringify({
+                        payload: {
+                            pets,
+                            vaccines,
+                            expenses,
+                            deworms,
+                            weightLogs,
+                            reminderConversions,
+                            schemaVersion: 1
+                        }
+                    })
+                });
+                if (!r.ok) console.warn('云端备份 HTTP', r.status);
+            } catch (e) {
+                console.warn('云端备份失败', e);
+            }
+        }
+        function schedulePetCloudPush() {
+            if (!document.getElementById('petCloudSync')?.checked || !getApiBase()) return;
+            clearTimeout(petCloudPushTimer);
+            petCloudPushTimer = setTimeout(() => pushPetToCloud(), 650);
+        }
+
         // 工具函数
         function formatDateKey(d) { return d.toISOString().slice(0,10); }
         function genId() { return Date.now() + '-' + Math.random().toString(36).substr(2,6); }
@@ -799,6 +896,7 @@
             localStorage.setItem(STORAGE_DEWORMS, JSON.stringify(deworms));
             localStorage.setItem(STORAGE_WEIGHTLOGS, JSON.stringify(weightLogs));
             localStorage.setItem(STORAGE_REMINDER_CONV, JSON.stringify(reminderConversions));
+            schedulePetCloudPush();
         }
 
         function loadData() {
@@ -1413,7 +1511,7 @@
             const scheduledCount = Object.values(reminderConversions || {}).filter(x => x?.status === 'scheduled' && x?.at?.startsWith(yearStr)).length;
 
             const lines = [];
-            lines.push(`毛孩子年度报告 · ${year} 年`);
+            lines.push(`宠伴健康年报 · ${year} 年`);
             lines.push('--------------------------------');
             lines.push(`🐾 宠物数量：${pets.length}`);
             lines.push('');
@@ -1572,7 +1670,7 @@
                 return { '宠物名': pet?.name || '未知', '日期': w.date, '体重(kg)': w.weight };
             });
             XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(weightData), '体重记录');
-            XLSX.writeFile(wb, `毛孩疫苗本_${formatDateKey(new Date())}.xlsx`);
+            XLSX.writeFile(wb, `宠伴健康台账_${formatDateKey(new Date())}.xlsx`);
         }
 
         function importBackup(file) {
@@ -2134,7 +2232,7 @@
             });
         }
 
-        function init() {
+        async function init() {
             // 主题（尽早应用，避免闪烁）
             applyTheme(localStorage.getItem(STORAGE_THEME) || 'warm');
             applyAccessibilityMode(localStorage.getItem(STORAGE_A11Y_MODE) || 'normal');
@@ -2143,6 +2241,44 @@
             const modeSelect = document.getElementById('accessibilityModeSelect');
             if (modeSelect) modeSelect.addEventListener('change', (e) => applyAccessibilityMode(e.target.value));
 
+            restorePortfolioCloudInputs();
+            document.getElementById('petCloudSync')?.addEventListener('change', persistPetCloudSettings);
+            document.getElementById('portfolioCloudBase')?.addEventListener('blur', persistPetCloudSettings);
+            document.getElementById('portfolioCloudToken')?.addEventListener('blur', persistPetCloudSettings);
+            document.getElementById('petCloudPullBtn')?.addEventListener('click', async () => {
+                persistPetCloudSettings();
+                const st = document.getElementById('petCloudStatus');
+                if (!getApiBase()) { st.textContent = '请先填写 API 地址'; return; }
+                st.textContent = '拉取中…';
+                await tryLoadPetFromCloud();
+                loadData();
+                refreshPetSelects();
+                renderPetList();
+                renderVaccineList();
+                renderDewormList();
+                renderWeightList();
+                renderCalendar();
+                renderHealthScores();
+                renderExpensePage();
+                buildAvailableYears();
+                st.textContent = '已尝试从云端合并到本地';
+            });
+            document.getElementById('petCloudHealthBtn')?.addEventListener('click', async () => {
+                persistPetCloudSettings();
+                const st = document.getElementById('petCloudStatus');
+                const base = getApiBase();
+                if (!base) { st.textContent = '请先填写 API 地址'; return; }
+                st.textContent = '检测中…';
+                try {
+                    const r = await fetch(`${base}/api/health`, { headers: apiHeaders(false) });
+                    const j = await r.json().catch(() => ({}));
+                    st.textContent = r.ok ? `✅ ${j.service || 'OK'}` : `HTTP ${r.status}`;
+                } catch (e) {
+                    st.textContent = '❌ ' + e.message;
+                }
+            });
+
+            await tryLoadPetFromCloud();
             loadData();
             refreshPetSelects();
             renderPetList();

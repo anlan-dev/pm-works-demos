@@ -9,28 +9,45 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         /* ===== 原有样式完整保留 ===== */
-        * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; }
+        * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, sans-serif; }
         :root {
-            --bg-body: #fef7e8; --bg-app: #fffcf5; --border-light: #f0e5d2; --header-bg: #fff9ef; --sidebar-bg: #fdf6ea;
-            --sidebar-border: #e8dcc8; --card-bg: #ffffff; --card-border: #eadfc9; --accent-border: #c9a87b;
-            --text-primary: #3a2c1f; --text-secondary: #5c4a34; --text-muted: #8b765a; --btn-bg: #ffffffd9;
-            --btn-border: #e0cfb8; --form-bg: #fef7ec; --record-bg: white; --shadow: 0 4px 12px rgba(0,0,0,0.04);
-            --tag-bg: #f0e5d6; --tag-text: #5a3e2a; --modal-overlay: rgba(0,0,0,0.2); --toast-bg: #3a2c1fe6;
-            --role-bg: #fff9f0; --role-border: #e9dbc9;
+            --bg-body: #f5f5f7; --bg-app: #ffffff; --border-light: rgba(0,0,0,0.08); --header-bg: rgba(255,255,255,0.72); --sidebar-bg: #f5f5f7;
+            --sidebar-border: rgba(0,0,0,0.06); --card-bg: #ffffff; --card-border: rgba(0,0,0,0.08); --accent-border: #0071e3;
+            --text-primary: #1d1d1f; --text-secondary: #424245; --text-muted: #86868b; --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.1); --form-bg: #fafafa; --record-bg: #ffffff; --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --tag-bg: #f2f2f7; --tag-text: #1d1d1f; --modal-overlay: rgba(0,0,0,0.28); --toast-bg: #1d1d1fe6;
+            --role-bg: #fafafa; --role-border: rgba(0,0,0,0.08);
         }
         body.theme-lightgray {
-            --bg-body: #eef2f5; --bg-app: #f8fafd; --border-light: #dfe5ec; --header-bg: #f4f7fb; --sidebar-bg: #f1f4f8;
-            --sidebar-border: #e0e6ed; --card-bg: #ffffff; --card-border: #e2e8f0; --accent-border: #7f8c8d;
-            --text-primary: #2c3e50; --text-secondary: #4a627a; --text-muted: #7f8c9a; --btn-bg: #ffffff;
-            --btn-border: #cfdde6; --form-bg: #f0f4f9; --record-bg: #ffffff; --tag-bg: #e6edf4; --tag-text: #2c5a7a;
-            --toast-bg: #2c3e50e6; --role-bg: #f0f6fc; --role-border: #e2eaf1;
+            --bg-body: #e8e8ed; --bg-app: #ffffff; --border-light: rgba(0,0,0,0.08); --header-bg: rgba(255,255,255,0.78); --sidebar-bg: #f2f2f7;
+            --sidebar-border: rgba(0,0,0,0.08); --card-bg: #ffffff; --card-border: rgba(0,0,0,0.1); --accent-border: #0071e3;
+            --text-primary: #1d1d1f; --text-secondary: #424245; --text-muted: #6e6e73; --btn-bg: #f2f2f7;
+            --btn-border: rgba(0,0,0,0.1); --form-bg: #fafafa; --record-bg: #ffffff; --tag-bg: #ececf1; --tag-text: #1d1d1f;
+            --toast-bg: #1d1d1fe6; --role-bg: #f5f5f7; --role-border: rgba(0,0,0,0.08);
         }
         body.theme-dark {
-            --bg-body: #1a1a1c; --bg-app: #262629; --border-light: #3a3a40; --header-bg: #2e2e32; --sidebar-bg: #242427;
-            --sidebar-border: #3e3e44; --card-bg: #2f2f33; --card-border: #44444a; --accent-border: #7a8b9e;
-            --text-primary: #ececec; --text-secondary: #cdcdd2; --text-muted: #a0a0a8; --btn-bg: #3a3a40;
-            --btn-border: #5a5a62; --form-bg: #313136; --record-bg: #2b2b2f; --tag-bg: #4a4d55; --tag-text: #e0e0e0;
-            --toast-bg: #ececece6; --role-bg: #2e2e34; --role-border: #43434b;
+            /* Apple-style dark: True Black canvas → 1C / 2C / 3A surfaces */
+            --bg-body: #000000;
+            --bg-app: #1c1c1e;
+            --border-light: rgba(255, 255, 255, 0.12);
+            --header-bg: rgba(28, 28, 30, 0.92);
+            --sidebar-bg: #1c1c1e;
+            --sidebar-border: rgba(84, 84, 88, 0.36);
+            --card-bg: #2c2c2e;
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-border: #0a84ff;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(235, 235, 245, 0.72);
+            --text-muted: #8e8e93;
+            --btn-bg: #3a3a3c;
+            --btn-border: rgba(255, 255, 255, 0.16);
+            --form-bg: #1c1c1e;
+            --record-bg: #2c2c2e;
+            --tag-bg: #3a3a3c;
+            --tag-text: #ebebf5;
+            --toast-bg: #ebebf5e6;
+            --role-bg: #2c2c2e;
+            --role-border: rgba(255, 255, 255, 0.12);
         }
         body.theme-mint {
             --bg-body: #e3f0ea; --bg-app: #f0f9f4; --border-light: #cde0d6; --header-bg: #eaf5ee; --sidebar-bg: #e3efe8;
@@ -65,10 +82,11 @@
             --role-bg: #fafafa;
             --role-border: #bbbbbb;
         }
-        body { background: var(--bg-body); min-height: 100vh; padding: 24px 20px; display: flex; justify-content: center; transition: background 0.2s; }
-        .app { max-width: 1500px; width: 100%; background: var(--bg-app); border-radius: 32px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-light); }
-        .app-header { padding: 20px 28px; border-bottom: 1px solid var(--border-light); background: var(--header-bg); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        h1 { font-weight: 500; font-size: 1.9rem; color: var(--text-primary); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        body { background: var(--bg-body); min-height: 100vh; padding: 24px 20px; display: flex; justify-content: center; transition: background 0.2s; -webkit-font-smoothing: antialiased; letter-spacing: -0.022em; }
+        .app { max-width: 1500px; width: 100%; background: var(--bg-app); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; border: 0.5px solid var(--border-light); }
+        .app-header { padding: 20px 28px; border-bottom: 0.5px solid var(--border-light); background: var(--header-bg); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        h1 { font-weight: 600; font-size: 1.75rem; letter-spacing: -0.03em; color: var(--text-primary); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        body.theme-ink .app-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--header-bg); }
         .greeting-wrapper { display: inline-flex; align-items: center; gap: 8px; background: var(--tag-bg); padding: 4px 12px; border-radius: 40px; font-size: 0.9rem; font-weight: normal; }
         .greeting-text { cursor: pointer; user-select: none; transition: opacity 0.2s; }
         .greeting-text:hover { opacity: 0.7; }
@@ -215,7 +233,7 @@
             }
         }
 
-        /* ===== 2026 UI refresh：与疫苗本风格统一 ===== */
+        /* ===== 2026 UI refresh：与「宠伴·健康台账」Demo 风格统一 ===== */
         :root {
             --radius-xl: 22px;
             --radius-lg: 16px;
@@ -433,6 +451,15 @@
             <div class="storage-badge"><span>💾 本地星核</span><button id="exportDataBtn">⬇️ 导出</button><button id="importDataBtn">⬆️ 导入</button><input type="file" id="importFileInput" accept=".json" style="display:none"></div>
         </div>
     </header>
+    <div style="padding:10px 24px; background:var(--form-bg); border-bottom:1px solid var(--border-light); font-size:0.88rem; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+        <span style="font-weight:600;">☁️ 云端同步</span>
+        <input type="text" id="portfolioCloudBase" placeholder="http://localhost:3789" style="flex:1; min-width:180px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border); background:var(--card-bg);">
+        <input type="password" id="portfolioCloudToken" placeholder="X-API-Key 可选" style="max-width:130px; padding:8px 12px; border-radius:12px;">
+        <label style="display:flex; align-items:center; gap:6px; white-space:nowrap;"><input type="checkbox" id="creationCloudSync"> 启用云端备份</label>
+        <button type="button" class="btn-sm btn" id="creationCloudPullBtn">拉取</button>
+        <button type="button" class="btn-sm btn-outline" id="creationCloudHealthBtn">测连接</button>
+        <span id="creationCloudStatus" style="font-size:0.8rem; color:var(--text-muted);"></span>
+    </div>
     <div class="main-layout">
         <div class="script-sidebar"><div class="sidebar-title"><span>📚 我的星舰项目</span><button class="btn-icon" id="addScriptBtn">➕</button></div><ul class="script-list" id="scriptListContainer"></ul><button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button><div class="auto-backup-toggle"><input type="checkbox" id="autoBackupCheckbox"> <label>退出/刷新时自动备份</label></div></div>
         <div class="content-panel"><div class="current-script-header"><div class="current-script-title" id="currentScriptNameDisplay">选择项目</div><button class="edit-name-btn" id="renameScriptBtn">✏️ 编辑信息</button></div>
@@ -595,7 +622,63 @@
     }
     function weekStart(date){ const d=new Date(date); const day=d.getDay()||7; d.setDate(d.getDate()-day+1); d.setHours(0,0,0,0); return d; }
     function dateKey(d){ return new Date(d).toISOString().slice(0,10); }
-    function saveData(){ appData.customTags = globalTags.filter(t=>!DEFAULT_TAGS.includes(t)); localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
+
+    let creationCloudTimer = null;
+    function getApiBase(){
+        const u = document.getElementById('portfolioCloudBase')?.value?.trim() || localStorage.getItem('portfolio_cloud_base') || '';
+        return u.replace(/\/$/, '');
+    }
+    function apiHeaders(json){
+        const h = {};
+        if (json !== false) h['Content-Type'] = 'application/json';
+        const token = document.getElementById('portfolioCloudToken')?.value?.trim() || localStorage.getItem('portfolio_cloud_token') || '';
+        if (token) h['X-API-Key'] = token;
+        return h;
+    }
+    function restoreCreationCloudUI(){
+        const b = localStorage.getItem('portfolio_cloud_base');
+        const t = localStorage.getItem('portfolio_cloud_token');
+        if (b) document.getElementById('portfolioCloudBase').value = b;
+        if (t) document.getElementById('portfolioCloudToken').value = t;
+        document.getElementById('creationCloudSync').checked = localStorage.getItem('creation_cloud_sync') === '1';
+    }
+    function persistCreationCloudSettings(){
+        localStorage.setItem('portfolio_cloud_base', document.getElementById('portfolioCloudBase').value.trim() || '');
+        localStorage.setItem('portfolio_cloud_token', document.getElementById('portfolioCloudToken').value.trim() || '');
+        localStorage.setItem('creation_cloud_sync', document.getElementById('creationCloudSync').checked ? '1' : '0');
+    }
+    async function tryPullCreationCloud(){
+        if (!document.getElementById('creationCloudSync').checked || !getApiBase()) return false;
+        try {
+            const r = await fetch(`${getApiBase()}/api/demo/creation-cabin`, { headers: apiHeaders(false) });
+            if (!r.ok) return false;
+            const data = await r.json();
+            if (!data.payload) return false;
+            appData = data.payload;
+            appData.customTags = appData.customTags || [];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+            return true;
+        } catch(e){ console.warn(e); return false; }
+    }
+    async function pushCreationCloud(){
+        if (!document.getElementById('creationCloudSync').checked || !getApiBase()) return;
+        try {
+            appData.customTags = globalTags.filter(t=>!DEFAULT_TAGS.includes(t));
+            const r = await fetch(`${getApiBase()}/api/demo/creation-cabin`, {
+                method: 'PUT',
+                headers: apiHeaders(),
+                body: JSON.stringify({ payload: appData })
+            });
+            if (!r.ok) console.warn('云端备份', r.status);
+        } catch(e){ console.warn(e); }
+    }
+    function scheduleCreationCloudPush(){
+        if (!document.getElementById('creationCloudSync').checked || !getApiBase()) return;
+        clearTimeout(creationCloudTimer);
+        creationCloudTimer = setTimeout(()=>pushCreationCloud(), 650);
+    }
+
+    function saveData(){ appData.customTags = globalTags.filter(t=>!DEFAULT_TAGS.includes(t)); localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); scheduleCreationCloudPush(); }
     function loadData(){
         const stored = localStorage.getItem(STORAGE_KEY);
         if(stored) try{ appData = JSON.parse(stored); }catch(e){}
@@ -984,7 +1067,36 @@
         if(!('serviceWorker' in navigator)) return;
         try { await navigator.serviceWorker.register('./creation-sw.js'); } catch(e) {}
     }
-    function init(){ loadData(); setDefaultDate(); refreshUI(); bindEvents(); setInterval(()=>saveData(), 30000); registerCreationSW(); }
+    async function init(){
+        restoreCreationCloudUI();
+        document.getElementById('creationCloudSync')?.addEventListener('change', persistCreationCloudSettings);
+        document.getElementById('portfolioCloudBase')?.addEventListener('blur', persistCreationCloudSettings);
+        document.getElementById('portfolioCloudToken')?.addEventListener('blur', persistCreationCloudSettings);
+        document.getElementById('creationCloudPullBtn')?.addEventListener('click', async ()=>{
+            persistCreationCloudSettings();
+            const st = document.getElementById('creationCloudStatus');
+            if (!getApiBase()) { st.textContent = '请填写 API 地址'; return; }
+            st.textContent = '拉取中…';
+            await tryPullCreationCloud();
+            loadData();
+            refreshUI();
+            st.textContent = '已从云端合并';
+        });
+        document.getElementById('creationCloudHealthBtn')?.addEventListener('click', async ()=>{
+            persistCreationCloudSettings();
+            const st = document.getElementById('creationCloudStatus');
+            const base = getApiBase();
+            if (!base) { st.textContent = '请填写 API 地址'; return; }
+            st.textContent = '检测中…';
+            try {
+                const r = await fetch(`${base}/api/health`, { headers: apiHeaders(false) });
+                const j = await r.json().catch(()=>({}));
+                st.textContent = r.ok ? `✅ ${j.service||'OK'}` : `HTTP ${r.status}`;
+            } catch(e){ st.textContent = '❌ '+e.message; }
+        });
+        await tryPullCreationCloud();
+        loadData(); setDefaultDate(); refreshUI(); bindEvents(); setInterval(()=>saveData(), 30000); registerCreationSW();
+    }
     init();
 })();
 </script>

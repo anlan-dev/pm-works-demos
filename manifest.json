@@ -1,6 +1,6 @@
 {
-  "name": "毛孩子の疫苗本",
-  "short_name": "疫苗本",
+  "name": "宠伴·健康台账",
+  "short_name": "宠伴台账",
   "start_url": "./pet-vaccine.html",
   "scope": "./",
   "display": "standalone",

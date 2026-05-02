@@ -36,7 +36,7 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('push', (event) => {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch { data = { body: event.data?.text?.() }; }
-  const title = data.title || '毛孩子の疫苗本';
+  const title = data.title || '宠伴·健康台账';
   const body = data.body || '你有新的提醒';
   event.waitUntil(self.registration.showNotification(title, { body, icon: './icon.svg' }));
 });
