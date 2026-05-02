@@ -33,6 +33,12 @@
             margin: 0 auto;
             padding: clamp(28px, 4vw, 48px) clamp(16px, 4vw, 32px) clamp(36px, 5vw, 64px) clamp(16px, 4vw, 32px);
         }
+        /* 桌面端浮动目录与正文窄屏共存时略增右侧留白，减轻遮挡感 */
+        @media (min-width: 821px) and (max-width: 1120px) {
+            .container {
+                padding-right: clamp(44px, 7vw, 72px);
+            }
+        }
 
         /* ===== 浮动目录 (TOC) ===== */
         .toc-float {
@@ -247,13 +253,18 @@
                 display: block;
             }
             body {
-                padding-bottom: 72px;
+                padding-bottom: max(72px, calc(env(safe-area-inset-bottom, 0px) + 56px));
             }
             .footer {
                 padding-bottom: 20px !important;
             }
             .cta-section {
                 margin-bottom: 12px !important;
+            }
+            .ui-mode-dock {
+                bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 60px));
+                left: max(10px, env(safe-area-inset-left, 0px));
+                z-index: 998;
             }
         }
         @media (min-width: 821px) {
@@ -1205,7 +1216,7 @@
         </select>
     </div>
     <!-- ===== 桌面端浮动目录 ===== -->
-    <aside class="toc-float" id="tocFloat">
+    <aside class="toc-float collapsed" id="tocFloat" title="点击 ◀ 展开目录">
         <div class="toc-header">
             <span class="toc-title">快速跳转</span>
             <button class="toc-toggle" id="tocToggleBtn" aria-label="折叠大纲">◀</button>
@@ -1429,7 +1440,7 @@
             </div>
             <div class="story-block" style="margin-bottom:10px;">
                 <h4>3｜验证与数据</h4>
-                <p>定性：个人基线下会后整理从约 <strong>30 分钟</strong>收敛到<strong>数分钟可复盘</strong>。定量叙事：关注<strong>7 日待办完成率</strong>在「反刍提醒 / 状态流」等迭代节点前后是否抬升（下图与陈述同一口径）。</p>
+                <p>定性：个人基线下会后整理从约 <strong>30 分钟</strong>收敛到约 <strong>5 分钟</strong>可复盘。定量叙事：关注<strong>7 日待办完成率</strong>在「反刍提醒 / 状态流」等迭代节点前后是否抬升（下图与陈述同一口径）。</p>
             </div>
             <div id="meeting-metrics-embed" class="tableau-showcase" style="margin-top:8px;">
                 <div class="dashboard-grid">
@@ -1483,7 +1494,7 @@
                     <div class="step-marker">③</div>
                     <div class="step-content">
                         <h4><span class="step-icon">🔬</span> 不确定就先验证方案</h4>
-                        <p>例如宠伴 OCR 选离线 Tesseract、提醒做「稍后/按宠拆分」；会议侧用 Cursor、DeepSeek、Whisper 把<strong>运营耗时的纪要环节</strong>压到可复盘的几分钟。需要云端时再启用仓库 <code>server/</code>。</p>
+                        <p>例如宠伴 OCR 选离线 Tesseract、提醒做「稍后/按宠拆分」；会议侧用 Cursor、DeepSeek、Whisper 把<strong>运营耗时的纪要环节</strong>压到约 <strong>5 分钟</strong>可复盘。需要云端时再启用仓库 <code>server/</code>。</p>
                     </div>
                 </div>
                 <div class="method-step">
@@ -1625,9 +1636,7 @@
                 <span>📧 Wangtj0212@outlook.com</span>
                 <span>📞 +86 18992042758</span>
             </div>
-            <div style="margin-top: 18px; font-size: clamp(0.74rem,0.95vw,0.85rem); color: #5f6c80;">
-                <p>数据驱动决策 · AI 加速落地 · 用户访谈与指标叙事并重</p>
-            </div>
+            <p style="font-size:clamp(0.78rem,0.95vw,0.88rem); color:#475569; margin-top:16px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.65;">📚 最近在通过 GitHub 开源指南 <a href="https://github.com/liyupi/ai-guide" target="_blank" rel="noopener noreferrer" style="color:#3b6e8b; text-decoration:underline;">liyupi/ai-guide</a> 持续追踪 AI 产品化与变现案例，结合自己从 0 到 1 的落地经验，补全从市场判断到商业闭环的全局视角。</p>
         </div>
 
         <div class="footer">

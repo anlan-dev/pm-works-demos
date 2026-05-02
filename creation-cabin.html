@@ -432,6 +432,109 @@
         .record-card { margin-bottom: var(--sp-4); }
         .app-header { padding: var(--sp-4) calc(var(--sp-4) + 4px); }
         body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.28rem; --fs-caption: 0.96rem; }
+
+        /* ===== 防遮挡：折叠区 + 底部留白 ===== */
+        .content-panel {
+            padding-bottom: max(56px, calc(env(safe-area-inset-bottom, 0px) + 40px));
+        }
+        @media (min-width: 701px) {
+            .content-panel {
+                padding-bottom: max(72px, calc(env(safe-area-inset-bottom, 0px) + 56px));
+            }
+        }
+        details.cloud-sync-wrap {
+            border-bottom: 1px solid var(--border-light);
+            background: var(--form-bg);
+        }
+        details.cloud-sync-wrap > summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 12px 24px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            user-select: none;
+            color: var(--text-primary);
+        }
+        details.cloud-sync-wrap > summary::-webkit-details-marker { display: none; }
+        details.cloud-sync-wrap > summary::after {
+            content: '▸';
+            margin-left: auto;
+            font-size: 0.75rem;
+            opacity: 0.55;
+            transition: transform 0.2s;
+        }
+        details.cloud-sync-wrap[open] > summary::after {
+            transform: rotate(90deg);
+        }
+        .cloud-sync-inner {
+            padding: 0 24px 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+        details.foldable-panel {
+            background: var(--form-bg);
+            border-radius: var(--radius-xl, 24px);
+            padding: 18px 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        }
+        details.foldable-panel > summary {
+            list-style: none;
+            cursor: pointer;
+            font-size: 1.08rem;
+            font-weight: 550;
+            margin-bottom: 0;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            user-select: none;
+        }
+        details.foldable-panel > summary::-webkit-details-marker { display: none; }
+        details.foldable-panel > summary::after {
+            content: '▼';
+            margin-left: auto;
+            font-size: 0.65rem;
+            opacity: 0.45;
+            transition: transform 0.2s;
+        }
+        details.foldable-panel:not([open]) > summary::after {
+            transform: rotate(-90deg);
+        }
+        details.foldable-panel[open] > summary {
+            margin-bottom: 14px;
+        }
+        details.foldable-panel .foldable-inner {
+            padding-top: 2px;
+        }
+        .dev-credit.is-hidden { display: none !important; }
+        .dev-credit-dismiss {
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            width: 22px;
+            height: 22px;
+            border: none;
+            border-radius: 50%;
+            background: var(--btn-bg);
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+            opacity: 0.85;
+            padding: 0;
+        }
+        .dev-credit-dismiss:hover { opacity: 1; color: var(--text-primary); }
+        .dev-credit { position: relative; padding-left: 28px; }
     </style>
 </head>
 <body>
@@ -451,15 +554,17 @@
             <div class="storage-badge"><span>💾 本地星核</span><button id="exportDataBtn">⬇️ 导出</button><button id="importDataBtn">⬆️ 导入</button><input type="file" id="importFileInput" accept=".json" style="display:none"></div>
         </div>
     </header>
-    <div style="padding:10px 24px; background:var(--form-bg); border-bottom:1px solid var(--border-light); font-size:0.88rem; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-        <span style="font-weight:600;">☁️ 云端同步</span>
-        <input type="text" id="portfolioCloudBase" placeholder="http://localhost:3789" style="flex:1; min-width:180px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border); background:var(--card-bg);">
-        <input type="password" id="portfolioCloudToken" placeholder="X-API-Key 可选" style="max-width:130px; padding:8px 12px; border-radius:12px;">
-        <label style="display:flex; align-items:center; gap:6px; white-space:nowrap;"><input type="checkbox" id="creationCloudSync"> 启用云端备份</label>
-        <button type="button" class="btn-sm btn" id="creationCloudPullBtn">拉取</button>
-        <button type="button" class="btn-sm btn-outline" id="creationCloudHealthBtn">测连接</button>
-        <span id="creationCloudStatus" style="font-size:0.8rem; color:var(--text-muted);"></span>
-    </div>
+    <details class="cloud-sync-wrap" id="cloudSyncDetails">
+        <summary><span>☁️ 云端同步</span><span style="font-weight:400; opacity:0.65; font-size:0.82rem;">（可选 · 展开配置）</span></summary>
+        <div class="cloud-sync-inner">
+            <input type="text" id="portfolioCloudBase" placeholder="http://localhost:3789" style="flex:1; min-width:180px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border); background:var(--card-bg);">
+            <input type="password" id="portfolioCloudToken" placeholder="X-API-Key 可选" style="max-width:130px; padding:8px 12px; border-radius:12px;">
+            <label style="display:flex; align-items:center; gap:6px; white-space:nowrap;"><input type="checkbox" id="creationCloudSync"> 启用云端备份</label>
+            <button type="button" class="btn-sm btn" id="creationCloudPullBtn">拉取</button>
+            <button type="button" class="btn-sm btn-outline" id="creationCloudHealthBtn">测连接</button>
+            <span id="creationCloudStatus" style="font-size:0.8rem; color:var(--text-muted);"></span>
+        </div>
+    </details>
     <div class="main-layout">
         <div class="script-sidebar"><div class="sidebar-title"><span>📚 我的星舰项目</span><button class="btn-icon" id="addScriptBtn">➕</button></div><ul class="script-list" id="scriptListContainer"></ul><button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button><div class="auto-backup-toggle"><input type="checkbox" id="autoBackupCheckbox"> <label>退出/刷新时自动备份</label></div></div>
         <div class="content-panel"><div class="current-script-header"><div class="current-script-title" id="currentScriptNameDisplay">选择项目</div><button class="edit-name-btn" id="renameScriptBtn">✏️ 编辑信息</button></div>
@@ -471,8 +576,20 @@
             </div>
             <div class="role-world-section"><div class="section-title">🎭 角色设定 · 世界观</div><div id="charactersListContainer" class="character-grid"></div><div class="add-char-form" style="display:flex; gap:8px; margin:10px 0;"><input type="text" id="newCharName" placeholder="角色名"><textarea id="newCharDesc" placeholder="简介/性格" rows="1"></textarea><button class="btn-primary" id="addCharacterBtn">➕ 添加</button></div><div><label>🌍 世界观</label><textarea id="worldSettingText" class="world-textarea" rows="3"></textarea><button class="btn-sm" id="saveWorldBtn">保存世界观</button></div></div>
             <!-- 参考书目：增加页数和链接 -->
-            <div class="references-section"><div class="section-title">📚 参考书目</div><div id="referencesListContainer"></div><div class="add-ref-form" style="display:flex; gap:8px; flex-wrap:wrap;"><input type="text" id="refTitle" placeholder="书名*"><input type="text" id="refAuthor" placeholder="作者"><input type="text" id="refYear" placeholder="年份"><input type="text" id="refPages" placeholder="页数"><input type="text" id="refLink" placeholder="链接"><textarea id="refNote" placeholder="备注" rows="1"></textarea><button class="btn-primary" id="addReferenceBtn">添加</button></div></div>
-            <div class="title-lottery-section"><div class="section-title">🌠 星光·标题签 <span id="titleStatsDisplay"></span><button class="btn-sm" id="openTitleManagerBtn">管理标题库</button></div><div class="lottery-display"><div class="lottery-sub">✨ 星轨指引 ✨</div><div class="lottery-title-big" id="lotteryResultDisplay">抽签</div></div><div class="lottery-actions"><button class="btn-primary" id="drawLotteryBtn">🎲 随机抽取</button><button class="btn" id="copyLotteryTitleBtn">📋 复制</button></div><div class="lottery-custom-row"><input type="text" id="newCustomTitleInput" placeholder="自定义标题"><button class="btn-primary" id="addCustomTitleBtn">➕ 添加至灵感库</button></div></div>
+            <details class="references-section foldable-panel">
+                <summary class="section-title" style="margin-bottom:0;">📚 参考书目</summary>
+                <div class="foldable-inner">
+                    <div id="referencesListContainer"></div>
+                    <div class="add-ref-form" style="display:flex; gap:8px; flex-wrap:wrap;"><input type="text" id="refTitle" placeholder="书名*"><input type="text" id="refAuthor" placeholder="作者"><input type="text" id="refYear" placeholder="年份"><input type="text" id="refPages" placeholder="页数"><input type="text" id="refLink" placeholder="链接"><textarea id="refNote" placeholder="备注" rows="1"></textarea><button class="btn-primary" id="addReferenceBtn">添加</button></div>
+                </div>
+            </details>
+            <details class="title-lottery-section foldable-panel" open>
+                <summary class="section-title" style="margin-bottom:0;">🌠 星光·标题签 <span id="titleStatsDisplay"></span></summary>
+                <div class="foldable-inner">
+                    <div style="margin-bottom:10px;"><button type="button" class="btn-sm" id="openTitleManagerBtn">管理标题库</button></div>
+                    <div class="lottery-display"><div class="lottery-sub">✨ 星轨指引 ✨</div><div class="lottery-title-big" id="lotteryResultDisplay">抽签</div></div><div class="lottery-actions"><button class="btn-primary" id="drawLotteryBtn">🎲 随机抽取</button><button class="btn" id="copyLotteryTitleBtn">📋 复制</button></div><div class="lottery-custom-row"><input type="text" id="newCustomTitleInput" placeholder="自定义标题"><button class="btn-primary" id="addCustomTitleBtn">➕ 添加至灵感库</button></div>
+                </div>
+            </details>
             <div class="record-form-card">
                 <div class="form-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                     <span>✍️ 添加创作记录</span>
@@ -490,8 +607,9 @@
                 <input type="hidden" id="currentFileContent">
             </div>
 
-            <div class="record-form-card">
-                <div class="section-title">🎯 写作目标追踪（今日/本周）</div>
+            <details class="record-form-card foldable-panel">
+                <summary class="section-title" style="margin-bottom:0;">🎯 写作目标追踪（今日/本周）</summary>
+                <div class="foldable-inner">
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
                     <input type="number" id="dailyGoalInput" placeholder="今日目标字数" min="100" step="100" style="max-width:180px;">
                     <input type="number" id="weeklyGoalInput" placeholder="本周目标字数" min="500" step="100" style="max-width:180px;">
@@ -503,10 +621,12 @@
                     <div style="font-size:0.86rem; color:var(--text-secondary); margin-top:10px;">本周：<span id="weekWordText">0/0</span></div>
                     <div style="height:10px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="weekWordBar" style="height:10px; width:0%; background:var(--accent-border);"></div></div>
                 </div>
-            </div>
+                </div>
+            </details>
 
-            <div class="record-form-card">
-                <div class="section-title">🔎 快速搜索与筛选</div>
+            <details class="record-form-card foldable-panel">
+                <summary class="section-title" style="margin-bottom:0;">🔎 快速搜索与筛选</summary>
+                <div class="foldable-inner">
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
                     <input type="text" id="globalSearchInput" placeholder="搜索章节名/角色名/标签/参考书目关键词..." style="flex:1; min-width:260px;">
                     <select id="statusFilterSelect" style="max-width:180px;"></select>
@@ -514,41 +634,48 @@
                     <button class="btn-sm" id="clearFilterBtn">清空</button>
                 </div>
                 <div id="searchResultSummary" class="small-note" style="margin-top:8px;">输入关键词开始搜索</div>
-            </div>
+                </div>
+            </details>
 
-            <div class="record-form-card">
-                <div class="section-title">🗓️ 时间线视图（甘特简版）</div>
-                <div id="timelineContainer"></div>
-            </div>
+            <details class="record-form-card foldable-panel">
+                <summary class="section-title" style="margin-bottom:0;">🗓️ 时间线视图（甘特简版）</summary>
+                <div class="foldable-inner"><div id="timelineContainer"></div></div>
+            </details>
 
-            <div class="record-form-card">
-                <div class="section-title">🏅 创作健康评分</div>
-                <div id="healthScoreBox"></div>
-            </div>
+            <details class="record-form-card foldable-panel">
+                <summary class="section-title" style="margin-bottom:0;">🏅 创作健康评分</summary>
+                <div class="foldable-inner"><div id="healthScoreBox"></div></div>
+            </details>
 
-            <div class="record-form-card">
-                <div class="section-title">📊 多项目对比看板</div>
+            <details class="record-form-card foldable-panel">
+                <summary class="section-title" style="margin-bottom:0;">📊 多项目对比看板</summary>
+                <div class="foldable-inner">
                 <div style="overflow:auto;">
                     <table id="projectCompareTable" style="width:100%; border-collapse:collapse; font-size:0.9rem;"></table>
                 </div>
-            </div>
+                </div>
+            </details>
 
-            <div class="record-form-card">
-                <div class="section-title">🧾 导出周报/月报</div>
+            <details class="record-form-card foldable-panel">
+                <summary class="section-title" style="margin-bottom:0;">🧾 导出周报/月报</summary>
+                <div class="foldable-inner">
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
                     <button class="btn-sm btn-primary" id="exportWeeklyReportBtn">导出本周摘要</button>
                     <button class="btn-sm btn-primary" id="exportMonthlyReportBtn">导出本月摘要</button>
                 </div>
-            </div>
+                </div>
+            </details>
 
-            <div class="record-form-card">
-                <div class="section-title">🕘 版本快照 + 回滚</div>
+            <details class="record-form-card foldable-panel">
+                <summary class="section-title" style="margin-bottom:0;">🕘 版本快照 + 回滚</summary>
+                <div class="foldable-inner">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
                     <button class="btn-sm" id="createSnapshotBtn">创建快照</button>
                     <button class="btn-sm" id="openSnapshotManagerBtn">管理快照</button>
                     <span class="small-note">每次保存章节/大纲也会自动生成快照</span>
                 </div>
-            </div>
+                </div>
+            </details>
 
             <div class="records-feed"><h3>📖 创作历程</h3><span id="recordCount"></span><div id="recordsContainer"></div></div>
         </div>
@@ -571,7 +698,8 @@
 <div id="snapshotModal" class="modal-overlay"><div class="modal-card"><h3>快照管理</h3><div id="snapshotListContainer" style="max-height:340px; overflow:auto;"></div><div style="margin-top:10px;"><button id="closeSnapshotModalBtn">关闭</button></div></div></div>
 
 <!-- 右下角柔和反馈标识 (尺寸极致缩小、半透明，其余完全不变) -->
-<div class="dev-credit">
+<div class="dev-credit" id="devCreditBar">
+    <button type="button" class="dev-credit-dismiss" id="devCreditDismiss" title="不再显示" aria-label="收起角标">×</button>
     <div>邮箱 <a href="mailto:ilikeitnow@qq.com">📧 ilikeitnow@qq.com</a></div>
     <div class="demo-note">持续迭代中</div>
 </div>
@@ -1163,6 +1291,19 @@
             } catch(e){ st.textContent = '❌ '+e.message; }
         });
         await tryPullCreationCloud();
+        const cloudDetails = document.getElementById('cloudSyncDetails');
+        if (cloudDetails) {
+            if (window.innerWidth < 900) cloudDetails.removeAttribute('open');
+            else cloudDetails.setAttribute('open', '');
+        }
+        const devBar = document.getElementById('devCreditBar');
+        if (localStorage.getItem('creation_hide_dev_credit') === '1') devBar?.classList.add('is-hidden');
+        document.getElementById('devCreditDismiss')?.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            devBar?.classList.add('is-hidden');
+            localStorage.setItem('creation_hide_dev_credit', '1');
+        });
         loadData(); setDefaultDate(); refreshUI(); bindEvents(); setInterval(()=>saveData(), 30000); registerCreationSW();
     }
     init();
