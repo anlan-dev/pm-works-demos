@@ -122,8 +122,44 @@
         }
         .app-header h1 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 2px; }
         .app-header p { font-size: 0.88rem; color: var(--muted); }
+        .header-cloud-details { margin-top: 12px; max-width: 760px; margin-left: auto; margin-right: auto; text-align: left; }
+        .header-cloud-details > summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 12px 14px;
+            background: var(--panel-bg);
+            border-radius: 16px;
+            border: 1px dashed var(--card-border);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            user-select: none;
+        }
+        .header-cloud-details > summary::-webkit-details-marker { display: none; }
+        .header-cloud-details > summary::after {
+            content: ' ▼';
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+        .header-cloud-details[open] > summary::after { content: ' ▲'; }
+        .header-cloud-inner { padding: 12px 4px 4px; }
+        .header-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+        .header-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            align-items: center;
+        }
+        .header-toolbar > span { font-size: 0.85rem; color: var(--muted); }
         body[data-theme="ink"] .app-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--header-bg); }
-        .container { max-width: 1160px; margin: 0 auto; padding: 16px 14px; }
+        .container { max-width: 920px; margin: 0 auto; padding: 16px 14px; }
         .page { display: none; }
         .page.active { display: block; }
         .tab-bar {
@@ -238,36 +274,81 @@
         body[data-theme="ink"] .fab-action { box-shadow: none; }
         .fab-action strong { color:var(--accent); }
 
-        /* 平板端 */
+        /* 平板端：单栏主流程，避免错误的多列 grid 把卡片拆碎 */
         @media (min-width: 768px) {
             body { padding-bottom: 96px; }
-            .app-header { padding: 20px 24px 14px; }
+            .app-header { padding: 18px 24px 14px; }
             .app-header h1 { font-size: 1.52rem; }
-            .container { padding: 22px 20px; }
-            .page.active {
+            .container { padding: 22px 24px; max-width: 880px; }
+            #page-home.page.active,
+            #page-expense.page.active,
+            #page-ocr.page.active {
+                display: block;
+                max-width: 880px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #page-dashboard.page.active {
                 display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 16px;
+                gap: 18px;
                 align-items: start;
+                max-width: 1100px;
+                margin-left: auto;
+                margin-right: auto;
             }
-            #page-home .example-hint,
-            #page-home .card:nth-of-type(1) { grid-column: 1 / -1; }
-            #page-dashboard .card:nth-of-type(1) { grid-column: 1 / -1; }
-            .tab-bar { max-width: 820px; }
+            #page-dashboard > .card:first-of-type { grid-column: 1 / -1; }
+            .dashboard-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .tab-bar { max-width: 640px; }
             .fab { right: 22px; bottom: 104px; }
             .fab-menu { right: 22px; bottom: 166px; }
         }
 
-        /* PC 端 */
+        /* PC 端：顶栏横向 + 看板略增宽 */
         @media (min-width: 1100px) {
-            .container { padding: 26px 28px 24px; }
-            .card { padding: 20px 18px; }
-            .page.active { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-            #page-home .example-hint,
-            #page-home .card:nth-of-type(1),
-            #page-home .card:nth-of-type(2),
-            #page-dashboard .card:nth-of-type(1) { grid-column: 1 / -1; }
-            .tab-bar { max-width: 900px; }
+            .container { padding: 26px 32px 28px; }
+            .card { padding: 22px 20px; }
+            #page-dashboard.page.active {
+                max-width: 1160px;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .dashboard-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+            .chart-wrap canvas {
+                height: 260px !important;
+            }
+            .tab-bar { max-width: 720px; padding: 10px 20px; }
+            .app-header {
+                text-align: left;
+                padding: 18px 32px 16px;
+            }
+            .app-header .header-brand {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 16px 24px;
+                max-width: 1160px;
+                margin: 0 auto;
+            }
+            .app-header .header-brand > div:first-child { flex: 1 1 280px; min-width: 0; }
+            .app-header .header-brand > div:first-child h1 { margin-bottom: 4px; }
+            .app-header .header-brand > div:first-child p { max-width: 520px; }
+            .app-header .header-toolbar {
+                flex: 0 1 auto;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                align-items: center;
+                justify-content: flex-end;
+            }
+            .header-cloud-details { max-width: 1160px; margin-top: 14px; }
+            .fab { right: max(24px, calc((100vw - 1160px) / 2 + 12px)); bottom: 108px; }
+            .fab-menu { right: max(24px, calc((100vw - 1160px) / 2 + 12px)); bottom: 172px; }
         }
 
         /* 小屏手机优化 */
@@ -337,33 +418,39 @@
 <body>
 
 <div class="app-header">
-    <h1>🐱🐶 宠伴·健康台账</h1>
-    <p>养宠全周期健康台账：免疫、驱虫、花费与提醒闭环</p>
-    <div style="margin-top:10px; display:flex; justify-content:center; gap:8px; flex-wrap:wrap; align-items:center;">
-        <span style="font-size:0.85rem; color:var(--muted);">风格</span>
-        <select id="themeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
-            <option value="warm">暖</option>
-            <option value="gray">灰</option>
-            <option value="night">夜</option>
-            <option value="ink">Ink</option>
-        </select>
-        <select id="accessibilityModeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
-            <option value="normal">标准模式</option>
-            <option value="elder">长辈模式</option>
-        </select>
-    </div>
-    <div style="margin-top:12px; padding:12px 14px; background:var(--panel-bg); border-radius:16px; border:1px dashed var(--card-border); max-width:760px; margin-left:auto; margin-right:auto;">
-        <div style="font-size:0.85rem; font-weight:600; margin-bottom:8px; color:var(--accent);">☁️ 云端同步（可选）</div>
-        <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:center;">
-            <input type="text" id="portfolioCloudBase" placeholder="API 根地址，如 http://localhost:3789" style="flex:1; min-width:200px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border); background:var(--card-bg); color:var(--text);">
-            <input type="password" id="portfolioCloudToken" placeholder="X-API-Key 可选" style="max-width:140px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border);">
-            <label style="font-size:0.85rem; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="petCloudSync"> 启用云端备份</label>
-            <button type="button" class="btn btn-sm" id="petCloudPullBtn">从云端拉取</button>
-            <button type="button" class="btn btn-sm btn-outline" id="petCloudHealthBtn">测连接</button>
-            <span id="petCloudStatus" style="font-size:0.78rem; color:var(--muted); max-width:100%;"></span>
+    <div class="header-brand">
+        <div>
+            <h1>🐱🐶 宠伴·健康台账</h1>
+            <p>养宠全周期健康台账：免疫、驱虫、花费与提醒闭环</p>
         </div>
-        <div style="font-size:0.75rem; color:var(--muted); margin-top:8px;">需先部署 <code style="font-size:0.85em;">server/</code> 后端；启用后编辑会自动增量备份到服务端 SQLite。</div>
+        <div class="header-toolbar">
+            <span>风格</span>
+            <select id="themeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
+                <option value="warm">暖</option>
+                <option value="gray">灰</option>
+                <option value="night">夜</option>
+                <option value="ink">Ink</option>
+            </select>
+            <select id="accessibilityModeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
+                <option value="normal">标准模式</option>
+                <option value="elder">长辈模式</option>
+            </select>
+        </div>
     </div>
+    <details class="header-cloud-details">
+        <summary>☁️ 云端同步（可选）</summary>
+        <div class="header-cloud-inner">
+            <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:flex-start;">
+                <input type="text" id="portfolioCloudBase" placeholder="API 根地址，如 http://localhost:3789" style="flex:1; min-width:200px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border); background:var(--card-bg); color:var(--text);">
+                <input type="password" id="portfolioCloudToken" placeholder="X-API-Key 可选" style="max-width:140px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border);">
+                <label style="font-size:0.85rem; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="petCloudSync"> 启用云端备份</label>
+                <button type="button" class="btn btn-sm" id="petCloudPullBtn">从云端拉取</button>
+                <button type="button" class="btn btn-sm btn-outline" id="petCloudHealthBtn">测连接</button>
+                <span id="petCloudStatus" style="font-size:0.78rem; color:var(--muted); max-width:100%;"></span>
+            </div>
+            <div style="font-size:0.75rem; color:var(--muted); margin-top:8px;">需先部署 <code style="font-size:0.85em;">server/</code> 后端；启用后编辑会自动增量备份到服务端 SQLite。</div>
+        </div>
+    </details>
 </div>
 
 <div class="container">
