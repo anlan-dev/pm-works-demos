@@ -426,6 +426,11 @@
             </div>
         </div>
 
+        <div class="row" style="align-items:center; margin-bottom:10px;">
+            <label style="margin:0;">🏷️ 会议类型</label>
+            <select id="meetingCategorySelect" style="flex:1; max-width:280px; padding:10px 14px; border-radius:40px; border:1px solid var(--card-border); background:var(--card-bg); color:var(--text-primary);"></select>
+            <button type="button" class="btn btn-sm" id="openMeetingTypesBtn">管理类型</button>
+        </div>
         <label>📝 会议转文字</label>
         <textarea id="transcriptText" rows="5" placeholder="录音转写结果 / 粘贴纪要..."></textarea>
 
@@ -492,6 +497,9 @@
         </div>
         <div class="history-tools">
             <input type="text" id="historySearchInput" placeholder="搜索历史会议关键词...">
+            <select id="historyCategoryFilter" title="按会议类型筛选">
+                <option value="">全部类型</option>
+            </select>
             <select id="historyTodoFilter">
                 <option value="">全部会议</option>
                 <option value="withTodos">有待办</option>
@@ -511,6 +519,20 @@
 
 <div class="feedback-label">
     📬 <a href="mailto:ilikeitnow@qq.com">提个建议</a> · <span style="opacity:0.7;">你真实怎么开会，我就怎么改</span>
+</div>
+
+<div id="meetingTypesModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:9999; align-items:center; justify-content:center;">
+    <div class="card" style="max-width:420px; width:90%; margin:0;">
+        <h3 style="margin-bottom:8px;">🏷️ 管理会议类型</h3>
+        <p style="font-size:0.85rem; opacity:0.85; margin-bottom:10px;">以下为自定义项；上方内置类型不可删除。保存会议时将所选类型写入本条记录。</p>
+        <div id="meetingTypesBuiltinList" style="font-size:0.85rem; opacity:0.75; margin-bottom:8px;"></div>
+        <div id="meetingTypesCustomList" style="max-height:180px; overflow:auto; margin-bottom:10px;"></div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <input type="text" id="meetingTypeNewInput" placeholder="新类型名称" style="flex:1; min-width:160px; padding:8px 12px; border-radius:40px; border:1px solid var(--card-border); background:var(--card-bg); color:var(--text-primary);">
+            <button type="button" class="btn btn-primary" id="meetingTypeAddBtn">添加</button>
+        </div>
+        <button type="button" class="btn" id="meetingTypesModalClose" style="margin-top:12px;">关闭</button>
+    </div>
 </div>
 
 <script type="module">
@@ -552,6 +574,54 @@
     let reminderTimers = []; // 存储定时器ID
     let historySearchKeyword = '';
     let historyTodoFilter = '';
+
+    const STORAGE_MEETING_CUSTOM_TYPES = 'meeting_custom_types_v1';
+    const DEFAULT_MEETING_TYPES = ['周会', '站会', '1on1', '评审', '脑暴', '客户沟通', '其他'];
+    let meetingCustomTypes = [];
+    function loadMeetingCustomTypes() {
+        try {
+            const r = localStorage.getItem(STORAGE_MEETING_CUSTOM_TYPES);
+            meetingCustomTypes = r ? JSON.parse(r) : [];
+        } catch (e) { meetingCustomTypes = []; }
+        if (!Array.isArray(meetingCustomTypes)) meetingCustomTypes = [];
+    }
+    function saveMeetingCustomTypes() {
+        localStorage.setItem(STORAGE_MEETING_CUSTOM_TYPES, JSON.stringify(meetingCustomTypes));
+    }
+    function allMeetingTypeLabels() {
+        return [...new Set([...DEFAULT_MEETING_TYPES, ...meetingCustomTypes])];
+    }
+    function mtOptEsc(v) { return String(v).replace(/"/g, '&quot;'); }
+    function refreshMeetingCategorySelects() {
+        const sel = document.getElementById('meetingCategorySelect');
+        const fil = document.getElementById('historyCategoryFilter');
+        const prev = sel?.value;
+        const prevF = fil?.value;
+        const labels = allMeetingTypeLabels();
+        const opts = labels.map(t => `<option value="${mtOptEsc(t)}">${t}</option>`).join('');
+        if (sel) {
+            sel.innerHTML = '<option value="">（未标注）</option>' + opts;
+            if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
+        }
+        if (fil) {
+            fil.innerHTML = '<option value="">全部类型</option>' + opts;
+            if (prevF && [...fil.options].some(o => o.value === prevF)) fil.value = prevF;
+        }
+    }
+    function renderMeetingTypesModal() {
+        const builtin = document.getElementById('meetingTypesBuiltinList');
+        const custom = document.getElementById('meetingTypesCustomList');
+        if (builtin) builtin.innerHTML = '<div><strong>内置：</strong>' + DEFAULT_MEETING_TYPES.map(t => `<span class="badge" style="margin:2px;">${t}</span>`).join(' ') + '</div>';
+        if (custom) {
+            custom.innerHTML = meetingCustomTypes.length === 0
+                ? '<div style="opacity:0.7;font-size:0.9rem;">暂无自定义类型</div>'
+                : meetingCustomTypes.map((t, i) => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0;"><span>${String(t).replace(/</g,'&lt;')}</span><button type="button" class="btn btn-sm del-meeting-type" data-idx="${i}">删除</button></div>`).join('');
+            custom.querySelectorAll('.del-meeting-type').forEach(btn => btn.addEventListener('click', () => {
+                const i = parseInt(btn.getAttribute('data-idx'), 10);
+                if (!isNaN(i)) { meetingCustomTypes.splice(i, 1); saveMeetingCustomTypes(); refreshMeetingCategorySelects(); renderMeetingTypesModal(); }
+            }));
+        }
+    }
 
     // ---- 云端 API（前后端分离 + 数据库 + 服务端 AI）----
     function getApiBase() {
@@ -800,15 +870,21 @@
                 return true;
             });
         }
+        const catFil = document.getElementById("historyCategoryFilter")?.value || "";
+        if (catFil) {
+            list = list.filter(m => m.analysis && m.analysis._meetingType === catFil);
+        }
         cont.innerHTML = list.map(m => {
             const todoCount = m.analysis?.todos?.length || 0;
             const completed = m.analysis?.todos?.filter(t=>normalizeTodoStatus(t)==='完成').length || 0;
+            const mtBadge = (m.analysis && m.analysis._meetingType)
+                ? ` <span class="stats-badge" style="opacity:0.95;">${String(m.analysis._meetingType).replace(/</g,'&lt;')}</span>` : '';
             return `
             <div class="history-item" data-id="${m.id}">
                 <div style="flex:1">
                     <strong>📅 ${new Date(m.createdAt).toLocaleString()}</strong><br>
                     <span>${(m.transcript||'').substring(0,70)}...</span> 
-                    ${m.analysis ? `<span class="stats-badge">${completed}/${todoCount} 完成</span>` : ''}
+                    ${m.analysis ? `<span class="stats-badge">${completed}/${todoCount} 完成</span>${mtBadge}` : ''}
                 </div>
                 <span class="delete-history" data-delete-id="${m.id}" title="删除此条">🗑️</span>
             </div>
@@ -827,6 +903,8 @@
             if(m){
                 currentMeetingId = m.id;
                 document.getElementById("transcriptText").value = m.transcript||'';
+                const catSel = document.getElementById("meetingCategorySelect");
+                if (catSel) catSel.value = (m.analysis && m.analysis._meetingType) || "";
                 if(m.analysis) { 
                     currentAnalysis = m.analysis; 
                     displayAnalysis(m.analysis); 
@@ -1097,7 +1175,9 @@ ${text.substring(0, 4000)}`;
     }
     
     function displayAnalysis(a){
-        document.getElementById("topicsOutput").innerHTML = a.topics.map(t=>`<div>• ${t}</div>`).join('');
+        const topics = (a.topics || []).slice();
+        const questions = (a.questions || []).slice();
+        document.getElementById("topicsOutput").innerHTML = topics.map(t=>`<div>• ${t}</div>`).join('');
         const todosDiv = document.getElementById("todosOutput");
         if (!a.todos || a.todos.length === 0) {
             todosDiv.innerHTML = '<div>暂无待办</div>';
@@ -1152,7 +1232,7 @@ ${text.substring(0, 4000)}`;
                 });
             });
         }
-        document.getElementById("questionsOutput").innerHTML = a.questions.map((q,i)=>`<div>${i+1}. ${q}</div>`).join('');
+        document.getElementById("questionsOutput").innerHTML = questions.map((q,i)=>`<div>${i+1}. ${q}</div>`).join('');
     }
     
     document.getElementById("analyzeBtn").onclick = async ()=>{
@@ -1166,10 +1246,17 @@ ${text.substring(0, 4000)}`;
     document.getElementById("saveMeetingBtn").onclick = async () => {
         const transcript = document.getElementById("transcriptText").value.trim();
         if (!transcript && !currentAnalysis) return alert("没有内容可保存");
+        let analysisPayload = currentAnalysis;
+        if (currentAnalysis) {
+            const cat = document.getElementById("meetingCategorySelect")?.value?.trim() || '';
+            analysisPayload = { ...currentAnalysis };
+            if (cat) analysisPayload._meetingType = cat;
+            else delete analysisPayload._meetingType;
+        }
         const meeting = {
             id: currentMeetingId || undefined,
             transcript: transcript,
-            analysis: currentAnalysis,
+            analysis: analysisPayload,
             createdAt: new Date().toISOString()
         };
         if (currentMeetingId) {
@@ -1178,6 +1265,7 @@ ${text.substring(0, 4000)}`;
             if (existing) meeting.createdAt = existing.createdAt;
         }
         await saveMeeting(meeting);
+        if (analysisPayload) currentAnalysis = analysisPayload;
         alert("会议已保存");
         await renderHistory();
     };
@@ -1192,19 +1280,19 @@ ${text.substring(0, 4000)}`;
         
         switch(format) {
             case 'csv':
-                content = '任务,负责人,截止日期,已完成\n' + a.todos.map(t => `"${t.task}","${t.owner}","${t.deadline}","${t.completed? '是':'否'}"`).join('\n');
+                content = '任务,负责人,截止日期,已完成\n' + (a.todos||[]).map(t => `"${t.task}","${t.owner}","${t.deadline}","${t.completed? '是':'否'}"`).join('\n');
                 filename = `待办_${timestamp}.csv`;
                 break;
             case 'md':
-                content = `# 会议纪要\n\n## 议题\n${a.topics.map(t=>'- '+t).join('\n')}\n\n## 待办\n${a.todos.map(t=>`- [${t.completed?'x':' '}] ${t.task} (${t.owner}, ${t.deadline})`).join('\n')}\n\n## 需跟进问题\n${a.questions.map(q=>'- '+q).join('\n')}`;
+                content = `# 会议纪要\n\n${a._meetingType ? `**会议类型**：${a._meetingType}\n\n` : ''}## 议题\n${(a.topics||[]).map(t=>'- '+t).join('\n')}\n\n## 待办\n${(a.todos||[]).map(t=>`- [${t.completed?'x':' '}] ${t.task} (${t.owner}, ${t.deadline})`).join('\n')}\n\n## 需跟进问题\n${(a.questions||[]).map(q=>'- '+q).join('\n')}`;
                 filename = `会议纪要_${timestamp}.md`;
                 break;
             case 'txt':
-                content = `议题：\n${a.topics.join('\n')}\n\n待办：\n${a.todos.map(t=>`[${t.completed?'✓':' '}] ${t.task} ${t.owner} ${t.deadline}`).join('\n')}\n\n问题：\n${a.questions.join('\n')}`;
+                content = `${a._meetingType ? `会议类型：${a._meetingType}\n\n` : ''}议题：\n${(a.topics||[]).join('\n')}\n\n待办：\n${(a.todos||[]).map(t=>`[${t.completed?'✓':' '}] ${t.task} ${t.owner} ${t.deadline}`).join('\n')}\n\n问题：\n${(a.questions||[]).join('\n')}`;
                 filename = `会议记录_${timestamp}.txt`;
                 break;
             case 'doc':
-                content = `<html><meta charset="UTF-8"><body><h2>会议纪要</h2><h3>议题</h3><ul>${a.topics.map(t=>`<li>${t}</li>`).join('')}</ul><h3>待办</h3><ul>${a.todos.map(t=>`<li>[${t.completed?'✓':' '}] ${t.task} (${t.owner}, ${t.deadline})</li>`).join('')}</ul><h3>问题</h3><ul>${a.questions.map(q=>`<li>${q}</li>`).join('')}</ul></body></html>`;
+                content = `<html><meta charset="UTF-8"><body><h2>会议纪要</h2>${a._meetingType ? `<p>会议类型：${a._meetingType}</p>` : ''}<h3>议题</h3><ul>${(a.topics||[]).map(t=>`<li>${t}</li>`).join('')}</ul><h3>待办</h3><ul>${(a.todos||[]).map(t=>`<li>[${t.completed?'✓':' '}] ${t.task} (${t.owner}, ${t.deadline})</li>`).join('')}</ul><h3>问题</h3><ul>${(a.questions||[]).map(q=>`<li>${q}</li>`).join('')}</ul></body></html>`;
                 filename = `会议纪要_${timestamp}.doc`;
                 mimeType = 'application/msword';
                 break;
@@ -1385,7 +1473,32 @@ ${text.substring(0, 4000)}`;
         historyTodoFilter = '';
         document.getElementById("historySearchInput").value = '';
         document.getElementById("historyTodoFilter").value = '';
+        const hcf = document.getElementById("historyCategoryFilter");
+        if (hcf) hcf.value = '';
         renderHistory();
+    });
+    document.getElementById("historyCategoryFilter")?.addEventListener('change', () => { renderHistory(); });
+    document.getElementById("openMeetingTypesBtn")?.addEventListener('click', () => {
+        renderMeetingTypesModal();
+        const m = document.getElementById("meetingTypesModal");
+        if (m) m.style.display = 'flex';
+    });
+    document.getElementById("meetingTypesModalClose")?.addEventListener('click', () => {
+        const m = document.getElementById("meetingTypesModal");
+        if (m) m.style.display = 'none';
+    });
+    document.getElementById("meetingTypeAddBtn")?.addEventListener('click', () => {
+        const v = document.getElementById("meetingTypeNewInput")?.value?.trim();
+        if (!v) return;
+        if (allMeetingTypeLabels().includes(v)) { alert('已存在'); return; }
+        meetingCustomTypes.push(v);
+        document.getElementById("meetingTypeNewInput").value = '';
+        saveMeetingCustomTypes();
+        refreshMeetingCategorySelects();
+        renderMeetingTypesModal();
+    });
+    document.getElementById("meetingTypesModal")?.addEventListener('click', (e) => {
+        if (e.target.id === 'meetingTypesModal') e.currentTarget.style.display = 'none';
     });
 
     // 启动
@@ -1424,6 +1537,8 @@ ${text.substring(0, 4000)}`;
             }
         });
 
+        loadMeetingCustomTypes();
+        refreshMeetingCategorySelects();
         await initDB(); await renderHistory();
         const k = localStorage.getItem("deepseek_key"); if(k) document.getElementById("apiKey").value=k;
         if(Notification.permission==='default') Notification.requestPermission();

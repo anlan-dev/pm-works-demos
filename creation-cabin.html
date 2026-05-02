@@ -481,7 +481,7 @@
                 <div class="form-grid">
                     <div><label>📅 日期</label><input type="date" id="recordDate" class="form-control"></div>
                     <div><label>📌 章节/片段</label><input type="text" id="recordTitle" placeholder="章节名"></div>
-                    <div><label>🔄 章节状态</label><select id="recordStatus"><option value="草稿">草稿</option><option value="修改中">修改中</option><option value="完稿">完稿</option><option value="待审">待审</option></select></div>
+                    <div><label>🔄 章节状态</label><select id="recordStatus"></select></div>
                     <div><label>📎 草稿文件</label><div><button class="btn-sm" id="uploadTriggerBtn">选择文件</button><span id="fileNameDisplay">未选择</span><button class="btn-sm btn-link" id="clearFileBtn">清除</button></div></div>
                     <div><label>💭 创作笔记</label><textarea id="recordReflection" rows="3"></textarea></div>
                     <button class="btn-primary" id="saveRecordBtn">💾 保存章节</button>
@@ -509,13 +509,8 @@
                 <div class="section-title">🔎 快速搜索与筛选</div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
                     <input type="text" id="globalSearchInput" placeholder="搜索章节名/角色名/标签/参考书目关键词..." style="flex:1; min-width:260px;">
-                    <select id="statusFilterSelect" style="max-width:180px;">
-                        <option value="">全部状态</option>
-                        <option value="草稿">草稿</option>
-                        <option value="修改中">修改中</option>
-                        <option value="完稿">完稿</option>
-                        <option value="待审">待审</option>
-                    </select>
+                    <select id="statusFilterSelect" style="max-width:180px;"></select>
+                    <button class="btn-sm" id="manageChapterStatusBtn" type="button">状态管理</button>
                     <button class="btn-sm" id="clearFilterBtn">清空</button>
                 </div>
                 <div id="searchResultSummary" class="small-note" style="margin-top:8px;">输入关键词开始搜索</div>
@@ -566,6 +561,7 @@
 <div id="characterModal" class="modal-overlay"><div class="modal-card"><h3>编辑角色</h3><input id="charEditName"><textarea id="charEditDesc" rows="3"></textarea><div><button id="charModalCancel">取消</button><button class="btn-primary" id="charModalSave">保存</button></div></div></div>
 <div id="reviewModal" class="modal-overlay"><div class="modal-card"><h3>月度回顾</h3><select id="monthSelect"></select><button id="refreshReviewBtn">查看</button><div id="reviewStatsContainer"></div><button id="closeReviewBtn">关闭</button></div></div>
 <div id="manageOutlineTypesModal" class="modal-overlay"><div class="modal-card"><h3>大纲类型管理</h3><div id="customOutlineTypesList"></div><input type="text" id="newOutlineTypeInput"><button id="addOutlineTypeBtn">添加</button><button id="closeOutlineTypesBtn">关闭</button></div></div>
+<div id="manageChapterStatusModal" class="modal-overlay"><div class="modal-card"><h3>章节状态管理</h3><p class="small-note">以下为自定义状态；内置「草稿 / 修改中 / 完稿 / 待审」不可删除。</p><div id="chapterStatusBuiltinList" style="margin-bottom:8px; font-size:0.88rem; opacity:0.85;"></div><div id="chapterStatusCustomList" style="max-height:200px; overflow:auto;"></div><div style="display:flex; gap:8px; margin-top:10px;"><input type="text" id="newChapterStatusInput" placeholder="新状态名称" maxlength="12"><button type="button" id="addChapterStatusBtn">添加</button></div><button type="button" id="closeChapterStatusBtn" style="margin-top:10px;">关闭</button></div></div>
 <div id="titleManagerModal" class="modal-overlay"><div class="modal-card"><h3>管理自定义标题</h3><div id="titleManagerListContainer"></div><input type="text" id="managerNewTitleInput"><button id="managerAddTitleBtn">添加</button><button id="closeTitleManagerBtn">关闭</button></div></div>
 <div id="encouragementModal" class="modal-overlay"><div class="modal-card"><h3>💬 鼓励语管理</h3><div id="encouragementListContainer" style="max-height:300px; overflow:auto; margin-bottom:12px;"></div><div style="display:flex; gap:8px;"><input type="text" id="newEncouragementInput"><button id="addEncouragementBtn">添加</button><button id="resetDefaultEncouragementBtn">重置默认</button></div><div class="modal-actions"><button id="closeEncouragementBtn">关闭</button></div></div></div>
 <div id="nicknameModal" class="modal-overlay"><div class="modal-card"><h3>设置称呼</h3><input id="nicknameInput" maxlength="20"><div><button id="nicknameCancelBtn">取消</button><button class="btn-primary" id="nicknameSaveBtn">保存</button></div></div></div>
@@ -576,8 +572,8 @@
 
 <!-- 右下角柔和反馈标识 (尺寸极致缩小、半透明，其余完全不变) -->
 <div class="dev-credit">
-    <div>✍️ 这页好不好用，直接告诉我 <a href="mailto:ilikeitnow@qq.com">📧 ilikeitnow@qq.com</a></div>
-    <div class="demo-note">最近在持续迭代，欢迎提真实使用场景</div>
+    <div>邮箱 <a href="mailto:ilikeitnow@qq.com">📧 ilikeitnow@qq.com</a></div>
+    <div class="demo-note">持续迭代中</div>
 </div>
 
 <script>
@@ -586,17 +582,21 @@
     // 扩展默认标签: 增加人物小传等
     const DEFAULT_TAGS = ['原创','同人','奇幻','科幻','都市','古风','悬疑','言情','冒险','星际'];
     const DEFAULT_OUTLINE_TYPES = ['大纲','细纲','章纲','粗纲','节纲','卷纲','人物小传','设定集','时间线','场景','灵感','随笔'];
+    const DEFAULT_CHAPTER_STATUSES = ['草稿','修改中','完稿','待审'];
     const DEFAULT_ENCOURAGEMENTS = ["开始创作吧！", "灵感如泉涌！", "加油，作家！", "星辰大海等你书写", "笔耕不辍，故事不息", "每一个字都是星光", "创作不死", "故事正在生长", "你的想象无边界", "让文字飞翔"];
     
-    // 合并原内置标题 + 同人女词牌名 (去重)
+    // 合并原内置标题 
     const ORIGINAL_BUILTIN = ["当……","生长痛","无人区玫瑰","生如夏花","故人叹","日落大道","苦夏","凄美地","阿克琉斯之踵","孤雏","丛林法则","人非草木","戒断反应","无尽夏","让ta降落","智齿","暗涌","重庆森林","春光乍泄","阿拉斯加海湾","玫瑰之名","向死而生","斯德哥尔摩情人","病名为爱","飞鸟症","花吐症","失控","洛希极限","破茧","天生一对","百年不合","花样年华","苏州河","失忆蝴蝶","十年","最佳损友","真相是真","真相是假","葡萄成熟时","白月光与朱砂痣","百年孤独","傲慢与偏见","临时标记","纸飞机","春日宴","长相思","疯子","起风了","罗曼蒂克","匆匆那年","得寸进尺","鲸落","富士山下","词不达意","Soulmate","挪威的森林","爱人错过","台风眼","蝴蝶效应","平行世界","戒烟","与妻书","史密斯夫妇","天若有情","白日焰火","菟丝花","悖论","再世为人","纯真年代","低烧","夜色","美丽新世界","合租室友","假装情侣","蓄谋已久","修炼爱情","清醒梦","荒腔走板","不要温和地走入那个良夜","连名带姓","影子爱人","最优解","择日疯","溺水小刀","乌托邦","越人歌","枯木逢春","远大前程","盛夏光年","殊途同归","苦海慈航","窄门","晚婚","你一生的故事","灵与肉","kilig","打上花火","达尔文","莫比乌斯环","吴哥窟","失乐园","上瘾","恋爱的犀牛","普通朋友","从良","大眠","破晓","余震","悬溺","参商","说谎","梅雨季","感同身受","杀死玫瑰","漩涡","劳斯莱斯","黑羊","万叶集","枕草子","斜阳","孤独患者","从零开始的xx生活","爱的曝光","燕尾蝶","让她降落","裙下之臣","杀死一只知更鸟","故梦"];
     
     const EXTRA_TITLES_FROM_EXCEL = [
         "仿生xx会梦见电子xx吗？","xx爱情故事","露水玫瑰","枪与玫瑰","战地玫瑰","红白玫瑰","禁区玫瑰","野草","半生缘","降雨几率","仲夏夜之梦","致命温差","流浪玫瑰","今夜无人坠入情网","斯德哥尔摩","斯德哥尔摩综合症","金风玉露","xxx的使用/喂养手册","请以你的名字呼唤我","xx山顶","于无声处","错火","不xxx就出不去的房间","耳洞","初智齿","杀死美丽","新少年","理智与情感","最后的吻","金玉在外","入鞘","微光","长夜","为人师表","戒断","苦月亮","胆小鬼","天真有邪","涛声依旧","磨合期","春夏秋冬","命中注定","白饭粒与蚊子血","xx效应","寻人启事","但求疼","xx曝光实录","特别的人","穿男朋友/女朋友的衣服","狼人杀","xx思考期","往后余生","肌肤饥渴症","药石无医","热夏症候群","献给xx的xx","七年之痒","暴风雪山庄","xx几次做x事，还有一次他没有","二律背反","xx主义","欲壑难填","小姐","xx的喂养手册","xx相性一百问","关于我xx这回事","失眠飞行","恋爱日记","街尾蛇","命运螺旋","永冻河","昨夜星辰","梦在黎明破晓时","xx小时","xx之歌","最佳/模范+拍档/男友/丈夫/爱人/室友","十日谈","xxx的x天","过火","梦魔","初吻","初次发烧","筑果","金丝雀","笼中鸟","荷尔蒙偏差","玫瑰与子弹/野兽","九号房间","读心术是个好东西/当xx拥有了读心术","五十度灰","夜奔","不冻港","橘子汽水","长岛冰茶","弃猫效应","茉莉香片","当我们在谈论xx的时候我们在谈论什么","春日潮汐","台风过境","季风过境","吊桥效应","巴别塔","过敏","到此为止","灵魂印记","就回家吧","赤潮","爱人如养花","xx论坛体","创世纪","见春台","有情饮水饱","黑杰克","悖德供述","致xx","天才在左疯子在右","千禧曼波","不xx的xx不是好xx","告白","反方向的钟","xx是人生大事","得偿所愿","xx来信","爱在黄昏日落时","阅后即焚","冬令时","归途","x年又x年","流星夜/流星雨","编号89757","赏味期限","seeyouagain","相见不如怀念","干性溺水","樱花树下","爱是xx","隐秘之夜","狗/猫塑","日记","天时光利人不利","xx定理/定律效","Young And Beautiful","快把 xxx 带走","救风尘","xx，xx，xxx","教父","伐别礼","xx时期的爱情","无解","理想国","一流爱情","撞日死","xx旧事","xx文学","xx图鉴","万水千山","非典型 xxx","爱在黎明破晓前","倒淌河","最後的夜晚","当 xx 一觉醒来发现...","自深深处","天上再见","xx 礼赞","口腹之欲","love letter","说谎话要吞干根针","获得 xxx 的正确方式","谁的一辈子","枯木常青","xx选择xx","灵魂互换","诀别书","疼痛共感","One last kiss","遗憾","x 宗罪","26 个字母","楞次定律","同道殊途","一次 xx","至若春和景明","我最好朋友的婚礼","顽石","冻疮","太平山顶","远在咫尺","长路归家","因为一次意外xx竟然穿越到了xx","弄假成真","囚爱","子不语","echo","势同水火","哀的美敦书","第xx年的见异思迁","酷暑将至","自首","刺猬法则","灯塔","假如给我三天xx","敏感期","医者不自医","春风不度","嘉年华","忘不掉的人","如果我们第一次见面就接吻","xx贩卖机","恶性依赖","恨之入骨","电灯胆","可一可再","涩果","白日梦我","克莱因瓶","恨爱交加","热岛效应","时差","四时","匿名好友","自我催眠","回南天","倒春寒","思凡","败犬","禁","舌尖纹了玛丽亚","吃鲸鱼的人","字典与圣经","情感与废墟","溯洄","上元","冬暖","流金岁月","一路向西","飞蛾扑火","亡妻回忆录","漂亮朋友","负负得正","夜幕之后，天明之前","我亦飘零久","环岛公路","一個xxx準備去死","万古长青","蝶","毕业歌","弥赛亚","应许之地","xx突然变小了怎么办","xx突然变成猫了怎么办","xx饲养日记","人生余量九十天","望山跑死马","西雅图不眠夜","纽约往事","三十岁还是处会变成魔法师","当我们xx时我们在干什么","潮水不如期而来","吻","君不见","沉锚效应","雪落时","乞力马扎罗的雪","last night","亲密关系","xx综合症","刺探仪","夏日限定","十四行诗","茕茕","石楠小札","槲寄生","春日来信","秋日来信","秋收冬藏","感官世界","大小说家","拾荒","勉强幸福","县城文学","断点","粉丝来信","不协和音","沉默的大多数","涩谷川","十年樱","xx之上","xx至上","xx物语","xx失格","xx是xx（如“他是龙”）","海边的卡夫卡","四季歌","xx太受欢迎l怎么办","冰冷热带鱼","恋之罪","在无爱之森呐喊","山手线","燕尾蝶（ageha）","烂山竹","不启唇","潮间带","霉","思美人","xx观影xxxx（某人观影某行为/某世界…）","变成了最讨厌的样子","如果xx穿越进xx","素昧平生","第x种xx","原生之罪","传闻中的xx","能养猫吗","xx的快问快答","养只xx吧","我的一个xx朋友","第三十八年夏至"
     ];
-    const BUILTIN_TITLES = [...new Set([...ORIGINAL_BUILTIN, ...EXTRA_TITLES_FROM_EXCEL])];
+    const BUILTIN_TITLES_EN = [
+        "Ex-Lover","Tourist","Intruder","Nightwalker","Insomniac","Sleepwalker","Accomplice","Accessory","Perpetrator","Relic","Suicide Note","Embers","Rekindle","Dead Ashes","Spark","Prairie Fire","Blind Spot","Emotional Blind Spot","Safe Zone","Buffer Zone","No Man's Land","Epicenter","Aftershock Zone","Fault Zone","Doldrums","D-Day","Evacuation Day","Anniversary","Death Anniversary","Rebirth Day","Passing Day","Stolen Time","Borrowed Time","Circular Time","Infinite Loop","Repeat One","Heart Mode","Private Radar","Shared Playlist","Goodnight Song","Ringtone","Missed Call","Do Not Disturb","Friend Request","Favorites","Pinned Chat","Chat History","Cloud Record","Airplane Mode","Focus Mode","Dark Mode","Screen Time","Countdown","Count Up","Jet Lag Disorder","Biological Clock","Circadian Rhythm","Terminator","Date Line","Coordinates","Location Failed","Signal Lost","Signal Interference","Dead Zone","Navigation Bias","Route Deviation","Trajectory Drift","Emergency Plan","Record Filing","Version History","Access Log","Top Secret File","Private File","Relationship Transfer","Prescription","Incompatibility","Side Effect","Desensitization Therapy","Conservative Treatment","Surgical Plan","Pre-op Instructions","Post-op Recovery","Rehabilitation Training","Rehab Diary","Observation Diary","Lab Notebook","Controlled Experiment","Blank Control","Variable Control","Confounding Variable","Data Anomaly","Data Cleaning","Sampling Bias","Survivorship Bias","Anchoring Bias","False Memory","Implanted Memory","Flashback","Traumatic Memory","Somatic Memory","Cellular Memory","Instinctive Reaction","Conditioned Reflex","Learned Helplessness","Extinction","Stimulus Generalization","Behavioral Contract","Needs Assessment","Static Assessment","Construct Validity","Test-Retest Reliability","Scatter Plot","Survival Curve","Logistic Regression","Principal Component Analysis","Mediation Effect","Moderation Effect","Interaction Effect","Placebo Effect","Nocebo Effect","Pygmalion Effect","Halo Effect","Primacy Effect","Stereotype","Implicit Bias","Information Cocoon","Echo Chamber","Algorithmic Bias","Black Box Model","Decision Tree","Neural Network","Deep Learning","Attention Mechanism","Gradient Descent","Transfer Learning","Knowledge Distillation","Nash Equilibrium","Zero-sum Game","Prisoner's Dilemma","Signaling Game","Information Asymmetry","Adverse Selection","Moral Hazard","Principal-Agent Problem","Pareto Optimality","Opportunity Cost","Endowment Effect","Mental Accounting","Prospect Theory","Loss Aversion","Framing Effect","Nudge","Temporal Discounting","Self-control","Prenuptial Agreement","Custody","Guardianship","Inheritance Right","Palliative Care","Hospice Care","Grief Counseling","Psychological First Aid","Post-disaster Resettlement","Emergency Shelter","Disaster Drill"
+    ];
+    const BUILTIN_TITLES = [...new Set([...ORIGINAL_BUILTIN, ...EXTRA_TITLES_FROM_EXCEL, ...BUILTIN_TITLES_EN])];
     
-    let appData = { scripts: [], activeScriptId: null, customTags: [], customOutlineTypes: [], customTitles: [], encouragements: [] };
+    let appData = { scripts: [], activeScriptId: null, customTags: [], customOutlineTypes: [], customStatuses: [], customTitles: [], encouragements: [] };
     let globalTags = [];
     let currentEditingCharId = null;
     let editingRefId = null;
@@ -656,6 +656,7 @@
             if (!data.payload) return false;
             appData = data.payload;
             appData.customTags = appData.customTags || [];
+            appData.customStatuses = appData.customStatuses || [];
             localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
             return true;
         } catch(e){ console.warn(e); return false; }
@@ -679,6 +680,46 @@
     }
 
     function saveData(){ appData.customTags = globalTags.filter(t=>!DEFAULT_TAGS.includes(t)); localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); scheduleCreationCloudPush(); }
+    function allChapterStatuses() {
+        return [...new Set([...DEFAULT_CHAPTER_STATUSES, ...(appData.customStatuses || [])])];
+    }
+    function renderChapterStatusSelects() {
+        const rs = document.getElementById('recordStatus');
+        const sf = document.getElementById('statusFilterSelect');
+        if (!rs && !sf) return;
+        const prev = rs?.value;
+        const prevF = sf?.value;
+        const labels = allChapterStatuses();
+        const optHtml = labels.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+        if (rs) {
+            rs.innerHTML = optHtml;
+            if (prev && labels.includes(prev)) rs.value = prev;
+            else if (labels.length) rs.value = labels[0];
+        }
+        if (sf) {
+            sf.innerHTML = '<option value="">全部状态</option>' + optHtml;
+            sf.value = (prevF && labels.includes(prevF)) ? prevF : '';
+        }
+    }
+    function renderChapterStatusManager() {
+        const defBox = document.getElementById('chapterStatusBuiltinList');
+        const cusBox = document.getElementById('chapterStatusCustomList');
+        if (defBox) defBox.innerHTML = '<strong>内置：</strong> ' + DEFAULT_CHAPTER_STATUSES.map(s => `<span class="tag">${escapeHtml(s)}</span>`).join(' ');
+        if (cusBox) {
+            const arr = appData.customStatuses || [];
+            cusBox.innerHTML = arr.length === 0
+                ? '<div class="small-note">暂无自定义状态</div>'
+                : arr.map((s, i) => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0;"><span>${escapeHtml(s)}</span><button type="button" class="btn-sm del-chap-status" data-idx="${i}">删除</button></div>`).join('');
+            cusBox.querySelectorAll('.del-chap-status').forEach(btn => btn.addEventListener('click', () => {
+                const i = parseInt(btn.getAttribute('data-idx'), 10);
+                if (isNaN(i)) return;
+                appData.customStatuses.splice(i, 1);
+                saveData();
+                renderChapterStatusSelects();
+                renderChapterStatusManager();
+            }));
+        }
+    }
     function loadData(){
         const stored = localStorage.getItem(STORAGE_KEY);
         if(stored) try{ appData = JSON.parse(stored); }catch(e){}
@@ -690,6 +731,7 @@
         if(!appData.customTags) appData.customTags=[];
         globalTags=[...new Set([...DEFAULT_TAGS,...appData.customTags])];
         if(!appData.customOutlineTypes) appData.customOutlineTypes=[];
+        if(!appData.customStatuses) appData.customStatuses=[];
         if(!appData.customTitles) appData.customTitles=[];
         if(!appData.encouragements) appData.encouragements=[...DEFAULT_ENCOURAGEMENTS];
         appData.scripts.forEach(s=>{ 
@@ -708,6 +750,7 @@
         updateGreetingText();
         updateTitleStats();
         renderOutlineDatalist();
+        renderChapterStatusSelects();
     }
     function getActiveScript(){ return appData.scripts.find(s=>s.id===appData.activeScriptId); }
     function setDefaultDate(){ document.getElementById('recordDate').value = new Date().toISOString().slice(0,10); }
@@ -730,9 +773,17 @@
     function resetEncouragements(){ appData.encouragements=[...DEFAULT_ENCOURAGEMENTS]; saveData(); renderEncouragementManager(); updateGreetingText(); showToast('已重置默认鼓励语'); }
     function addEncouragement(text){ if(text && !appData.encouragements.includes(text)){ appData.encouragements.push(text); saveData(); renderEncouragementManager(); updateGreetingText(); showToast(`添加“${text}”`); return true; } return false; }
     function getAllTitles(){ return [...BUILTIN_TITLES, ...appData.customTitles]; }
-    function drawRandomTitle(){ let all=getAllTitles(); return all.length?all[Math.floor(Math.random()*all.length)]:'星辰之约'; }
+    function randomIndexBelow(n){
+        if (n <= 0) return 0;
+        const buf = new Uint32Array(1);
+        const lim = Math.floor(0x100000000 / n) * n;
+        let x;
+        do { crypto.getRandomValues(buf); x = buf[0]; } while (x >= lim);
+        return x % n;
+    }
+    function drawRandomTitle(){ let all=getAllTitles(); return all.length ? all[randomIndexBelow(all.length)] : '星辰之约'; }
     function renderLotteryResult(){ document.getElementById('lotteryResultDisplay').textContent=drawRandomTitle(); }
-    function updateTitleStats(){ let span=document.getElementById('titleStatsDisplay'); if(span) span.textContent=`📚 内置${BUILTIN_TITLES.length}+自定义${appData.customTitles.length}`; }
+    function updateTitleStats(){ let span=document.getElementById('titleStatsDisplay'); if(span){ let c=(appData.customTitles||[]).length; span.textContent=c?`📚 自定义 ${c}`:'📚'; } }
     function addCustomTitle(title){ if(title && !appData.customTitles.includes(title)){ appData.customTitles.push(title); saveData(); updateTitleStats(); renderTitleManagerList(); showToast(`添加标题“${title}”`); return true; } return false; }
     function removeCustomTitle(title){ let idx=appData.customTitles.indexOf(title); if(idx!==-1){ appData.customTitles.splice(idx,1); saveData(); updateTitleStats(); renderTitleManagerList(); showToast(`删除“${title}”`); } }
     function renderTitleManagerList(){ let container=document.getElementById('titleManagerListContainer'); if(!container) return; if(!appData.customTitles.length) container.innerHTML='<div>暂无自定义标题</div>'; else container.innerHTML=appData.customTitles.map(t=>`<div style="display:flex;justify-content:space-between;"><span>📌 ${escapeHtml(t)}</span><button class="btn-sm del-title" data-title="${escapeHtml(t)}">删除</button></div>`).join(''); document.querySelectorAll('.del-title').forEach(btn=>btn.addEventListener('click',()=>removeCustomTitle(btn.dataset.title))); }
@@ -954,14 +1005,17 @@
         else { start.setDate(1); }
         const records=(script.records||[]).filter(r=>r.date && new Date(r.date)>=start);
         const totalWords = countWords(script.outline?.text||'') + records.reduce((s,r)=>s+countWords(r.reflection),0);
-        const statusCount = {草稿:0,修改中:0,完稿:0,待审:0}; records.forEach(r=>statusCount[r.status||'草稿']=(statusCount[r.status||'草稿']||0)+1);
+        const statusCount = {};
+        allChapterStatuses().forEach(s => { statusCount[s] = 0; });
+        records.forEach(r => { const s = r.status || '草稿'; statusCount[s] = (statusCount[s] || 0) + 1; });
+        const statusLine = allChapterStatuses().map(s => `${s}${statusCount[s] || 0}`).join(' / ');
         const topKeywords = extractTopKeywords(records.map(r=>r.reflection||''), 8);
         return [
             `${script.name} ${mode==='week'?'本周':'本月'}创作摘要`,
             `统计区间开始：${dateKey(start)}`,
             `记录数：${records.length}`,
             `字数（大纲+笔记）：${totalWords}`,
-            `状态分布：草稿${statusCount['草稿']} / 修改中${statusCount['修改中']} / 完稿${statusCount['完稿']} / 待审${statusCount['待审']}`,
+            `状态分布：${statusLine}`,
             `TOP 关键词：${topKeywords.length ? topKeywords.map(([k,v])=>`${k}(${v})`).join('、') : '暂无足够文本数据'}`,
             `最近更新：${records.sort((a,b)=>(b.date||'').localeCompare(a.date||''))[0]?.date || '-'}`,
             `建议：优先清理“待审”和“修改中”章节，形成稳定完稿节奏。`
@@ -972,7 +1026,7 @@
         const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
     }
 
-    function refreshUI(){ renderSidebar(); renderRecords(); renderCharactersAndWorld(); renderOutline(); renderReferences(); renderLotteryResult(); renderGoalTracking(); renderTimeline(); renderHealthScore(); renderProjectCompare(); }
+    function refreshUI(){ renderSidebar(); renderRecords(); renderCharactersAndWorld(); renderOutline(); renderReferences(); renderLotteryResult(); renderGoalTracking(); renderTimeline(); renderChapterStatusSelects(); renderHealthScore(); renderProjectCompare(); }
     function openScriptModal(script){ let modal=document.getElementById('scriptModal'); document.getElementById('modalScriptName').value=script?script.name:''; renderTagSelector(script?.tags||[]); window._editingScriptId=script?.id; modal.style.visibility='visible'; }
     function renderTagSelector(selected=[]){ let container=document.getElementById('tagSelectorContainer'); if(!container) return; container.innerHTML=globalTags.map(t=>`<span class="tag-chip ${selected.includes(t)?'selected':''}" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join(''); document.querySelectorAll('.tag-chip').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('selected'))); }
     function renderOutlineDatalist(){ let datalist=document.getElementById('outlineTypeOptions'); let allTypes=[...DEFAULT_OUTLINE_TYPES,...appData.customOutlineTypes]; datalist.innerHTML=allTypes.map(t=>`<option value="${escapeHtml(t)}">`).join(''); }
@@ -1056,6 +1110,20 @@
         document.getElementById('manageOutlineTypesBtn')?.addEventListener('click',()=>{ let container=document.getElementById('customOutlineTypesList'); container.innerHTML=appData.customOutlineTypes.map((t,idx)=>`<div style="display:flex;justify-content:space-between;"><span>📌 ${escapeHtml(t)}</span><button class="btn-sm del-type" data-idx="${idx}">删除</button></div>`).join(''); document.querySelectorAll('.del-type').forEach(btn=>btn.addEventListener('click',()=>{ let idx=parseInt(btn.dataset.idx); appData.customOutlineTypes.splice(idx,1); saveData(); renderOutlineDatalist(); document.getElementById('manageOutlineTypesModal').style.visibility='hidden'; showToast('已删除'); })); document.getElementById('manageOutlineTypesModal').style.visibility='visible'; });
         document.getElementById('addOutlineTypeBtn')?.addEventListener('click',()=>{ let val=document.getElementById('newOutlineTypeInput').value.trim(); if(val && !DEFAULT_OUTLINE_TYPES.includes(val) && !appData.customOutlineTypes.includes(val)){ appData.customOutlineTypes.push(val); saveData(); renderOutlineDatalist(); document.getElementById('newOutlineTypeInput').value=''; showToast('已添加'); } });
         document.getElementById('closeOutlineTypesBtn')?.addEventListener('click',()=>document.getElementById('manageOutlineTypesModal').style.visibility='hidden');
+        document.getElementById('manageChapterStatusBtn')?.addEventListener('click',()=>{ renderChapterStatusManager(); document.getElementById('manageChapterStatusModal').style.visibility='visible'; });
+        document.getElementById('closeChapterStatusBtn')?.addEventListener('click',()=>document.getElementById('manageChapterStatusModal').style.visibility='hidden');
+        document.getElementById('addChapterStatusBtn')?.addEventListener('click',()=>{
+            const v = document.getElementById('newChapterStatusInput').value.trim();
+            if (!v) return;
+            if (allChapterStatuses().includes(v)) { showToast('已存在'); return; }
+            if (!appData.customStatuses) appData.customStatuses = [];
+            appData.customStatuses.push(v);
+            document.getElementById('newChapterStatusInput').value = '';
+            saveData();
+            renderChapterStatusSelects();
+            renderChapterStatusManager();
+            showToast('已添加状态');
+        });
         ['insertHeadingBtn','insertListBtn','insertBoldBtn','insertDividerBtn'].forEach(id=>{ document.getElementById(id)?.addEventListener('click',()=>{ let ta=document.getElementById('outlineTextArea'); let start=ta.selectionStart; let end=ta.selectionEnd; let text=ta.value; let insert=''; if(id==='insertHeadingBtn') insert='\n## 二级标题\n'; else if(id==='insertListBtn') insert='\n- 列表项\n'; else if(id==='insertBoldBtn') insert='**加粗文字**'; else if(id==='insertDividerBtn') insert='\n---\n'; ta.value=text.slice(0,start)+insert+text.slice(end); ta.focus(); }); });
         document.getElementById('uploadOutlineBtn')?.addEventListener('click',()=>{ let input=document.createElement('input'); input.type='file'; input.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ let b64=ev.target.result; if(file.name.endsWith('.txt')||file.name.endsWith('.md')){ let text=atob(b64.split(',')[1]); document.getElementById('outlineTextArea').value=text; } let script=getActiveScript(); if(script){ script.outline.fileName=file.name; script.outline.fileContent=b64; saveData(); renderOutline(); } }; reader.readAsDataURL(file); } }; input.click(); });
         document.getElementById('openOutlineFileBtn')?.addEventListener('click',()=>{ let script=getActiveScript(); if(script?.outline?.fileContent){ let a=document.createElement('a'); a.href=script.outline.fileContent; a.download=script.outline.fileName; a.click(); } });

@@ -375,9 +375,12 @@
 
         <!-- 宠物信息卡片 -->
         <div class="card">
-            <div class="card-header" style="display:flex; justify-content:space-between;">
+            <div class="card-header" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
                 <span>🐶 我的宠物</span>
-                <button class="btn btn-sm btn-primary" id="showAddPetBtn">➕ 添加宠物</button>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-sm" id="openPetDictionaryBtn" title="物种、花费类别、驱虫类型">⚙️ 自定义选项</button>
+                    <button class="btn btn-sm btn-primary" id="showAddPetBtn">➕ 添加宠物</button>
+                </div>
             </div>
             <div id="petListContainer"></div>
             <div style="margin-top:12px;">
@@ -472,11 +475,7 @@
             </div>
             <div id="addDewormForm" style="display:none;">
                 <div class="input-group">
-                    <select id="dewormType">
-                        <option value="体内">🧬 体内</option>
-                        <option value="体外">🛡️ 体外</option>
-                        <option value="体内外">🧬🛡️ 体内外</option>
-                    </select>
+                    <select id="dewormType"></select>
                     <input type="text" id="dewormProduct" placeholder="药名/品牌 (可选)">
                     <input type="date" id="dewormDate" value="">
                     <input type="date" id="dewormNextDue" value="">
@@ -527,13 +526,7 @@
             </div>
             <div id="addExpenseForm" style="display:none;">
                 <div class="input-group">
-                    <select id="expenseCategory">
-                        <option value="食品">🍖 食品</option>
-                        <option value="医疗">💊 医疗</option>
-                        <option value="美容">✂️ 美容</option>
-                        <option value="玩具">🧸 玩具</option>
-                        <option value="其他">📦 其他</option>
-                    </select>
+                    <select id="expenseCategory"></select>
                     <input type="number" id="expenseAmount" placeholder="金额 (元)" min="0" step="0.01">
                     <input type="date" id="expenseDate" value="">
                     <input type="text" id="expenseNote" placeholder="备注 (可选)">
@@ -670,7 +663,7 @@
         </div>
         <div class="input-group">
             <input type="text" id="petName" placeholder="名字 *" maxlength="20">
-            <select id="petSpecies"><option value="🐱 猫">🐱 猫咪</option><option value="🐶 狗">🐶 狗狗</option></select>
+            <select id="petSpecies"></select>
             <input type="text" id="petBreed" placeholder="品种 (如: 布偶)">
             <input type="number" id="petWeight" placeholder="体重 (kg)" step="0.1" min="0">
             <input type="date" id="petBirth" value="">
@@ -708,6 +701,41 @@
     </div>
 </div>
 
+<!-- 自定义选项（物种 / 花费类别 / 驱虫类型） -->
+<div id="dictionaryModal" class="modal-overlay" style="display:none;">
+    <div class="modal" style="max-width:440px;">
+        <h3 style="margin-bottom:12px;">⚙️ 自定义选项库</h3>
+        <p class="small-note" style="margin-bottom:12px;">以下为追加项；内置选项不可删除。用于下拉框与新建记录。</p>
+        <div style="margin-bottom:16px;">
+            <strong>物种</strong>（如 🐰 兔）
+            <div id="dictSpeciesList" style="margin:6px 0; max-height:120px; overflow:auto;"></div>
+            <div class="input-group" style="margin:8px 0;">
+                <input type="text" id="dictNewSpecies" placeholder="输入物种显示文案，建议含 emoji" maxlength="24">
+                <button type="button" class="btn btn-primary btn-sm" id="dictAddSpeciesBtn">添加</button>
+            </div>
+        </div>
+        <div style="margin-bottom:16px;">
+            <strong>花费类别</strong>
+            <div id="dictExpenseList" style="margin:6px 0; max-height:100px; overflow:auto;"></div>
+            <div class="input-group" style="margin:8px 0;">
+                <input type="text" id="dictNewExpense" placeholder="新类别名称" maxlength="16">
+                <button type="button" class="btn btn-primary btn-sm" id="dictAddExpenseBtn">添加</button>
+            </div>
+        </div>
+        <div style="margin-bottom:16px;">
+            <strong>驱虫类型</strong>
+            <div id="dictDewormList" style="margin:6px 0; max-height:100px; overflow:auto;"></div>
+            <div class="input-group" style="margin:8px 0;">
+                <input type="text" id="dictNewDeworm" placeholder="新类型名称" maxlength="16">
+                <button type="button" class="btn btn-primary btn-sm" id="dictAddDewormBtn">添加</button>
+            </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-primary" id="closeDictionaryModal">完成</button>
+        </div>
+    </div>
+</div>
+
 <!-- 导入备份文件 input (隐藏) -->
 <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;">
 
@@ -734,6 +762,119 @@
         const STORAGE_THEME = 'ui_theme_v1';
         const STORAGE_NOTIF = 'ui_notif_enabled_v1';
         const STORAGE_A11Y_MODE = 'ui_accessibility_mode_v1';
+        const STORAGE_PET_DICTIONARY = 'pet_dictionary_v1';
+
+        const DEFAULT_SPECIES_OPTIONS = [{ value: '🐱 猫', label: '🐱 猫咪' }, { value: '🐶 狗', label: '🐶 狗狗' }];
+        const DEFAULT_EXPENSE_KEYS = ['食品', '医疗', '美容', '玩具', '其他'];
+        const DEFAULT_EXPENSE_OPTIONS = [['食品', '🍖 食品'], ['医疗', '💊 医疗'], ['美容', '✂️ 美容'], ['玩具', '🧸 玩具'], ['其他', '📦 其他']];
+        const DEFAULT_DEWORM_KEYS = ['体内', '体外', '体内外'];
+        const DEFAULT_DEWORM_OPTIONS = [['体内', '🧬 体内'], ['体外', '🛡️ 体外'], ['体内外', '🧬🛡️ 体内外']];
+
+        let dictSpeciesCustom = [];
+        let dictExpenseCustom = [];
+        let dictDewormCustom = [];
+
+        function loadPetDictionary() {
+            try {
+                const raw = localStorage.getItem(STORAGE_PET_DICTIONARY);
+                if (!raw) return;
+                const d = JSON.parse(raw);
+                dictSpeciesCustom = Array.isArray(d.species) ? d.species.filter(Boolean) : [];
+                dictExpenseCustom = Array.isArray(d.expenseCategories) ? d.expenseCategories.filter(Boolean) : [];
+                dictDewormCustom = Array.isArray(d.dewormTypes) ? d.dewormTypes.filter(Boolean) : [];
+            } catch (e) {}
+        }
+        function savePetDictionary() {
+            localStorage.setItem(STORAGE_PET_DICTIONARY, JSON.stringify({
+                species: dictSpeciesCustom,
+                expenseCategories: dictExpenseCustom,
+                dewormTypes: dictDewormCustom
+            }));
+        }
+        function escAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+        function escapeHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        function speciesAvatarEmoji(species) {
+            const s = String(species || '');
+            if (s === '🐱 猫') return '🐱';
+            if (s === '🐶 狗') return '🐶';
+            const ch = [...s.trim()][0];
+            return ch || '🐾';
+        }
+        function refreshDictionarySelects() {
+            const speciesSel = document.getElementById('petSpecies');
+            const expSel = document.getElementById('expenseCategory');
+            const dewSel = document.getElementById('dewormType');
+            const prevSp = speciesSel?.value;
+            const prevE = expSel?.value;
+            const prevD = dewSel?.value;
+            const seenSp = new Set(DEFAULT_SPECIES_OPTIONS.map(o => o.value));
+            const spOpts = DEFAULT_SPECIES_OPTIONS.map(o => `<option value="${escAttr(o.value)}">${o.label}</option>`);
+            dictSpeciesCustom.forEach(v => {
+                if (seenSp.has(v)) return;
+                seenSp.add(v);
+                spOpts.push(`<option value="${escAttr(v)}">${escapeHtml(v)}</option>`);
+            });
+            if (speciesSel) {
+                speciesSel.innerHTML = spOpts.join('');
+                if (prevSp && [...speciesSel.options].some(o => o.value === prevSp)) speciesSel.value = prevSp;
+            }
+            const defEk = new Set(DEFAULT_EXPENSE_KEYS);
+            const expOpts = DEFAULT_EXPENSE_OPTIONS.map(([v, lab]) => `<option value="${escAttr(v)}">${lab}</option>`);
+            dictExpenseCustom.forEach(v => {
+                if (!defEk.has(v)) expOpts.push(`<option value="${escAttr(v)}">${escapeHtml(v)}</option>`);
+            });
+            if (expSel) {
+                expSel.innerHTML = expOpts.join('');
+                if (prevE && [...expSel.options].some(o => o.value === prevE)) expSel.value = prevE;
+            }
+            const defDk = new Set(DEFAULT_DEWORM_KEYS);
+            const dewOpts = DEFAULT_DEWORM_OPTIONS.map(([v, lab]) => `<option value="${escAttr(v)}">${lab}</option>`);
+            dictDewormCustom.forEach(v => {
+                if (!defDk.has(v)) dewOpts.push(`<option value="${escAttr(v)}">${escapeHtml(v)}</option>`);
+            });
+            if (dewSel) {
+                dewSel.innerHTML = dewOpts.join('');
+                if (prevD && [...dewSel.options].some(o => o.value === prevD)) dewSel.value = prevD;
+            }
+        }
+        function renderDictionaryModalLists() {
+            const boxS = document.getElementById('dictSpeciesList');
+            const boxE = document.getElementById('dictExpenseList');
+            const boxD = document.getElementById('dictDewormList');
+            if (boxS) {
+                boxS.innerHTML = DEFAULT_SPECIES_OPTIONS.map(o => `<div class="small-note">${escapeHtml(o.label)} <span style="opacity:0.6;">(内置)</span></div>`).join('') +
+                    dictSpeciesCustom.map(v => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0;"><span>${escapeHtml(v)}</span><button type="button" class="btn btn-sm del-dict-species" data-v="${escAttr(v)}">删除</button></div>`).join('');
+                boxS.querySelectorAll('.del-dict-species').forEach(btn => btn.addEventListener('click', () => {
+                    const v = btn.getAttribute('data-v');
+                    dictSpeciesCustom = dictSpeciesCustom.filter(x => x !== v);
+                    savePetDictionary();
+                    refreshDictionarySelects();
+                    renderDictionaryModalLists();
+                }));
+            }
+            if (boxE) {
+                boxE.innerHTML = DEFAULT_EXPENSE_OPTIONS.map(([v, lab]) => `<div class="small-note">${lab} <span style="opacity:0.6;">(内置)</span></div>`).join('') +
+                    dictExpenseCustom.map(v => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0;"><span>${escapeHtml(v)}</span><button type="button" class="btn btn-sm del-dict-expense" data-v="${escAttr(v)}">删除</button></div>`).join('');
+                boxE.querySelectorAll('.del-dict-expense').forEach(btn => btn.addEventListener('click', () => {
+                    const v = btn.getAttribute('data-v');
+                    dictExpenseCustom = dictExpenseCustom.filter(x => x !== v);
+                    savePetDictionary();
+                    refreshDictionarySelects();
+                    renderDictionaryModalLists();
+                }));
+            }
+            if (boxD) {
+                boxD.innerHTML = DEFAULT_DEWORM_OPTIONS.map(([v, lab]) => `<div class="small-note">${lab} <span style="opacity:0.6;">(内置)</span></div>`).join('') +
+                    dictDewormCustom.map(v => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0;"><span>${escapeHtml(v)}</span><button type="button" class="btn btn-sm del-dict-deworm" data-v="${escAttr(v)}">删除</button></div>`).join('');
+                boxD.querySelectorAll('.del-dict-deworm').forEach(btn => btn.addEventListener('click', () => {
+                    const v = btn.getAttribute('data-v');
+                    dictDewormCustom = dictDewormCustom.filter(x => x !== v);
+                    savePetDictionary();
+                    refreshDictionarySelects();
+                    renderDictionaryModalLists();
+                }));
+            }
+        }
 
         const VACCINE_CYCLES = { '猫三联':365, '狂犬疫苗':365, '犬六联':1095, '犬八联':1095 };
         const VACCINE_KB = {
@@ -803,6 +944,13 @@
                 if (Array.isArray(p.deworms)) deworms = p.deworms;
                 if (Array.isArray(p.weightLogs)) weightLogs = p.weightLogs;
                 if (p.reminderConversions && typeof p.reminderConversions === 'object') reminderConversions = p.reminderConversions;
+                if (p.dictionaries && typeof p.dictionaries === 'object') {
+                    dictSpeciesCustom = Array.isArray(p.dictionaries.species) ? p.dictionaries.species : dictSpeciesCustom;
+                    dictExpenseCustom = Array.isArray(p.dictionaries.expenseCategories) ? p.dictionaries.expenseCategories : dictExpenseCustom;
+                    dictDewormCustom = Array.isArray(p.dictionaries.dewormTypes) ? p.dictionaries.dewormTypes : dictDewormCustom;
+                    savePetDictionary();
+                    refreshDictionarySelects();
+                }
                 saveAll();
                 return true;
             } catch (e) {
@@ -824,7 +972,12 @@
                             deworms,
                             weightLogs,
                             reminderConversions,
-                            schemaVersion: 1
+                            dictionaries: {
+                                species: dictSpeciesCustom,
+                                expenseCategories: dictExpenseCustom,
+                                dewormTypes: dictDewormCustom
+                            },
+                            schemaVersion: 2
                         }
                     })
                 });
@@ -968,7 +1121,7 @@
             pets.forEach(p => {
                 const avatarHtml = p.avatar 
                     ? `<img src="${p.avatar}">` 
-                    : `<span>${p.species === '🐱 猫' ? '🐱' : '🐶'}</span>`;
+                    : `<span>${speciesAvatarEmoji(p.species)}</span>`;
                 const info = [p.breed, p.weight ? p.weight+'kg' : ''].filter(Boolean).join(' · ');
                 html += `<div style="display:flex; align-items:center; margin-bottom:8px; background:#fef6f2; padding:8px 12px; border-radius:40px;" data-pet-id="${p.id}">`;
                 html += `<div class="pet-avatar-small" style="cursor:pointer;" data-edit-pet="${p.id}">${avatarHtml}</div>`;
@@ -1686,6 +1839,13 @@
                         deworms = data.deworms || [];
                         weightLogs = data.weightLogs || [];
                         reminderConversions = data.reminderConversions || {};
+                        if (data.dictionaries && typeof data.dictionaries === 'object') {
+                            dictSpeciesCustom = Array.isArray(data.dictionaries.species) ? data.dictionaries.species : [];
+                            dictExpenseCustom = Array.isArray(data.dictionaries.expenseCategories) ? data.dictionaries.expenseCategories : [];
+                            dictDewormCustom = Array.isArray(data.dictionaries.dewormTypes) ? data.dictionaries.dewormTypes : [];
+                            savePetDictionary();
+                            refreshDictionarySelects();
+                        }
                         vaccines.forEach(v => { v.brand = v.brand || ''; v.batch = v.batch || ''; });
                         pets.forEach(p => { p.avatar = p.avatar || ''; p.breed = p.breed || ''; p.weight = p.weight || ''; });
                         saveAll();
@@ -1737,7 +1897,7 @@
                 } else {
                     avatarImg.style.display = 'none';
                     avatarEmoji.style.display = 'block';
-                    avatarEmoji.textContent = pet.species === '🐱 猫' ? '🐱' : '🐶';
+                    avatarEmoji.textContent = speciesAvatarEmoji(pet.species);
                     clearBtn.style.display = 'none';
                 }
             } else {
@@ -1822,6 +1982,51 @@
 
         // 事件绑定
         function bindEvents() {
+            document.getElementById('openPetDictionaryBtn')?.addEventListener('click', () => {
+                renderDictionaryModalLists();
+                document.getElementById('dictionaryModal').style.display = 'flex';
+            });
+            document.getElementById('closeDictionaryModal')?.addEventListener('click', () => {
+                document.getElementById('dictionaryModal').style.display = 'none';
+            });
+            document.getElementById('dictAddSpeciesBtn')?.addEventListener('click', () => {
+                const v = document.getElementById('dictNewSpecies').value.trim();
+                if (!v) return;
+                if (dictSpeciesCustom.includes(v) || DEFAULT_SPECIES_OPTIONS.some(o => o.value === v)) { alert('已存在'); return; }
+                dictSpeciesCustom.push(v);
+                document.getElementById('dictNewSpecies').value = '';
+                savePetDictionary();
+                refreshDictionarySelects();
+                renderDictionaryModalLists();
+            });
+            document.getElementById('dictAddExpenseBtn')?.addEventListener('click', () => {
+                const v = document.getElementById('dictNewExpense').value.trim();
+                if (!v) return;
+                if (DEFAULT_EXPENSE_KEYS.includes(v) || dictExpenseCustom.includes(v)) { alert('已存在'); return; }
+                dictExpenseCustom.push(v);
+                document.getElementById('dictNewExpense').value = '';
+                savePetDictionary();
+                refreshDictionarySelects();
+                renderDictionaryModalLists();
+            });
+            document.getElementById('dictAddDewormBtn')?.addEventListener('click', () => {
+                const v = document.getElementById('dictNewDeworm').value.trim();
+                if (!v) return;
+                if (DEFAULT_DEWORM_KEYS.includes(v) || dictDewormCustom.includes(v)) { alert('已存在'); return; }
+                dictDewormCustom.push(v);
+                document.getElementById('dictNewDeworm').value = '';
+                savePetDictionary();
+                refreshDictionarySelects();
+                renderDictionaryModalLists();
+            });
+            document.getElementById('petSpecies')?.addEventListener('change', () => {
+                const avatarImg = document.getElementById('avatarImg');
+                const avatarEmoji = document.getElementById('avatarEmoji');
+                if (avatarImg && avatarEmoji && avatarImg.style.display === 'none') {
+                    avatarEmoji.textContent = speciesAvatarEmoji(document.getElementById('petSpecies').value);
+                }
+            });
+
             // 底部导航
             document.querySelectorAll('.tab-item').forEach(t => {
                 t.addEventListener('click', () => {
@@ -1865,7 +2070,7 @@
                 avatarImg.style.display = 'none';
                 avatarEmoji.style.display = 'block';
                 const species = document.getElementById('petSpecies').value;
-                avatarEmoji.textContent = species === '🐱 猫' ? '🐱' : '🐶';
+                avatarEmoji.textContent = speciesAvatarEmoji(species);
                 clearBtn.style.display = 'none';
             });
 
@@ -2278,6 +2483,8 @@
                 }
             });
 
+            loadPetDictionary();
+            refreshDictionarySelects();
             await tryLoadPetFromCloud();
             loadData();
             refreshPetSelects();

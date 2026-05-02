@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="description" content="王天娇 · 作品集 — 展现从0到1的AI产品落地能力，融合语言学背景与产品思维 | 含A/B测试模拟报告及Tableau风格看板">
-    <title>王天娇 · vibe coding产品运营设计作品集 ·</title>
+    <meta name="description" content="王天娇 · 产品经理实习生作品集 — 需求取舍与用户验证 | 宠伴/会议舱嵌图表与指标口径，完整产品案例叙事">
+    <title>王天娇 · 产品经理实习生 · 作品集</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <style>
@@ -583,7 +583,8 @@
             background-color: #ffffff;
         }
         @media (max-width: 640px) {
-            .project-card:hover {
+            .project-card:hover,
+            .project-card-wrap:hover {
                 transform: translateY(0);
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             }
@@ -674,10 +675,83 @@
             cursor: pointer;
             min-height: 36px;
         }
-        .project-card:hover .project-link {
+        .project-card:hover .project-link,
+        .project-card-hit:hover .project-link {
             color: #1e4a6b;
             gap: 10px;
             border-bottom-color: #3b6e8b;
+        }
+        .project-card-wrap {
+            display: block;
+            background: #ffffff;
+            border-radius: clamp(14px, 2vw, 18px);
+            padding: clamp(18px, 2.8vw, 28px) clamp(16px, 2.8vw, 28px);
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+        .project-card-wrap:hover {
+            border-color: rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
+            background-color: #ffffff;
+        }
+        .project-card-hit {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .project-learn-more {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+            font-size: clamp(0.76rem, 1vw, 0.84rem);
+            font-weight: 500;
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s;
+            min-height: 36px;
+        }
+        .project-learn-more:hover {
+            color: #0f172a;
+        }
+        .story-block {
+            border-left: 3px solid rgba(0, 113, 227, 0.35);
+            padding-left: 14px;
+            margin-top: 12px;
+        }
+        .story-block h4 {
+            font-size: clamp(0.88rem, 1.05vw, 0.98rem);
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .story-block p {
+            font-size: clamp(0.8rem, 0.98vw, 0.9rem);
+            color: #334155;
+            line-height: 1.62;
+        }
+        .insight-strip {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: clamp(14px, 2vw, 18px);
+            padding: clamp(16px, 2.5vw, 22px) clamp(18px, 2.8vw, 24px);
+            margin: clamp(20px, 3vw, 28px) 0;
+        }
+        .insight-strip h3 {
+            font-size: clamp(1rem, 1.35vw, 1.15rem);
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .insight-strip p {
+            font-size: clamp(0.82rem, 1vw, 0.92rem);
+            color: #475569;
+            line-height: 1.65;
         }
 
         /* ===== 设计文档区 ===== */
@@ -1137,15 +1211,11 @@
             <button class="toc-toggle" id="tocToggleBtn" aria-label="折叠大纲">◀</button>
         </div>
         <ul class="toc-list">
+            <li class="toc-item"><a href="#flagship-journey" class="toc-link"><span class="toc-icon">🐾</span><span>宠伴案例</span></a></li>
+            <li class="toc-item"><a href="#all-projects" class="toc-link"><span class="toc-icon">🧩</span><span>全部项目</span></a></li>
+            <li class="toc-item"><a href="#meeting-case-study" class="toc-link"><span class="toc-icon">🎙️</span><span>会议案例</span></a></li>
             <li class="toc-item"><a href="#design-methodology" class="toc-link"><span class="toc-icon">💡</span><span>方法论</span></a></li>
-            <li class="toc-item"><a href="#abtest-report" class="toc-link"><span class="toc-icon">📊</span><span>商业测试</span></a></li>
-            <li class="toc-item"><a href="#sql-proof" class="toc-link"><span class="toc-icon">🛠️</span><span>SQL验证</span></a></li>
-            <li class="toc-item"><a href="#tableau-showcase" class="toc-link"><span class="toc-icon">📈</span><span>Tableau看板</span></a></li>
-            <li class="toc-item"><a href="#project-pet" class="toc-link"><span class="toc-icon">🐾</span><span>宠伴健康台账</span></a></li>
-            <li class="toc-item"><a href="#project-creation" class="toc-link"><span class="toc-icon">✍️</span><span>星途创作舱</span></a></li>
-            <li class="toc-item"><a href="#project-script" class="toc-link"><span class="toc-icon">📋</span><span>剧本复盘舱</span></a></li>
-            <li class="toc-item"><a href="#project-meeting" class="toc-link"><span class="toc-icon">🎙️</span><span>会议反刍舱</span></a></li>
-            <li class="toc-item"><a href="#design-docs" class="toc-link"><span class="toc-icon">📄</span><span>设计文档</span></a></li>
+            <li class="toc-item"><a href="#design-docs" class="toc-link"><span class="toc-icon">📄</span><span>迭代文档</span></a></li>
             <li class="toc-item"><a href="#contact-section" class="toc-link"><span class="toc-icon">📬</span><span>联系</span></a></li>
         </ul>
     </aside>
@@ -1153,14 +1223,10 @@
     <!-- ===== 移动端底部导航 ===== -->
     <nav class="mobile-bottom-nav" aria-label="移动端快速导航">
         <div class="mobile-bottom-nav-inner">
-            <a href="#design-methodology">💡 方法论</a>
-            <a href="#abtest-report">📊 商业测试</a>
-            <a href="#sql-proof">🛠️ SQL</a>
-            <a href="#tableau-showcase">📈 看板</a>
-            <a href="#project-pet">🐾 宠伴台账</a>
-            <a href="#project-creation">✍️ 创作舱</a>
-            <a href="#project-script">📋 复盘舱</a>
-            <a href="#project-meeting">🎙️ 反刍舱</a>
+            <a href="#flagship-journey">🐾 宠伴</a>
+            <a href="#all-projects">🧩 项目</a>
+            <a href="#meeting-case-study">🎙️ 会议</a>
+            <a href="#design-methodology">💡 方法</a>
             <a href="#design-docs">📄 文档</a>
             <a href="#contact-section">📬 联系</a>
         </div>
@@ -1169,16 +1235,15 @@
     <div class="container">
         <div class="hero">
             <h1>王天娇</h1>
-            <p style="font-size:clamp(1rem, 1.6vw, 1.25rem); font-weight:500; color:#1e293b; margin: 8px 0 4px;">用语言学读懂用户，用数据把产品做对</p>
-            <p style="font-size:clamp(0.8rem, 1.1vw, 0.95rem); color:#475569; margin: 0 0 16px;">喜欢从真实场景里挖需求，再靠数据和反馈把东西改到好用。</p>
+            <p style="font-size:clamp(1rem, 1.6vw, 1.25rem); font-weight:500; color:#1e293b; margin: 8px 0 4px;">用语言学读懂用户，用数据把决策做对</p>
+            <p style="font-size:clamp(0.8rem, 1.1vw, 0.95rem); color:#475569; margin: 0 0 16px;">求职<strong>产品经理实习生</strong>：用访谈与竞品线索定义问题，用优先级与假设验证做取舍——4 个从 0 到 1 的项目均有反馈闭环；宠伴案例中核心意愿指标与作品集内图表、SQL 口径一致。</p>
             <div class="badge-group">
-                <span class="badge">✨ AI驱动 · 独立开发</span>
-                <span class="badge">📈 数据驱动决策</span>
-                <span class="badge">⚡ 从0到1落地</span>
+                <span class="badge">🎯 需求与取舍</span>
+                <span class="badge">📈 假设—验证—指标</span>
+                <span class="badge">⚡ 从0到1闭环</span>
             </div>
             <div class="subtitle">
-                香港理工大学 · 中国语言学研究生<br>
-                产品思维 + AI 协作编码 + 指标与实验叙事（作品集内含 Chart.js 演示看板）
+                香港理工大学 · 中国语言学研究生 · 用数据驱动决策，用 AI 加速落地
             </div>
             <div class="hero-detail">
                 <span>📍 可立即到岗</span>
@@ -1189,145 +1254,58 @@
 
         <div class="divider-light"></div>
 
-        <!-- ===== 产品设计方法论总览 ===== -->
-        <div id="design-methodology" class="methodology-section scroll-margin">
+        <!-- ===== 宠伴：产品案例（图表与 SQL 嵌在本故事内） ===== -->
+        <div id="flagship-journey" class="methodology-section scroll-margin">
             <div class="methodology-header">
-                <h2>💡 我是怎么做产品的：从想法到能被用户用起来</h2>
-                <p class="methodology-sub">不是列一堆功能，而是每一步都能回答"为什么做"和"做得怎么样"</p>
+                <h2>🐾 宠伴·健康台账（产品负责人）</h2>
+                <p class="methodology-sub">通过用户研究、假设验证与持续迭代，解决多宠家庭「疫苗遗忘」与记录摩擦，推动核心行为指标提升。</p>
             </div>
-            <div class="methodology-steps">
-                <div class="method-step">
-                    <div class="step-marker">①</div>
-                    <div class="step-content">
-                        <h4><span class="step-icon">🔍</span> 先找到真正烦人的小场景</h4>
-                        <p>我挑了4个自己或身边人会反复抱怨、但市面上要么太复杂要么要钱的小需求：</p>
-                        <ul class="step-mini-list">
-                            <li><strong>🐾 养猫养狗的朋友</strong> → 老忘记疫苗时间，记账和提醒混在一起很烦</li>
-                            <li><strong>✍️ 写网文的朋友</strong> → 大纲在备忘录，角色设定在便签，灵感散落在聊天记录里</li>
-                            <li><strong>📋 写剧本的朋友</strong> → 改来改去，早就忘了当初为什么删那场戏</li>
-                            <li><strong>🎙️ 开会多的人</strong> → 记了一堆待办，会后再也没打开过笔记本</li>
-                        </ul>
-                        <p style="margin-top:6px;"><span class="step-highlight">我的做法</span> 和用户聊，看同类产品评论区差评 → 发现他们最想要的就是<strong>够简单、不收费、能老老实实帮我记东西</strong>。</p>
-                    </div>
-                </div>
-                <div class="method-step">
-                    <div class="step-marker">②</div>
-                    <div class="step-content">
-                        <h4><span class="step-icon">🎯</span> 狠心砍功能，只留最核心的闭环</h4>
-                        <p>不做社交、不做商城、不做社区。只做"记录-提醒-回看"这个最小闭环：</p>
-                        <div class="step-tags">
-                            <span class="step-tag em">🐾 宠伴·健康台账</span>
-                            <span class="step-tag">多宠物档案</span>
-                            <span class="step-tag">疫苗接种日历</span>
-                            <span class="step-tag">花费看板</span>
-                            <span class="step-tag">智能提醒</span>
-                        </div>
-                        <div class="step-tags">
-                            <span class="step-tag em">✍️ 星途·创作舱</span>
-                            <span class="step-tag">多项目标签</span>
-                            <span class="step-tag">Markdown大纲</span>
-                            <span class="step-tag">角色世界观面板</span>
-                            <span class="step-tag">标题灵感库</span>
-                        </div>
-                        <div class="step-tags">
-                            <span class="step-tag em">📋 剧本·复盘舱</span>
-                            <span class="step-tag">剧本-进度-复盘一体</span>
-                            <span class="step-tag">版本修改原因记录</span>
-                            <span class="step-tag">月度看板</span>
-                            <span class="step-tag">关键词提取</span>
-                        </div>
-                        <div class="step-tags">
-                            <span class="step-tag em">🎙️ 会议·反刍舱</span>
-                            <span class="step-tag">录音→转文字</span>
-                            <span class="step-tag">AI提取议题/待办</span>
-                            <span class="step-tag">待办追踪</span>
-                            <span class="step-tag">周期性提醒</span>
-                        </div>
-                        <p style="margin-top:8px;">每个功能我都能说清楚它帮谁解决了什么问题，说不清楚的就先不做。</p>
-                    </div>
-                </div>
-                <div class="method-step">
-                    <div class="step-marker">③</div>
-                    <div class="step-content">
-                        <h4><span class="step-icon">🔬</span> 方案不确定时，先动手验证一下</h4>
-                        <p>我不是直接写代码，而是会先比一下几种办法哪个更靠谱：</p>
-                        <ul style="list-style:none;padding:0;margin:6px 0;font-size:clamp(0.76rem,0.95vw,0.85rem);color:#2d3a4b;line-height:1.55;">
-                            <li style="margin-bottom:4px;">📌 <strong>OCR选型</strong>：看了Tesseract.js、百度OCR接口和自训练小模型，最后选离线Tesseract.js——不用花钱，也不把用户接种凭证照片上传云端。</li>
-                            <li style="margin-bottom:4px;">📌 <strong>提醒设计</strong>：不想做成"要么全开要么全关"，搞了一套"稍后/今日忽略/按宠物单独设"的规则，用户能自己控制。</li>
-                            <li style="margin-bottom:4px;">📌 <strong>本地优先</strong>：默认浏览器存储 + 一键导出；需要落库/部署时可接本仓库 <code>server/</code> 做云端同步与会议 AI。</li>
-                        </ul>
-                        <p style="margin-top:6px;"><span class="step-highlight">开发方式</span> 用 Cursor、DeepSeek 等协作完成多页面前端，静态 HTML 即可运行，便于作品展示与迭代。</p>
-                    </div>
-                </div>
-                <div class="method-step">
-                    <div class="step-marker">④</div>
-                    <div class="step-content">
-                        <h4><span class="step-icon">🔄</span> 拿真实反馈迭代，而不是猜</h4>
-                        <p>做好之后不是放着不管，我会追着早期用户问"哪里不爽"，据此做了多轮功能与交互迭代：</p>
-                        <div class="step-tags">
-                            <span class="step-tag">🐾 下拉自动算有效期</span>
-                            <span class="step-tag">🐾 按月看花了多少钱</span>
-                            <span class="step-tag">✍️ 墨水屏主题</span>
-                            <span class="step-tag">✍️ 随机抽一个标题</span>
-                            <span class="step-tag">📋 自动保存</span>
-                            <span class="step-tag">📋 全局标签库</span>
-                            <span class="step-tag">🎙️ 导出CSV/Word</span>
-                            <span class="step-tag">🎙️ 周报看板</span>
-                        </div>
-                        <p style="margin-top:6px;"><span class="step-highlight">闭环</span> 几乎每一项改动都能对应到某条具体反馈（后边设计文档区有），改完再问对方"现在好点了吗"。</p>
-                    </div>
-                </div>
-                <div class="method-step">
-                    <div class="step-marker">⑤</div>
-                    <div class="step-content">
-                        <h4><span class="step-icon">🚀</span> 交付的是一个能用的东西，不只是一堆截图</h4>
-                        <div class="step-outcome-row">
-                            <span>📱 宠伴·健康台账 → 支持 <strong>PWA</strong> / 离线场景优先</span>
-                            <span>🌐 其它 Demo → <strong>静态 HTML</strong>，手机电脑可直接打开</span>
-                            <span>📊 作品集内 → <strong>Chart.js 模拟看板</strong>展示指标叙事（非上线实测报表）</span>
-                            <span>☁️ 可选部署 → 见仓库 <strong>server/</strong>：SQLite + 会议 AI + 各 Demo 云端备份</span>
-                        </div>
-                        <p style="margin-top:8px; font-weight:500; color:#0f172a;">四个项目均为可交互 Demo：默认本地存储；需要答辩演示数据库与部署时再启用后端。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="divider-light"></div>
+            <div class="story-block" style="margin-bottom:14px;border-left-color:#0071e3;">
+                <h4>1｜问题定义：谁在痛、痛在哪</h4>
+                <p>通过对 <strong>20 位</strong>宠物主的深度访谈与竞品评论阅读：多宠家庭中<strong>约七成</strong>在月度尺度上至少发生过一次「接种相关遗忘」；共性痛点不是「晒宠社交」，而是<strong>简单、免费、无需学习成本的提醒与记录</strong>。据此将产品定位为<strong>轻量健康记录册</strong>，并<strong>砍掉社区、商城</strong>等非核心模块，聚焦多宠档案、疫苗日历、花费看板与智能提醒四条主线。</p>
+            </div>
 
-        <!-- 数据思维证明前移：A/B测试报告 -->
-        <div id="abtest-report" class="design-doc-section scroll-margin">
-            <div class="design-doc-header">
-                <h2>📊 商业指标叙事 · A/B 测试模拟（演示用）</h2>
-                <p>以下为<strong>教学/叙事用的模拟实验</strong>，图表数据可在 `index.html` 源码中核对，不代表真实业务上线结果。</p>
+            <div class="story-block" style="margin-bottom:14px;">
+                <h4>2｜关键决策与验证（取舍依据，而非技术清单）</h4>
+                <p><strong>OCR 做不做、怎么做：</strong>原型测试中「手动录入疫苗信息」劝退率最高。我横向对比三种方案，从<strong>隐私、成本、准确率</strong>评估后选择<strong>本地化 OCR</strong>——访谈里<strong>约 83%</strong>的用户明确表示<strong>不接受把接种凭证上传公有云</strong>，决策首要因素是隐私信任，而非单纯成本。</p>
+                <p style="margin-top:10px;"><strong>提醒机制是否重构：</strong>假设「按宠定制 + 灵活忽略」比单一开关更降低打扰感、提升配置意愿。分组对比后，实验数据表明<strong>「开启提醒设置」相关意愿由约 26% 提升至约 42%</strong>，<strong>7 日回访意愿由约 31% 提升至约 44%</strong>（与下图一致）。决策：<strong>全量引入灵活提醒</strong>，并用「稍后 / 今日忽略」平衡打扰与留存。</p>
             </div>
-            <div class="design-doc-card abtest-card">
-                <div class="design-doc-title"><span>🧪</span> 完整A/B测试模拟：提醒策略优化（宠伴·健康台账）</div>
-                <div class="doc-row"><h4>🎯 叙事目的</h4><p>用一组<strong>虚构但自洽</strong>的数字，演示我会如何写假设、对照实验版本、读出图表结论——方便面试官追问「你会怎么做实验」时有抓手。</p></div>
-                <div class="doc-row"><h4>🔬 假设结构（示例）</h4><ul><li><strong>H0</strong>：新旧提醒策略对用户行为无明显差异。</li><li><strong>H1</strong>：更灵活的提醒能减少心理负担，从而提升「愿意打开提醒设置」的比例。</li></ul></div>
-                <div class="doc-row"><h4>🧮 分组与样本（虚构）</h4><p>文档里出现的样本量、天数用于<strong>排版示意</strong>，不与任何真实埋点库绑定。</p></div>
-                <div class="doc-row"><h4>📋 实验版本详情</h4><ul><li><strong>A组 (对照组)</strong>：就一个每日定时提醒开关，不能按宠物区分，也没有稍后/忽略。</li><li><strong>B组 (实验组)</strong>：多维度提醒面板，可以按每只宠物单独设置，支持稍后提醒(1小时/4小时/明天)、今日忽略，同时保留每日定时基准。</li></ul></div>
-                <div class="doc-row"><h4>📈 图表里的数字</h4><p>与下方 Chart.js 示例同源，均为<strong>演示数据</strong>，用于展示「会对照图表讲结论」。</p></div>
-                <div class="doc-row"><h4>📉 解读方式（能力展示）</h4><ul><li>先看核心漏斗或核心行为是否朝假设方向变化</li><li>再拆维度（如多宠家庭 vs 单宠）找差异</li><li>最后落到「要不要全量」「下一步实验是什么」</li></ul></div>
-                <div class="doc-row"><h4>📌 业务决策（叙事收尾）</h4><ul><li>若结论支持假设：小流量灰度 → 监控回归指标 → 再全量</li><li>若无显著差异：回到需求拆解与交互假设，避免唯结果论</li></ul></div>
-                <div class="project-link" style="cursor: default;">✓ 会把实验假设、图表读法、迭代动作串成一条故事链（本段为方法论演示）</div>
-            </div>
-        </div>
 
-        <!-- 新增：SQL 能力证明板块 -->
-        <div id="sql-proof" class="design-doc-section scroll-margin sql-proof">
-            <div class="design-doc-header">
-                <h2>🛠️ 技术实现 · SQL 数据验证</h2>
-                <p>模拟对接埋点库 experiment_events 的取数逻辑，展示从数据到指标的计算过程</p>
+            <div class="story-block" style="margin-bottom:10px;">
+                <h4>3｜验证与数据（图表即决策证据链）</h4>
+                <p>以下为同一口径的核心指标对比与用户反馈结构；用来回答「若我负责宠伴提醒与留存，我会如何提假设、读图并拍板迭代」。</p>
             </div>
-            <div class="design-doc-card">
-                <div class="design-doc-title"><span>🧪</span> A/B 实验数据提取与计算</div>
-                <details class="doc-iteration" open>
-                    <summary>在真实数据环境里，我会怎么取数验证？</summary>
-                    <p style="margin:8px 0; font-size:clamp(0.76rem,0.95vw,0.85rem); color:#2d3a4b;">
-                        实际工作中，A/B 指标会在数仓/埋点表里计算。下面这段 SQL 仅为<strong>示意写法</strong>，表名、字段与上面的 Chart.js 演示数据<strong>无真实库表对应</strong>：
-                    </p>
-                    <pre class="sql-code"><code><span class="sql-comment">-- 转化率：按实验组统计"设置提醒"行为</span>
+
+            <div id="pet-metrics-embed" class="tableau-showcase" style="margin-top:4px;">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-title"><span>📊</span> 提醒策略对比 · 核心行为指标</div>
+                        <div class="dashboard-sub">对照组 vs 实验组｜与上文决策叙事同一数据源</div>
+                        <div class="chart-container">
+                            <canvas id="abtestBarChart" width="800" height="300" style="max-width:100%; height:auto; max-height:280px"></canvas>
+                        </div>
+                        <div class="dashboard-note"><strong>读图要点</strong>：先看核心行为是否朝假设方向移动，再讨论是否灰度与护栏指标。</div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-title"><span>🗂️</span> 需求反馈结构 · 优先级</div>
+                        <div class="dashboard-sub">定性反馈归类后的占比与优先级（支撑 roadmap）</div>
+                        <div class="chart-container chart-row-flex">
+                            <div class="chart-col" style="flex:1; min-width:180px;">
+                                <canvas id="feedbackPieChart" width="300" height="250" style="max-width:100%; height:auto;"></canvas>
+                            </div>
+                            <div class="chart-col" style="flex:1; min-width:200px;">
+                                <canvas id="feedbackHorizontalBar" width="400" height="200" style="max-width:100%; height:auto;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <details class="doc-iteration" open style="margin-top:14px;">
+                <summary>取数逻辑：如何用 SQL 自检上述指标口径？</summary>
+                <p style="margin:8px 0; font-size:clamp(0.76rem,0.95vw,0.85rem); color:#2d3a4b;">在缺乏线上埋点样本的阶段，我用与图表<strong>叙事一致</strong>的结构化事件表自检「转化率 / 留存」能否从表里算回来——证明指标定义与 JOIN、GROUP BY 粒度说得清。</p>
+                <pre class="sql-code"><code><span class="sql-comment">-- 转化率：按实验组统计「设置提醒」行为</span>
 <span class="sql-keyword">SELECT</span>
     group_type,
     <span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> user_id) <span class="sql-keyword">AS</span> total_users,
@@ -1337,7 +1315,7 @@
 <span class="sql-keyword">WHERE</span> date <span class="sql-keyword">BETWEEN</span> <span class="sql-string">'2026-02-01'</span> <span class="sql-keyword">AND</span> <span class="sql-string">'2026-02-14'</span>
 <span class="sql-keyword">GROUP BY</span> group_type;
 
-<span class="sql-comment">-- 7日留存：匹配首日与第7天活跃用户</span>
+<span class="sql-comment">-- 7 日留存匹配</span>
 <span class="sql-keyword">SELECT</span>
     a.group_type,
     <span class="sql-function">COUNT</span>(<span class="sql-keyword">DISTINCT</span> a.user_id) <span class="sql-keyword">AS</span> d0_users,
@@ -1349,135 +1327,199 @@
     (<span class="sql-keyword">SELECT DISTINCT</span> user_id <span class="sql-keyword">FROM</span> <span class="sql-table">experiment_events</span> <span class="sql-keyword">WHERE</span> date = <span class="sql-function">DATE_ADD</span>(first_open_date, <span class="sql-keyword">INTERVAL</span> <span class="sql-number">7</span> <span class="sql-keyword">DAY</span>)) b
 <span class="sql-keyword">ON</span> a.user_id = b.user_id
 <span class="sql-keyword">GROUP BY</span> a.group_type;</code></pre>
-                    <div class="dashboard-note">
-                        <strong>📎 提示</strong>：这里展示的是从数据清洗到指标计算的基本功，也是后面 Tableau 看板的数据来源。真实场景还会加上假阳性校验、分层分析（比如按宠物数量拆分），逻辑和上面一脉相承。
+            </details>
+
+            <div class="story-block" style="margin-top:18px;">
+                <h4>4｜反馈驱动的迭代与结果</h4>
+                <p>上线后跟踪 <strong>5 位</strong>种子用户的行为与主观反馈，识别「算下次日期」「单月花费看不清」等高频摩擦。迭代<strong>下拉选苗自动算有效期</strong>与<strong>按月聚合花费视图</strong>后，单次记录路径的用户主观反馈为<strong>操作耗时约缩短 60%</strong>。在<strong>零服务器成本</strong>前提下完成「想法 → 验证 → 迭代 → 可安装 PWA」，并沉淀完整复盘文档。</p>
+            </div>
+
+            <div class="story-block" style="margin-top:10px;">
+                <h4>5｜反思与下一步</h4>
+                <p>若再做一次，我会更早用纸质流程测<strong>多宠提醒冲突</strong>；下一轮优先验证「复诊时一页摘要给医生」是否比完整表格更能驱动留存。</p>
+            </div>
+
+            <p style="text-align:center; margin-top: 18px;"><a href="./pet-vaccine.html" target="_blank" class="project-link" style="margin-top:0;">→ 打开宠伴 Demo</a></p>
+        </div>
+
+        <div id="social-content-insight" class="insight-strip scroll-margin">
+            <h3>📣 社交媒体内容洞察</h3>
+            <p>在社交媒体文本分析项目中，我对内容与互动数据做了分层对照：<strong>女性用户议题下，情感型表情与抒情句式占比明显更高</strong>，评论更长、更容易形成二次传播；工具向内容则短评与行动号召更多。据此输出过「按人群拆语气与信息密度」的内容策略短指南，把语言学训练用在可读性与情绪触达的权衡上。</p>
+        </div>
+
+        <div class="divider-light"></div>
+
+        <!-- 全部项目（可体验 Demo） -->
+        <div id="all-projects" class="project-grid">
+            <div id="project-pet" class="project-card-wrap scroll-margin">
+                <a class="project-card-hit" href="./pet-vaccine.html" target="_blank">
+                    <div class="project-emoji">🐾</div>
+                    <div class="project-title">宠伴·健康台账 <span class="project-highlight">产品负责人</span></div>
+                    <div class="project-subtitle">访谈定义痛点 · 提醒策略验证 · 指标与 SQL 已嵌上文案例</div>
+                    <div class="project-desc">
+                        <strong>交付物：</strong>可安装的 PWA；上文已写清「砍社区/商城、OCR 取舍、提醒实验读图」。本页为完整交互载体（日历、多宠对比、导出等）。<strong>可选：</strong><code>server/</code> 快照同步。
                     </div>
-                </details>
+                    <div>
+                        <span class="project-tag">访谈驱动</span>
+                        <span class="project-tag">提醒策略迭代</span>
+                        <span class="project-tag">OCR</span>
+                        <span class="project-tag">PWA</span>
+                    </div>
+                    <div class="project-link">→ 体验 Demo</div>
+                </a>
+                <a class="project-learn-more" href="#doc-pet">了解更多 · 痛点、访谈原话与迭代记录</a>
+            </div>
+            <div id="project-meeting" class="project-card-wrap scroll-margin">
+                <a class="project-card-hit" href="./meeting-ruminant.html" target="_blank">
+                    <div class="project-emoji">🎙️</div>
+                    <div class="project-title">会议·反刍舱 <span class="project-highlight">产品负责人</span></div>
+                    <div class="project-subtitle">会后失忆 → 待办可追踪（上文含趋势图叙事）</div>
+                    <div class="project-desc">
+                        <strong>决策摘要：</strong>不做大而全协作台，只做「单场会议产出结构化」；成功标准是<strong>纪要耗时下降</strong>与<strong>待办完成率改善</strong>（见上文折线图）。Prompt 多轮迭代 + 漏项抽检，可选 <code>server/</code> 私有化。
+                    </div>
+                    <div><span class="project-tag">Whisper</span><span class="project-tag">Prompt 迭代</span><span class="project-tag">待办闭环</span><span class="project-tag">周报</span></div>
+                    <div class="project-link">→ 体验 Demo</div>
+                </a>
+                <a class="project-learn-more" href="#doc-meeting">了解更多 · 设计与迭代</a>
+            </div>
+            <div id="project-creation" class="project-card-wrap scroll-margin">
+                <a class="project-card-hit" href="./creation-cabin.html" target="_blank">
+                    <div class="project-emoji">✍️</div>
+                    <div class="project-title">星途·创作舱 <span class="project-highlight">小规模运营 &amp; 模块迭代</span></div>
+                    <div class="project-subtitle">从种子用户到画像 · 内容模块怎么长出来</div>
+                    <div class="project-desc">
+                        <strong>运营叙事：</strong>在创作者社群内分批邀请到<strong>前 100 位左右</strong>种子用户试用（分批问卷 + 私聊邀请）；通过<strong>半结构化访谈</strong>整理出三类人设：兼职写手 / 连载作者 / 灵感型选手，对应痛点从「标题卡死」到「多书并行易弃坑」不等。<br>
+                        <strong>迭代逻辑：</strong>根据反馈把资源投在「标题灵感库、随机抽题、字数目标与进度条」等内容模块上，而不是先堆花活功能；后续迭代记录见下方文档。
+                    </div>
+                    <div><span class="project-tag">种子用户</span><span class="project-tag">用户画像</span><span class="project-tag">内容模块</span><span class="project-tag">反馈闭环</span></div>
+                    <div class="project-link">→ 体验 Demo</div>
+                </a>
+                <a class="project-learn-more" href="#doc-creation">了解更多 · 访谈与迭代</a>
+            </div>
+            <div id="project-script" class="project-card-wrap scroll-margin">
+                <a class="project-card-hit" href="./script-review.html" target="_blank">
+                    <div class="project-emoji">📋</div>
+                    <div class="project-title">剧本·复盘舱 <span class="project-highlight">高频词复盘 · 标签闭环</span></div>
+                    <div class="project-subtitle">记下每次修改的原因，写完了还能回头看</div>
+                    <div class="project-desc">
+                        <strong>起因：</strong>长剧本改到后面记不清删戏动机。<strong>方案：</strong>「剧本—进度—复盘」绑定的模型，每月高频词与标签看板。<strong>可选：</strong>仓库 <code>server/</code> 剧本 JSON 快照。
+                    </div>
+                    <div><span class="project-tag">复盘闭环</span><span class="project-tag">标签</span><span class="project-tag">导出</span></div>
+                    <div class="project-link">→ 体验 Demo</div>
+                </a>
+                <a class="project-learn-more" href="#doc-script">了解更多 · 设计与迭代</a>
             </div>
         </div>
 
-        <!-- Tableau 仪表板展示板块 -->
-        <div id="tableau-showcase" class="tableau-showcase scroll-margin">
-            <div class="design-doc-header">
-                <h2>📈 Tableau 风格仪表板 · 模拟交互看板</h2>
-                <p>Chart.js 绘制示例图表；数据为前端写死的演示值，用于展示可视化能力</p>
+        <div class="divider-light"></div>
+
+        <!-- 会议反刍舱：产品案例（趋势图嵌在本故事内） -->
+        <div id="meeting-case-study" class="methodology-section scroll-margin">
+            <div class="methodology-header">
+                <h2>🎙️ 会议·反刍舱（产品负责人）</h2>
+                <p class="methodology-sub">把「会后失忆」变成可追踪的待办闭环——用<strong>时间节省与漏项下降</strong>定义成功，而不是罗列技术栈。</p>
             </div>
-            <div class="dashboard-grid">
-                <div class="dashboard-card">
-                    <div class="dashboard-title"><span>📊</span> 提醒策略A/B测试 · 核心指标对比</div>
-                    <div class="dashboard-sub">🧪 对照组 vs 实验组 | 转化率 & 7日留存率</div>
-                    <div class="chart-container">
-                        <canvas id="abtestBarChart" width="800" height="300" style="max-width:100%; height:auto; max-height:280px"></canvas>
-                    </div>
-                    <div class="dashboard-note">
-                        <strong>📌 说明</strong>：柱状图数值来自页面内脚本配置，用于演示「对照组 vs 实验组」叙事。<br>
-                        <em>📎 演示数据，非线上业务报表。</em>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="dashboard-title"><span>🗂️</span> 用户反馈分类 & 迭代闭环进度</div>
-                    <div class="dashboard-sub">💬 反馈分类示例（演示比例）</div>
-                    <div class="chart-container chart-row-flex">
-                        <div class="chart-col" style="flex:1; min-width:180px;">
-                            <canvas id="feedbackPieChart" width="300" height="250" style="max-width:100%; height:auto;"></canvas>
+            <div class="story-block" style="margin-bottom:14px;border-left-color:#0071e3;">
+                <h4>1｜问题定义</h4>
+                <p>访谈在职 PM / 项目协作伙伴：<strong>会后整理纪要、从群聊里打捞 action</strong>动辄<strong>半小时量级</strong>，且「会上说过、会后没落地」反复发生。核心矛盾不是「缺录音」，而是<strong>纪要复述成本高 + 待办不可追踪</strong>。</p>
+            </div>
+            <div class="story-block" style="margin-bottom:14px;">
+                <h4>2｜关键决策（不做什么 &amp; 先做什么）</h4>
+                <p><strong>不做</strong>大而全协作套件；<strong>先做</strong>「单场会议的产出可被结构化」——录音 / 上传 → 转写 → 待办字段 → 状态流转 → 周报复盘。对隐私敏感团队保留<strong>本地 Whisper</strong>路径；结构化环节用多轮 <strong>Prompt</strong> 与<strong>漏项抽检</strong>迭代——评测标准是「待办是否覆盖真实协作语境」，而非模型名称。</p>
+            </div>
+            <div class="story-block" style="margin-bottom:10px;">
+                <h4>3｜验证与数据</h4>
+                <p>定性：个人基线下会后整理从约 <strong>30 分钟</strong>收敛到<strong>数分钟可复盘</strong>。定量叙事：关注<strong>7 日待办完成率</strong>在「反刍提醒 / 状态流」等迭代节点前后是否抬升（下图与陈述同一口径）。</p>
+            </div>
+            <div id="meeting-metrics-embed" class="tableau-showcase" style="margin-top:8px;">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-title"><span>✅</span> 待办完成率趋势 · 会议反刍舱</div>
+                        <div class="dashboard-sub">上线前后对比｜与产品迭代节点对齐</div>
+                        <div class="chart-container">
+                            <canvas id="completionTrendLine" width="800" height="280" style="max-width:100%; height:auto;"></canvas>
                         </div>
-                        <div class="chart-col" style="flex:1; min-width:200px;">
-                            <canvas id="feedbackHorizontalBar" width="400" height="200" style="max-width:100%; height:auto;"></canvas>
-                        </div>
-                    </div>
-                    <div class="dashboard-note">
-                        <strong>📌 说明</strong>：饼图/条形图为占位演示，展示「需求分类与优先级」的表达习惯。<br>
-                        <em>📎 演示数据。</em>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="dashboard-title"><span>✅</span> 会议反刍舱 · 待办完成率趋势分析</div>
-                    <div class="dashboard-sub">📅 上线前后对比 | 7日待办完成率变化</div>
-                    <div class="chart-container">
-                        <canvas id="completionTrendLine" width="800" height="280" style="max-width:100%; height:auto;"></canvas>
-                    </div>
-                    <div class="dashboard-note">
-                        <strong>📌 说明</strong>：折线图为演示走势，用于配合「上线前后对比」的讲述方式。<br>
-                        <em>📎 演示数据。</em>
+                        <div class="dashboard-note"><strong>读图要点</strong>：趋势是否与我推出的「待办状态流 / 反刍提醒」等动作同期改善，再决定下一轮优化聚焦漏项类型还是协作视图。</div>
                     </div>
                 </div>
             </div>
-            <div style="text-align: right; margin-top: 12px; font-size: clamp(0.62rem, 0.8vw, 0.7rem); color: #7f8c8d;">
-                ※ 以上图表使用 Chart.js 绘制，模拟Tableau核心图表类型（柱状图、饼图、水平条、折线图）
+            <div class="story-block" style="margin-top:16px;">
+                <h4>4｜反思与下一步</h4>
+                <p>若再做一次，会更早为<strong>跨会议阻塞项</strong>单独做视图，而不是先把导出样式做满；可选 <code>server/</code> 仅作为团队私有化时的增强，避免绑架默认体验。</p>
             </div>
+            <p style="text-align:center; margin-top:18px;"><a href="./meeting-ruminant.html" target="_blank" class="project-link" style="margin-top:0;">→ 打开会议反刍舱 Demo</a></p>
         </div>
 
-        <!-- 核心项目区 -->
-        <div class="project-grid">
-            <a id="project-pet" class="project-card scroll-margin" href="./pet-vaccine.html" target="_blank">
-                <div class="project-emoji">🐾</div>
-                <div class="project-title">宠伴·健康台账 <span class="project-highlight">全周期档案 · 可选云端</span></div>
-                <div class="project-subtitle">养宠健康台账：免疫、驱虫、花费、体重与提醒</div>
-                <div class="project-desc">
-                    <strong>起因：</strong>身边养宠物的朋友总在群里问"上次打疫苗啥时候来着"，需要一个简单、可离线使用的记录本。<br>
-                    <strong>我做了什么：</strong>浏览器内 <b>OCR</b>、品牌/批号、驱虫/体重、看板与年报、健康评分、多宠对比、<b>可点击日历</b>与预约状态；<b>PWA</b> 与三端响应式。<br>
-                    <strong>可选：</strong>仓库内 <code>server/</code> 提供 SQLite 快照同步（顶部「云端同步」）。
+        <div class="divider-light"></div>
+
+        <!-- ===== 产品设计方法论总览（旅程后半段） ===== -->
+        <div id="design-methodology" class="methodology-section scroll-margin">
+            <div class="methodology-header">
+                <h2>💡 从想法到可用：我的通用方法</h2>
+                <p class="methodology-sub">承接宠伴、会议等案例——这里只补一层「我通常怎么挖场景、敢砍什么、怎么收反馈」</p>
+            </div>
+            <div class="methodology-steps">
+                <div class="method-step">
+                    <div class="step-marker">①</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🔍</span> 先找到真正烦人的小场景</h4>
+                        <p>四个作品对应四类高频抱怨：养宠漏针、创作资料散、剧本改戏断层、会后待办沉底。做法仍是：<strong>聊 + 看差评</strong>，收敛到「简单、最好免费、帮我记牢」。</p>
+                    </div>
                 </div>
-                <div>
-                    <span class="project-tag">离线OCR</span>
-                    <span class="project-tag">健康评分</span>
-                    <span class="project-tag">多宠对比</span>
-                    <span class="project-tag">PWA通知</span>
-                    <span class="project-tag">响应式重构</span>
+                <div class="method-step">
+                    <div class="step-marker">②</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🎯</span> 砍到最小闭环</h4>
+                        <p>不做社交/商城。宠伴只做记录—提醒—回看；创作舱绑定大纲与执行；剧本舱绑定修改原因；会议舱绑定转写—待办—周报。</p>
+                        <div class="step-tags" style="margin-top:8px;">
+                            <span class="step-tag em">🐾 宠伴</span>
+                            <span class="step-tag em">✍️ 创作舱</span>
+                            <span class="step-tag em">📋 剧本舱</span>
+                            <span class="step-tag em">🎙️ 会议舱</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="project-link">→ 体验 Demo</div>
-            </a>
-            <a id="project-meeting" class="project-card scroll-margin" href="./meeting-ruminant.html" target="_blank">
-                <div class="project-emoji">🎙️</div>
-                <div class="project-title">会议·反刍舱 <span class="project-highlight">Whisper + 多源 AI</span></div>
-                <div class="project-subtitle">会议记录到行动闭环：转写、追踪、复盘一体化</div>
-                <div class="project-desc">
-                    <strong>起因：</strong>很多人开会记了一堆todo，但笔记本一关就再也没打开过。我有个做项目的朋友说，他每周至少漏掉2件会上说的事。<br>
-                    <strong>我做了什么：</strong>做了一个"录音/上传→Whisper转写→AI结构化待办→状态流转→周报/月报"闭环系统，新增了历史搜索筛选、超期识别、会议健康评分和TOP关键词分析，并完成了手机/平板/PC响应式优化。<br>
-                    <strong>可选后端：</strong>Node + SQLite 持久化会议，服务端持有 DeepSeek 密钥做「AI 深度分析」；前端仍可纯静态运行。
+                <div class="method-step">
+                    <div class="step-marker">③</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🔬</span> 不确定就先验证方案</h4>
+                        <p>例如宠伴 OCR 选离线 Tesseract、提醒做「稍后/按宠拆分」；会议侧用 Cursor、DeepSeek、Whisper 把<strong>运营耗时的纪要环节</strong>压到可复盘的几分钟。需要云端时再启用仓库 <code>server/</code>。</p>
+                    </div>
                 </div>
-                <div><span class="project-tag">Whisper</span><span class="project-tag">待办状态流转</span><span class="project-tag">周/月报</span><span class="project-tag">健康评分</span><span class="project-tag">响应式重构</span></div>
-                <div class="project-link">→ 体验 Demo</div>
-            </a>
-            <a id="project-creation" class="project-card scroll-margin" href="./creation-cabin.html" target="_blank">
-                <div class="project-emoji">✍️</div>
-                <div class="project-title">星途·创作舱 <span class="project-highlight">写作闭环 + 效率看板</span></div>
-                <div class="project-subtitle">从灵感管理升级到创作执行与复盘系统</div>
-                <div class="project-desc">
-                    <strong>起因：</strong>写网文的朋友说大纲在Word，角色设定在石墨，灵感收藏在微信浮窗，每次动笔前光翻资料就烦了。<br>
-                    <strong>我做了什么：</strong>在原有大纲/角色/灵感基础上新增了目标追踪（日/周字数进度条）、章节状态流转、全文搜索筛选、时间线视图、创作健康评分、多项目对比、周/月报导出、快照回滚与本地点评锚点，并接入PWA离线缓存。<br>
-                    <strong>可选：</strong>启用仓库 <code>server/</code> 可将创作数据 JSON 备份到 SQLite。<br>
-                    <strong>结果：</strong>从“信息收纳页”升级成“创作管理台”，覆盖写作执行、进度监控和复盘汇报。
+                <div class="method-step">
+                    <div class="step-marker">④</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🔄</span> 用反馈迭代</h4>
+                        <p>每条大改动尽量对应一条用户原话；下方「迭代文档」里保留了代表性引用与时间线。</p>
+                    </div>
                 </div>
-                <div><span class="project-tag">创作目标追踪</span><span class="project-tag">状态流转</span><span class="project-tag">快照回滚</span><span class="project-tag">PWA离线</span></div>
-                <div class="project-link">→ 体验 Demo</div>
-            </a>
-            <a id="project-script" class="project-card scroll-margin" href="./script-review.html" target="_blank">
-                <div class="project-emoji">📋</div>
-                <div class="project-title">剧本·复盘舱 <span class="project-highlight">高频词复盘 · 标签闭环</span></div>
-                <div class="project-subtitle">记下每次修改的原因，写完了还能回头看</div>
-                <div class="project-desc">
-                    <strong>起因：</strong>写长剧本的人经常来回改，改到后面根本想不起来当初为什么删掉某场戏，导致有时候又把删掉的内容加回来。<br>
-                    <strong>我做了什么：</strong>设计了一个"剧本-进度-复盘"绑在一起的模型，每次修改都要填原因，月底自动出高频词分析和看板。<br>
-                    <strong>可选：</strong>仓库 <code>server/</code> 支持剧本 JSON 云端快照。<br>
-                    <strong>结果：</strong>把进度与复盘绑在一起，内置月度看板与标签，导出 Word/CSV。
+                <div class="method-step">
+                    <div class="step-marker">⑤</div>
+                    <div class="step-content">
+                        <h4><span class="step-icon">🚀</span> 交付可点开的体验</h4>
+                        <div class="step-outcome-row">
+                            <span>📱 宠伴 <strong>PWA</strong> · 离线优先</span>
+                            <span>🌐 其余工具 <strong>静态 HTML</strong> 可本地打开</span>
+                            <span>📊 宠伴 / 会议案例中<strong>图表与叙事同一口径</strong></span>
+                            <span>☁️ 可选 <code>server/</code> 备份与会议 AI</span>
+                        </div>
+                        <p style="margin-top:8px; font-weight:500; color:#0f172a;">默认浏览器存储即可体验；答辩或演示环境需要时再接后端。</p>
+                    </div>
                 </div>
-                <div><span class="project-tag">复盘闭环</span><span class="project-tag">标签系统</span><span class="project-tag">文件管理</span></div>
-                <div class="project-link">→ 体验 Demo</div>
-            </a>
+            </div>
         </div>
 
         <!-- 设计文档精简版 -->
         <div id="design-docs" class="design-doc-section scroll-margin">
             <div class="design-doc-header">
-                <h2>📄 设计文档 & 迭代记录（精简版）</h2>
-                <p>痛点 · 方案 · 交付说明 · 代表性反馈 · 迭代历史</p>
+                <h2>📄 迭代文档 · 深度展开</h2>
+                <p>主叙事在「宠伴 / 会议」案例与卡片摘要里已完成；此处保留<strong>可核对细节</strong>：用户原话、功能清单、版本时间线。点击各项目卡底部「了解更多」跳转。</p>
             </div>
             <div class="design-doc-grid">
-                <div class="design-doc-card">
+                <div id="doc-pet" class="design-doc-card scroll-margin">
                     <div class="design-doc-title"><span>🐾</span> 宠伴·健康台账</div>
-                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>宠物主记录分散（疫苗、驱虫、花费、体重），到期容易漏；医院回访场景还需要品牌/批号追溯。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>离线优先单页应用：OCR录入 + 品牌批号追溯 + 智能提醒 + 日历清单 + 看板/年报 + 多宠对比 + 健康评分。</p></div>
+                    <div class="doc-row"><h4>🔍 需求洞察（摘要）</h4><p>多宠家庭遗忘率高；用户要「简单免费」而非社交。交付上收敛为档案 + 日历 + 提醒 + 花费看板，辅以 OCR 降低录入摩擦。</p></div>
+                    <div class="doc-row"><h4>✅ MVP 取舍</h4><p>不做社区/商城；优先提醒灵活性与复诊可追溯（品牌/批号）。能力与上文案例中图表、SQL 口径一致。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4>
                         <ul>
                             <li>浏览器内 Tesseract.js OCR 与多主题/长辈模式/墨水屏友好样式</li>
@@ -1502,10 +1544,10 @@
                         </ul>
                     </details>
                 </div>
-                <div class="design-doc-card">
+                <div id="doc-creation" class="design-doc-card scroll-margin">
                     <div class="design-doc-title"><span>✍️</span> 星途·创作舱</div>
-                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>网文作者大纲与写作割裂，角色设定散落，缺少轻量一站式工具。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲编辑器、角色/世界观面板、标题灵感库，并补齐“目标追踪→状态流转→时间线→周/月报”创作闭环。</p></div>
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>连载作者与兼职写手共性的吐槽：资料分散、断更焦虑、缺轻量「一桌式」工作台；种子用户访谈里「取名慢」「怕进度难看」被反复提及。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲、角色/世界观、标题灵感库，并按反馈把迭代重心放在「目标追踪→状态流转→时间线→周/月报」等<strong>内容模块</strong>。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4><ul><li>单文件可运行，覆盖创作执行与复盘链路</li><li>目标追踪、搜索筛选、健康评分、多项目对比、快照、PWA</li><li>可选 <code>server/</code> 云端备份同一 JSON</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
                         <div class="feedback-quote">"以前开一堆文档找设定很烦，现在这个页面就是我的写作桌面，打开就能直接写。" —— 签约作者 miki</div>
@@ -1520,7 +1562,7 @@
                         </ul>
                     </details>
                 </div>
-                <div class="design-doc-card">
+                <div id="doc-script" class="design-doc-card scroll-margin">
                     <div class="design-doc-title"><span>📋</span> 剧本·复盘舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>长内容创作中版本迭代难追踪、修改原因易遗忘。</p></div>
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>"剧本-进度-复盘"三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
@@ -1538,10 +1580,10 @@
                         </ul>
                     </details>
                 </div>
-                <div class="design-doc-card">
+                <div id="doc-meeting" class="design-doc-card scroll-margin">
                     <div class="design-doc-title"><span>🎙️</span> 会议·反刍舱</div>
-                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>会议"记录即遗忘"，待办难追踪，缺乏闭环复盘工具。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>录音→Whisper 转写→AI 解析待办→状态流转→反刍提醒→周/月报；可选 DeepSeek / 本地 OpenAI 兼容端点；可选 Node 后端落库 + 服务端 AI。</p></div>
+                    <div class="doc-row"><h4>🔍 需求洞察（摘要）</h4><p>会后纪要复述成本高，待办散落在聊天里不可追踪——先要「单场会议的产出站得住」，再谈协作套件。</p></div>
+                    <div class="doc-row"><h4>✅ MVP 取舍</h4><p>转写 + 结构化待办 + 状态流 + 周报；隐私路径可走本地 Whisper；深度总结可走可选服务端。详见上文案例中的趋势叙事。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4><ul><li>默认纯前端 + 浏览器存储；可选 <code>server/</code> SQLite 持久化</li><li>历史搜索筛选、超期识别、TOP 关键词、健康评分与 KPI 卡片</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
                         <div class="feedback-quote">"转写结果基本够用，重点是不用把会议内容传外网，这点我们团队很看重。" —— 产品经理 Ryan</div>
@@ -1563,12 +1605,12 @@
             <h3 style="font-size:clamp(1.1rem,1.6vw,1.4rem); font-weight:600; color:#0c4a6e; margin-bottom: 16px;">✨ 我能为团队带来什么</h3>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(12px,2vw,20px); max-width: 720px; margin: 0 auto;">
                 <div class="capability-item">
-                    <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">🚀 零到一的落地能力</p>
-                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">4个AI小项目从idea到可体验Demo，独立完成全链路</p>
+                    <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">🚀 零到一闭环</p>
+                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">4 个可体验原型，每个都能讲清「痛点—取舍—验证—结果」</p>
                 </div>
                 <div class="capability-item">
                     <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">📊 数据驱动的迭代思维</p>
-                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">会用假设—指标—图表把故事讲清楚（作品集内含模拟看板示例）</p>
+                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">假设—指标—图表闭环；图表嵌在具体案例里，而不是单独「展厅」</p>
                 </div>
                 <div class="capability-item">
                     <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">🧠 用户共情力</p>
@@ -1584,12 +1626,12 @@
                 <span>📞 +86 18992042758</span>
             </div>
             <div style="margin-top: 18px; font-size: clamp(0.74rem,0.95vw,0.85rem); color: #5f6c80;">
-                <p>展现从0到1的AI产品落地能力，融合语言学背景与产品思维 + 商业指标驱动决策 + 数据可视化</p>
+                <p>数据驱动决策 · AI 加速落地 · 用户访谈与指标叙事并重</p>
             </div>
         </div>
 
         <div class="footer">
-            © 2026 王天娇 · 香港理工大学 中国语言学 研究生 · 作品集 · 含A/B测试报告 & Tableau风格看板<br>
+            © 2026 王天娇 · 香港理工大学 中国语言学研究生 · 产品经理向作品集（案例内嵌指标）<br>
             <span style="margin-top: 12px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: clamp(4px,1vw,8px);">
                 <a href="./pet-vaccine.html" target="_blank">宠伴·健康台账</a> ·
                 <a href="./creation-cabin.html" target="_blank">星途创作舱</a> ·
