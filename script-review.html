@@ -1181,7 +1181,7 @@
                     }];
                     appData.activeScriptId = id;
                 }
-                if (!appData.customTags) appData.customTags = [...DEFAULT_TAGS];
+                if (!Array.isArray(appData.customTags)) appData.customTags = [];
                 globalTags = [...new Set([...DEFAULT_TAGS, ...SCENE_TAGS, ...appData.customTags])];
                 if (!appData.activeScriptId || !appData.scripts.find(s => s.id === appData.activeScriptId))
                     appData.activeScriptId = appData.scripts[0]?.id;
