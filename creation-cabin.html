@@ -401,7 +401,8 @@
             }
             .script-list {
                 flex: 0 0 auto;
-                max-height: 148px;
+                max-height: none;
+                overflow: visible;
                 margin-bottom: 8px;
             }
             .sidebar-tools-panel {
@@ -741,8 +742,9 @@
                 max-height: 280px;
             }
             body.is-android-tablet .script-list {
-                max-height: 180px;
+                max-height: none;
                 flex: 0 0 auto;
+                overflow: visible;
             }
         }
         .dev-credit.is-hidden { display: none !important; }
