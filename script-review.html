@@ -171,6 +171,7 @@
             flex-wrap: wrap;
             gap: 12px;
         }
+        .app-header.auto-hide-hidden { transform: translateY(calc(-100% - 4px)); opacity: 0.92; }
         h1 {
             font-weight: 600;
             font-size: 1.75rem;
@@ -745,6 +746,13 @@
             margin-top: 2px;
         }
         @media (max-width: 900px) {
+            .app-header {
+                position: sticky;
+                top: 0;
+                z-index: 30;
+                box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+                transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+            }
             .main-layout {
                 flex-direction: column;
             }
@@ -847,7 +855,7 @@
     <div class="app">
         <header class="app-header">
             <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                <h1>📋 剧本·改稿台账 <small>本地·标签</small></h1>
+                <h1>📋 剧本·复盘舱 <small>本地·标签</small></h1>
                 <div class="theme-switcher">
                     <button class="theme-btn" data-theme="default" title="暖白">暖</button>
                     <button class="theme-btn" data-theme="lightgray" title="浅灰">灰</button>
@@ -1194,7 +1202,7 @@
                 const totalRecords = appData.scripts.reduce((sum, s) => sum + (s.records?.length || 0), 0);
                 if (!isNewUser && totalRecords > 1) { showToast(
                     `欢迎回来！📚 当前共 ${totalRecords} 条进度`, 2500); } else { showToast(
-                    `✨ 欢迎使用剧本改稿台账，可点击「导入」恢复备份`, 2500); }
+                    `✨ 欢迎使用剧本复盘舱，可点击「导入」恢复备份`, 2500); }
             }
 
             function saveData(quiet = true) {
@@ -1913,6 +1921,41 @@
                 bindEvents();
                 initTheme();
                 startAutoSave();
+                const appHeader = document.querySelector('.app-header');
+                if (appHeader) {
+                    let lastY = window.scrollY;
+                    let ticking = false;
+                    const autoHideHeader = () => {
+                        ticking = false;
+                        const y = window.scrollY;
+                        const isMobile = window.innerWidth <= 900;
+                        if (!isMobile || y < 24) {
+                            appHeader.classList.remove('auto-hide-hidden');
+                            lastY = y;
+                            return;
+                        }
+                        const delta = y - lastY;
+                        if (delta > 8) appHeader.classList.add('auto-hide-hidden');
+                        else if (delta < -8) appHeader.classList.remove('auto-hide-hidden');
+                        lastY = y;
+                    };
+                    window.addEventListener('scroll', () => {
+                        if (!ticking) {
+                            ticking = true;
+                            requestAnimationFrame(autoHideHeader);
+                        }
+                    }, { passive: true });
+                    const revealHeaderIfTopTapped = (ev) => {
+                        const isMobile = window.innerWidth <= 900;
+                        const clientY = ev.touches?.[0]?.clientY ?? ev.clientY;
+                        if (!isMobile || typeof clientY !== 'number') return;
+                        if (clientY <= 64) appHeader.classList.remove('auto-hide-hidden');
+                    };
+                    window.addEventListener('touchstart', revealHeaderIfTopTapped, { passive: true });
+                    window.addEventListener('pointerdown', revealHeaderIfTopTapped, { passive: true });
+                    window.addEventListener('resize', autoHideHeader, { passive: true });
+                    autoHideHeader();
+                }
             }
             init();
         })();

@@ -119,7 +119,10 @@
             color: var(--text);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+            transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
         }
+        .app-header.auto-hide-hidden { transform: translateY(calc(-100% - 4px)); opacity: 0.92; }
         .app-header h1 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 2px; }
         .app-header p { font-size: 0.88rem; color: var(--muted); }
         .header-cloud-details { margin-top: 12px; max-width: 760px; margin-left: auto; margin-right: auto; text-align: left; }
@@ -3131,6 +3134,41 @@
             if (themeSelect) themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
             const modeSelect = document.getElementById('accessibilityModeSelect');
             if (modeSelect) modeSelect.addEventListener('change', (e) => applyAccessibilityMode(e.target.value));
+            const appHeader = document.querySelector('.app-header');
+            if (appHeader) {
+                let lastY = window.scrollY;
+                let ticking = false;
+                const autoHideHeader = () => {
+                    ticking = false;
+                    const y = window.scrollY;
+                    const isMobile = window.innerWidth <= 900;
+                    if (!isMobile || y < 24) {
+                        appHeader.classList.remove('auto-hide-hidden');
+                        lastY = y;
+                        return;
+                    }
+                    const delta = y - lastY;
+                    if (delta > 8) appHeader.classList.add('auto-hide-hidden');
+                    else if (delta < -8) appHeader.classList.remove('auto-hide-hidden');
+                    lastY = y;
+                };
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        ticking = true;
+                        requestAnimationFrame(autoHideHeader);
+                    }
+                }, { passive: true });
+                const revealHeaderIfTopTapped = (ev) => {
+                    const isMobile = window.innerWidth <= 900;
+                    const clientY = ev.touches?.[0]?.clientY ?? ev.clientY;
+                    if (!isMobile || typeof clientY !== 'number') return;
+                    if (clientY <= 64) appHeader.classList.remove('auto-hide-hidden');
+                };
+                window.addEventListener('touchstart', revealHeaderIfTopTapped, { passive: true });
+                window.addEventListener('pointerdown', revealHeaderIfTopTapped, { passive: true });
+                window.addEventListener('resize', autoHideHeader, { passive: true });
+                autoHideHeader();
+            }
 
             restorePortfolioCloudInputs();
             document.getElementById('petCloudSync')?.addEventListener('change', persistPetCloudSettings);
