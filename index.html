@@ -360,6 +360,14 @@
                 justify-content: flex-start;
                 gap: 8px;
             }
+            .quick-jump-block {
+                justify-content: flex-start;
+                gap: 5px;
+            }
+            .quick-jump-block a {
+                font-size: 0.64rem;
+                padding: 3px 7px;
+            }
             .hero-detail span {
                 min-height: 32px;
                 padding: 5px 10px;
@@ -501,6 +509,22 @@
             font-size: clamp(0.78rem, 1.1vw, 0.9rem);
             color: #475569;
             padding: 0 4px;
+        }
+        .quick-jump-block {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+        }
+        .quick-jump-block a {
+            text-decoration: none;
+            color: #41566d;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(248, 250, 252, 0.86);
+            border: 1px solid #dbe5ee;
         }
         .accent-line {
             width: 40px;
@@ -1227,15 +1251,17 @@
             flex: 1;
             min-width: 180px;
         }
-        @media (max-width: 640px) {
+        @media (max-width: 820px) {
             .chart-row-flex {
-                flex-direction: column !important;
-                gap: 16px;
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 12px;
                 align-items: stretch;
             }
-            .chart-row-flex .chart-col {
-                min-width: auto;
-                width: 100%;
+            .chart-row-flex .chart-col,
+            .chart-row-flex .chart-col[style] {
+                min-width: 0 !important;
+                width: 100% !important;
             }
         }
         .dashboard-note {
@@ -1381,6 +1407,57 @@
             background: #fff;
             color: #1f2937;
             font-size: 0.86rem;
+        }
+        .mobile-side-toc {
+            display: none;
+            position: fixed;
+            right: max(6px, env(safe-area-inset-right, 0px));
+            top: 44%;
+            transform: translateY(-50%);
+            z-index: 130;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid #dce5ef;
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+        }
+        .mobile-side-toc-toggle {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #d3dce8;
+            border-radius: 999px;
+            background: #f8fafc;
+            color: #334155;
+            font-size: 0.7rem;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .mobile-side-toc-links {
+            display: none;
+            margin-top: 4px;
+            max-height: 52vh;
+            overflow: auto;
+        }
+        .mobile-side-toc.is-expanded .mobile-side-toc-links {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .mobile-side-toc-links a {
+            text-decoration: none;
+            font-size: 0.62rem;
+            color: #3b556e;
+            padding: 3px 6px;
+            border-radius: 999px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+        @media (max-width: 820px) {
+            .mobile-side-toc { display: block; }
         }
         body.elder-mode { font-size: 19px; line-height: 1.65; }
         body.elder-mode .toc-link,
@@ -1630,6 +1707,18 @@
             <a href="#contact-section">📬 联系</a>
         </div>
     </nav>
+    <div class="mobile-side-toc" id="mobileSideToc" aria-label="侧边目录">
+        <button type="button" class="mobile-side-toc-toggle" id="mobileSideTocBtn" aria-label="展开侧边目录">☰</button>
+        <div class="mobile-side-toc-links">
+            <a href="#flagship-journey">宠伴</a>
+            <a href="#all-projects">项目</a>
+            <a href="#meeting-case-study">会议</a>
+            <a href="#design-methodology">方法</a>
+            <a href="#design-docs">文档</a>
+            <a href="#prd-sample">PRD</a>
+            <a href="#contact-section">联系</a>
+        </div>
+    </div>
 
     <div class="container">
         <div class="inline-mode-wrap">
@@ -1658,6 +1747,14 @@
             <div class="hero-detail">
                 <span>📍 可立即到岗</span>
                 <span>🔍 实习3 - 6个月 · 每周5天</span>
+            </div>
+            <div class="quick-jump-block" aria-label="快速跳转">
+                <a href="#flagship-journey">宠伴</a>
+                <a href="#all-projects">项目</a>
+                <a href="#meeting-case-study">会议</a>
+                <a href="#design-methodology">方法</a>
+                <a href="#design-docs">文档</a>
+                <a href="#contact-section">联系</a>
             </div>
             <div class="accent-line"></div>
         </div>
@@ -2276,7 +2373,7 @@
                 localStorage.setItem('index_theme_mode', t);
                 applyIndexMode(t);
             });
-            const links = document.querySelectorAll('.toc-link');
+            const links = document.querySelectorAll('.toc-link, .quick-jump-block a, .mobile-side-toc a');
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -2289,6 +2386,7 @@
                             const offsetPosition = elementPosition - offset;
                             window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                             history.pushState(null, null, targetId);
+                            document.getElementById('mobileSideToc')?.classList.remove('is-expanded');
                         }
                     }
                 });
@@ -2319,6 +2417,12 @@
                 if (!mobileNav) return;
                 mobileNav.classList.toggle('is-collapsed');
                 mobileNavToggleBtn.textContent = mobileNav.classList.contains('is-collapsed') ? '目录' : '收起';
+            });
+            const mobileSideToc = document.getElementById('mobileSideToc');
+            const mobileSideTocBtn = document.getElementById('mobileSideTocBtn');
+            mobileSideTocBtn?.addEventListener('click', () => {
+                mobileSideToc?.classList.toggle('is-expanded');
+                if (mobileSideTocBtn) mobileSideTocBtn.textContent = mobileSideToc?.classList.contains('is-expanded') ? '×' : '☰';
             });
             const uiDock = document.querySelector('.ui-mode-dock');
             const modeToggleBtn = document.getElementById('indexModeToggleBtn');
