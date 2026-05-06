@@ -201,7 +201,7 @@
             gap: 10px;
             flex-wrap: wrap;
         }
-        .mode-toggle-btn { border: 1px solid var(--btn-border); border-radius: 999px; background: var(--btn-bg); color: var(--text-primary); min-height: 36px; min-width: 36px; padding: 0 10px; cursor: pointer; }
+        .mode-toggle-btn { border: 1px solid var(--btn-border); border-radius: 999px; background: var(--btn-bg); color: var(--text-primary); min-height: 32px; min-width: 32px; height: 32px; width: 32px; padding: 0; cursor: pointer; font-size: 0.92rem; line-height: 1; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 32px; }
         .mode-panel { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .mode-host:not(.is-expanded) .mode-panel { display: none; }
         .theme-switcher {
@@ -719,6 +719,7 @@
             transition: opacity 0.2s;
             font-weight: 500;
             white-space: nowrap;
+            max-width: calc(100vw - 20px);
         }
         .dev-credit {
             position: fixed;
@@ -821,6 +822,12 @@
             .script-sidebar {
                 max-height: 340px;
             }
+            .toast-message {
+                bottom: 16px;
+                padding: 8px 12px;
+                font-size: 0.78rem;
+                border-radius: 18px;
+            }
         }
         body.elder-mode { font-size: 18px; }
         body.elder-mode input,
@@ -873,6 +880,69 @@
         .record-card { margin-bottom: var(--sp-4); }
         .app-header { padding: var(--sp-4) calc(var(--sp-4) + 4px); }
         body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.28rem; --fs-caption: 0.96rem; }
+
+        /* 移动端优先兜底：避免桌面排版硬缩 */
+        @media (max-width: 820px) {
+            body { letter-spacing: 0; }
+            .app { border-radius: 14px; overflow: hidden; }
+            .app-header { padding: 12px 12px 10px; gap: 8px; }
+            .main-layout { flex-direction: column; }
+            .script-sidebar, .content-panel { width: 100%; }
+            .script-sidebar { max-height: 44vh; overflow: auto; }
+            .header-actions { width: 100%; justify-content: flex-start; gap: 6px; }
+            .mode-panel { width: 100%; }
+            .record-form-card, .outline-section, .references-section, .title-lottery-section,
+            .record-card { padding: 14px 12px; border-radius: 14px; }
+        }
+        @media (max-width: 520px) {
+            .app-header h1 { font-size: 1.06rem; line-height: 1.25; }
+            .current-script-title { font-size: 1.18rem; }
+            .btn, .btn-sm { min-height: 40px; font-size: 0.82rem; padding: 8px 10px; }
+            .storage-badge { font-size: 0.74rem; }
+        }
+
+        /* 严格三档（安卓 360 / 393 / 412） */
+        @media (max-width: 360px) {
+            body { font-size: 0.9rem; }
+            .app-header { padding: 10px 8px; }
+            .script-sidebar { max-height: 40vh; }
+            .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card { padding: 12px 10px; border-radius: 12px; }
+            .btn, .btn-sm, .theme-btn { min-height: 36px; font-size: 0.78rem; }
+            .mode-toggle-btn { width: 30px; height: 30px; min-width: 30px; min-height: 30px; }
+        }
+        @media (min-width: 361px) and (max-width: 393px) {
+            body { font-size: 0.93rem; }
+            .app-header { padding: 11px 9px; }
+            .script-sidebar { max-height: 42vh; }
+            .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card { padding: 13px 11px; border-radius: 13px; }
+            .btn, .btn-sm, .theme-btn { min-height: 37px; font-size: 0.8rem; }
+            .mode-toggle-btn { width: 31px; height: 31px; min-width: 31px; min-height: 31px; }
+        }
+        @media (min-width: 394px) and (max-width: 412px) {
+            body { font-size: 0.95rem; }
+            .app-header { padding: 12px 10px; }
+            .script-sidebar { max-height: 44vh; }
+            .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card { padding: 14px 12px; border-radius: 14px; }
+            .btn, .btn-sm, .theme-btn { min-height: 38px; font-size: 0.82rem; }
+            .mode-toggle-btn { width: 32px; height: 32px; min-width: 32px; min-height: 32px; }
+        }
+
+        /* Apple 风格视觉标尺：色彩/描边/阴影三档统一 */
+        @media (max-width: 360px) {
+            .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card, .script-item, .modal-card { border-width: 0.5px; border-color: rgba(15,23,42,0.1); box-shadow: 0 4px 10px rgba(15,23,42,0.045); }
+            .app-header { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+            body.theme-dark .app-header, body.theme-dark .script-sidebar, body.theme-dark .record-form-card, body.theme-dark .outline-section, body.theme-dark .references-section, body.theme-dark .title-lottery-section, body.theme-dark .record-card, body.theme-dark .script-item, body.theme-dark .modal-card { background: rgba(28,28,30,0.92); border-color: rgba(255,255,255,0.16); box-shadow: 0 6px 14px rgba(0,0,0,0.42); }
+        }
+        @media (min-width: 361px) and (max-width: 393px) {
+            .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card, .script-item, .modal-card { border-width: 1px; border-color: rgba(15,23,42,0.1); box-shadow: 0 6px 14px rgba(15,23,42,0.05); }
+            .app-header { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+            body.theme-dark .app-header, body.theme-dark .script-sidebar, body.theme-dark .record-form-card, body.theme-dark .outline-section, body.theme-dark .references-section, body.theme-dark .title-lottery-section, body.theme-dark .record-card, body.theme-dark .script-item, body.theme-dark .modal-card { background: rgba(28,28,30,0.94); border-color: rgba(255,255,255,0.18); box-shadow: 0 8px 18px rgba(0,0,0,0.46); }
+        }
+        @media (min-width: 394px) and (max-width: 412px) {
+            .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card, .script-item, .modal-card { border-width: 1.5px; border-color: rgba(15,23,42,0.11); box-shadow: 0 8px 18px rgba(15,23,42,0.06); }
+            .app-header { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+            body.theme-dark .app-header, body.theme-dark .script-sidebar, body.theme-dark .record-form-card, body.theme-dark .outline-section, body.theme-dark .references-section, body.theme-dark .title-lottery-section, body.theme-dark .record-card, body.theme-dark .script-item, body.theme-dark .modal-card { background: rgba(28,28,30,0.96); border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 22px rgba(0,0,0,0.5); }
+        }
     </style>
 </head>
 <body class="theme-default">
