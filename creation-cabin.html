@@ -696,6 +696,55 @@
         details.foldable-panel .foldable-inner {
             padding-top: 2px;
         }
+        .tablet-bottom-tools {
+            display: none;
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 18px;
+            background: var(--form-bg);
+            box-shadow: var(--ui-shadow-card, -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.11));
+        }
+        .tablet-bottom-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        @media (min-width: 768px) and (max-width: 1100px) and (orientation: portrait) {
+            body.is-android-tablet .tablet-bottom-tools-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
+            body.is-android-tablet .tablet-bottom-tools-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        body.is-android-tablet .tablet-bottom-tools {
+            display: block;
+        }
+        body.is-android-tablet .tablet-bottom-tools .sidebar-tools-panel {
+            margin: 0;
+        }
+        body.is-android-tablet .tablet-bottom-tools .manage-tags-btn {
+            width: 100%;
+            margin: 0;
+            min-height: 40px;
+        }
+        body.is-android-tablet .tablet-bottom-tools .auto-backup-toggle {
+            margin: 0;
+            padding: 8px 10px;
+            border-radius: 12px;
+            background: var(--card-bg);
+        }
+        @media (min-width: 768px) and (max-width: 1100px) {
+            body.is-android-tablet .script-sidebar {
+                max-height: 280px;
+            }
+            body.is-android-tablet .script-list {
+                max-height: 180px;
+                flex: 0 0 auto;
+            }
+        }
         .dev-credit.is-hidden { display: none !important; }
         .dev-credit-dismiss {
             position: absolute;
@@ -1424,6 +1473,31 @@
             devBar?.classList.add('is-hidden');
             localStorage.setItem('creation_hide_dev_credit', '1');
         });
+        const isAndroidTablet = () => /Android/i.test(navigator.userAgent) && window.innerWidth >= 768 && window.innerWidth <= 1100;
+        const applyAndroidTabletToolsLayout = () => {
+            const sidebar = document.querySelector('.script-sidebar');
+            const content = document.querySelector('.content-panel');
+            if (!sidebar || !content) return;
+            let dock = document.getElementById('tabletBottomToolsDock');
+            if (!dock) {
+                dock = document.createElement('div');
+                dock.id = 'tabletBottomToolsDock';
+                dock.className = 'tablet-bottom-tools';
+                dock.innerHTML = '<div class="section-title" style="margin-bottom:10px;">🧩 快捷工具区</div><div class="tablet-bottom-tools-grid" id="tabletBottomToolsGrid"></div>';
+                content.appendChild(dock);
+            }
+            const grid = document.getElementById('tabletBottomToolsGrid');
+            if (!grid) return;
+            if (isAndroidTablet()) {
+                document.body.classList.add('is-android-tablet');
+                const toolNodes = sidebar.querySelectorAll(':scope > .sidebar-tools-panel, :scope > .manage-tags-btn, :scope > .auto-backup-toggle');
+                toolNodes.forEach(node => grid.appendChild(node));
+            } else {
+                document.body.classList.remove('is-android-tablet');
+                const returnNodes = grid.querySelectorAll('.sidebar-tools-panel, .manage-tags-btn, .auto-backup-toggle');
+                returnNodes.forEach(node => sidebar.appendChild(node));
+            }
+        };
         const appHeader = document.querySelector('.app-header');
         if (appHeader) {
             let lastY = window.scrollY;
@@ -1459,7 +1533,7 @@
             window.addEventListener('resize', autoHideHeader, { passive: true });
             autoHideHeader();
         }
-        loadData(); setDefaultDate(); refreshUI(); bindEvents(); setInterval(()=>saveData(), 30000); registerCreationSW();
+        loadData(); setDefaultDate(); refreshUI(); bindEvents(); applyAndroidTabletToolsLayout(); window.addEventListener('resize', applyAndroidTabletToolsLayout, { passive: true }); setInterval(()=>saveData(), 30000); registerCreationSW();
     }
     init();
 })();
