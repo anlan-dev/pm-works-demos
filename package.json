@@ -1,0 +1,20 @@
+{
+  "name": "meeting-ruminant-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "会议·反刍舱 — 前后端分离 API（SQLite + DeepSeek）",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2"
+  }
+}
