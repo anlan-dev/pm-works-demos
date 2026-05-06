@@ -265,21 +265,24 @@
                 top: max(8px, calc(env(safe-area-inset-top, 0px) + 4px));
                 bottom: auto;
                 left: max(10px, env(safe-area-inset-left, 0px));
-                right: max(10px, env(safe-area-inset-right, 0px));
-                justify-content: center;
+                right: auto;
+                justify-content: flex-start;
                 z-index: 1001;
                 border-radius: 12px;
                 padding: 6px 8px;
+                width: auto;
+                max-width: calc(100vw - 20px);
+                overflow-x: auto;
             }
             .ui-mode-dock select {
-                flex: 1;
-                min-width: 120px;
-                max-width: 180px;
+                flex: 0 0 auto;
+                min-width: 96px;
+                max-width: 136px;
                 font-size: 0.8rem;
                 padding: 6px 10px;
             }
             .container {
-                padding-top: clamp(76px, 13vw, 96px);
+                padding-top: clamp(66px, 12vw, 86px);
             }
         }
         @media (min-width: 821px) {
