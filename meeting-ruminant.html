@@ -215,6 +215,9 @@
         .theme-switcher {
             display: flex; gap: 8px; margin-left: auto;
         }
+        .mode-toggle-btn { border: 1px solid var(--btn-border); border-radius: 999px; background: var(--btn-bg); color: var(--text-primary); min-height: 34px; min-width: 34px; padding: 0 10px; cursor: pointer; }
+        .mode-panel { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .mode-host:not(.is-expanded) .mode-panel { display: none; }
         .theme-dot {
             width: 28px; height: 28px; border-radius: 28px; cursor: pointer;
             border: 2px solid transparent; transition: 0.1s;
@@ -350,6 +353,13 @@
         body.elder-mode select { min-height: 46px; font-size: 1rem; }
         body.elder-mode .card { border-radius: 24px; padding: 26px; }
         body.elder-mode .theme-dot { width: 28px; height: 28px; }
+        body.elder-mode h1 { font-size: 2rem; gap: 14px; }
+        body.elder-mode h1 small { font-size: 0.95rem; padding: 6px 14px; }
+        body.elder-mode .row { gap: 14px; margin-bottom: 20px; }
+        body.elder-mode .api-config { padding: 18px 20px; border-radius: 22px; }
+        body.elder-mode .todo-item,
+        body.elder-mode .history-item { padding: 16px 18px; border-radius: 18px; }
+        body.elder-mode .kpi-value { font-size: 1.35rem; }
 
         /* 视觉细节统一打磨 */
         .card { border-radius: 22px; box-shadow: 0 10px 24px rgba(16,24,40,0.06); }
@@ -396,13 +406,18 @@
     <div class="card">
         <div class="flex-between meeting-top-toolbar" id="meetingTopToolbar">
             <h1>🔄 会议·反刍舱 <small>AI 复盘 → 行动管理</small></h1>
-            <div class="theme-switcher">
-                <div class="theme-dot warm active" data-theme="warm" title="暖"></div>
-                <div class="theme-dot gray" data-theme="gray" title="灰"></div>
-                <div class="theme-dot mint" data-theme="mint" title="清"></div>
-                <div class="theme-dot ink" data-theme="ink" title="ink"></div>
+            <div class="mode-host" id="meetingModeBox" style="display:flex; align-items:center; gap:8px;">
+                <button type="button" class="mode-toggle-btn" id="meetingModeToggleBtn" aria-label="展开模式设置">⚙️</button>
+                <div class="mode-panel">
+                    <div class="theme-switcher">
+                        <div class="theme-dot warm active" data-theme="warm" title="暖"></div>
+                        <div class="theme-dot gray" data-theme="gray" title="灰"></div>
+                        <div class="theme-dot mint" data-theme="mint" title="清"></div>
+                        <div class="theme-dot ink" data-theme="ink" title="ink"></div>
+                    </div>
+                    <button class="btn" id="elderModeBtn">👓 长辈模式</button>
+                </div>
             </div>
-            <button class="btn" id="elderModeBtn">👓 长辈模式</button>
         </div>
         <p>录音 / 上传音频 → 自动转文字 → AI 提取议题、待办、反刍 · 支持本地智能 & 待办追踪</p>
 
@@ -587,6 +602,10 @@
         applyMeetingTheme(localStorage.getItem('theme') || 'warm');
     });
     document.getElementById('elderModeBtn').textContent = document.body.classList.contains('elder-mode') ? '👓 退出长辈模式' : '👓 长辈模式';
+    const meetingModeBox = document.getElementById('meetingModeBox');
+    document.getElementById('meetingModeToggleBtn')?.addEventListener('click', () => {
+        meetingModeBox?.classList.toggle('is-expanded');
+    });
     const meetingTopToolbar = document.getElementById('meetingTopToolbar');
     if (meetingTopToolbar) {
         let lastY = window.scrollY;

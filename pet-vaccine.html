@@ -160,6 +160,18 @@
             gap: 8px;
             align-items: center;
         }
+        .header-mode-toggle {
+            border: 1px solid var(--btn-border);
+            border-radius: 999px;
+            background: var(--btn-bg);
+            color: var(--text);
+            min-height: 38px;
+            min-width: 38px;
+            padding: 0 10px;
+            cursor: pointer;
+        }
+        .header-mode-panel { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .header-toolbar:not(.is-expanded) .header-mode-panel { display: none; }
         .header-toolbar > span { font-size: 0.85rem; color: var(--muted); }
         body[data-theme="ink"] .app-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--header-bg); }
         .container { max-width: 920px; margin: 0 auto; padding: 16px 14px; }
@@ -394,6 +406,16 @@
         body.elder-mode textarea { min-height: 46px; font-size: 1rem; }
         body.elder-mode .small-note { font-size: 0.85rem; }
         body.elder-mode .card { padding: 20px 18px; }
+        body.elder-mode .app-header h1 { font-size: 1.55rem; }
+        body.elder-mode .app-header p { font-size: 0.98rem; }
+        body.elder-mode .container { max-width: 980px; padding: 20px 16px; }
+        body.elder-mode .card { border-radius: 22px; margin-bottom: 20px; box-shadow: 0 12px 26px rgba(16,24,40,0.08); }
+        body.elder-mode .input-group { gap: 12px; margin: 18px 0; }
+        body.elder-mode .vaccine-item,
+        body.elder-mode .expense-item,
+        body.elder-mode .deworm-item,
+        body.elder-mode .weight-item { padding: 16px; border-radius: 20px; }
+        body.elder-mode .tab-bar { padding: 10px 8px; border-radius: 18px; }
 
         /* 视觉细节统一打磨 */
         .card { border-radius: 22px; box-shadow: 0 10px 24px rgba(16,24,40,0.06); }
@@ -443,18 +465,21 @@
             <h1>🐱🐶 宠伴·健康台账</h1>
             <p>养宠全周期健康台账：免疫、驱虫、花费与提醒闭环</p>
         </div>
-        <div class="header-toolbar">
-            <span>风格</span>
-            <select id="themeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
-                <option value="warm">暖</option>
-                <option value="gray">灰</option>
-                <option value="night">夜</option>
-                <option value="ink">Ink</option>
-            </select>
-            <select id="accessibilityModeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
-                <option value="normal">标准模式</option>
-                <option value="elder">长辈模式</option>
-            </select>
+        <div class="header-toolbar" id="petHeaderModeBox">
+            <button type="button" class="header-mode-toggle" id="petModeToggleBtn" aria-label="展开模式设置">⚙️</button>
+            <div class="header-mode-panel">
+                <span>风格</span>
+                <select id="themeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
+                    <option value="warm">暖</option>
+                    <option value="gray">灰</option>
+                    <option value="night">夜</option>
+                    <option value="ink">Ink</option>
+                </select>
+                <select id="accessibilityModeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
+                    <option value="normal">标准模式</option>
+                    <option value="elder">长辈模式</option>
+                </select>
+            </div>
         </div>
     </div>
     <details class="header-cloud-details">
@@ -3151,6 +3176,10 @@
             if (themeSelect) themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
             const modeSelect = document.getElementById('accessibilityModeSelect');
             if (modeSelect) modeSelect.addEventListener('change', (e) => applyAccessibilityMode(e.target.value));
+            const petModeBox = document.getElementById('petHeaderModeBox');
+            document.getElementById('petModeToggleBtn')?.addEventListener('click', () => {
+                petModeBox?.classList.toggle('is-expanded');
+            });
             const appHeader = document.querySelector('.app-header');
             if (appHeader) {
                 let lastY = window.scrollY;

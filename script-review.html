@@ -201,6 +201,9 @@
             gap: 10px;
             flex-wrap: wrap;
         }
+        .mode-toggle-btn { border: 1px solid var(--btn-border); border-radius: 999px; background: var(--btn-bg); color: var(--text-primary); min-height: 36px; min-width: 36px; padding: 0 10px; cursor: pointer; }
+        .mode-panel { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .mode-host:not(.is-expanded) .mode-panel { display: none; }
         .theme-switcher {
             display: flex;
             gap: 8px;
@@ -826,6 +829,14 @@
         body.elder-mode .btn,
         body.elder-mode .theme-btn { min-height: 44px; font-size: 0.98rem; }
         body.elder-mode .app { border-radius: 24px; }
+        body.elder-mode .app-header { padding: 26px 30px; }
+        body.elder-mode h1 { font-size: 2rem; }
+        body.elder-mode .script-sidebar { max-height: 380px; }
+        body.elder-mode .record-form-card,
+        body.elder-mode .record-card,
+        body.elder-mode .modal-card { padding: 24px 22px; border-radius: 24px; }
+        body.elder-mode .storage-badge { font-size: 0.92rem; padding: 8px 12px; }
+        body.elder-mode .current-script-title { font-size: 1.6rem; }
 
         /* 视觉细节统一打磨 */
         .record-form-card, .outline-section, .references-section, .title-lottery-section,
@@ -867,18 +878,21 @@
 <body class="theme-default">
     <div class="app">
         <header class="app-header">
-            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div class="mode-host" id="scriptModeBox" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
                 <h1>📋 剧本·复盘舱 <small>本地·标签</small></h1>
-                <div class="theme-switcher">
-                    <button class="theme-btn" data-theme="default" title="暖白">暖</button>
-                    <button class="theme-btn" data-theme="lightgray" title="浅灰">灰</button>
-                    <button class="theme-btn" data-theme="mint" title="薄荷">清</button>
-                    <button class="theme-btn" data-theme="dark" title="夜间">夜</button>
-                    <button class="theme-btn" data-theme="ink" title="墨水屏">墨</button>
+                <button type="button" class="mode-toggle-btn" id="scriptModeToggleBtn" aria-label="展开模式设置">⚙️</button>
+                <div class="mode-panel">
+                    <div class="theme-switcher">
+                        <button class="theme-btn" data-theme="default" title="暖白">暖</button>
+                        <button class="theme-btn" data-theme="lightgray" title="浅灰">灰</button>
+                        <button class="theme-btn" data-theme="mint" title="薄荷">清</button>
+                        <button class="theme-btn" data-theme="dark" title="夜间">夜</button>
+                        <button class="theme-btn" data-theme="ink" title="墨水屏">墨</button>
+                    </div>
+                    <button class="btn" id="elderModeBtn">👓 长辈模式</button>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn" id="elderModeBtn">👓 长辈模式</button>
                 <button class="btn" id="monthlyReviewBtn">📊 月度回顾</button>
                 <button class="btn" id="exportCSVBtn" title="导出当前剧本记录为CSV">📊 CSV</button>
                 <button class="btn" id="exportWordBtn" title="导出当前剧本记录为Word">📝 Word</button>
@@ -1887,6 +1901,10 @@
                         applyTheme(localStorage.getItem('script_theme') || 'default');
                     });
                 }
+                const scriptModeBox = document.getElementById('scriptModeBox');
+                document.getElementById('scriptModeToggleBtn')?.addEventListener('click', () => {
+                    scriptModeBox?.classList.toggle('is-expanded');
+                });
             }
             document.getElementById('autoBackupCheckbox').checked = localStorage.getItem(AUTO_BACKUP_KEY) ===
                 'true';
