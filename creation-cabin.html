@@ -95,6 +95,9 @@
         .icon-btn { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-secondary); padding: 0 4px; border-radius: 30px; transition: 0.1s; }
         .icon-btn:hover { background: var(--btn-border); }
         .header-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .mode-toggle-btn { border: 1px solid var(--btn-border); border-radius: 999px; background: var(--btn-bg); color: var(--text-primary); min-height: 36px; min-width: 36px; padding: 0 10px; cursor: pointer; }
+        .mode-panel { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .header-actions:not(.is-expanded) .mode-panel { display: none; }
         .theme-switcher { display: flex; gap: 8px; }
         .theme-btn { width: 40px; height: 36px; border-radius: 30px; border: 2px solid transparent; background: var(--btn-bg); color: var(--text-primary); font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; border: 1px solid var(--btn-border); }
         .theme-btn.active { border: 2px solid var(--accent-border); transform: scale(1.05); }
@@ -406,6 +409,17 @@
         body.elder-mode select { font-size: 1rem; min-height: 46px; }
         body.elder-mode .section-title { font-size: 1.2rem; }
         body.elder-mode .script-item { padding: 14px 16px; }
+        body.elder-mode .app-header { padding: 24px 30px; }
+        body.elder-mode h1 { font-size: 2rem; }
+        body.elder-mode .script-sidebar { width: 340px; }
+        body.elder-mode .record-form-card,
+        body.elder-mode .role-world-section,
+        body.elder-mode .outline-section,
+        body.elder-mode .references-section,
+        body.elder-mode .title-lottery-section { padding: 26px 26px; border-radius: 26px; }
+        body.elder-mode .sidebar-tools-title { font-size: 1rem; }
+        body.elder-mode .sidebar-tools-body .small-note { font-size: 0.9rem; }
+        body.elder-mode .record-card { padding: 18px; }
 
         /* 视觉细节统一打磨 */
         .record-form-card, .role-world-section, .outline-section, .references-section, .title-lottery-section,
@@ -550,16 +564,19 @@
 <body>
 <div class="app">
     <header class="app-header"><div><h1>🌌 星途·创作舱 <div class="greeting-wrapper"><span id="greetingText" class="greeting-text">✨ 灵感闪耀 ✨</span><div class="greeting-actions"><button class="icon-btn" id="editNicknameBtn" title="设置称呼">✏️</button><button class="icon-btn" id="randomGreetingBtn" title="随机鼓励语">🎲</button><button class="icon-btn" id="manageEncouragementBtn" title="管理鼓励语库">📝</button></div></div></h1></div>
-        <div class="header-actions">
-            <div class="theme-switcher">
-                <button class="theme-btn active" data-theme="default">暖</button>
-                <button class="theme-btn" data-theme="lightgray">灰</button>
-                <button class="theme-btn" data-theme="mint">清</button>
-                <button class="theme-btn" data-theme="dark">夜</button>
-                <!-- 新增墨水屏主题按钮 -->
-                <button class="theme-btn" data-theme="ink">墨</button>
+        <div class="header-actions" id="creationModeBox">
+            <button type="button" class="mode-toggle-btn" id="creationModeToggleBtn" aria-label="展开模式设置">⚙️</button>
+            <div class="mode-panel">
+                <div class="theme-switcher">
+                    <button class="theme-btn active" data-theme="default">暖</button>
+                    <button class="theme-btn" data-theme="lightgray">灰</button>
+                    <button class="theme-btn" data-theme="mint">清</button>
+                    <button class="theme-btn" data-theme="dark">夜</button>
+                    <!-- 新增墨水屏主题按钮 -->
+                    <button class="theme-btn" data-theme="ink">墨</button>
+                </div>
+                <button class="btn" id="elderModeBtn">👓 长辈模式</button>
             </div>
-            <button class="btn" id="elderModeBtn">👓 长辈模式</button>
             <button class="btn" id="monthlyReviewBtn">📊 星际回顾</button>
             <div class="storage-badge"><span>💾 本地星核</span><button id="exportDataBtn">⬇️ 导出</button><button id="importDataBtn">⬆️ 导入</button><input type="file" id="importFileInput" accept=".json" style="display:none"></div>
         </div>
@@ -1165,6 +1182,10 @@
             applyCreationTheme(localStorage.getItem('creation_theme') || 'default');
         });
         document.getElementById('elderModeBtn').textContent = document.body.classList.contains('elder-mode') ? '👓 退出长辈模式' : '👓 长辈模式';
+        const creationModeBox = document.getElementById('creationModeBox');
+        document.getElementById('creationModeToggleBtn')?.addEventListener('click', () => {
+            creationModeBox?.classList.toggle('is-expanded');
+        });
         document.getElementById('saveGoalBtn')?.addEventListener('click',()=>{ const s=getActiveScript(); if(!s) return; s.goals={daily: parseInt(document.getElementById('dailyGoalInput').value||1200,10), weekly: parseInt(document.getElementById('weeklyGoalInput').value||6000,10)}; saveData(); renderGoalTracking(); renderHealthScore(); showToast('目标已保存'); });
         document.getElementById('globalSearchInput')?.addEventListener('input',(e)=>{ currentSearchKeyword=e.target.value||''; renderRecords(); });
         document.getElementById('statusFilterSelect')?.addEventListener('change',(e)=>{ currentStatusFilter=e.target.value||''; renderRecords(); });
