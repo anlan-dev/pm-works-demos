@@ -394,6 +394,24 @@
             .record-form-card .form-grid > div { width: 100%; }
             .btn, .btn-primary { width: 100%; justify-content: center; }
             .dev-credit { display: none; }
+            /* 手机端：避免项目列表占满侧栏导致工具入口“消失” */
+            .script-sidebar {
+                max-height: 62vh;
+                overflow-y: auto;
+            }
+            .script-list {
+                flex: 0 0 auto;
+                max-height: 148px;
+                margin-bottom: 8px;
+            }
+            .sidebar-tools-panel {
+                display: block;
+                margin-bottom: 8px;
+            }
+            .sidebar-tools-title {
+                min-height: 34px;
+                font-size: 0.82rem;
+            }
         }
 
         /* 长辈模式 */
