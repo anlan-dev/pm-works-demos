@@ -847,7 +847,7 @@
     <div class="app">
         <header class="app-header">
             <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                <h1>📋 剧本·复盘舱 <small>本地·标签</small></h1>
+                <h1>📋 剧本·改稿台账 <small>本地·标签</small></h1>
                 <div class="theme-switcher">
                     <button class="theme-btn" data-theme="default" title="暖白">暖</button>
                     <button class="theme-btn" data-theme="lightgray" title="浅灰">灰</button>
@@ -1194,7 +1194,7 @@
                 const totalRecords = appData.scripts.reduce((sum, s) => sum + (s.records?.length || 0), 0);
                 if (!isNewUser && totalRecords > 1) { showToast(
                     `欢迎回来！📚 当前共 ${totalRecords} 条进度`, 2500); } else { showToast(
-                    `✨ 欢迎使用剧本复盘舱，可点击「导入」恢复备份`, 2500); }
+                    `✨ 欢迎使用剧本改稿台账，可点击「导入」恢复备份`, 2500); }
             }
 
             function saveData(quiet = true) {

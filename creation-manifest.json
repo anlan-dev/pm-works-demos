@@ -1,6 +1,6 @@
 {
-  "name": "星途·创作舱",
-  "short_name": "创作舱",
+  "name": "创作·灵感台账",
+  "short_name": "灵感台账",
   "start_url": "./creation-cabin.html",
   "scope": "./",
   "display": "standalone",

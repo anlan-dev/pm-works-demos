@@ -448,6 +448,9 @@
                 <button type="button" class="btn btn-sm btn-outline" id="petCloudHealthBtn">测连接</button>
                 <span id="petCloudStatus" style="font-size:0.78rem; color:var(--muted); max-width:100%;"></span>
             </div>
+            <div id="backupHealthBar" style="margin-top:8px; font-size:0.78rem; color:var(--muted); background:var(--panel-bg); border:1px solid var(--card-border); border-radius:12px; padding:8px 10px;">
+                💾 本地保存：-- · ☁️ 云端：未启用
+            </div>
             <div style="font-size:0.75rem; color:var(--muted); margin-top:8px;">需先部署 <code style="font-size:0.85em;">server/</code> 后端；启用后编辑会自动增量备份到服务端 SQLite。</div>
         </div>
     </details>
@@ -552,6 +555,27 @@
             <div class="card-header">🏅 健康评分</div>
             <div id="healthScoreContainer"></div>
             <div class="small-note">*评分为产品化估算：按“到期风险/记录完整度/体重更新”计算，便于你追踪习惯</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span>🧩 多宠统一待办（未来30天）</span>
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    <button class="btn btn-sm" id="todoFilterAllBtn">全部</button>
+                    <button class="btn btn-sm" id="todoFilterOverdueBtn">只看超期</button>
+                    <button class="btn btn-sm" id="todoFilter7dBtn">只看7天内</button>
+                    <span class="small-note" id="todoSummaryText"></span>
+                </div>
+            </div>
+            <div id="unifiedTodoContainer"></div>
+            <div class="small-note">*按紧急度自动排序；勾选完成后将从首页提醒中淡化展示。</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">🔥 连续记录（P3-首批）</div>
+            <div id="streakCardBox" class="report-box">暂无记录，先新增一条疫苗/驱虫/花费/体重数据开始积累连续天数。</div>
+            <div id="streakBadgeRow" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;"></div>
+            <div class="small-note" id="todayTaskHint" style="margin-top:8px;">今日任务：完成至少 1 条记录。</div>
         </div>
 
         <!-- 驱虫管理卡片（新增） -->
@@ -714,6 +738,11 @@
             </div>
             <div class="small-note">*报告基于本地记录生成（花费/疫苗/驱虫/体重），不会上传。</div>
         </div>
+        <div class="card">
+            <div class="card-header">🔎 异常洞察</div>
+            <div id="anomalyInsightBox" class="report-box">选择年份后自动分析体重与花费异常。</div>
+            <div class="small-note">*用于快速发现“体重突变”与“月花费异常偏高”信号，便于及时回看记录。</div>
+        </div>
     </div>
 </div>
 
@@ -769,6 +798,7 @@
         <div id="reminderContent" style="margin:16px 0;">...</div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button class="btn btn-primary" id="closeReminder">知道了</button>
+            <button class="btn btn-primary" id="quickFillAfterScheduleBtn" style="display:none;">📝 去补录</button>
             <button class="btn" id="snoozeReminder">⏰ 1小时后再提醒</button>
             <button class="btn" id="dismissTodayReminder">📅 今日不再提醒</button>
             <button class="btn" id="markScheduledBtn">✅ 已预约接种</button>
@@ -823,6 +853,21 @@
     </div>
 </div>
 
+<!-- 新手引导（Top10-P0） -->
+<div id="onboardingModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3>🚀 3步完成首次建档</h3>
+        <div id="onboardingChecklist" style="margin:14px 0; line-height:1.8;"></div>
+        <div class="small-note">建议顺序：先加宠物，再录第一条记录，最后开启提醒，后续到期提示会更准确。</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+            <button class="btn btn-primary" id="onboardingAddPetBtn">① 添加宠物</button>
+            <button class="btn" id="onboardingAddRecordBtn">② 添加记录</button>
+            <button class="btn" id="onboardingEnableReminderBtn">③ 开启提醒</button>
+            <button class="btn btn-link" id="onboardingSkipBtn">稍后再说</button>
+        </div>
+    </div>
+</div>
+
 <!-- 导入备份文件 input (隐藏) -->
 <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;">
 
@@ -850,6 +895,10 @@
         const STORAGE_NOTIF = 'ui_notif_enabled_v1';
         const STORAGE_A11Y_MODE = 'ui_accessibility_mode_v1';
         const STORAGE_PET_DICTIONARY = 'pet_dictionary_v1';
+        const STORAGE_ONBOARDING = 'retention_onboarding_v1';
+        const STORAGE_BEHAVIOR = 'retention_behavior_v1';
+        const STORAGE_WEEKLY_DIGEST = 'retention_weekly_digest_v1';
+        const STORAGE_UNIFIED_TODO = 'retention_unified_todo_v1';
 
         const DEFAULT_SPECIES_OPTIONS = [{ value: '🐱 猫', label: '🐱 猫咪' }, { value: '🐶 狗', label: '🐶 狗狗' }];
         const DEFAULT_EXPENSE_KEYS = ['食品', '医疗', '美容', '玩具', '其他'];
@@ -989,6 +1038,335 @@
         let weightTrendChartInstance = null;
 
         let petCloudPushTimer = null;
+        let weeklyDigestState = { lastSentWeek: '', lastReadAt: '', autoShownWeek: '' };
+        let unifiedTodoState = {};
+        let backupHealthState = { lastLocalSaveAt: '', lastCloudPushAt: '', cloudStatus: 'idle' };
+        let unifiedTodoFilter = 'all';
+        let unifiedTodoItemsCache = [];
+        let editingVaccineId = '';
+        let editingDewormId = '';
+        let onboardingState = {
+            startedAt: '',
+            completedAt: '',
+            steps: { pet: false, record: false, reminder: false },
+            firstRecordHintShown: false
+        };
+        let behaviorSignals = { dismisses: [], ignores: [] };
+
+        function readJsonStorage(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return fallback;
+                const parsed = JSON.parse(raw);
+                return parsed && typeof parsed === 'object' ? parsed : fallback;
+            } catch (e) {
+                return fallback;
+            }
+        }
+        function saveOnboardingState() { localStorage.setItem(STORAGE_ONBOARDING, JSON.stringify(onboardingState)); }
+        function saveBehaviorSignals() { localStorage.setItem(STORAGE_BEHAVIOR, JSON.stringify(behaviorSignals)); }
+        function trimSignals(days = 7) {
+            const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+            behaviorSignals.dismisses = (behaviorSignals.dismisses || []).filter(ts => Number(ts) >= cutoff);
+            behaviorSignals.ignores = (behaviorSignals.ignores || []).filter(ts => Number(ts) >= cutoff);
+        }
+        function markOnboardingStep(step) {
+            if (!onboardingState.startedAt) onboardingState.startedAt = new Date().toISOString();
+            if (onboardingState.steps[step]) return;
+            onboardingState.steps[step] = true;
+            if (onboardingState.steps.pet && onboardingState.steps.record && onboardingState.steps.reminder && !onboardingState.completedAt) {
+                onboardingState.completedAt = new Date().toISOString();
+                alert('🎉 首次建档完成！后续提醒会根据你的记录自动跟进。');
+            }
+            saveOnboardingState();
+            renderOnboardingChecklist();
+        }
+        function renderOnboardingChecklist() {
+            const box = document.getElementById('onboardingChecklist');
+            if (!box) return;
+            const s = onboardingState.steps;
+            box.innerHTML = `
+                <div>${s.pet ? '✅' : '⬜'} 添加至少 1 只宠物</div>
+                <div>${s.record ? '✅' : '⬜'} 保存至少 1 条记录（疫苗/驱虫/花费）</div>
+                <div>${s.reminder ? '✅' : '⬜'} 开启每日提醒或系统通知</div>
+            `;
+        }
+        function maybeShowOnboarding() {
+            if (onboardingState.completedAt) return;
+            renderOnboardingChecklist();
+            const shouldOpen = !onboardingState.startedAt || pets.length === 0 || !onboardingState.steps.record;
+            if (shouldOpen) document.getElementById('onboardingModal').style.display = 'flex';
+        }
+        function showFirstRecordHintIfNeeded() {
+            if (onboardingState.firstRecordHintShown) return;
+            onboardingState.firstRecordHintShown = true;
+            saveOnboardingState();
+            alert('✅ 首条记录已完成！建议继续开启提醒，把“到期提醒→行动”闭环跑起来。');
+        }
+        function hasFollowupCompleted(entry, originalId) {
+            const at = String(entry?.at || '').slice(0, 10);
+            if (!entry?.petId || !at) return false;
+            if (entry.kind === 'deworm') {
+                return deworms.some(d => d.petId === entry.petId && d.id !== originalId && d.date && d.date >= at);
+            }
+            return vaccines.some(v => v.petId === entry.petId && v.id !== originalId && v.date && v.date >= at);
+        }
+        function checkScheduledFollowup() {
+            const dueEntries = [];
+            Object.entries(reminderConversions || {}).forEach(([key, val]) => {
+                if (!val || val.status !== 'scheduled' || val.followupResolvedAt) return;
+                const atTs = Date.parse(val.at || '');
+                if (!atTs || Date.now() - atTs < 24 * 60 * 60 * 1000) return;
+                const [kind, id] = key.split(':');
+                const completed = hasFollowupCompleted({ ...val, kind }, id);
+                if (completed) {
+                    val.followupResolvedAt = new Date().toISOString();
+                    return;
+                }
+                dueEntries.push({ key, kind, id, val });
+            });
+            if (!dueEntries.length) return;
+            const first = dueEntries[0];
+            const reminderContent = document.getElementById('reminderContent');
+            reminderContent.innerHTML = `
+                <div class="reminder-item" style="padding:10px; border-radius:12px; background:var(--panel-bg);">
+                    <strong>📝 预约后补录提醒</strong>
+                    <div style="margin-top:6px;">你已标记“已预约”，但还没有新增${first.kind === 'deworm' ? '驱虫' : '接种'}记录，建议现在补录，避免后续提醒失真。</div>
+                </div>
+            `;
+            document.getElementById('quickFillAfterScheduleBtn').style.display = 'inline-block';
+            document.getElementById('markScheduledBtn').style.display = 'none';
+            lastReminderSelection = { type: first.kind, id: first.id };
+            document.getElementById('reminderModal').style.display = 'flex';
+            saveAll();
+        }
+        function getWeekKey(dt = new Date()) {
+            const d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate()));
+            const dayNum = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const weekNum = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return `${d.getUTCFullYear()}-W${String(weekNum).padStart(2, '0')}`;
+        }
+        function generateWeeklyDigestText() {
+            const now = new Date();
+            const start = new Date(now);
+            start.setDate(now.getDate() - 7);
+            const startStr = formatDateKey(start);
+            const endStr = formatDateKey(now);
+            const vaccines7 = vaccines.filter(v => v.date && v.date >= startStr && v.date <= endStr).length;
+            const deworms7 = deworms.filter(d => d.date && d.date >= startStr && d.date <= endStr).length;
+            const weights7 = weightLogs.filter(w => w.date && w.date >= startStr && w.date <= endStr).length;
+            const expense7 = expenses
+                .filter(e => e.date && e.date >= startStr && e.date <= endStr)
+                .reduce((s, e) => s + (parseFloat(e.amount) || 0), 0);
+            const upcoming7 = [...vaccines.filter(v => v.nextDue && v.nextDue >= endStr), ...deworms.filter(d => d.nextDue && d.nextDue >= endStr)]
+                .filter(x => {
+                    const due = x.nextDue;
+                    const diff = (new Date(due) - new Date(endStr)) / (1000 * 60 * 60 * 24);
+                    return diff >= 0 && diff <= 7;
+                }).length;
+            return [
+                `📬 每周健康周报（${startStr} ~ ${endStr}）`,
+                `本周完成：疫苗 ${vaccines7} 条，驱虫 ${deworms7} 条，体重 ${weights7} 条`,
+                `本周花费：¥${expense7.toFixed(2)}`,
+                `未来7天待办：${upcoming7} 项`,
+                upcoming7 > 0 ? '建议：打开提醒弹窗逐项点“已预约/已处理”，提高到期事项转化。' : '建议：保持当前节奏，下一周继续补充体重与花费记录。'
+            ].join('\n');
+        }
+        function maybeAutoShowWeeklyDigest() {
+            const wk = getWeekKey(new Date());
+            if (weeklyDigestState.autoShownWeek === wk) return;
+            const text = generateWeeklyDigestText();
+            document.getElementById('yearReportBox').textContent = text;
+            weeklyDigestState.autoShownWeek = wk;
+            weeklyDigestState.lastSentWeek = wk;
+            saveAll();
+            alert('📬 本周健康周报已生成，可在看板页查看。');
+        }
+        function renderAnomalyInsights(year) {
+            const box = document.getElementById('anomalyInsightBox');
+            if (!box) return;
+            const y = String(year);
+            const parts = [];
+            const { months, totals } = sumExpenseByMonth(year);
+            const nonZero = totals.filter(x => x > 0);
+            const avg = nonZero.length ? (nonZero.reduce((s, n) => s + n, 0) / nonZero.length) : 0;
+            totals.forEach((t, i) => {
+                if (avg > 0 && t > Math.max(200, avg * 1.6)) {
+                    parts.push(`💸 ${y}-${months[i]} 花费异常偏高：¥${t.toFixed(2)}（近月均值约 ¥${avg.toFixed(2)}）`);
+                }
+            });
+            const byPet = weightSeriesByPet(year);
+            byPet.forEach((arr, petId) => {
+                if (arr.length < 2) return;
+                for (let i = 1; i < arr.length; i += 1) {
+                    const prev = parseFloat(arr[i - 1].weight);
+                    const curr = parseFloat(arr[i].weight);
+                    if (!prev || !curr) continue;
+                    const changeRate = Math.abs(curr - prev) / prev;
+                    if (changeRate >= 0.12) {
+                        const pet = pets.find(p => p.id === petId);
+                        parts.push(`⚖️ ${pet?.name || '未知宠物'} 在 ${arr[i].date} 体重变化 ${(changeRate * 100).toFixed(1)}%（${prev.toFixed(1)}kg → ${curr.toFixed(1)}kg）`);
+                    }
+                }
+            });
+            if (!parts.length) {
+                box.textContent = `${year} 年暂未检测到明显异常，建议持续记录体重与花费以提高检测准确度。`;
+                return;
+            }
+            box.textContent = parts.slice(0, 8).join('\n');
+        }
+        function formatTimeHm(isoStr) {
+            if (!isoStr) return '--';
+            const d = new Date(isoStr);
+            if (isNaN(d.getTime())) return '--';
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            const h = String(d.getHours()).padStart(2, '0');
+            const mm = String(d.getMinutes()).padStart(2, '0');
+            return `${y}-${m}-${day} ${h}:${mm}`;
+        }
+        function updateBackupHealthBar() {
+            const bar = document.getElementById('backupHealthBar');
+            if (!bar) return;
+            const localPart = `💾 本地保存：${formatTimeHm(backupHealthState.lastLocalSaveAt)}`;
+            let cloudPart = '☁️ 云端：未启用';
+            if (document.getElementById('petCloudSync')?.checked) {
+                if (backupHealthState.cloudStatus === 'ok') cloudPart = `☁️ 云端：已同步 ${formatTimeHm(backupHealthState.lastCloudPushAt)}`;
+                else if (backupHealthState.cloudStatus === 'pending') cloudPart = '☁️ 云端：同步中…';
+                else if (backupHealthState.cloudStatus === 'error') cloudPart = '☁️ 云端：同步失败，请检查网络/API';
+                else cloudPart = `☁️ 云端：待同步（最近成功 ${formatTimeHm(backupHealthState.lastCloudPushAt)}）`;
+            }
+            bar.textContent = `${localPart} · ${cloudPart}`;
+        }
+        function renderStreakCard() {
+            const box = document.getElementById('streakCardBox');
+            const badgeRow = document.getElementById('streakBadgeRow');
+            const taskHint = document.getElementById('todayTaskHint');
+            if (!box) return;
+            const dateSet = new Set();
+            vaccines.forEach(v => v.date && dateSet.add(v.date));
+            deworms.forEach(d => d.date && dateSet.add(d.date));
+            expenses.forEach(e => e.date && dateSet.add(e.date));
+            weightLogs.forEach(w => w.date && dateSet.add(w.date));
+            const dates = Array.from(dateSet).sort((a, b) => a.localeCompare(b));
+            if (!dates.length) {
+                box.textContent = '暂无记录，先新增一条疫苗/驱虫/花费/体重数据开始积累连续天数。';
+                if (badgeRow) badgeRow.innerHTML = '';
+                if (taskHint) taskHint.textContent = '今日任务：完成至少 1 条记录。';
+                return;
+            }
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const dayMs = 24 * 60 * 60 * 1000;
+            let currentStreak = 0;
+            let cursor = new Date(today);
+            const hasDate = (d) => dateSet.has(formatDateKey(d));
+            while (hasDate(cursor)) {
+                currentStreak += 1;
+                cursor = new Date(cursor.getTime() - dayMs);
+            }
+            if (currentStreak === 0) {
+                const y = new Date(today.getTime() - dayMs);
+                while (hasDate(y)) {
+                    currentStreak += 1;
+                    y.setDate(y.getDate() - 1);
+                }
+            }
+            let maxStreak = 1;
+            let run = 1;
+            for (let i = 1; i < dates.length; i += 1) {
+                const prev = new Date(dates[i - 1]);
+                const curr = new Date(dates[i]);
+                const diff = Math.round((curr - prev) / dayMs);
+                if (diff === 1) run += 1;
+                else run = 1;
+                if (run > maxStreak) maxStreak = run;
+            }
+            box.textContent = `当前连续记录：${currentStreak} 天\n历史最长连续：${maxStreak} 天\n最近记录日期：${dates[dates.length - 1]}\n建议：保持“每天至少1条记录”的节奏，提醒转化会更稳定。`;
+            if (badgeRow) {
+                const tiers = [3, 7, 14, 30];
+                badgeRow.innerHTML = tiers.map(n => {
+                    const ok = maxStreak >= n;
+                    return `<span style="padding:4px 10px; border-radius:999px; font-size:0.78rem; border:1px solid var(--card-border); background:${ok ? 'var(--tab-active-bg)' : 'var(--panel-bg)'}; color:${ok ? 'var(--accent)' : 'var(--muted)'};">${ok ? '🏅' : '⬜'} ${n}天徽章</span>`;
+                }).join('');
+            }
+            if (taskHint) {
+                const todayKey = formatDateKey(today);
+                const doneToday = dateSet.has(todayKey);
+                taskHint.textContent = doneToday
+                    ? '今日任务：已完成 ✅（你今天已经有记录）'
+                    : '今日任务：未完成 ⏳（再记录 1 条即可）';
+            }
+        }
+        function buildUnifiedTodoItems() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const in30 = new Date(today);
+            in30.setDate(in30.getDate() + 30);
+            const items = [];
+            vaccines.forEach(v => {
+                if (!v.nextDue) return;
+                const due = new Date(v.nextDue);
+                due.setHours(0, 0, 0, 0);
+                if (due > in30) return;
+                const pet = pets.find(p => p.id === v.petId);
+                const key = `vaccine:${v.id}`;
+                const daysLeft = Math.floor((due - today) / (24 * 60 * 60 * 1000));
+                items.push({ key, kind: '疫苗', kindKey: 'vaccine', recordId: v.id, petName: pet?.name || '未知', title: v.name, due: v.nextDue, overdue: due < today, within7d: daysLeft >= 0 && daysLeft <= 7 });
+            });
+            deworms.forEach(d => {
+                if (!d.nextDue) return;
+                const due = new Date(d.nextDue);
+                due.setHours(0, 0, 0, 0);
+                if (due > in30) return;
+                const pet = pets.find(p => p.id === d.petId);
+                const key = `deworm:${d.id}`;
+                const daysLeft = Math.floor((due - today) / (24 * 60 * 60 * 1000));
+                items.push({ key, kind: '驱虫', kindKey: 'deworm', recordId: d.id, petName: pet?.name || '未知', title: d.type, due: d.nextDue, overdue: due < today, within7d: daysLeft >= 0 && daysLeft <= 7 });
+            });
+            return items.sort((a, b) => {
+                if (a.overdue !== b.overdue) return a.overdue ? -1 : 1;
+                return a.due.localeCompare(b.due);
+            });
+        }
+        function renderUnifiedTodo() {
+            const box = document.getElementById('unifiedTodoContainer');
+            const summary = document.getElementById('todoSummaryText');
+            if (!box) return;
+            const rawItems = buildUnifiedTodoItems();
+            let items = rawItems;
+            if (unifiedTodoFilter === 'overdue') items = rawItems.filter(it => it.overdue);
+            if (unifiedTodoFilter === '7d') items = rawItems.filter(it => it.within7d || it.overdue);
+            unifiedTodoItemsCache = rawItems;
+            if (!items.length) {
+                box.innerHTML = '<div class="empty-state">当前筛选下暂无待办 👍</div>';
+                if (summary) summary.textContent = `0/${rawItems.length} 显示`;
+                return;
+            }
+            const done = rawItems.filter(it => unifiedTodoState[it.key]?.done).length;
+            if (summary) summary.textContent = `${done}/${rawItems.length} 已完成`;
+            const allBtn = document.getElementById('todoFilterAllBtn');
+            const overdueBtn = document.getElementById('todoFilterOverdueBtn');
+            const d7Btn = document.getElementById('todoFilter7dBtn');
+            if (allBtn) allBtn.classList.toggle('btn-primary', unifiedTodoFilter === 'all');
+            if (overdueBtn) overdueBtn.classList.toggle('btn-primary', unifiedTodoFilter === 'overdue');
+            if (d7Btn) d7Btn.classList.toggle('btn-primary', unifiedTodoFilter === '7d');
+            box.innerHTML = items.map(it => {
+                const checked = unifiedTodoState[it.key]?.done ? 'checked' : '';
+                const overdueBadge = it.overdue ? '<span class="reminder-badge" style="margin-left:8px;">超期</span>' : '';
+                return `<label style="display:flex; align-items:flex-start; gap:10px; padding:10px; border:1px solid var(--card-border); border-radius:12px; margin-bottom:8px; background:var(--soft-bg);">
+                    <input type="checkbox" data-todo-key="${it.key}" ${checked} style="margin-top:4px;">
+                    <div style="flex:1;">
+                        <div><strong>${it.petName}</strong> · ${it.kind} · ${it.title}${overdueBadge}</div>
+                        <div class="small-note">到期：${it.due}</div>
+                    </div>
+                    <button type="button" class="btn btn-sm" data-jump-todo="${it.key}">去编辑</button>
+                </label>`;
+            }).join('');
+        }
         function getApiBase() {
             const u = document.getElementById('portfolioCloudBase')?.value?.trim()
                 || localStorage.getItem('portfolio_cloud_base') || '';
@@ -1047,6 +1425,8 @@
         }
         async function pushPetToCloud() {
             if (!document.getElementById('petCloudSync')?.checked || !getApiBase()) return;
+            backupHealthState.cloudStatus = 'pending';
+            updateBackupHealthBar();
             try {
                 const r = await fetch(`${getApiBase()}/api/demo/pet-vaccine`, {
                     method: 'PUT',
@@ -1068,10 +1448,18 @@
                         }
                     })
                 });
-                if (!r.ok) console.warn('云端备份 HTTP', r.status);
+                if (!r.ok) {
+                    backupHealthState.cloudStatus = 'error';
+                    console.warn('云端备份 HTTP', r.status);
+                } else {
+                    backupHealthState.cloudStatus = 'ok';
+                    backupHealthState.lastCloudPushAt = new Date().toISOString();
+                }
             } catch (e) {
+                backupHealthState.cloudStatus = 'error';
                 console.warn('云端备份失败', e);
             }
+            updateBackupHealthBar();
         }
         function schedulePetCloudPush() {
             if (!document.getElementById('petCloudSync')?.checked || !getApiBase()) return;
@@ -1136,6 +1524,13 @@
             localStorage.setItem(STORAGE_DEWORMS, JSON.stringify(deworms));
             localStorage.setItem(STORAGE_WEIGHTLOGS, JSON.stringify(weightLogs));
             localStorage.setItem(STORAGE_REMINDER_CONV, JSON.stringify(reminderConversions));
+            localStorage.setItem(STORAGE_WEEKLY_DIGEST, JSON.stringify(weeklyDigestState));
+            localStorage.setItem(STORAGE_UNIFIED_TODO, JSON.stringify(unifiedTodoState));
+            backupHealthState.lastLocalSaveAt = new Date().toISOString();
+            if (document.getElementById('petCloudSync')?.checked && getApiBase()) backupHealthState.cloudStatus = 'pending';
+            updateBackupHealthBar();
+            renderUnifiedTodo();
+            renderStreakCard();
             schedulePetCloudPush();
         }
 
@@ -1655,6 +2050,7 @@
             if(wNote) wNote.textContent = datasets.length ? '体重来自“编辑宠物时的体重变更记录”。' : '暂无体重数据：编辑宠物并填写/更新体重后会自动形成曲线。';
 
             renderCompareTable(year);
+            renderAnomalyInsights(year);
         }
 
         function renderCompareTable(year) {
@@ -1822,6 +2218,8 @@
             ].sort((a,b) => (a.nextDue > b.nextDue ? 1 : -1));
 
             if (items.length > 0 || showEvenIfEmpty) {
+                document.getElementById('quickFillAfterScheduleBtn').style.display = 'none';
+                document.getElementById('markScheduledBtn').style.display = '';
                 let msg = '';
                 if (items.length === 0) {
                     msg = '✨ 未来 ' + days + ' 天内没有到期事项，最近照顾得很稳！';
@@ -1870,6 +2268,7 @@
                 setupDailyReminder();
             }, delay);
             dailyReminderEnabled = true;
+            markOnboardingStep('reminder');
             alert(`每日提醒已开启，将在每天 ${timeInput} 检查疫苗到期情况。`);
         }
 
@@ -1880,6 +2279,9 @@
 
         function dismissTodayReminder() {
             dismissedToday = true;
+            behaviorSignals.dismisses.push(Date.now());
+            trimSignals(7);
+            saveBehaviorSignals();
             localStorage.setItem('dismissedReminderDate', formatDateKey(new Date()));
             document.getElementById('reminderModal').style.display = 'none';
         }
@@ -2177,6 +2579,7 @@
 
                 if (id) { const index = pets.findIndex(p => p.id === id); if(index !== -1) pets[index] = petData; }
                 else pets.push(petData);
+                if (pets.length > 0) markOnboardingStep('pet');
                 if (shouldLogWeight) {
                     weightLogs.push({ id: genId(), petId: petData.id, date: formatDateKey(new Date()), weight: newWeightNum });
                 }
@@ -2205,6 +2608,7 @@
                 updateVaccineKbTip('');
             });
             document.getElementById('cancelAddVaccine').addEventListener('click', ()=> document.getElementById('addVaccineForm').style.display='none');
+            document.getElementById('cancelAddVaccine').addEventListener('click', ()=> { editingVaccineId = ''; document.getElementById('saveVaccineBtn').textContent = '保存'; });
             document.getElementById('vaccineSelect').addEventListener('change', e => {
                 const val = e.target.value;
                 const custom = document.getElementById('customVaccineName');
@@ -2219,24 +2623,33 @@
                 if(sel && sel!=='__custom__') document.getElementById('vaccineNextDue').value = calcNextDue(sel, e.target.value);
             });
             document.getElementById('saveVaccineBtn').addEventListener('click', ()=>{
+                const beforeCount = vaccines.length + deworms.length + expenses.length;
                 let name = document.getElementById('vaccineSelect').value;
                 if(name === '__custom__') name = document.getElementById('customVaccineName').value.trim();
                 if(!name) { alert('请输入疫苗名称'); return; }
                 const petId = document.getElementById('petSelect').value;
                 if(!petId) { alert('请选择宠物'); return; }
-                vaccines.push({
-                    id: genId(),
+                const payload = {
+                    id: editingVaccineId || genId(),
                     petId,
                     name,
                     brand: document.getElementById('vaccineBrand').value.trim(),
                     batch: document.getElementById('vaccineBatch').value.trim(),
                     date: document.getElementById('vaccineDate').value,
                     nextDue: document.getElementById('vaccineNextDue').value
-                });
+                };
+                if (editingVaccineId) {
+                    const idx = vaccines.findIndex(v => v.id === editingVaccineId);
+                    if (idx >= 0) vaccines[idx] = payload;
+                } else vaccines.push(payload);
                 saveAll();
+                if (beforeCount === 0) showFirstRecordHintIfNeeded();
+                markOnboardingStep('record');
                 const newDate = document.getElementById('vaccineDate').value;
                 if(newDate && newDate.startsWith(currentMonth)) renderVaccineList();
                 document.getElementById('addVaccineForm').style.display='none';
+                editingVaccineId = '';
+                document.getElementById('saveVaccineBtn').textContent = '保存';
             });
 
             // 驱虫表单（新增）
@@ -2247,28 +2660,38 @@
                 document.getElementById('dewormNextDue').value = calcDewormNextDue(document.getElementById('dewormDate').value);
             });
             document.getElementById('cancelAddDeworm').addEventListener('click', ()=> document.getElementById('addDewormForm').style.display='none');
+            document.getElementById('cancelAddDeworm').addEventListener('click', ()=> { editingDewormId = ''; document.getElementById('saveDewormBtn').textContent = '保存'; });
             document.getElementById('dewormDate').addEventListener('change', e => {
                 if(!document.getElementById('dewormNextDue').value) {
                     document.getElementById('dewormNextDue').value = calcDewormNextDue(e.target.value);
                 }
             });
             document.getElementById('saveDewormBtn').addEventListener('click', ()=>{
+                const beforeCount = vaccines.length + deworms.length + expenses.length;
                 const petId = document.getElementById('dewormPetSelect').value;
                 if(!petId) { alert('请选择宠物'); return; }
                 const date = document.getElementById('dewormDate').value;
                 if(!date) { alert('请选择日期'); return; }
-                deworms.push({
-                    id: genId(),
+                const payload = {
+                    id: editingDewormId || genId(),
                     petId,
                     type: document.getElementById('dewormType').value,
                     product: document.getElementById('dewormProduct').value.trim(),
                     date,
                     nextDue: document.getElementById('dewormNextDue').value
-                });
+                };
+                if (editingDewormId) {
+                    const idx = deworms.findIndex(d => d.id === editingDewormId);
+                    if (idx >= 0) deworms[idx] = payload;
+                } else deworms.push(payload);
                 saveAll();
+                if (beforeCount === 0) showFirstRecordHintIfNeeded();
+                markOnboardingStep('record');
                 if(date.startsWith(currentMonth)) renderDewormList();
                 document.getElementById('addDewormForm').style.display='none';
                 document.getElementById('dewormProduct').value = '';
+                editingDewormId = '';
+                document.getElementById('saveDewormBtn').textContent = '保存';
             });
 
             // 体重（新增UI绑定）
@@ -2312,11 +2735,14 @@
             });
             document.getElementById('cancelAddExpense').addEventListener('click', ()=> document.getElementById('addExpenseForm').style.display='none');
             document.getElementById('saveExpenseBtn').addEventListener('click', ()=>{
+                const beforeCount = vaccines.length + deworms.length + expenses.length;
                 const petId = document.getElementById('expensePetSelect').value;
                 const amount = parseFloat(document.getElementById('expenseAmount').value);
                 if(!petId || isNaN(amount) || amount<=0) { alert('请选择宠物并输入有效金额'); return; }
                 expenses.push({ id: genId(), petId, category: document.getElementById('expenseCategory').value, amount, date: document.getElementById('expenseDate').value, note: document.getElementById('expenseNote').value.trim() });
                 saveAll();
+                if (beforeCount === 0) showFirstRecordHintIfNeeded();
+                markOnboardingStep('record');
                 renderExpensePage();
                 document.getElementById('addExpenseForm').style.display='none';
                 document.getElementById('expenseAmount').value = '';
@@ -2331,14 +2757,34 @@
 
             // 提醒
             document.getElementById('testReminderBtn').addEventListener('click', () => { dismissedToday = false; snoozeUntil = null; checkReminders(true); });
-            document.getElementById('closeReminder').addEventListener('click', ()=> document.getElementById('reminderModal').style.display='none');
+            document.getElementById('closeReminder').addEventListener('click', ()=> {
+                behaviorSignals.ignores.push(Date.now());
+                trimSignals(7);
+                saveBehaviorSignals();
+                document.getElementById('reminderModal').style.display='none';
+            });
+            document.getElementById('quickFillAfterScheduleBtn').addEventListener('click', () => {
+                const sel = lastReminderSelection;
+                document.getElementById('reminderModal').style.display = 'none';
+                if (!sel?.type) return;
+                if (sel.type === 'deworm') {
+                    document.querySelector('.tab-item[data-page="home"]').click();
+                    document.getElementById('showAddDewormForm').click();
+                } else {
+                    document.querySelector('.tab-item[data-page="home"]').click();
+                    document.getElementById('showAddVaccineForm').click();
+                }
+            });
             document.getElementById('snoozeReminder').addEventListener('click', snoozeReminder);
             document.getElementById('dismissTodayReminder').addEventListener('click', dismissTodayReminder);
             document.getElementById('setDailyReminderBtn').addEventListener('click', setupDailyReminder);
             document.getElementById('markScheduledBtn').addEventListener('click', () => {
                 if(!lastReminderSelection?.id || !lastReminderSelection?.type) { alert('请先点击选择一条提醒项'); return; }
                 const key = `${lastReminderSelection.type}:${lastReminderSelection.id}`;
-                reminderConversions[key] = { status: 'scheduled', at: formatDateKey(new Date()) };
+                let petId = '';
+                if (lastReminderSelection.type === 'deworm') petId = (deworms.find(d => d.id === lastReminderSelection.id)?.petId) || '';
+                else petId = (vaccines.find(v => v.id === lastReminderSelection.id)?.petId) || '';
+                reminderConversions[key] = { status: 'scheduled', at: new Date().toISOString(), petId, kind: lastReminderSelection.type };
                 saveAll();
                 document.getElementById('reminderModal').style.display = 'none';
                 alert('已标记为“已预约接种/处理”，后续可在年度报告里查看追踪统计。');
@@ -2352,9 +2798,21 @@
                 let rec = 7;
                 if (hasShortCycle) rec = 10;
                 if (hasYoung) rec = 14;
+                trimSignals(7);
+                if ((behaviorSignals.dismisses || []).length >= 2) rec = Math.max(3, rec - 2);
+                if ((behaviorSignals.ignores || []).length >= 2) rec = Math.max(2, rec - 3);
                 rec = clamp(rec, 0, 30);
                 document.getElementById('remindDays').value = String(rec);
                 alert(`已智能推荐：提前 ${rec} 天提醒（依据宠物年龄与常见周期做的本地估算，可按需要微调）。`);
+            });
+            document.getElementById('generateYearReportBtn').insertAdjacentHTML('afterend', '<button class="btn" id="generateWeeklyDigestBtn">📬 每周周报</button>');
+            document.getElementById('generateWeeklyDigestBtn').addEventListener('click', () => {
+                const text = generateWeeklyDigestText();
+                document.getElementById('yearReportBox').textContent = text;
+                weeklyDigestState.lastSentWeek = getWeekKey(new Date());
+                weeklyDigestState.lastReadAt = new Date().toISOString();
+                saveAll();
+                alert('每周健康周报已生成。');
             });
 
             // PWA 通知（新增）
@@ -2373,8 +2831,83 @@
                 if (!perm.ok) { alert('无法开启通知：' + (perm.reason || '未知原因')); refreshNotifStatus(); return; }
                 localStorage.setItem(STORAGE_NOTIF, '1');
                 await registerServiceWorker();
+                markOnboardingStep('reminder');
                 refreshNotifStatus();
                 alert('已开启系统通知：到期提醒弹窗出现时，会同时发一条系统通知（无需后端推送）。');
+            });
+
+            document.getElementById('onboardingAddPetBtn').addEventListener('click', () => {
+                document.getElementById('onboardingModal').style.display = 'none';
+                openPetModal();
+            });
+            document.getElementById('onboardingAddRecordBtn').addEventListener('click', () => {
+                document.getElementById('onboardingModal').style.display = 'none';
+                document.querySelector('.tab-item[data-page="home"]').click();
+                document.getElementById('showAddVaccineForm').click();
+            });
+            document.getElementById('onboardingEnableReminderBtn').addEventListener('click', () => {
+                document.getElementById('onboardingModal').style.display = 'none';
+                document.getElementById('dailyRemindTime').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            document.getElementById('onboardingSkipBtn').addEventListener('click', () => {
+                document.getElementById('onboardingModal').style.display = 'none';
+            });
+            document.getElementById('todoFilterAllBtn').addEventListener('click', () => { unifiedTodoFilter = 'all'; renderUnifiedTodo(); });
+            document.getElementById('todoFilterOverdueBtn').addEventListener('click', () => { unifiedTodoFilter = 'overdue'; renderUnifiedTodo(); });
+            document.getElementById('todoFilter7dBtn').addEventListener('click', () => { unifiedTodoFilter = '7d'; renderUnifiedTodo(); });
+            document.getElementById('unifiedTodoContainer').addEventListener('change', (e) => {
+                const cb = e.target.closest('[data-todo-key]');
+                if (!cb) return;
+                const key = cb.dataset.todoKey;
+                unifiedTodoState[key] = { done: cb.checked, doneAt: cb.checked ? new Date().toISOString() : '' };
+                saveAll();
+                renderUnifiedTodo();
+            });
+            document.getElementById('unifiedTodoContainer').addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-jump-todo]');
+                if (!btn) return;
+                const key = btn.dataset.jumpTodo;
+                const item = unifiedTodoItemsCache.find(x => x.key === key);
+                if (!item) return;
+                document.querySelector('.tab-item[data-page="home"]').click();
+                const month = item.due?.slice(0, 7);
+                if (month) {
+                    currentMonth = month;
+                    document.getElementById('monthPicker').value = month;
+                }
+                renderVaccineList();
+                renderDewormList();
+                renderCalendar();
+                renderHealthScores();
+                if (item.kindKey === 'vaccine') {
+                    const target = vaccines.find(v => v.id === item.recordId);
+                    if (!target) return;
+                    editingVaccineId = target.id;
+                    document.getElementById('saveVaccineBtn').textContent = '更新疫苗';
+                    document.getElementById('addVaccineForm').style.display = 'block';
+                    const isKnown = !!VACCINE_CYCLES[target.name];
+                    document.getElementById('vaccineSelect').value = isKnown ? target.name : '__custom__';
+                    document.getElementById('customVaccineName').style.display = isKnown ? 'none' : 'block';
+                    document.getElementById('customVaccineName').value = isKnown ? '' : target.name;
+                    document.getElementById('vaccineBrand').value = target.brand || '';
+                    document.getElementById('vaccineBatch').value = target.batch || '';
+                    document.getElementById('vaccineDate').value = target.date || '';
+                    document.getElementById('vaccineNextDue').value = target.nextDue || '';
+                    document.getElementById('petSelect').value = target.petId || '';
+                    document.getElementById('addVaccineForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    const target = deworms.find(d => d.id === item.recordId);
+                    if (!target) return;
+                    editingDewormId = target.id;
+                    document.getElementById('saveDewormBtn').textContent = '更新驱虫';
+                    document.getElementById('addDewormForm').style.display = 'block';
+                    document.getElementById('dewormType').value = target.type || '';
+                    document.getElementById('dewormProduct').value = target.product || '';
+                    document.getElementById('dewormDate').value = target.date || '';
+                    document.getElementById('dewormNextDue').value = target.nextDue || '';
+                    document.getElementById('dewormPetSelect').value = target.petId || '';
+                    document.getElementById('addDewormForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             });
 
             // 日历点击查看当日清单（新增）
@@ -2446,14 +2979,62 @@
                     const { vaccineName, vaccineDate, rawText } = parseVaccineInfo(text);
                     if (vaccineName || vaccineDate) {
                         const nextDue = vaccineDate && vaccineName ? calcNextDue(vaccineName, vaccineDate) : '';
-                        resultDiv.innerHTML = `<strong>✅ 识别成功！</strong><br>${vaccineName?`疫苗: ${vaccineName}<br>`:''}${vaccineDate?`接种日期: ${vaccineDate}<br>`:''}${nextDue?`到期日期: ${nextDue}<br>`:''}<button class="btn btn-sm btn-primary" id="applyOcrData" style="margin-top:8px;">应用并添加记录</button>`;
-                        document.getElementById('applyOcrData').onclick = () => {
+                        const petOpts = pets.map(p => `<option value="${p.id}" ${rawText.includes(p.name) ? 'selected' : ''}>${p.name} (${p.species})</option>`).join('');
+                        const vaccineOpts = ['猫三联', '狂犬疫苗', '犬六联', '犬八联']
+                            .map(v => `<option value="${v}" ${v === vaccineName ? 'selected' : ''}>${v}</option>`).join('');
+                        resultDiv.innerHTML = `
+                            <strong>✅ 识别成功，请确认后直接入账</strong><br>
+                            <div class="input-group" style="margin-top:8px;">
+                                <select id="ocrConfirmPet">${petOpts || '<option value="">请先添加宠物</option>'}</select>
+                                <select id="ocrConfirmVaccine">${vaccineOpts}<option value="__custom__">自定义</option></select>
+                                <input type="text" id="ocrConfirmCustomName" placeholder="自定义疫苗名" style="display:none;">
+                                <input type="date" id="ocrConfirmDate" value="${vaccineDate || formatDateKey(new Date())}">
+                                <input type="date" id="ocrConfirmNextDue" value="${nextDue || ''}">
+                            </div>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <button class="btn btn-sm btn-primary" id="saveOcrDirectBtn">确认并入账</button>
+                                <button class="btn btn-sm" id="openManualFormBtn">去表单页再编辑</button>
+                            </div>
+                        `;
+                        const vacSel = document.getElementById('ocrConfirmVaccine');
+                        const customInput = document.getElementById('ocrConfirmCustomName');
+                        const dateInput = document.getElementById('ocrConfirmDate');
+                        const dueInput = document.getElementById('ocrConfirmNextDue');
+                        vacSel.addEventListener('change', () => {
+                            customInput.style.display = vacSel.value === '__custom__' ? 'block' : 'none';
+                            if (vacSel.value !== '__custom__' && dateInput.value) dueInput.value = calcNextDue(vacSel.value, dateInput.value);
+                        });
+                        dateInput.addEventListener('change', () => {
+                            if (vacSel.value && vacSel.value !== '__custom__') dueInput.value = calcNextDue(vacSel.value, dateInput.value);
+                        });
+                        document.getElementById('saveOcrDirectBtn').onclick = () => {
+                            const petId = document.getElementById('ocrConfirmPet').value;
+                            if (!petId) { alert('请先选择宠物'); return; }
+                            let name = vacSel.value;
+                            if (name === '__custom__') name = customInput.value.trim();
+                            if (!name) { alert('请填写疫苗名称'); return; }
+                            const date = dateInput.value;
+                            if (!date) { alert('请填写接种日期'); return; }
+                            vaccines.push({
+                                id: genId(),
+                                petId,
+                                name,
+                                brand: '',
+                                batch: '',
+                                date,
+                                nextDue: dueInput.value || ''
+                            });
+                            saveAll();
+                            markOnboardingStep('record');
+                            renderVaccineList();
+                            renderCalendar();
+                            renderHealthScores();
+                            renderDashboard();
+                            resultDiv.innerHTML = '<strong>✅ 已成功入账！</strong><div class="small-note">你可以继续识别下一张凭证。</div>';
+                        };
+                        document.getElementById('openManualFormBtn').onclick = () => {
                             document.querySelector('.tab-item[data-page="home"]').click();
                             document.getElementById('showAddVaccineForm').click();
-                            if (vaccineName) { document.getElementById('vaccineSelect').value = vaccineName; document.getElementById('vaccineSelect').dispatchEvent(new Event('change')); }
-                            if (vaccineDate) document.getElementById('vaccineDate').value = vaccineDate;
-                            const petMatch = pets.find(p => rawText.includes(p.name));
-                            if (petMatch) document.getElementById('petSelect').value = petMatch.id;
                         };
                     } else {
                         resultDiv.innerHTML = `<strong>⚠️ 未能识别</strong><br><small>${rawText.substring(0,150)}...</small><br><button class="btn btn-sm" id="manualFill">手动填写</button>`;
@@ -2520,7 +3101,12 @@
 
             window.addEventListener('load', ()=>{
                 renderReminderPetFilter();
+                renderUnifiedTodo();
+                renderStreakCard();
                 setTimeout(checkReminders, 500);
+                setTimeout(checkScheduledFollowup, 900);
+                setTimeout(maybeShowOnboarding, 1200);
+                setTimeout(maybeAutoShowWeeklyDigest, 1400);
             });
         }
 
@@ -2528,6 +3114,19 @@
             // 主题（尽早应用，避免闪烁）
             applyTheme(localStorage.getItem(STORAGE_THEME) || 'warm');
             applyAccessibilityMode(localStorage.getItem(STORAGE_A11Y_MODE) || 'normal');
+            onboardingState = {
+                startedAt: '',
+                completedAt: '',
+                steps: { pet: false, record: false, reminder: false },
+                firstRecordHintShown: false,
+                ...readJsonStorage(STORAGE_ONBOARDING, {})
+            };
+            onboardingState.steps = { pet: false, record: false, reminder: false, ...(onboardingState.steps || {}) };
+            behaviorSignals = { dismisses: [], ignores: [], ...readJsonStorage(STORAGE_BEHAVIOR, {}) };
+            weeklyDigestState = { lastSentWeek: '', lastReadAt: '', autoShownWeek: '', ...readJsonStorage(STORAGE_WEEKLY_DIGEST, {}) };
+            unifiedTodoState = { ...readJsonStorage(STORAGE_UNIFIED_TODO, {}) };
+            trimSignals(7);
+            saveBehaviorSignals();
             const themeSelect = document.getElementById('themeSelect');
             if (themeSelect) themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
             const modeSelect = document.getElementById('accessibilityModeSelect');
@@ -2581,9 +3180,12 @@
             renderWeightList();
             renderCalendar();
             renderHealthScores();
+            renderUnifiedTodo();
+            renderStreakCard();
             renderExpensePage();
             bindEvents();
             buildAvailableYears();
+            updateBackupHealthBar();
         }
         init();
     })();
