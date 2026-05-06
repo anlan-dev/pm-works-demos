@@ -1211,7 +1211,7 @@
         body.elder-mode .cta-button,
         body.elder-mode button,
         body.elder-mode a { min-height: 44px; }
-        body[data-theme="ink"] { background: #efefef; color: #111111; filter: grayscale(1); }
+        body[data-theme="ink"] { background: #efefef; color: #111111; }
         body[data-theme="ink"] .container,
         body[data-theme="ink"] .project-card,
         body[data-theme="ink"] .design-doc-card,
@@ -1221,6 +1221,11 @@
             border-color: #bdbdbd !important;
         }
         body[data-theme="ink"] .ui-mode-dock { backdrop-filter: none; background: #f5f5f5; }
+        body[data-theme="ink"] .toc-float,
+        body[data-theme="ink"] .ui-mode-dock {
+            opacity: 1;
+            visibility: visible;
+        }
 
         /* 视觉细节统一打磨 */
         .project-card, .design-doc-card, .dashboard-card, .capability-summary {
