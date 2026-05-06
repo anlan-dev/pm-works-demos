@@ -191,42 +191,39 @@
         /* ===== 右下角柔和反馈标识 —— 极致缩小 + 半透明 (只修改尺寸/透明度, 其他功能完全保留) ===== */
         .dev-credit {
             position: fixed;
-            bottom: 14px;
-            right: 14px;
-            background: var(--card-bg);
-            backdrop-filter: blur(4px);
-            padding: 3px 10px;          /* 更小内边距 */
-            border-radius: 36px;
-            box-shadow: var(--shadow);
-            font-size: 0.68rem;          /* 更小字体 */
+            right: max(8px, env(safe-area-inset-right, 0px));
+            bottom: max(8px, env(safe-area-inset-bottom, 0px));
+            background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            padding: 4px 10px 4px 30px;
+            border-radius: 999px;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+            font-size: 0.62rem;
             color: var(--text-secondary);
-            border: 1px solid var(--border-light);
-            z-index: 900;
-            max-width: 200px;            /* 进一步缩小宽度 */
-            text-align: right;
-            line-height: 1.35;
-            opacity: 0.68;               /* 半透明 (原0.92) */
+            border: 1px solid color-mix(in srgb, var(--border-light) 85%, transparent);
+            z-index: 140;
+            max-width: min(230px, calc(100vw - 16px));
+            line-height: 1.25;
+            opacity: 0.56;
             transition: opacity 0.2s, background 0.2s;
             pointer-events: auto;
         }
-        .dev-credit:hover {
-            opacity: 0.98;               /* 悬停时几乎不透明 */
-            background: var(--record-bg);
-        }
+        .dev-credit:hover { opacity: 0.82; background: color-mix(in srgb, var(--record-bg) 90%, transparent); }
         .dev-credit a {
             color: var(--accent-border);
             text-decoration: none;
             font-weight: 450;
             border-bottom: 1px dotted var(--accent-border);
-            font-size: 0.68rem;
+            font-size: 0.62rem;
         }
         .dev-credit a:hover {
             border-bottom: 1px solid;
         }
         .demo-note {
-            font-size: 0.58rem;          /* 备注更小 */
+            font-size: 0.52rem;
             opacity: 0.8;
-            margin-top: 3px;
+            margin-top: 1px;
             color: var(--text-muted);
         }
         /* 移动端适配：更极致缩小，不遮挡内容 */
@@ -234,14 +231,14 @@
             .dev-credit {
                 bottom: 8px;
                 right: 8px;
-                padding: 3px 8px;
-                font-size: 0.6rem;
-                max-width: 160px;
-                opacity: 0.65;
-                border-radius: 30px;
+                padding: 3px 8px 3px 26px;
+                font-size: 0.56rem;
+                max-width: min(170px, calc(100vw - 14px));
+                opacity: 0.52;
+                border-radius: 999px;
             }
             .demo-note {
-                font-size: 0.5rem;
+                font-size: 0.46rem;
             }
         }
 
@@ -623,7 +620,7 @@
             padding: 0;
         }
         .dev-credit-dismiss:hover { opacity: 1; color: var(--text-primary); }
-        .dev-credit { position: relative; padding-left: 28px; }
+        .dev-credit { position: fixed; padding-left: 30px; }
     </style>
 </head>
 <body>
