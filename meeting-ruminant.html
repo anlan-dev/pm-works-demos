@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>会议·行动台账｜AI 复盘 & 行动管理 · 完整版</title>
+    <title>会议·反刍舱｜AI 复盘 & 行动管理 · 完整版</title>
     <style>
         /* ===== 基础变量与主题 ===== */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, sans-serif; transition: background-color 0.2s ease, border-color 0.2s; }
@@ -207,6 +207,7 @@
         }
         .history-item:hover { background: var(--history-hover); }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .meeting-top-toolbar.auto-hide-hidden { transform: translateY(calc(-100% - 4px)); opacity: 0.92; }
         .pre-block {
             background: var(--pre-bg); color: var(--pre-color);
             padding: 16px; border-radius: 16px; font-family: monospace; white-space: pre-wrap;
@@ -318,6 +319,16 @@
             .row .btn, .api-config .btn { width: 100%; }
             .api-config { padding: 12px; }
             .feedback-label { display:none; }
+            .meeting-top-toolbar {
+                position: sticky;
+                top: 0;
+                z-index: 30;
+                background: var(--card-bg);
+                padding: 8px 0 10px;
+                margin-bottom: 8px;
+                box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+                transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+            }
         }
 
         /* 长辈模式 */
@@ -372,8 +383,8 @@
 <body class="theme-warm">
 <div class="container">
     <div class="card">
-        <div class="flex-between">
-            <h1>🔄 会议·行动台账 <small>AI 复盘 → 行动管理</small></h1>
+        <div class="flex-between meeting-top-toolbar" id="meetingTopToolbar">
+            <h1>🔄 会议·反刍舱 <small>AI 复盘 → 行动管理</small></h1>
             <div class="theme-switcher">
                 <div class="theme-dot warm active" data-theme="warm" title="暖"></div>
                 <div class="theme-dot gray" data-theme="gray" title="灰"></div>
@@ -565,6 +576,41 @@
         applyMeetingTheme(localStorage.getItem('theme') || 'warm');
     });
     document.getElementById('elderModeBtn').textContent = document.body.classList.contains('elder-mode') ? '👓 退出长辈模式' : '👓 长辈模式';
+    const meetingTopToolbar = document.getElementById('meetingTopToolbar');
+    if (meetingTopToolbar) {
+        let lastY = window.scrollY;
+        let ticking = false;
+        const autoHideTopToolbar = () => {
+            ticking = false;
+            const y = window.scrollY;
+            const isMobile = window.innerWidth <= 640;
+            if (!isMobile || y < 24) {
+                meetingTopToolbar.classList.remove('auto-hide-hidden');
+                lastY = y;
+                return;
+            }
+            const delta = y - lastY;
+            if (delta > 8) meetingTopToolbar.classList.add('auto-hide-hidden');
+            else if (delta < -8) meetingTopToolbar.classList.remove('auto-hide-hidden');
+            lastY = y;
+        };
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(autoHideTopToolbar);
+            }
+        }, { passive: true });
+        const revealTopToolbarIfTopTapped = (ev) => {
+            const isMobile = window.innerWidth <= 640;
+            const clientY = ev.touches?.[0]?.clientY ?? ev.clientY;
+            if (!isMobile || typeof clientY !== 'number') return;
+            if (clientY <= 64) meetingTopToolbar.classList.remove('auto-hide-hidden');
+        };
+        window.addEventListener('touchstart', revealTopToolbarIfTopTapped, { passive: true });
+        window.addEventListener('pointerdown', revealTopToolbarIfTopTapped, { passive: true });
+        window.addEventListener('resize', autoHideTopToolbar, { passive: true });
+        autoHideTopToolbar();
+    }
 
     // ---- 全局变量 ----
     let db, whisperPipeline, currentAnalysis = null, currentMeetingId = null;

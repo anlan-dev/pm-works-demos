@@ -262,9 +262,24 @@
                 margin-bottom: 12px !important;
             }
             .ui-mode-dock {
-                bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 60px));
+                top: max(8px, calc(env(safe-area-inset-top, 0px) + 4px));
+                bottom: auto;
                 left: max(10px, env(safe-area-inset-left, 0px));
-                z-index: 998;
+                right: max(10px, env(safe-area-inset-right, 0px));
+                justify-content: center;
+                z-index: 1001;
+                border-radius: 12px;
+                padding: 6px 8px;
+            }
+            .ui-mode-dock select {
+                flex: 1;
+                min-width: 120px;
+                max-width: 180px;
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+            .container {
+                padding-top: clamp(76px, 13vw, 96px);
             }
         }
         @media (min-width: 821px) {
@@ -1174,6 +1189,13 @@
             border-radius: 14px;
             padding: 8px 10px;
             backdrop-filter: blur(6px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+            transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+        }
+        .ui-mode-dock.is-hidden {
+            transform: translateY(calc(-100% - 8px));
+            opacity: 0;
+            pointer-events: none;
         }
         .ui-mode-dock select {
             border: 1px solid #cbd5e1;
@@ -1310,7 +1332,7 @@
         <!-- ===== 宠伴：产品案例（图表与 SQL 嵌在本故事内） ===== -->
         <div id="flagship-journey" class="methodology-section scroll-margin">
             <div class="methodology-header">
-                <h2>🐾 宠伴·健康台账（产品负责人）</h2>
+                <h2>🐾 宠伴·健康台账</h2>
                 <p class="methodology-sub">通过用户研究、假设验证与持续迭代，解决多宠家庭「疫苗遗忘」与记录摩擦，推动核心行为指标提升。</p>
             </div>
 
@@ -1320,13 +1342,13 @@
             </div>
 
             <div class="story-block" style="margin-bottom:14px;">
-                <h4>2｜关键决策与验证（取舍依据，而非技术清单）</h4>
+                <h4>2｜关键决策与验证</h4>
                 <p><strong>OCR 做不做、怎么做：</strong>原型测试中「手动录入疫苗信息」劝退率最高。我横向对比三种方案，从<strong>隐私、成本、准确率</strong>评估后选择<strong>本地化 OCR</strong>——访谈里<strong>约 83%</strong>的用户明确表示<strong>不接受把接种凭证上传公有云</strong>，决策首要因素是隐私信任，而非单纯成本。</p>
                 <p style="margin-top:10px;"><strong>提醒机制是否重构：</strong>假设「按宠定制 + 灵活忽略」比单一开关更降低打扰感、提升配置意愿。分组对比后，实验数据表明<strong>「开启提醒设置」相关意愿由约 26% 提升至约 42%</strong>，<strong>7 日回访意愿由约 31% 提升至约 44%</strong>（与下图一致）。决策：<strong>全量引入灵活提醒</strong>，并用「稍后 / 今日忽略」平衡打扰与留存。</p>
             </div>
 
             <div class="story-block" style="margin-bottom:10px;">
-                <h4>3｜验证与数据（图表即决策证据链）</h4>
+                <h4>3｜验证与数据</h4>
                 <p>以下为同一口径的核心指标对比与用户反馈结构；用来回答「若我负责宠伴提醒与留存，我会如何提假设、读图并拍板迭代」。</p>
             </div>
 
@@ -1426,7 +1448,7 @@
             <div id="project-meeting" class="project-card-wrap scroll-margin">
                 <a class="project-card-hit" href="./meeting-ruminant.html" target="_blank">
                     <div class="project-emoji">🎙️</div>
-                    <div class="project-title">会议·行动台账 <span class="project-highlight">产品负责人</span></div>
+                    <div class="project-title">会议·反刍舱 <span class="project-highlight">产品负责人</span></div>
                     <div class="project-subtitle">会后失忆 → 待办可追踪（上文含趋势图叙事）</div>
                     <div class="project-desc">
                         <strong>决策摘要：</strong>不做大而全协作台，只做「单场会议产出结构化」；成功标准是<strong>纪要耗时下降</strong>与<strong>待办完成率改善</strong>（见上文折线图）。Prompt 多轮迭代 + 漏项抽检，可选 <code>server/</code> 私有化。
@@ -1439,7 +1461,7 @@
             <div id="project-creation" class="project-card-wrap scroll-margin">
                 <a class="project-card-hit" href="./creation-cabin.html" target="_blank">
                     <div class="project-emoji">✍️</div>
-                    <div class="project-title">创作·灵感台账 <span class="project-highlight">小规模运营 &amp; 模块迭代</span></div>
+                    <div class="project-title">星途·创作舱 <span class="project-highlight">小规模运营 &amp; 模块迭代</span></div>
                     <div class="project-subtitle">从种子用户到画像 · 内容模块怎么长出来</div>
                     <div class="project-desc">
                         <strong>运营叙事：</strong>在创作者社群内分批邀请到<strong>前 100 位左右</strong>种子用户试用（分批问卷 + 私聊邀请）；通过<strong>半结构化访谈</strong>整理出三类人设：兼职写手 / 连载作者 / 灵感型选手，对应痛点从「标题卡死」到「多书并行易弃坑」不等。<br>
@@ -1453,7 +1475,7 @@
             <div id="project-script" class="project-card-wrap scroll-margin">
                 <a class="project-card-hit" href="./script-review.html" target="_blank">
                     <div class="project-emoji">📋</div>
-                    <div class="project-title">剧本·改稿台账 <span class="project-highlight">高频词复盘 · 标签闭环</span></div>
+                    <div class="project-title">剧本·复盘舱 <span class="project-highlight">高频词复盘 · 标签闭环</span></div>
                     <div class="project-subtitle">记下每次修改的原因，写完了还能回头看</div>
                     <div class="project-desc">
                         <strong>起因：</strong>长剧本改到后面记不清删戏动机。<strong>方案：</strong>「剧本—进度—复盘」绑定的模型，每月高频词与标签看板。<strong>可选：</strong>仓库 <code>server/</code> 剧本 JSON 快照。
@@ -1467,10 +1489,10 @@
 
         <div class="divider-light"></div>
 
-        <!-- 会议行动台账：产品案例（趋势图嵌在本故事内） -->
+        <!-- 会议反刍舱：产品案例（趋势图嵌在本故事内） -->
         <div id="meeting-case-study" class="methodology-section scroll-margin">
             <div class="methodology-header">
-                <h2>🎙️ 会议·行动台账（产品负责人）</h2>
+                <h2>🎙️ 会议·反刍舱</h2>
                 <p class="methodology-sub">把「会后失忆」变成可追踪的待办闭环——用<strong>时间节省与漏项下降</strong>定义成功，而不是罗列技术栈。</p>
             </div>
             <div class="story-block" style="margin-bottom:14px;border-left-color:#0071e3;">
@@ -1478,7 +1500,7 @@
                 <p>访谈在职 PM / 项目协作伙伴：<strong>会后整理纪要、从群聊里打捞 action</strong>动辄<strong>半小时量级</strong>，且「会上说过、会后没落地」反复发生。核心矛盾不是「缺录音」，而是<strong>纪要复述成本高 + 待办不可追踪</strong>。</p>
             </div>
             <div class="story-block" style="margin-bottom:14px;">
-                <h4>2｜关键决策（不做什么 &amp; 先做什么）</h4>
+                <h4>2｜关键决策</h4>
                 <p><strong>不做</strong>大而全协作套件；<strong>先做</strong>「单场会议的产出可被结构化」——录音 / 上传 → 转写 → 待办字段 → 状态流转 → 周报复盘。对隐私敏感团队保留<strong>本地 Whisper</strong>路径；结构化环节用多轮 <strong>Prompt</strong> 与<strong>漏项抽检</strong>迭代——评测标准是「待办是否覆盖真实协作语境」，而非模型名称。</p>
             </div>
             <div class="story-block" style="margin-bottom:10px;">
@@ -1488,7 +1510,7 @@
             <div id="meeting-metrics-embed" class="tableau-showcase" style="margin-top:8px;">
                 <div class="dashboard-grid">
                     <div class="dashboard-card">
-                        <div class="dashboard-title"><span>✅</span> 待办完成率趋势 · 会议行动台账</div>
+                        <div class="dashboard-title"><span>✅</span> 待办完成率趋势 · 会议反刍舱</div>
                         <div class="dashboard-sub">上线前后对比｜与产品迭代节点对齐</div>
                         <div class="chart-container">
                             <canvas id="completionTrendLine" width="800" height="280" style="max-width:100%; height:auto;"></canvas>
@@ -1501,7 +1523,7 @@
                 <h4>4｜反思与下一步</h4>
                 <p>若再做一次，会更早为<strong>跨会议阻塞项</strong>单独做视图，而不是先把导出样式做满；可选 <code>server/</code> 仅作为团队私有化时的增强，避免绑架默认体验。</p>
             </div>
-            <p style="text-align:center; margin-top:18px;"><a href="./meeting-ruminant.html" target="_blank" class="project-link" style="margin-top:0;">→ 打开会议行动台账 Demo</a></p>
+            <p style="text-align:center; margin-top:18px;"><a href="./meeting-ruminant.html" target="_blank" class="project-link" style="margin-top:0;">→ 打开会议反刍舱 Demo</a></p>
         </div>
 
         <div class="divider-light"></div>
@@ -1524,10 +1546,10 @@
                     <div class="step-marker">②</div>
                     <div class="step-content">
                         <h4><span class="step-icon">🎯</span> 砍到最小闭环</h4>
-                        <p>不做社交/商城。宠伴只做记录—提醒—回看；创作台账绑定大纲与执行；剧本台账绑定修改原因；会议台账绑定转写—待办—周报。</p>
+                        <p>不做社交/商城。宠伴只做记录—提醒—回看；创作舱绑定大纲与执行；剧本舱绑定修改原因；会议舱绑定转写—待办—周报。</p>
                         <div class="step-tags" style="margin-top:8px;">
                             <span class="step-tag em">🐾 宠伴</span>
-                            <span class="step-tag em">✍️ 创作台账</span>
+                            <span class="step-tag em">✍️ 创作舱</span>
                             <span class="step-tag em">📋 剧本舱</span>
                             <span class="step-tag em">🎙️ 会议舱</span>
                         </div>
@@ -1572,7 +1594,7 @@
             <div class="design-doc-grid">
                 <div id="doc-pet" class="design-doc-card scroll-margin">
                     <div class="design-doc-title"><span>🐾</span> 宠伴·健康台账</div>
-                    <div class="doc-row"><h4>🔍 需求洞察（摘要）</h4><p>多宠家庭遗忘率高；用户要「简单免费」而非社交。交付上收敛为档案 + 日历 + 提醒 + 花费看板，辅以 OCR 降低录入摩擦。</p></div>
+                    <div class="doc-row"><h4>🔍 需求洞察</h4><p>多宠家庭遗忘率高；用户要「简单免费」而非社交。交付上收敛为档案 + 日历 + 提醒 + 花费看板，辅以 OCR 降低录入摩擦。</p></div>
                     <div class="doc-row"><h4>✅ MVP 取舍</h4><p>不做社区/商城；优先提醒灵活性与复诊可追溯（品牌/批号）。能力与上文案例中图表、SQL 口径一致。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4>
                         <ul>
@@ -1580,6 +1602,7 @@
                             <li>看板、日历、多宠对比、PWA；可选 <code>server/</code> 云端 JSON 备份</li>
                             <li><strong>v1.8</strong>：可点击日历清单、预约双态、对比表本月花费/超期项、三端响应式</li>
                             <li><strong>v1.9</strong>：每周健康周报、OCR确认后直接入账、看板异常洞察、多宠统一待办（超期/7天筛选+一键编辑）、备份健康状态条、连续记录徽章与今日任务提示</li>
+                            <li><strong>v2.0</strong>：移动端顶部工具栏支持“下滑隐藏/上滑显示/顶部轻触唤出”，并统一 Apple 风格微动效与层级</li>
                         </ul>
                     </div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
@@ -1601,7 +1624,7 @@
                     </details>
                 </div>
                 <div id="doc-creation" class="design-doc-card scroll-margin">
-                    <div class="design-doc-title"><span>✍️</span> 创作·灵感台账</div>
+                    <div class="design-doc-title"><span>✍️</span> 星途·创作舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>连载作者与兼职写手共性的吐槽：资料分散、断更焦虑、缺轻量「一桌式」工作台；种子用户访谈里「取名慢」「怕进度难看」被反复提及。</p></div>
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲、角色/世界观、标题灵感库，并按反馈把迭代重心放在「目标追踪→状态流转→时间线→周/月报」等<strong>内容模块</strong>。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4><ul><li>单文件可运行，覆盖创作执行与复盘链路</li><li>目标追踪、搜索筛选、健康评分、多项目对比、快照、PWA</li><li>可选 <code>server/</code> 云端备份同一 JSON</li></ul></div>
@@ -1615,11 +1638,13 @@
                             <li>v1.0~v1.5：多主题/墨水屏模式/随机标题/鼓励语管理</li>
                             <li>v1.6 (2026.03)：新增"创作字数统计"与"每日目标"</li>
                             <li>v1.7 (2026.05)：章节状态流转、全文搜索筛选、时间线视图、创作健康评分、周/月报导出、快照回滚、本地点评锚点、PWA离线缓存</li>
+                            <li>v1.8 (2026.05)：写作目标与快照操作迁移到左侧工具区，并改为可折叠（默认收起），减少主编辑区占位</li>
+                            <li>v1.9 (2026.05)：移动端顶部工具栏支持“下滑隐藏/上滑显示/顶部轻触唤出”，并统一 Apple 风格过渡</li>
                         </ul>
                     </details>
                 </div>
                 <div id="doc-script" class="design-doc-card scroll-margin">
-                    <div class="design-doc-title"><span>📋</span> 剧本·改稿台账</div>
+                    <div class="design-doc-title"><span>📋</span> 剧本·复盘舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>长内容创作中版本迭代难追踪、修改原因易遗忘。</p></div>
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>"剧本-进度-复盘"三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4><ul><li>内置月度高频词分析与看板</li><li>支持导出 Word/CSV/JSON</li><li>可选 <code>server/</code> 剧本 JSON 云端备份</li></ul></div>
@@ -1633,12 +1658,14 @@
                             <li>v1.3 (2026.01)：月度回顾看板/高频词</li>
                             <li>v1.4 (2026.02)：导出Word/CSV/JSON</li>
                             <li>v1.5 (2026.03)：支持剧本分场标签与快速过滤</li>
+                            <li>v1.6 (2026.05)：命名与作品集叙事统一为「剧本·复盘舱」，对外展示口径一致</li>
+                            <li>v1.7 (2026.05)：移动端顶部工具栏支持“下滑隐藏/上滑显示/顶部轻触唤出”，并优化顶部操作区视觉层级</li>
                         </ul>
                     </details>
                 </div>
                 <div id="doc-meeting" class="design-doc-card scroll-margin">
-                    <div class="design-doc-title"><span>🎙️</span> 会议·行动台账</div>
-                    <div class="doc-row"><h4>🔍 需求洞察（摘要）</h4><p>会后纪要复述成本高，待办散落在聊天里不可追踪——先要「单场会议的产出站得住」，再谈协作套件。</p></div>
+                    <div class="design-doc-title"><span>🎙️</span> 会议·反刍舱</div>
+                    <div class="doc-row"><h4>🔍 需求洞察</h4><p>会后纪要复述成本高，待办散落在聊天里不可追踪——先要「单场会议的产出站得住」，再谈协作套件。</p></div>
                     <div class="doc-row"><h4>✅ MVP 取舍</h4><p>转写 + 结构化待办 + 状态流 + 周报；隐私路径可走本地 Whisper；深度总结可走可选服务端。详见上文案例中的趋势叙事。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4><ul><li>默认纯前端 + 浏览器存储；可选 <code>server/</code> SQLite 持久化</li><li>历史搜索筛选、超期识别、TOP 关键词、健康评分与 KPI 卡片</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
@@ -1651,6 +1678,7 @@
                             <li>v1.2 (2026.01)：增加本地模型选项（隐私优先）</li>
                             <li>v1.3 (2026.02)：支持待办分配给参会人、标记完成状态</li>
                             <li>v1.4 (2026.05)：待办状态流转、历史筛选、周报/月报+TOP关键词、会议健康评分、KPI总览、UI响应式重构</li>
+                            <li>v1.5 (2026.05)：移动端顶部工具栏支持“下滑隐藏/上滑显示/顶部轻触唤出”，并统一 Apple 风格动效</li>
                         </ul>
                     </details>
                 </div>
@@ -1681,7 +1709,7 @@
                     </ul>
                 </div>
                 <div class="doc-row">
-                    <h4>3. 名词定义（与研发字段对齐）</h4>
+                    <h4>3. 名词定义</h4>
                     <div class="doc-table-wrap">
                         <table class="doc-table">
                             <thead>
@@ -1775,7 +1803,7 @@
                     </ul>
                 </div>
                 <div class="doc-row">
-                    <h4>7. 主路径流程（推送 / 应用内）</h4>
+                    <h4>7. 主路径流程</h4>
                     <div class="doc-flow">入口：系统推送   或   应用内 Banner / 列表红点
   → 用户打开提醒卡片
     ├─ 「稍后」→ +2h 再触发（同条目 ≤3 次）
@@ -1868,9 +1896,9 @@
             © 2026 王天娇 · 香港理工大学 中国语言学研究生 · 产品经理向作品集（案例内嵌指标）<br>
             <span style="margin-top: 12px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: clamp(4px,1vw,8px);">
                 <a href="./pet-vaccine.html" target="_blank">宠伴·健康台账</a> ·
-                <a href="./creation-cabin.html" target="_blank">创作灵感台账</a> ·
-                <a href="./script-review.html" target="_blank">剧本改稿台账</a> ·
-                <a href="./meeting-ruminant.html" target="_blank">会议行动台账</a>
+                <a href="./creation-cabin.html" target="_blank">星途创作舱</a> ·
+                <a href="./script-review.html" target="_blank">剧本复盘舱</a> ·
+                <a href="./meeting-ruminant.html" target="_blank">会议反刍舱</a>
             </span>
         </div>
     </div>
@@ -1933,6 +1961,41 @@
                     }
                 });
             });
+            const uiDock = document.querySelector('.ui-mode-dock');
+            if (uiDock) {
+                let lastY = window.scrollY;
+                let ticking = false;
+                const handleDockAutoHide = () => {
+                    ticking = false;
+                    const y = window.scrollY;
+                    const isMobile = window.innerWidth <= 820;
+                    if (!isMobile || y < 24) {
+                        uiDock.classList.remove('is-hidden');
+                        lastY = y;
+                        return;
+                    }
+                    const delta = y - lastY;
+                    if (delta > 8) uiDock.classList.add('is-hidden');
+                    else if (delta < -8) uiDock.classList.remove('is-hidden');
+                    lastY = y;
+                };
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        ticking = true;
+                        window.requestAnimationFrame(handleDockAutoHide);
+                    }
+                }, { passive: true });
+                const revealDockIfTopTapped = (ev) => {
+                    const isMobile = window.innerWidth <= 820;
+                    const clientY = ev.touches?.[0]?.clientY ?? ev.clientY;
+                    if (!isMobile || typeof clientY !== 'number') return;
+                    if (clientY <= 64) uiDock.classList.remove('is-hidden');
+                };
+                window.addEventListener('touchstart', revealDockIfTopTapped, { passive: true });
+                window.addEventListener('pointerdown', revealDockIfTopTapped, { passive: true });
+                window.addEventListener('resize', handleDockAutoHide, { passive: true });
+                handleDockAutoHide();
+            }
 
             const tocFloat = document.getElementById('tocFloat');
             const toggleBtn = document.getElementById('tocToggleBtn');
