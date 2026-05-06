@@ -576,7 +576,7 @@
         </div>
     </details>
     <div class="main-layout">
-        <div class="script-sidebar"><div class="sidebar-title"><span>📚 我的星舰项目</span><button class="btn-icon" id="addScriptBtn">➕</button></div><ul class="script-list" id="scriptListContainer"></ul><details class="sidebar-tools-panel" id="sidebarQuickTools"><summary class="sidebar-tools-title">🎯 写作目标与快照</summary><div class="sidebar-tools-body"><div style="display:flex; gap:6px; flex-wrap:wrap;"><input type="number" id="dailyGoalInput" placeholder="今日目标" min="100" step="100" style="max-width:112px; padding:6px 8px;"><input type="number" id="weeklyGoalInput" placeholder="本周目标" min="500" step="100" style="max-width:112px; padding:6px 8px;"><button class="btn-sm btn-primary" id="saveGoalBtn">保存</button></div><div class="small-note" style="margin-top:6px;">今日：<span id="todayWordText">0/0</span></div><div style="height:8px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="todayWordBar" style="height:8px; width:0%; background:var(--accent-border);"></div></div><div class="small-note" style="margin-top:8px;">本周：<span id="weekWordText">0/0</span></div><div style="height:8px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="weekWordBar" style="height:8px; width:0%; background:var(--accent-border);"></div></div><div style="display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;"><button class="btn-sm" id="createSnapshotBtn">创建快照</button><button class="btn-sm" id="openSnapshotManagerBtn">管理快照</button></div></div></details><button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button><div class="auto-backup-toggle"><input type="checkbox" id="autoBackupCheckbox"> <label>退出/刷新时自动备份</label></div></div>
+        <div class="script-sidebar"><div class="sidebar-title"><span>📚 我的星舰项目</span><button class="btn-icon" id="addScriptBtn">➕</button></div><ul class="script-list" id="scriptListContainer"></ul><details class="sidebar-tools-panel" id="sidebarQuickTools"><summary class="sidebar-tools-title">🎯 写作目标与快照</summary><div class="sidebar-tools-body"><div style="display:flex; gap:6px; flex-wrap:wrap;"><input type="number" id="dailyGoalInput" placeholder="今日目标" min="100" step="100" style="max-width:112px; padding:6px 8px;"><input type="number" id="weeklyGoalInput" placeholder="本周目标" min="500" step="100" style="max-width:112px; padding:6px 8px;"><button class="btn-sm btn-primary" id="saveGoalBtn">保存</button></div><div class="small-note" style="margin-top:6px;">今日：<span id="todayWordText">0/0</span></div><div style="height:8px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="todayWordBar" style="height:8px; width:0%; background:var(--accent-border);"></div></div><div class="small-note" style="margin-top:8px;">本周：<span id="weekWordText">0/0</span></div><div style="height:8px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="weekWordBar" style="height:8px; width:0%; background:var(--accent-border);"></div></div><div style="display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;"><button class="btn-sm" id="createSnapshotBtn">创建快照</button><button class="btn-sm" id="openSnapshotManagerBtn">管理快照</button></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🔎 快速搜索与筛选</summary><div class="sidebar-tools-body"><div style="display:flex; gap:8px; flex-wrap:wrap;"><input type="text" id="globalSearchInput" placeholder="搜索章节/角色/标签..." style="flex:1; min-width:220px;"><select id="statusFilterSelect" style="max-width:160px;"></select><button class="btn-sm" id="manageChapterStatusBtn" type="button">状态管理</button><button class="btn-sm" id="clearFilterBtn">清空</button></div><div id="searchResultSummary" class="small-note" style="margin-top:8px;">输入关键词开始搜索</div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🗓️ 时间线视图</summary><div class="sidebar-tools-body"><div id="timelineContainer"></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🏅 创作健康评分</summary><div class="sidebar-tools-body"><div id="healthScoreBox"></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">📊 多项目对比看板</summary><div class="sidebar-tools-body"><div style="overflow:auto;"><table id="projectCompareTable" style="width:100%; border-collapse:collapse; font-size:0.9rem;"></table></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🧾 导出周报/月报</summary><div class="sidebar-tools-body"><div style="display:flex; gap:8px; flex-wrap:wrap;"><button class="btn-sm btn-primary" id="exportWeeklyReportBtn">导出本周摘要</button><button class="btn-sm btn-primary" id="exportMonthlyReportBtn">导出本月摘要</button></div></div></details><button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button><div class="auto-backup-toggle"><input type="checkbox" id="autoBackupCheckbox"> <label>退出/刷新时自动备份</label></div></div>
         <div class="content-panel"><div class="current-script-header"><div class="current-script-title" id="currentScriptNameDisplay">选择项目</div><button class="edit-name-btn" id="renameScriptBtn">✏️ 编辑信息</button></div>
             <!-- 大纲区域：标题改为星海巡游轨迹 -->
             <div class="outline-section"><div class="section-title">🚀 星海巡游轨迹 <input type="text" id="outlineTypeInput" style="width:120px; padding:4px 8px;" list="outlineTypeOptions"><datalist id="outlineTypeOptions"></datalist><button class="btn-sm" id="saveOutlineTypeBtn">💾 存为新类型</button><button class="btn-sm" id="manageOutlineTypesBtn">⚙️ 类型管理</button></div>
@@ -617,48 +617,6 @@
                 <input type="hidden" id="currentFileContent">
             </div>
 
-
-            <details class="record-form-card foldable-panel">
-                <summary class="section-title" style="margin-bottom:0;">🔎 快速搜索与筛选</summary>
-                <div class="foldable-inner">
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <input type="text" id="globalSearchInput" placeholder="搜索章节名/角色名/标签/参考书目关键词..." style="flex:1; min-width:260px;">
-                    <select id="statusFilterSelect" style="max-width:180px;"></select>
-                    <button class="btn-sm" id="manageChapterStatusBtn" type="button">状态管理</button>
-                    <button class="btn-sm" id="clearFilterBtn">清空</button>
-                </div>
-                <div id="searchResultSummary" class="small-note" style="margin-top:8px;">输入关键词开始搜索</div>
-                </div>
-            </details>
-
-            <details class="record-form-card foldable-panel">
-                <summary class="section-title" style="margin-bottom:0;">🗓️ 时间线视图（甘特简版）</summary>
-                <div class="foldable-inner"><div id="timelineContainer"></div></div>
-            </details>
-
-            <details class="record-form-card foldable-panel">
-                <summary class="section-title" style="margin-bottom:0;">🏅 创作健康评分</summary>
-                <div class="foldable-inner"><div id="healthScoreBox"></div></div>
-            </details>
-
-            <details class="record-form-card foldable-panel">
-                <summary class="section-title" style="margin-bottom:0;">📊 多项目对比看板</summary>
-                <div class="foldable-inner">
-                <div style="overflow:auto;">
-                    <table id="projectCompareTable" style="width:100%; border-collapse:collapse; font-size:0.9rem;"></table>
-                </div>
-                </div>
-            </details>
-
-            <details class="record-form-card foldable-panel">
-                <summary class="section-title" style="margin-bottom:0;">🧾 导出周报/月报</summary>
-                <div class="foldable-inner">
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <button class="btn-sm btn-primary" id="exportWeeklyReportBtn">导出本周摘要</button>
-                    <button class="btn-sm btn-primary" id="exportMonthlyReportBtn">导出本月摘要</button>
-                </div>
-                </div>
-            </details>
 
             
 
