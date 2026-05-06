@@ -396,8 +396,8 @@
             .dev-credit { display: none; }
             /* 手机端：避免项目列表占满侧栏导致工具入口“消失” */
             .script-sidebar {
-                max-height: 62vh;
-                overflow-y: auto;
+                max-height: none;
+                overflow: visible;
             }
             .script-list {
                 flex: 0 0 auto;
@@ -709,6 +709,12 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
+        }
+        @media (max-width: 767px) {
+            body.is-android-tablet .tablet-bottom-tools-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
         }
         @media (min-width: 768px) and (max-width: 1100px) and (orientation: portrait) {
             body.is-android-tablet .tablet-bottom-tools-grid {
@@ -1475,7 +1481,7 @@
             devBar?.classList.add('is-hidden');
             localStorage.setItem('creation_hide_dev_credit', '1');
         });
-        const isAndroidTablet = () => /Android/i.test(navigator.userAgent) && window.innerWidth >= 768 && window.innerWidth <= 1100;
+        const isAndroidTablet = () => /Android/i.test(navigator.userAgent) && window.innerWidth <= 1100;
         const applyAndroidTabletToolsLayout = () => {
             const sidebar = document.querySelector('.script-sidebar');
             const content = document.querySelector('.content-panel');
