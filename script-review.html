@@ -1027,6 +1027,45 @@
             :root { --ui-shadow-card: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.1); --ui-shadow-btn: -4px -4px 8px rgba(255,255,255,0.58), 4px 4px 8px rgba(0,0,0,0.1); --ui-btn-h: 34px; }
             .dev-credit { z-index: 100; }
         }
+        /* ===== Final global neumorphism sync ===== */
+        :root {
+            --soft-bg: #e6e6e6;
+            --soft-text: #3f3f3f;
+            --soft-muted: #6b6b6b;
+            --soft-card-radius: 28px;
+            --soft-btn-radius: 40px;
+            --soft-shadow: -8px -8px 16px rgba(255,255,255,0.62), 8px 8px 16px rgba(0,0,0,0.1);
+            --soft-shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.12);
+            --soft-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.08), inset -4px -4px 8px rgba(255,255,255,0.68);
+        }
+        body { background: var(--soft-bg) !important; color: var(--soft-text) !important; }
+        .app, .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card, .script-item, .modal-card {
+            border: none !important; border-radius: var(--soft-card-radius) !important; background: var(--soft-bg) !important; box-shadow: var(--soft-shadow) !important;
+        }
+        .btn, .btn-sm, .theme-btn, .manage-tags-btn, .btn-icon, .mode-toggle-btn, input, textarea, select {
+            border: none !important; border-radius: var(--soft-btn-radius) !important; background: var(--soft-bg) !important; color: var(--soft-text) !important; box-shadow: var(--soft-shadow) !important; transition: all .2s ease !important;
+        }
+        .btn:hover, .btn-sm:hover, .theme-btn:hover, .manage-tags-btn:hover, .btn-icon:hover, .mode-toggle-btn:hover { box-shadow: var(--soft-shadow-hover) !important; transform: scale(0.98); }
+        .btn:active, .btn-sm:active, .theme-btn:active, .manage-tags-btn:active, .btn-icon:active, .mode-toggle-btn:active { box-shadow: var(--soft-shadow-inset) !important; transform: scale(0.97); }
+        input, textarea, select, .outline-textarea, .world-textarea, .form-control { box-shadow: var(--soft-shadow-inset) !important; }
+        .small-note, .tag, .header-actions small, #recordCount { color: var(--soft-muted) !important; }
+        #currentScriptNameDisplay,
+        .current-script-title,
+        .script-name {
+            max-width: 100%;
+            white-space: normal !important;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+        @media (max-width: 640px) {
+            :root {
+                --soft-card-radius: 18px;
+                --soft-shadow: -5px -5px 10px rgba(255,255,255,0.58), 5px 5px 10px rgba(0,0,0,0.1);
+                --soft-shadow-hover: -4px -4px 8px rgba(255,255,255,0.56), 4px 4px 8px rgba(0,0,0,0.11);
+                --soft-shadow-inset: inset 3px 3px 6px rgba(0,0,0,0.08), inset -3px -3px 6px rgba(255,255,255,0.66);
+            }
+        }
     </style>
 </head>
 <body class="theme-default">
