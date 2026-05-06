@@ -908,6 +908,14 @@
             .btn, .btn-sm { min-height: 40px; font-size: 0.82rem; padding: 8px 10px; }
             .storage-badge { font-size: 0.74rem; }
         }
+        @media (max-width: 640px) {
+            .app { border-radius: 12px; }
+            .header-actions { gap: 5px; }
+            .theme-switcher { gap: 5px; }
+            .theme-btn { width: 30px; height: 30px; font-size: 13px; }
+            .script-item { border-radius: 12px; padding: 10px 11px; }
+            .content-panel { padding: 12px 10px 16px; }
+        }
 
         /* 严格三档（安卓 360 / 393 / 412） */
         @media (max-width: 360px) {
@@ -950,6 +958,74 @@
             .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card, .script-item, .modal-card { border-width: 1.5px; border-color: rgba(15,23,42,0.11); box-shadow: 0 8px 18px rgba(15,23,42,0.06); }
             .app-header { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
             body.theme-dark .app-header, body.theme-dark .script-sidebar, body.theme-dark .record-form-card, body.theme-dark .outline-section, body.theme-dark .references-section, body.theme-dark .title-lottery-section, body.theme-dark .record-card, body.theme-dark .script-item, body.theme-dark .modal-card { background: rgba(28,28,30,0.96); border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 22px rgba(0,0,0,0.5); }
+        }
+
+        /* ===== Neumorphism refresh ===== */
+        * { font-family: "Inter", "Nunito", system-ui, sans-serif; }
+        body { background: #e8e8e8; color: #3f3f3f; }
+        .app, .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section,
+        .record-card, .script-item, .modal-card {
+            border: none !important;
+            border-radius: 24px !important;
+            background: #e8e8e8 !important;
+            box-shadow: -8px -8px 16px rgba(255,255,255,0.65), 8px 8px 16px rgba(0,0,0,0.12) !important;
+        }
+        .btn, .btn-sm, .theme-btn, .manage-tags-btn, .btn-icon, .mode-toggle-btn, input, textarea, select {
+            border: none !important;
+            border-radius: 22px !important;
+            background: #e8e8e8 !important;
+            color: #4a4a4a !important;
+            box-shadow: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.12) !important;
+            transition: all .2s ease;
+        }
+        .btn:hover, .btn-sm:hover, .theme-btn:hover, .manage-tags-btn:hover, .btn-icon:hover, .mode-toggle-btn:hover { transform: scale(0.98); }
+        .btn:active, .btn-sm:active, .theme-btn:active, .manage-tags-btn:active, .btn-icon:active, .mode-toggle-btn:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7) !important;
+        }
+        input, textarea, select, .outline-textarea, .world-textarea, .form-control {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.08), inset -4px -4px 8px rgba(255,255,255,0.68) !important;
+        }
+        input:focus, textarea:focus, select:focus { outline: none !important; }
+        @media (max-width: 640px) {
+            .app, .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card, .script-item { box-shadow: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.11) !important; }
+        }
+        :root {
+            --neu-bg: #e6e6e6;
+            --neu-text: #4a4a4a;
+            --neu-card-radius: 28px;
+            --neu-btn-radius: 40px;
+            --neu-shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
+            --neu-shadow-soft: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.11);
+            --neu-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
+        }
+        body { background: var(--neu-bg) !important; color: var(--neu-text) !important; }
+        .app, .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card, .script-item, .modal-card { border-radius: var(--neu-card-radius) !important; box-shadow: var(--neu-shadow) !important; background: var(--neu-bg) !important; }
+        .btn, .btn-sm, .theme-btn, .manage-tags-btn, .btn-icon, .mode-toggle-btn, input, textarea, select { border-radius: var(--neu-btn-radius) !important; box-shadow: var(--neu-shadow-soft) !important; background: var(--neu-bg) !important; color: var(--neu-text) !important; }
+        .btn:active, .btn-sm:active, .theme-btn:active, .manage-tags-btn:active, .btn-icon:active, .mode-toggle-btn:active { box-shadow: var(--neu-inset) !important; transform: scale(0.97); }
+        input, textarea, select, .outline-textarea, .world-textarea, .form-control { box-shadow: var(--neu-inset) !important; }
+        @media (max-width: 640px) {
+            :root { --neu-shadow: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.1); --neu-shadow-soft: -4px -4px 8px rgba(255,255,255,0.58), 4px 4px 8px rgba(0,0,0,0.1); }
+        }
+        :root {
+            --ui-radius-card: 28px; --ui-radius-btn: 40px;
+            --ui-shadow-card: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
+            --ui-shadow-btn: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.11);
+            --ui-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
+            --ui-btn-h: 38px;
+        }
+        .app, .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section, .record-card, .script-item, .modal-card { border-radius: var(--ui-radius-card) !important; box-shadow: var(--ui-shadow-card) !important; }
+        .btn, .btn-sm, .theme-btn, .manage-tags-btn, .btn-icon, .mode-toggle-btn, input, textarea, select { border-radius: var(--ui-radius-btn) !important; box-shadow: var(--ui-shadow-btn) !important; min-height: var(--ui-btn-h); }
+        .btn:active, .btn-sm:active, .theme-btn:active, .manage-tags-btn:active, .btn-icon:active, .mode-toggle-btn:active { box-shadow: var(--ui-shadow-inset) !important; }
+        input, textarea, select, .outline-textarea, .world-textarea, .form-control { box-shadow: var(--ui-shadow-inset) !important; }
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .app { max-width: 980px; }
+            .main-layout { display: grid; grid-template-columns: 280px 1fr; }
+            .script-sidebar { max-height: calc(100vh - 180px); }
+            .dev-credit { right: 10px; bottom: 10px; max-width: 220px; }
+        }
+        @media (max-width: 640px) {
+            :root { --ui-shadow-card: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.1); --ui-shadow-btn: -4px -4px 8px rgba(255,255,255,0.58), 4px 4px 8px rgba(0,0,0,0.1); --ui-btn-h: 34px; }
+            .dev-credit { z-index: 100; }
         }
     </style>
 </head>

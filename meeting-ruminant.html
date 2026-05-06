@@ -421,6 +421,14 @@
             .btn, .btn-outline, .btn-primary { min-height: 40px; font-size: 0.82rem; padding: 8px 10px; }
             .api-config { padding: 10px; border-radius: 12px; }
         }
+        @media (max-width: 640px) {
+            .card { padding: 12px 10px; border-radius: 12px; }
+            .meeting-top-toolbar { gap: 6px; }
+            .meeting-top-toolbar .theme-switcher { gap: 6px; }
+            .theme-dot { width: 24px; height: 24px; }
+            .row { gap: 8px; margin-bottom: 12px; }
+            .api-config { gap: 8px; }
+        }
 
         /* 严格三档（安卓 360 / 393 / 412） */
         @media (max-width: 360px) {
@@ -463,6 +471,72 @@
             .card, .api-config, .history-item, .todo-item, .kpi-card, .meeting-top-toolbar { border-width: 1.5px; border-color: rgba(15,23,42,0.11); box-shadow: 0 8px 18px rgba(15,23,42,0.06); }
             .meeting-top-toolbar { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
             body.theme-ink .card, body.theme-ink .api-config, body.theme-ink .history-item, body.theme-ink .todo-item, body.theme-ink .kpi-card, body.theme-ink .meeting-top-toolbar { background: #fafafa; border-color: #858585; box-shadow: none; }
+        }
+
+        /* ===== Neumorphism refresh ===== */
+        * { font-family: "Inter", "Nunito", system-ui, sans-serif; }
+        body { background: #e8e8e8; color: #3f3f3f; }
+        .card, .meeting-top-toolbar, .api-config, .history-item, .todo-item, .kpi-card, .reminder-panel, .export-content {
+            border: none !important;
+            border-radius: 24px !important;
+            background: #e8e8e8 !important;
+            box-shadow: -8px -8px 16px rgba(255,255,255,0.65), 8px 8px 16px rgba(0,0,0,0.12) !important;
+        }
+        .btn, .btn-outline, .btn-primary, .mode-toggle-btn, .theme-dot, input, textarea, select, .custom-remind {
+            border: none !important;
+            border-radius: 22px !important;
+            background: #e8e8e8 !important;
+            color: #4a4a4a !important;
+            box-shadow: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.12) !important;
+            transition: all .2s ease;
+        }
+        .btn:hover, .btn-outline:hover, .btn-primary:hover, .mode-toggle-btn:hover, .theme-dot:hover { transform: scale(0.98); }
+        .btn:active, .btn-outline:active, .btn-primary:active, .mode-toggle-btn:active, .theme-dot:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7) !important;
+        }
+        textarea, input, select, .custom-remind, .history-tools input, .history-tools select {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.08), inset -4px -4px 8px rgba(255,255,255,0.68) !important;
+        }
+        textarea:focus, input:focus, select:focus { outline: none !important; }
+        @media (max-width: 640px) {
+            .card, .api-config, .history-item, .todo-item, .kpi-card { box-shadow: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.11) !important; }
+        }
+        :root {
+            --neu-bg: #e6e6e6;
+            --neu-text: #4a4a4a;
+            --neu-card-radius: 28px;
+            --neu-btn-radius: 40px;
+            --neu-shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
+            --neu-shadow-soft: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.11);
+            --neu-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
+        }
+        body { background: var(--neu-bg) !important; color: var(--neu-text) !important; }
+        .card, .meeting-top-toolbar, .api-config, .history-item, .todo-item, .kpi-card, .reminder-panel, .export-content { border-radius: var(--neu-card-radius) !important; box-shadow: var(--neu-shadow) !important; background: var(--neu-bg) !important; }
+        .btn, .btn-outline, .btn-primary, .mode-toggle-btn, .theme-dot, input, textarea, select, .custom-remind { border-radius: var(--neu-btn-radius) !important; box-shadow: var(--neu-shadow-soft) !important; background: var(--neu-bg) !important; color: var(--neu-text) !important; }
+        .btn:active, .btn-outline:active, .btn-primary:active, .mode-toggle-btn:active, .theme-dot:active { box-shadow: var(--neu-inset) !important; transform: scale(0.97); }
+        textarea, input, select, .custom-remind, .history-tools input, .history-tools select { box-shadow: var(--neu-inset) !important; }
+        @media (max-width: 640px) {
+            :root { --neu-shadow: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.1); --neu-shadow-soft: -4px -4px 8px rgba(255,255,255,0.58), 4px 4px 8px rgba(0,0,0,0.1); }
+        }
+        :root {
+            --ui-radius-card: 28px; --ui-radius-btn: 40px;
+            --ui-shadow-card: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
+            --ui-shadow-btn: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.11);
+            --ui-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
+            --ui-btn-h: 38px;
+        }
+        .card, .meeting-top-toolbar, .api-config, .history-item, .todo-item, .kpi-card, .reminder-panel, .export-content { border-radius: var(--ui-radius-card) !important; box-shadow: var(--ui-shadow-card) !important; }
+        .btn, .btn-outline, .btn-primary, .mode-toggle-btn, .theme-dot, input, textarea, select, .custom-remind { border-radius: var(--ui-radius-btn) !important; box-shadow: var(--ui-shadow-btn) !important; min-height: var(--ui-btn-h); }
+        .btn:active, .btn-outline:active, .btn-primary:active, .mode-toggle-btn:active, .theme-dot:active { box-shadow: var(--ui-shadow-inset) !important; }
+        textarea, input, select, .custom-remind, .history-tools input, .history-tools select { box-shadow: var(--ui-shadow-inset) !important; }
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .container { max-width: 980px; }
+            .card { padding: 18px; }
+            .feedback-label { right: 10px; bottom: 10px; max-width: 210px; }
+        }
+        @media (max-width: 640px) {
+            :root { --ui-shadow-card: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.1); --ui-shadow-btn: -4px -4px 8px rgba(255,255,255,0.58), 4px 4px 8px rgba(0,0,0,0.1); --ui-btn-h: 34px; }
+            .feedback-label { z-index: 100; }
         }
     </style>
     <!-- transformers.js -->
