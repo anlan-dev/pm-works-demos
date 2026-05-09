@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="description" content="王天娇 · 产品经理实习生作品集 — 需求取舍与用户验证 | 宠伴/会议舱嵌图表与指标口径，完整产品案例叙事">
-    <title>王天娇 · 产品经理实习生 · 作品集</title>
+    <meta name="description" content="王天娇 · 产品经理实习生作品集 — 需求取舍与用户验证 | 宠伴/会议舱/冷启动/Prompt 库嵌图表与指标口径，完整产品案例叙事">
+    <title>王天娇 · 产品实习生 · 作品集</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <style>
@@ -922,6 +922,39 @@
         .project-learn-more:hover {
             color: #0f172a;
         }
+        /* PRD 折叠区 */
+        .prd-fold{margin-top:14px}
+        .prd-toggle{
+            display:inline-flex;align-items:center;gap:6px;
+            background:rgba(0,113,227,.06);border:1px solid rgba(0,113,227,.12);
+            border-radius:20px;padding:6px 14px;font-size:.76rem;font-weight:600;
+            color:#0071e3;cursor:pointer;transition:all .2s;font-family:inherit;
+            -webkit-appearance:none;
+        }
+        .prd-toggle:hover{background:rgba(0,113,227,.1);border-color:rgba(0,113,227,.2)}
+        .prd-toggle .prd-arrow{transition:transform .25s;font-size:.65rem}
+        .prd-toggle[aria-expanded="true"] .prd-arrow{transform:rotate(90deg)}
+        .prd-body{
+            overflow:hidden;max-height:0;opacity:0;
+            transition:max-height .35s ease,opacity .25s ease,margin .25s ease;
+            margin-top:0;
+        }
+        .prd-body.open{max-height:2000px;opacity:1;margin-top:12px}
+        .prd-body-inner{
+            background:#fff;border:1px solid #e8ecf1;border-radius:12px;
+            padding:16px 18px;font-size:.78rem;line-height:1.65;color:#475569;
+        }
+        .prd-body-inner h5{font-size:.82rem;font-weight:700;color:#0f172a;margin:12px 0 4px}
+        .prd-body-inner h5:first-child{margin-top:0}
+        .prd-body-inner ul{padding-left:16px;margin:4px 0}
+        .prd-body-inner li{margin-bottom:3px}
+        .prd-body-inner code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:.74rem}
+        .prd-body-inner .prd-kv{display:flex;flex-wrap:wrap;gap:6px 16px;margin:6px 0}
+        .prd-body-inner .prd-kv span{font-size:.74rem;color:#64748b}
+        .prd-body-inner .prd-kv strong{color:#334155}
+        .prd-body-inner .prd-link-row{margin-top:10px;padding-top:8px;border-top:1px solid #f1f5f9;display:flex;gap:12px;flex-wrap:wrap}
+        .prd-body-inner .prd-link-row a{font-size:.74rem;color:#0071e3;text-decoration:none;font-weight:500}
+        .prd-body-inner .prd-link-row a:hover{text-decoration:underline}
         .story-block {
             border-left: 3px solid rgba(0, 113, 227, 0.35);
             padding-left: 14px;
@@ -1716,6 +1749,8 @@
         <ul class="toc-list">
             <li class="toc-item"><a href="#flagship-journey" class="toc-link"><span class="toc-icon">🐾</span><span>宠伴案例</span></a></li>
             <li class="toc-item"><a href="#all-projects" class="toc-link"><span class="toc-icon">🧩</span><span>全部项目</span></a></li>
+            <li class="toc-item"><a href="#project-coldstart" class="toc-link"><span class="toc-icon">⚡</span><span>冷启动</span></a></li>
+            <li class="toc-item"><a href="#project-promptlib" class="toc-link"><span class="toc-icon">🧠</span><span>Prompt 库</span></a></li>
             <li class="toc-item"><a href="#meeting-case-study" class="toc-link"><span class="toc-icon">🎙️</span><span>会议案例</span></a></li>
             <li class="toc-item"><a href="#design-methodology" class="toc-link"><span class="toc-icon">💡</span><span>方法论</span></a></li>
             <li class="toc-item"><a href="#design-docs" class="toc-link"><span class="toc-icon">📄</span><span>迭代文档</span></a></li>
@@ -1730,6 +1765,8 @@
         <div class="mobile-bottom-nav-inner">
             <a href="#flagship-journey">🐾 宠伴</a>
             <a href="#all-projects">🧩 项目</a>
+            <a href="#project-coldstart">⚡ 冷启动</a>
+            <a href="#project-promptlib">🧠 Prompt</a>
             <a href="#meeting-case-study">🎙️ 会议</a>
             <a href="#design-methodology">💡 方法</a>
             <a href="#design-docs">📄 文档</a>
@@ -1742,6 +1779,8 @@
         <div class="mobile-side-toc-links">
             <a href="#flagship-journey">宠伴</a>
             <a href="#all-projects">项目</a>
+            <a href="#project-coldstart">冷启动</a>
+            <a href="#project-promptlib">Prompt</a>
             <a href="#meeting-case-study">会议</a>
             <a href="#design-methodology">方法</a>
             <a href="#design-docs">文档</a>
@@ -1765,7 +1804,7 @@
         <div class="hero">
             <h1>王天娇</h1>
             <p style="font-size:clamp(1rem, 1.6vw, 1.25rem); font-weight:500; color:#1e293b; margin: 8px 0 4px;">用语言学读懂用户，用数据把决策做对</p>
-            <p style="font-size:clamp(0.8rem, 1.1vw, 0.95rem); color:#475569; margin: 0 0 16px;">求职<strong>产品经理实习生</strong>：用访谈与竞品线索定义问题，用优先级与假设验证做取舍——4 个从 0 到 1 的项目均有反馈闭环；宠伴案例中核心意愿指标与作品集内图表、SQL 口径一致。</p>
+            <p style="font-size:clamp(0.8rem, 1.1vw, 0.95rem); color:#475569; margin: 0 0 16px;">求职<strong>产品经理实习生</strong>：用访谈与竞品线索定义问题，用优先级与假设验证做取舍——6 个从 0 到 1 的项目均有反馈闭环；宠伴案例中核心意愿指标与作品集内图表、SQL 口径一致。</p>
             <div class="badge-group">
                 <span class="badge">🎯 需求与取舍</span>
                 <span class="badge">📈 假设—验证—指标</span>
@@ -1781,6 +1820,8 @@
             <div class="quick-jump-block" aria-label="快速跳转">
                 <a href="#flagship-journey">宠伴</a>
                 <a href="#all-projects">项目</a>
+                <a href="#project-coldstart">冷启动</a>
+                <a href="#project-promptlib">Prompt</a>
                 <a href="#meeting-case-study">会议</a>
                 <a href="#design-methodology">方法</a>
                 <a href="#design-docs">文档</a>
@@ -1920,6 +1961,35 @@
                     <div class="project-link">→ 体验 Demo</div>
                 </a>
                 <a class="project-learn-more" href="#doc-pet">了解更多 · 痛点、访谈原话与迭代记录</a>
+                <div class="prd-fold">
+                  <button class="prd-toggle" aria-expanded="false">▸ PRD 摘要</button>
+                  <div class="prd-body"><div class="prd-body-inner">
+                    <h5>背景与目标</h5>
+                    <p>养宠家庭多宠疫苗/驱虫/体检提醒散落在相册和微信群，漏打率高。目标：做一个 PWA 离线优先的健康台账，让多宠主人「打开就知道今天谁该打针」。</p>
+                    <div class="prd-kv"><span>核心指标</span><strong>提醒触达率 ≥ 90%</strong><span>|</span><span>MVP 周期</span><strong>2 周</strong></div>
+                    <h5>用户故事</h5>
+                    <ul>
+                      <li>As a 养宠主人，I want 按宠物分开设定疫苗计划，so that 两只狗不会提醒串台</li>
+                      <li>As a 忙碌上班族，I want 离线也能查看记录，so that 地铁上也能快速确认</li>
+                      <li>As a 带猫复诊的主人，I want 一键导出 Excel，so that 医生现场就能看历史</li>
+                    </ul>
+                    <h5>功能范围</h5>
+                    <ul>
+                      <li><strong>MVP 必做：</strong>宠物档案、疫苗/驱虫记录、提醒通知、OCR 拍照识别</li>
+                      <li><strong>v1.1 后续：</strong>健康评分、周报自动生成、多宠统一待办</li>
+                      <li><strong>明确不做：</strong>社交分享、在线问诊、电商导流</li>
+                    </ul>
+                    <h5>边界与异常</h5>
+                    <ul>
+                      <li>OCR 识别失败 → 允许手动修正后直入账</li>
+                      <li>网络断开 → PWA 离线缓存兜底，联网后自动同步</li>
+                      <li>多宠提醒同日 → 按宠物拆分卡片，避免遗漏</li>
+                    </ul>
+                    <h5>验收标准</h5>
+                    <p><code>Given</code> 用户添加两只宠物并设定疫苗计划 <code>When</code> 到达提醒日期 <code>Then</code> 分别收到两条独立推送，点击后进入对应宠物档案</p>
+                    <div class="prd-link-row"><a href="./pet-vaccine.html" target="_blank">→ 体验完整 Demo</a><a href="#doc-pet">→ 查看迭代记录</a></div>
+                  </div></div>
+                </div>
             </div>
             <div id="project-meeting" class="project-card-wrap scroll-margin">
                 <a class="project-card-hit" href="./meeting-ruminant.html" target="_blank">
@@ -1933,6 +2003,35 @@
                     <div class="project-link">→ 体验 Demo</div>
                 </a>
                 <a class="project-learn-more" href="#doc-meeting">了解更多 · 设计与迭代</a>
+                <div class="prd-fold">
+                  <button class="prd-toggle" aria-expanded="false">▸ PRD 摘要</button>
+                  <div class="prd-body"><div class="prd-body-inner">
+                    <h5>背景与目标</h5>
+                    <p>会后纪要复述成本高、待办散落在聊天里不可追踪。目标：做一个本地优先的会议复盘工具，从录音到结构化纪要到待办追踪一站搞定。</p>
+                    <div class="prd-kv"><span>核心指标</span><strong>纪要整理耗时 ≤ 5 min</strong><span>|</span><span>MVP 周期</span><strong>3 周</strong></div>
+                    <h5>用户故事</h5>
+                    <ul>
+                      <li>As a 项目经理，I want 录音自动转文字并提取待办，so that 不用边开会边记笔记</li>
+                      <li>As a 团队成员，I want 待办有状态和截止日期，so that 不会漏掉 action item</li>
+                      <li>As a 隐私敏感用户，I want 数据不传外网，so that 内部会议内容安全可控</li>
+                    </ul>
+                    <h5>功能范围</h5>
+                    <ul>
+                      <li><strong>MVP 必做：</strong>录音上传、语音转文字、结构化纪要生成、待办提取与状态流转</li>
+                      <li><strong>v1.1 后续：</strong>周报/月报自动生成、TOP 关键词分析、会议健康评分</li>
+                      <li><strong>明确不做：</strong>视频会议集成、多人实时协作、日历同步</li>
+                    </ul>
+                    <h5>边界与异常</h5>
+                    <ul>
+                      <li>录音噪音过大 → Whisper 降级处理，标记低置信度段落</li>
+                      <li>超长会议（>2h）→ 分段转写，合并后去重</li>
+                      <li>本地存储满 → 提示导出清理，优先保留最近 30 场</li>
+                    </ul>
+                    <h5>验收标准</h5>
+                    <p><code>Given</code> 用户上传一段 30 分钟会议录音 <code>When</code> 转写完成 <code>Then</code> 生成结构化纪要 + 待办列表，待办可分配负责人并标记完成</p>
+                    <div class="prd-link-row"><a href="./meeting-ruminant.html" target="_blank">→ 体验完整 Demo</a><a href="#doc-meeting">→ 查看迭代记录</a></div>
+                  </div></div>
+                </div>
             </div>
             <div id="project-creation" class="project-card-wrap scroll-margin">
                 <a class="project-card-hit" href="./creation-cabin.html" target="_blank">
@@ -1947,6 +2046,77 @@
                     <div class="project-link">→ 体验 Demo</div>
                 </a>
                 <a class="project-learn-more" href="#doc-creation">了解更多 · 访谈与迭代</a>
+                <div class="prd-fold">
+                  <button class="prd-toggle" aria-expanded="false">▸ PRD 摘要</button>
+                  <div class="prd-body"><div class="prd-body-inner">
+                    <h5>背景与目标</h5>
+                    <p>网文/剧本创作者资料散落在 Word、备忘录、微信群，写的时候要反复翻找。目标：做一个「打开就能写」的沉浸式创作桌面，角色设定、大纲、正文、取名一站式搞定。</p>
+                    <div class="prd-kv"><span>核心指标</span><strong>首次打开到开始写作 ≤ 30s</strong><span>|</span><span>MVP 周期</span><strong>2 周</strong></div>
+                    <h5>用户故事</h5>
+                    <ul>
+                      <li>As a 网文作者，I want 角色设定和正文在同一页面，so that 写到一半不用切窗口查设定</li>
+                      <li>As a 卡文的作者，I want 随机标题库抽灵感，so that 比自己死想快得多</li>
+                      <li>As a 夜间写作用户，I want 墨水屏/暗色模式，so that 眼睛不累</li>
+                    </ul>
+                    <h5>功能范围</h5>
+                    <ul>
+                      <li><strong>MVP 必做：</strong>Markdown 编辑器、角色设定面板、大纲折叠、多主题切换</li>
+                      <li><strong>v1.1 后续：</strong>随机标题库（800+）、鼓励语管理、写作目标进度条</li>
+                      <li><strong>明确不做：</strong>在线发布、评论社交、AI 续写</li>
+                    </ul>
+                    <h5>边界与异常</h5>
+                    <ul>
+                      <li>浏览器崩溃 → 每 30s 自动 localStorage 快照</li>
+                      <li>超长文本（>10万字）→ 虚拟滚动 + 分章节加载</li>
+                      <li>标题库耗尽 → 提示「已抽完，可自定义补充」</li>
+                    </ul>
+                    <h5>验收标准</h5>
+                    <p><code>Given</code> 用户首次打开创作舱 <code>When</code> 点击「新建故事」<code>Then</code> 30s 内进入可编辑的创作界面，角色和大纲面板默认展开</p>
+                    <div class="prd-link-row"><a href="./creation-cabin.html" target="_blank">→ 体验完整 Demo</a><a href="#doc-creation">→ 查看迭代记录</a></div>
+                  </div></div>
+                </div>
+            </div>
+            <div id="project-coldstart" class="project-card-wrap scroll-margin">
+                <a class="project-card-hit" href="./cold-start.html" target="_blank">
+                    <div class="project-emoji">⚡</div>
+                    <div class="project-title">Cold Start · 冷启动 <span class="project-highlight">行为洞察 · AI 赋能</span></div>
+                    <div class="project-subtitle">别想了，开始。把拖延变成可执行的第一步</div>
+                    <div class="project-desc">
+                        <strong>起因：</strong>INTJ 型用户习惯「想太多而不行动」。<strong>方案：</strong>输入一个拖延目标，系统即时生成「诊断 + 启动任务 + 后续计划」三段式冷启动方案。<strong>亮点：</strong>规则引擎离线可用；接入 AI 后诊断更个性化，支持 OpenRouter / DeepSeek / SiliconFlow 等多平台。
+                    </div>
+                    <div><span class="project-tag">新拟物设计</span><span class="project-tag">INTJ 诊断</span><span class="project-tag">AI 多平台</span><span class="project-tag">任务管理</span><span class="project-tag">PWA 就绪</span></div>
+                    <div class="project-link">→ 体验 Demo</div>
+                </a>
+                <a class="project-learn-more" href="#doc-coldstart">了解更多 · 设计与迭代</a>
+                <div class="prd-fold">
+                  <button class="prd-toggle" aria-expanded="false">▸ PRD 摘要</button>
+                  <div class="prd-body"><div class="prd-body-inner">
+                    <h5>背景与目标</h5>
+                    <p>INTJ 型用户习惯「想太多而不行动」——拖延不是懒，是恐惧穿上了理性的外衣。目标：输入一个拖延目标，即时生成「诊断 + 启动任务 + 后续计划」三段式冷启动方案。</p>
+                    <div class="prd-kv"><span>核心指标</span><strong>首次使用完成启动任务率 ≥ 60%</strong><span>|</span><span>MVP 周期</span><strong>2 周</strong></div>
+                    <h5>用户故事</h5>
+                    <ul>
+                      <li>As a 拖延用户，I want 输入一个模糊目标就得到具体第一步，so that 不用自己想怎么开始</li>
+                      <li>As a 离线用户，I want 断网也能用，so that 地下室/飞机上也不耽误</li>
+                      <li>As a 进阶用户，I want 接入 AI 获得更个性化的诊断，so that 不只是模板套话</li>
+                    </ul>
+                    <h5>功能范围</h5>
+                    <ul>
+                      <li><strong>MVP 必做：</strong>规则引擎（8 类场景 × 5+ 模板）、诊断 + 启动任务 + 后续计划三段输出</li>
+                      <li><strong>v1.1 后续：</strong>任务管理 Tab、按天分组、AI 多平台接入</li>
+                      <li><strong>明确不做：</strong>社交打卡、积分体系、付费解锁</li>
+                    </ul>
+                    <h5>边界与异常</h5>
+                    <ul>
+                      <li>AI 调用失败 → 自动降级到规则引擎，确保永远有输出</li>
+                      <li>输入过于模糊（如「变好」）→ 追问引导 + 兜底模板</li>
+                      <li>项目数据丢失 → localStorage 本地持久化 + 导出 JSON</li>
+                    </ul>
+                    <h5>验收标准</h5>
+                    <p><code>Given</code> 用户输入「写论文开题报告」<code>When</code> 点击生成 <code>Then</code> 3s 内输出诊断 + 启动任务 + 3-5 步后续计划，任务可勾选完成</p>
+                    <div class="prd-link-row"><a href="./cold-start.html" target="_blank">→ 体验完整 Demo</a><a href="#doc-coldstart">→ 查看迭代记录</a></div>
+                  </div></div>
+                </div>
             </div>
             <div id="project-script" class="project-card-wrap scroll-margin">
                 <a class="project-card-hit" href="./script-review.html" target="_blank">
@@ -1960,6 +2130,48 @@
                     <div class="project-link">→ 体验 Demo</div>
                 </a>
                 <a class="project-learn-more" href="#doc-script">了解更多 · 设计与迭代</a>
+                <div class="prd-fold">
+                  <button class="prd-toggle" aria-expanded="false">▸ PRD 摘要</button>
+                  <div class="prd-body"><div class="prd-body-inner">
+                    <h5>背景与目标</h5>
+                    <p>长剧本改到中后期，经常忘了某场戏为什么删、某个角色动机为什么改。目标：构建「剧本-进度-复盘」三位一体模型，让每次修改都有迹可查，形成创作复盘闭环。</p>
+                    <div class="prd-kv"><span>核心指标</span><strong>修改回溯命中率 ≥ 95%</strong><span>|</span><span>MVP 周期</span><strong>2 周</strong></div>
+                    <h5>用户故事</h5>
+                    <ul>
+                      <li>As a 编剧，I want 每次修改自动记录进度快照，so that 随时回溯「当时为什么删这场戏」</li>
+                      <li>As a 长篇创作者，I want 按标签筛选历史记录，so that 快速定位某一类修改（如删戏/改台词）</li>
+                      <li>As a 需要交稿的编剧，I want 一键导出 Word/CSV/JSON，so that 交付给导演或制片时格式规范</li>
+                    </ul>
+                    <h5>功能范围</h5>
+                    <ul>
+                      <li><strong>MVP 必做：</strong>剧本分场管理、进度快照、复盘笔记、标签系统</li>
+                      <li><strong>v1.3 后续：</strong>月度回顾看板、高频词分析、导出 Word/CSV/JSON</li>
+                      <li><strong>明确不做：</strong>多人实时协作编辑、AI 自动改写剧本、版本对比 diff 视图</li>
+                    </ul>
+                    <h5>边界与异常</h5>
+                    <ul>
+                      <li>浏览器清除缓存 → 支持 JSON 导出备份 + 可选 server/ 云端同步</li>
+                      <li>剧本超长（>50 场） → 分场折叠 + 按标签快速过滤，避免页面卡顿</li>
+                      <li>标签滥用 → 提供高频标签推荐 + 历史标签统计，引导合理分类</li>
+                    </ul>
+                    <h5>验收标准</h5>
+                    <p><code>Given</code> 用户对第 15 场戏进行删除并填写复盘原因 <code>When</code> 3 天后回溯历史 <code>Then</code> 可通过标签「删戏」快速定位该条记录，复盘原因完整显示</p>
+                    <div class="prd-link-row"><a href="./script-review.html" target="_blank">→ 体验完整 Demo</a><a href="#doc-script">→ 查看迭代记录</a></div>
+                  </div></div>
+                </div>
+            </div>
+            <div id="project-promptlib" class="project-card-wrap scroll-margin">
+                <a class="project-card-hit" href="./prompt-library.html" target="_blank">
+                    <div class="project-emoji">🧠</div>
+                    <div class="project-title">Prompt Library <span class="project-highlight">Vibe Coding · 持续维护</span></div>
+                    <div class="project-subtitle">产品经理的 AI 协作工作台，从 PRD 到原型一站搞定</div>
+                    <div class="project-desc">
+                        <strong>起因：</strong>日常 Vibe Coding 积累了大量可复用 Prompt，散落在各处难找。<strong>方案：</strong>按场景分类的 Prompt 库（PRD/UI/代码/调试/分析/内容/工作流 7 大类），每条含场景说明 + 可复制模板。<strong>价值：</strong>面试官可直接打开体验，体现 Prompt Engineering 能力和持续迭代习惯。
+                    </div>
+                    <div><span class="project-tag">Prompt Engineering</span><span class="project-tag">7 大分类</span><span class="project-tag">一键复制</span><span class="project-tag">持续维护</span></div>
+                    <div class="project-link">→ 查看 Prompt 库</div>
+                </a>
+                <a class="project-learn-more" href="#doc-promptlib">了解更多 · 设计与迭代</a>
             </div>
         </div>
 
@@ -2015,7 +2227,7 @@
                     <div class="step-marker">①</div>
                     <div class="step-content">
                         <h4><span class="step-icon">🔍</span> 先找到真正烦人的小场景</h4>
-                        <p>四个作品对应四类高频抱怨：养宠漏针、创作资料散、剧本改戏断层、会后待办沉底。做法仍是：<strong>聊 + 看差评</strong>，收敛到「简单、最好免费、帮我记牢」。</p>
+                        <p>四个作品对应四类高频抱怨：养宠漏针、创作资料散、剧本改戏断层、会后待办沉底。冷启动则对应「想太多不行动」的拖延场景。做法仍是：<strong>聊 + 看差评</strong>，收敛到「简单、最好免费、帮我记牢」。</p>
                     </div>
                 </div>
                 <div class="method-step">
@@ -2028,6 +2240,8 @@
                             <span class="step-tag em">✍️ 创作舱</span>
                             <span class="step-tag em">📋 剧本舱</span>
                             <span class="step-tag em">🎙️ 会议舱</span>
+                            <span class="step-tag em">⚡ 冷启动</span>
+                            <span class="step-tag em">🧠 Prompt 库</span>
                         </div>
                     </div>
                 </div>
@@ -2035,7 +2249,7 @@
                     <div class="step-marker">③</div>
                     <div class="step-content">
                         <h4><span class="step-icon">🔬</span> 不确定就先验证方案</h4>
-                        <p>例如宠伴 OCR 选离线 Tesseract、提醒做「稍后/按宠拆分」；会议侧用 Cursor、DeepSeek、Whisper 把<strong>运营耗时的纪要环节</strong>压到约 <strong>5 分钟</strong>可复盘。需要云端时再启用仓库 <code>server/</code>。</p>
+                        <p>例如宠伴 OCR 选离线 Tesseract、提醒做「稍后/按宠拆分」；会议侧用 Cursor、DeepSeek、Whisper 把<strong>运营耗时的纪要环节</strong>压到约 <strong>5 分钟</strong>可复盘；冷启动用规则引擎保底、AI 多平台增强。需要云端时再启用仓库 <code>server/</code>。</p>
                     </div>
                 </div>
                 <div class="method-step">
@@ -2052,6 +2266,7 @@
                         <div class="step-outcome-row">
                             <span>📱 宠伴 <strong>PWA</strong> · 离线优先</span>
                             <span>🌐 其余工具 <strong>静态 HTML</strong> 可本地打开</span>
+                            <span>⚡ 冷启动 <strong>规则+AI</strong> 双模式</span>
                             <span>📊 宠伴 / 会议案例中<strong>图表与叙事同一口径</strong></span>
                             <span>☁️ 可选 <code>server/</code> 备份与会议 AI</span>
                         </div>
@@ -2084,8 +2299,8 @@
                         </ul>
                     </div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">"去医院复诊时我直接把Excel给医生看，疫苗时间和品牌都清清楚楚，省得我现场翻半天相册。" —— 养金毛的妮可 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
-                        <div class="feedback-quote">"两只狗以前老是提醒串台，现在终于能分开设，谁该打针一眼就看出来了。" —— 双狗家庭 Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
+                        <div class="feedback-quote">"上次带猫去打针，医生问上次打的啥牌子，我直接翻记录给他看，省得回家再翻相册了。" —— 妮可 <span style="color:#2e7d32; margin-left:8px;">✓ 已强化导出</span></div>
+                        <div class="feedback-quote">"家里俩狗之前老搞混谁该驱虫了，现在分开看一目了然，总算不用拿本子记了。" —— Jason <span style="color:#2e7d32; margin-left:8px;">✓ v1.6新增</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
@@ -2098,6 +2313,7 @@
                             <li>v1.7 (2026.04)：品牌批号追溯、独立体重管理、月历视图、多宠对比表、健康评分、PWA推送通知</li>
                             <li>v1.8 (2026.05)：日历可点开当日清单、预约状态可回退、对比表补充本月花费/超期项、整体UI响应式重构</li>
                             <li>v1.9 (2026.05)：周报自动生成、OCR确认直入账、异常洞察、多宠统一待办（筛选+跳编辑）、备份健康状态条、连续记录激励</li>
+                            <li>v2.0 (2026.05)：移动端顶部工具栏支持下滑隐藏/上滑显示/顶部轻触唤出，统一 Apple 风格微动效与层级</li>
                             <li>v2.1 (2026.05)：暗色主题补齐 360/393/412 三档视觉标尺，统一对比度、描边粗细与阴影层级</li>
                             <li>v2.2 (2026.05)：新拟物 token 化统一（按钮 40 / 卡片 28 / 阴影参数一致），并补齐平板端尺寸</li>
                         </ul>
@@ -2109,13 +2325,18 @@
                     <div class="doc-row"><h4>✅ 核心方案</h4><p>集成大纲、角色/世界观、标题灵感库，并按反馈把迭代重心放在「目标追踪→状态流转→时间线→周/月报」等<strong>内容模块</strong>。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4><ul><li>单文件可运行，覆盖创作执行与复盘链路</li><li>目标追踪、搜索筛选、健康评分、多项目对比、快照、PWA</li><li>可选 <code>server/</code> 云端备份同一 JSON</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">"以前开一堆文档找设定很烦，现在这个页面就是我的写作桌面，打开就能直接写。" —— 签约作者 miki</div>
-                        <div class="feedback-quote">"我取名特别慢，这个标题库真的实用，现在量够大，卡文的时候随手一抽就有灵感。" —— 新人作者 七叶 <span style="color:#2e7d32; margin-left:8px;">✓ 已增至800+</span></div>
+                        <div class="feedback-quote">"以前我开一堆 Word 找设定，现在打开就能直接写，角色关系也不用翻来翻去了。" —— miki <span style="color:#2e7d32; margin-left:8px;">✓ 采纳</span></div>
+                        <div class="feedback-quote">"取名真的卡我半天，那个标题库我随手抽了两个就觉得比我自己想的好，量再大点就更好了。" —— 七叶 <span style="color:#2e7d32; margin-left:8px;">✓ 已增至800+</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
                         <ul style="margin-top:8px;">
-                            <li>v1.0~v1.5：多主题/墨水屏模式/随机标题/鼓励语管理</li>
+                            <li>v1.0 (2025.11)：基础 Markdown 编辑 + 角色设定面板</li>
+                            <li>v1.1 (2025.12)：多主题切换（日间/夜间/护眼）</li>
+                            <li>v1.2 (2026.01)：墨水屏模式、随机标题库初版（200 条）</li>
+                            <li>v1.3 (2026.01)：鼓励语管理、角色关系图可视化</li>
+                            <li>v1.4 (2026.02)：标题库扩充至 500 条，支持按类型筛选</li>
+                            <li>v1.5 (2026.02)：新增写作目标设定与进度条</li>
                             <li>v1.6 (2026.03)：新增"创作字数统计"与"每日目标"</li>
                             <li>v1.7 (2026.05)：章节状态流转、全文搜索筛选、时间线视图、创作健康评分、周/月报导出、快照回滚、本地点评锚点、PWA离线缓存</li>
                             <li>v1.8 (2026.05)：写作目标与快照操作迁移到左侧工具区，并改为可折叠（默认收起），减少主编辑区占位</li>
@@ -2125,14 +2346,35 @@
                         </ul>
                     </details>
                 </div>
+                <div id="doc-coldstart" class="design-doc-card scroll-margin">
+                    <div class="design-doc-title"><span>⚡</span> Cold Start · 冷启动行动引擎</div>
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>INTJ 型用户习惯「想太多而不行动」——拖延不是懒，是恐惧穿上了理性的外衣。需要一个工具把抽象焦虑拆解成「今天就能做的第一步」。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>输入拖延目标 → 三段式冷启动输出：①诊断（精准刺破拖延本质）②启动任务（5-15分钟极小动作）③后续计划（按天递进的 3-5 步）。双模式：规则引擎离线可用 + AI 多平台个性化。</p></div>
+                    <div class="doc-row"><h4>📈 交付说明</h4><ul><li>单文件 HTML，新拟物（Neumorphism）设计系统</li><li>规则引擎：关键词分类 + 模板池 → 离线即时生成</li><li>AI 模式：支持 OpenRouter / DeepSeek / SiliconFlow / 自定义接口</li><li>任务管理：Tab 底栏切换冷启动 / 任务 / 进度总览</li><li>项目隔离：每个目标独立归档，支持回溯与删除</li><li>AI 调整：后续计划支持自然语言反馈微调</li><li>本地存储 + 可选接入 PWA manifest</li></ul></div>
+                    <div class="doc-row"><h4>💬 用户怎么说</h4>
+                        <div class="feedback-quote">"输入'写论文开题报告'，它直接说我是在怕写不好所以一直拖，然后让我先打开文档写一句话。我一写就停不下来了。" —— 小鹿 <span style="color:#2e7d32; margin-left:8px;">✓ 规则引擎即中</span></div>
+                        <div class="feedback-quote">"地下室没网也能用这点我没想到，诊断还挺准的，比我之前下的那些打卡 App 靠谱多了。" —— 阿凯 <span style="color:#2e7d32; margin-left:8px;">✓ 离线可用</span></div>
+                    </div>
+                    <details class="doc-iteration">
+                        <summary>📜 查看完整迭代历史</summary>
+                        <ul style="margin-top:8px;">
+                            <li>v0.9 (2026.03)：MVP 原型，关键词分类 + 3 类场景诊断模板</li>
+                            <li>v1.0 (2026.04)：扩展至 8 类场景（学习/健身/项目/副业/习惯/社交/创作/生活），每类 5+ 条诊断 + 计划模板</li>
+                            <li>v1.1 (2026.04)：新增任务管理 Tab，支持按天分组、完成勾选、新增/删除任务</li>
+                            <li>v1.2 (2026.05)：接入 AI 多平台（OpenRouter / DeepSeek / SiliconFlow / 自定义），支持自然语言调整计划</li>
+                            <li>v1.3 (2026.05)：新增项目隔离（按目标独立归档）、AI 降级兜底（失败自动回退规则引擎）、进度总览 Tab</li>
+                            <li>v1.4 (2026.05)：统一新拟物设计 token（圆角 28px / 阴影参数 / 按钮 40px 圆角），补齐 360/393/412 响应式断点</li>
+                        </ul>
+                    </details>
+                </div>
                 <div id="doc-script" class="design-doc-card scroll-margin">
                     <div class="design-doc-title"><span>📋</span> 剧本·复盘舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>长内容创作中版本迭代难追踪、修改原因易遗忘。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>"剧本-进度-复盘"三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>剧本-进度-复盘三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4><ul><li>内置月度高频词分析与看板</li><li>支持导出 Word/CSV/JSON</li><li>可选 <code>server/</code> 剧本 JSON 云端备份</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">"每次改动都留痕后，回头看为什么删这场戏就很清楚，不会再反复打回重写。" —— 编剧 veka</div>
-                        <div class="feedback-quote">"高频词那块很有意思，我才发现自己最近一直在写同一种情绪，复盘很有帮助。" —— 独立编剧 若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
+                        <div class="feedback-quote">"改完之后回头看为什么删这场戏一目了然，之前改着改着自己都忘了。" —— veka</div>
+                        <div class="feedback-quote">"高频词那个挺有意思，我一看发现自己最近写来写去都是同一种情绪，自己都没意识到。" —— 若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
@@ -2141,9 +2383,9 @@
                             <li>v1.4 (2026.02)：导出Word/CSV/JSON</li>
                             <li>v1.5 (2026.03)：支持剧本分场标签与快速过滤</li>
                             <li>v1.6 (2026.05)：命名与作品集叙事统一为「剧本·复盘舱」，对外展示口径一致</li>
-                            <li>v1.7 (2026.05)：移动端顶部工具栏支持“下滑隐藏/上滑显示/顶部轻触唤出”，并优化顶部操作区视觉层级</li>
+                            <li>v1.7 (2026.05)：移动端顶部工具栏支持下滑隐藏/上滑显示/顶部轻触唤出，并优化顶部操作区视觉层级</li>
                             <li>v1.8 (2026.05)：统一新拟物 token 设计系统，补齐平板断点并压低角标遮挡</li>
-                            <li>v1.8 (2026.05)：暗色主题补齐 360/393/412 三档视觉标尺，统一卡片对比与分隔线层次</li>
+                            <li>v1.9 (2026.05)：暗色主题补齐 360/393/412 三档视觉标尺，统一卡片对比与分隔线层次</li>
                         </ul>
                     </details>
                 </div>
@@ -2153,8 +2395,8 @@
                     <div class="doc-row"><h4>✅ MVP 取舍</h4><p>转写 + 结构化待办 + 状态流 + 周报；隐私路径可走本地 Whisper；深度总结可走可选服务端。详见上文案例中的趋势叙事。</p></div>
                     <div class="doc-row"><h4>📈 交付说明</h4><ul><li>默认纯前端 + 浏览器存储；可选 <code>server/</code> SQLite 持久化</li><li>历史搜索筛选、超期识别、TOP 关键词、健康评分与 KPI 卡片</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
-                        <div class="feedback-quote">"转写结果基本够用，重点是不用把会议内容传外网，这点我们团队很看重。" —— 产品经理 Ryan</div>
-                        <div class="feedback-quote">"以前会后要翻群聊找 action，现在一打开就能看到状态和超期项，推进效率高很多。" —— 项目经理 Mia <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
+                        <div class="feedback-quote">"转写够用了，主要是内容不用传到外网，这个我们团队比较在意。" —— Ryan</div>
+                        <div class="feedback-quote">"以前会后 action 散在各种聊天里经常漏掉，现在打开就能看状态，哪个超期了一眼就知道。" —— Mia <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
                     </div>
                     <details class="doc-iteration">
                         <summary>📜 查看完整迭代历史</summary>
@@ -2165,6 +2407,22 @@
                             <li>v1.5 (2026.05)：移动端顶部工具栏支持“下滑隐藏/上滑显示/顶部轻触唤出”，并统一 Apple 风格动效</li>
                             <li>v1.6 (2026.05)：暗色/墨水主题补齐 360/393/412 三档视觉标尺，统一描边厚度与层级表达</li>
                             <li>v1.7 (2026.05)：统一新拟物 token 设计系统，补齐平板端尺寸并优化反馈浮标遮挡</li>
+                        </ul>
+                    </details>
+                </div>
+                <div id="doc-promptlib" class="design-doc-card scroll-margin">
+                    <div class="design-doc-title"><span>🧠</span> Prompt Library · Vibe Coding 工作台</div>
+                    <div class="doc-row"><h4>🔍 关键痛点</h4><p>日常 Vibe Coding 积累了大量可复用 Prompt，散落在聊天记录、备忘录、各 IDE 里，找起来费劲且无法复用迭代。需要一个统一管理、分类清晰、一键复制的 Prompt 库。</p></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>按 7 大场景分类（PRD/UI/代码/调试/分析/内容/工作流），每条 Prompt 含「场景说明 + 可复制模板」，支持分类筛选和一键复制。单文件 HTML，新拟物设计风格，可直接部署 GitHub Pages。</p></div>
+                    <div class="doc-row"><h4>📈 交付说明</h4><ul><li>单文件 HTML，新拟物设计系统，暗色模式自适应</li><li>18 条高质量 Prompt，覆盖产品经理日常 80% 场景</li><li>分类筛选 + 一键复制 + 更新日志</li><li>持续维护：每积累新 Prompt 即更新</li></ul></div>
+                    <div class="doc-row"><h4>💬 用户怎么说</h4>
+                        <div class="feedback-quote">"PRD 那条 Prompt 我直接用了，输出的结构比我自己写的还完整，省了至少半小时。" —— 同组实习 小周 <span style="color:#2e7d32; margin-left:8px;">✓ PRD 模板即用</span></div>
+                        <div class="feedback-quote">"UI 审查那条特别好用，四个角色视角比我一个人想的全面多了，评审前跑一遍心里有底。" —— 设计搭档 阿楠 <span style="color:#2e7d32; margin-left:8px;">✓ UI 审查高频使用</span></div>
+                    </div>
+                    <details class="doc-iteration">
+                        <summary>📜 查看完整迭代历史</summary>
+                        <ul style="margin-top:8px;">
+                            <li>v1.0 (2026.05)：初始化 Prompt 库，收录 18 条 Prompt，覆盖 7 大分类，支持分类筛选和一键复制</li>
                         </ul>
                     </details>
                 </div>
@@ -2356,7 +2614,7 @@
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(12px,2vw,20px); max-width: 720px; margin: 0 auto;">
                 <div class="capability-item">
                     <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">🚀 零到一闭环</p>
-                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">4 个可体验原型，每个都能讲清「痛点—取舍—验证—结果」</p>
+                    <p style="font-size:clamp(0.74rem,0.95vw,0.85rem); color:#334155;">6 个可体验原型，每个都能讲清「痛点—取舍—验证—结果」</p>
                 </div>
                 <div class="capability-item">
                     <p style="font-size:clamp(0.95rem,1.3vw,1.1rem); font-weight:600;">📊 数据驱动的迭代思维</p>
@@ -2384,7 +2642,9 @@
                 <a href="./pet-vaccine.html" target="_blank">宠伴·健康台账</a> ·
                 <a href="./creation-cabin.html" target="_blank">星途创作舱</a> ·
                 <a href="./script-review.html" target="_blank">剧本复盘舱</a> ·
-                <a href="./meeting-ruminant.html" target="_blank">会议反刍舱</a>
+                <a href="./meeting-ruminant.html" target="_blank">会议反刍舱</a> ·
+                <a href="./cold-start.html" target="_blank">Cold Start 冷启动</a> ·
+                <a href="./prompt-library.html" target="_blank">Prompt Library</a>
             </span>
         </div>
     </div>
@@ -2619,6 +2879,14 @@
                 });
             }
         })();
+        document.querySelectorAll('.prd-toggle').forEach(function(btn){
+            btn.addEventListener('click',function(){
+                var body=this.nextElementSibling;
+                var isOpen=body.classList.contains('open');
+                body.classList.toggle('open');
+                this.setAttribute('aria-expanded',String(!isOpen));
+            });
+        });
     </script>
 </body>
 </html>
