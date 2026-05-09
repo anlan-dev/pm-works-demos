@@ -337,6 +337,26 @@
     .modal-bg{align-items:center}
     .task-header{flex-wrap:nowrap}
   }
+
+  /* ===== Dark Theme ===== */
+  body[data-theme="dark"]{
+    --bg:#2a2a2a;--bg2:#333;
+    --text:#d8d8d8;--text2:#999;--text3:#777;
+    --accent:#8aaabb;--accent2:#7aaa8a;--accent3:#aa8a8a;
+    --sl:rgba(50,50,50,0.6);--sd:rgba(0,0,0,0.45);--sd2:rgba(0,0,0,0.5);
+  }
+  body[data-theme="ink"]{
+    --bg:#f0f0f0;--bg2:#e8e8e8;
+    --text:#111;--text2:#555;--text3:#888;
+    --accent:#555;--accent2:#556;--accent3:#655;
+    --sl:transparent;--sd:transparent;--sd2:transparent;
+  }
+  body[data-theme="ink"] .nr{border:1px solid #bbb}
+  body[data-theme="ink"] .nb{border:1px solid #bbb}
+  body[data-theme="ink"] .tab-icon-wrap{border:1px solid #bbb}
+
+  /* ===== Theme toggle ===== */
+  .theme-sel{background:var(--bg);color:var(--text);border:1px solid var(--text3);border-radius:12px;padding:4px 8px;font-size:.72rem;font-family:inherit;cursor:pointer;-webkit-appearance:none}
   </style>
 </head>
 <body>
@@ -352,6 +372,11 @@
       </div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
+      <select class="theme-sel" id="themeSel" aria-label="主题">
+        <option value="">默认</option>
+        <option value="dark">暗色</option>
+        <option value="ink">Ink</option>
+      </select>
       <button class="nb" onclick="openSettings()" title="设置" style="padding:10px 14px;font-size:.78rem">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.32 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       </button>
@@ -1897,6 +1922,15 @@ function saveSettings() {
 // 初始化
 renderHist();
 updateModeIndicator();
+
+// Theme toggle
+(function(){
+  var sel=document.getElementById('themeSel');
+  var saved=localStorage.getItem('coldstart_theme')||'';
+  function apply(t){if(t==='dark')document.body.setAttribute('data-theme','dark');else if(t==='ink')document.body.setAttribute('data-theme','ink');else document.body.removeAttribute('data-theme');sel.value=t;}
+  apply(saved);
+  sel.addEventListener('change',function(){localStorage.setItem('coldstart_theme',this.value);apply(this.value);});
+})();
 </script>
 <div class="footer-badge">
   <a href="./index.html" style="display:inline-flex;align-items:center;gap:4px;opacity:.8;margin-bottom:2px">

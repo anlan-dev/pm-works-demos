@@ -1602,140 +1602,97 @@
             body[data-theme="ink"] .hero, body[data-theme="ink"] .project-card, body[data-theme="ink"] .project-card-wrap, body[data-theme="ink"] .dashboard-card, body[data-theme="ink"] .design-doc-card, body[data-theme="ink"] .capability-summary, body[data-theme="ink"] .cta-section { background: #fafafa !important; border-color: #858585 !important; box-shadow: none !important; }
         }
 
-        /* ===== Neumorphism refresh ===== */
-        * { font-family: "Inter", "Nunito", system-ui, sans-serif; }
-        body { background: #e8e8e8; color: #3f3f3f; }
-        .container, .hero, .project-card, .project-card-wrap, .dashboard-card, .design-doc-card, .capability-summary, .cta-section, .ui-mode-dock, .mobile-bottom-nav, .toc-float {
-            border: none !important;
-            border-radius: 24px !important;
-            background: #e8e8e8 !important;
-            box-shadow: -8px -8px 16px rgba(255,255,255,0.65), 8px 8px 16px rgba(0,0,0,0.12) !important;
-        }
-        .ui-mode-toggle, .mobile-nav-toggle, .mobile-bottom-nav a, .toc-toggle, .toc-link, .project-link, .project-tag, select, button, input {
-            border: none !important;
-            border-radius: 20px !important;
-            background: #e8e8e8 !important;
-            color: #4a4a4a !important;
-            box-shadow: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.12) !important;
-            transition: all .2s ease;
-        }
-        .ui-mode-toggle:hover, .mobile-nav-toggle:hover, .mobile-bottom-nav a:hover, .toc-toggle:hover, .toc-link:hover, .project-link:hover { transform: scale(0.98); }
-        .ui-mode-toggle:active, .mobile-nav-toggle:active, .mobile-bottom-nav a:active, .toc-toggle:active, .toc-link:active {
-            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.7) !important;
-        }
-        @media (max-width: 820px) {
-            .hero, .project-card, .project-card-wrap, .dashboard-card, .design-doc-card, .capability-summary, .cta-section, .ui-mode-dock, .mobile-bottom-nav {
-                box-shadow: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.11) !important;
-            }
-        }
+        /* ===== Neumorphism — Unified Token System ===== */
+        * { font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif; }
         :root {
             --neu-bg: #e6e6e6;
-            --neu-text: #4a4a4a;
+            --neu-text: #3f3f3f;
+            --neu-muted: #6b6b6b;
             --neu-card-radius: 28px;
             --neu-btn-radius: 40px;
             --neu-shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
-            --neu-shadow-soft: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.11);
-            --neu-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
+            --neu-shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.14);
+            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
+            --neu-accent: #5a6a7a;
+            --neu-border: transparent;
+            --neu-pad-card: 18px;
+            --neu-btn-h: 38px;
+        }
+        body[data-theme="dark"] {
+            --neu-bg: #2a2a2a;
+            --neu-text: #d8d8d8;
+            --neu-muted: #999;
+            --neu-shadow: -8px -8px 16px rgba(50,50,50,0.6), 8px 8px 16px rgba(0,0,0,0.45);
+            --neu-shadow-hover: -6px -6px 12px rgba(50,50,50,0.5), 6px 6px 12px rgba(0,0,0,0.5);
+            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.3), inset -4px -4px 8px rgba(60,60,60,0.4);
+            --neu-accent: #8aaabb;
+            --neu-border: transparent;
+        }
+        body[data-theme="ink"] {
+            --neu-bg: #f0f0f0;
+            --neu-text: #111;
+            --neu-muted: #555;
+            --neu-shadow: none;
+            --neu-shadow-hover: none;
+            --neu-shadow-inset: none;
+            --neu-accent: #333;
+            --neu-border: #bbb;
         }
         body { background: var(--neu-bg) !important; color: var(--neu-text) !important; }
-        .hero, .project-card, .project-card-wrap, .dashboard-card, .design-doc-card, .capability-summary, .cta-section, .ui-mode-dock, .mobile-bottom-nav, .toc-float {
+        .hero, .project-card, .project-card-wrap, .dashboard-card, .design-doc-card, .capability-summary, .cta-section, .ui-mode-dock, .mobile-bottom-nav, .toc-float, .method-step, .insight-strip {
+            border: 1px solid var(--neu-border) !important;
             border-radius: var(--neu-card-radius) !important;
-            box-shadow: var(--neu-shadow) !important;
             background: var(--neu-bg) !important;
+            box-shadow: var(--neu-shadow) !important;
+            padding: var(--neu-pad-card);
         }
-        .ui-mode-toggle, .mobile-nav-toggle, .mobile-bottom-nav a, .toc-toggle, .toc-link, .project-link, .project-tag, select, button, input {
+        .project-card:hover, .project-card-wrap:hover, .design-doc-card:hover {
+            box-shadow: var(--neu-shadow-hover) !important;
+            transform: scale(0.98);
+        }
+        .ui-mode-toggle, .mobile-nav-toggle, .mobile-bottom-nav a, .toc-toggle, .toc-link, .project-link, .project-tag, select, button, input, .prd-toggle, .badge {
+            border: 1px solid var(--neu-border) !important;
             border-radius: var(--neu-btn-radius) !important;
-            box-shadow: var(--neu-shadow-soft) !important;
             background: var(--neu-bg) !important;
             color: var(--neu-text) !important;
+            box-shadow: var(--neu-shadow) !important;
+            transition: all .2s ease !important;
+            min-height: var(--neu-btn-h);
         }
-        .ui-mode-toggle:active, .mobile-nav-toggle:active, .mobile-bottom-nav a:active, .toc-toggle:active, .toc-link:active, button:active {
-            box-shadow: var(--neu-inset) !important;
-            transform: scale(0.97);
+        .ui-mode-toggle:hover, .mobile-nav-toggle:hover, .mobile-bottom-nav a:hover, .toc-toggle:hover, .toc-link:hover, .prd-toggle:hover { box-shadow: var(--neu-shadow-hover) !important; transform: scale(0.98); }
+        .ui-mode-toggle:active, .mobile-nav-toggle:active, .mobile-bottom-nav a:active, .toc-toggle:active, .toc-link:active, button:active { box-shadow: var(--neu-shadow-inset) !important; transform: scale(0.97); }
+        input, select { box-shadow: var(--neu-shadow-inset) !important; }
+        .subtitle, .hero-detail, .project-desc, .project-subtitle, .methodology-header .methodology-sub { color: var(--neu-muted) !important; }
+        .prd-body-inner {
+            background: var(--neu-bg) !important;
+            border: 1px solid var(--neu-border) !important;
+            box-shadow: var(--neu-shadow-inset) !important;
+            border-radius: 16px !important;
         }
-        input, select {
-            box-shadow: var(--neu-inset) !important;
+        .prd-body-inner h5 { color: var(--neu-text) !important; }
+        .prd-body-inner p, .prd-body-inner li, .prd-body-inner span { color: var(--neu-muted) !important; }
+        .prd-body-inner code {
+            background: var(--neu-bg) !important;
+            box-shadow: var(--neu-shadow-inset) !important;
         }
-        @media (max-width: 820px) {
-            :root { --neu-shadow: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.1); --neu-shadow-soft: -4px -4px 8px rgba(255,255,255,0.58), 4px 4px 8px rgba(0,0,0,0.1); }
-        }
-
-        /* ===== Unified token system (desktop/mobile/tablet) ===== */
-        :root {
-            --ui-bg: #e6e6e6;
-            --ui-text: #4a4a4a;
-            --ui-text-muted: #6b6b6b;
-            --ui-radius-card: 28px;
-            --ui-radius-btn: 40px;
-            --ui-shadow-card: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
-            --ui-shadow-btn: -6px -6px 12px rgba(255,255,255,0.62), 6px 6px 12px rgba(0,0,0,0.11);
-            --ui-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
-            --ui-gap: 12px;
-            --ui-pad-card: 18px;
-            --ui-btn-h: 38px;
-        }
-        body { background: var(--ui-bg) !important; color: var(--ui-text) !important; }
-        .hero, .project-card, .project-card-wrap, .dashboard-card, .design-doc-card, .capability-summary, .cta-section, .ui-mode-dock, .mobile-bottom-nav, .toc-float {
-            border-radius: var(--ui-radius-card) !important;
-            box-shadow: var(--ui-shadow-card) !important;
-            background: var(--ui-bg) !important;
-            padding: var(--ui-pad-card);
-        }
-        .ui-mode-toggle, .mobile-nav-toggle, .mobile-bottom-nav a, .toc-toggle, .toc-link, .project-link, .project-tag, select, button, input {
-            border-radius: var(--ui-radius-btn) !important;
-            box-shadow: var(--ui-shadow-btn) !important;
-            min-height: var(--ui-btn-h);
-            color: var(--ui-text) !important;
-        }
-        .ui-mode-toggle:active, .mobile-nav-toggle:active, .mobile-bottom-nav a:active, .toc-toggle:active, .toc-link:active, button:active {
-            box-shadow: var(--ui-shadow-inset) !important;
-        }
-        input, select { box-shadow: var(--ui-shadow-inset) !important; }
+        .prd-body-inner .prd-link-row a { color: var(--neu-accent) !important; }
         @media (min-width: 768px) and (max-width: 1024px) {
-            :root { --ui-pad-card: 16px; --ui-btn-h: 36px; --ui-gap: 10px; }
+            :root { --neu-pad-card: 16px; --neu-btn-h: 36px; }
             .container { max-width: 920px; padding: 18px 16px 28px; }
             .toc-float { right: 8px; max-width: 180px; }
             .mobile-bottom-nav { max-width: 250px; }
         }
         @media (max-width: 820px) {
             :root {
-                --ui-shadow-card: -5px -5px 10px rgba(255,255,255,0.6), 5px 5px 10px rgba(0,0,0,0.1);
-                --ui-shadow-btn: -4px -4px 8px rgba(255,255,255,0.58), 4px 4px 8px rgba(0,0,0,0.1);
-                --ui-pad-card: 12px;
-                --ui-btn-h: 34px;
+                --neu-card-radius: 18px;
+                --neu-shadow: -5px -5px 10px rgba(255,255,255,0.58), 5px 5px 10px rgba(0,0,0,0.1);
+                --neu-shadow-hover: -4px -4px 8px rgba(255,255,255,0.56), 4px 4px 8px rgba(0,0,0,0.11);
+                --neu-shadow-inset: inset 3px 3px 6px rgba(0,0,0,0.08), inset -3px -3px 6px rgba(255,255,255,0.66);
+                --neu-pad-card: 12px;
+                --neu-btn-h: 34px;
             }
             .mobile-bottom-nav { z-index: 120; }
             .ui-mode-dock { z-index: 110; }
-        }
-        /* ===== Final global neumorphism sync ===== */
-        :root {
-            --soft-bg: #e6e6e6;
-            --soft-text: #3f3f3f;
-            --soft-muted: #6b6b6b;
-            --soft-card-radius: 28px;
-            --soft-btn-radius: 40px;
-            --soft-shadow: -8px -8px 16px rgba(255,255,255,0.62), 8px 8px 16px rgba(0,0,0,0.1);
-            --soft-shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.12);
-            --soft-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.08), inset -4px -4px 8px rgba(255,255,255,0.68);
-        }
-        body { background: var(--soft-bg) !important; color: var(--soft-text) !important; }
-        .hero, .project-card, .project-card-wrap, .dashboard-card, .design-doc-card, .capability-summary, .cta-section, .ui-mode-dock, .mobile-bottom-nav, .toc-float {
-            border: none !important; border-radius: var(--soft-card-radius) !important; background: var(--soft-bg) !important; box-shadow: var(--soft-shadow) !important;
-        }
-        .ui-mode-toggle, .mobile-nav-toggle, .mobile-bottom-nav a, .toc-toggle, .toc-link, .project-link, .project-tag, select, button, input {
-            border: none !important; border-radius: var(--soft-btn-radius) !important; background: var(--soft-bg) !important; color: var(--soft-text) !important; box-shadow: var(--soft-shadow) !important; transition: all .2s ease !important;
-        }
-        .ui-mode-toggle:hover, .mobile-nav-toggle:hover, .mobile-bottom-nav a:hover, .toc-toggle:hover, .toc-link:hover, button:hover { box-shadow: var(--soft-shadow-hover) !important; transform: scale(0.98); }
-        .ui-mode-toggle:active, .mobile-nav-toggle:active, .mobile-bottom-nav a:active, .toc-toggle:active, .toc-link:active, button:active { box-shadow: var(--soft-shadow-inset) !important; transform: scale(0.97); }
-        input, select { box-shadow: var(--soft-shadow-inset) !important; }
-        .hero-subtitle, .hero-detail, .project-desc { color: var(--soft-muted) !important; }
-        @media (max-width: 820px) {
-            :root {
-                --soft-card-radius: 18px;
-                --soft-shadow: -5px -5px 10px rgba(255,255,255,0.58), 5px 5px 10px rgba(0,0,0,0.1);
-                --soft-shadow-hover: -4px -4px 8px rgba(255,255,255,0.56), 4px 4px 8px rgba(0,0,0,0.11);
-                --soft-shadow-inset: inset 3px 3px 6px rgba(0,0,0,0.08), inset -3px -3px 6px rgba(255,255,255,0.66);
-            }
         }
     </style>
 </head>
@@ -1795,7 +1752,8 @@
                 <button type="button" class="ui-mode-toggle" id="indexModeToggleBtn" aria-label="展开模式设置">⚙️</button>
                 <div class="ui-mode-panel">
                     <select id="globalThemeSelect" aria-label="界面主题">
-                        <option value="warm">暖</option>
+                        <option value="">默认</option>
+                        <option value="dark">暗色</option>
                         <option value="ink">Ink</option>
                     </select>
                 </div>
@@ -2652,14 +2610,16 @@
     <script>
         (function() {
             const themeSelect = document.getElementById('globalThemeSelect');
-            const savedTheme = localStorage.getItem('index_theme_mode') || 'warm';
+            const savedTheme = localStorage.getItem('index_theme_mode') || '';
             function applyIndexMode(theme) {
-                document.body.setAttribute('data-theme', theme === 'ink' ? 'ink' : 'warm');
-                if (themeSelect) themeSelect.value = theme === 'ink' ? 'ink' : 'warm';
+                if(theme==='dark') document.body.setAttribute('data-theme','dark');
+                else if(theme==='ink') document.body.setAttribute('data-theme','ink');
+                else document.body.removeAttribute('data-theme');
+                if(themeSelect) themeSelect.value = theme || '';
             }
             applyIndexMode(savedTheme);
-            themeSelect?.addEventListener('change', (e) => {
-                const t = e.target.value === 'ink' ? 'ink' : 'warm';
+            themeSelect?.addEventListener('change', function(e) {
+                var t = e.target.value;
                 localStorage.setItem('index_theme_mode', t);
                 applyIndexMode(t);
             });
