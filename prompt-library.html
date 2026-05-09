@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Prompt Library · Vibe Coding 工作台</title>
+  <meta name="description" content="产品经理视角的 Vibe Coding Prompt 库 — 从 PRD 生成到 UI 批判，持续维护。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  :root{
+    --bg:#e6e6e6;--bg2:#dedede;
+    --text:#3f3f3f;--text2:#6b6b6b;--text3:#999;
+    --accent:#5a6a7a;--accent2:#7a8a6a;--accent3:#8a6a6a;
+    --sl:rgba(255,255,255,0.66);--sd:rgba(0,0,0,0.12);--sd2:rgba(0,0,0,0.18);
+    --r1:16px;--r2:28px;--r3:32px;--r4:40px;
+    --code-bg:#f0f0f0;--code-border:#d8d8d8;
+    --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);min-height:100vh;min-height:100dvh;
+    font-family:'Inter','Noto Sans SC',system-ui,-apple-system,sans-serif;
+    color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;padding-bottom:calc(80px + var(--safe-b));
+  }
+  .app{max-width:760px;margin:0 auto;padding:16px 16px 24px}
+
+  .nr{background:var(--bg);border-radius:var(--r2);box-shadow:-8px -8px 16px var(--sl),8px 8px 16px var(--sd);transition:box-shadow .2s,transform .15s}
+  .ni{background:var(--bg);border-radius:var(--r2);box-shadow:inset 4px 4px 8px rgba(0,0,0,.06),inset -4px -4px 8px rgba(255,255,255,.5)}
+
+  .header{text-align:center;padding:24px 16px 8px}
+  .header h1{font-size:clamp(1.3rem,3.5vw,1.8rem);font-weight:700;color:var(--text);letter-spacing:-.02em}
+  .header p{font-size:.85rem;color:var(--text2);margin-top:6px}
+
+  .back-link{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;color:var(--accent);text-decoration:none;margin-bottom:8px;opacity:.8}
+  .back-link:hover{opacity:1}
+
+  .stats-bar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+  .stat-chip{padding:6px 16px;border-radius:var(--r4);font-size:.78rem;font-weight:500;color:var(--text2);box-shadow:-3px -3px 8px var(--sl),3px 3px 8px var(--sd)}
+
+  .category-nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0 8px}
+  .cat-btn{background:var(--bg);border:none;border-radius:var(--r4);padding:8px 18px;font-size:.78rem;font-weight:500;color:var(--text2);cursor:pointer;box-shadow:-3px -3px 7px var(--sl),3px 3px 7px var(--sd);transition:all .2s;font-family:inherit}
+  .cat-btn:hover{color:var(--text);box-shadow:-2px -2px 5px var(--sl),2px 2px 5px var(--sd);transform:scale(.97)}
+  .cat-btn.active{box-shadow:inset 3px 3px 6px rgba(0,0,0,.07),inset -3px -3px 6px rgba(255,255,255,.45);color:var(--accent)}
+
+  .prompt-card{padding:20px;margin-bottom:16px}
+  .prompt-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .prompt-title{font-size:1rem;font-weight:600;color:var(--text);line-height:1.4}
+  .prompt-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .prompt-tag{font-size:.68rem;padding:3px 10px;border-radius:var(--r4);background:var(--bg);color:var(--text3);box-shadow:inset 2px 2px 4px rgba(0,0,0,.04),inset -2px -2px 4px rgba(255,255,255,.4)}
+  .prompt-tag.accent{color:var(--accent2);font-weight:500}
+  .prompt-scene{font-size:.82rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+  .prompt-body{position:relative}
+  .prompt-text{
+    background:var(--code-bg);border:1px solid var(--code-border);
+    border-radius:var(--r1);padding:16px;font-size:.82rem;
+    font-family:'JetBrains Mono','Courier New',monospace;
+    line-height:1.7;color:var(--text);white-space:pre-wrap;word-break:break-word;
+    max-height:320px;overflow-y:auto;
+  }
+  .prompt-text::-webkit-scrollbar{width:4px}
+  .prompt-text::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}
+  .copy-btn{
+    position:absolute;top:8px;right:8px;
+    background:var(--bg);border:none;border-radius:var(--r1);
+    padding:6px 12px;font-size:.72rem;font-weight:500;
+    color:var(--text3);cursor:pointer;font-family:inherit;
+    box-shadow:-2px -2px 5px var(--sl),2px 2px 5px var(--sd);
+    transition:all .2s;z-index:2;
+  }
+  .copy-btn:hover{color:var(--accent);box-shadow:-1px -1px 3px var(--sl),1px 1px 3px var(--sd)}
+  .copy-btn.copied{color:var(--accent2)}
+
+  .update-log{padding:20px;margin-top:24px}
+  .update-log h3{font-size:.9rem;font-weight:600;margin-bottom:12px;color:var(--text)}
+  .log-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+  .log-item:last-child{border:none}
+  .log-date{font-size:.75rem;color:var(--text3);font-weight:500;white-space:nowrap;min-width:80px}
+  .log-text{font-size:.8rem;color:var(--text2)}
+
+  .footer-badge{
+    text-align:center;padding:24px 16px;
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    font-size:.75rem;color:var(--text3);
+  }
+  .footer-badge a{color:var(--accent);text-decoration:none}
+
+  .section-title{font-size:.85rem;font-weight:600;color:var(--text2);margin:24px 0 12px;padding-left:4px;display:flex;align-items:center;gap:6px}
+  .section-title::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.06)}
+
+  @media(min-width:640px){
+    .app{padding:24px 24px 32px}
+    .header{padding:32px 0 12px}
+    .prompt-card{padding:24px}
+  }
+  @media(prefers-color-scheme:dark){
+    :root{
+      --bg:#2a2a2a;--bg2:#333;
+      --text:#e0e0e0;--text2:#aaa;--text3:#777;
+      --accent:#8aaabb;--accent2:#98b88a;--accent3:#bb8a8a;
+      --sl:rgba(255,255,255,.07);--sd:rgba(0,0,0,.25);--sd2:rgba(0,0,0,.35);
+      --code-bg:#333;--code-border:#444;
+    }
+  }
+  </style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="./index.html">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    作品集
+  </a>
+
+  <div class="header">
+    <h1>Prompt Library</h1>
+    <p>产品经理的 Vibe Coding 工作台 · 持续维护</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-chip">📝 <strong id="totalCount">18</strong> 条 Prompt</div>
+    <div class="stat-chip">📂 <strong>7</strong> 个分类</div>
+    <div class="stat-chip">🔄 最近更新 <strong>2026.05.08</strong></div>
+  </div>
+
+  <div class="category-nav" id="catNav">
+    <button class="cat-btn active" data-cat="all">全部</button>
+    <button class="cat-btn" data-cat="prd">PRD / 需求</button>
+    <button class="cat-btn" data-cat="ui">UI / 交互</button>
+    <button class="cat-btn" data-cat="code">代码生成</button>
+    <button class="cat-btn" data-cat="debug">调试 / 优化</button>
+    <button class="cat-btn" data-cat="analysis">分析 / 复盘</button>
+    <button class="cat-btn" data-cat="content">内容 / 文案</button>
+    <button class="cat-btn" data-cat="workflow">工作流 / 提效</button>
+  </div>
+
+  <div id="promptList"></div>
+
+  <div class="section-title">📋 更新日志</div>
+  <div class="update-log nr">
+    <h3>维护记录</h3>
+    <div class="log-item"><span class="log-date">2026.05.08</span><span class="log-text">初始化 Prompt 库，收录 18 条常用 Prompt，覆盖 PRD / UI / 代码 / 调试 / 分析 / 内容 / 工作流 7 个分类</span></div>
+  </div>
+
+  <div class="footer-badge">
+    <a href="./index.html" style="display:inline-flex;align-items:center;gap:4px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      作品集
+    </a>
+    <span>持续迭代中</span>
+    <a href="mailto:ilikeitnow@qq.com">ilikeitnow@qq.com</a>
+  </div>
+</div>
+
+<script>
+const PROMPTS = [
+  {
+    cat:'prd',
+    title:'一句话需求 → 完整 PRD',
+    tags:['PRD','需求文档','高频'],
+    scene:'老板或业务方给了一个模糊需求，你需要快速输出结构化 PRD 让团队对齐。',
+    text:`你是一个资深产品经理。我将给你一句话需求描述，请输出完整 PRD，包含以下结构：
+
+1. **背景与目标**：为什么要做，核心指标是什么
+2. **用户故事**：As a [角色], I want [功能], so that [价值]（至少 3 条）
+3. **功能范围**：MVP 必做 / v1.1 后续 / 明确不做
+4. **页面与状态机**：每个页面的状态流转规则
+5. **边界与异常**：空状态、网络异常、权限不足、并发冲突
+6. **数据埋点**：关键事件 + 属性 + 对应指标
+7. **验收标准**：Given-When-Then 格式
+
+需求描述：{粘贴你的需求}`
+  },
+  {
+    cat:'prd',
+    title:'竞品分析快照',
+    tags:['竞品','分析'],
+    scene:'需要快速对比 2-3 个竞品的功能差异和策略取舍。',
+    text:`请扮演产品经理角色，对比以下 2-3 个产品在「{功能/场景}」上的实现方式。
+
+输出格式：
+| 维度 | 产品A | 产品B | 产品C |
+- 核心流程（截图描述）
+- 差异化功能
+- 用户体验优劣
+- 定价/变现策略
+- 我们可以借鉴什么
+- 我们应该避开什么
+
+最后给出 1 段结论：我们应该怎么做，为什么。`
+  },
+  {
+    cat:'prd',
+    title:'用户故事拆任务',
+    tags:['拆解','敏捷'],
+    scene:'拿到用户故事后，需要拆成可执行的开发任务并估点。',
+    text:`将以下用户故事拆解为开发任务：
+
+用户故事：{粘贴故事}
+
+要求：
+1. 每个任务拆到 0.5-2 天粒度
+2. 标注前后端归属
+3. 标注 Story Points（1/2/3/5/8）
+4. 标注依赖关系
+5. 标注验收标准
+6. 输出为表格格式`
+  },
+  {
+    cat:'ui',
+    title:'UI 截图批判性审查',
+    tags:['UI审查','设计评审'],
+    scene:'做完一版 UI，需要 AI 帮你以不同角色视角挑毛病。',
+    text:`请分别从以下 4 个角色视角审查这个界面的截图/描述：
+
+1. **新手用户**（第一次用）：哪里看不懂、哪里会迷路
+2. **高频用户**（每天用）：操作效率、快捷入口、信息密度
+3. **视觉设计师**：对齐、间距、一致性、色彩层级
+4. **产品经理**：信息架构、转化漏斗、核心路径是否清晰
+
+每个角色给出 3 个最严重的问题 + 1 个优化建议。
+
+界面描述：{粘贴截图描述或上传截图}`
+  },
+  {
+    cat:'ui',
+    title:'交互状态全覆盖',
+    tags:['交互','状态机'],
+    scene:'做交互设计时，总漏掉异常/边界状态。',
+    text:`我正在设计一个「{功能名}」的交互流程。主流程是：{描述主流程}。
+
+请帮我列出所有需要设计的状态，包括但不限于：
+- 初始/空状态
+- 加载中
+- 加载成功（正常/有数据/无数据）
+- 加载失败（网络错误/权限不足/服务端错误）
+- 操作中（提交中/删除确认）
+- 操作成功/失败
+- 边界值（超长文本/超多数据/极端情况）
+
+每个状态说明：触发条件 + 界面表现 + 用户可操作项`
+  },
+  {
+    cat:'ui',
+    title:'移动端适配检查清单',
+    tags:['移动端','适配'],
+    scene:'H5 页面上线前，需要系统检查移动端兼容性问题。',
+    text:`请针对以下移动端 H5 页面生成适配检查清单：
+
+页面功能：{描述}
+目标设备：iOS Safari / Android Chrome / 微信内置浏览器
+
+检查维度：
+1. 视口与缩放（safe-area、键盘弹起）
+2. 触摸目标（最小 44px、间距）
+3. 手势冲突（滑动、长按、双击）
+4. 网络环境（弱网、断网、切换）
+5. 性能（首屏加载、滚动流畅度）
+6. 特殊场景（横屏、分屏、暗色模式）
+
+输出为可勾选的 checklist 格式。`
+  },
+  {
+    cat:'code',
+    title:'单文件原型生成',
+    tags:['原型','HTML','高频'],
+    scene:'需要快速生成一个可交互的单文件 HTML 原型，用于验证想法。',
+    text:`帮我生成一个单文件 HTML 原型，要求：
+
+功能描述：{描述你要做的东西}
+
+技术要求：
+- 单个 HTML 文件，CSS/JS 全部内联
+- 移动端优先，375px 基准适配
+- 新拟物（Neumorphism）设计风格
+- 配色：背景 #e6e6e6，文字 #3f3f3f，强调色 #5a6a7a
+- 字体：Inter + Noto Sans SC
+- 数据用 localStorage 持久化
+- 无任何外部依赖
+
+代码规范：
+- 语义化 HTML
+- CSS 变量管理设计 token
+- 不写注释
+- 函数命名用 camelCase
+
+请直接输出完整代码，不要分段。`
+  },
+  {
+    cat:'code',
+    title:'现有代码增量修改',
+    tags:['增量','重构'],
+    scene:'已有代码需要加功能或修 bug，不想重写整个文件。',
+    text:`我有一个 {技术栈} 项目，现在需要做以下修改：
+
+当前代码：{粘贴相关代码片段}
+修改需求：{描述要改什么}
+
+要求：
+1. 只输出需要修改的部分，用注释标注位置
+2. 保持现有代码风格和命名规范
+3. 不要引入新的依赖
+4. 如果修改影响其他模块，说明影响范围
+5. 给出修改原因的简要说明`
+  },
+  {
+    cat:'code',
+    title:'CSS 新拟物风格生成',
+    tags:['CSS','设计系统'],
+    scene:'需要快速给新组件套上统一的新拟物风格。',
+    text:`为以下组件生成新拟物（Neumorphism）CSS：
+
+组件描述：{描述}
+设计 token：
+- 背景：#e6e6e6
+- 阴影亮面：rgba(255,255,255,0.66)
+- 阴影暗面：rgba(0,0,0,0.12)
+- 圆角：16px（小）/ 28px（中）/ 40px（按钮）
+- 按压态：inset shadow
+
+要求：
+- 包含 normal / hover / active 三种状态
+- 输出纯 CSS，不依赖框架
+- 用 CSS 变量管理 token
+- 兼容 iOS Safari`
+  },
+  {
+    cat:'debug',
+    title:'Bug 快速定位',
+    tags:['调试','排错'],
+    scene:'遇到 bug 但不知道问题在哪，需要系统化排查。',
+    text:`我遇到了一个 bug：
+
+现象：{描述发生了什么}
+预期：{描述应该发生什么}
+环境：{浏览器/设备/系统版本}
+复现步骤：{1. 2. 3.}
+
+相关代码：
+{粘贴代码}
+
+请：
+1. 列出可能的 3 个最可能原因（按概率排序）
+2. 每个原因给出验证方法
+3. 给出修复代码
+4. 说明如何避免同类问题`
+  },
+  {
+    cat:'debug',
+    title:'性能瓶颈分析',
+    tags:['性能','优化'],
+    scene:'页面卡顿或加载慢，需要定位性能瓶颈。',
+    text:`我的页面存在性能问题：
+
+表现：{首屏慢/滚动卡/交互延迟}
+页面描述：{页面主要功能和数据量}
+技术栈：{框架/库}
+
+代码：{粘贴关键代码}
+
+请分析：
+1. 最可能的 3 个性能瓶颈
+2. 每个瓶颈的量化影响（预期提升幅度）
+3. 具体优化方案和代码
+4. 优化优先级排序（ROI 最高的先做）`
+  },
+  {
+    cat:'debug',
+    title:'代码质量审查',
+    tags:['Code Review','质量'],
+    scene:'写完代码想让 AI 帮你 review，找出潜在问题。',
+    text:`请审查以下代码，从 4 个维度打分（1-5）并给出改进建议：
+
+代码：
+{粘贴代码}
+
+审查维度：
+1. **可读性**：命名、结构、复杂度
+2. **健壮性**：错误处理、边界情况
+3. **性能**：时间/空间复杂度、不必要的计算
+4. **安全性**：XSS、注入、敏感信息泄露
+
+输出格式：
+- 每个维度评分 + 1 句理由
+- Top 3 改进建议（附代码）
+- 总体评价`
+  },
+  {
+    cat:'analysis',
+    title:'数据异常归因',
+    tags:['数据分析','归因'],
+    scene:'核心指标突然波动，需要快速分析可能原因。',
+    text:`我的产品数据出现异常：
+
+指标：{DAU/转化率/留存率等}
+变化：{从 X 变为 Y，变化幅度 Z%}
+时间：{从哪天开始}
+可能相关事件：{上线了什么功能/运营活动/外部事件}
+
+请：
+1. 列出 Top 5 可能原因（内因/外因各半）
+2. 每个原因给出验证 SQL 或分析思路
+3. 给出排查优先级（按影响面和排查成本排序）
+4. 建议的应急措施`
+  },
+  {
+    cat:'analysis',
+    title:'A/B 测试方案设计',
+    tags:['AB测试','实验'],
+    scene:'需要设计一个严谨的 A/B 测试方案。',
+    text:`我要做 A/B 测试：
+
+测试目的：{验证什么假设}
+改动内容：{实验组 vs 对照组差异}
+核心指标：{主要看什么指标}
+当前基线：{指标当前值}
+
+请输出：
+1. 假设（H0 / H1）
+2. 最小样本量估算（给出计算过程）
+3. 实验分组方案
+4. 观察指标体系（主指标 + 护栏指标）
+5. 实验时长建议
+6. 决策规则（什么情况下上线/回滚/继续观察）`
+  },
+  {
+    cat:'analysis',
+    title:'版本复盘总结',
+    tags:['复盘','迭代'],
+    scene:'一个版本上线后，需要结构化复盘。',
+    text:`帮我做一个版本复盘：
+
+版本：{版本号}
+核心目标：{这个版本要解决什么}
+实际结果：{数据/反馈}
+做得好的：{列 2-3 点}
+做得不好的：{列 2-3 点}
+
+请用以下框架输出：
+1. 📊 数据回顾（核心指标前后对比）
+2. ✅ 做对了什么（可复用的经验）
+3. ❌ 做错了什么（需要改进的流程）
+4. 🔄 下一步行动（具体到人/时间/验收标准）
+5. 📝 给下个版本的建议`
+  },
+  {
+    cat:'content',
+    title:'产品文案微调',
+    tags:['文案','微调'],
+    scene:'产品里的提示语、引导文案读起来生硬，需要更自然。',
+    text:`请帮我优化以下产品文案，要求：
+- 语气自然，像朋友说话
+- 简洁，不超过 20 字
+- 有行动指引
+- 考虑用户情绪（挫败/迷茫/兴奋）
+
+原文案：{粘贴文案}
+使用场景：{按钮/Toast/空状态/错误提示/引导}
+用户情绪：{此时用户可能的情绪}
+
+请给出 5 个优化版本，标注推荐度（1-5）。`
+  },
+  {
+    cat:'content',
+    title:'更新日志生成',
+    tags:['Changelog','发布'],
+    scene:'版本更新后需要写面向用户的更新说明。',
+    text:`根据以下 commit / 变更记录，生成面向用户的更新日志：
+
+变更记录：
+{粘贴 commit 信息或功能列表}
+
+要求：
+1. 面向普通用户，不用技术术语
+2. 按重要性排序
+3. 每条用 emoji 开头
+4. 语气轻松友好
+5. 控制在 5-8 条
+6. 最后加一句鼓励语`
+  },
+  {
+    cat:'workflow',
+    title:'会议纪要结构化',
+    tags:['会议','纪要'],
+    scene:'开完会需要快速整理成可执行的会议纪要。',
+    text:`将以下会议记录整理为结构化纪要：
+
+原始记录：{粘贴会议记录/录音转文字}
+
+输出格式：
+1. 📋 会议信息（时间/参会人/主题）
+2. 🎯 关键结论（最多 5 条）
+3. ✅ 待办事项（负责人 + 截止日期 + 交付物）
+4. ❓ 遗留问题（需要谁决策/下次讨论）
+5. 📅 下次会议建议议题
+
+待办事项用表格格式输出。`
+  },
+  {
+    cat:'workflow',
+    title:'周报自动生成',
+    tags:['周报','汇报'],
+    scene:'每周五需要写周报，想从零散记录快速生成。',
+    text:`根据以下零散记录生成本周周报：
+
+本周记录：
+{粘贴你的笔记/commit/任务完成记录}
+
+输出格式：
+## 本周完成
+- 按重要性排序，每条 1 行
+- 用「完成了...」开头
+
+## 关键数据
+- 本周核心指标变化（如有）
+
+## 下周计划
+- 按优先级排序
+- 每条标注预计完成时间
+
+## 需要支持
+- 需要谁配合/需要什么资源
+
+语气专业但不生硬，控制在 300 字以内。`
+  }
+];
+
+function render(cat){
+  const list=document.getElementById('promptList');
+  const filtered=cat==='all'?PROMPTS:PROMPTS.filter(p=>p.cat===cat);
+  document.getElementById('totalCount').textContent=filtered.length;
+  list.innerHTML=filtered.map((p,i)=>`
+    <div class="prompt-card nr" data-cat="${p.cat}">
+      <div class="prompt-header">
+        <div>
+          <div class="prompt-title">${p.title}</div>
+          <div class="prompt-meta">
+            ${p.tags.map(t=>`<span class="prompt-tag">${t}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="prompt-scene">${p.scene}</div>
+      <div class="prompt-body">
+        <pre class="prompt-text" id="pt-${i}">${p.text}</pre>
+        <button class="copy-btn" data-idx="${i}">复制</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('catNav').addEventListener('click',e=>{
+  const btn=e.target.closest('.cat-btn');
+  if(!btn)return;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render(btn.dataset.cat);
+});
+
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.copy-btn');
+  if(!btn)return;
+  const idx=btn.dataset.idx;
+  const el=document.getElementById('pt-'+idx);
+  navigator.clipboard.writeText(el.textContent).then(()=>{
+    btn.textContent='已复制 ✓';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='复制';btn.classList.remove('copied');},2000);
+  });
+});
+
+render('all');
+</script>
+</body>
+</html>
