@@ -1957,7 +1957,7 @@
                     <div class="project-desc">
                         <strong>决策摘要：</strong>不做大而全协作台，只做「单场会议产出结构化」；成功标准是<strong>纪要耗时下降</strong>与<strong>待办完成率改善</strong>（见上文折线图）。Prompt 多轮迭代 + 漏项抽检，可选 <code>server/</code> 私有化。
                     </div>
-                    <div><span class="project-tag">Whisper</span><span class="project-tag">Prompt 迭代</span><span class="project-tag">待办闭环</span><span class="project-tag">周报</span></div>
+                    <div><span class="project-tag">Whisper</span><span class="project-tag">Prompt 迭代</span><span class="project-tag">待办闭环</span><span class="project-tag">P0/P1/P2</span><span class="project-tag">趋势图</span></div>
                     <div class="project-link">→ 体验 Demo</div>
                 </a>
                 <a class="project-learn-more" href="#doc-meeting">了解更多 · 设计与迭代</a>
@@ -1977,6 +1977,7 @@
                     <ul>
                       <li><strong>MVP 必做：</strong>录音上传、语音转文字、结构化纪要生成、待办提取与状态流转</li>
                       <li><strong>v1.1 后续：</strong>周报/月报自动生成、TOP 关键词分析、会议健康评分</li>
+                      <li><strong>v1.8 迭代：</strong>待办优先级 P0/P1/P2、议题-待办关联、反刍问题闭环、7日趋势图、JSON 导入</li>
                       <li><strong>明确不做：</strong>视频会议集成、多人实时协作、日历同步</li>
                     </ul>
                     <h5>边界与异常</h5>
@@ -2351,7 +2352,7 @@
                     <div class="design-doc-title"><span>🎙️</span> 会议·反刍舱</div>
                     <div class="doc-row"><h4>🔍 需求洞察</h4><p>会后纪要复述成本高，待办散落在聊天里不可追踪——先要「单场会议的产出站得住」，再谈协作套件。</p></div>
                     <div class="doc-row"><h4>✅ MVP 取舍</h4><p>转写 + 结构化待办 + 状态流 + 周报；隐私路径可走本地 Whisper；深度总结可走可选服务端。详见上文案例中的趋势叙事。</p></div>
-                    <div class="doc-row"><h4>📈 交付说明</h4><ul><li>默认纯前端 + 浏览器存储；可选 <code>server/</code> SQLite 持久化</li><li>历史搜索筛选、超期识别、TOP 关键词、健康评分与 KPI 卡片</li></ul></div>
+                    <div class="doc-row"><h4>📈 交付说明</h4><ul><li>默认纯前端 + 浏览器存储；可选 <code>server/</code> SQLite 持久化</li><li>待办优先级 P0/P1/P2 + 议题关联分组、反刍问题闭环、7日趋势图、JSON 备份导入</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
                         <div class="feedback-quote">"转写够用了，主要是内容不用传到外网，这个我们团队比较在意。" —— Ryan</div>
                         <div class="feedback-quote">"以前会后 action 散在各种聊天里经常漏掉，现在打开就能看状态，哪个超期了一眼就知道。" —— Mia <span style="color:#2e7d32; margin-left:8px;">✓ 核心功能强化</span></div>
@@ -2365,6 +2366,7 @@
                             <li>v1.5 (2026.05)：移动端顶部工具栏支持“下滑隐藏/上滑显示/顶部轻触唤出”，并统一 Apple 风格动效</li>
                             <li>v1.6 (2026.05)：暗色/墨水主题补齐 360/393/412 三档视觉标尺，统一描边厚度与层级表达</li>
                             <li>v1.7 (2026.05)：统一新拟物 token 设计系统，补齐平板端尺寸并优化反馈浮标遮挡</li>
+                            <li>v1.8 (2026.05)：待办优先级 P0/P1/P2 + 议题关联分组、反刍问题闭环（标记已解决+结论）、7日趋势图、JSON 备份导入</li>
                         </ul>
                     </details>
                 </div>
