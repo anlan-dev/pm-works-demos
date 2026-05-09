@@ -98,15 +98,23 @@
     .header{padding:32px 0 12px}
     .prompt-card{padding:24px}
   }
-  @media(prefers-color-scheme:dark){
-    :root{
-      --bg:#2a2a2a;--bg2:#333;
-      --text:#e0e0e0;--text2:#aaa;--text3:#777;
-      --accent:#8aaabb;--accent2:#98b88a;--accent3:#bb8a8a;
-      --sl:rgba(255,255,255,.07);--sd:rgba(0,0,0,.25);--sd2:rgba(0,0,0,.35);
-      --code-bg:#333;--code-border:#444;
-    }
+  body[data-theme="dark"]{
+    --bg:#2a2a2a;--bg2:#333;
+    --text:#e0e0e0;--text2:#aaa;--text3:#777;
+    --accent:#8aaabb;--accent2:#98b88a;--accent3:#bb8a8a;
+    --sl:rgba(255,255,255,.07);--sd:rgba(0,0,0,.25);--sd2:rgba(0,0,0,.35);
+    --code-bg:#333;--code-border:#444;
   }
+  body[data-theme="ink"]{
+    --bg:#f0f0f0;--bg2:#e8e8e8;
+    --text:#111;--text2:#555;--text3:#888;
+    --accent:#555;--accent2:#556;--accent3:#655;
+    --sl:transparent;--sd:transparent;--sd2:transparent;
+    --code-bg:#e8e8e8;--code-border:#ccc;
+  }
+  body[data-theme="ink"] .nr{border:1px solid #bbb}
+  body[data-theme="ink"] .nb{border:1px solid #bbb}
+  .theme-sel{background:var(--bg);color:var(--text);border:1px solid var(--text3);border-radius:12px;padding:4px 8px;font-size:.72rem;font-family:inherit;cursor:pointer;-webkit-appearance:none}
   </style>
 </head>
 <body>
@@ -116,7 +124,14 @@
     作品集
   </a>
 
-  <div class="header">
+  <div class="header" style="position:relative">
+    <div style="position:absolute;top:8px;right:12px">
+      <select class="theme-sel" id="themeSel" aria-label="主题">
+        <option value="">默认</option>
+        <option value="dark">暗色</option>
+        <option value="ink">Ink</option>
+      </select>
+    </div>
     <h1>Prompt Library</h1>
     <p>产品经理的 Vibe Coding 工作台 · 持续维护</p>
   </div>
@@ -573,6 +588,14 @@ document.addEventListener('click',e=>{
 });
 
 render('all');
+
+(function(){
+  var sel=document.getElementById('themeSel');
+  var saved=localStorage.getItem('promptlib_theme')||'';
+  function apply(t){if(t==='dark')document.body.setAttribute('data-theme','dark');else if(t==='ink')document.body.setAttribute('data-theme','ink');else document.body.removeAttribute('data-theme');sel.value=t;}
+  apply(saved);
+  sel.addEventListener('change',function(){localStorage.setItem('promptlib_theme',this.value);apply(this.value);});
+})();
 </script>
 </body>
 </html>
