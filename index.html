@@ -2080,12 +2080,12 @@
             <div id="project-script" class="project-card-wrap scroll-margin">
                 <a class="project-card-hit" href="./script-review.html" target="_blank">
                     <div class="project-emoji">📋</div>
-                    <div class="project-title">剧本·复盘舱 <span class="project-highlight">高频词复盘 · 标签闭环</span></div>
+                    <div class="project-title">剧本·复盘舱 <span class="project-highlight">高频词复盘 · 热力图 · 场景看板</span></div>
                     <div class="project-subtitle">记下每次修改的原因，写完了还能回头看</div>
                     <div class="project-desc">
                         <strong>起因：</strong>长剧本改到后面记不清删戏动机。<strong>方案：</strong>「剧本—进度—复盘」绑定的模型，每月高频词与标签看板。<strong>可选：</strong>仓库 <code>server/</code> 剧本 JSON 快照。
                     </div>
-                    <div><span class="project-tag">复盘闭环</span><span class="project-tag">标签</span><span class="project-tag">导出</span></div>
+                    <div><span class="project-tag">复盘闭环</span><span class="project-tag">标签</span><span class="project-tag">导出</span><span class="project-tag">热力图</span><span class="project-tag">场景看板</span></div>
                     <div class="project-link">→ 体验 Demo</div>
                 </a>
                 <a class="project-learn-more" href="#doc-script">了解更多 · 设计与迭代</a>
@@ -2105,6 +2105,7 @@
                     <ul>
                       <li><strong>MVP 必做：</strong>剧本分场管理、进度快照、复盘笔记、标签系统</li>
                       <li><strong>v1.3 后续：</strong>月度回顾看板、高频词分析、导出 Word/CSV/JSON</li>
+                      <li><strong>v1.10 迭代：</strong>写作热力图（streak 连续天数）、场景进度看板（按幕/高潮分列）</li>
                       <li><strong>明确不做：</strong>多人实时协作编辑、AI 自动改写剧本、版本对比 diff 视图</li>
                     </ul>
                     <h5>边界与异常</h5>
@@ -2329,8 +2330,8 @@
                 <div id="doc-script" class="design-doc-card scroll-margin">
                     <div class="design-doc-title"><span>📋</span> 剧本·复盘舱</div>
                     <div class="doc-row"><h4>🔍 关键痛点</h4><p>长内容创作中版本迭代难追踪、修改原因易遗忘。</p></div>
-                    <div class="doc-row"><h4>✅ 核心方案</h4><p>剧本-进度-复盘三位一体模型，构建修改与复盘闭环，集成标签系统与月度看板。</p></div>
-                    <div class="doc-row"><h4>📈 交付说明</h4><ul><li>内置月度高频词分析与看板</li><li>支持导出 Word/CSV/JSON</li><li>可选 <code>server/</code> 剧本 JSON 云端备份</li></ul></div>
+                    <div class="doc-row"><h4>✅ 核心方案</h4><p>剧本-进度-复盘三位一体模型，构建修改与复盘闭环，集成标签系统、写作热力图与场景进度看板。</p></div>
+                    <div class="doc-row"><h4>📈 交付说明</h4><ul><li>内置月度高频词分析与看板</li><li>GitHub 风格写作热力图 + streak 连续天数激励</li><li>场景进度看板（Trello 风格按幕/高潮/结尾分列）</li><li>支持导出 Word/CSV/JSON</li><li>可选 <code>server/</code> 剧本 JSON 云端备份</li></ul></div>
                     <div class="doc-row"><h4>💬 用户怎么说</h4>
                         <div class="feedback-quote">"改完之后回头看为什么删这场戏一目了然，之前改着改着自己都忘了。" —— veka</div>
                         <div class="feedback-quote">"高频词那个挺有意思，我一看发现自己最近写来写去都是同一种情绪，自己都没意识到。" —— 若寒 <span style="color:#2e7d32; margin-left:8px;">✓ v1.3采纳</span></div>
@@ -2345,6 +2346,7 @@
                             <li>v1.7 (2026.05)：移动端顶部工具栏支持下滑隐藏/上滑显示/顶部轻触唤出，并优化顶部操作区视觉层级</li>
                             <li>v1.8 (2026.05)：统一新拟物 token 设计系统，补齐平板断点并压低角标遮挡</li>
                             <li>v1.9 (2026.05)：暗色主题补齐 360/393/412 三档视觉标尺，统一卡片对比与分隔线层次</li>
+                            <li>v1.10 (2026.05)：GitHub 风格写作热力图（26 周 + streak 连续天数）；场景进度看板（Trello 风格按幕/高潮/结尾分列）</li>
                         </ul>
                     </details>
                 </div>
