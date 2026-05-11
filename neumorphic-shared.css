@@ -1,0 +1,455 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap");
+
+/**
+ * 作品集 Demo 统一新拟物（soft UI）— 与 index.html 内嵌 Neu 段同一套 token。
+ * 启用方式：<html data-ui="neumorphic" data-app="pet|meeting|workspace|hub|minimal">
+ * 维护记录见 demo/work/dev-logs/
+ */
+
+html[data-ui="neumorphic"] {
+  --neu-bg: #e6e6e6;
+  --neu-text: #3f3f3f;
+  --neu-muted: #6b6b6b;
+  --neu-card-radius: 28px;
+  --neu-btn-radius: 40px;
+  --neu-shadow: -8px -8px 16px rgba(255, 255, 255, 0.66), 8px 8px 16px rgba(0, 0, 0, 0.12);
+  --neu-shadow-hover: -6px -6px 12px rgba(255, 255, 255, 0.6), 6px 6px 12px rgba(0, 0, 0, 0.14);
+  --neu-shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.09), inset -4px -4px 8px rgba(255, 255, 255, 0.72);
+  --neu-accent: #5a6a7a;
+  --neu-border: transparent;
+}
+
+@media (max-width: 700px) {
+  html[data-ui="neumorphic"] {
+    --neu-card-radius: 18px;
+    --neu-shadow: -5px -5px 10px rgba(255, 255, 255, 0.58), 5px 5px 10px rgba(0, 0, 0, 0.1);
+    --neu-shadow-hover: -4px -4px 8px rgba(255, 255, 255, 0.56), 4px 4px 8px rgba(0, 0, 0, 0.11);
+    --neu-shadow-inset: inset 3px 3px 6px rgba(0, 0, 0, 0.08), inset -3px -3px 6px rgba(255, 255, 255, 0.66);
+  }
+}
+
+html[data-ui="neumorphic"] body[data-theme="night"],
+html[data-ui="neumorphic"] body.theme-dark,
+html[data-ui="neumorphic"] body[data-theme="dark"] {
+  --neu-bg: #2a2a2a;
+  --neu-text: #d8d8d8;
+  --neu-muted: #999;
+  --neu-shadow: -8px -8px 16px rgba(50, 50, 50, 0.6), 8px 8px 16px rgba(0, 0, 0, 0.45);
+  --neu-shadow-hover: -6px -6px 12px rgba(50, 50, 50, 0.5), 6px 6px 12px rgba(0, 0, 0, 0.5);
+  --neu-shadow-inset: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(60, 60, 60, 0.4);
+  --neu-accent: #8aaabb;
+  --neu-border: transparent;
+}
+
+html[data-ui="neumorphic"] body[data-theme="ink"],
+html[data-ui="neumorphic"] body.theme-ink {
+  --neu-bg: #f0f0f0;
+  --neu-text: #111;
+  --neu-muted: #555;
+  --neu-shadow: none;
+  --neu-shadow-hover: none;
+  --neu-shadow-inset: none;
+  --neu-accent: #333;
+  --neu-border: #bbb;
+}
+
+html[data-ui="neumorphic"] body {
+  font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif;
+}
+
+/* ---- pet-vaccine ---- */
+html[data-ui="neumorphic"][data-app="pet"] body {
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] body[data-theme="gray"] {
+  --neu-bg: #e0e0e0;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .app-header,
+html[data-ui="neumorphic"][data-app="pet"] .card,
+html[data-ui="neumorphic"][data-app="pet"] .tab-bar,
+html[data-ui="neumorphic"][data-app="pet"] .fab-action,
+html[data-ui="neumorphic"][data-app="pet"] .chart-wrap,
+html[data-ui="neumorphic"][data-app="pet"] .report-box,
+html[data-ui="neumorphic"][data-app="pet"] .modal,
+html[data-ui="neumorphic"][data-app="pet"] .example-hint,
+html[data-ui="neumorphic"][data-app="pet"] .expense-summary,
+html[data-ui="neumorphic"][data-app="pet"] .big-add-btn,
+html[data-ui="neumorphic"][data-app="pet"] .empty-state {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-card-radius) !important;
+  background: var(--neu-bg) !important;
+  box-shadow: var(--neu-shadow) !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .btn,
+html[data-ui="neumorphic"][data-app="pet"] .tab-item,
+html[data-ui="neumorphic"][data-app="pet"] .header-mode-toggle,
+html[data-ui="neumorphic"][data-app="pet"] select,
+html[data-ui="neumorphic"][data-app="pet"] input,
+html[data-ui="neumorphic"][data-app="pet"] textarea {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-btn-radius) !important;
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+  box-shadow: var(--neu-shadow) !important;
+  transition: all 0.2s ease !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .btn:hover,
+html[data-ui="neumorphic"][data-app="pet"] .tab-item:hover,
+html[data-ui="neumorphic"][data-app="pet"] .header-mode-toggle:hover {
+  box-shadow: var(--neu-shadow-hover) !important;
+  transform: scale(0.98);
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .btn:active,
+html[data-ui="neumorphic"][data-app="pet"] .tab-item:active,
+html[data-ui="neumorphic"][data-app="pet"] .header-mode-toggle:active {
+  box-shadow: var(--neu-shadow-inset) !important;
+  transform: scale(0.97);
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .fab {
+  border-radius: 50% !important;
+  background: var(--primary) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow:
+    0 4px 14px color-mix(in srgb, var(--primary) 45%, transparent),
+    var(--neu-shadow) !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .btn.btn-primary {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow:
+    0 3px 12px color-mix(in srgb, var(--primary) 38%, transparent),
+    var(--neu-shadow) !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .btn.btn-primary:hover {
+  box-shadow:
+    0 4px 14px color-mix(in srgb, var(--primary) 48%, transparent),
+    var(--neu-shadow-hover) !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .btn.btn-primary:active {
+  box-shadow: var(--neu-shadow-inset) !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] input,
+html[data-ui="neumorphic"][data-app="pet"] select,
+html[data-ui="neumorphic"][data-app="pet"] textarea,
+html[data-ui="neumorphic"][data-app="pet"] .input-group input,
+html[data-ui="neumorphic"][data-app="pet"] .input-group select {
+  box-shadow: var(--neu-shadow-inset) !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] input:focus,
+html[data-ui="neumorphic"][data-app="pet"] select:focus,
+html[data-ui="neumorphic"][data-app="pet"] textarea:focus {
+  outline: none !important;
+}
+
+html[data-ui="neumorphic"][data-app="pet"] .header-brand p,
+html[data-ui="neumorphic"][data-app="pet"] .hint,
+html[data-ui="neumorphic"][data-app="pet"] .muted,
+html[data-ui="neumorphic"][data-app="pet"] .subtext,
+html[data-ui="neumorphic"][data-app="pet"] .small-note {
+  color: var(--neu-muted) !important;
+}
+
+@media (max-width: 640px) {
+  html[data-ui="neumorphic"][data-app="pet"] .tab-bar {
+    z-index: 120;
+  }
+  html[data-ui="neumorphic"][data-app="pet"] .fab,
+  html[data-ui="neumorphic"][data-app="pet"] .fab-menu {
+    z-index: 110;
+  }
+}
+
+/* ---- meeting-ruminant ---- */
+html[data-ui="neumorphic"][data-app="meeting"] body {
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] body.theme-warm,
+html[data-ui="neumorphic"][data-app="meeting"] body.theme-gray,
+html[data-ui="neumorphic"][data-app="meeting"] body.theme-mint {
+  --text-primary: var(--neu-text);
+  --pre-color: var(--neu-text);
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] body.theme-mint {
+  --neu-bg: #e8f4ed;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] body.theme-gray {
+  --neu-bg: #e0e0e0;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] .card,
+html[data-ui="neumorphic"][data-app="meeting"] .meeting-top-toolbar,
+html[data-ui="neumorphic"][data-app="meeting"] .api-config,
+html[data-ui="neumorphic"][data-app="meeting"] .history-item,
+html[data-ui="neumorphic"][data-app="meeting"] .todo-item,
+html[data-ui="neumorphic"][data-app="meeting"] .kpi-card,
+html[data-ui="neumorphic"][data-app="meeting"] .reminder-panel,
+html[data-ui="neumorphic"][data-app="meeting"] .export-content {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-card-radius) !important;
+  background: var(--neu-bg) !important;
+  box-shadow: var(--neu-shadow) !important;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] .btn-outline,
+html[data-ui="neumorphic"][data-app="meeting"] .mode-toggle-btn,
+html[data-ui="neumorphic"][data-app="meeting"] .theme-dot {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-btn-radius) !important;
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+  box-shadow: var(--neu-shadow) !important;
+  transition: all 0.2s ease !important;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] .btn-primary {
+  border: 1px solid var(--accent-color) !important;
+  border-radius: var(--neu-btn-radius) !important;
+  background: var(--accent-color) !important;
+  color: #fff !important;
+  box-shadow:
+    0 3px 12px color-mix(in srgb, var(--accent-color) 38%, transparent),
+    var(--neu-shadow) !important;
+  transition: all 0.2s ease !important;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] .btn:not(.btn-primary),
+html[data-ui="neumorphic"][data-app="meeting"] input,
+html[data-ui="neumorphic"][data-app="meeting"] textarea,
+html[data-ui="neumorphic"][data-app="meeting"] select,
+html[data-ui="neumorphic"][data-app="meeting"] .custom-remind {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-btn-radius) !important;
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+  box-shadow: var(--neu-shadow) !important;
+  transition: all 0.2s ease !important;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] .btn:hover,
+html[data-ui="neumorphic"][data-app="meeting"] .btn-outline:hover,
+html[data-ui="neumorphic"][data-app="meeting"] .mode-toggle-btn:hover,
+html[data-ui="neumorphic"][data-app="meeting"] .theme-dot:hover {
+  box-shadow: var(--neu-shadow-hover) !important;
+  transform: scale(0.98);
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] .btn-primary:hover {
+  box-shadow:
+    0 4px 14px color-mix(in srgb, var(--accent-color) 48%, transparent),
+    var(--neu-shadow-hover) !important;
+  transform: scale(0.98);
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] .btn:active,
+html[data-ui="neumorphic"][data-app="meeting"] .btn-outline:active,
+html[data-ui="neumorphic"][data-app="meeting"] .btn-primary:active,
+html[data-ui="neumorphic"][data-app="meeting"] .mode-toggle-btn:active,
+html[data-ui="neumorphic"][data-app="meeting"] .theme-dot:active {
+  box-shadow: var(--neu-shadow-inset) !important;
+  transform: scale(0.97);
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] textarea,
+html[data-ui="neumorphic"][data-app="meeting"] input:not([type="checkbox"]):not([type="radio"]),
+html[data-ui="neumorphic"][data-app="meeting"] select,
+html[data-ui="neumorphic"][data-app="meeting"] .custom-remind,
+html[data-ui="neumorphic"][data-app="meeting"] .history-tools input,
+html[data-ui="neumorphic"][data-app="meeting"] .history-tools select {
+  box-shadow: var(--neu-shadow-inset) !important;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] textarea:focus,
+html[data-ui="neumorphic"][data-app="meeting"] input:focus,
+html[data-ui="neumorphic"][data-app="meeting"] select:focus {
+  outline: none !important;
+}
+
+html[data-ui="neumorphic"][data-app="meeting"] .meta,
+html[data-ui="neumorphic"][data-app="meeting"] .hint,
+html[data-ui="neumorphic"][data-app="meeting"] .feedback-label .demo-note,
+html[data-ui="neumorphic"][data-app="meeting"] .small-note {
+  color: var(--neu-muted) !important;
+}
+
+@media (max-width: 640px) {
+  html[data-ui="neumorphic"][data-app="meeting"] .feedback-label {
+    z-index: 100;
+  }
+}
+
+/* ---- creation-cabin + script-review ---- */
+html[data-ui="neumorphic"][data-app="workspace"] body {
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+}
+
+html[data-ui="neumorphic"][data-app="workspace"] .app,
+html[data-ui="neumorphic"][data-app="workspace"] .app-header,
+html[data-ui="neumorphic"][data-app="workspace"] .script-sidebar,
+html[data-ui="neumorphic"][data-app="workspace"] .record-form-card,
+html[data-ui="neumorphic"][data-app="workspace"] .role-world-section,
+html[data-ui="neumorphic"][data-app="workspace"] .outline-section,
+html[data-ui="neumorphic"][data-app="workspace"] .references-section,
+html[data-ui="neumorphic"][data-app="workspace"] .title-lottery-section,
+html[data-ui="neumorphic"][data-app="workspace"] .record-card,
+html[data-ui="neumorphic"][data-app="workspace"] .script-item,
+html[data-ui="neumorphic"][data-app="workspace"] .character-card,
+html[data-ui="neumorphic"][data-app="workspace"] .ref-item,
+html[data-ui="neumorphic"][data-app="workspace"] .markdown-preview,
+html[data-ui="neumorphic"][data-app="workspace"] .modal-card,
+html[data-ui="neumorphic"][data-app="workspace"] .sidebar-tools-panel,
+html[data-ui="neumorphic"][data-app="workspace"] .history-review-wrap,
+html[data-ui="neumorphic"][data-app="workspace"] .todo-item {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-card-radius) !important;
+  background: var(--neu-bg) !important;
+  box-shadow: var(--neu-shadow) !important;
+}
+
+html[data-ui="neumorphic"][data-app="workspace"] .btn,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-sm,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-primary,
+html[data-ui="neumorphic"][data-app="workspace"] .theme-btn,
+html[data-ui="neumorphic"][data-app="workspace"] .manage-tags-btn,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-icon,
+html[data-ui="neumorphic"][data-app="workspace"] .mode-toggle-btn,
+html[data-ui="neumorphic"][data-app="workspace"] input,
+html[data-ui="neumorphic"][data-app="workspace"] textarea,
+html[data-ui="neumorphic"][data-app="workspace"] select {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-btn-radius) !important;
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+  box-shadow: var(--neu-shadow) !important;
+  transition: all 0.2s ease !important;
+}
+
+html[data-ui="neumorphic"][data-app="workspace"] .btn:hover,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-sm:hover,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-primary:hover,
+html[data-ui="neumorphic"][data-app="workspace"] .theme-btn:hover,
+html[data-ui="neumorphic"][data-app="workspace"] .manage-tags-btn:hover,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-icon:hover,
+html[data-ui="neumorphic"][data-app="workspace"] .mode-toggle-btn:hover {
+  box-shadow: var(--neu-shadow-hover) !important;
+  transform: scale(0.98);
+}
+
+html[data-ui="neumorphic"][data-app="workspace"] .btn:active,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-sm:active,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-primary:active,
+html[data-ui="neumorphic"][data-app="workspace"] .theme-btn:active,
+html[data-ui="neumorphic"][data-app="workspace"] .manage-tags-btn:active,
+html[data-ui="neumorphic"][data-app="workspace"] .btn-icon:active,
+html[data-ui="neumorphic"][data-app="workspace"] .mode-toggle-btn:active {
+  box-shadow: var(--neu-shadow-inset) !important;
+  transform: scale(0.97);
+}
+
+html[data-ui="neumorphic"][data-app="workspace"] input,
+html[data-ui="neumorphic"][data-app="workspace"] textarea,
+html[data-ui="neumorphic"][data-app="workspace"] select,
+html[data-ui="neumorphic"][data-app="workspace"] .world-textarea,
+html[data-ui="neumorphic"][data-app="workspace"] .outline-textarea,
+html[data-ui="neumorphic"][data-app="workspace"] .form-control {
+  box-shadow: var(--neu-shadow-inset) !important;
+}
+
+html[data-ui="neumorphic"][data-app="workspace"] input:focus,
+html[data-ui="neumorphic"][data-app="workspace"] textarea:focus,
+html[data-ui="neumorphic"][data-app="workspace"] select:focus {
+  outline: none !important;
+}
+
+html[data-ui="neumorphic"][data-app="workspace"] .small-note,
+html[data-ui="neumorphic"][data-app="workspace"] .hint,
+html[data-ui="neumorphic"][data-app="workspace"] .dev-credit .demo-note,
+html[data-ui="neumorphic"][data-app="workspace"] .tag,
+html[data-ui="neumorphic"][data-app="workspace"] .header-actions small,
+html[data-ui="neumorphic"][data-app="workspace"] #recordCount,
+html[data-ui="neumorphic"][data-app="workspace"] .meta-line {
+  color: var(--neu-muted) !important;
+}
+
+@media (max-width: 640px) {
+  html[data-ui="neumorphic"][data-app="workspace"] .dev-credit {
+    z-index: 100;
+  }
+}
+
+/* ---- demo-hub ---- */
+html[data-ui="neumorphic"][data-app="hub"] body {
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+}
+
+html[data-ui="neumorphic"][data-app="hub"] .hero,
+html[data-ui="neumorphic"][data-app="hub"] .group,
+html[data-ui="neumorphic"][data-app="hub"] .item {
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+  border: 1px solid var(--neu-border) !important;
+  box-shadow: var(--neu-shadow) !important;
+  border-radius: var(--neu-card-radius) !important;
+}
+
+html[data-ui="neumorphic"][data-app="hub"] .group-head {
+  background: var(--neu-bg) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--neu-text) 12%, transparent);
+}
+
+html[data-ui="neumorphic"][data-app="hub"] .desc,
+html[data-ui="neumorphic"][data-app="hub"] .group-sub,
+html[data-ui="neumorphic"][data-app="hub"] .item p {
+  color: var(--neu-muted) !important;
+}
+
+html[data-ui="neumorphic"][data-app="hub"] h1,
+html[data-ui="neumorphic"][data-app="hub"] .group-title,
+html[data-ui="neumorphic"][data-app="hub"] .item h3 {
+  color: var(--neu-text) !important;
+}
+
+html[data-ui="neumorphic"][data-app="hub"] button:not(.primary),
+html[data-ui="neumorphic"][data-app="hub"] .link-btn {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-btn-radius) !important;
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+  box-shadow: var(--neu-shadow) !important;
+}
+
+html[data-ui="neumorphic"][data-app="hub"] button:not(.primary):hover,
+html[data-ui="neumorphic"][data-app="hub"] .link-btn:hover {
+  box-shadow: var(--neu-shadow-hover) !important;
+  opacity: 1;
+}
+
+html[data-ui="neumorphic"][data-app="hub"] button.primary {
+  border-radius: var(--neu-btn-radius) !important;
+  box-shadow: var(--neu-shadow) !important;
+  border: 1px solid transparent !important;
+}
+
+/* ---- cold-start / prompt-library：已由 .nr/.ni 实现形态，此处统一字体即可 ---- */
+html[data-ui="neumorphic"][data-app="minimal"] body {
+  font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif;
+}

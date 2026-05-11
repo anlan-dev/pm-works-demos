@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" data-ui="neumorphic" data-app="pet">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
@@ -540,72 +540,8 @@
             .app-header { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
             body[data-theme="night"] .app-header, body[data-theme="night"] .card, body[data-theme="night"] .tab-bar, body[data-theme="night"] .fab-action { background: rgba(28,28,30,0.96); border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 22px rgba(0,0,0,0.5); }
         }
-
-        /* ===== Neumorphism — Unified Token System ===== */
-        * { font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif; }
-        :root {
-            --neu-bg: #e6e6e6;
-            --neu-text: #3f3f3f;
-            --neu-muted: #6b6b6b;
-            --neu-card-radius: 28px;
-            --neu-btn-radius: 40px;
-            --neu-shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
-            --neu-shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.14);
-            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
-            --neu-accent: #5a6a7a;
-            --neu-border: transparent;
-        }
-        body[data-theme="dark"], body[data-theme="night"] {
-            --neu-bg: #2a2a2a;
-            --neu-text: #d8d8d8;
-            --neu-muted: #999;
-            --neu-shadow: -8px -8px 16px rgba(50,50,50,0.6), 8px 8px 16px rgba(0,0,0,0.45);
-            --neu-shadow-hover: -6px -6px 12px rgba(50,50,50,0.5), 6px 6px 12px rgba(0,0,0,0.5);
-            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.3), inset -4px -4px 8px rgba(60,60,60,0.4);
-            --neu-accent: #8aaabb;
-            --neu-border: transparent;
-        }
-        body[data-theme="ink"] {
-            --neu-bg: #f0f0f0;
-            --neu-text: #111;
-            --neu-muted: #555;
-            --neu-shadow: none;
-            --neu-shadow-hover: none;
-            --neu-shadow-inset: none;
-            --neu-accent: #333;
-            --neu-border: #bbb;
-        }
-        body { background: var(--neu-bg) !important; color: var(--neu-text) !important; }
-        .app-header, .card, .tab-bar, .fab-action, .chart-wrap, .report-box, .modal, .example-hint, .expense-summary, .big-add-btn, .empty-state {
-            border: 1px solid var(--neu-border) !important;
-            border-radius: var(--neu-card-radius) !important;
-            background: var(--neu-bg) !important;
-            box-shadow: var(--neu-shadow) !important;
-        }
-        .btn, .fab, .tab-item, .header-mode-toggle, select, input, textarea {
-            border: 1px solid var(--neu-border) !important;
-            border-radius: var(--neu-btn-radius) !important;
-            background: var(--neu-bg) !important;
-            color: var(--neu-text) !important;
-            box-shadow: var(--neu-shadow) !important;
-            transition: all .2s ease !important;
-        }
-        .btn:hover, .fab:hover, .tab-item:hover, .header-mode-toggle:hover { box-shadow: var(--neu-shadow-hover) !important; transform: scale(0.98); }
-        .btn:active, .fab:active, .tab-item:active, .header-mode-toggle:active { box-shadow: var(--neu-shadow-inset) !important; transform: scale(0.97); }
-        input, select, textarea, .input-group input, .input-group select { box-shadow: var(--neu-shadow-inset) !important; }
-        input:focus, select:focus, textarea:focus { outline: none !important; }
-        .header-brand p, .hint, .muted, .subtext, .small-note { color: var(--neu-muted) !important; }
-        @media (max-width: 640px) {
-            :root {
-                --neu-card-radius: 18px;
-                --neu-shadow: -5px -5px 10px rgba(255,255,255,0.58), 5px 5px 10px rgba(0,0,0,0.1);
-                --neu-shadow-hover: -4px -4px 8px rgba(255,255,255,0.56), 4px 4px 8px rgba(0,0,0,0.11);
-                --neu-shadow-inset: inset 3px 3px 6px rgba(0,0,0,0.08), inset -3px -3px 6px rgba(255,255,255,0.66);
-            }
-            .tab-bar { z-index: 120; }
-            .fab, .fab-menu { z-index: 110; }
-        }
     </style>
+    <link rel="stylesheet" href="./neumorphic-shared.css">
 </head>
 <body>
 
@@ -653,7 +589,7 @@
 
 <details class="portfolio-dev-flow">
     <summary>📐 本 Demo 开发流程</summary>
-    <div class="dev-flow" aria-label="宠伴（简历项目1·2025年9月起）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">与简历「泾阳人社局活动运营实习」同一工作流：阶段目标与复盘口径 → 分层/分组对比验证 → 问题台账闭环；本项目对应需求池宠伴 9 条已结案。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">实习互证：复盘→验证→台账；宠伴 2025.09 起。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025-09 界定</span><span class="dev-flow-note">深访+商店差评，定「提醒+记录」主线（非社交）</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">2025-09 MVP</span><span class="dev-flow-note">砍掉社区/商城；档案·疫苗日历·花费·提醒 四主线</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">9-10 月 信任</span><span class="dev-flow-note">OCR 三方案比选→本地路径（简历「隐私优先」）</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">2025-10 验证</span><span class="dev-flow-note">提醒策略分组观察：配置意愿与回访同向</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">2025-10 迭代</span><span class="dev-flow-note">种子回访→自动算有效期、按月花费视图</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">10-11 月 交付</span><span class="dev-flow-note">可安装 PWA；口径写进指标说明；与版本记录一致</span></li></ol></div>
+    <div class="dev-flow" aria-label="宠伴·健康台账（2025年9月起）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">先统一阶段目标与指标口径，再用分组实验验证提醒策略，把结论沉淀进可追踪的 backlog —— 全程围绕「提醒 + 记录」主线迭代。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">口径 → 验证 → backlog；2025.09 起。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025-09 界定</span><span class="dev-flow-note">深访+商店差评，定「提醒+记录」主线（非社交）</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">2025-09 MVP</span><span class="dev-flow-note">砍掉社区/商城；档案·疫苗日历·花费·提醒 四主线</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">9-10 月 信任</span><span class="dev-flow-note">OCR 三方案比选→本地路径（本地优先，降低上传顾虑）</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">2025-10 验证</span><span class="dev-flow-note">提醒策略分组观察：配置意愿与回访同向</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">2025-10 迭代</span><span class="dev-flow-note">种子回访→自动算有效期、按月花费视图</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">10-11 月 交付</span><span class="dev-flow-note">可安装 PWA；口径写进指标说明；与版本记录一致</span></li></ol></div>
 </details>
 
 <div class="container">
