@@ -1079,6 +1079,7 @@
         .kanban-card-tags .tag { font-size: 0.6rem; padding: 1px 6px; }
         .kanban-empty { text-align: center; color: var(--text-muted); font-style: italic; font-size: 0.8rem; padding: 20px 0; }
     </style>
+    <link rel="stylesheet" href="./dev-flow.css">
 </head>
 <body class="theme-default">
     <div class="app">
@@ -1111,6 +1112,11 @@
                 </div>
             </div>
         </header>
+
+        <details class="portfolio-dev-flow" style="padding:0 24px;">
+            <summary>📐 本 Demo 开发流程</summary>
+            <div class="dev-flow" aria-label="剧本舱（简历补充·剧本-进度-复盘）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">对应简历「热力图、标签、导出与回溯」：先立结构再写功能，交付侧对齐活动运营里的「材料留痕、可复盘」。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">结构先行；热力图/标签/回溯，对齐活动留痕。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">问题界定</span><span class="dev-flow-note">长改稿「为何删这场戏」易失忆</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">模型</span><span class="dev-flow-note">剧本-进度-复盘 三位一体</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">MVP</span><span class="dev-flow-note">快照·标签·本地记录流</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">验证</span><span class="dev-flow-note">回溯一问一答能否答上</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">迭代</span><span class="dev-flow-note">写作热力图·场景看板·streak</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">交付</span><span class="dev-flow-note">Word/CSV/JSON 导出，方便制片协同</span></li></ol></div>
+        </details>
 
         <div style="padding:10px 24px; background:var(--form-bg); border-bottom:1px solid var(--border-light); font-size:0.88rem; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
             <span style="font-weight:600;">☁️ 云端同步</span>
