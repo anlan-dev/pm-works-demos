@@ -1,0 +1,5 @@
+=== 剧本舱（简历补充 ===
+><div class="dev-flow" aria-label="剧本舱（简历补充·剧本-进度-复盘）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">对应简历「热力图、标签、导出与回溯」：先立结构再写功能，交付侧对齐活动运营里的「材料留痕、可复盘」。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">结构先行；热力图/标签/回溯，对齐活动留痕。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">问题界定</span><span class="dev-flow-note">长改稿「为何删这场戏」易失忆</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class
+
+=== Prompt库（简历 ===
+><div class="dev-flow" aria-label="Prompt库（简历·AIGC协作运营向）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">对齐简历「Prompt 工程 + 从 PRD 到原型提效」：把散落指令变成可检索、可复制、随版本迭代的模板资产（类似实习 SOP 沉淀）。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">Prompt+PRD→原型；可检索模板，类实习 SOP。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">素材归集</span><span class="dev-flow-note">Chat/备忘录/IDE 碎片统一归档</span></li><li class="dev-flow-step"><span class="

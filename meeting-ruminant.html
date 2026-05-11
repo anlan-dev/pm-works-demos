@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" data-ui="neumorphic" data-app="meeting">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -473,69 +473,6 @@
             body.theme-ink .card, body.theme-ink .api-config, body.theme-ink .history-item, body.theme-ink .todo-item, body.theme-ink .kpi-card, body.theme-ink .meeting-top-toolbar { background: #fafafa; border-color: #858585; box-shadow: none; }
         }
 
-        /* ===== Neumorphism — Unified Token System ===== */
-        * { font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif; }
-        :root {
-            --neu-bg: #e6e6e6;
-            --neu-text: #3f3f3f;
-            --neu-muted: #6b6b6b;
-            --neu-card-radius: 28px;
-            --neu-btn-radius: 40px;
-            --neu-shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
-            --neu-shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.14);
-            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
-            --neu-accent: #5a6a7a;
-            --neu-border: transparent;
-        }
-        body[data-theme="dark"], body.theme-dark {
-            --neu-bg: #2a2a2a;
-            --neu-text: #d8d8d8;
-            --neu-muted: #999;
-            --neu-shadow: -8px -8px 16px rgba(50,50,50,0.6), 8px 8px 16px rgba(0,0,0,0.45);
-            --neu-shadow-hover: -6px -6px 12px rgba(50,50,50,0.5), 6px 6px 12px rgba(0,0,0,0.5);
-            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.3), inset -4px -4px 8px rgba(60,60,60,0.4);
-            --neu-accent: #8aaabb;
-            --neu-border: transparent;
-        }
-        body[data-theme="ink"], body.theme-ink {
-            --neu-bg: #f0f0f0;
-            --neu-text: #111;
-            --neu-muted: #555;
-            --neu-shadow: none;
-            --neu-shadow-hover: none;
-            --neu-shadow-inset: none;
-            --neu-accent: #333;
-            --neu-border: #bbb;
-        }
-        body { background: var(--neu-bg) !important; color: var(--neu-text) !important; }
-        .card, .meeting-top-toolbar, .api-config, .history-item, .todo-item, .kpi-card, .reminder-panel, .export-content {
-            border: 1px solid var(--neu-border) !important;
-            border-radius: var(--neu-card-radius) !important;
-            background: var(--neu-bg) !important;
-            box-shadow: var(--neu-shadow) !important;
-        }
-        .btn, .btn-outline, .btn-primary, .mode-toggle-btn, .theme-dot, input, textarea, select, .custom-remind {
-            border: 1px solid var(--neu-border) !important;
-            border-radius: var(--neu-btn-radius) !important;
-            background: var(--neu-bg) !important;
-            color: var(--neu-text) !important;
-            box-shadow: var(--neu-shadow) !important;
-            transition: all .2s ease !important;
-        }
-        .btn:hover, .btn-outline:hover, .btn-primary:hover, .mode-toggle-btn:hover, .theme-dot:hover { box-shadow: var(--neu-shadow-hover) !important; transform: scale(0.98); }
-        .btn:active, .btn-outline:active, .btn-primary:active, .mode-toggle-btn:active, .theme-dot:active { box-shadow: var(--neu-shadow-inset) !important; transform: scale(0.97); }
-        textarea, input, select, .custom-remind, .history-tools input, .history-tools select { box-shadow: var(--neu-shadow-inset) !important; }
-        textarea:focus, input:focus, select:focus { outline: none !important; }
-        .meta, .hint, .feedback-label .demo-note, .small-note { color: var(--neu-muted) !important; }
-        @media (max-width: 640px) {
-            :root {
-                --neu-card-radius: 18px;
-                --neu-shadow: -5px -5px 10px rgba(255,255,255,0.58), 5px 5px 10px rgba(0,0,0,0.1);
-                --neu-shadow-hover: -4px -4px 8px rgba(255,255,255,0.56), 4px 4px 8px rgba(0,0,0,0.11);
-                --neu-shadow-inset: inset 3px 3px 6px rgba(0,0,0,0.08), inset -3px -3px 6px rgba(255,255,255,0.66);
-            }
-            .feedback-label { z-index: 100; }
-        }
     </style>
     <!-- transformers.js -->
     <script type="importmap">
@@ -543,12 +480,13 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="./dev-flow.css">
+    <link rel="stylesheet" href="./neumorphic-shared.css">
 </head>
 <body class="theme-warm">
 <div class="container">
 <details class="portfolio-dev-flow">
     <summary>📐 本 Demo 开发流程</summary>
-    <div class="dev-flow" aria-label="会议舱（简历项目2·2025年11月起）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">对齐简历「最小闭环」与实习「触达后落地」：会后结构化产出→待办台账→按周节拍迭代；验证口径为整理耗时+7 日完成趋势（示意指数）。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">会后闭环：结构化产出→台账→周节拍；验证耗时与 7 日趋势。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025-11 初 锚定</span><span class="dev-flow-note">访谈「会后失忆」（research/2025-11-08）</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">2025-11 初 MVP</span><span class="dev-flow-note">转写→待办→状态流，拒绝大而全协作台</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">2025-11 中 结构化</span><span class="dev-flow-note">Prompt/字段迭代+漏项抽检（简历原文）</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">持续 周节拍</span><span class="dev-flow-note">Backlog 优先级与版本切片，类实习排期节奏</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">验证侧</span><span class="dev-flow-note">会后整理耗时↓、短周期完成率趋势↑</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">沉淀侧</span><span class="dev-flow-note">示意指数+演练记录，答辩可追问</span></li></ol></div>
+    <div class="dev-flow" aria-label="会议·反刍舱（2025年11月起）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">不做大而全协作台：会后先结构化产出，再落到待办台账，按周节拍迭代；用整理耗时 + 短周期完成趋势（示意指数）判断是否继续加码。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">结构化产出→台账→周节拍；耗时与完成趋势验收。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025-11 初 锚定</span><span class="dev-flow-note">访谈「会后失忆」（research/2025-11-08）</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">2025-11 初 MVP</span><span class="dev-flow-note">转写→待办→状态流，拒绝大而全协作台</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">2025-11 中 结构化</span><span class="dev-flow-note">Prompt/字段迭代 + 漏项抽检清单</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">持续 周节拍</span><span class="dev-flow-note">Backlog 优先级与版本切片，固定周内评审节奏</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">验证侧</span><span class="dev-flow-note">会后整理耗时↓、短周期完成率趋势↑</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">沉淀侧</span><span class="dev-flow-note">示意指数 + 演练记录，材料自洽可复盘</span></li></ol></div>
 </details>
     <div class="card">
         <div class="flex-between meeting-top-toolbar" id="meetingTopToolbar">

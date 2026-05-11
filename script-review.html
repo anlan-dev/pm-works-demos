@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" data-ui="neumorphic" data-app="workspace">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -960,61 +960,6 @@
             body.theme-dark .app-header, body.theme-dark .script-sidebar, body.theme-dark .record-form-card, body.theme-dark .outline-section, body.theme-dark .references-section, body.theme-dark .title-lottery-section, body.theme-dark .record-card, body.theme-dark .script-item, body.theme-dark .modal-card { background: rgba(28,28,30,0.96); border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 22px rgba(0,0,0,0.5); }
         }
 
-        /* ===== Neumorphism — Unified Token System ===== */
-        * { font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif; }
-        :root {
-            --neu-bg: #e6e6e6;
-            --neu-text: #3f3f3f;
-            --neu-muted: #6b6b6b;
-            --neu-card-radius: 28px;
-            --neu-btn-radius: 40px;
-            --neu-shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
-            --neu-shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.14);
-            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
-            --neu-accent: #5a6a7a;
-            --neu-border: transparent;
-        }
-        body[data-theme="dark"], body.theme-dark {
-            --neu-bg: #2a2a2a;
-            --neu-text: #d8d8d8;
-            --neu-muted: #999;
-            --neu-shadow: -8px -8px 16px rgba(50,50,50,0.6), 8px 8px 16px rgba(0,0,0,0.45);
-            --neu-shadow-hover: -6px -6px 12px rgba(50,50,50,0.5), 6px 6px 12px rgba(0,0,0,0.5);
-            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.3), inset -4px -4px 8px rgba(60,60,60,0.4);
-            --neu-accent: #8aaabb;
-            --neu-border: transparent;
-        }
-        body[data-theme="ink"], body.theme-ink {
-            --neu-bg: #f0f0f0;
-            --neu-text: #111;
-            --neu-muted: #555;
-            --neu-shadow: none;
-            --neu-shadow-hover: none;
-            --neu-shadow-inset: none;
-            --neu-accent: #333;
-            --neu-border: #bbb;
-        }
-        body { background: var(--neu-bg) !important; color: var(--neu-text) !important; }
-        .app, .app-header, .script-sidebar, .record-form-card, .outline-section, .references-section, .title-lottery-section,
-        .record-card, .script-item, .modal-card, .history-review-wrap, .todo-item {
-            border: 1px solid var(--neu-border) !important;
-            border-radius: var(--neu-card-radius) !important;
-            background: var(--neu-bg) !important;
-            box-shadow: var(--neu-shadow) !important;
-        }
-        .btn, .btn-sm, .theme-btn, .manage-tags-btn, .btn-icon, .mode-toggle-btn, input, textarea, select {
-            border: 1px solid var(--neu-border) !important;
-            border-radius: var(--neu-btn-radius) !important;
-            background: var(--neu-bg) !important;
-            color: var(--neu-text) !important;
-            box-shadow: var(--neu-shadow) !important;
-            transition: all .2s ease !important;
-        }
-        .btn:hover, .btn-sm:hover, .theme-btn:hover, .manage-tags-btn:hover, .btn-icon:hover, .mode-toggle-btn:hover { box-shadow: var(--neu-shadow-hover) !important; transform: scale(0.98); }
-        .btn:active, .btn-sm:active, .theme-btn:active, .manage-tags-btn:active, .btn-icon:active, .mode-toggle-btn:active { box-shadow: var(--neu-shadow-inset) !important; transform: scale(0.97); }
-        input, textarea, select, .outline-textarea, .world-textarea, .form-control { box-shadow: var(--neu-shadow-inset) !important; }
-        input:focus, textarea:focus, select:focus { outline: none !important; }
-        .small-note, .tag, .header-actions small, #recordCount, .meta-line { color: var(--neu-muted) !important; }
         #currentScriptNameDisplay,
         .current-script-title,
         .script-name {
@@ -1023,15 +968,6 @@
             overflow-wrap: anywhere;
             word-break: break-word;
             line-height: 1.3;
-        }
-        @media (max-width: 640px) {
-            :root {
-                --neu-card-radius: 18px;
-                --neu-shadow: -5px -5px 10px rgba(255,255,255,0.58), 5px 5px 10px rgba(0,0,0,0.1);
-                --neu-shadow-hover: -4px -4px 8px rgba(255,255,255,0.56), 4px 4px 8px rgba(0,0,0,0.11);
-                --neu-shadow-inset: inset 3px 3px 6px rgba(0,0,0,0.08), inset -3px -3px 6px rgba(255,255,255,0.66);
-            }
-            .dev-credit { z-index: 100; }
         }
 
         /* ===== 写作热力图 ===== */
@@ -1080,6 +1016,7 @@
         .kanban-empty { text-align: center; color: var(--text-muted); font-style: italic; font-size: 0.8rem; padding: 20px 0; }
     </style>
     <link rel="stylesheet" href="./dev-flow.css">
+    <link rel="stylesheet" href="./neumorphic-shared.css">
 </head>
 <body class="theme-default">
     <div class="app">
@@ -1115,7 +1052,7 @@
 
         <details class="portfolio-dev-flow" style="padding:0 24px;">
             <summary>📐 本 Demo 开发流程</summary>
-            <div class="dev-flow" aria-label="剧本舱（简历补充·剧本-进度-复盘）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">对应简历「热力图、标签、导出与回溯」：先立结构再写功能，交付侧对齐活动运营里的「材料留痕、可复盘」。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">结构先行；热力图/标签/回溯，对齐活动留痕。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">问题界定</span><span class="dev-flow-note">长改稿「为何删这场戏」易失忆</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">模型</span><span class="dev-flow-note">剧本-进度-复盘 三位一体</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">MVP</span><span class="dev-flow-note">快照·标签·本地记录流</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">验证</span><span class="dev-flow-note">回溯一问一答能否答上</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">迭代</span><span class="dev-flow-note">写作热力图·场景看板·streak</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">交付</span><span class="dev-flow-note">Word/CSV/JSON 导出，方便制片协同</span></li></ol></div>
+            <div class="dev-flow" aria-label="剧本·复盘舱（剧本-进度-复盘）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">先锁定「剧本–进度–复盘」信息架构，再叠加热力图、标签与多格式导出；每次改稿留痕，方便回溯与交接。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">结构优先；热力图 / 标签 / 可导出回溯。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">问题界定</span><span class="dev-flow-note">长改稿「为何删这场戏」易失忆</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">模型</span><span class="dev-flow-note">剧本-进度-复盘 三位一体</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">MVP</span><span class="dev-flow-note">快照·标签·本地记录流</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">验证</span><span class="dev-flow-note">回溯一问一答能否答上</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">迭代</span><span class="dev-flow-note">写作热力图·场景看板·streak</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">交付</span><span class="dev-flow-note">Word/CSV/JSON 导出，方便制片协同</span></li></ol></div>
         </details>
 
         <div style="padding:10px 24px; background:var(--form-bg); border-bottom:1px solid var(--border-light); font-size:0.88rem; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">

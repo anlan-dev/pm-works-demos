@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" data-ui="neumorphic" data-app="workspace">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -556,71 +556,6 @@
             body.theme-dark .app-header, body.theme-dark .script-sidebar, body.theme-dark .record-form-card, body.theme-dark .role-world-section, body.theme-dark .outline-section, body.theme-dark .references-section, body.theme-dark .title-lottery-section, body.theme-dark .record-card, body.theme-dark .script-item, body.theme-dark .character-card, body.theme-dark .ref-item { background: rgba(28,28,30,0.96); border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 22px rgba(0,0,0,0.5); }
         }
 
-        /* ===== Neumorphism — Unified Token System ===== */
-        * { font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif; }
-        :root {
-            --neu-bg: #e6e6e6;
-            --neu-text: #3f3f3f;
-            --neu-muted: #6b6b6b;
-            --neu-card-radius: 28px;
-            --neu-btn-radius: 40px;
-            --neu-shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
-            --neu-shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.14);
-            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
-            --neu-accent: #5a6a7a;
-            --neu-border: transparent;
-        }
-        body[data-theme="dark"] {
-            --neu-bg: #2a2a2a;
-            --neu-text: #d8d8d8;
-            --neu-muted: #999;
-            --neu-shadow: -8px -8px 16px rgba(50,50,50,0.6), 8px 8px 16px rgba(0,0,0,0.45);
-            --neu-shadow-hover: -6px -6px 12px rgba(50,50,50,0.5), 6px 6px 12px rgba(0,0,0,0.5);
-            --neu-shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.3), inset -4px -4px 8px rgba(60,60,60,0.4);
-            --neu-accent: #8aaabb;
-            --neu-border: transparent;
-        }
-        body[data-theme="ink"] {
-            --neu-bg: #f0f0f0;
-            --neu-text: #111;
-            --neu-muted: #555;
-            --neu-shadow: none;
-            --neu-shadow-hover: none;
-            --neu-shadow-inset: none;
-            --neu-accent: #333;
-            --neu-border: #bbb;
-        }
-        body { background: var(--neu-bg) !important; color: var(--neu-text) !important; }
-        .app, .app-header, .script-sidebar, .record-form-card, .role-world-section, .outline-section, .references-section, .title-lottery-section,
-        .record-card, .script-item, .character-card, .ref-item, .markdown-preview, .modal-card, .sidebar-tools-panel {
-            border: 1px solid var(--neu-border) !important;
-            border-radius: var(--neu-card-radius) !important;
-            background: var(--neu-bg) !important;
-            box-shadow: var(--neu-shadow) !important;
-        }
-        .btn, .btn-sm, .btn-primary, .theme-btn, .manage-tags-btn, .btn-icon, .mode-toggle-btn, input, textarea, select {
-            border: 1px solid var(--neu-border) !important;
-            border-radius: var(--neu-btn-radius) !important;
-            background: var(--neu-bg) !important;
-            color: var(--neu-text) !important;
-            box-shadow: var(--neu-shadow) !important;
-            transition: all .2s ease !important;
-        }
-        .btn:hover, .btn-sm:hover, .btn-primary:hover, .theme-btn:hover, .manage-tags-btn:hover, .btn-icon:hover, .mode-toggle-btn:hover { box-shadow: var(--neu-shadow-hover) !important; transform: scale(0.98); }
-        .btn:active, .btn-sm:active, .btn-primary:active, .theme-btn:active, .manage-tags-btn:active, .btn-icon:active, .mode-toggle-btn:active { box-shadow: var(--neu-shadow-inset) !important; transform: scale(0.97); }
-        input, textarea, select, .world-textarea, .outline-textarea { box-shadow: var(--neu-shadow-inset) !important; }
-        input:focus, textarea:focus, select:focus { outline: none !important; }
-        .small-note, .hint, .dev-credit .demo-note { color: var(--neu-muted) !important; }
-        @media (max-width: 700px) {
-            :root {
-                --neu-card-radius: 18px;
-                --neu-shadow: -5px -5px 10px rgba(255,255,255,0.58), 5px 5px 10px rgba(0,0,0,0.1);
-                --neu-shadow-hover: -4px -4px 8px rgba(255,255,255,0.56), 4px 4px 8px rgba(0,0,0,0.11);
-                --neu-shadow-inset: inset 3px 3px 6px rgba(0,0,0,0.08), inset -3px -3px 6px rgba(255,255,255,0.66);
-            }
-            .dev-credit { z-index: 100; }
-        }
-
         /* ===== 防遮挡：折叠区 + 底部留白 ===== */
         .content-panel {
             padding-bottom: max(56px, calc(env(safe-area-inset-bottom, 0px) + 40px));
@@ -941,6 +876,7 @@
         }
     </style>
     <link rel="stylesheet" href="./dev-flow.css">
+    <link rel="stylesheet" href="./neumorphic-shared.css">
 </head>
 <body>
 <div class="app">
@@ -964,7 +900,7 @@
     </header>
     <details class="portfolio-dev-flow">
         <summary>📐 本 Demo 开发流程</summary>
-        <div class="dev-flow" aria-label="创作舱（简历补充项目·与课业并行）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">呼应简历「种子用户反馈驱动模块优先级」+ 实习「分层触达」思维：先访谈定排序→再交 MVP→用走查定下一版。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">访谈→MVP→走查；种子反馈定模块优先级。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025 秋 种子</span><span class="dev-flow-note">访谈定标题库/目标/进度优先级</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">IA 冻结</span><span class="dev-flow-note">一桌式：大纲·角色·正文·离线</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">MVP 可点</span><span class="dev-flow-note">单文件 HTML，先跑通写作主路径</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">走查</span><span class="dev-flow-note">卡文/断更/查找摩擦登记进反馈池</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">模块迭代</span><span class="dev-flow-note">目标·时间线·快照·健康分·周报</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">发版复盘</span><span class="dev-flow-note">PWA 与导出链，写进作品集中迭代表</span></li></ol></div>
+        <div class="dev-flow" aria-label="星途·创作舱（与课业并行）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">种子访谈把模块优先级排清 → 交付可点 MVP → 走查把摩擦收回需求池；写作主路径优先于堆功能。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">访谈→MVP→走查；反馈定优先级。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025 秋 种子</span><span class="dev-flow-note">访谈定标题库/目标/进度优先级</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">IA 冻结</span><span class="dev-flow-note">一桌式：大纲·角色·正文·离线</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">MVP 可点</span><span class="dev-flow-note">单文件 HTML，先跑通写作主路径</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">走查</span><span class="dev-flow-note">卡文/断更/查找摩擦登记进反馈池</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">模块迭代</span><span class="dev-flow-note">目标·时间线·快照·健康分·周报</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">发版复盘</span><span class="dev-flow-note">PWA 与导出链，与版本迭代表同步</span></li></ol></div>
     </details>
     <details class="cloud-sync-wrap" id="cloudSyncDetails">
         <summary><span>☁️ 云端同步</span><span style="font-weight:400; opacity:0.65; font-size:0.82rem;">（可选 · 展开配置）</span></summary>

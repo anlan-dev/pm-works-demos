@@ -159,3 +159,43 @@ body[data-theme="ink"] .dev-flow {
   border: 1px solid #bbb;
   box-shadow: none;
 }
+
+/* 与 neumorphic-shared.css 同步：仅当 <html data-ui="neumorphic"> 时强化流程条质感 */
+html[data-ui="neumorphic"] .dev-flow {
+  background: var(--neu-bg, #e6e6e6) !important;
+  border: 1px solid var(--neu-border, transparent) !important;
+  border-radius: 22px !important;
+  box-shadow: var(--neu-shadow) !important;
+}
+html[data-ui="neumorphic"] .dev-flow-kicker,
+html[data-ui="neumorphic"] .dev-flow-note {
+  color: var(--neu-muted, #6b6b6b) !important;
+}
+html[data-ui="neumorphic"] .dev-flow-title {
+  color: var(--neu-text, #3f3f3f) !important;
+}
+html[data-ui="neumorphic"] .dev-flow-step {
+  border-right-color: color-mix(in srgb, var(--neu-muted, #6b6b6b) 35%, transparent);
+  border-bottom-color: color-mix(in srgb, var(--neu-muted, #6b6b6b) 28%, transparent);
+}
+html[data-ui="neumorphic"] .dev-flow-num {
+  background: color-mix(in srgb, var(--neu-accent, #5a6a7a) 22%, transparent);
+  color: var(--neu-accent, #5a6a7a);
+}
+html[data-ui="neumorphic"] .portfolio-dev-flow > summary {
+  color: var(--neu-muted, #64748b);
+}
+html[data-ui="neumorphic"] body[data-theme="night"] .dev-flow,
+html[data-ui="neumorphic"] body[data-theme="dark"] .dev-flow {
+  background: var(--neu-bg) !important;
+}
+html[data-ui="neumorphic"] body[data-theme="night"] .portfolio-dev-flow > summary,
+html[data-ui="neumorphic"] body[data-theme="dark"] .portfolio-dev-flow > summary {
+  color: var(--neu-muted);
+}
+html[data-ui="neumorphic"] body.theme-dark .dev-flow {
+  background: var(--neu-bg) !important;
+}
+html[data-ui="neumorphic"] body.theme-dark .portfolio-dev-flow > summary {
+  color: var(--neu-muted);
+}
