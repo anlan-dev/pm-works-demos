@@ -538,7 +538,7 @@
 
       <label>模型</label>
       <select id="sModel">
-        <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3（免费）</option>
+        <option value="deepseek/deepseek-v4-flash:free">DeepSeek V4 Flash（免费）</option>
         <option value="qwen/qwen3-235b-a22b-04-28:free">Qwen3 235B（免费）</option>
         <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash（免费）</option>
       </select>
@@ -1081,7 +1081,7 @@ async function callAI(text, settings, signal) {
   let baseUrl, model, headers;
   if (settings.platform === 'openrouter') {
     baseUrl = 'https://openrouter.ai/api/v1/chat/completions';
-    model = settings.model || 'deepseek/deepseek-chat-v3-0324:free';
+    model = settings.model || 'deepseek/deepseek-v4-flash:free';
     headers = { 'Content-Type':'application/json', 'Authorization':`Bearer ${settings.apiKey}`, 'HTTP-Referer':'https://coldstart.app', 'X-Title':'ColdStart' };
   } else if (settings.platform === 'deepseek') {
     baseUrl = 'https://api.deepseek.com/v1/chat/completions';
@@ -1802,11 +1802,11 @@ const SETTINGS_KEY = 'cs_settings';
 
 function getSettings() {
   try {
-    const s = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || { mode: 'rule', platform: 'openrouter', model: 'deepseek/deepseek-chat-v3-0324:free' };
+    const s = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || { mode: 'rule', platform: 'openrouter', model: 'deepseek/deepseek-v4-flash:free' };
     if (s.dsModel === 'deepseek-chat') s.dsModel = 'deepseek-v4-flash';
     if (s.dsModel === 'deepseek-reasoner') s.dsModel = 'deepseek-v4-pro';
     return s;
-  } catch { return { mode: 'rule', platform: 'openrouter', model: 'deepseek/deepseek-chat-v3-0324:free' }; }
+  } catch { return { mode: 'rule', platform: 'openrouter', model: 'deepseek/deepseek-v4-flash:free' }; }
 }
 
 function saveSettingsToStorage(s) {
@@ -1818,7 +1818,7 @@ function openSettings() {
   setModeUI(s.mode || 'rule');
   document.getElementById('sPlatform').value = s.platform || 'openrouter';
   document.getElementById('sApiKey').value = s.apiKey || '';
-  document.getElementById('sModel').value = s.model || 'deepseek/deepseek-chat-v3-0324:free';
+  document.getElementById('sModel').value = s.model || 'deepseek/deepseek-v4-flash:free';
   document.getElementById('sSFModel').value = s.sfModel || 'Qwen/Qwen2.5-7B-Instruct';
   document.getElementById('sBaseUrl').value = s.customUrl || '';
   const dsSel = document.getElementById('sDSModel');

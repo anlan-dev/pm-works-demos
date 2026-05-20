@@ -449,6 +449,83 @@ html[data-ui="neumorphic"][data-app="hub"] button.primary {
   border: 1px solid transparent !important;
 }
 
+/* ---- 住值 live-worth ---- */
+html[data-ui="neumorphic"][data-app="live"] body {
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+}
+
+html[data-ui="neumorphic"][data-app="live"] .container,
+html[data-ui="neumorphic"][data-app="live"] .plan-card,
+html[data-ui="neumorphic"][data-app="live"] .smart-panel,
+html[data-ui="neumorphic"][data-app="live"] .waterfall-wrap {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-card-radius) !important;
+  background: var(--neu-bg) !important;
+  box-shadow: var(--neu-shadow) !important;
+}
+
+html[data-ui="neumorphic"][data-app="live"] .values-panel,
+html[data-ui="neumorphic"][data-app="live"] .form-strip,
+html[data-ui="neumorphic"][data-app="live"] .metrics,
+html[data-ui="neumorphic"][data-app="live"] .compare-table th {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-card-radius) !important;
+  background: var(--neu-bg) !important;
+  box-shadow: var(--neu-shadow-inset) !important;
+}
+
+html[data-ui="neumorphic"][data-app="live"] .btn,
+html[data-ui="neumorphic"][data-app="live"] .theme-dot {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-btn-radius) !important;
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+  box-shadow: var(--neu-shadow) !important;
+  transition: all 0.18s ease !important;
+}
+
+html[data-ui="neumorphic"][data-app="live"] .btn:hover,
+html[data-ui="neumorphic"][data-app="live"] .theme-dot:hover {
+  box-shadow: var(--neu-shadow-hover) !important;
+  transform: scale(0.98);
+}
+
+html[data-ui="neumorphic"][data-app="live"] .btn:active,
+html[data-ui="neumorphic"][data-app="live"] .theme-dot:active {
+  box-shadow: var(--neu-shadow-inset) !important;
+  transform: scale(0.97);
+}
+
+html[data-ui="neumorphic"][data-app="live"] .btn-primary {
+  background: var(--neu-accent) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow:
+    0 3px 12px color-mix(in srgb, var(--neu-accent) 38%, transparent),
+    var(--neu-shadow) !important;
+}
+
+html[data-ui="neumorphic"][data-app="live"] input {
+  border: 1px solid var(--neu-border) !important;
+  border-radius: var(--neu-btn-radius) !important;
+  background: var(--neu-bg) !important;
+  color: var(--neu-text) !important;
+  box-shadow: var(--neu-shadow-inset) !important;
+}
+
+html[data-ui="neumorphic"][data-app="live"] input:focus {
+  outline: none !important;
+}
+
+html[data-ui="neumorphic"][data-app="live"] .subtitle,
+html[data-ui="neumorphic"][data-app="live"] .hint-text,
+html[data-ui="neumorphic"][data-app="live"] .footer-note,
+html[data-ui="neumorphic"][data-app="live"] .status-text,
+html[data-ui="neumorphic"][data-app="live"] .muted {
+  color: var(--neu-muted) !important;
+}
+
 /* ---- cold-start / prompt-library：已由 .nr/.ni 实现形态，此处统一字体即可 ---- */
 html[data-ui="neumorphic"][data-app="minimal"] body {
   font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif;
