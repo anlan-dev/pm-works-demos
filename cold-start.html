@@ -397,7 +397,11 @@
       <div class="qe">Stop planning. Start doing.</div>
     </div>
     <div class="input-area ni">
-      <textarea id="goalInput" placeholder="你想做什么？比如：我想学 Python、我想开始健身、我想做一个副业项目..." rows="3" maxlength="200"></textarea>
+      <textarea id="goalInput" placeholder="你想做什么？比如：我想学 Python、我想开始健身、我想做一个个人游戏开发项目、我想做任何事..." rows="3" maxlength="200"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
+        <button id="creativeModeBtn" onclick="toggleCreativeMode()" style="padding:6px 14px;border-radius:20px;border:1px solid var(--b2);background:var(--bg2);color:var(--text2);font-size:.8rem;cursor:pointer;transition:all .2s;">🎮 创意模式</button>
+        <span id="creativeModeHint" style="font-size:.75rem;color:var(--text3);">开启后生成游戏化、趣味化的启动任务</span>
+      </div>
     </div>
     <div class="launch-row">
       <button class="btn-launch" id="launchBtn" onclick="handleLaunch()">
@@ -1135,7 +1139,17 @@ async function callAI(text, settings, signal) {
 6. 不要写"加油""相信自己""你可以的"这类话
 7. 诊断部分用口语化表达，可以说"说实话""其实""你有没有想过"
 8. 像一个既有智慧又有温度的朋友在跟你谈心
-9. 步骤描述要具体到用户一看就知道该打开什么、看什么、做什么`;
+9. 步骤描述要具体到用户一看就知道该打开什么、看什么、做什么` + (creativeMode ? `
+
+创意模式已开启！请用以下方式让启动任务更有趣：
+- 用游戏化的方式描述任务：把学习/行动比作"打怪升级"、"解锁成就"、"收集经验值"
+- 用比喻和类比：把抽象的任务变成具体的、有画面感的描述
+- 加入趣味元素：用"任务卡"、"成就徽章"、"隐藏关卡"等游戏元素包装步骤
+- 保持可执行性：虽然描述有趣，但每个步骤仍然要具体、可操作
+
+示例：
+- 普通模式："打开 Python 教程第 1 章，学习变量和数据类型"
+- 创意模式："🎮 新手村任务：打开 Python 教程第 1 章，收集你的第一个'变量'徽章。完成时间约 10 分钟，经验值 +50"` : '');
 
   const enriched = enrichInput(text);
 
@@ -1849,6 +1863,24 @@ function setModeUI(mode) {
     ruleBtn.className = 'nb accent';
     aiBtn.className = 'nb';
     aiPanel.style.display = 'none';
+  }
+}
+
+let creativeMode = false;
+function toggleCreativeMode() {
+  creativeMode = !creativeMode;
+  const btn = document.getElementById('creativeModeBtn');
+  const hint = document.getElementById('creativeModeHint');
+  if (creativeMode) {
+    btn.style.background = 'var(--accent)';
+    btn.style.color = '#fff';
+    btn.style.borderColor = 'var(--accent)';
+    hint.textContent = '✅ 创意模式已开启：游戏化、趣味化启动任务';
+  } else {
+    btn.style.background = 'var(--bg2)';
+    btn.style.color = 'var(--text2)';
+    btn.style.borderColor = 'var(--b2)';
+    hint.textContent = '开启后生成游戏化、趣味化的启动任务';
   }
 }
 
