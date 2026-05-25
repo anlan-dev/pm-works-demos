@@ -882,12 +882,36 @@
     </div>
 </div>
 
+<!-- AI 健康报告页面 -->
+<div id="page-ai-report" class="page">
+    <div class="card">
+        <h2>🤖 AI 健康周报</h2>
+        <p class="small-note">基于宠物健康数据（疫苗、驱虫、花费等）生成智能健康报告</p>
+        <div style="display:flex;gap:8px;margin:16px 0;flex-wrap:wrap;">
+            <select id="aiReportPetSelect" style="flex:1;min-width:150px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);">
+                <option value="">选择宠物</option>
+            </select>
+            <button class="btn primary" id="generateAiReportBtn">生成报告</button>
+        </div>
+        <div id="aiReportResult" style="display:none;">
+            <div class="card" style="background:var(--surface);border:1px solid var(--border);margin-top:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <h3 style="margin:0;" id="aiReportTitle">健康周报</h3>
+                    <button class="btn" id="copyAiReportBtn">📋 复制</button>
+                </div>
+                <div id="aiReportContent" style="font-size:.9rem;line-height:1.7;white-space:pre-wrap;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 底部导航栏 -->
 <div class="tab-bar">
     <div class="tab-item active" data-page="home"><span class="tab-icon">🏠</span><span>疫苗</span></div>
     <div class="tab-item" data-page="expense"><span class="tab-icon">💰</span><span>花费</span></div>
     <div class="tab-item" data-page="ocr"><span class="tab-icon">📷</span><span>OCR</span></div>
     <div class="tab-item" data-page="dashboard"><span class="tab-icon">📊</span><span>看板</span></div>
+    <div class="tab-item" data-page="ai-report"><span class="tab-icon">🤖</span><span>AI报告</span></div>
 </div>
 
 <!-- 右下角浮动快捷 +（新增） -->
@@ -3361,8 +3385,98 @@
             bindEvents();
             buildAvailableYears();
             updateBackupHealthBar();
+            initAiReport();
         }
         init();
+
+        function initAiReport() {
+            const petSelect = document.getElementById('aiReportPetSelect');
+            if (!petSelect) return;
+            state.pets.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name;
+                petSelect.appendChild(opt);
+            });
+            document.getElementById('generateAiReportBtn')?.addEventListener('click', () => {
+                const petId = petSelect.value;
+                if (!petId) return showToast('请先选择宠物');
+                const pet = state.pets.find(p => p.id === petId);
+                if (!pet) return;
+                const petVax = state.vaccines.filter(v => v.petId === petId);
+                const petDeworm = state.deworms.filter(d => d.petId === petId);
+                const petExpenses = state.expenses.filter(e => e.petId === petId);
+                const report = generateHealthReport(pet, petVax, petDeworm, petExpenses);
+                document.getElementById('aiReportTitle').textContent = `${pet.name} 的 AI 健康周报`;
+                document.getElementById('aiReportContent').textContent = report;
+                document.getElementById('aiReportResult').style.display = 'block';
+                showToast('报告已生成');
+            });
+            document.getElementById('copyAiReportBtn')?.addEventListener('click', () => {
+                const text = document.getElementById('aiReportContent').textContent;
+                navigator.clipboard?.writeText(text).then(() => showToast('已复制到剪贴板'));
+            });
+        }
+
+        function generateHealthReport(pet, vaccines, deworms, expenses) {
+            const now = new Date();
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const recentVax = vaccines.filter(v => new Date(v.date) >= weekAgo);
+            const recentDeworm = deworms.filter(d => new Date(d.date) >= weekAgo);
+            const recentExpenses = expenses.filter(e => new Date(e.date) >= weekAgo);
+            const totalExpense = recentExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+
+            let report = `📋 ${pet.name} 健康周报\n`;
+            report += `生成时间：${now.toLocaleDateString('zh-CN')}\n`;
+            report += `宠物品种：${pet.species || '未设置'} | 年龄：${pet.birthDate ? Math.floor((now - new Date(pet.birthDate)) / (365.25 * 24 * 60 * 60 * 1000)) + ' 岁' : '未设置'}\n\n`;
+
+            report += `💉 疫苗状态\n`;
+            if (vaccines.length === 0) {
+                report += `  暂无疫苗记录，建议尽快接种核心疫苗\n`;
+            } else {
+                const latestVax = vaccines.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                const daysSinceVax = Math.floor((now - new Date(latestVax.date)) / (24 * 60 * 60 * 1000));
+                report += `  最近接种：${latestVax.name}（${daysSinceVax} 天前）\n`;
+                if (daysSinceVax > 365) report += `  ⚠️ 距离上次接种已超过 1 年，建议加强免疫\n`;
+                if (recentVax.length > 0) report += `  本周新接种：${recentVax.length} 针\n`;
+            }
+
+            report += `\n🪱 驱虫状态\n`;
+            if (deworms.length === 0) {
+                report += `  暂无驱虫记录，建议每月定期驱虫\n`;
+            } else {
+                const latestDeworm = deworms.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                const daysSinceDeworm = Math.floor((now - new Date(latestDeworm.date)) / (24 * 60 * 60 * 1000));
+                report += `  最近驱虫：${daysSinceDeworm} 天前\n`;
+                if (daysSinceDeworm > 30) report += `  ⚠️ 距离上次驱虫已超过 1 个月，建议尽快驱虫\n`;
+                if (recentDeworm.length > 0) report += `  本周新记录：${recentDeworm.length} 次\n`;
+            }
+
+            report += `\n💰 花费分析\n`;
+            report += `  本周总花费：¥${totalExpense.toFixed(2)}\n`;
+            if (recentExpenses.length > 0) {
+                const categories = {};
+                recentExpenses.forEach(e => {
+                    categories[e.category || '其他'] = (categories[e.category || '其他'] || 0) + (e.amount || 0);
+                });
+                Object.entries(categories).sort((a, b) => b[1] - a[1]).forEach(([cat, amount]) => {
+                    report += `  - ${cat}：¥${amount.toFixed(2)}\n`;
+                });
+            }
+
+            report += `\n🏥 健康建议\n`;
+            const suggestions = [];
+            if (vaccines.length === 0) suggestions.push('尽快接种核心疫苗（犬瘟、细小、狂犬）');
+            if (deworms.length === 0) suggestions.push('建立每月驱虫习惯');
+            if (totalExpense > 500) suggestions.push('本周花费偏高，建议检查是否有异常支出');
+            if (suggestions.length === 0) suggestions.push('当前健康状态良好，继续保持定期体检');
+            suggestions.forEach((s, i) => report += `  ${i + 1}. ${s}\n`);
+
+            report += `\n📊 数据统计\n`;
+            report += `  疫苗记录：${vaccines.length} 条 | 驱虫记录：${deworms.length} 条 | 花费记录：${expenses.length} 条\n`;
+
+            return report;
+        }
     })();
 </script>
 </body>

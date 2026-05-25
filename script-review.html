@@ -1072,6 +1072,7 @@
                     <button class="btn-icon" id="addScriptBtn" title="新建剧本">➕</button>
                 </div>
                 <ul class="script-list" id="scriptListContainer"></ul>
+                <details class="sidebar-tools-panel" id="aiPlotPanel"><summary class="sidebar-tools-title">✨ AI 剧情生成</summary><div class="sidebar-tools-body"><div class="small-note" style="margin-bottom:8px;">根据剧本设定，AI 生成剧情走向、角色对白、场景描述</div><input type="text" id="aiPlotKeywordInput" placeholder="输入关键词（如：反转、告白）" style="width:100%; padding:6px 8px; margin-bottom:8px;"><div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;"><button class="btn-sm btn-primary" id="aiGenPlotBtn">📖 生成剧情</button><button class="btn-sm btn-primary" id="aiGenDialogueBtn">💬 生成对白</button><button class="btn-sm btn-primary" id="aiGenSceneBtn">🎬 生成场景</button></div><div id="aiPlotResult" style="display:none; background:var(--card-bg); border:1px solid var(--card-border); border-radius:10px; padding:10px; margin-top:8px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span style="font-weight:600; font-size:0.9rem;" id="aiPlotResultTitle">剧情结果</span><button class="btn-sm" id="aiCopyPlotBtn">📋 复制</button></div><div id="aiPlotResultContent" style="font-size:0.88rem; line-height:1.6; white-space:pre-wrap;"></div><button class="btn-sm" id="aiApplyToScriptBtn" style="margin-top:8px;">✏️ 应用到剧本</button></div></div></details>
                 <button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button>
                 <div class="auto-backup-toggle">
                     <input type="checkbox" id="autoBackupCheckbox">
@@ -2122,6 +2123,54 @@
                                 '无效的备份文件'); }
                         e.target.value = ''; };
                     reader.readAsText(f); });
+                const AI_PLOTS = {
+                    '反转':['第三幕揭露：一直帮助主角的导师其实是幕后黑手。但他的动机不是恶意——他是在用极端方式逼主角成长。当主角发现真相时，必须做出选择：是原谅还是复仇？','故事中段突然反转：主角发现自己的记忆被篡改了。那些他以为是童年回忆的画面，其实是实验植入的。真正的过去，比他想象的更加黑暗。','结局反转：观众以为主角牺牲了，但最后一个镜头显示他还活着——代价是他永远失去了某段记忆，而那段记忆恰好是关于他最爱的人。'],
+                    '告白':['雨夜的天台上，他终于说出了那句话。但她没有回答，只是把伞递给了他，转身走进了雨里。三个月后，他在她留下的书里发现了一张纸条：「我怕一开口就会哭，所以选择了沉默。其实我的回答，一直在那本书的第 137 页。」','她在他婚礼前一天找到了他。没有哭，没有闹，只是说了一句：「我来不是为了阻止你，只是想亲口告诉你——谢谢你教会我什么是爱。」然后她走了，留下一个信封，里面是她写给他的 365 封未寄出的信。','深夜的医院走廊，她握着他的手说：「我这辈子做过最勇敢的事，不是爱上你，而是在你离开后，依然相信爱情。」他没有说话，只是把她抱得更紧了。'],
+                    '冲突':['两个最好的朋友因为同一个项目产生了分歧。一个坚持理想主义，一个选择现实利益。他们的争吵从工作延伸到生活，最终在一次深夜的对话中爆发——但真正的冲突不是理念之争，而是他们都害怕失去对方。','家族聚会上，隐藏了三十年的秘密被意外揭开。所有人都看向那个「外人」，但真正崩溃的是一直以为自己是「自己人」的主角。','城市与乡村的冲突：她想留在城市发展，他想回乡守护祖传的茶园。这不是简单的异地恋——这是两种价值观的碰撞，没有对错，只有选择。'],
+                    '悬疑':['老城区连续发生失踪案，每个失踪者都收到过一封手写信。信的内容只有三个字：「找到我。」当侦探追查到最后一个失踪者时，发现他正坐在自己的办公室里，手里拿着一封信——收件人是侦探自己。','图书馆的古籍修复师发现，每隔十年就会有一本特定的书被人借走，然后在一个月后归还。书的内容没有变化，但每次归还时，书页间都会多出一张新的纸条。最新的纸条上写着：「你终于注意到我了。」','深夜的监控室里，保安发现一个从未见过的身影每天凌晨 3 点准时出现在大楼的第 13 层。但那层楼已经封闭了五年。当他决定亲自去查看时，电梯在第 13 层停了下来——门开了，里面站着另一个他。']
+                };
+                const AI_DIALOGUES = {
+                    '反转':['「你以为你在拯救世界？你不过是我计划中的一颗棋子。」\n「也许吧。但棋子也有自己的走法。」\n「……你什么时候知道的？」\n「从你第一次对我笑的时候。因为真正关心一个人，不会笑得那么完美。」','「为什么告诉我真相？」\n「因为你值得知道。」\n「那你为什么不阻止我？」\n「因为……也许这个错误，正是我犯过的最好的错误。」'],
+                    '告白':['「我喜欢你。」\n「我知道。」\n「……你不惊讶吗？」\n「你每次看我的时候，眼睛里都有星星。我只是在等你自己发现。」\n「那你呢？」\n「我？我的星星只为你一个人亮。」','「如果我明天就消失了，你会记得我吗？」\n「不会。」\n「……」\n「因为我不会让你消失。」','「我从来没告诉过你，其实我……」\n「我知道。」\n「你怎么知道？」\n「因为你每次撒谎都会摸耳朵。而你现在，两只耳朵都红了。」'],
+                    '冲突':['「你变了。」\n「不，是你从来没真正了解过我。」\n「我了解你比任何人都多！」\n「那你告诉我，我现在在想什么？」\n「……你在想，这个朋友还值不值得。」\n「错了。我在想，我们是怎么走到这一步的。」','「你为什么总是这样？」\n「哪样？」\n「明明在乎，却装作无所谓。」\n「因为……在乎太累了。」','「我们曾经是最好的朋友。」\n「曾经。」\n「还能回到过去吗？」\n「回不去了。但我们可以重新开始。」'],
+                    '悬疑':['「你在找什么？」\n「真相。」\n「真相有时候不是你想要的答案。」\n「但它是唯一的答案。」\n「如果我告诉你，真相会毁掉你呢？」\n「那也比活在谎言里强。」','「你知道我是谁吗？」\n「我知道你不是你以为的那个人。」\n「……你怎么发现的？」\n「因为你记得不该记得的事，却忘了应该知道的人。」','「别打开那扇门。」\n「为什么？」\n「因为门后面的东西，一旦看到就回不去了。」\n「我已经回不去了。」']
+                };
+                const AI_SCENES = {
+                    '反转':['废弃的实验室，仪器上的灰尘被突然亮起的屏幕照亮。全息投影缓缓展开，显示出一个所有人都以为已经死去的人的面孔。主角后退一步，撞翻了身后的椅子——椅子倒地的声音在空旷的房间里回荡，像是某种倒计时的开始。','暴雨中的山顶，闪电照亮了两个人的轮廓。一个人跪在地上，另一个人举着伞站在他面前。伞面上的雨水汇成细流，像是无声的眼泪。远处的城市灯火阑珊，但此刻，整个世界只剩下这两个人。'],
+                    '告白':['傍晚的海边栈道，夕阳把天空染成了橘红色。海风带着咸湿的气息，吹乱了她的头发。他伸手帮她把碎发别到耳后，手指在她脸颊上停留了一秒——那一秒，海浪声、海鸥声、远处孩子的笑声，全都消失了。','深夜的便利店，灯光惨白得有些刺眼。她坐在靠窗的位置，面前是一杯已经凉透的咖啡。他推门进来的时候，门铃叮咚响了一声。她抬头，他站在门口，雨水顺着发梢滴落，像是刚从某个遥远的地方跑来。'],
+                    '冲突':['老宅的堂屋，家族照片挂满了整面墙。饭桌上的菜已经凉了，没有人动筷。爷爷坐在主位上，手里攥着一封泛黄的信。所有人都看着那封信，但没有人敢先开口。窗外的蝉鸣一声接一声，像是某种倒计时。','城市天台的边缘，霓虹灯在远处闪烁。两个人背对背坐着，中间隔着一米的距离。风吹过来，把她的裙摆和他的衣角吹到了一起——但谁也没有回头。'],
+                    '悬疑':['凌晨三点的档案室，只有一盏台灯亮着。灰尘在光柱中缓缓飘落，像是某种无声的警告。主角翻开最后一份档案，发现照片上的人——是自己。但那张照片的拍摄日期，是二十年前。','迷雾中的老宅，每一扇门都通向不同的房间，但每个房间的布置都一模一样——同样的椅子，同样的镜子，同样的时钟。唯一不同的是，时钟上的时间：每个房间都慢了一分钟。当主角推开最后一扇门时，发现门后是一面镜子——镜子里的自己，正在微笑。']
+                };
+                function getAIPlotResult(type) {
+                    const kw = (document.getElementById('aiPlotKeywordInput').value || '').trim();
+                    const pools = { plot: AI_PLOTS, dialogue: AI_DIALOGUES, scene: AI_SCENES };
+                    const pool = pools[type];
+                    const key = Object.keys(pool).find(k => kw.includes(k)) || Object.keys(pool)[Math.floor(Math.random()*4)];
+                    const items = pool[key];
+                    const count = type === 'plot' ? 2 : 1;
+                    const shuffled = [...items].sort(() => Math.random() - 0.5);
+                    return shuffled.slice(0, count).join('\n\n');
+                }
+                function showAIPlotResult(type) {
+                    const titles = { plot: '📖 剧情走向', dialogue: '💬 角色对白', scene: '🎬 场景描述' };
+                    const result = getAIPlotResult(type);
+                    document.getElementById('aiPlotResultTitle').textContent = titles[type];
+                    document.getElementById('aiPlotResultContent').textContent = result;
+                    document.getElementById('aiPlotResult').style.display = 'block';
+                }
+                document.getElementById('aiGenPlotBtn')?.addEventListener('click', () => showAIPlotResult('plot'));
+                document.getElementById('aiGenDialogueBtn')?.addEventListener('click', () => showAIPlotResult('dialogue'));
+                document.getElementById('aiGenSceneBtn')?.addEventListener('click', () => showAIPlotResult('scene'));
+                document.getElementById('aiCopyPlotBtn')?.addEventListener('click', () => {
+                    const text = document.getElementById('aiPlotResultContent').textContent;
+                    navigator.clipboard?.writeText(text).then(() => showToast('已复制到剪贴板'));
+                });
+                document.getElementById('aiApplyToScriptBtn')?.addEventListener('click', () => {
+                    const text = document.getElementById('aiPlotResultContent').textContent;
+                    const ta = document.getElementById('scriptContent');
+                    if (ta) { ta.value += '\n\n' + text; ta.dispatchEvent(new Event('input')); showToast('已应用到剧本'); }
+                });
+
                 document.getElementById('openTagManagerBtn').addEventListener('click', () => {
                     let html = '';
                     globalTags.forEach(tag => {
