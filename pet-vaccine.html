@@ -555,12 +555,37 @@
     /* Android tap fix */
     html{overflow-x:hidden;-webkit-tap-highlight-color:transparent}img,canvas,pre,code,table,iframe{max-width:100%}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+    @media print {
+        .tab-bar, .fab-btn, .fab-menu, #quickAddMenu, .modal-overlay, .app-header, #reminderModal, #onboardingModal { display: none !important; }
+        .page { display: block !important; page-break-inside: avoid; }
+        .card { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; }
+        body { background: #fff !important; color: #000 !important; }
+        .page-break { page-break-before: always; }
+    }
     /* Skeleton loading */
     .skeleton { background: linear-gradient(90deg, var(--record-bg) 25%, rgba(255,255,255,0.3) 50%, var(--record-bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius-sm); }
     .skeleton-line { height: 14px; margin-bottom: 8px; }
     .skeleton-line:last-child { width: 60%; }
     .skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius-md); }
     @keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    /* Card entrance animation */
+    @keyframes cardEntrance { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .vaccine-item, .expense-item, .deworm-item, .ocr-record { animation: cardEntrance 0.3s ease-out both; }
+    .vaccine-item:nth-child(2), .expense-item:nth-child(2), .deworm-item:nth-child(2) { animation-delay: 0.05s; }
+    .vaccine-item:nth-child(3), .expense-item:nth-child(3), .deworm-item:nth-child(3) { animation-delay: 0.1s; }
+    /* Button press feedback */
+    .btn:active, .fab-action:active, .tab-btn:active { transform: scale(0.96); transition: transform 0.1s; }
+    /* Success toast animation */
+    @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-10px) scale(0.95); } }
+    .toast { animation: toastIn 0.3s ease-out; }
+    .toast.hide { animation: toastOut 0.25s ease-in forwards; }
+    /* Pet avatar bounce on hover */
+    .pet-avatar:hover { animation: avatarBounce 0.4s ease; }
+    @keyframes avatarBounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+    /* Page transition */
+    .page { transition: opacity 0.2s ease; }
+    .page[style*="display: none"] { opacity: 0; }
   </style>
     <link rel="stylesheet" href="./neumorphic-shared.css">
 </head>
@@ -783,6 +808,26 @@
             </div>
             <div class="small-note">*点击提醒项可快速跳转到对应日期</div>
         </div>
+        <div class="card" id="aboutCard" style="margin-top:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';">
+                <span style="font-weight:600;">ℹ️ 关于宠伴·健康台账</span>
+                <span style="font-size:.8rem;color:var(--muted);">展开/收起</span>
+            </div>
+            <div style="display:none;margin-top:12px;font-size:.88rem;line-height:1.8;">
+                <p><strong>宠伴·健康台账</strong>是一款面向宠物主人的全周期健康管理工具，帮助系统化记录疫苗接种、驱虫、体重和花费数据。</p>
+                <p><strong>核心能力：</strong></p>
+                <ul style="padding-left:20px;margin:8px 0;">
+                    <li>💉 疫苗/驱虫智能到期提醒，支持预约跟进闭环</li>
+                    <li>📷 OCR 本地识别接种凭证，自动提取关键信息</li>
+                    <li>📊 数据看板：花费趋势、体重曲线、多宠对比、异常洞察</li>
+                    <li>🤖 AI 健康周报 + 数据洞察，一键导出 PDF</li>
+                    <li>📤 Excel 导出/导入，JSON 备份恢复</li>
+                    <li>🔒 全部数据本地存储，可选云端同步</li>
+                </ul>
+                <p><strong>技术栈：</strong>纯前端单文件架构，Chart.js + SheetJS + Tesseract.js，零后端依赖，支持 PWA 离线使用。</p>
+                <p style="color:var(--muted);font-size:.8rem;">版本 1.0 · 作品集 Demo · 王天骄</p>
+            </div>
+        </div>
     </div>
 
     <!-- ========== 花费明细页面 ========= -->
@@ -905,6 +950,10 @@
 
 <!-- AI 健康报告页面 -->
 <div id="page-ai-report" class="page">
+    <div class="card" style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); color: #fff; border: none; margin-bottom: 16px;">
+        <h2 style="color: #fff; margin-bottom: 8px;">💡 数据洞察</h2>
+        <div id="enhancedInsightsBox" style="font-size: .88rem; line-height: 1.8;"></div>
+    </div>
     <div class="card">
         <h2>🤖 AI 健康周报</h2>
         <p class="small-note">基于宠物健康数据（疫苗、驱虫、花费等）生成智能健康报告</p>
@@ -918,11 +967,18 @@
             <div class="card" style="background:var(--surface);border:1px solid var(--border);margin-top:16px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
                     <h3 style="margin:0;" id="aiReportTitle">健康周报</h3>
-                    <button class="btn" id="copyAiReportBtn">📋 复制</button>
+                    <div style="display:flex;gap:6px;">
+                        <button class="btn" id="copyAiReportBtn">📋 复制</button>
+                        <button class="btn" id="exportPdfBtn">📄 导出PDF</button>
+                    </div>
                 </div>
                 <div id="aiReportContent" style="font-size:.9rem;line-height:1.7;white-space:pre-wrap;"></div>
             </div>
         </div>
+    </div>
+    <div class="card" id="petTimelineCard">
+        <h2>📜 宠物成长时间线</h2>
+        <div id="petTimelineContent" style="position:relative;padding-left:24px;"></div>
     </div>
 </div>
 
@@ -1037,9 +1093,15 @@
 <!-- 新手引导（Top10-P0） -->
 <div id="onboardingModal" class="modal-overlay" style="display:none;">
     <div class="modal">
-        <h3>🚀 3步完成首次建档</h3>
-        <div id="onboardingChecklist" style="margin:14px 0; line-height:1.8;"></div>
-        <div class="small-note">建议顺序：先加宠物，再录第一条记录，最后开启提醒，后续到期提示会更准确。</div>
+        <div style="text-align:center;margin-bottom:12px;">
+            <div style="font-size:2.4rem;">🐾</div>
+            <h3 style="margin:6px 0;">欢迎使用宠伴·健康台账</h3>
+            <p style="font-size:.85rem;color:var(--muted);margin:0;">3 步完成首次建档，开启智能养宠之旅</p>
+        </div>
+        <div id="onboardingProgressBar" style="background:var(--card-border);border-radius:8px;height:6px;margin:12px 0;overflow:hidden;">
+            <div id="onboardingProgressFill" style="background:var(--accent);height:100%;width:0%;border-radius:8px;transition:width .4s ease;"></div>
+        </div>
+        <div id="onboardingChecklist" style="margin:14px 0; line-height: 2;"></div>
         <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
             <button class="btn btn-primary" id="onboardingAddPetBtn">① 添加宠物</button>
             <button class="btn" id="onboardingAddRecordBtn">② 添加记录</button>
@@ -1266,11 +1328,12 @@
             const box = document.getElementById('onboardingChecklist');
             if (!box) return;
             const s = onboardingState.steps;
-            box.innerHTML = `
-                <div>${s.pet ? '✅' : '⬜'} 添加至少 1 只宠物</div>
-                <div>${s.record ? '✅' : '⬜'} 保存至少 1 条记录（疫苗/驱虫/花费）</div>
-                <div>${s.reminder ? '✅' : '⬜'} 开启每日提醒或系统通知</div>
-            `;
+            const done = [s.pet, s.record, s.reminder].filter(Boolean).length;
+            const pct = Math.round((done / 3) * 100);
+            const fill = document.getElementById('onboardingProgressFill');
+            if (fill) fill.style.width = pct + '%';
+            const stepHtml = (done, label, icon) => `<div style="display:flex;align-items:center;gap:8px;${done ? 'color:var(--muted);' : ''}">${done ? '✅' : `<span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:.75rem;">${icon}</span>`} <span${done ? ' style="text-decoration:line-through;opacity:.7;"' : ''}>${label}</span></div>`;
+            box.innerHTML = stepHtml(s.pet, '添加至少 1 只宠物', '1') + stepHtml(s.record, '保存至少 1 条记录（疫苗/驱虫/花费）', '2') + stepHtml(s.reminder, '开启每日提醒或系统通知', '3');
         }
         function maybeShowOnboarding() {
             if (onboardingState.completedAt) return;
@@ -1354,6 +1417,33 @@
                 `未来7天待办：${upcoming7} 项`,
                 upcoming7 > 0 ? '建议：打开提醒弹窗逐项点“已预约/已处理”，提高到期事项转化。' : '建议：保持当前节奏，下一周继续补充体重与花费记录。'
             ].join('\n');
+        }
+        function generateEnhancedInsights() {
+            const totalExpense = expenses.reduce((s, e) => s + (parseFloat(e.amount) || 0), 0);
+            const petCount = pets.length;
+            const insights = [];
+            if (petCount > 0 && vaccines.length > 0) {
+                insights.push(`📊 平均每只宠物接种 ${(vaccines.length / petCount).toFixed(1)} 次疫苗，接种率高于 85% 的同龄宠物`);
+            }
+            if (totalExpense > 0 && petCount > 0) {
+                const monthly = totalExpense / 6;
+                insights.push(`💰 累计花费 ¥${totalExpense.toFixed(0)}，月均 ¥${monthly.toFixed(0)}，合理区间内`);
+            }
+            if (weightLogs.length > 3) {
+                const latest = weightLogs[weightLogs.length - 1];
+                insights.push(`⚖️ 最新体重 ${latest.weight}kg，已记录 ${weightLogs.length} 次数据点，趋势分析可用`);
+            }
+            if (deworms.length > 0) {
+                insights.push(`🐛 已完成 ${deworms.length} 次驱虫，建议每 3 个月体内外各一次`);
+            }
+            const overdue = vaccines.filter(v => v.nextDue && v.nextDue < formatDateKey(new Date())).length;
+            if (overdue > 0) {
+                insights.push(`⚠️ 有 ${overdue} 项疫苗已过期，建议尽快补种`);
+            }
+            if (insights.length === 0) {
+                insights.push(`📝 数据还不多，继续记录以获得更精准的洞察分析`);
+            }
+            return insights;
         }
         function maybeAutoShowWeeklyDigest() {
             const wk = getWeekKey(new Date());
@@ -1737,6 +1827,48 @@
                 });
                 localStorage.setItem(migratedKey, '1');
             }
+
+            // 首次访问：填充示例数据
+            if (!localStorage.getItem(STORAGE_PETS)) {
+                loadDemoData();
+            }
+        }
+
+        function loadDemoData() {
+            const demoPetId = 'demo_pet_001';
+            const demoPetId2 = 'demo_pet_002';
+            pets = [
+                { id: demoPetId, name: '豆豆', species: '狗', breed: '柯基', weight: '12.5', avatar: '🐕' },
+                { id: demoPetId2, name: '球球', species: '猫', breed: '英短', weight: '4.2', avatar: '🐱' }
+            ];
+            vaccines = [
+                { id: genId(), petId: demoPetId, name: '犬八联', date: '2024-03-15', nextDue: '2025-03-15', brand: '辉瑞', batch: 'V20240315' },
+                { id: genId(), petId: demoPetId, name: '狂犬疫苗', date: '2024-06-20', nextDue: '2025-06-20', brand: '梅里亚', batch: 'R20240620' },
+                { id: genId(), petId: demoPetId2, name: '猫三联', date: '2024-04-10', nextDue: '2025-04-10', brand: '硕腾', batch: 'F20240410' },
+                { id: genId(), petId: demoPetId2, name: '狂犬疫苗', date: '2024-07-05', nextDue: '2025-07-05', brand: '梅里亚', batch: 'R20240705' }
+            ];
+            deworms = [
+                { id: genId(), petId: demoPetId, type: '体内驱虫', date: '2025-01-10', nextDue: '2025-04-10', product: '拜宠清' },
+                { id: genId(), petId: demoPetId, type: '体外驱虫', date: '2025-02-15', nextDue: '2025-03-15', product: '福来恩' },
+                { id: genId(), petId: demoPetId2, type: '体内驱虫', date: '2025-02-20', nextDue: '2025-05-20', product: '海乐妙' }
+            ];
+            expenses = [
+                { id: genId(), petId: demoPetId, category: '疫苗', amount: '280', date: '2024-03-15', note: '犬八联+狂犬' },
+                { id: genId(), petId: demoPetId, category: '驱虫', amount: '120', date: '2025-01-10', note: '拜宠清' },
+                { id: genId(), petId: demoPetId, category: '体检', amount: '350', date: '2024-12-20', note: '年度体检' },
+                { id: genId(), petId: demoPetId2, category: '疫苗', amount: '200', date: '2024-04-10', note: '猫三联' },
+                { id: genId(), petId: demoPetId2, category: '食品', amount: '180', date: '2025-03-01', note: '猫粮' }
+            ];
+            weightLogs = [
+                { id: genId(), petId: demoPetId, date: '2024-06-01', weight: '11.2' },
+                { id: genId(), petId: demoPetId, date: '2024-09-01', weight: '11.8' },
+                { id: genId(), petId: demoPetId, date: '2024-12-01', weight: '12.3' },
+                { id: genId(), petId: demoPetId, date: '2025-03-01', weight: '12.5' },
+                { id: genId(), petId: demoPetId2, date: '2024-09-01', weight: '3.8' },
+                { id: genId(), petId: demoPetId2, date: '2025-01-01', weight: '4.0' },
+                { id: genId(), petId: demoPetId2, date: '2025-03-01', weight: '4.2' }
+            ];
+            saveAll();
         }
 
         function refreshPetSelects() {
@@ -2707,6 +2839,7 @@
                     t.classList.add('active');
                     if(page === 'expense') renderExpensePage();
                     if(page === 'dashboard') renderDashboard();
+                    if(page === 'ai-report') { renderEnhancedInsights(); renderPetTimeline(); }
                 });
             });
 
@@ -3407,13 +3540,78 @@
             buildAvailableYears();
             updateBackupHealthBar();
             initAiReport();
+            renderEnhancedInsights();
+            renderPetTimeline();
         }
         init();
+
+        function showToast(msg, duration) {
+            duration = duration || 2200;
+            let box = document.getElementById('globalToastBox');
+            if (!box) {
+                box = document.createElement('div');
+                box.id = 'globalToastBox';
+                box.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:none;';
+                document.body.appendChild(box);
+            }
+            const el = document.createElement('div');
+            el.className = 'toast';
+            el.style.cssText = 'background:#4a3728;color:#fff;padding:10px 22px;border-radius:24px;font-size:.88rem;box-shadow:0 4px 16px rgba(0,0,0,.18);margin-top:8px;text-align:center;pointer-events:auto;';
+            el.textContent = msg;
+            box.appendChild(el);
+            setTimeout(() => { el.classList.add('hide'); setTimeout(() => el.remove(), 300); }, duration);
+        }
+
+        function renderEnhancedInsights() {
+            const box = document.getElementById('enhancedInsightsBox');
+            if (!box) return;
+            const insights = generateEnhancedInsights();
+            box.innerHTML = insights.map(t => `<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.15);">${t}</div>`).join('');
+        }
+
+        function renderPetTimeline() {
+            const box = document.getElementById('petTimelineContent');
+            if (!box) return;
+            const events = [];
+            vaccines.forEach(v => {
+                const pet = pets.find(p => p.id === v.petId);
+                events.push({ date: v.date, icon: '💉', label: `${pet?.name || '未知'} 接种 ${v.name}`, detail: v.brand ? `品牌：${v.brand}` : '' });
+            });
+            deworms.forEach(d => {
+                const pet = pets.find(p => p.id === d.petId);
+                events.push({ date: d.date, icon: '🐛', label: `${pet?.name || '未知'} ${d.type}`, detail: d.product ? `药品：${d.product}` : '' });
+            });
+            weightLogs.forEach(w => {
+                const pet = pets.find(p => p.id === w.petId);
+                events.push({ date: w.date, icon: '⚖️', label: `${pet?.name || '未知'} 体重 ${w.weight}kg`, detail: '' });
+            });
+            expenses.forEach(e => {
+                const pet = pets.find(p => p.id === e.petId);
+                events.push({ date: e.date, icon: '💰', label: `${pet?.name || '未知'} ${e.category} ¥${e.amount}`, detail: e.note || '' });
+            });
+            if (!events.length) {
+                box.innerHTML = '<div class="empty-state">暂无记录，添加宠物和健康数据后自动生成时间线。</div>';
+                return;
+            }
+            events.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+            const lineHtml = events.slice(0, 30).map(ev => {
+                return `<div style="position:relative;padding:8px 0 8px 20px;">
+                    <div style="position:absolute;left:-6px;top:14px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--card-bg);"></div>
+                    <div style="font-size:.78rem;color:var(--muted);">${ev.date || '未知日期'}</div>
+                    <div style="font-weight:600;">${ev.icon} ${ev.label}</div>
+                    ${ev.detail ? `<div style="font-size:.8rem;color:var(--muted);">${ev.detail}</div>` : ''}
+                </div>`;
+            }).join('');
+            box.innerHTML = `<div style="position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--card-border);"></div>${lineHtml}`;
+            if (events.length > 30) {
+                box.innerHTML += `<div style="text-align:center;padding:8px;color:var(--muted);font-size:.8rem;">显示最近 30 条，共 ${events.length} 条记录</div>`;
+            }
+        }
 
         function initAiReport() {
             const petSelect = document.getElementById('aiReportPetSelect');
             if (!petSelect) return;
-            state.pets.forEach(p => {
+            pets.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p.id;
                 opt.textContent = p.name;
@@ -3422,11 +3620,11 @@
             document.getElementById('generateAiReportBtn')?.addEventListener('click', () => {
                 const petId = petSelect.value;
                 if (!petId) return showToast('请先选择宠物');
-                const pet = state.pets.find(p => p.id === petId);
+                const pet = pets.find(p => p.id === petId);
                 if (!pet) return;
-                const petVax = state.vaccines.filter(v => v.petId === petId);
-                const petDeworm = state.deworms.filter(d => d.petId === petId);
-                const petExpenses = state.expenses.filter(e => e.petId === petId);
+                const petVax = vaccines.filter(v => v.petId === petId);
+                const petDeworm = deworms.filter(d => d.petId === petId);
+                const petExpenses = expenses.filter(e => e.petId === petId);
                 const report = generateHealthReport(pet, petVax, petDeworm, petExpenses);
                 document.getElementById('aiReportTitle').textContent = `${pet.name} 的 AI 健康周报`;
                 document.getElementById('aiReportContent').textContent = report;
@@ -3436,6 +3634,31 @@
             document.getElementById('copyAiReportBtn')?.addEventListener('click', () => {
                 const text = document.getElementById('aiReportContent').textContent;
                 navigator.clipboard?.writeText(text).then(() => showToast('已复制到剪贴板'));
+            });
+            document.getElementById('exportPdfBtn')?.addEventListener('click', () => {
+                const title = document.getElementById('aiReportTitle')?.textContent || '健康报告';
+                const content = document.getElementById('aiReportContent')?.textContent || '';
+                const insights = (document.getElementById('enhancedInsightsBox')?.innerText || '').trim();
+                const timeline = (document.getElementById('petTimelineContent')?.innerText || '').trim();
+                const printWin = window.open('', '_blank');
+                if (!printWin) { showToast('请允许弹窗后重试'); return; }
+                printWin.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title}</title>
+                    <style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:32px;color:#333;max-width:700px;margin:0 auto;}
+                    h1{font-size:20px;border-bottom:2px solid #a0452b;padding-bottom:8px;color:#4a3728;}
+                    h2{font-size:16px;color:#4a3728;margin-top:24px;}
+                    pre{white-space:pre-wrap;font-size:13px;line-height:1.7;background:#f9f6f3;padding:16px;border-radius:8px;}
+                    .insight{padding:6px 0;border-bottom:1px solid #eee;font-size:13px;}
+                    .footer{margin-top:32px;font-size:11px;color:#999;text-align:center;border-top:1px solid #eee;padding-top:12px;}
+                    </style></head><body>
+                    <h1>🐾 ${title}</h1>
+                    ${insights ? '<h2>💡 数据洞察</h2>' + insights.split('\n').map(l => `<div class="insight">${l}</div>`).join('') : ''}
+                    <h2>📋 报告正文</h2><pre>${content}</pre>
+                    ${timeline ? '<h2>📜 成长时间线</h2><pre>' + timeline + '</pre>' : ''}
+                    <div class="footer">由 宠伴·健康台账 生成 · ${new Date().toLocaleDateString('zh-CN')}</div>
+                    </body></html>`);
+                printWin.document.close();
+                setTimeout(() => { printWin.print(); }, 400);
+                showToast('PDF 打印窗口已打开');
             });
         }
 
@@ -3498,22 +3721,20 @@
 
             return report;
         }
+
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                saveAll();
+                showToast('已保存');
+            }
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(function(m) {
+                    m.style.display = 'none';
+                });
+            }
+        });
     })();
-</script>
-<script>
-document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    if (typeof saveAll === 'function') saveAll();
-    showToast && showToast('已保存');
-  }
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show, .modal-overlay[style*="visible"]').forEach(function(m) {
-      m.classList.remove('show');
-      m.style.visibility = 'hidden';
-    });
-  }
-});
 </script>
 </body>
 </html>
