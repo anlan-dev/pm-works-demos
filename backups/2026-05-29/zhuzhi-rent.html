@@ -4,23 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>住值 · 租房生命成本计算器</title>
-  <meta name="description" content="住值 · 租房生命成本计算器 — 贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。">
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="住值 · 租房生命成本计算器">
-  <meta property="og:description" content="贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。">
-  <meta property="og:site_name" content="王天娇作品集">
-  <meta property="og:locale" content="zh_CN">
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="住值 · 租房生命成本计算器">
-  <meta name="twitter:description" content="贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏡</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap");
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -1370,23 +1358,16 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
   right: max(16px, calc(env(safe-area-inset-right, 0px) + 8px));
   bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 8px));
 }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
-/* Skeleton loading */
-.skeleton { background: linear-gradient(90deg, var(--card-bg) 25%, rgba(255,255,255,0.3) 50%, var(--card-bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius-sm); }
-.skeleton-line { height: 14px; margin-bottom: 8px; }
-.skeleton-line:last-child { width: 60%; }
-.skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius-md); }
-@keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="top-bar">
     <h1>🏡 住值 <span class="brand-en">LiveWorth</span></h1>
-    <div class="theme-dots" role="radiogroup" aria-label="主题切换">
-      <div class="theme-dot t-light active" data-theme="" title="浅色" role="radio" aria-checked="true" aria-label="浅色主题" tabindex="0"></div>
-      <div class="theme-dot t-dark" data-theme="dark" title="暗色" role="radio" aria-checked="false" aria-label="暗色主题" tabindex="-1"></div>
-      <div class="theme-dot t-ink" data-theme="ink" title="墨水屏" role="radio" aria-checked="false" aria-label="墨水屏主题" tabindex="-1"></div>
+    <div class="theme-dots">
+      <div class="theme-dot t-light active" data-theme="" title="浅色"></div>
+      <div class="theme-dot t-dark" data-theme="dark" title="暗色"></div>
+      <div class="theme-dot t-ink" data-theme="ink" title="墨水屏"></div>
     </div>
   </div>
   <div class="subtitle">把时间和健康算进房租里 · 看看你真正赚了多少</div>
@@ -1516,9 +1497,9 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
       <div class="hint-text">* 工作天数/时长默认使用价值观设定，可单独修改</div>
     </div>
 
-    <div class="sort-bar" id="sortBar" role="toolbar" aria-label="方案排序">
+    <div class="sort-bar" id="sortBar">
       <span style="font-size:0.82rem; color:var(--muted);">排序：</span>
-      <button class="sort-btn active" data-sort="default" aria-pressed="true">默认</button>
+      <button class="sort-btn active" data-sort="default">默认</button>
       <button class="sort-btn" data-sort="net-desc">净收益↓</button>
       <button class="sort-btn" data-sort="rent-asc">房租↑</button>
       <button class="sort-btn" data-sort="commute-asc">通勤↓</button>
@@ -1547,7 +1528,7 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
 </div>
 
 <!-- 帮助按钮 -->
-<button class="help-btn" id="helpBtn" title="使用引导" aria-label="使用引导">?</button>
+<button class="help-btn" id="helpBtn" title="使用引导">?</button>
 
 <!-- 首次引导弹窗 -->
 <div class="onboard-overlay" id="onboardModal">
@@ -1581,7 +1562,7 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
 </div>
 
 <!-- AI 设置 FAB -->
-<button class="settings-fab" id="settingsFab" title="AI 设置" aria-label="AI 设置">⚙️</button>
+<button class="settings-fab" id="settingsFab" title="AI 设置">⚙️</button>
 
 <!-- AI 设置弹窗 -->
 <div class="modal-overlay" id="settingsModal">
@@ -1660,7 +1641,6 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
       if (sp) plans = JSON.parse(sp);
       var st = localStorage.getItem(LS_KEY_THEME);
       if (st !== null) { document.body.setAttribute('data-theme', st); syncThemeDots(st); }
-      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { document.body.setAttribute('data-theme', 'dark'); syncThemeDots('dark'); }
     } catch(e) {}
   }
   function saveValues() { try { localStorage.setItem(LS_KEY_VALUES, JSON.stringify(personalValues)); } catch(e) {} }
@@ -2357,26 +2337,6 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
     }
   });
 })();
-</script>
-<script>
-document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    if (typeof savePlans === 'function') savePlans();
-    if (typeof saveValues === 'function') saveValues();
-  }
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show, .modal-overlay[style*="visible"]').forEach(function(m) {
-      m.classList.remove('show');
-      m.style.visibility = 'hidden';
-    });
-  }
-});
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./demo-sw.js').catch(function() {});
-}
 </script>
 </body>
 </html>

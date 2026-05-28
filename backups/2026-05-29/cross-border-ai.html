@@ -4,17 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>🌍 GlobalFUN · 全球好物跨境拼团</title>
-    <meta name="description" content="GlobalFUN — AI 智能推荐跨境拼团平台，多语言切换、实时汇率、拼团下单全流程体验。">
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="GlobalFUN · 全球好物跨境拼团">
-    <meta property="og:description" content="AI 智能推荐跨境拼团平台，多语言切换、实时汇率、拼团下单全流程体验。">
-    <meta property="og:site_name" content="王天娇作品集">
-    <meta property="og:locale" content="zh_CN">
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="GlobalFUN · 全球好物跨境拼团">
-    <meta name="twitter:description" content="AI 智能推荐跨境拼团平台，多语言切换、实时汇率、拼团下单全流程体验。">
     <link rel="stylesheet" href="./neumorphic-shared.css">
     <style>
         :root {
@@ -1572,13 +1561,6 @@ body {
     }
 }
 
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
-/* Skeleton loading */
-.skeleton { background: linear-gradient(90deg, var(--bg) 25%, rgba(255,255,255,0.3) 50%, var(--bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius); }
-.skeleton-line { height: 14px; margin-bottom: 8px; }
-.skeleton-line:last-child { width: 60%; }
-.skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius); }
-@keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>
 </head>
 <body>
@@ -1597,7 +1579,7 @@ body {
             </div>
         </div>
         <div class="top-actions">
-            <button class="lang-switch" id="langToggle" aria-label="切换语言">🇨🇳 中文</button>
+            <button class="lang-switch" id="langToggle">🇨🇳 中文</button>
             <span class="currency-badge" id="currencyDisplay">¥ CNY</span>
         </div>
     </div>
@@ -1611,7 +1593,7 @@ body {
                 <span class="user-tag" id="userTagDisplay">游客</span>
             </div>
         </div>
-        <button class="toggle-login" id="toggleLoginBtn" aria-label="登录/登出">登录</button>
+        <button class="toggle-login" id="toggleLoginBtn">登录</button>
     </div>
 
     <!-- ====== AI 智能推荐卡片（嵌入式） ====== -->
@@ -2142,12 +2124,12 @@ body {
 </div></div>
 
 <!-- ====== AI Agent 浮窗 ====== -->
-<button class="ai-agent-fab" id="aiFab" aria-label="打开 AI 导购助手" style="position:fixed;bottom:30px;right:20px;width:60px;height:60px;border:none;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:5000;cursor:pointer;">
+<button class="ai-agent-fab" id="aiFab" style="position:fixed;bottom:30px;right:20px;width:60px;height:60px;border:none;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:5000;cursor:pointer;">
     🤖
 </button>
 
 <!-- ====== AI 对话面板 ====== -->
-<div class="ai-chat-overlay" id="aiChatOverlay" role="dialog" aria-label="AI 导购对话" aria-modal="true" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:4999;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;opacity:0;transition:opacity 0.25s;">
+<div class="ai-chat-overlay" id="aiChatOverlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:4999;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;opacity:0;transition:opacity 0.25s;">
     <div class="ai-chat-panel" style="width:100%;max-width:430px;max-height:80vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);">
         <div style="padding:16px 20px 8px;">
             <div style="display:flex;align-items:center;margin-bottom:12px;">
@@ -2156,7 +2138,7 @@ body {
                     <div style="font-weight:700;font-size:17px;">Globy · AI 导购</div>
                     <div style="font-size:12px;color:#16a34a;">在线 · MCP 已连接</div>
                 </div>
-                <button style="background:none;border:none;font-size:24px;color:#94a3b8;cursor:pointer;" id="aiChatClose" aria-label="关闭 AI 对话">✕</button>
+                <button style="background:none;border:none;font-size:24px;color:#94a3b8;cursor:pointer;" id="aiChatClose">✕</button>
             </div>
             
             <!-- ProgressCompiler 上下文状态 -->
@@ -3239,26 +3221,6 @@ body {
 
         // Remove old pay modal events (they are overwritten by order flow)
         // The old pay modal is still in DOM but won't be triggered
-</script>
-<script>
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    var aiOverlay = document.getElementById('aiChatOverlay');
-    if (aiOverlay && aiOverlay.style.visibility === 'visible') {
-      aiOverlay.style.visibility = 'hidden';
-      aiOverlay.style.opacity = '0';
-    }
-    document.querySelectorAll('.modal-overlay.show, .modal-overlay[style*="visible"]').forEach(function(m) {
-      m.classList.remove('show');
-      m.style.visibility = 'hidden';
-    });
-  }
-});
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./demo-sw.js').catch(function() {});
-}
 </script>
 </body>
 </html>

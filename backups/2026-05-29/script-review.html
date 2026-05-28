@@ -4,17 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>剧本·进度复盘 · 完整功能版</title>
-    <meta name="description" content="剧本·进度复盘 — 长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。">
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="剧本·进度复盘">
-    <meta property="og:description" content="长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。">
-    <meta property="og:site_name" content="王天娇作品集">
-    <meta property="og:locale" content="zh_CN">
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="剧本·进度复盘">
-    <meta name="twitter:description" content="长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。">
     <style>
         * {
             box-sizing: border-box;
@@ -1025,13 +1014,6 @@
         .kanban-card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
         .kanban-card-tags .tag { font-size: 0.6rem; padding: 1px 6px; }
         .kanban-empty { text-align: center; color: var(--text-muted); font-style: italic; font-size: 0.8rem; padding: 20px 0; }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
-        /* Skeleton loading */
-        .skeleton { background: linear-gradient(90deg, var(--card-bg) 25%, rgba(255,255,255,0.3) 50%, var(--card-bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius-sm); }
-        .skeleton-line { height: 14px; margin-bottom: 8px; }
-        .skeleton-line:last-child { width: 60%; }
-        .skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius-md); }
-        @keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
     <link rel="stylesheet" href="./dev-flow.css">
     <link rel="stylesheet" href="./neumorphic-shared.css">
@@ -2320,7 +2302,7 @@
                     localStorage.setItem('script_theme', t);
                 };
                 btns.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.theme)));
-                const saved = localStorage.getItem('script_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default');
+                const saved = localStorage.getItem('script_theme') || 'default';
                 if (localStorage.getItem('script_elder_mode') === '1') document.body.classList.add('elder-mode');
                 applyTheme(saved);
                 const elderBtn = document.getElementById('elderModeBtn');
@@ -2424,24 +2406,5 @@
             init();
         })();
     </script>
-<script>
-document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    if (typeof saveData === 'function') saveData();
-  }
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show, .modal-overlay[style*="visible"]').forEach(function(m) {
-      m.classList.remove('show');
-      m.style.visibility = 'hidden';
-    });
-  }
-});
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./demo-sw.js').catch(function() {});
-}
-</script>
 </body>
 </html>

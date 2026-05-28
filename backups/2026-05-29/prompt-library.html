@@ -7,16 +7,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Prompt Library · Vibe Coding 工作台</title>
   <meta name="description" content="产品经理视角的 Vibe Coding Prompt 库 — 从 PRD 生成到 UI 批判，持续维护。">
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Prompt Library · Vibe Coding 工作台">
-  <meta property="og:description" content="产品经理视角的 Vibe Coding Prompt 库 — 从 PRD 生成到 UI 批判，持续维护。">
-  <meta property="og:site_name" content="王天娇作品集">
-  <meta property="og:locale" content="zh_CN">
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Prompt Library · Vibe Coding 工作台">
-  <meta name="twitter:description" content="产品经理视角的 Vibe Coding Prompt 库 — 从 PRD 生成到 UI 批判，持续维护。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -159,13 +149,6 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
 .footer-badge{
   padding-bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 16px));
 }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
-/* Skeleton loading */
-.skeleton { background: linear-gradient(90deg, var(--bg) 25%, rgba(255,255,255,0.3) 50%, var(--bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius); }
-.skeleton-line { height: 14px; margin-bottom: 8px; }
-.skeleton-line:last-child { width: 60%; }
-.skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius); }
-@keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>
   <link rel="stylesheet" href="./dev-flow.css">
   <link rel="stylesheet" href="./neumorphic-shared.css">
@@ -1127,26 +1110,11 @@ render('all');
 
 (function(){
   var sel=document.getElementById('themeSel');
-  var saved=localStorage.getItem('promptlib_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'');
+  var saved=localStorage.getItem('promptlib_theme')||'';
   function apply(t){if(t==='dark')document.body.setAttribute('data-theme','dark');else if(t==='ink')document.body.setAttribute('data-theme','ink');else document.body.removeAttribute('data-theme');sel.value=t;}
   apply(saved);
   sel.addEventListener('change',function(){localStorage.setItem('promptlib_theme',this.value);apply(this.value);});
 })();
-</script>
-<script>
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show, .modal-overlay[style*="visible"]').forEach(function(m) {
-      m.classList.remove('show');
-      m.style.visibility = 'hidden';
-    });
-  }
-});
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./demo-sw.js').catch(function() {});
-}
 </script>
 </body>
 </html>

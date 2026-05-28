@@ -7,16 +7,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>COLD START · 冷启动行动引擎</title>
   <meta name="description" content="冷启动 · 拖延行动引擎 — 别想了，开始。把拖延变成可执行的第一步。">
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="COLD START · 冷启动行动引擎">
-  <meta property="og:description" content="别想了，开始。把拖延变成可执行的第一步。">
-  <meta property="og:site_name" content="王天娇作品集">
-  <meta property="og:locale" content="zh_CN">
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="COLD START · 冷启动行动引擎">
-  <meta name="twitter:description" content="别想了，开始。把拖延变成可执行的第一步。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -545,13 +535,6 @@
   .theme-sel{background:var(--bg);color:var(--text);border:1px solid var(--text3);border-radius:12px;padding:4px 8px;font-size:.72rem;font-family:inherit;cursor:pointer;-webkit-appearance:none}
   
 html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}img,canvas,pre,code,table,iframe{max-width:100%}
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
-/* Skeleton loading */
-.skeleton { background: linear-gradient(90deg, var(--bg) 25%, rgba(255,255,255,0.3) 50%, var(--bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius); }
-.skeleton-line { height: 14px; margin-bottom: 8px; }
-.skeleton-line:last-child { width: 60%; }
-.skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius); }
-@keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 </style>
   <link rel="stylesheet" href="./dev-flow.css">
   <link rel="stylesheet" href="./neumorphic-shared.css">
@@ -2465,7 +2448,7 @@ setTimeout(() => {
 // Theme toggle
 (function(){
   var sel=document.getElementById('themeSel');
-  var saved=localStorage.getItem('coldstart_theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'');
+  var saved=localStorage.getItem('coldstart_theme')||'';
   function apply(t){if(t==='dark')document.body.setAttribute('data-theme','dark');else if(t==='ink')document.body.setAttribute('data-theme','ink');else document.body.removeAttribute('data-theme');sel.value=t;}
   apply(saved);
   sel.addEventListener('change',function(){localStorage.setItem('coldstart_theme',this.value);apply(this.value);});
@@ -2479,24 +2462,5 @@ setTimeout(() => {
   <span>持续迭代中</span>
   <a href="mailto:Wangtj0212@outlook.com">Wangtj0212@outlook.com</a>
 </div>
-<script>
-document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    if (typeof saveSettings === 'function') { saveSettings(); }
-  }
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal.show, .modal[style*="block"]').forEach(function(m) {
-      m.classList.remove('show');
-      m.style.display = 'none';
-    });
-  }
-});
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./demo-sw.js').catch(function() {});
-}
-</script>
 </body>
 </html>

@@ -4,17 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>宠伴·健康台账 — 养宠全周期档案</title>
-    <meta name="description" content="宠伴·健康台账 — 养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。">
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="宠伴·健康台账 — 养宠全周期档案">
-    <meta property="og:description" content="养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。">
-    <meta property="og:site_name" content="王天娇作品集">
-    <meta property="og:locale" content="zh_CN">
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="宠伴·健康台账 — 养宠全周期档案">
-    <meta name="twitter:description" content="养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。">
     <link rel="stylesheet" href="./dev-flow.css">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.svg">
@@ -554,13 +543,6 @@
     
     /* Android tap fix */
     html{overflow-x:hidden;-webkit-tap-highlight-color:transparent}img,canvas,pre,code,table,iframe{max-width:100%}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
-    /* Skeleton loading */
-    .skeleton { background: linear-gradient(90deg, var(--record-bg) 25%, rgba(255,255,255,0.3) 50%, var(--record-bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius-sm); }
-    .skeleton-line { height: 14px; margin-bottom: 8px; }
-    .skeleton-line:last-child { width: 60%; }
-    .skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius-md); }
-    @keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   </style>
     <link rel="stylesheet" href="./neumorphic-shared.css">
 </head>
@@ -3293,7 +3275,7 @@
 
         async function init() {
             // 主题（尽早应用，避免闪烁）
-            applyTheme(localStorage.getItem(STORAGE_THEME) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'warm'));
+            applyTheme(localStorage.getItem(STORAGE_THEME) || 'warm');
             applyAccessibilityMode(localStorage.getItem(STORAGE_A11Y_MODE) || 'normal');
             onboardingState = {
                 startedAt: '',
@@ -3499,21 +3481,6 @@
             return report;
         }
     })();
-</script>
-<script>
-document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    if (typeof saveAll === 'function') saveAll();
-    showToast && showToast('已保存');
-  }
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show, .modal-overlay[style*="visible"]').forEach(function(m) {
-      m.classList.remove('show');
-      m.style.visibility = 'hidden';
-    });
-  }
-});
 </script>
 </body>
 </html>

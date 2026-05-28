@@ -4,17 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>会议·反刍舱｜AI 复盘 & 行动管理 · 完整版</title>
-    <meta name="description" content="会议·反刍舱 — AI 驱动的会议复盘工具，语音转录、行动项提取、历史反刍、待办管理一站式完成。">
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="会议·反刍舱｜AI 复盘 & 行动管理">
-    <meta property="og:description" content="AI 驱动的会议复盘工具，语音转录、行动项提取、历史反刍、待办管理一站式完成。">
-    <meta property="og:site_name" content="王天娇作品集">
-    <meta property="og:locale" content="zh_CN">
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="会议·反刍舱｜AI 复盘 & 行动管理">
-    <meta name="twitter:description" content="AI 驱动的会议复盘工具，语音转录、行动项提取、历史反刍、待办管理一站式完成。">
     <style>
         /* ===== 基础变量与主题 ===== */
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, sans-serif; transition: background-color 0.2s ease, border-color 0.2s; }
@@ -672,13 +661,6 @@
     
     /* Android tap fix */
     html{overflow-x:hidden;-webkit-tap-highlight-color:transparent}img,canvas,pre,code,table,iframe{max-width:100%}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
-    /* Skeleton loading */
-    .skeleton { background: linear-gradient(90deg, var(--card-bg) 25%, rgba(255,255,255,0.3) 50%, var(--card-bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius-sm); }
-    .skeleton-line { height: 14px; margin-bottom: 8px; }
-    .skeleton-line:last-child { width: 60%; }
-    .skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius-md); }
-    @keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   </style>
     <!-- transformers.js -->
     <script type="importmap">
@@ -2331,28 +2313,6 @@ ${text.substring(0, 4000)}`;
         if(Notification.permission==='default') Notification.requestPermission();
         updateHealthScore();
     })();
-</script>
-<script>
-document.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    if (typeof saveMeeting === 'function') {
-      var activeMeeting = getCurrentMeeting && getCurrentMeeting();
-      if (activeMeeting) saveMeeting(activeMeeting);
-    }
-  }
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show, .modal-overlay[style*="visible"]').forEach(function(m) {
-      m.classList.remove('show');
-      m.style.visibility = 'hidden';
-    });
-  }
-});
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./demo-sw.js').catch(function() {});
-}
 </script>
 </body>
 </html>
