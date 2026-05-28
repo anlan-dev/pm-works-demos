@@ -1,0 +1,140 @@
+{
+  "title": "Portfolio prototype manifest",
+  "version": "1.0",
+  "deployed_base": "https://anlan-bot.github.io/pm-works-demos/",
+  "repo_html_root": "../..",
+  "note": "repo_html_root 相对本 manifest 文件所在目录（设计过程与版本归档/prototypes）指向 demo/work",
+  "resume_anchor_schema": "页面 dev-flow 的 kicker 为作品集对外口径；本对象中的 cv_section_tags / timeline 仅便于投递材料与脚本内部对齐，勿再复述到 HTML 正文。",
+  "projects": [
+    {
+      "id": "pet",
+      "name_zh": "宠伴·健康台账",
+      "prd_file": "PRD_01_宠伴健康台账.md",
+      "flow_svg": "../flows/svg/flow_01_宠伴.svg",
+      "hi_fi_html": "pet-vaccine.html",
+      "suggested_frame_size": { "width": 390, "height": 844, "unit": "px", "note": "移动优先，可另建平板断点 Frame" },
+      "primary_screens": [
+        { "frame": "首页-疫苗与宠物", "description": "宠物列表、月份筛选、添加入口" },
+        { "frame": "添加/编辑疫苗", "description": "表单、选苗、OCR 入口" },
+        { "frame": "花费与健康", "description": "花费视图、统计入口" },
+        { "frame": "设置与备份", "description": "主题、云端同步、导出" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D", "F"],
+        "portfolio_slot_zh": "宠伴·健康台账（主案例）",
+        "flow_aria_label": "宠伴·健康台账（2025年9月起）",
+        "timeline": { "project_start": "2025-09", "internship_crosswalk": "2024-08—2025-08 活动运营实习（政企活动漏斗与台账）" },
+        "kicker_full_zh": "先统一阶段目标与指标口径，再用分组实验验证提醒策略，把结论沉淀进可追踪的 backlog —— 全程围绕「提醒 + 记录」主线迭代。",
+        "kicker_short_zh": "口径 → 验证 → backlog；2025.09 起。"
+      }
+    },
+    {
+      "id": "meeting",
+      "name_zh": "会议·反刍舱",
+      "prd_file": "PRD_02_会议反刍舱.md",
+      "flow_svg": "../flows/svg/flow_02_会议舱.svg",
+      "hi_fi_html": "meeting-ruminant.html",
+      "suggested_frame_size": { "width": 1200, "height": 900, "unit": "px", "note": "桌面优先，可缩至 768 做窄屏" },
+      "primary_screens": [
+        { "frame": "录音与转写", "description": "录制、上传、状态" },
+        { "frame": "结构化纪要", "description": "议题、待办、反刍问题" },
+        { "frame": "待办看板", "description": "状态、优先级、筛选" },
+        { "frame": "趋势与周报", "description": "图表与汇总（若有）" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D", "F"],
+        "portfolio_slot_zh": "会议·反刍舱（主案例）",
+        "flow_aria_label": "会议·反刍舱（2025年11月起）",
+        "timeline": { "project_start": "2025-11", "internship_crosswalk": "会后产出落地与周节律迭代（活动运营同类协同经验）" },
+        "kicker_full_zh": "不做大而全协作台：会后先结构化产出，再落到待办台账，按周节拍迭代；用整理耗时 + 短周期完成趋势（示意指数）判断是否继续加码。",
+        "kicker_short_zh": "结构化产出→台账→周节拍；耗时与完成趋势验收。"
+      }
+    },
+    {
+      "id": "creation",
+      "name_zh": "星途·创作舱",
+      "prd_file": "PRD_04_创作舱.md",
+      "flow_svg": "../flows/svg/flow_03_创作舱.svg",
+      "hi_fi_html": "creation-cabin.html",
+      "suggested_frame_size": { "width": 1280, "height": 900, "unit": "px", "note": "侧栏+编辑器双栏" },
+      "primary_screens": [
+        { "frame": "项目与侧边栏", "description": "项目列表、目标、快照入口" },
+        { "frame": "大纲与角色", "description": "大纲编辑、角色卡、世界观" },
+        { "frame": "正文编辑", "description": "章节正文、预览" },
+        { "frame": "回顾与健康分", "description": "周报/月报、健康分模块" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D", "F"],
+        "portfolio_slot_zh": "补充：星途·创作舱",
+        "flow_aria_label": "星途·创作舱（2025 秋起）",
+        "timeline": { "project_start": "2025秋", "internship_crosswalk": "种子访谈定优先级、分阶段交付" },
+        "kicker_full_zh": "种子访谈把模块优先级排清 → 交付可点 MVP → 走查把摩擦收回需求池；写作主路径优先于堆功能。",
+        "kicker_short_zh": "访谈→MVP→走查；反馈定优先级。"
+      }
+    },
+    {
+      "id": "coldstart",
+      "name_zh": "Cold Start·冷启动",
+      "prd_file": "PRD_03_冷启动.md",
+      "flow_svg": "../flows/svg/flow_04_冷启动.svg",
+      "hi_fi_html": "cold-start.html",
+      "suggested_frame_size": { "width": 390, "height": 844, "unit": "px", "note": "移动端 Tab 布局" },
+      "primary_screens": [
+        { "frame": "冷启动输入", "description": "目标输入、启动按钮" },
+        { "frame": "诊断与计划", "description": "三段式输出区" },
+        { "frame": "任务 Tab", "description": "任务列表与勾选" },
+        { "frame": "设置", "description": "AI Key、规则/AI 模式" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D", "F"],
+        "portfolio_slot_zh": "补充：Cold Start·冷启动（规则+AI 双模）",
+        "flow_aria_label": "Cold Start · 冷启动（规则 + AI 双模）",
+        "timeline": { "internship_crosswalk": "离线规则与联网模型对照实验思路" },
+        "kicker_full_zh": "规则引擎保障离线可用，联网时用多平台模型增强个性化；用「纯规则 vs 接入 API Key」做双模体验对照。",
+        "kicker_short_zh": "离线保底 + API 增强；双模对照。"
+      }
+    },
+    {
+      "id": "script",
+      "name_zh": "剧本·复盘舱",
+      "prd_file": "PRD_05_剧本复盘舱.md",
+      "flow_svg": "../flows/svg/flow_05_剧本舱.svg",
+      "hi_fi_html": "script-review.html",
+      "suggested_frame_size": { "width": 1280, "height": 900, "unit": "px", "note": "侧栏剧本列表+编辑区" },
+      "primary_screens": [
+        { "frame": "剧本与记录列表", "description": "侧边栏、标签、记录项" },
+        { "frame": "编辑与复盘", "description": "单条复盘编辑、标签" },
+        { "frame": "热力图", "description": "写作节奏可视化" },
+        { "frame": "场景看板", "description": "按幕/列的进度卡片" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D", "F"],
+        "portfolio_slot_zh": "补充：剧本·复盘舱",
+        "flow_aria_label": "剧本·复盘舱（剧本-进度-复盘）",
+        "timeline": { "internship_crosswalk": "长文档改稿留痕、导出与协同" },
+        "kicker_full_zh": "先锁定「剧本–进度–复盘」信息架构，再叠加热力图、标签与多格式导出；每次改稿留痕，方便回溯与交接。",
+        "kicker_short_zh": "结构优先；热力图 / 标签 / 可导出回溯。"
+      }
+    },
+    {
+      "id": "promptlib",
+      "name_zh": "Prompt Library",
+      "prd_file": "PRD_06_Prompt_Library.md",
+      "flow_svg": "../flows/svg/flow_06_Prompt库.svg",
+      "hi_fi_html": "prompt-library.html",
+      "suggested_frame_size": { "width": 760, "height": 900, "unit": "px", "note": "与当前单栏 max-width 对齐" },
+      "primary_screens": [
+        { "frame": "分类与检索", "description": "分类 Tab、统计条" },
+        { "frame": "Prompt 卡片", "description": "场景说明、复制区" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D", "F"],
+        "portfolio_slot_zh": "工具向：Prompt Library（AIGC 协作运营）",
+        "flow_aria_label": "Prompt Library（协作提效）",
+        "timeline": { "internship_crosswalk": "模板资产沉淀与版本维护" },
+        "kicker_full_zh": "把散落指令收成可检索、可一键复制的模板，按 PRD / UI / 调试等场景分类，发版时同步更新条目。",
+        "kicker_short_zh": "场景分类 · 一键复制 · 随版本维护。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="990" height="90" viewBox="0 0 990 90" role="img" aria-label="冷启动·规则+AI">
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="#94a3b8"/></marker></defs>
+<rect width="990" height="90" fill="#f1f5f9"/>
+<g font-family="system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif">
+<rect x="8" y="10" width="148" height="68" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+<text x="82" y="36" text-anchor="middle" font-size="11" font-weight="650" fill="#0f172a">场景界定</text>
+<text x="82" y="56" text-anchor="middle" font-size="9" fill="#64748b">拖延可执行</text>
+<rect x="168" y="10" width="148" height="68" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+<text x="242" y="36" text-anchor="middle" font-size="11" font-weight="650" fill="#0f172a">规格冻结</text>
+<text x="242" y="56" text-anchor="middle" font-size="9" fill="#64748b">三段式输出</text>
+<rect x="328" y="10" width="148" height="68" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+<text x="402" y="36" text-anchor="middle" font-size="11" font-weight="650" fill="#0f172a">v1规则</text>
+<text x="402" y="56" text-anchor="middle" font-size="9" fill="#64748b">离线保底</text>
+<rect x="488" y="10" width="148" height="68" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+<text x="562" y="36" text-anchor="middle" font-size="11" font-weight="650" fill="#0f172a">验证</text>
+<text x="562" y="56" text-anchor="middle" font-size="9" fill="#64748b">自用试跑</text>
+<rect x="648" y="10" width="148" height="68" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+<text x="722" y="36" text-anchor="middle" font-size="11" font-weight="650" fill="#0f172a">AI迭代</text>
+<text x="722" y="56" text-anchor="middle" font-size="9" fill="#64748b">多Key路径</text>
+<rect x="808" y="10" width="164" height="68" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+<text x="890" y="36" text-anchor="middle" font-size="11" font-weight="650" fill="#0f172a">Tab闭环</text>
+<text x="890" y="56" text-anchor="middle" font-size="9" fill="#64748b">任务进度</text>
+<line x1="158" y1="44" x2="166" y2="44" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="318" y1="44" x2="326" y2="44" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="478" y1="44" x2="486" y2="44" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="638" y1="44" x2="646" y2="44" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+<line x1="798" y1="44" x2="806" y2="44" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+</g></svg>

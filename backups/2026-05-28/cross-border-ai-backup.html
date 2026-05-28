@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-ui="neumorphic" data-app="cross">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🌍 GlobalFUN · 全球好物跨境拼团</title>
+    <link rel="stylesheet" href="./neumorphic-shared.css">
+    <style>
+        :root {
+            --bg: #f5f7fb;
+            --card: #e6e6e6;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --line: #e5e7eb;
+            --primary: #2563eb;
+            --primary-soft: #dbeafe;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", "Noto Sans SC", system-ui, sans-serif;
+        }
+        body {
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        #app {
+            width: 100%;
+            max-width: 430px;
+            background: var(--bg);
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        /* ====== 顶部品牌栏 ====== */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px 14px;
+            background: var(--bg);
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-icon {
+            background: var(--primary);
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: var(--neu-card-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.2), var(--neu-shadow);
+        }
+        .brand-text {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text);
+        }
+        .brand-sub {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+        .top-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .lang-switch {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            padding: 10px 18px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 14px;
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: var(--neu-shadow);
+            transition: all 0.2s;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lang-switch:active {
+            box-shadow: var(--neu-shadow-inset);
+            transform: scale(0.98);
+        }
+        .currency-badge {
+            background: var(--primary-soft);
+            color: var(--primary);
+            padding: 7px 14px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: var(--neu-shadow);
+        }
+
+        /* ====== 用户状态 ====== */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg);
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 36px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.15), var(--neu-shadow);
+        }
+        .user-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text);
+        }
+        .user-tag {
+            background: #fef3c7;
+            color: #d97706;
+            padding: 3px 10px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: var(--neu-shadow);
+        }
+        .toggle-login {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            padding: 10px 18px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 14px;
+            color: var(--text);
+            cursor: pointer;
+            box-shadow: var(--neu-shadow);
+            font-weight: 500;
+            transition: all 0.2s;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-login:active {
+            box-shadow: var(--neu-shadow-inset);
+            transform: scale(0.98);
+        }
+
+        /* ====== 卡片通用样式 ====== */
+        .neu-card {
+            margin: 14px 20px;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: var(--neu-card-radius);
+            box-shadow: var(--neu-shadow);
+            border: 1px solid var(--line);
+        }
+
+        /* ====== AI 智能推荐卡片 ====== */
+        .ai-recommend-card {
+            background: var(--text);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+        .ai-rec-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .ai-rec-icon {
+            width: 34px;
+            height: 34px;
+            background: var(--primary);
+            border-radius: var(--neu-card-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.2);
+        }
+        .ai-rec-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .ai-rec-sub {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-left: auto;
+            cursor: pointer;
+        }
+        .ai-rec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .ai-rec-item {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--neu-card-radius);
+            padding: 14px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ai-rec-item:active {
+            background: rgba(255,255,255,0.12);
+            transform: scale(0.98);
+        }
+        .ai-rec-emoji {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+        .ai-rec-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .ai-rec-price {
+            color: #93c5fd;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .ai-rec-reason {
+            color: #94a3b8;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* ====== 商品主图 ====== */
+        .product-media {
+            border-radius: var(--neu-card-radius);
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg);
+            box-shadow: var(--neu-shadow-inset);
+            border: 1px solid var(--line);
+            margin-bottom: 16px;
+        }
+        .product-emoji {
+            font-size: 72px;
+        }
+        .product-tags {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            display: flex;
+            gap: 6px;
+        }
+        .tag-badge {
+            padding: 5px 12px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--bg);
+            box-shadow: var(--neu-shadow);
+            color: var(--text);
+        }
+
+        .product-origin {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .product-name {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+        }
+        .product-name .en {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+            display: block;
+            margin-top: 2px;
+        }
+        .price-section {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin: 10px 0 8px;
+            flex-wrap: wrap;
+        }
+        .group-price {
+            font-size: 38px;
+            font-weight: 900;
+            color: var(--primary);
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(37,99,235,0.1);
+        }
+        .original-price {
+            font-size: 16px;
+            color: var(--muted);
+            text-decoration: line-through;
+        }
+        .price-compare {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 2px 10px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ====== 跨境物流承诺 ====== */
+        .logistics-strip {
+            margin: 14px 20px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .logistics-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg);
+            color: var(--text);
+            padding: 6px 14px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: var(--neu-shadow);
+            border: 1px solid var(--line);
+        }
+
+        /* ====== 拼团进度条 ====== */
+        .progress-bar-bg {
+            height: 14px;
+            background: var(--bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--neu-shadow-inset);
+            border: 1px solid var(--line);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.2);
+        }
+        .progress-avatars {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            background: var(--bg);
+            box-shadow: var(--neu-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 1px solid var(--line);
+        }
+
+        /* ====== 按钮区域 ====== */
+        .primary-btn {
+            width: 100%;
+            background: var(--primary);
+            border: none;
+            border-radius: var(--neu-btn-radius);
+            padding: 18px 0;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(37,99,235,0.2), var(--neu-shadow);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .primary-btn:active {
+            transform: scale(0.98);
+            box-shadow: var(--neu-shadow-inset);
+        }
+        .share-btn {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            padding: 14px 24px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text);
+            box-shadow: var(--neu-shadow);
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .share-btn:active {
+            box-shadow: var(--neu-shadow-inset);
+        }
+
+        /* ====== 倒计时区域 ====== */
+        .countdown-section {
+            background: var(--bg);
+            border-radius: var(--neu-card-radius);
+            box-shadow: var(--neu-shadow);
+            border: 1px solid var(--line);
+        }
+        .time-box {
+            background: var(--bg);
+            border-radius: var(--neu-card-radius);
+            box-shadow: var(--neu-shadow-inset);
+            border: 1px solid var(--line);
+        }
+
+        /* ====== MCP 架构展示 ====== */
+        .mcp-arch-section {
+            background: var(--text);
+            color: white;
+        }
+        .mcp-node {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--neu-card-radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .mcp-node:active {
+            transform: scale(0.96);
+        }
+        .mcp-detail-log {
+            background: rgba(0,0,0,0.3);
+            border-radius: var(--neu-card-radius);
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* ====== 转化漏斗 ====== */
+        .funnel-card {
+            background: var(--bg);
+            border-radius: var(--neu-card-radius);
+            box-shadow: var(--neu-shadow-inset);
+            border: 1px solid var(--line);
+        }
+
+        /* ====== AI 翻译评价 ====== */
+        .ai-trans-toggle {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            padding: 5px 14px;
+            border-radius: var(--neu-btn-radius);
+            font-size: 12px;
+            color: var(--primary);
+            box-shadow: var(--neu-shadow);
+        }
+        .review-item {
+            background: var(--bg);
+            border-radius: var(--neu-card-radius);
+            box-shadow: var(--neu-shadow);
+            border: 1px solid var(--line);
+        }
+
+        /* ====== AI Agent 浮窗 ====== */
+        .ai-agent-fab {
+            background: var(--primary);
+            box-shadow: 0 8px 24px rgba(37,99,235,0.3), var(--neu-shadow);
+        }
+        .ai-agent-fab:active {
+            box-shadow: var(--neu-shadow-inset);
+            transform: scale(0.92);
+        }
+
+        /* ====== 对话面板 ====== */
+        .ai-chat-panel {
+            background: var(--bg);
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.05), var(--neu-shadow);
+            border-top-left-radius: 32px;
+            border-top-right-radius: 32px;
+        }
+        .msg-ai {
+            background: var(--bg);
+            box-shadow: var(--neu-shadow);
+            border: 1px solid var(--line);
+        }
+        .msg-user {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.2);
+        }
+        .msg-suggestions button {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            box-shadow: var(--neu-shadow);
+            border-radius: var(--neu-btn-radius);
+            padding: 8px 16px;
+            color: var(--primary);
+        }
+        .msg-suggestions button:active {
+            box-shadow: var(--neu-shadow-inset);
+        }
+        .ai-chat-input input {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: var(--neu-btn-radius);
+            box-shadow: var(--neu-shadow-inset);
+        }
+        .ai-chat-input button {
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(37,99,235,0.2), var(--neu-shadow);
+            border-radius: 50%;
+        }
+
+        /* ====== 新增：路由与可见性样式 ====== */
+        .agent-thinking {
+            padding: 12px;
+            background: rgba(37, 99, 235, 0.05);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+        .route-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .route-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-soft);
+            color: var(--primary);
+            border-radius: 6px;
+            font-size: 10px;
+        }
+        .mcp-tool-status {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .tool-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .tool-active {
+            background: #dcfce7;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+        .tool-blocked {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+        .arch-highlight {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 2px var(--primary) !important;
+            transform: scale(1.02);
+        }
+        .progress-compiler {
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #64748b;
+            border: 1px dashed #cbd5e1;
+            margin-top: 6px;
+        }
+
+        /* ====== 微交互动画 ====== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes countdownPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg) 25%, #e2e8f0 50%, var(--bg) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--neu-card-radius);
+        }
+        
+        /* 卡片入场动画 */
+        .neu-card {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        .neu-card:nth-child(1) { animation-delay: 0.1s; }
+        .neu-card:nth-child(2) { animation-delay: 0.2s; }
+        .neu-card:nth-child(3) { animation-delay: 0.3s; }
+        .neu-card:nth-child(4) { animation-delay: 0.4s; }
+        .neu-card:nth-child(5) { animation-delay: 0.5s; }
+        .neu-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        /* 按钮按压反馈 */
+        .primary-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(37,99,235,0.25), var(--neu-shadow);
+        }
+        .primary-btn:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: var(--neu-shadow-inset);
+        }
+        
+        /* 卡片悬停效果 */
+        .neu-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08), var(--neu-shadow);
+        }
+        
+        /* 推荐卡片悬停 */
+        .ai-rec-item {
+            transition: all 0.2s ease;
+        }
+        .ai-rec-item:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+        
+        /* 倒计时脉冲 */
+        .time-box {
+            animation: countdownPulse 1s infinite;
+        }
+        
+        /* 加载状态 */
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--line);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 消息入场动画 */
+        .msg {
+            animation: fadeInUp 0.3s ease forwards;
+        }
+        
+        /* 骨架屏 */
+        .skeleton-text {
+            height: 14px;
+            background: linear-gradient(90deg, var(--bg) 25%, #e2e8f0 50%, var(--bg) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .skeleton-text:last-child {
+            width: 60%;
+        }
+        .skeleton-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, var(--bg) 25%, #e2e8f0 50%, var(--bg) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        /* Toast 增强 */
+        .toast-tip {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: ripple(10px);
+        }
+
+        /* ====== 响应式适配 ====== */
+        @media (min-width: 431px) {
+            body {
+                background: #f0f2f5;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100vh;
+            }
+            #app {
+                margin: 20px auto;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+                border-radius: 32px;
+                overflow: hidden;
+                height: auto;
+                max-height: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .ai-chat-overlay {
+                align-items: center !important;
+            }
+            .ai-chat-panel {
+                max-height: 85vh !important;
+                border-radius: 32px !important;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+                transform: translateY(20px) !important;
+            }
+            .ai-chat-overlay[style*="visibility: visible"] .ai-chat-panel {
+                transform: translateY(0) !important;
+            }
+            .share-overlay .share-panel {
+                max-width: 400px !important;
+                border-radius: 32px !important;
+                margin-bottom: 20px;
+            }
+            .modal-mask .pay-modal {
+                box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <!-- ====== 顶部品牌栏 ====== -->
+    <div class="top-bar">
+        <div class="brand">
+            <div class="brand-icon">🌍</div>
+            <div>
+                <div class="brand-text">GlobalFUN</div>
+                <div class="brand-sub">Cross-Border Group Buy</div>
+            </div>
+        </div>
+        <div class="top-actions">
+            <button class="lang-switch" id="langToggle">🇨🇳 中文</button>
+            <span class="currency-badge" id="currencyDisplay">¥ CNY</span>
+        </div>
+    </div>
+
+    <!-- ====== 用户状态 ====== -->
+    <div class="status-bar">
+        <div class="user-info">
+            <div class="user-avatar" id="userAvatar">👤</div>
+            <div>
+                <div class="user-name" id="userNameDisplay">未登录</div>
+                <span class="user-tag" id="userTagDisplay">游客</span>
+            </div>
+        </div>
+        <button class="toggle-login" id="toggleLoginBtn">登录</button>
+    </div>
+
+    <!-- ====== AI 智能推荐卡片（嵌入式） ====== -->
+    <div class="neu-card ai-recommend-card" id="aiRecommendCard">
+        <div class="ai-rec-header">
+            <div class="ai-rec-icon">🤖</div>
+            <span class="ai-rec-title">AI 跨境选品 · 为你推荐</span>
+            <span class="ai-rec-sub" id="aiRecRefresh">⟳ 换一批</span>
+        </div>
+        <div class="ai-rec-grid" id="aiRecGrid">
+            <div class="ai-rec-item" data-product="日本神仙水">
+                <div class="ai-rec-emoji">🧴</div>
+                <div class="ai-rec-name">SK-II 神仙水</div>
+                <div class="ai-rec-price">¥899 · 比专柜省¥400</div>
+                <div class="ai-rec-reason">⭐ 跨境热销TOP1</div>
+            </div>
+            <div class="ai-rec-item" data-product="澳洲鱼油">
+                <div class="ai-rec-emoji">🐟</div>
+                <div class="ai-rec-name">Swisse 鱼油胶囊</div>
+                <div class="ai-rec-price">¥159 · 澳洲直邮</div>
+                <div class="ai-rec-reason">⭐ 好评率98%</div>
+            </div>
+            <div class="ai-rec-item" data-product="法国香水">
+                <div class="ai-rec-emoji">🌸</div>
+                <div class="ai-rec-name">Chanel N°5 香水</div>
+                <div class="ai-rec-price">¥699 · 免税价</div>
+                <div class="ai-rec-reason">⭐ 限时拼团中</div>
+            </div>
+            <div class="ai-rec-item" data-product="韩国面膜">
+                <div class="ai-rec-emoji">💆</div>
+                <div class="ai-rec-name">Mediheal 面膜10片</div>
+                <div class="ai-rec-price">¥69 · 首单包邮</div>
+                <div class="ai-rec-reason">⭐ 新人专享价</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 商品卡片（跨境版） ====== -->
+    <div class="neu-card">
+        <div class="product-media">
+            <span class="product-emoji">🍑</span>
+            <div class="product-tags">
+                <span class="tag-badge">🔥 全球爆款</span>
+                <span class="tag-badge">🌏 日本直邮</span>
+            </div>
+        </div>
+        <div class="product-origin">
+            <span>🇯🇵 日本 · 大阪直发</span>
+            <span style="margin-left:auto;color:var(--primary);font-weight:500;">已售 8,342 件</span>
+        </div>
+        <div class="product-name">
+            Yamanashi 白桃水润精华 200ml
+            <span class="en">Yamanashi Peach Moisture Essence</span>
+        </div>
+        <div class="price-section">
+            <span class="group-price">¥268<small style="font-size:14px;color:var(--muted)"> 拼团价</small></span>
+            <span class="original-price">¥599</span>
+            <span class="price-compare">🔥 比国内省¥331</span>
+        </div>
+        <div class="logistics-strip" style="margin:0;padding:0;">
+            <span class="logistics-item">✈️ 国际直邮</span>
+            <span class="logistics-item">📋 关税已含</span>
+            <span class="logistics-item">🛡️ 正品承保</span>
+        </div>
+    </div>
+
+    <!-- ====== 多平台比价 ====== -->
+    <div class="neu-card" style="padding:16px 20px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <div style="width:28px;height:28px;background:#fef3c7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">💰</div>
+            <span style="font-weight:600;color:var(--text);font-size:14px;">多平台比价</span>
+            <span style="margin-left:auto;font-size:12px;background:#dcfce7;color:#16a34a;padding:4px 8px;border-radius:4px;font-weight:600;">最低价</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--primary-soft);border-radius:10px;border:2px solid var(--primary);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:16px;">🌍</span>
+                    <span style="font-size:13px;font-weight:600;color:var(--text);">GlobalFUN 拼团</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:18px;font-weight:800;color:var(--primary);">¥268</span>
+                    <span style="font-size:11px;background:var(--primary);color:white;padding:2px 6px;border-radius:4px;">省¥331</span>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--line);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:16px;">🐱</span>
+                    <span style="font-size:13px;color:var(--text);">天猫国际</span>
+                </div>
+                <span style="font-size:15px;color:var(--muted);text-decoration:line-through;">¥589</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--line);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:16px;">🐶</span>
+                    <span style="font-size:13px;color:var(--text);">京东国际</span>
+                </div>
+                <span style="font-size:15px;color:var(--muted);text-decoration:line-through;">¥619</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--line);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:16px;">🐨</span>
+                    <span style="font-size:13px;color:var(--text);">考拉海购</span>
+                </div>
+                <span style="font-size:15px;color:var(--muted);text-decoration:line-through;">¥569</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 历史价格曲线 ====== -->
+    <div class="neu-card" style="padding:16px 20px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <div style="width:28px;height:28px;background:var(--primary-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">📈</div>
+            <span style="font-weight:600;color:var(--text);font-size:14px;">近30天价格走势</span>
+            <span style="margin-left:auto;font-size:12px;color:var(--muted);">数据来源: 慢慢买</span>
+        </div>
+        <div style="position:relative;height:120px;background:var(--bg);border-radius:12px;padding:10px;box-shadow:var(--neu-shadow-inset);">
+            <!-- 简化版价格曲线 -->
+            <svg width="100%" height="100%" viewBox="0 0 300 100" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+                    </linearGradient>
+                </defs>
+                <!-- 价格曲线 -->
+                <path d="M0,80 L30,75 L60,70 L90,65 L120,60 L150,55 L180,50 L210,45 L240,30 L270,25 L300,20" 
+                      fill="none" stroke="var(--primary)" stroke-width="2"/>
+                <!-- 填充区域 -->
+                <path d="M0,80 L30,75 L60,70 L90,65 L120,60 L150,55 L180,50 L210,45 L240,30 L270,25 L300,20 L300,100 L0,100 Z" 
+                      fill="url(#priceGradient)"/>
+                <!-- 当前价格点 -->
+                <circle cx="300" cy="20" r="4" fill="var(--primary)"/>
+            </svg>
+            <!-- 价格标签 -->
+            <div style="position:absolute;top:5px;left:10px;font-size:10px;color:var(--muted);">¥599</div>
+            <div style="position:absolute;top:50px;right:10px;font-size:10px;color:var(--primary);font-weight:600;">¥268 历史最低</div>
+            <div style="position:absolute;bottom:5px;left:10px;font-size:10px;color:var(--muted);">30天前</div>
+            <div style="position:absolute;bottom:5px;right:10px;font-size:10px;color:var(--muted);">今天</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted);">
+            <span>📉 30天降幅: <span style="color:#16a34a;font-weight:600;">-55%</span></span>
+            <span>⏰ 更新于: 2小时前</span>
+        </div>
+    </div>
+
+    <!-- ====== 信任徽章墙 ====== -->
+    <div class="neu-card" style="padding:16px 20px;">
+        <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:12px;">
+            <div style="text-align:center;">
+                <div style="font-size:24px;margin-bottom:4px;">🛡️</div>
+                <div style="font-size:11px;font-weight:600;color:var(--text);">正品保障</div>
+                <div style="font-size:10px;color:var(--muted);">假一赔十</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:24px;margin-bottom:4px;">✈️</div>
+                <div style="font-size:11px;font-weight:600;color:var(--text);">海关备案</div>
+                <div style="font-size:10px;color:var(--muted);">合规清关</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:24px;margin-bottom:4px;">📋</div>
+                <div style="font-size:11px;font-weight:600;color:var(--text);">品牌授权</div>
+                <div style="font-size:10px;color:var(--muted);">官方渠道</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:24px;margin-bottom:4px;">🔄</div>
+                <div style="font-size:11px;font-weight:600;color:var(--text);">7天无忧</div>
+                <div style="font-size:10px;color:var(--muted);">退换保障</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 物流追踪 ====== -->
+    <div class="neu-card" style="padding:16px 20px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <div style="width:28px;height:28px;background:var(--primary-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">📦</div>
+            <span style="font-weight:600;color:var(--text);font-size:14px;">物流全程可追踪</span>
+            <span style="margin-left:auto;font-size:12px;color:var(--primary);cursor:pointer;">查看详情 →</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="text-align:center;flex:1;">
+                <div style="width:32px;height:32px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:white;margin:0 auto 4px;">✓</div>
+                <div style="font-size:10px;color:var(--text);font-weight:500;">已揽收</div>
+            </div>
+            <div style="flex:1;height:2px;background:var(--primary);"></div>
+            <div style="text-align:center;flex:1;">
+                <div style="width:32px;height:32px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:white;margin:0 auto 4px;">✓</div>
+                <div style="font-size:10px;color:var(--text);font-weight:500;">已清关</div>
+            </div>
+            <div style="flex:1;height:2px;background:var(--primary);"></div>
+            <div style="text-align:center;flex:1;">
+                <div style="width:32px;height:32px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:white;margin:0 auto 4px;">🚚</div>
+                <div style="font-size:10px;color:var(--text);font-weight:500;">派送中</div>
+            </div>
+            <div style="flex:1;height:2px;background:var(--line);"></div>
+            <div style="text-align:center;flex:1;">
+                <div style="width:32px;height:32px;background:var(--bg);border:2px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;margin:0 auto 4px;">📬</div>
+                <div style="font-size:10px;color:var(--muted);">待签收</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 拼团进度 ====== -->
+    <div class="neu-card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <span style="font-weight:700;color:var(--text);">👭 跨境拼团 · 3人成团</span>
+            <span style="color:var(--primary);font-weight:600;font-size:14px;">再邀1人减¥30</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill" style="width: 66%;"></div>
+        </div>
+        <div class="progress-avatars">
+            <span style="font-size:14px;color:var(--muted);">已参团:</span>
+            <div class="avatar">😊</div>
+            <div class="avatar">🍀</div>
+            <span style="margin-left:4px;font-weight:600;color:var(--text);" id="currentCount">2人</span>
+            <span style="margin-left:auto;color:var(--primary);font-weight:500;font-size:14px;cursor:pointer;" id="inviteHintBtn">📨 邀请好友</span>
+        </div>
+        <div style="font-size:13px;color:#d97706;margin-top:12px;background:#fefce8;padding:8px 12px;border-radius:var(--neu-btn-radius);display:inline-block;box-shadow:var(--neu-shadow);">
+            🎁 再邀1人 · 团长获¥30红包
+        </div>
+    </div>
+
+    <!-- ====== 实时拼团动态 ====== -->
+    <div class="neu-card" style="padding:16px 20px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <div style="width:28px;height:28px;background:#dcfce7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">👥</div>
+            <span style="font-weight:600;color:var(--text);font-size:14px;">实时拼团动态</span>
+            <span style="margin-left:auto;font-size:12px;color:var(--primary);cursor:pointer;">查看全部 →</span>
+        </div>
+        <div id="liveFeed" style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:10px;">
+                <div style="width:32px;height:32px;background:#fef3c7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;">😊</div>
+                <div style="flex:1;">
+                    <div style="font-size:13px;color:var(--text);"><span style="font-weight:600;">小明</span> 刚刚拼团成功</div>
+                    <div style="font-size:11px;color:var(--muted);">2分钟前 · 来自微信</div>
+                </div>
+                <div style="font-size:12px;background:#dcfce7;color:#16a34a;padding:4px 8px;border-radius:4px;">已成团</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:10px;">
+                <div style="width:32px;height:32px;background:#dbeafe;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;">🌸</div>
+                <div style="flex:1;">
+                    <div style="font-size:13px;color:var(--text);"><span style="font-weight:600;">花花</span> 正在拼团中</div>
+                    <div style="font-size:11px;color:var(--muted);">5分钟前 · 还差1人</div>
+                </div>
+                <div style="font-size:12px;background:#fef3c7;color:#d97706;padding:4px 8px;border-radius:4px;">进行中</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:10px;">
+                <div style="width:32px;height:32px;background:#f3e8ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;">🍀</div>
+                <div style="flex:1;">
+                    <div style="font-size:13px;color:var(--text);"><span style="font-weight:600;">小绿</span> 刚刚拼团成功</div>
+                    <div style="font-size:11px;color:var(--muted);">8分钟前 · 来自小程序</div>
+                </div>
+                <div style="font-size:12px;background:#dcfce7;color:#16a34a;padding:4px 8px;border-radius:4px;">已成团</div>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted);">
+            🔥 今日已有 <span style="color:var(--primary);font-weight:600;">128</span> 人参与拼团
+        </div>
+    </div>
+
+    <!-- ====== 倒计时 + 库存 ====== -->
+    <div class="neu-card countdown-section" style="padding:16px 20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+            <span style="font-weight:600;color:var(--text);">⏳ 跨境限时拼团</span>
+            <div style="display:flex;gap:4px;align-items:baseline;" id="countdownTimer">
+                <span class="time-box" style="padding:6px 10px;font-size:20px;font-weight:700;color:var(--text);" id="hour">02</span><span style="color:var(--muted)">:</span>
+                <span class="time-box" style="padding:6px 10px;font-size:20px;font-weight:700;color:var(--text);" id="minute">28</span><span style="color:var(--muted)">:</span>
+                <span class="time-box" style="padding:6px 10px;font-size:20px;font-weight:700;color:var(--text);" id="second">45</span>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;background:#dc2626;color:white;padding:4px 10px;border-radius:var(--neu-btn-radius);font-weight:500;" id="marqueeTip">最后疯抢</span>
+                <span style="font-size:12px;color:var(--muted);">⏰ 限时 <span style="color:#dc2626;font-weight:600;">2小时28分</span> 后恢复原价</span>
+            </div>
+        </div>
+        <div style="margin-top:12px;padding:10px 12px;background:#fef2f2;border-radius:10px;border:1px solid #fecaca;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:14px;">🔥</span>
+                    <span style="font-size:13px;color:#dc2626;font-weight:600;">库存紧张</span>
+                </div>
+                <span style="font-size:12px;color:#dc2626;">仅剩 <span style="font-weight:800;font-size:16px;">12</span> 件</span>
+            </div>
+            <div style="margin-top:8px;height:8px;background:#fecaca;border-radius:4px;overflow:hidden;">
+                <div style="width:75%;height:100%;background:linear-gradient(90deg, #dc2626, #f87171);border-radius:4px;transition:width 0.5s;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px;color:var(--muted);">
+                <span>已售 75%</span>
+                <span>限量 50 件</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== 主按钮 ====== -->
+    <div style="padding:8px 20px;">
+        <button class="primary-btn" id="mainActionBtn">登录后开启跨境拼团</button>
+        <div style="display:flex;justify-content:center;gap:12px;margin-top:12px;">
+            <button class="share-btn" id="shareTriggerBtn">📤 分享拼团</button>
+            <button class="share-btn" id="copyLinkBtn">🔗 复制链接</button>
+        </div>
+    </div>
+
+    <!-- ====== AI 翻译评价（嵌入式） ====== -->
+    <div class="neu-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+            <div style="width:30px;height:30px;background:var(--text);border-radius:var(--neu-card-radius);display:flex;align-items:center;justify-content:center;font-size:14px;color:white;">🌐</div>
+            <span style="font-weight:600;color:var(--text);font-size:15px;">AI 翻译 · 日本买手评价</span>
+            <button class="ai-trans-toggle" style="margin-left:auto;" id="transToggle">日文原文</button>
+        </div>
+        <div class="review-item" style="margin-bottom:10px;padding:14px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                <span style="font-weight:600;font-size:14px;color:var(--text);">🌸 田中さくら</span>
+                <span style="color:#f59e0b;font-size:13px;">★★★★★</span>
+            </div>
+            <div style="font-size:13px;color:var(--muted);margin-bottom:4px;font-style:italic;">とても良い商品で、肌がしっとりします。</div>
+            <div style="font-size:13px;color:var(--text);">非常棒的商品，皮肤变得水润。</div>
+        </div>
+        <div style="text-align:center;color:var(--primary);font-size:13px;font-weight:500;cursor:pointer;" id="loadMoreReviews">AI 加载更多评价 →</div>
+    </div>
+
+    <!-- ====== MCP 架构展示 ====== -->
+    <div class="neu-card" style="background:var(--text);color:white;border:1px solid rgba(255,255,255,0.05);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+            <span style="font-weight:700;font-size:16px;">🧩 MCP · Multi-Agent 服务总线</span>
+            <span style="font-size:11px;color:#475569;margin-left:auto;">意图识别 → 服务路由 → 结构化输出</span>
+        </div>
+        
+        <!-- 架构流向可视化 -->
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:60px;text-align:center;" data-arch="user">
+                <div style="width:48px;height:48px;background:rgba(255,255,255,0.06);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 6px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">👤</div>
+                <span style="font-size:11px;color:#94a3b8;">用户意图</span>
+            </div>
+            <span style="color:#475569;font-size:20px;">→</span>
+            <div style="flex:1;min-width:60px;text-align:center;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);padding:8px;border-radius:14px;" data-arch="agent">
+                <div style="width:48px;height:48px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 6px;box-shadow:0 4px 12px rgba(37,99,235,0.2);">🤖</div>
+                <span style="font-size:11px;color:#60a5fa;font-weight:600;">Agent 路由</span>
+            </div>
+            <span style="color:#475569;font-size:20px;">→</span>
+            <div style="flex:1;min-width:60px;text-align:center;" data-arch="mcp">
+                <div style="width:48px;height:48px;background:rgba(255,255,255,0.06);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 6px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">🔌</div>
+                <span style="font-size:11px;color:#94a3b8;">MCP 调度</span>
+            </div>
+            <span style="color:#475569;font-size:20px;">→</span>
+            <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:60px;" data-arch="tools">
+                <div style="padding:4px;background:rgba(255,255,255,0.06);border-radius:8px;text-align:center;font-size:10px;color:#94a3b8;">📦 比价服务</div>
+                <div style="padding:4px;background:rgba(255,255,255,0.06);border-radius:8px;text-align:center;font-size:10px;color:#94a3b8;">🌐 翻译服务</div>
+                <div style="padding:4px;background:rgba(255,255,255,0.06);border-radius:8px;text-align:center;font-size:10px;color:#94a3b8;">🚚 物流接口</div>
+            </div>
+        </div>
+
+        <div class="mcp-detail-log" id="mcpLog" style="padding:12px;font-size:12px;color:#94a3b8;font-family:monospace;background:rgba(0,0,0,0.3);border-radius:12px;">
+            <span style="color:#60a5fa;">[MCP]</span> 服务就绪 · 等待意图识别
+        </div>
+        
+        <!-- 动态路由状态 -->
+        <div style="margin-top:12px;padding:10px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+            <div style="font-size:11px;color:#60a5fa;margin-bottom:6px;">⚡ 实时路由决策</div>
+            <div id="routeDecision" style="font-size:12px;color:#94a3b8;font-family:monospace;">
+                IDLE: 等待指令...
+            </div>
+        </div>
+        
+        <!-- Agent 可视化协同面板 -->
+        <div style="margin-top:12px;padding:12px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+            <div style="font-size:11px;color:#a78bfa;margin-bottom:10px;font-weight:600;">🌐 AGENT ORCHESTRATION MATRIX</div>
+            <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;" id="agentMatrix">
+                <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
+                    <div style="font-size:16px;">🛍️</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">比价 Agent</div>
+                    <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
+                </div>
+                <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
+                    <div style="font-size:16px;">🌐</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">翻译 Agent</div>
+                    <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
+                </div>
+                <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
+                    <div style="font-size:16px;">🚚</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">物流 Agent</div>
+                    <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Agent Benchmark 效能基准 -->
+        <div style="margin-top:12px;padding:12px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid rgba(255,255,255,0.05);">
+            <div style="font-size:11px;color:#fbbf24;margin-bottom:10px;font-weight:600;">📊 AI AGENT BENCHMARK</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                <div style="text-align:center;">
+                    <div style="font-size:18px;font-weight:700;color:#4ade80;" id="benchAccuracy">98.2%</div>
+                    <div style="font-size:10px;color:#94a3b8;">意图识别率</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:18px;font-weight:700;color:#60a5fa;" id="benchLatency">180ms</div>
+                    <div style="font-size:10px;color:#94a3b8;">MCP 平均延迟</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:18px;font-weight:700;color:#fbbf24;" id="benchToken">82%</div>
+                    <div style="font-size:10px;color:#94a3b8;">Token 利用率</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ====== AI Agent 浮窗 ====== -->
+<button class="ai-agent-fab" id="aiFab" style="position:fixed;bottom:30px;right:20px;width:60px;height:60px;border:none;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:5000;cursor:pointer;">
+    🤖
+</button>
+
+<!-- ====== AI 对话面板 ====== -->
+<div class="ai-chat-overlay" id="aiChatOverlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:4999;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;opacity:0;transition:opacity 0.25s;">
+    <div class="ai-chat-panel" style="width:100%;max-width:430px;max-height:80vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);">
+        <div style="padding:16px 20px 8px;">
+            <div style="display:flex;align-items:center;margin-bottom:12px;">
+                <div style="width:40px;height:40px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;color:white;margin-right:12px;">🤖</div>
+                <div style="flex:1;">
+                    <div style="font-weight:700;font-size:17px;">Globy · AI 导购</div>
+                    <div style="font-size:12px;color:#16a34a;">在线 · MCP 已连接</div>
+                </div>
+                <button style="background:none;border:none;font-size:24px;color:#94a3b8;cursor:pointer;" id="aiChatClose">✕</button>
+            </div>
+            
+            <!-- ProgressCompiler 上下文状态 -->
+            <div style="background:#f8fafc;padding:10px 14px;border-radius:12px;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#64748b;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="color:var(--primary);font-weight:600;">🧠 Context Memory</span>
+                    <span id="memoryStatus">状态: 活跃 (无压缩)</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="display:flex;align-items:center;gap:4px;">
+                        <div id="orchestratorDot" style="width:8px;height:8px;border-radius:50%;background:#94a3b8;"></div>
+                        <span id="orchestratorStatus" style="font-weight:500;">Orchestrator IDLE</span>
+                    </div>
+                    <div style="width:1px;height:14px;background:#e2e8f0;"></div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span id="tokenCount">Tokens: 120</span>
+                        <div style="width:60px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;">
+                            <div id="tokenBar" style="width:10%;height:100%;background:var(--primary);border-radius:3px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ai-chat-messages" id="aiChatMessages" style="flex:1;overflow-y:auto;padding:0 20px 20px;display:flex;flex-direction:column;gap:12px;">
+            <div class="msg msg-ai" style="padding:14px;border-radius:18px;max-width:85%;">
+                👋 Hello! 我是 GlobalFUN 的 AI 跨境导购。
+                <br><br>
+                我可以帮你：🌏 推荐跨境好物 · 🌐 翻译评价 · 💰 计算到手价
+                <div class="msg-suggestions" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
+                    <button data-query="这款和国内差价多少？" style="padding:6px 14px;font-size:12px;">差价多少？</button>
+                    <button data-query="日本直邮要多久？关税怎么算？" style="padding:6px 14px;font-size:12px;">物流&关税</button>
+                </div>
+            </div>
+        </div>
+        <div class="ai-chat-input" style="padding:12px 16px 20px;display:flex;gap:8px;">
+            <input type="text" id="aiChatInput" placeholder="输入问题..." style="flex:1;padding:12px;font-size:14px;">
+            <button id="aiChatSend" style="width:48px;height:48px;font-size:18px;display:flex;align-items:center;justify-content:center;">➤</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== 分享浮层 ====== -->
+<div class="share-overlay" id="shareOverlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:4000;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;opacity:0;transition:opacity 0.2s;">
+    <div class="share-panel" style="background:var(--bg);width:100%;max-width:430px;border-radius:32px 32px 0 0;padding:24px 20px 30px;transform:translateY(100%);transition:transform 0.25s;">
+        <div style="font-weight:700;font-size:18px;margin-bottom:20px;text-align:center;">📲 分享拼团</div>
+        <div style="display:flex;justify-content:space-around;">
+            <div class="channel-item" data-channel="wechat" style="display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+                <div style="width:56px;height:56px;border-radius:28px;background:var(--bg);box-shadow:var(--neu-shadow);display:flex;align-items:center;justify-content:center;font-size:28px;">💬</div>
+                <span>微信</span>
+            </div>
+            <div class="channel-item" data-channel="copy" style="display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+                <div style="width:56px;height:56px;border-radius:28px;background:var(--bg);box-shadow:var(--neu-shadow);display:flex;align-items:center;justify-content:center;font-size:28px;">🔗</div>
+                <span>复制</span>
+            </div>
+        </div>
+        <div style="margin-top:20px;text-align:center;color:#94a3b8;padding:12px;cursor:pointer;" id="closeSharePanel">取消</div>
+    </div>
+</div>
+
+<!-- ====== 支付模态 ====== -->
+<div class="modal-mask" id="payModal" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:6000;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:opacity 0.2s;">
+    <div class="pay-modal" style="background:var(--bg);width:320px;border-radius:32px;padding:28px;text-align:center;box-shadow:var(--neu-shadow);">
+        <h3>🧾 订单确认</h3>
+        <div style="font-size:36px;font-weight:800;color:var(--primary);margin:8px 0;">¥268</div>
+        <div style="color:var(--muted);margin-bottom:12px;">日本直邮 · 关税已含</div>
+        <div style="background:var(--primary-soft);padding:10px;border-radius:var(--neu-btn-radius);font-size:13px;color:var(--primary);">
+            🤖 AI 提示：汇率 1CNY≈20.5JPY，省¥331
+        </div>
+        <div style="display:flex;gap:12px;margin-top:20px;">
+            <button style="flex:1;padding:14px;border-radius:var(--neu-btn-radius);border:none;font-weight:600;cursor:pointer;background:var(--bg);box-shadow:var(--neu-shadow);" id="cancelPayBtn">取消</button>
+            <button style="flex:1;padding:14px;border-radius:var(--neu-btn-radius);border:none;font-weight:600;cursor:pointer;background:var(--primary);color:white;box-shadow:0 4px 12px rgba(37,99,235,0.2), var(--neu-shadow);" id="confirmPayBtn">确认</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== Toast ====== -->
+<div class="toast-tip" id="toast" style="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(31,41,55,0.9);color:white;padding:10px 24px;border-radius:30px;font-size:14px;z-index:7000;opacity:0;transition:opacity 0.25s;pointer-events:none;box-shadow:var(--neu-shadow);"></div>
+
+<script>
+    (function(){
+        'use strict';
+        const $ = id => document.getElementById(id);
+        
+        // ====== 状态管理 ======
+        let isLoggedIn = false;
+        let conversationHistory = [];
+        
+        // ====== DOM 元素 ======
+        const els = {
+            toggleLogin: $('toggleLoginBtn'),
+            mainAction: $('mainActionBtn'),
+            shareTrigger: $('shareTriggerBtn'),
+            aiFab: $('aiFab'),
+            chatOverlay: $('aiChatOverlay'),
+            chatClose: $('aiChatClose'),
+            chatInput: $('aiChatInput'),
+            chatSend: $('aiChatSend'),
+            chatMessages: $('aiChatMessages'),
+            payModal: $('payModal'),
+            cancelPay: $('cancelPayBtn'),
+            confirmPay: $('confirmPayBtn'),
+            routeDecision: $('routeDecision'),
+            mcpLog: $('mcpLog'),
+            // 架构图元素
+            archUser: document.querySelector('[data-arch="user"]'),
+            archAgent: document.querySelector('[data-arch="agent"]'),
+            archMcp: document.querySelector('[data-arch="mcp"]'),
+            archTools: document.querySelector('[data-arch="tools"]'),
+            // 上下文状态元素
+            memoryStatus: $('memoryStatus'),
+            tokenCount: $('tokenCount'),
+            tokenBar: $('tokenBar'),
+            // Benchmark 元素
+            benchAccuracy: $('benchAccuracy'),
+            benchLatency: $('benchLatency'),
+            benchToken: $('benchToken'),
+            // Orchestrator 元素
+            orchestratorDot: $('orchestratorDot'),
+            orchestratorStatus: $('orchestratorStatus'),
+            // Agent Matrix
+            agentMatrix: $('agentMatrix')
+        };
+
+        // ====== 工具函数 ======
+        const showToast = (msg) => {
+            const toast = $('toast');
+            toast.textContent = msg;
+            toast.style.opacity = 1;
+            setTimeout(() => toast.style.opacity = 0, 1500);
+        };
+
+        const addMessage = (content, type = 'ai', isHtml = false) => {
+            const div = document.createElement('div');
+            div.className = `msg msg-${type}`;
+            if (isHtml) div.innerHTML = content;
+            else div.textContent = content;
+            els.chatMessages.appendChild(div);
+            els.chatMessages.scrollTop = els.chatMessages.scrollHeight;
+            return div;
+        };
+
+        // ====== 架构图高亮控制 ======
+        const highlightArch = (step) => {
+            // 清除所有高亮
+            document.querySelectorAll('[data-arch]').forEach(el => el.classList.remove('arch-highlight'));
+            if (!step) return;
+            
+            const el = document.querySelector(`[data-arch="${step}"]`);
+            if (el) {
+                el.classList.add('arch-highlight');
+                setTimeout(() => el.classList.remove('arch-highlight'), 2000);
+            }
+        };
+
+        // ====== 上下文状态更新 (ProgressCompiler Simulation) ======
+        let totalTokens = 120;
+        const updateMemoryStatus = (newTokens) => {
+            totalTokens += newTokens;
+            const percent = Math.min((totalTokens / 4000) * 100, 100);
+            
+            if (els.tokenCount) els.tokenCount.textContent = `Tokens: ${totalTokens}`;
+            if (els.tokenBar) els.tokenBar.style.width = `${percent}%`;
+            
+            let statusText = '状态: 活跃 (无压缩)';
+            if (percent > 80) statusText = '状态: 告警 (触发压缩)';
+            else if (percent > 50) statusText = '状态: 评估中 (生成摘要)';
+            
+            if (els.memoryStatus) els.memoryStatus.textContent = statusText;
+            
+            // 更新 Benchmark
+            updateBenchmark(percent);
+        };
+
+        // ====== Benchmark 更新 ======
+        const updateBenchmark = (tokenPercent) => {
+            const accuracy = 98.2 + (Math.random() * 0.5 - 0.25);
+            const latency = 180 + Math.floor(Math.random() * 50 - 25);
+            
+            if (els.benchAccuracy) els.benchAccuracy.textContent = `${accuracy.toFixed(1)}%`;
+            if (els.benchLatency) els.benchLatency.textContent = `${latency}ms`;
+            if (els.benchToken) els.benchToken.textContent = `${Math.floor(tokenPercent)}%`;
+        };
+
+        // ====== Agent Matrix 状态更新 ======
+        const updateAgentMatrix = (activeAgentIndex = -1) => {
+            const agents = els.agentMatrix.querySelectorAll('.agent-card');
+            agents.forEach((card, index) => {
+                const statusEl = card.querySelector('.agent-status');
+                if (index === activeAgentIndex) {
+                    card.style.border = '1px solid rgba(124, 58, 237, 0.5)';
+                    card.style.background = 'rgba(124, 58, 237, 0.05)';
+                    if (statusEl) {
+                        statusEl.textContent = 'RUNNING';
+                        statusEl.style.color = '#a78bfa';
+                    }
+                } else {
+                    card.style.border = '1px solid transparent';
+                    card.style.background = 'rgba(255,255,255,0.03)';
+                    if (statusEl) {
+                        statusEl.textContent = 'IDLE';
+                        statusEl.style.color = '#4ade80';
+                    }
+                }
+            });
+        };
+
+        // ====== Orchestrator 状态更新 ======
+        const updateOrchestratorStatus = (status, agentName = '') => {
+            const colors = {
+                idle: { bg: '#94a3b8', text: 'Orchestrator IDLE' },
+                analyzing: { bg: '#fbbf24', text: '分析意图...' },
+                routing: { bg: '#60a5fa', text: `调度: ${agentName}` },
+                parallel: { bg: '#a78bfa', text: '并行调度中...' },
+                done: { bg: '#4ade80', text: '任务完成' }
+            };
+            
+            const c = colors[status] || colors.idle;
+            if (els.orchestratorDot) els.orchestratorDot.style.background = c.bg;
+            if (els.orchestratorStatus) els.orchestratorStatus.textContent = c.text;
+        };
+
+        // ====== 路由日志更新 ======
+        const updateRouteLog = (status, msg) => {
+            if (els.routeDecision) {
+                els.routeDecision.innerHTML = `<span style="color:${status === 'active' ? '#4ade80' : '#fbbf24'}">[${status.toUpperCase()}]</span> ${msg}`;
+            }
+            if (els.mcpLog) {
+                const line = document.createElement('div');
+                line.innerHTML = `<span style="color:#60a5fa">[MCP]</span> ${msg}`;
+                els.mcpLog.appendChild(line);
+                els.mcpLog.scrollTop = els.mcpLog.scrollHeight;
+            }
+        };
+
+        // ====== 核心逻辑：Agent 路由与执行 ======
+        const handleUserMessage = async (text) => {
+            addMessage(text, 'user');
+            updateMemoryStatus(Math.floor(text.length / 2)); // 模拟输入Token消耗
+            
+            // 1. 意图识别与路由决策
+            updateOrchestratorStatus('analyzing');
+            updateRouteLog('active', '正在分析意图...');
+            highlightArch('user');
+            
+            const thinkingDiv = addMessage('', 'ai', true);
+            thinkingDiv.className = 'msg msg-ai';
+            
+            // 模拟路由决策
+            await new Promise(r => setTimeout(r, 800));
+            
+            let routeConfig = {
+                agent: 'Globy 导购',
+                tools: [
+                    { name: '比价服务', active: true },
+                    { name: '翻译服务', active: false },
+                    { name: '物流查询', active: false }
+                ],
+                response: ''
+            };
+
+            // 关键词路由逻辑
+            const t = text.toLowerCase();
+            if (t.includes('翻译') || t.includes('日文') || t.includes('评价')) {
+                routeConfig.agent = '多语言专家';
+                routeConfig.tools = [
+                    { name: '比价服务', active: false },
+                    { name: '翻译服务', active: true },
+                    { name: '物流查询', active: false }
+                ];
+                routeConfig.response = '正在为您翻译最新的日本买手评价...';
+                updateOrchestratorStatus('routing', '多语言专家');
+                updateAgentMatrix(1); // 高亮翻译 Agent
+                highlightArch('agent');
+                updateRouteLog('active', '路由: 识别为“翻译/评价”意图 → 调度: 多语言专家');
+            } else if (t.includes('物流') || t.includes('多久') || t.includes('关税') || t.includes('直邮')) {
+                routeConfig.agent = '物流关税专家';
+                routeConfig.tools = [
+                    { name: '比价服务', active: false },
+                    { name: '翻译服务', active: false },
+                    { name: '物流查询', active: true }
+                ];
+                routeConfig.response = '正在为您查询最新的跨境物流时效与关税政策...';
+                updateOrchestratorStatus('routing', '物流专家');
+                updateAgentMatrix(2); // 高亮物流 Agent
+                highlightArch('agent');
+                updateRouteLog('active', '路由: 识别为“物流/关税”意图 → 调度: 物流专家');
+            } else {
+                routeConfig.response = '正在为您计算跨境到手价...';
+                updateOrchestratorStatus('routing', '选品专家');
+                updateAgentMatrix(0); // 高亮比价 Agent
+                highlightArch('mcp');
+                updateRouteLog('active', '路由: 识别为“比价/购买”意图 → 调度: 选品专家');
+            }
+
+            // 2. 显示思考过程 (MCP Visibility Control)
+            const thinkingHtml = `
+                <div class="agent-thinking">
+                    <div class="route-step">
+                        <div class="route-icon">🤖</div>
+                        <span>Agent: ${routeConfig.agent} (Orchestrator 调度)</span>
+                    </div>
+                    <div class="route-step">
+                        <div class="route-icon">🔌</div>
+                        <span>MCP 可见性控制:</span>
+                    </div>
+                    <div class="mcp-tool-status">
+                        ${routeConfig.tools.map(t => `
+                            <span class="tool-badge ${t.active ? 'tool-active' : 'tool-blocked'}">
+                                ${t.active ? '✅' : '🚫'} ${t.name}
+                            </span>
+                        `).join('')}
+                    </div>
+                    <div class="progress-compiler" style="margin-top:8px;">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                            <span>Context Utilization</span>
+                            <span style="color:var(--primary);font-weight:600;">82%</span>
+                        </div>
+                        <div style="height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden;">
+                            <div style="width:82%;height:100%;background:var(--primary);border-radius:2px;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            thinkingDiv.innerHTML = thinkingHtml;
+
+            // 3. 执行 MCP 调用模拟
+            updateOrchestratorStatus('parallel'); // 模拟并行调度
+            await new Promise(r => setTimeout(r, 1200));
+            highlightArch('tools');
+            
+            // 4. 最终回复
+            addMessage(routeConfig.response, 'ai');
+            updateMemoryStatus(50); // 模拟回复Token消耗
+            
+            // 5. 模拟完成后重置状态
+            setTimeout(() => {
+                updateOrchestratorStatus('done');
+                updateAgentMatrix(-1); // 重置 Agent 状态
+                setTimeout(() => updateOrchestratorStatus('idle'), 1500);
+                updateRouteLog('idle', '任务完成 · 等待新指令');
+                highlightArch(null);
+            }, 2000);
+        };
+
+        // ====== 移动端手势支持 ======
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            const minSwipeDistance = 50;
+
+            // 水平滑动距离大于垂直滑动距离
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipeDistance) {
+                if (diffX > 0) {
+                    // 右滑：返回上一页或关闭面板
+                    if (els.chatOverlay.style.visibility === 'visible') {
+                        els.chatClose.click();
+                    }
+                } else {
+                    // 左滑：打开AI面板
+                    if (els.chatOverlay.style.visibility !== 'visible') {
+                        els.aiFab.click();
+                    }
+                }
+            }
+        }
+
+        // ====== 事件绑定 ======
+        els.toggleLogin.addEventListener('click', () => {
+            isLoggedIn = !isLoggedIn;
+            els.toggleLogin.textContent = isLoggedIn ? '退出' : '登录';
+            $('userNameDisplay').textContent = isLoggedIn ? '李小喵' : '未登录';
+            els.mainAction.textContent = isLoggedIn ? '⚡ 立即开团' : '登录后拼团';
+            showToast(isLoggedIn ? '已登录' : '已退出');
+        });
+
+        els.mainAction.addEventListener('click', () => {
+            if(!isLoggedIn) { showToast('请先登录'); return; }
+            els.payModal.style.visibility = 'visible';
+            els.payModal.style.opacity = '1';
+        });
+
+        els.cancelPay.addEventListener('click', () => {
+            els.payModal.style.visibility = 'hidden';
+            els.payModal.style.opacity = '0';
+        });
+        
+        els.confirmPay.addEventListener('click', () => {
+            els.payModal.style.visibility = 'hidden';
+            els.payModal.style.opacity = '0';
+            showToast('✅ 支付成功');
+        });
+
+        els.aiFab.addEventListener('click', () => {
+            els.chatOverlay.style.visibility = 'visible';
+            els.chatOverlay.style.opacity = '1';
+            els.chatOverlay.querySelector('.ai-chat-panel').style.transform = 'translateY(0)';
+        });
+        
+        els.chatClose.addEventListener('click', () => {
+            els.chatOverlay.style.opacity = '0';
+            els.chatOverlay.querySelector('.ai-chat-panel').style.transform = 'translateY(100%)';
+            setTimeout(() => els.chatOverlay.style.visibility = 'hidden', 300);
+        });
+
+        // AI 对话事件
+        els.chatSend.addEventListener('click', () => {
+            const text = els.chatInput.value.trim();
+            if (text) {
+                handleUserMessage(text);
+                els.chatInput.value = '';
+            }
+        });
+
+        els.chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                els.chatSend.click();
+            }
+        });
+
+        // 快捷建议点击
+        document.querySelectorAll('.msg-suggestions button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const query = btn.dataset.query;
+                if (query) handleUserMessage(query);
+            });
+        });
+    })();
+</script>
+</body>
+</html>

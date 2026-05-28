@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-ui="neumorphic" data-app="live">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>住值 · 租房生命成本计算器</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏡</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap");
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #e6e6e6;
+      --text: #3f3f3f;
+      --muted: #6b6b6b;
+      --card-bg: #e6e6e6;
+      --card-radius: 28px;
+      --btn-radius: 40px;
+      --shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
+      --shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.14);
+      --shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
+      --accent: #5a6a7a;
+      --accent-light: rgba(90,106,122,0.12);
+      --border: transparent;
+      --green: #2b7a4b;
+      --red: #c04040;
+      --amber: #b08530;
+      --input-bg: #e6e6e6;
+      --inset-bg: #e6e6e6;
+      --tab-bg: rgba(230,230,230,0.92);
+      --tab-active-bg: rgba(90,106,122,0.12);
+    }
+
+    body[data-theme="dark"] {
+      --bg: #2a2a2a;
+      --text: #d8d8d8;
+      --muted: #999;
+      --card-bg: #2a2a2a;
+      --shadow: -8px -8px 16px rgba(50,50,50,0.6), 8px 8px 16px rgba(0,0,0,0.45);
+      --shadow-hover: -6px -6px 12px rgba(50,50,50,0.5), 6px 6px 12px rgba(0,0,0,0.5);
+      --shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.3), inset -4px -4px 8px rgba(60,60,60,0.4);
+      --accent: #8aaabb;
+      --accent-light: rgba(138,170,187,0.15);
+      --input-bg: #2a2a2a;
+      --inset-bg: #2a2a2a;
+      --tab-bg: rgba(42,42,42,0.92);
+      --tab-active-bg: rgba(138,170,187,0.18);
+    }
+
+    body[data-theme="ink"] {
+      --bg: #f0f0f0;
+      --text: #111;
+      --muted: #555;
+      --card-bg: #f0f0f0;
+      --shadow: none;
+      --shadow-hover: none;
+      --shadow-inset: none;
+      --accent: #333;
+      --accent-light: rgba(51,51,51,0.1);
+      --border: #bbb;
+      --input-bg: #f0f0f0;
+      --inset-bg: #f0f0f0;
+      --tab-bg: rgba(240,240,240,0.95);
+      --tab-active-bg: rgba(51,51,51,0.1);
+    }
+
+    body {overflow-x:hidden;
+      background: var(--bg);
+      font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      padding: 20px;
+      padding-bottom: max(100px, calc(env(safe-area-inset-bottom) + 80px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      line-height: 1.5;
+      transition: background 0.3s, color 0.3s;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+        padding-bottom: max(90px, calc(env(safe-area-inset-bottom) + 70px));
+      }
+    }
+
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding: 28px 28px 40px;
+      transition: box-shadow 0.3s, background 0.3s;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 12px 10px 20px;
+        border-radius: 20px;
+      }
+      body {
+        padding: 10px;
+      }
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+    }
+    h1 .brand-en {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    @media (max-width: 480px) {
+      .top-bar { gap: 6px; margin-bottom: 4px; }
+      h1 { font-size: 1.4rem; gap: 8px; }
+      h1 .brand-en { font-size: 0.78rem; }
+    }
+
+    .theme-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .theme-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: var(--shadow);
+    }
+    .theme-dot:hover { transform: scale(0.92); }
+    .theme-dot.active { box-shadow: var(--shadow-inset); border-color: var(--accent); }
+    .theme-dot.t-light { background: #e6e6e6; }
+    .theme-dot.t-dark { background: #2a2a2a; }
+    .theme-dot.t-ink { background: #aaa; }
+
+    @media (max-width: 480px) {
+      .theme-dots { gap: 5px; }
+      .theme-dot { width: 22px; height: 22px; }
+    }
+
+    .subtitle {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+      border-left: 4px solid var(--accent);
+      padding-left: 14px;
+    }
+
+    @media (max-width: 480px) {
+      .subtitle {
+        font-size: 0.82rem;
+        margin-bottom: 20px;
+        padding-left: 10px;
+      }
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      border-bottom: 2px solid color-mix(in srgb, var(--muted) 20%, transparent);
+      padding-bottom: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .section-title {
+        font-size: 1rem;
+        margin: 20px 0 10px;
+        padding-bottom: 6px;
+      }
+    }
+
+    .values-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow-inset);
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .values-panel {
+        padding: 14px;
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 375px) {
+      .values-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .input-group label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .input-group input {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--btn-radius);
+      padding: 11px 14px;
+      font-size: 0.92rem;
+      outline: none;
+      color: var(--text);
+      box-shadow: var(--shadow-inset);
+      transition: 0.2s;
+      width: 100%;
+    }
+    .input-group input:focus {
+      box-shadow: var(--shadow-inset), 0 0 0 2px var(--accent-light);
+    }
+
+    @media (max-width: 480px) {
+      .input-group { gap: 4px; }
+      .input-group label { font-size: 0.78rem; }
+      .input-group input {
+        padding: 10px 12px;
+        font-size: 0.88rem;
+      }
+      .input-group input[type="number"] {
+        -moz-appearance: textfield;
+      }
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      margin: 14px 0 8px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 480px) {
+      .button-row {
+        gap: 8px;
+        margin: 10px 0 6px;
+      }
+    }
+
+    .btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 11px 20px;
+      border-radius: var(--btn-radius);
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--text);
+      font-family: inherit;
+    }
+    .btn:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }
+    .btn:active { box-shadow: var(--shadow-inset); transform: scale(0.97); }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 3px 12px color-mix(in srgb, var(--accent) 38%, transparent), var(--shadow);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 48%, transparent), var(--shadow-hover);
+    }
+    .btn-primary:active { box-shadow: var(--shadow-inset); }
+
+    .btn-accent-outline {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-sm {
+      padding: 7px 14px;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 480px) {
+      .btn {
+        padding: 9px 14px;
+        font-size: 0.82rem;
+        gap: 5px;
+      }
+      .btn-sm {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+      }
+      .btn-primary {
+        padding: 10px 16px;
+      }
+    }
+
+    .plan-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin: 18px 0;
+    }
+
+    @media (max-width: 480px) {
+      .plan-list {
+        gap: 12px;
+        margin: 12px 0;
+      }
+    }
+
+    .plan-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 16px;
+      transition: 0.2s;
+    }
+    .plan-card:hover { box-shadow: var(--shadow-hover); }
+
+    .plan-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .plan-name {
+      font-weight: 650;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .plan-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 8px 0;
+    }
+
+    .plan-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .plan-card {
+        padding: 14px 12px;
+        border-radius: 16px;
+        gap: 12px;
+      }
+      .plan-header { margin-bottom: 6px; }
+      .plan-name { font-size: 0.95rem; gap: 6px; }
+      .plan-details { gap: 6px 10px; font-size: 0.78rem; margin: 6px 0; }
+      .plan-actions { gap: 4px; }
+      .plan-card { grid-template-columns: 1fr; }
+    }
+
+    .badge {
+      background: var(--accent-light);
+      padding: 3px 11px;
+      border-radius: 30px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .badge-pass { background: rgba(43,122,75,0.15); color: var(--green); }
+    .badge-fail { background: rgba(192,64,64,0.15); color: var(--red); }
+
+    @media (max-width: 480px) {
+      .badge {
+        padding: 2px 8px;
+        font-size: 0.72rem;
+      }
+    }
+
+    .metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-inset);
+    }
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.88rem;
+    }
+    .metric-value { font-weight: 700; font-size: 1.05rem; }
+
+    @media (max-width: 480px) {
+      .metrics {
+        gap: 8px;
+        padding: 12px;
+        border-radius: 14px;
+      }
+      .metric-row { font-size: 0.82rem; }
+      .metric-value { font-size: 0.95rem; }
+      .metric-label { font-size: 0.78rem; }
+    }
+
+    .green { color: var(--green); }
+    .red { color: var(--red); }
+    .amber { color: var(--amber); }
+
+    .progress-bg {
+      width: 100%;
+      height: 6px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      margin: 5px 0 2px;
+      box-shadow: var(--shadow-inset);
+    }
+    .progress-fill {
+      height: 6px;
+      border-radius: 10px;
+      background: var(--green);
+      transition: width 0.4s ease;
+    }
+    .progress-fill.warning { background: var(--amber); }
+    .progress-fill.danger { background: var(--red); }
+
+    @media (max-width: 480px) {
+      .progress-bg { height: 5px; margin: 4px 0 2px; }
+      .progress-fill { height: 5px; }
+    }
+
+    .net-highlight { font-size: 1.6rem; font-weight: 700; line-height: 1.2; }
+
+    @media (max-width: 480px) {
+      .net-highlight { font-size: 1.3rem; }
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 4px;
+      transition: 0.15s;
+    }
+    .delete-btn:hover { color: var(--red); }
+
+    @media (max-width: 480px) {
+      .delete-btn { font-size: 1rem; padding: 3px; }
+    }
+
+    hr {
+      border: 0.5px solid color-mix(in srgb, var(--muted) 18%, transparent);
+      margin: 24px 0 12px;
+    }
+
+    .empty-message {
+      color: var(--muted);
+      text-align: center;
+      padding: 32px;
+      font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      .empty-message {
+        padding: 24px 16px;
+        font-size: 0.88rem;
+      }
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin: 14px 0;
+    }
+    .compare-table th {
+      background: var(--card-bg);
+      box-shadow: var(--shadow-inset);
+      padding: 13px 10px;
+      font-weight: 600;
+      text-align: left;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .compare-table td {
+      padding: 11px 10px;
+      border-bottom: 1px solid color-mix(in srgb, var(--muted) 10%, transparent);
+      font-size: 0.88rem;
+    }
+    .best-row { background: color-mix(in srgb, var(--green) 8%, var(--card-bg)); }
+
+    @media (max-width: 480px) {
+      .compare-table th {
+        padding: 10px 8px;
+        font-size: 0.78rem;
+      }
+      .compare-table td {
+        padding: 9px 8px;
+        font-size: 0.78rem;
+      }
+    }
+
+    .form-strip {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-inset);
+    }
+
+    @media (max-width: 480px) {
+      .form-strip {
+        padding: 14px 12px;
+        border-radius: 16px;
+      }
+      .form-strip .input-group input {
+        padding: 10px 12px;
+        font-size: 0.88rem;
+      }
+    }
+
+    .status-text {
+      font-size: 0.82rem;
+      color: var(--muted);
+      align-self: center;
+    }
+
+    @media (max-width: 480px) {
+      .status-text { font-size: 0.75rem; }
+    }
+
+    .hint-text {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .footer-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .hint-text { font-size: 0.72rem; margin-top: 6px; }
+      .footer-note { font-size: 0.72rem; margin-top: 6px; }
+    }
+
+    .waterfall-wrap {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+      margin: 14px 0;
+    }
+    .waterfall-wrap h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .wf-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+    }
+    .wf-label { width: 100px; text-align: right; color: var(--muted); flex-shrink: 0; }
+    .wf-bar-wrap { flex: 1; height: 22px; background: var(--card-bg); border-radius: 6px; box-shadow: var(--shadow-inset); overflow: hidden; position: relative; }
+    .wf-bar {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .wf-bar.wf-income { background: #4a8c6f; }
+    .wf-bar.wf-minus { background: #c07040; }
+    .wf-bar.wf-remain { background: var(--accent); }
+    .wf-amount { width: 80px; text-align: right; font-weight: 600; flex-shrink: 0; }
+
+    @media (max-width: 480px) {
+      .waterfall-wrap { padding: 16px 14px; }
+      .waterfall-wrap h3 { font-size: 0.92rem; margin-bottom: 10px; }
+      .wf-row { gap: 8px; margin-bottom: 5px; font-size: 0.78rem; }
+      .wf-bar-wrap { height: 18px; }
+      .wf-bar { font-size: 0.65rem; padding-left: 6px; }
+      .wf-label { width: 60px; font-size: 0.72rem; }
+      .wf-amount { width: 70px; font-size: 0.78rem; }
+    }
+
+    .score-bars { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+    .score-row { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
+    .score-label { width: 72px; text-align: right; color: var(--muted); flex-shrink: 0; }
+    .score-track { flex: 1; height: 8px; background: var(--card-bg); border-radius: 8px; box-shadow: var(--shadow-inset); overflow: hidden; }
+    .score-fill { height: 100%; border-radius: 8px; transition: width 0.5s ease; }
+    .score-num { width: 36px; text-align: right; font-weight: 600; font-size: 0.8rem; flex-shrink: 0; }
+
+    @media (max-width: 480px) {
+      .score-bars { gap: 4px; }
+      .score-row { gap: 6px; font-size: 0.72rem; }
+      .score-label { width: 60px; font-size: 0.72rem; }
+      .score-track { height: 6px; }
+      .score-num { width: 30px; font-size: 0.72rem; }
+      .score-bars { margin-top: 4px; }
+    }
+
+    .smart-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+      margin: 14px 0;
+    }
+    .smart-panel h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .smart-result {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .smart-big {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+    .smart-detail { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    @media (max-width: 480px) {
+      .smart-panel { padding: 16px 14px; }
+      .smart-panel h3 { font-size: 0.92rem; }
+      .smart-result { gap: 12px; }
+      .smart-big { font-size: 1.6rem; }
+      .smart-detail { font-size: 0.82rem; }
+      .smart-panel .input-group { min-width: 100% !important; }
+    }
+
+    /* 敏感性滑块 */
+    .slider-section {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed color-mix(in srgb, var(--muted) 15%, transparent);
+    }
+    .slider-section h4 {
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 0.82rem;
+    }
+    .slider-row label { width: 60px; text-align: right; color: var(--muted); flex-shrink: 0; }
+    .slider-row input[type="range"] {
+      flex: 1;
+      height: 6px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--card-bg);
+      border-radius: 6px;
+      box-shadow: var(--shadow-inset);
+      outline: none;
+    }
+    .slider-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+    .slider-val { width: 70px; text-align: right; font-weight: 600; flex-shrink: 0; }
+    .slider-net {
+      margin-top: 6px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: var(--shadow-inset);
+    }
+    .slider-net.positive { color: var(--green); background: rgba(43,122,75,0.08); }
+    .slider-net.negative { color: var(--red); background: rgba(192,64,64,0.08); }
+
+    @media (max-width: 480px) {
+      .slider-section { margin-top: 8px; padding-top: 8px; }
+      .slider-section h4 { font-size: 0.78rem; margin-bottom: 6px; }
+      .slider-row { gap: 8px; margin-bottom: 5px; font-size: 0.78rem; }
+      .slider-row label { width: 50px; font-size: 0.72rem; }
+      .slider-row input[type="range"]::-webkit-slider-thumb { width: 16px; height: 16px; }
+      .slider-val { width: 60px; font-size: 0.72rem; }
+      .slider-net { padding: 6px 10px; font-size: 0.82rem; }
+      .slider-row input[type="range"] { height: 5px; }
+    }
+
+    /* 排序筛选栏 */
+    .sort-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .sort-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.18s ease;
+      color: var(--text);
+      font-family: inherit;
+    }
+    .sort-btn:hover { box-shadow: var(--shadow-hover); }
+    .sort-btn.active { box-shadow: var(--shadow-inset); color: var(--accent); font-weight: 600; }
+
+    @media (max-width: 480px) {
+      .sort-bar { gap: 6px; margin: 8px 0; }
+      .sort-btn { padding: 5px 10px; font-size: 0.75rem; }
+    }
+
+    /* Chart 容器 */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 14px 0;
+    }
+    .chart-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+    }
+    .chart-card h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .chart-card canvas {
+      max-height: 260px;
+    }
+
+    @media (max-width: 480px) {
+      .chart-grid { gap: 12px; }
+      .chart-card { padding: 14px 12px; }
+      .chart-card h4 { font-size: 0.85rem; }
+      .chart-card canvas { max-height: 200px; }
+    }
+
+    /* Tab Bar */
+    .page { display: none; }
+    .page.active { display: block; }
+    .tab-bar {
+      position: fixed;
+      bottom: max(8px, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 640px;
+      background: var(--tab-bg);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 6px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      z-index: 10;
+    }
+    .tab-item {
+      flex: 1;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.76rem;
+      padding: 6px 0;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tab-item.active {
+      color: var(--accent);
+      font-weight: 600;
+      background: var(--tab-active-bg);
+    }
+    .tab-icon {
+      font-size: 1.45rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    @media (max-width: 480px) {
+      .tab-bar {
+        width: calc(100% - 16px);
+        padding: 6px 4px;
+        border-radius: 14px;
+      }
+      .tab-item {
+        padding: 4px 0;
+      }
+      .tab-icon {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* 编辑模式提示 */
+    .edit-mode-banner {
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 480px) {
+      .edit-mode-banner {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+        border-radius: 10px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      body { padding-bottom: 120px; }
+      .tab-bar { max-width: 640px; }
+      .chart-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 1100px) {
+      .container { padding: 26px 32px 28px; }
+      .tab-bar { max-width: 720px; padding: 10px 20px; }
+    }
+
+    @media (max-width: 640px) {
+      .plan-card { grid-template-columns: 1fr; }
+      .container { padding: 16px; }
+      .wf-label { width: 70px; font-size: 0.78rem; }
+      .smart-big { font-size: 1.8rem; }
+      .chart-grid { grid-template-columns: 1fr; }
+      .form-strip .input-group { min-width: calc(50% - 6px) !important; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.4rem; }
+      .subtitle { font-size: 0.82rem; }
+      .container { padding: 12px 10px; }
+      .values-panel { padding: 14px; gap: 10px; grid-template-columns: repeat(2, 1fr); }
+      .plan-card { padding: 14px 12px; border-radius: 16px; }
+      .btn { font-size: 0.82rem; padding: 8px 12px; }
+      .tab-item { font-size: 0.68rem; }
+      .tab-icon { font-size: 1.25rem; }
+      .form-strip { padding: 14px 12px; }
+      .sort-bar { gap: 6px; }
+      .sort-btn { padding: 5px 10px; font-size: 0.75rem; }
+      .metrics { padding: 12px; }
+      .metric-row { font-size: 0.82rem; }
+      .net-highlight { font-size: 1.3rem; }
+      .plan-card { grid-template-columns: 1fr; }
+    }
+
+    /* 平板端优化 */
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .container { max-width: 90%; }
+      .plan-card { grid-template-columns: 1.5fr 1fr; }
+      .values-panel { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* AI 设置面板 */
+    .settings-fab {
+      position: fixed;
+      bottom: max(76px, calc(env(safe-area-inset-bottom) + 60px));
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      transition: 0.18s;
+      color: var(--text);
+    }
+    .settings-fab:hover { box-shadow: var(--shadow-hover); transform: scale(0.95); }
+
+    @media (max-width: 480px) {
+      .settings-fab {
+        bottom: max(68px, calc(env(safe-area-inset-bottom) + 52px));
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+    @media (max-width: 480px) {
+      .modal-overlay {
+        align-items: flex-end;
+      }
+    }
+
+    .modal-box {
+      width: min(460px, 92vw);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding: 22px 24px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-box h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .modal-row { margin-bottom: 14px; }
+    .modal-row label { font-size: 0.82rem; font-weight: 500; color: var(--muted); display: block; margin-bottom: 5px; }
+
+    @media (max-width: 480px) {
+      .modal-row { margin-bottom: 10px; }
+      .modal-row label { font-size: 0.78rem; margin-bottom: 4px; }
+    }
+    .modal-row input, .modal-row select {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--btn-radius);
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      color: var(--text);
+      box-shadow: var(--shadow-inset);
+      outline: none;
+      font-family: inherit;
+    }
+    .modal-row select { cursor: pointer; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+
+    @media (max-width: 480px) {
+      .modal-actions { gap: 8px; margin-top: 12px; }
+    }
+
+    @media (max-width: 480px) {
+       .modal-box {
+         width: 100%;
+         border-radius: 20px 20px 0 0;
+         padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+         max-height: 85vh;
+       }
+       .modal-box h3 { font-size: 0.95rem; }
+       .modal-row input, .modal-row select {
+         padding: 9px 12px;
+         font-size: 0.82rem;
+       }
+     }
+
+    /* AI 响应区 */
+    .ai-section {
+      margin-top: 16px;
+    }
+    .ai-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      border-radius: var(--btn-radius);
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      color: var(--text);
+      font-family: inherit;
+    }
+    .ai-btn:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }
+    .ai-btn:active { box-shadow: var(--shadow-inset); }
+    .ai-btn.busy {
+      opacity: 0.8;
+      cursor: wait;
+      pointer-events: none;
+    }
+
+    .ai-response {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px 18px;
+      margin-top: 12px;
+      box-shadow: var(--shadow-inset);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+      display: none;
+    }
+    .ai-response.visible { display: block; }
+    .ai-response .ai-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .ai-section { margin-top: 12px; }
+      .ai-btn { padding: 8px 14px; font-size: 0.82rem; }
+      .ai-response { padding: 14px 12px; font-size: 0.82rem; }
+    }
+
+    @keyframes dotBlink {
+      0%, 80%, 100% { opacity: 0.2; }
+      40% { opacity: 1; }
+    }
+    .ai-dots i {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin: 0 2px;
+      animation: dotBlink 1.2s infinite;
+    }
+    .ai-dots i:nth-child(2) { animation-delay: 0.2s; }
+    .ai-dots i:nth-child(3) { animation-delay: 0.4s; }
+
+    @media (max-width: 375px) {
+      .values-panel { grid-template-columns: 1fr; }
+    }
+
+    /* 对比表格水平滚动 */
+    .compare-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 -12px;
+      padding: 0 12px;
+    }
+    .compare-table {
+      min-width: 600px;
+    }
+
+    @media (max-width: 480px) {
+      .compare-table-wrap {
+        margin: 0 -10px;
+        padding: 0 10px;
+      }
+      .compare-table {
+        min-width: 500px;
+      }
+    }
+
+    /* 移动端表单优化 */
+    @media (max-width: 640px) {
+      .form-strip .input-group {
+        min-width: calc(50% - 6px) !important;
+        flex: 1 1 calc(50% - 6px);
+      }
+      .form-strip .input-group:first-child,
+      .form-strip .input-group:nth-child(2) {
+        min-width: calc(100% - 6px) !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .form-strip .input-group {
+        min-width: 100% !important;
+      }
+    }
+
+    /* 滑块区域优化 */
+    @media (max-width: 480px) {
+      .slider-row label { width: 50px; font-size: 0.78rem; }
+      .slider-val { width: 60px; font-size: 0.78rem; }
+      .wf-label { width: 60px; font-size: 0.72rem; }
+      .wf-amount { width: 70px; font-size: 0.78rem; }
+    }
+
+    /* 首次引导 */
+    .onboard-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .onboard-overlay.open { opacity: 1; pointer-events: auto; }
+
+    @media (max-width: 480px) {
+      .onboard-overlay {
+        align-items: flex-end;
+      }
+    }
+
+    .onboard-card {
+      width: min(440px, 90vw);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding: 32px 28px 24px;
+      text-align: center;
+    }
+    .onboard-card .ob-icon { font-size: 3rem; margin-bottom: 8px; }
+    .onboard-card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .onboard-card .ob-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 24px; }
+
+    @media (max-width: 480px) {
+      .onboard-card {
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 24px 18px calc(18px + env(safe-area-inset-bottom));
+      }
+      .onboard-card .ob-icon { font-size: 2.5rem; }
+      .onboard-card h2 { font-size: 1.2rem; }
+      .onboard-card .ob-sub { font-size: 0.82rem; margin-bottom: 18px; }
+    }
+
+    .ob-steps {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .ob-step {
+      flex: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 12px;
+      box-shadow: var(--shadow-inset);
+    }
+    .ob-step .ob-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .ob-step .ob-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .ob-step .ob-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
+
+    @media (max-width: 480px) {
+      .ob-steps { flex-direction: column; gap: 8px; }
+      .ob-step { padding: 12px 10px; }
+      .ob-step .ob-num { width: 20px; height: 20px; font-size: 0.68rem; }
+      .ob-step .ob-title { font-size: 0.82rem; }
+      .ob-step .ob-desc { font-size: 0.72rem; }
+    }
+
+    .ob-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .ob-skip {
+      font-size: 0.78rem;
+      color: var(--muted);
+      cursor: pointer;
+      margin-top: 12px;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+    .ob-skip:hover { color: var(--text); }
+
+    @media (max-width: 480px) {
+      .ob-actions { gap: 8px; }
+      .ob-skip { font-size: 0.72rem; margin-top: 10px; }
+    }
+
+    .help-btn {
+      position: fixed;
+      top: max(16px, env(safe-area-inset-top));
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+      transition: 0.18s;
+      color: var(--muted);
+      font-family: inherit;
+    }
+    .help-btn:hover { box-shadow: var(--shadow-hover); color: var(--text); }
+
+    @media (max-width: 480px) {
+      .help-btn {
+        top: max(12px, env(safe-area-inset-top));
+        right: 12px;
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .ob-steps { flex-direction: column; gap: 8px; }
+      .onboard-card { padding: 24px 18px 18px; }
+      .onboard-card h2 { font-size: 1.2rem; }
+    }
+  
+html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}img,canvas,pre,code,table,iframe{max-width:100%}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="top-bar">
+    <h1>🏡 住值 <span class="brand-en">LiveWorth</span></h1>
+    <div class="theme-dots">
+      <div class="theme-dot t-light active" data-theme="" title="浅色"></div>
+      <div class="theme-dot t-dark" data-theme="dark" title="暗色"></div>
+      <div class="theme-dot t-ink" data-theme="ink" title="墨水屏"></div>
+    </div>
+  </div>
+  <div class="subtitle">把时间和健康算进房租里 · 看看你真正赚了多少</div>
+
+  <!-- Page 1: 价值观 -->
+  <div class="page active" id="page-values">
+    <div class="section-title">🧠 我的生命价值观</div>
+    <div class="values-panel" id="valuesPanel">
+      <div class="input-group">
+        <label>⏳ 时间价值 <span style="font-weight:400;">(元/h)</span></label>
+        <input type="number" id="P" value="50" step="1" min="0">
+      </div>
+      <div class="input-group">
+        <label>🩺 健康成本 <span style="font-weight:400;">(元/h)</span></label>
+        <input type="number" id="H" value="20" step="1" min="0">
+      </div>
+      <div class="input-group">
+        <label>⚖️ 投入产出比 K</label>
+        <input type="number" id="K" value="1.2" step="0.1" min="1.0">
+      </div>
+      <div class="input-group">
+        <label>💰 月储蓄目标 S</label>
+        <input type="number" id="S" value="2000" step="100" min="0">
+      </div>
+      <div class="input-group">
+        <label>🛒 月消费 C</label>
+        <input type="number" id="C" value="3000" step="100" min="0">
+      </div>
+      <div class="input-group">
+        <label>🛡️ 应急预留 R</label>
+        <input type="number" id="R" value="1000" step="100" min="0">
+      </div>
+      <div class="input-group">
+        <label>📅 月工作天数</label>
+        <input type="number" id="defaultD" value="22" step="1" min="1" max="31">
+      </div>
+      <div class="input-group">
+        <label>⏲️ 日工时</label>
+        <input type="number" id="defaultTw" value="8" step="0.5" min="1" max="16">
+      </div>
+    </div>
+    <div class="button-row">
+      <button class="btn btn-primary" id="saveValuesBtn">💾 保存</button>
+      <span class="status-text" id="valuesStatus">使用上方默认值</span>
+    </div>
+  </div>
+
+  <!-- Page 2: 智能推荐 -->
+  <div class="page" id="page-smart">
+    <div class="section-title">🎯 智能租金推荐</div>
+    <div class="smart-panel" id="smartPanel">
+      <h3>🤖 贪心算法 · 最优租金预算</h3>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-bottom:14px;">
+        <div class="input-group" style="min-width:120px;">
+          <label>💰 参考月薪</label>
+          <input type="number" id="smartSalary" value="15000" step="100" min="0">
+        </div>
+        <div class="input-group" style="min-width:100px;">
+          <label>🚇 日通勤(h)</label>
+          <input type="number" id="smartCommute" value="1.5" step="0.1" min="0">
+        </div>
+        <div class="input-group" style="min-width:90px;">
+          <label>🎫 月交通费</label>
+          <input type="number" id="smartTransport" value="200" step="10" min="0">
+        </div>
+        <button class="btn btn-accent-outline" id="smartCalcBtn">⚡ 计算推荐</button>
+      </div>
+      <div id="smartResult"></div>
+      <div class="ai-section">
+        <button class="ai-btn" id="aiAnalyzeBtn">🤖 AI 租房顾问</button>
+        <div class="ai-response" id="aiResponse"><div class="ai-label">🤖 AI 租房顾问</div><div id="aiText"></div></div>
+      </div>
+    </div>
+
+    <div id="waterfallArea"></div>
+
+    <!-- Chart.js 可视化 -->
+    <div class="section-title">📊 数据可视化</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h4>🍩 预算分配</h4>
+        <canvas id="doughnutChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h4>📊 方案净收益对比</h4>
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 3: 方案列表 -->
+  <div class="page" id="page-plans">
+    <div class="section-title">📋 租房方案</div>
+    <div id="editBanner"></div>
+    <div class="form-strip">
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;">
+        <div class="input-group" style="min-width:120px;">
+          <label>📌 方案名</label>
+          <input type="text" id="planName" placeholder="如 公司旁公寓" value="方案A">
+        </div>
+        <div class="input-group" style="min-width:110px;">
+          <label>💵 月薪</label>
+          <input type="number" id="monthlySalary" value="15000" step="100" min="0">
+        </div>
+        <div class="input-group" style="min-width:100px;">
+          <label>🏠 月房租</label>
+          <input type="number" id="rentInput" value="2800" step="50" min="0">
+        </div>
+        <div class="input-group" style="min-width:100px;">
+          <label>🚇 日通勤(h)</label>
+          <input type="number" id="commuteTime" value="1.5" step="0.1" min="0">
+        </div>
+        <div class="input-group" style="min-width:100px;">
+          <label>🎫 月交通费</label>
+          <input type="number" id="transportCost" value="200" step="10" min="0">
+        </div>
+        <div class="input-group" style="min-width:80px;">
+          <label>📆 天/月</label>
+          <input type="number" id="workDays" value="22" step="1" min="1">
+        </div>
+        <div class="input-group" style="min-width:80px;">
+          <label>🕒 h/天</label>
+          <input type="number" id="workHours" value="8" step="0.5" min="1">
+        </div>
+        <button class="btn btn-primary" id="addPlanBtn" style="height:fit-content;">➕ 添加</button>
+      </div>
+      <div class="hint-text">* 工作天数/时长默认使用价值观设定，可单独修改</div>
+    </div>
+
+    <div class="sort-bar" id="sortBar">
+      <span style="font-size:0.82rem; color:var(--muted);">排序：</span>
+      <button class="sort-btn active" data-sort="default">默认</button>
+      <button class="sort-btn" data-sort="net-desc">净收益↓</button>
+      <button class="sort-btn" data-sort="rent-asc">房租↑</button>
+      <button class="sort-btn" data-sort="commute-asc">通勤↓</button>
+      <button class="sort-btn" data-sort="score-desc">综合评分↓</button>
+      <button class="sort-btn" data-sort="pass-only" style="margin-left:auto;">✅ 仅达标</button>
+    </div>
+
+    <div id="planListContainer" class="plan-list">
+      <div class="empty-message">✨ 还没有添加方案，上方填写第一个租房方案吧</div>
+    </div>
+  </div>
+
+  <!-- Page 4: 对比 -->
+  <div class="page" id="page-compare">
+    <div class="section-title">📊 方案对比</div>
+    <div id="compareArea">
+      <p style="color:var(--muted); font-size:0.9rem;">添加至少两个方案后可查看对比</p>
+    </div>
+  </div>
+
+  <hr>
+  <div class="footer-note">
+    净收益 N = 月收入 - 房租 - 消费 - 应急 - 交通 - (时间+健康)×工时 - 通勤时间价值<br>
+    投入产出系数 K 衡量你愿意用多少生命成本换取收入
+  </div>
+</div>
+
+<!-- 帮助按钮 -->
+<button class="help-btn" id="helpBtn" title="使用引导">?</button>
+
+<!-- 首次引导弹窗 -->
+<div class="onboard-overlay" id="onboardModal">
+  <div class="onboard-card">
+    <div class="ob-icon">🏡</div>
+    <h2>欢迎使用 住值</h2>
+    <div class="ob-sub">把时间和健康算进房租里，看看你真正赚了多少</div>
+    <div class="ob-steps">
+      <div class="ob-step">
+        <div class="ob-num">1</div>
+        <div class="ob-title">设你的价值观</div>
+        <div class="ob-desc">你的时间值多少钱？健康呢？设好后算法会帮你算隐性成本</div>
+      </div>
+      <div class="ob-step">
+        <div class="ob-num">2</div>
+        <div class="ob-title">看智能推荐</div>
+        <div class="ob-desc">输入月薪和通勤，贪心算法秒算你能承受的最高房租</div>
+      </div>
+      <div class="ob-step">
+        <div class="ob-num">3</div>
+        <div class="ob-title">对比方案</div>
+        <div class="ob-desc">添加多个租房方案，拖滑块做 What-if 分析，AI 帮你决策</div>
+      </div>
+    </div>
+    <div class="ob-actions">
+      <button class="btn btn-primary" id="obQuickStart">⚡ 快速体验</button>
+      <button class="btn" id="obStartBlank">我自己来</button>
+    </div>
+    <button class="ob-skip" id="obSkip">已有经验？跳过引导</button>
+  </div>
+</div>
+
+<!-- AI 设置 FAB -->
+<button class="settings-fab" id="settingsFab" title="AI 设置">⚙️</button>
+
+<!-- AI 设置弹窗 -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal-box">
+    <h3>⚙️ AI 租房顾问设置</h3>
+    <div class="modal-row">
+      <label>平台</label>
+      <select id="aiPlatform">
+        <option value="deepseek">DeepSeek（推荐，国内快）</option>
+        <option value="openrouter">OpenRouter（免费额度）</option>
+        <option value="siliconflow">SiliconFlow</option>
+        <option value="custom">自定义兼容接口</option>
+      </select>
+    </div>
+    <div class="modal-row">
+      <label>API Key</label>
+      <input type="password" id="aiApiKey" placeholder="sk-...">
+    </div>
+    <div class="modal-row" id="modelRow">
+      <label>模型</label>
+      <input type="text" id="aiModel" placeholder="deepseek-v4-flash">
+    </div>
+    <div class="modal-row" id="customUrlRow" style="display:none;">
+      <label>接口地址</label>
+      <input type="text" id="aiCustomUrl" placeholder="https://your-api.com">
+    </div>
+    <div style="font-size:0.78rem; color:var(--muted); margin-bottom:6px;">
+      💡 推荐 DeepSeek，国内访问快、价格低（¥1/百万token）。OpenRouter 也有免费模型可选。
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-sm" id="settingsCancel">取消</button>
+      <button class="btn btn-sm btn-primary" id="settingsSave">💾 保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Bar -->
+<div class="tab-bar">
+  <div class="tab-item active" data-page="values"><span class="tab-icon">🧠</span><span>价值观</span></div>
+  <div class="tab-item" data-page="smart"><span class="tab-icon">🎯</span><span>推荐</span></div>
+  <div class="tab-item" data-page="plans"><span class="tab-icon">📋</span><span>方案</span></div>
+  <div class="tab-item" data-page="compare"><span class="tab-icon">📊</span><span>对比</span></div>
+</div>
+
+<script>
+(function() {
+  var LS_KEY_VALUES = 'liveworth_values';
+  var LS_KEY_PLANS = 'liveworth_plans';
+  var LS_KEY_THEME = 'liveworth_theme';
+
+  var personalValues = { P: 50, H: 20, K: 1.2, S: 2000, C: 3000, R: 1000, defaultD: 22, defaultTw: 8 };
+  var plans = [];
+  var editingPlanId = null;
+  var currentSort = 'default';
+  var doughnutChartInstance = null;
+  var barChartInstance = null;
+
+  var $ = function(id) { return document.getElementById(id); };
+  var PInput = $('P'), HInput = $('H'), KInput = $('K'), SInput = $('S');
+  var CInput = $('C'), RInput = $('R'), defaultDInput = $('defaultD'), defaultTwInput = $('defaultTw');
+  var valuesStatus = $('valuesStatus');
+  var planNameInput = $('planName'), monthlySalaryInput = $('monthlySalary');
+  var rentInput = $('rentInput'), commuteTimeInput = $('commuteTime');
+  var transportCostInput = $('transportCost'), workDaysInput = $('workDays');
+  var workHoursInput = $('workHours');
+  var planListContainer = $('planListContainer'), compareArea = $('compareArea');
+  var smartSalary = $('smartSalary'), smartCommute = $('smartCommute');
+  var smartTransport = $('smartTransport'), smartResult = $('smartResult');
+
+  // === 持久化 ===
+  function loadState() {
+    try {
+      var sv = localStorage.getItem(LS_KEY_VALUES);
+      if (sv) personalValues = JSON.parse(sv);
+      var sp = localStorage.getItem(LS_KEY_PLANS);
+      if (sp) plans = JSON.parse(sp);
+      var st = localStorage.getItem(LS_KEY_THEME);
+      if (st !== null) { document.body.setAttribute('data-theme', st); syncThemeDots(st); }
+    } catch(e) {}
+  }
+  function saveValues() { try { localStorage.setItem(LS_KEY_VALUES, JSON.stringify(personalValues)); } catch(e) {} }
+  function savePlans() { try { localStorage.setItem(LS_KEY_PLANS, JSON.stringify(plans)); } catch(e) {} }
+
+  function syncThemeDots(theme) {
+    document.querySelectorAll('.theme-dot').forEach(function(d) {
+      d.classList.toggle('active', d.getAttribute('data-theme') === theme);
+    });
+  }
+
+  function syncInputsFromValues() {
+    PInput.value = personalValues.P; HInput.value = personalValues.H;
+    KInput.value = personalValues.K; SInput.value = personalValues.S;
+    CInput.value = personalValues.C; RInput.value = personalValues.R;
+    defaultDInput.value = personalValues.defaultD; defaultTwInput.value = personalValues.defaultTw;
+    workDaysInput.value = personalValues.defaultD; workHoursInput.value = personalValues.defaultTw;
+  }
+
+  function savePersonalValues() {
+    personalValues.P = parseFloat(PInput.value) || 50;
+    personalValues.H = parseFloat(HInput.value) || 20;
+    personalValues.K = parseFloat(KInput.value) || 1.2;
+    personalValues.S = parseFloat(SInput.value) || 2000;
+    personalValues.C = parseFloat(CInput.value) || 3000;
+    personalValues.R = parseFloat(RInput.value) || 1000;
+    personalValues.defaultD = parseInt(defaultDInput.value, 10) || 22;
+    personalValues.defaultTw = parseFloat(defaultTwInput.value) || 8;
+    workDaysInput.value = personalValues.defaultD;
+    workHoursInput.value = personalValues.defaultTw;
+    saveValues();
+    valuesStatus.textContent = '✅ 已保存';
+    setTimeout(function() { valuesStatus.textContent = '已应用当前设置'; }, 1500);
+    renderAll();
+  }
+
+  // === 核心计算 ===
+  function computePlan(plan, overrides) {
+    var P = personalValues.P, H = personalValues.H, K = personalValues.K;
+    var S = personalValues.S, C = personalValues.C, R = personalValues.R;
+    var Tw = plan.workHours, D = plan.workDays, Tc = plan.commuteTime;
+    var M = plan.transportCost, B = plan.rent, sal = plan.monthlySalary;
+    if (overrides) {
+      if (overrides.rent !== undefined) B = overrides.rent;
+      if (overrides.commute !== undefined) Tc = overrides.commute;
+    }
+    var totalH = D * Tw;
+    var W = totalH > 0 ? sal / totalH : 0;
+    var Wmin = K * (P + H + (Tc * P) / Tw);
+    var I = sal;
+    var hidden_work = (P + H) * Tw * D;
+    var hidden_commute = (P + H * 0.3) * Tc * D;
+    var hidden = hidden_work + hidden_commute;
+    var Bmax_cash = I - (S + C + R + M);
+    var Bmax_safe = I - C - R - M - hidden;
+    var N = I - B - C - R - M - hidden;
+    var occupiedH = D * (Tw + Tc);
+    var W_eff = occupiedH > 0 ? N / occupiedH : 0;
+    var rent_ratio = sal > 0 ? B / sal : 0;
+    var scoreWage = Wmin > 0 ? Math.min(W / Wmin, 1.5) / 1.5 : 1;
+    var scoreCommute = Tw > 0 ? Math.max(1 - Tc / (Tw + Tc), 0) : 1;
+    var scoreRent = Bmax_cash > 0 ? Math.max(1 - B / Bmax_cash, 0) : 0;
+    var scoreNet = I > 0 ? Math.min(Math.max(N / I, -0.5), 0.5) / 0.5 * 0.5 + 0.5 : 0.5;
+    var overallScore = Math.round((scoreWage * 30 + scoreCommute * 20 + scoreRent * 25 + scoreNet * 25));
+    return {
+      W: W, Wmin: Wmin, Bmax: Bmax_cash, Bmax_cash: Bmax_cash, Bmax_safe: Bmax_safe,
+      N: N, I: I, hidden: hidden, hidden_work: hidden_work, hidden_commute: hidden_commute,
+      totalH: totalH, D: D, Tw: Tw, Tc: Tc, M: M, B: B, sal: sal,
+      W_eff: W_eff, rent_ratio: rent_ratio, occupiedH: occupiedH,
+      name: plan.name, id: plan.id,
+      scores: { wage: scoreWage, commute: scoreCommute, rent: scoreRent, net: scoreNet, overall: overallScore }
+    };
+  }
+
+  function greedyBudget(sal, Tc, M) {
+    var P = personalValues.P, H = personalValues.H;
+    var S = personalValues.S, C = personalValues.C, R = personalValues.R;
+    var D = personalValues.defaultD, Tw = personalValues.defaultTw;
+    var totalH = D * Tw;
+    var W = totalH > 0 ? sal / totalH : 0;
+    var alloc = [
+      { label: '应急预留', amount: R },
+      { label: '储蓄目标', amount: S },
+      { label: '个人消费', amount: C },
+      { label: '时间成本', amount: (P * Tw * D) + (P * Tc * D) },
+      { label: '健康损耗', amount: H * Tw * D },
+      { label: '交通费', amount: M }
+    ];
+    var totalMinus = 0;
+    alloc.forEach(function(a) { totalMinus += a.amount; });
+    var remain = sal - totalMinus;
+    return { sal: sal, alloc: alloc, totalMinus: totalMinus, remain: remain, W: W };
+  }
+
+  // === 敏感性滑块 ===
+  function computeSliderNet(planId) {
+    var plan = plans.find(function(p) { return p.id === planId; });
+    if (!plan) return;
+    var slider = document.querySelector('.slider-rent[data-plan="' + planId + '"]');
+    var sliderTc = document.querySelector('.slider-commute[data-plan="' + planId + '"]');
+    if (!slider) return;
+    var rentVal = parseInt(slider.value, 10);
+    var tcVal = sliderTc ? parseFloat(sliderTc.value) : plan.commuteTime;
+    var overrides = { rent: rentVal, commute: tcVal };
+    var r = computePlan(plan, overrides);
+    var display = document.querySelector('.slider-net-display[data-plan="' + planId + '"]');
+    if (display) {
+      display.textContent = '净收益: ' + (r.N >= 0 ? '+' : '') + r.N.toFixed(0) + ' /月';
+      display.className = 'slider-net ' + (r.N >= 0 ? 'positive' : 'negative');
+    }
+    var rentLabel = document.querySelector('.slider-rent-label[data-plan="' + planId + '"]');
+    if (rentLabel) rentLabel.textContent = '¥' + rentVal.toLocaleString();
+    var tcLabel = document.querySelector('.slider-tc-label[data-plan="' + planId + '"]');
+    if (tcLabel) tcLabel.textContent = tcVal.toFixed(1) + 'h';
+  }
+
+  // === 渲染 ===
+  function esc(t) { return String(t).replace(/[&<>"]/g, function(m) { return m === '&' ? '&amp;' : m === '<' ? '&lt;' : m === '>' ? '&gt;' : '&quot;'; }); }
+
+  function renderAll() {
+    renderPlanList();
+    renderCompareTable();
+    renderSmartDefault();
+    renderCharts();
+  }
+
+  function getSortedFilteredPlans() {
+    var list = plans.map(function(p) { return { plan: p, result: computePlan(p) }; });
+    if (currentSort === 'pass-only') {
+      list = list.filter(function(item) { return item.result.W >= item.result.Wmin; });
+    } else if (currentSort === 'net-desc') {
+      list.sort(function(a, b) { return b.result.N - a.result.N; });
+    } else if (currentSort === 'rent-asc') {
+      list.sort(function(a, b) { return a.plan.rent - b.plan.rent; });
+    } else if (currentSort === 'commute-asc') {
+      list.sort(function(a, b) { return a.plan.commuteTime - b.plan.commuteTime; });
+    } else if (currentSort === 'score-desc') {
+      list.sort(function(a, b) { return b.result.scores.overall - a.result.scores.overall; });
+    }
+    return list;
+  }
+
+  function renderPlanList() {
+    var sorted = getSortedFilteredPlans();
+    if (sorted.length === 0) {
+      planListContainer.innerHTML = '<div class="empty-message">✨ 还没有添加方案，上方填写第一个租房方案吧</div>';
+      return;
+    }
+    var html = '';
+    sorted.forEach(function(item) {
+      var r = item.result;
+      var plan = item.plan;
+      var pass = r.W >= r.Wmin;
+      var netCls = r.N >= 0 ? 'green' : 'red';
+      var netEmoji = r.N >= 0 ? '✅ 活着赚到' : '⚠️ 隐性亏损';
+      var s = r.scores;
+      var isEditing = editingPlanId === plan.id;
+
+      html += '<div class="plan-card" data-plan-id="' + plan.id + '">';
+      html += '<div>';
+      html += '<div class="plan-header"><span class="plan-name">🏠 ' + esc(r.name) + '</span>';
+      html += '<div class="plan-actions">';
+      html += '<button class="btn btn-sm btn-accent-outline" onclick="window._editPlan(\'' + plan.id + '\')" title="编辑">✏️</button>';
+      html += '<button class="btn btn-sm" onclick="window._copyPlan(\'' + plan.id + '\')" title="复制">📋</button>';
+      html += '<button class="delete-btn" onclick="window._delPlan(\'' + plan.id + '\')" title="删除">🗑️</button>';
+      html += '</div></div>';
+      html += '<div class="plan-details">';
+      html += '<span>💰 月薪 ' + r.sal.toLocaleString() + '</span>';
+      html += '<span>📅 ' + r.D + '天/' + r.Tw + 'h</span>';
+      html += '<span>🚇 ' + r.Tc + 'h/天</span>';
+      html += '<span>🎫 ' + r.M + '元</span>';
+      html += '<span>🏷️ 房租 ' + r.B.toLocaleString() + '</span>';
+      html += '</div>';
+      html += '<div style="font-size:0.82rem; color:var(--muted); margin-top:6px;">';
+      html += '时薪 <strong>' + r.W.toFixed(1) + '</strong> · 要求 <strong>' + r.Wmin.toFixed(1) + '</strong> ';
+      html += '<span class="badge ' + (pass ? 'badge-pass' : 'badge-fail') + '">' + (pass ? '达标' : '不足') + '</span>';
+      html += ' <span class="badge">综合 ' + s.overall + '分</span>';
+      html += '</div>';
+
+      html += '<div class="score-bars">';
+      html += scoreBar('时薪达标', s.wage);
+      html += scoreBar('通勤效率', s.commute);
+      html += scoreBar('租金压力', s.rent);
+      html += scoreBar('净收益率', s.net);
+      html += '</div>';
+
+      // 敏感性滑块
+      html += '<div class="slider-section">';
+      html += '<h4>🎚️ 敏感性分析 (What-if)</h4>';
+      html += '<div class="slider-row"><label>月租</label>';
+      html += '<input type="range" class="slider-rent" data-plan="' + plan.id + '" min="0" max="' + Math.max(r.Bmax * 1.5, r.B * 2, 5000) + '" step="50" value="' + r.B + '">';
+      html += '<span class="slider-val slider-rent-label" data-plan="' + plan.id + '">¥' + r.B.toLocaleString() + '</span></div>';
+      html += '<div class="slider-row"><label>通勤</label>';
+      html += '<input type="range" class="slider-commute" data-plan="' + plan.id + '" min="0" max="4" step="0.1" value="' + r.Tc + '">';
+      html += '<span class="slider-val slider-tc-label" data-plan="' + plan.id + '">' + r.Tc.toFixed(1) + 'h</span></div>';
+      html += '<div class="slider-net positive slider-net-display" data-plan="' + plan.id + '">净收益: ' + (r.N >= 0 ? '+' : '') + r.N.toFixed(0) + ' /月</div>';
+      html += '</div>';
+
+      html += '</div>';
+      html += '<div class="metrics">';
+      html += '<div class="metric-row"><span>📊 现金上限</span><span class="metric-value">' + r.Bmax_cash.toFixed(0) + '</span></div>';
+      html += '<div class="metric-row"><span>🛡️ 安全线(N≥0)</span><span class="metric-value ' + (r.Bmax_safe >= 0 ? 'green' : 'red') + '">' + r.Bmax_safe.toFixed(0) + '</span></div>';
+      var pct_safe = r.Bmax_safe > 0 ? (r.B / r.Bmax_safe) * 100 : (r.B > 0 ? 200 : 0);
+      var barCls_safe = pct_safe > 100 ? 'danger' : pct_safe > 85 ? 'warning' : '';
+      html += '<div class="progress-bg"><div class="progress-fill ' + barCls_safe + '" style="width:' + Math.min(pct_safe, 100) + '%;"></div></div>';
+      html += '<div class="metric-row" style="font-size:0.78rem;"><span>占安全线</span><span>' + pct_safe.toFixed(0) + '%</span></div>';
+      html += '<div class="metric-row" style="margin-top:6px;"><span>🏠 租收比</span><span class="metric-value ' + (r.rent_ratio <= 0.3 ? 'green' : r.rent_ratio <= 0.4 ? 'amber' : 'red') + '">' + (r.rent_ratio * 100).toFixed(0) + '%' + (r.rent_ratio <= 0.3 ? ' ✓' : '') + '</span></div>';
+      html += '<div class="metric-row"><span>⚡ 有效时薪</span><span class="metric-value ' + (r.W_eff >= 0 ? 'green' : 'red') + '">¥' + r.W_eff.toFixed(1) + '</span></div>';
+      html += '<div class="metric-row" style="font-size:0.78rem;"><span>🧾 隐性(工作)</span><span>-' + r.hidden_work.toFixed(0) + '</span></div>';
+      html += '<div class="metric-row" style="font-size:0.78rem;"><span>🚇 隐性(通勤)</span><span>-' + r.hidden_commute.toFixed(0) + '</span></div>';
+      html += '<div class="metric-row" style="border-top:1px dashed color-mix(in srgb, var(--muted) 15%, transparent); padding-top:10px; margin-top:6px;">';
+      html += '<span>⭐ 净收益</span><span class="net-highlight ' + netCls + '">' + (r.N >= 0 ? '+' : '') + r.N.toFixed(0) + ' /月</span></div>';
+      html += '<div style="font-size:0.78rem; color:var(--muted);">' + netEmoji + '</div>';
+      html += '</div></div>';
+    });
+    planListContainer.innerHTML = html;
+
+    // 绑定滑块事件
+    document.querySelectorAll('.slider-rent, .slider-commute').forEach(function(slider) {
+      slider.addEventListener('input', function() { computeSliderNet(this.getAttribute('data-plan')); });
+    });
+  }
+
+  function scoreBar(label, val) {
+    var pct = Math.round(val * 100);
+    var color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
+    return '<div class="score-row"><span class="score-label">' + label + '</span>' +
+      '<div class="score-track"><div class="score-fill" style="width:' + pct + '%; background:' + color + ';"></div></div>' +
+      '<span class="score-num">' + pct + '</span></div>';
+  }
+
+  function renderWaterfall(sal, Tc, M) {
+    var gb = greedyBudget(sal, Tc, M);
+    var maxAmt = sal;
+    var html = '<div class="waterfall-wrap"><h3>💰 预算瀑布 · 贪心分配</h3>';
+    html += wfRow('月薪收入', sal, maxAmt, 'wf-income', '+' + sal.toLocaleString());
+    gb.alloc.forEach(function(a) { html += wfRow(a.label, a.amount, maxAmt, 'wf-minus', '-' + Math.round(a.amount).toLocaleString()); });
+    var remCls = gb.remain >= 0 ? 'wf-remain' : 'wf-minus';
+    html += wfRow(gb.remain >= 0 ? '可承受租金上限' : '预算缺口', Math.abs(gb.remain), maxAmt, remCls, (gb.remain >= 0 ? '+' : '-') + Math.abs(Math.round(gb.remain)).toLocaleString());
+    html += '</div>';
+    return html;
+  }
+
+  function wfRow(label, amount, max, cls, valText) {
+    var pct = max > 0 ? Math.min(amount / max * 100, 100) : 0;
+    return '<div class="wf-row"><span class="wf-label">' + label + '</span>' +
+      '<div class="wf-bar-wrap"><div class="wf-bar ' + cls + '" style="width:' + pct + '%;"></div></div>' +
+      '<span class="wf-amount">' + valText + '</span></div>';
+  }
+
+  function renderSmartDefault() {
+    var sal = parseFloat(smartSalary.value) || 15000;
+    var Tc = parseFloat(smartCommute.value) || 1.5;
+    var M = parseFloat(smartTransport.value) || 200;
+    var gb = greedyBudget(sal, Tc, M);
+    var maxRent = Math.max(0, Math.round(gb.remain));
+    var safeRent = Math.round(maxRent * 0.85);
+    var html = '<div class="smart-result">';
+    html += '<div><div class="smart-big">¥' + maxRent.toLocaleString() + '</div><div style="font-size:0.8rem; color:var(--muted);">月租上限</div></div>';
+    html += '<div><div style="font-size:1.4rem; font-weight:600; color:var(--green);">¥' + safeRent.toLocaleString() + '</div><div style="font-size:0.8rem; color:var(--muted);">建议舒适线 (85%)</div></div>';
+    html += '<div class="smart-detail">时薪 ¥' + gb.W.toFixed(1) + '/h<br>';
+    html += '月薪 ' + sal.toLocaleString() + ' → 扣除各项后剩余 ¥' + maxRent.toLocaleString() + ' 可用于房租';
+    if (gb.remain < 0) html += '<br><span style="color:var(--red);">⚠️ 缺口 ¥' + Math.abs(Math.round(gb.remain)).toLocaleString() + '</span>';
+    html += '</div></div>';
+    smartResult.innerHTML = html;
+
+    $('waterfallArea').innerHTML = renderWaterfall(sal, Tc, M);
+  }
+
+  // === Chart.js ===
+  function renderCharts() {
+    if (typeof Chart === 'undefined') return;
+    renderDoughnut();
+    renderBar();
+  }
+
+  function renderDoughnut() {
+    var sal = parseFloat(smartSalary.value) || 15000;
+    var Tc = parseFloat(smartCommute.value) || 1.5;
+    var M = parseFloat(smartTransport.value) || 200;
+    var gb = greedyBudget(sal, Tc, M);
+    var labels = gb.alloc.map(function(a) { return a.label; });
+    var data = gb.alloc.map(function(a) { return Math.round(a.amount); });
+    if (gb.remain > 0) { labels.push('可承受房租'); data.push(Math.round(gb.remain)); }
+    var colors = ['#888888','#4a8c6f','#6a8dcc','#c09040','#c06060','#a070b0','#5a6a7a'];
+
+    if (doughnutChartInstance) doughnutChartInstance.destroy();
+    var ctx = $('doughnutChart').getContext('2d');
+    doughnutChartInstance = new Chart(ctx, {
+      type: 'doughnut',
+      data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderWidth: 0 }] },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { size: 11 }, color: getComputedStyle(document.body).getPropertyValue('--text').trim() } },
+          tooltip: { callbacks: { label: function(c) { return c.label + ': ¥' + c.raw.toLocaleString(); } } }
+        }
+      }
+    });
+  }
+
+  function renderBar() {
+    if (plans.length === 0) return;
+    var results = plans.map(function(p) { return computePlan(p); });
+    var labels = results.map(function(r) { return r.name; });
+    var data = results.map(function(r) { return Math.round(r.N); });
+    var bgColors = data.map(function(n) { return n >= 0 ? 'rgba(43,122,75,0.7)' : 'rgba(192,64,64,0.7)'; });
+
+    if (barChartInstance) barChartInstance.destroy();
+    var ctx = $('barChart').getContext('2d');
+    barChartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: { labels: labels, datasets: [{ label: '净收益 ¥/月', data: data, backgroundColor: bgColors, borderRadius: 8, borderSkipped: false }] },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: function(c) { return '净收益: ¥' + c.raw.toLocaleString(); } } }
+        },
+        scales: {
+          y: { grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: getComputedStyle(document.body).getPropertyValue('--muted').trim() } },
+          x: { grid: { display: false }, ticks: { color: getComputedStyle(document.body).getPropertyValue('--muted').trim() } }
+        }
+      }
+    });
+  }
+
+  // === 对比表 ===
+  function renderCompareTable() {
+    if (plans.length < 2) {
+      compareArea.innerHTML = '<p style="color:var(--muted); font-size:0.9rem;">添加至少两个方案后可查看对比</p>';
+      return;
+    }
+    var results = plans.map(function(p) { return computePlan(p); });
+    results.sort(function(a, b) { return b.N - a.N; });
+    var bestId = results[0].id;
+    var th = '<div class="compare-table-wrap"><table class="compare-table"><thead><tr>';
+    th += '<th>方案</th><th>月房租</th><th>租收比</th><th>通勤</th><th>有效时薪</th><th>时薪</th><th>安全线</th><th>综合</th><th>净收益</th>';
+    th += '</tr></thead><tbody>';
+    results.forEach(function(r, i) {
+      var rc = r.id === bestId ? ' class="best-row"' : '';
+      var rr_cls = r.rent_ratio <= 0.3 ? 'green' : r.rent_ratio <= 0.4 ? 'amber' : 'red';
+      th += '<tr' + rc + '>';
+      th += '<td><strong>' + esc(r.name) + '</strong>' + (i === 0 ? ' 🏆' : '') + '</td>';
+      th += '<td>' + r.B.toLocaleString() + '</td>';
+      th += '<td class="' + rr_cls + '">' + (r.rent_ratio * 100).toFixed(0) + '%' + (r.rent_ratio <= 0.3 ? ' ✓' : '') + '</td>';
+      th += '<td>' + r.Tc + 'h</td>';
+      th += '<td class="' + (r.W_eff >= 0 ? 'green' : 'red') + '">¥' + r.W_eff.toFixed(0) + '</td>';
+      th += '<td>' + r.W.toFixed(1) + '</td>';
+      th += '<td class="' + (r.B <= r.Bmax_safe ? 'green' : 'red') + '">' + r.Bmax_safe.toFixed(0) + '</td>';
+      th += '<td><strong>' + r.scores.overall + '</strong></td>';
+      th += '<td style="font-weight:700; color:' + (r.N >= 0 ? 'var(--green)' : 'var(--red)') + ';">' + (r.N >= 0 ? '+' : '') + r.N.toFixed(0) + '</td>';
+      th += '</tr>';
+    });
+    th += '</tbody></table></div>';
+    compareArea.innerHTML = th;
+  }
+
+  // === 方案操作 ===
+  function deletePlan(id) {
+    plans = plans.filter(function(p) { return p.id !== id; });
+    if (editingPlanId === id) cancelEdit();
+    savePlans();
+    renderAll();
+  }
+  window._delPlan = deletePlan;
+
+  function editPlan(id) {
+    var plan = plans.find(function(p) { return p.id === id; });
+    if (!plan) return;
+    editingPlanId = id;
+    planNameInput.value = plan.name;
+    monthlySalaryInput.value = plan.monthlySalary;
+    rentInput.value = plan.rent;
+    commuteTimeInput.value = plan.commuteTime;
+    transportCostInput.value = plan.transportCost;
+    workDaysInput.value = plan.workDays;
+    workHoursInput.value = plan.workHours;
+    $('addPlanBtn').innerHTML = '💾 更新';
+    $('editBanner').innerHTML = '<div class="edit-mode-banner"><span>✏️ 正在编辑: ' + esc(plan.name) + '</span><button class="btn btn-sm" onclick="window._cancelEdit()">取消</button></div>';
+    document.querySelector('.tab-item[data-page="plans"]').click();
+    planNameInput.focus();
+  }
+  window._editPlan = editPlan;
+
+  function cancelEdit() {
+    editingPlanId = null;
+    $('addPlanBtn').innerHTML = '➕ 添加';
+    $('editBanner').innerHTML = '';
+    planNameInput.value = '';
+  }
+  window._cancelEdit = cancelEdit;
+
+  function copyPlan(id) {
+    var plan = plans.find(function(p) { return p.id === id; });
+    if (!plan) return;
+    var newPlan = JSON.parse(JSON.stringify(plan));
+    newPlan.id = Date.now().toString();
+    newPlan.name = plan.name + ' (副本)';
+    plans.push(newPlan);
+    savePlans();
+    renderAll();
+  }
+  window._copyPlan = copyPlan;
+
+  function addOrUpdatePlan() {
+    if (editingPlanId) {
+      var plan = plans.find(function(p) { return p.id === editingPlanId; });
+      if (plan) {
+        plan.name = planNameInput.value.trim() || '未命名';
+        plan.monthlySalary = parseFloat(monthlySalaryInput.value) || 0;
+        plan.rent = parseFloat(rentInput.value) || 0;
+        plan.commuteTime = parseFloat(commuteTimeInput.value) || 0;
+        plan.transportCost = parseFloat(transportCostInput.value) || 0;
+        plan.workDays = parseInt(workDaysInput.value, 10) || personalValues.defaultD;
+        plan.workHours = parseFloat(workHoursInput.value) || personalValues.defaultTw;
+      }
+      cancelEdit();
+    } else {
+      plans.push({
+        id: Date.now().toString(),
+        name: planNameInput.value.trim() || '未命名',
+        monthlySalary: parseFloat(monthlySalaryInput.value) || 0,
+        rent: parseFloat(rentInput.value) || 0,
+        commuteTime: parseFloat(commuteTimeInput.value) || 0,
+        transportCost: parseFloat(transportCostInput.value) || 0,
+        workDays: parseInt(workDaysInput.value, 10) || personalValues.defaultD,
+        workHours: parseFloat(workHoursInput.value) || personalValues.defaultTw
+      });
+      planNameInput.value = '';
+    }
+    savePlans();
+    renderAll();
+  }
+
+  // === 事件绑定 ===
+  $('saveValuesBtn').addEventListener('click', savePersonalValues);
+  $('addPlanBtn').addEventListener('click', addOrUpdatePlan);
+  $('smartCalcBtn').addEventListener('click', function() { renderSmartDefault(); renderCharts(); });
+  planNameInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { e.preventDefault(); addOrUpdatePlan(); } });
+
+  // 排序筛选
+  document.querySelectorAll('.sort-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.sort-btn').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      currentSort = this.getAttribute('data-sort');
+      renderPlanList();
+    });
+  });
+
+  // Tab 切换
+  document.querySelectorAll('.tab-item').forEach(function(t) {
+    t.addEventListener('click', function() {
+      var page = this.dataset.page;
+      document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+      $('page-' + page).classList.add('active');
+      document.querySelectorAll('.tab-item').forEach(function(i) { i.classList.remove('active'); });
+      this.classList.add('active');
+      if (page === 'smart') { renderSmartDefault(); renderCharts(); }
+      if (page === 'compare') renderCompareTable();
+    });
+  });
+
+  // 主题切换
+  document.querySelectorAll('.theme-dot').forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      var t = this.getAttribute('data-theme');
+      document.body.setAttribute('data-theme', t);
+      syncThemeDots(t);
+      try { localStorage.setItem(LS_KEY_THEME, t); } catch(e) {}
+      renderCharts();
+    });
+  });
+
+  // === 初始化 ===
+  loadState();
+  syncInputsFromValues();
+  renderAll();
+
+  // === 首次引导 ===
+  var LS_KEY_ONBOARD = 'liveworth_onboarded';
+
+  function showOnboard() { $('onboardModal').classList.add('open'); }
+  function hideOnboard() { $('onboardModal').classList.remove('open'); try { localStorage.setItem(LS_KEY_ONBOARD, '1'); } catch(e) {} }
+
+  $('obQuickStart').onclick = function() {
+    personalValues = { P: 50, H: 20, K: 1.2, S: 2000, C: 3000, R: 1000, defaultD: 22, defaultTw: 8 };
+    saveValues();
+    syncInputsFromValues();
+    plans = [
+      { id: 'demo1', name: '公司旁单间', monthlySalary: 15000, rent: 3200, commuteTime: 0.5, transportCost: 80, workDays: 22, workHours: 8 },
+      { id: 'demo2', name: '地铁沿线合租', monthlySalary: 15000, rent: 2000, commuteTime: 1.5, transportCost: 200, workDays: 22, workHours: 8 },
+      { id: 'demo3', name: '郊区整租', monthlySalary: 15000, rent: 1500, commuteTime: 2.5, transportCost: 350, workDays: 22, workHours: 8 }
+    ];
+    savePlans();
+    hideOnboard();
+    renderAll();
+    document.querySelector('.tab-item[data-page="plans"]').click();
+  };
+
+  $('obStartBlank').onclick = function() { hideOnboard(); };
+  $('obSkip').onclick = function() { hideOnboard(); };
+  $('helpBtn').onclick = function() { showOnboard(); };
+  $('onboardModal').onclick = function(e) { if (e.target === this) hideOnboard(); };
+
+  try {
+    if (!localStorage.getItem(LS_KEY_ONBOARD)) showOnboard();
+  } catch(e) { showOnboard(); }
+
+  // === AI 租房顾问 ===
+  var LS_KEY_AI = 'liveworth_ai';
+  var aiAbort = null;
+
+  function getAI() {
+    try {
+      var s = localStorage.getItem(LS_KEY_AI);
+      if (s) return JSON.parse(s);
+    } catch(e) {}
+    return { platform: 'deepseek', apiKey: '', model: 'deepseek-v4-flash', customUrl: '' };
+  }
+
+  function loadAISettings() {
+    var s = getAI();
+    $('aiPlatform').value = s.platform;
+    $('aiApiKey').value = s.apiKey;
+    $('aiModel').value = s.model || '';
+    $('aiCustomUrl').value = s.customUrl || '';
+    toggleCustomUrl();
+  }
+
+  function toggleCustomUrl() {
+    var isCustom = $('aiPlatform').value === 'custom';
+    $('customUrlRow').style.display = isCustom ? '' : 'none';
+    $('modelRow').style.display = isCustom ? 'none' : '';
+  }
+
+  function buildAIPrompt() {
+    var sal = parseFloat(smartSalary.value) || 15000;
+    var Tc = parseFloat(smartCommute.value) || 1.5;
+    var M = parseFloat(smartTransport.value) || 200;
+    var gb = greedyBudget(sal, Tc, M);
+    var maxRent = Math.max(0, Math.round(gb.remain));
+    var safeRent = Math.round(maxRent * 0.85);
+    var planSummary = plans.map(function(p) {
+      var r = computePlan(p);
+      return p.name + ': 房租¥' + r.B + ', 通勤' + r.Tc + 'h, 净收益¥' + r.N.toFixed(0) +
+        ', 时薪¥' + r.W.toFixed(1) + (r.W >= r.Wmin ? '(达标)' : '(不足)') +
+        ', 有效时薪¥' + r.W_eff.toFixed(1) + ', 租收比' + (r.rent_ratio*100).toFixed(0) + '%' +
+        ', 安全线¥' + r.Bmax_safe.toFixed(0);
+    }).join('\n');
+
+    return '用户租房参数:\n' +
+      '月薪: ¥' + sal + ', 日通勤: ' + Tc + 'h, 月交通: ¥' + M + '\n' +
+      '时间价值: ¥' + personalValues.P + '/h, 健康成本: ¥' + personalValues.H + '/h, 投入产出比K: ' + personalValues.K + '\n' +
+      '月储蓄目标: ¥' + personalValues.S + ', 月消费: ¥' + personalValues.C + ', 应急预留: ¥' + personalValues.R + '\n' +
+      '月工作: ' + personalValues.defaultD + '天 × ' + personalValues.defaultTw + 'h/天\n' +
+      '---\n贪心算法结果:\n可承受房租上限: ¥' + maxRent + ', 建议舒适线(85%): ¥' + safeRent + '\n' +
+      (planSummary ? '已有方案:\n' + planSummary : '暂无方案') + '\n' +
+      '---\n请分析用户的租房处境，给出2-3条具体建议。';
+  }
+
+  async function callAI(prompt, signal) {
+    var settings = getAI();
+    var baseUrl, model, headers;
+
+    if (settings.platform === 'openrouter') {
+      baseUrl = 'https://openrouter.ai/api/v1/chat/completions';
+      model = settings.model || 'deepseek/deepseek-v4-flash:free';
+      headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + settings.apiKey, 'HTTP-Referer': window.location.href, 'X-Title': 'LiveWorth' };
+    } else if (settings.platform === 'deepseek') {
+      baseUrl = 'https://api.deepseek.com/v1/chat/completions';
+      model = settings.model || 'deepseek-v4-flash';
+      headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + settings.apiKey };
+    } else if (settings.platform === 'siliconflow') {
+      baseUrl = 'https://api.siliconflow.cn/v1/chat/completions';
+      model = settings.model || 'Qwen/Qwen2.5-7B-Instruct';
+      headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + settings.apiKey };
+    } else {
+      var rawUrl = settings.customUrl || '';
+      if (rawUrl && !rawUrl.includes('/chat/completions')) {
+        rawUrl = rawUrl.replace(/\/+$/, '') + '/v1/chat/completions';
+      }
+      baseUrl = rawUrl;
+      model = settings.customModel || 'default';
+      headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + settings.apiKey };
+    }
+
+    var sysPrompt = '你是一个专业的租房成本顾问。用户会给你他们的收入、支出、通勤等参数，以及一个贪心算法计算出的房租预算。\n\n你的任务：\n1. 分析用户的财务状况和租房压力\n2. 指出隐性成本中最大的消耗点\n3. 给出2-3条具体、可执行的优化建议\n4. 如果用户已有方案，点评各方案的优劣\n\n回复要求：\n- 用中文回复\n- 不要用markdown符号（如**、##、- 列表等），用纯文本\n- 每条建议单独一段，简洁有力\n- 语气专业但亲切，像一个靠谱的朋友在给建议\n- 如果发现用户收入无法覆盖支出，要明确指出并给出调整方向\n- 总字数控制在200字以内';
+
+    var resp = await fetch(baseUrl, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        model: model,
+        messages: [
+          { role: 'system', content: sysPrompt },
+          { role: 'user', content: prompt }
+        ],
+        max_tokens: 500,
+        temperature: 0.7
+      }),
+      signal: signal
+    });
+
+    if (!resp.ok) {
+      var errText = '';
+      try { errText = await resp.text(); } catch(e) {}
+      throw new Error('API ' + resp.status + ': ' + (errText || resp.statusText));
+    }
+
+    var data = await resp.json();
+    return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
+  }
+
+  async function handleAIAnalyze() {
+    var settings = getAI();
+    if (!settings.apiKey) {
+      $('settingsModal').classList.add('open');
+      loadAISettings();
+      return;
+    }
+
+    var btn = $('aiAnalyzeBtn');
+    var respDiv = $('aiResponse');
+    var textDiv = $('aiText');
+
+    btn.classList.add('busy');
+    btn.innerHTML = '<span class="ai-dots"><i></i><i></i><i></i></span> 分析中…';
+    respDiv.classList.add('visible');
+    textDiv.textContent = '';
+
+    aiAbort = new AbortController();
+    var autoAbort = setTimeout(function() { aiAbort.abort(); }, 60000);
+    var startTime = Date.now();
+    var timer = setInterval(function() {
+      var sec = Math.floor((Date.now() - startTime) / 1000);
+      btn.innerHTML = '<span class="ai-dots"><i></i><i></i><i></i></span> 分析中… ' + sec + 's';
+    }, 1000);
+
+    btn.onclick = function() { if (aiAbort) aiAbort.abort(); };
+
+    try {
+      var prompt = buildAIPrompt();
+      var raw = await callAI(prompt, aiAbort.signal);
+      clearTimeout(autoAbort);
+      clearInterval(timer);
+
+      textDiv.textContent = raw.trim();
+      btn.classList.remove('busy');
+      btn.innerHTML = '🤖 AI 租房顾问';
+      btn.onclick = handleAIAnalyze;
+    } catch(err) {
+      clearTimeout(autoAbort);
+      clearInterval(timer);
+      btn.classList.remove('busy');
+      btn.innerHTML = '🤖 AI 租房顾问';
+      btn.onclick = handleAIAnalyze;
+
+      if (err.name === 'AbortError') {
+        textDiv.textContent = '已取消分析。';
+      } else {
+        textDiv.textContent = '⚠️ AI 调用失败：' + (err.message || '未知错误') + '\n\n请检查 API Key 是否正确，或尝试其他平台。';
+      }
+    }
+  }
+
+  // AI 事件
+  $('aiAnalyzeBtn').onclick = handleAIAnalyze;
+  $('settingsFab').onclick = function() { $('settingsModal').classList.add('open'); loadAISettings(); };
+  $('settingsCancel').onclick = function() { $('settingsModal').classList.remove('open'); };
+  $('settingsModal').onclick = function(e) { if (e.target === this) this.classList.remove('open'); };
+  $('aiPlatform').onchange = toggleCustomUrl;
+  $('settingsSave').onclick = function() {
+    var s = {
+      platform: $('aiPlatform').value,
+      apiKey: $('aiApiKey').value.trim(),
+      model: $('aiModel').value.trim(),
+      customUrl: $('aiCustomUrl').value.trim()
+    };
+    try { localStorage.setItem(LS_KEY_AI, JSON.stringify(s)); } catch(e) {}
+    $('settingsModal').classList.remove('open');
+  };
+
+  window.addEventListener('load', function() {
+    if (plans.length === 0) {
+      addOrUpdatePlan();
+      if (plans.length > 0) {
+        plans[0].name = '公司附近公寓';
+        savePlans();
+        planNameInput.value = '';
+        renderAll();
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

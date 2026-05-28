@@ -1,0 +1,18 @@
+ticket_id,title,project,status,theme,source,created_at,closed_at,release_note
+FD-2025-001,多宠档案独立提醒策略,pet,closed,提醒灵活性,interview,2025-09-21,2025-09-28,MVP
+FD-2025-002,提醒稍后/今日忽略粒度,pet,closed,提醒灵活性,usability,2025-09-25,2025-10-02,MVP
+FD-2025-003,本地OCR路径说明与入口,pet,closed,OCR/识别,interview,2025-09-22,2025-10-05,隐私版
+FD-2025-004,疫苗本拍照流程降噪,pet,closed,OCR/识别,usability,2025-10-01,2025-10-08,隐私版
+FD-2025-005,下拉选苗自动算下次有效期,pet,closed,提醒灵活性,dogfood,2025-10-10,2025-10-18,反馈迭代
+FD-2025-006,按月聚合花费视图,pet,closed,标签系统,usability,2025-10-12,2025-10-20,反馈迭代
+FD-2025-007,健康记录导出Excel骨架,pet,closed,导出/备份,interview,2025-09-30,2025-10-25,MVP+
+FD-2025-008,花费条目合并到月度汇总入口,pet,closed,导出/备份,dogfood,2025-10-22,2025-10-28,反馈迭代
+FD-2025-009,暗色/对比度微调（记录页）,pet,closed,多主题/UI,self,2025-10-15,2025-11-01,体验抛光
+FD-2025-010,会议待办字段模板v2,meeting,active,标签系统,dogfood,2025-11-05,,
+FD-2025-011,漏项抽检清单入口,meeting,active,标签系统,self,2025-11-08,,
+FD-2025-012,状态流默认工作流文案,meeting,active,提醒灵活性,usability,2025-11-10,,
+FD-2025-013,导出纪要 Markdown 样式,meeting,active,导出/备份,self,2025-11-12,,
+FD-2025-014,跨会议阻塞项单独视图,meeting,active,多主题/UI,self,2025-11-14,,研究中
+FD-2025-015,复诊「一页摘要」实验设计,pet,triage,导出/备份,interview,2025-11-01,,
+FD-2025-016,多宠提醒冲突检测（纸质流程前置）,pet,triage,提醒灵活性,self,2025-11-02,,
+FD-2025-017,企业私有化部署说明占位,meeting,triage,导出/备份,self,2025-11-16,,

@@ -1,0 +1,3486 @@
+<!DOCTYPE html>
+<html lang="zh" data-ui="neumorphic" data-app="pet">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>宠伴·健康台账 — 养宠全周期档案</title>
+    <link rel="stylesheet" href="./dev-flow.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Tesseract.js 核心库 -->
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+    <!-- SheetJS 用于导出 Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <!-- Chart.js 用于数据看板 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    
+    <style>
+        :root{
+            /* 默认：极简浅色（Apple-like） */
+            --bg: #e6e6e6;
+            --header-bg: rgba(255,255,255,0.72);
+            --header-border: rgba(0,0,0,0.08);
+            --text: #1d1d1f;
+            --muted: #86868b;
+            --card-bg: #e6e6e6;
+            --card-border: rgba(0,0,0,0.06);
+            --panel-bg: #e6e6e6;
+            --soft-bg: #e6e6e6;
+            --accent: #0071e3;
+            --primary: #0071e3;
+            --primary-border: #0077ed;
+            --btn-bg: #e6e6e6;
+            --btn-border: rgba(0,0,0,0.1);
+            --tab-bg: rgba(255,255,255,0.82);
+            --tab-active-bg: rgba(0,113,227,0.1);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body[data-theme="gray"]{
+            --bg: #e8e8ed;
+            --header-bg: rgba(255,255,255,0.78);
+            --header-border: rgba(0,0,0,0.08);
+            --text: #1d1d1f;
+            --muted: #6e6e73;
+            --card-bg: #e6e6e6;
+            --card-border: rgba(0,0,0,0.08);
+            --panel-bg: #dedede;
+            --soft-bg: #e6e6e6;
+            --accent: #0071e3;
+            --primary: #0071e3;
+            --primary-border: #0077ed;
+            --btn-bg: #dedede;
+            --btn-border: rgba(0,0,0,0.1);
+            --tab-bg: rgba(255,255,255,0.88);
+            --tab-active-bg: rgba(0,113,227,0.1);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body[data-theme="night"]{
+            --bg: #000000;
+            --header-bg: rgba(28,28,30,0.86);
+            --header-border: rgba(255,255,255,0.12);
+            --text: #f5f5f7;
+            --muted: #a1a1a6;
+            --card-bg: #1c1c1e;
+            --card-border: rgba(255,255,255,0.1);
+            --panel-bg: #2c2c2e;
+            --soft-bg: #3a3a3c;
+            --accent: #0a84ff;
+            --primary: #0a84ff;
+            --primary-border: #409cff;
+            --btn-bg: #2c2c2e;
+            --btn-border: rgba(255,255,255,0.15);
+            --tab-bg: rgba(28,28,30,0.92);
+            --tab-active-bg: rgba(10,132,255,0.22);
+            --shadow: 0 2px 8px rgba(0,0,0,0.45);
+        }
+
+        body[data-theme="ink"]{
+            /* 墨水屏：灰阶、高对比、无阴影 */
+            --bg: #f2f2f2;
+            --header-bg: #fafafa;
+            --header-border: #bbbbbb;
+            --text: #111111;
+            --muted: #555555;
+            --card-bg: #ffffff;
+            --card-border: #aaaaaa;
+            --panel-bg: #f0f0f0;
+            --soft-bg: #ffffff;
+            --accent: #111111;
+            --primary: #2e2e2e;
+            --primary-border: #666666;
+            --btn-bg: #f8f8f8;
+            --btn-border: #888888;
+            --tab-bg: rgba(250,250,250,0.95);
+            --tab-active-bg: #e0e0e0;
+            --shadow: none;
+        }
+
+        * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif; }
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+        body { overflow-x: hidden; 
+            background: var(--bg);
+            padding-bottom: 84px;
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.47059;
+            letter-spacing: -0.022em;
+        }
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 9;
+            background: var(--header-bg);
+            padding: 20px 16px 14px;
+            border-bottom: 0.5px solid var(--header-border);
+            text-align: center;
+            color: var(--text);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+            transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+        }
+        .app-header.auto-hide-hidden { transform: translateY(calc(-100% - 4px)); opacity: 0.92; }
+        .app-header h1 { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 2px; }
+        .app-header p { font-size: 0.88rem; color: var(--muted); }
+        .header-cloud-details { margin-top: 12px; max-width: 760px; margin-left: auto; margin-right: auto; text-align: left; }
+        .header-cloud-details > summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 12px 14px;
+            background: var(--panel-bg);
+            border-radius: 16px;
+            border: 1px dashed var(--card-border);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            user-select: none;
+        }
+        .header-cloud-details > summary::-webkit-details-marker { display: none; }
+        .header-cloud-details > summary::after {
+            content: ' ▼';
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+        .header-cloud-details[open] > summary::after { content: ' ▲'; }
+        .header-cloud-inner { padding: 12px 4px 4px; }
+        .header-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+        .header-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            align-items: center;
+        }
+        .header-mode-toggle {
+            border: 1px solid var(--btn-border);
+            border-radius: 999px;
+            background: var(--btn-bg);
+            color: var(--text);
+            min-height: 32px;
+            min-width: 32px;
+            height: 32px;
+            width: 32px;
+            padding: 0;
+            cursor: pointer;
+            line-height: 1;
+            font-size: 0.92rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 32px;
+        }
+        .header-mode-panel { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .header-toolbar:not(.is-expanded) .header-mode-panel { display: none; }
+        .header-toolbar > span { font-size: 0.85rem; color: var(--muted); }
+        body[data-theme="ink"] .app-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--header-bg); }
+        .container { max-width: 920px; margin: 0 auto; padding: 16px 14px; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .tab-bar {
+            position: fixed;
+            bottom: max(8px, env(safe-area-inset-bottom));
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 24px);
+            max-width: 760px;
+            background: var(--tab-bg);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 6px;
+            border: 0.5px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+        .tab-item { flex: 1; text-align: center; color: var(--muted); font-size: 0.76rem; padding: 6px 0; border-radius: 999px; cursor: pointer; transition: all 0.18s ease; }
+        .tab-item.active { color: var(--accent); font-weight: 600; background: var(--tab-active-bg); }
+        .tab-icon { font-size: 1.45rem; display: block; margin-bottom: 2px; }
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 0.5px solid var(--card-border);
+        }
+        .btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            padding: 9px 15px;
+            border-radius: 999px;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.18s ease;
+        }
+        .btn:hover { opacity: 0.92; }
+        body[data-theme="ink"] .btn:hover { opacity: 1; }
+        .btn-primary { background: var(--primary); border-color: var(--primary-border); color: white; }
+        .btn-link { background: transparent; border: none; color: var(--muted); text-decoration: underline; padding: 4px 8px; }
+        .input-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+        .input-group input, .input-group select {
+            flex: 1 0 140px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: var(--text);
+            min-height: 42px;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);
+        }
+        .month-selector { display: flex; align-items: center; justify-content: center; margin: 12px 0; }
+        .month-selector input { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 10px 12px; font-size: 0.95rem; width: 100%; max-width: 240px; color: var(--text); min-height: 42px; }
+        .vaccine-item, .expense-item { background: var(--soft-bg); border-radius: 16px; padding: 12px; margin-bottom: 8px; border-left: 6px solid var(--primary); }
+        .reminder-badge { background: rgba(0,113,227,0.12); color: var(--accent); padding: 2px 10px; border-radius: 100px; font-size: 0.8rem; }
+        body[data-theme="night"] .reminder-badge { background: rgba(10,132,255,0.2); }
+        body[data-theme="ink"] .reminder-badge { background: #e8e8e8; color: #111; }
+        .example-hint { background: var(--panel-bg); border-radius: 16px; padding: 12px; color: var(--muted); font-size: 0.85rem; margin-bottom: 12px; border: 1px dashed var(--primary); }
+        .modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.2); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text); border-radius: 22px; padding: 20px; width: 92%; max-width: 430px; max-height: 86vh; overflow-y: auto; }
+        .fake-link { color: var(--muted); text-decoration: underline dotted; cursor: pointer; }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+        .big-add-btn { background: var(--panel-bg); border: 2px dashed var(--primary); border-radius: 30px; padding: 20px; margin: 20px 0; cursor: pointer; text-align: center; color: var(--accent); font-weight: 600; }
+        .expense-summary { background: var(--panel-bg); border-radius: 20px; padding: 16px; margin-bottom: 16px; }
+        .small-note { font-size: 0.75rem; color: var(--muted); margin: 4px 0; }
+
+        /* 宠物头像 */
+        .avatar-upload { display: flex; flex-direction: column; align-items: center; margin-bottom: 12px; }
+        .avatar-preview { width: 80px; height: 80px; border-radius: 50%; background: var(--panel-bg); border: 2px solid var(--header-border); display: flex; align-items: center; justify-content: center; font-size: 36px; overflow: hidden; cursor: pointer; margin-bottom: 6px; }
+        .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .pet-avatar-small { width: 40px; height: 40px; border-radius: 50%; background: var(--panel-bg); border: 1px solid var(--header-border); display: inline-flex; align-items: center; justify-content: center; font-size: 20px; overflow: hidden; margin-right: 6px; vertical-align: middle; }
+        .pet-avatar-small img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 提醒项悬停 */
+        .reminder-item:hover { background: color-mix(in srgb, var(--panel-bg) 70%, white 30%) !important; transition: 0.2s; }
+
+        /* OCR 样式 */
+        .preprocess-controls { margin-top: 15px; padding: 12px; background: var(--panel-bg); border-radius: 16px; }
+        .slider-container { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .slider-container input { flex: 1; }
+        .preview-area { margin-top: 15px; text-align: center; }
+        .preview-area canvas { max-width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--card-border); }
+        .progress-bar { width: 100%; height: 6px; background: color-mix(in srgb, var(--card-border) 70%, #ddd 30%); border-radius: 3px; margin: 12px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s; }
+
+        /* 看板 */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+        .chart-wrap { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 12px; }
+        .chart-wrap canvas { width: 100% !important; height: 220px !important; }
+        .report-box { background: var(--soft-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; white-space: pre-wrap; line-height: 1.5; color: var(--text); }
+
+        /* 疫苗知识提示 */
+        .kb-tip { margin-top: 10px; background:var(--panel-bg); border: 1px dashed var(--primary); border-radius: 16px; padding: 10px 12px; color:var(--muted); font-size: 0.85rem; }
+
+        /* 浮动快捷 + */
+        .fab { position: fixed; right: 14px; bottom: 88px; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,113,227,0.3); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.38rem; opacity: 0.9; }
+        body[data-theme="ink"] .fab { box-shadow: none; border: 2px solid #111; }
+        .fab:active { transform: scale(0.98); }
+        .fab-menu { position: fixed; right: 14px; bottom: 144px; display: none; flex-direction: column; gap: 8px; z-index: 20; max-width: min(260px, calc(100vw - 24px)); }
+        .fab-action { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 12px; padding: 10px 12px; box-shadow: var(--shadow); cursor: pointer; color:var(--text); }
+        body[data-theme="night"] .fab-action { background: var(--card-bg); }
+        body[data-theme="ink"] .fab-action { box-shadow: none; }
+        .fab-action strong { color:var(--accent); }
+
+        /* 平板端：单栏主流程，避免错误的多列 grid 把卡片拆碎 */
+        @media (min-width: 768px) {
+            body { padding-bottom: 96px; }
+            .app-header { padding: 18px 24px 14px; }
+            .app-header h1 { font-size: 1.52rem; }
+            .container { padding: 22px 24px; max-width: 880px; }
+            #page-home.page.active,
+            #page-expense.page.active,
+            #page-ocr.page.active {
+                display: block;
+                max-width: 880px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #page-dashboard.page.active {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 18px;
+                align-items: start;
+                max-width: 1100px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #page-dashboard > .card:first-of-type { grid-column: 1 / -1; }
+            .dashboard-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .tab-bar { max-width: 640px; }
+            .fab { right: 22px; bottom: 104px; }
+            .fab-menu { right: 22px; bottom: 166px; }
+        }
+
+        /* PC 端：顶栏横向 + 看板略增宽 */
+        @media (min-width: 1100px) {
+            .container { padding: 26px 32px 28px; }
+            .card { padding: 22px 20px; }
+            #page-dashboard.page.active {
+                max-width: 1160px;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .dashboard-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+            .chart-wrap canvas {
+                height: 260px !important;
+            }
+            .tab-bar { max-width: 720px; padding: 10px 20px; }
+            .app-header {
+                text-align: left;
+                padding: 18px 32px 16px;
+            }
+            .app-header .header-brand {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 16px 24px;
+                max-width: 1160px;
+                margin: 0 auto;
+            }
+            .app-header .header-brand > div:first-child { flex: 1 1 280px; min-width: 0; }
+            .app-header .header-brand > div:first-child h1 { margin-bottom: 4px; }
+            .app-header .header-brand > div:first-child p { max-width: 520px; }
+            .app-header .header-toolbar {
+                flex: 0 1 auto;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                align-items: center;
+                justify-content: flex-end;
+            }
+            .header-cloud-details { max-width: 1160px; margin-top: 14px; }
+            .fab { right: max(24px, calc((100vw - 1160px) / 2 + 12px)); bottom: 108px; }
+            .fab-menu { right: max(24px, calc((100vw - 1160px) / 2 + 12px)); bottom: 172px; }
+        }
+
+        /* 小屏手机优化 */
+        @media (max-width: 480px) {
+            .app-header h1 { font-size: 1.2rem; }
+            .app-header p { font-size: 0.8rem; }
+            .container { padding: 12px 10px; }
+            .card { padding: 14px 12px; border-radius: 16px; }
+            .btn { font-size: 0.82rem; padding: 8px 12px; }
+            .tab-item { font-size: 0.68rem; }
+            .tab-icon { font-size: 1.25rem; }
+            .fab { width: 44px; height: 44px; right: 10px; bottom: 82px; font-size: 1.2rem; }
+            .fab-menu { right: 10px; bottom: 132px; max-width: calc(100vw - 20px); }
+            .header-toolbar {
+                width: 100%;
+                justify-content: flex-start;
+                gap: 6px;
+            }
+            .header-toolbar > span {
+                width: 100%;
+                text-align: left;
+                margin-bottom: 2px;
+            }
+            .header-cloud-details > summary {
+                padding: 10px 12px;
+                border-radius: 14px;
+            }
+            .header-cloud-inner {
+                padding: 10px 2px 2px;
+            }
+        }
+
+        /* 长辈模式：更大字号、触达更友好 */
+        body.elder-mode { font-size: 18px; }
+        body.elder-mode .btn { min-height: 46px; font-size: 0.98rem; }
+        body.elder-mode .tab-item { font-size: 0.86rem; }
+        body.elder-mode .tab-icon { font-size: 1.6rem; }
+        body.elder-mode input,
+        body.elder-mode select,
+        body.elder-mode textarea { min-height: 46px; font-size: 1rem; }
+        body.elder-mode .small-note { font-size: 0.85rem; }
+        body.elder-mode .card { padding: 20px 18px; }
+        body.elder-mode .app-header h1 { font-size: 1.55rem; }
+        body.elder-mode .app-header p { font-size: 0.98rem; }
+        body.elder-mode .container { max-width: 980px; padding: 20px 16px; }
+        body.elder-mode .card { border-radius: 22px; margin-bottom: 20px; box-shadow: 0 12px 26px rgba(16,24,40,0.08); }
+        body.elder-mode .input-group { gap: 12px; margin: 18px 0; }
+        body.elder-mode .vaccine-item,
+        body.elder-mode .expense-item,
+        body.elder-mode .deworm-item,
+        body.elder-mode .weight-item { padding: 16px; border-radius: 20px; }
+        body.elder-mode .tab-bar { padding: 10px 8px; border-radius: 18px; }
+
+        /* 视觉细节统一打磨 */
+        .card { border-radius: 22px; box-shadow: 0 10px 24px rgba(16,24,40,0.06); }
+        .btn { min-height: 42px; padding: 9px 16px; font-weight: 600; letter-spacing: 0.1px; }
+        .btn:active { transform: translateY(0); }
+        .input-group input, .input-group select, textarea {
+            min-height: 42px;
+            border-radius: 14px;
+            border-width: 1.5px;
+        }
+        h1, h2, h3, .section-title { letter-spacing: 0.2px; }
+        .vaccine-item, .expense-item, .deworm-item, .weight-item {
+            border-radius: 18px;
+            padding: 13px;
+        }
+        @media (max-width: 640px) {
+            .btn { min-height: 44px; }
+            .card { border-radius: 18px; }
+        }
+
+        /* 高级统一：字体/间距比例尺 */
+        :root {
+            --fs-h1: clamp(1.45rem, 2.2vw, 1.95rem);
+            --fs-h2: clamp(1.12rem, 1.6vw, 1.35rem);
+            --fs-body: clamp(0.95rem, 1vw, 1rem);
+            --fs-caption: clamp(0.8rem, 0.85vw, 0.86rem);
+            --sp-1: 8px;
+            --sp-2: 12px;
+            --sp-3: 16px;
+            --sp-4: 24px;
+            --sp-5: 32px;
+        }
+        body { font-size: var(--fs-body); line-height: 1.62; }
+        h1 { font-size: var(--fs-h1); margin-bottom: var(--sp-2); }
+        h2, h3, .section-title { font-size: var(--fs-h2); margin-bottom: var(--sp-2); }
+        .small-note, .muted, .hint, .kb-tip { font-size: var(--fs-caption); }
+        .card { margin-bottom: var(--sp-4); padding: var(--sp-4); }
+        .input-group { margin: var(--sp-3) 0; gap: var(--sp-2); }
+        body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.28rem; --fs-caption: 0.96rem; }
+
+        /* 移动端优先兜底：避免“PC 缩窄感” */
+        @media (max-width: 820px) {
+            body { letter-spacing: 0; }
+            .container { max-width: none; padding: 12px; }
+            .app-header { padding: 12px 12px 10px; text-align: left; }
+            .app-header .header-brand { display: block; }
+            .app-header .header-brand > div:first-child p { max-width: none; }
+            .header-toolbar { width: 100%; justify-content: flex-start; gap: 6px; }
+            .header-mode-panel { width: 100%; }
+            .card { padding: 14px 12px; border-radius: 14px; }
+            .input-group { display: flex; flex-direction: column; gap: 8px; }
+            .tab-bar { width: calc(100% - 16px); }
+            .fab-action { font-size: 0.82rem; padding: 8px 10px; }
+        }
+        @media (max-width: 520px) {
+            .container { padding: 10px 8px 14px; }
+            .app-header h1 { font-size: 1.08rem; line-height: 1.25; }
+            .app-header p { font-size: 0.76rem; }
+            .btn { min-height: 40px; padding: 8px 10px; font-size: 0.82rem; }
+            .tab-item { font-size: 0.66rem; }
+        }
+        @media (max-width: 640px) {
+            .header-toolbar { gap: 5px; }
+            .header-mode-panel { gap: 6px; }
+            .tab-bar { bottom: max(6px, env(safe-area-inset-bottom)); width: calc(100% - 12px); }
+            .tab-item { min-width: 0; padding: 6px 4px; }
+            .fab-menu { gap: 6px; }
+            .fab-action { border-radius: 10px; padding: 7px 9px; font-size: 0.78rem; }
+        }
+
+        /* 严格三档（安卓 360 / 393 / 412） */
+        @media (max-width: 360px) {
+            body { font-size: 0.9rem; }
+            .container { padding: 8px 7px 12px; }
+            .app-header { padding: 10px 9px; }
+            .card { padding: 12px 10px; border-radius: 12px; }
+            .btn, .tab-item { min-height: 36px; font-size: 0.78rem; }
+            .fab { width: 42px; height: 42px; bottom: 78px; }
+            .header-mode-toggle { width: 30px; height: 30px; min-width: 30px; min-height: 30px; }
+        }
+        @media (min-width: 361px) and (max-width: 393px) {
+            body { font-size: 0.93rem; }
+            .container { padding: 9px 8px 13px; }
+            .app-header { padding: 11px 10px; }
+            .card { padding: 13px 11px; border-radius: 13px; }
+            .btn, .tab-item { min-height: 37px; font-size: 0.8rem; }
+            .fab { width: 43px; height: 43px; bottom: 80px; }
+            .header-mode-toggle { width: 31px; height: 31px; min-width: 31px; min-height: 31px; }
+        }
+        @media (min-width: 394px) and (max-width: 412px) {
+            body { font-size: 0.95rem; }
+            .container { padding: 10px 9px 14px; }
+            .app-header { padding: 12px 11px; }
+            .card { padding: 14px 12px; border-radius: 14px; }
+            .btn, .tab-item { min-height: 38px; font-size: 0.82rem; }
+            .fab { width: 44px; height: 44px; bottom: 82px; }
+            .header-mode-toggle { width: 32px; height: 32px; min-width: 32px; min-height: 32px; }
+        }
+
+        /* Apple 风格视觉标尺：色彩/描边/阴影三档统一 */
+        @media (max-width: 360px) {
+            .app-header, .card, .tab-bar, .fab-action { border-width: 0.5px; border-color: rgba(15,23,42,0.1); box-shadow: 0 4px 10px rgba(15,23,42,0.045); }
+            .app-header { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+            body[data-theme="night"] .app-header, body[data-theme="night"] .card, body[data-theme="night"] .tab-bar, body[data-theme="night"] .fab-action { background: rgba(28,28,30,0.92); border-color: rgba(255,255,255,0.16); box-shadow: 0 6px 14px rgba(0,0,0,0.42); }
+        }
+        @media (min-width: 361px) and (max-width: 393px) {
+            .app-header, .card, .tab-bar, .fab-action { border-width: 1px; border-color: rgba(15,23,42,0.1); box-shadow: 0 6px 14px rgba(15,23,42,0.05); }
+            .app-header { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+            body[data-theme="night"] .app-header, body[data-theme="night"] .card, body[data-theme="night"] .tab-bar, body[data-theme="night"] .fab-action { background: rgba(28,28,30,0.94); border-color: rgba(255,255,255,0.18); box-shadow: 0 8px 18px rgba(0,0,0,0.46); }
+        }
+        @media (min-width: 394px) and (max-width: 412px) {
+            .app-header, .card, .tab-bar, .fab-action { border-width: 1.5px; border-color: rgba(15,23,42,0.11); box-shadow: 0 8px 18px rgba(15,23,42,0.06); }
+            .app-header { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+            body[data-theme="night"] .app-header, body[data-theme="night"] .card, body[data-theme="night"] .tab-bar, body[data-theme="night"] .fab-action { background: rgba(28,28,30,0.96); border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 22px rgba(0,0,0,0.5); }
+        }
+    
+    /* Android tap fix */
+    html{overflow-x:hidden;-webkit-tap-highlight-color:transparent}img,canvas,pre,code,table,iframe{max-width:100%}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
+  </style>
+    <link rel="stylesheet" href="./neumorphic-shared.css">
+</head>
+<body>
+
+<div class="app-header">
+    <div class="header-brand">
+        <div>
+            <h1>🐱🐶 宠伴·健康台账</h1>
+            <p>养宠全周期健康台账：免疫、驱虫、花费与提醒闭环</p>
+        </div>
+        <div class="header-toolbar" id="petHeaderModeBox">
+            <button type="button" class="header-mode-toggle" id="petModeToggleBtn" aria-label="展开模式设置">⚙️</button>
+            <div class="header-mode-panel">
+                <span>风格</span>
+                <select id="themeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
+                    <option value="warm">暖</option>
+                    <option value="gray">灰</option>
+                    <option value="night">夜</option>
+                    <option value="ink">Ink</option>
+                </select>
+                <select id="accessibilityModeSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
+                    <option value="normal">标准模式</option>
+                    <option value="elder">长辈模式</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <details class="header-cloud-details">
+        <summary>☁️ 云端同步（可选）</summary>
+        <div class="header-cloud-inner">
+            <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:flex-start;">
+                <input type="text" id="portfolioCloudBase" placeholder="API 根地址，如 http://localhost:3789" style="flex:1; min-width:200px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border); background:var(--card-bg); color:var(--text);">
+                <input type="password" id="portfolioCloudToken" placeholder="X-API-Key 可选" style="max-width:140px; padding:8px 12px; border-radius:12px; border:1px solid var(--card-border);">
+                <label style="font-size:0.85rem; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="petCloudSync"> 启用云端备份</label>
+                <button type="button" class="btn btn-sm" id="petCloudPullBtn">从云端拉取</button>
+                <button type="button" class="btn btn-sm btn-outline" id="petCloudHealthBtn">测连接</button>
+                <span id="petCloudStatus" style="font-size:0.78rem; color:var(--muted); max-width:100%;"></span>
+            </div>
+            <div id="backupHealthBar" style="margin-top:8px; font-size:0.78rem; color:var(--muted); background:var(--panel-bg); border:1px solid var(--card-border); border-radius:12px; padding:8px 10px;">
+                💾 本地保存：-- · ☁️ 云端：未启用
+            </div>
+            <div style="font-size:0.75rem; color:var(--muted); margin-top:8px;">需先部署 <code style="font-size:0.85em;">server/</code> 后端；启用后编辑会自动增量备份到服务端 SQLite。</div>
+        </div>
+    </details>
+</div>
+
+<details class="portfolio-dev-flow">
+    <summary>📐 本 Demo 开发流程</summary>
+    <div class="dev-flow" aria-label="宠伴·健康台账（2025年9月起）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">先统一阶段目标与指标口径，再用分组实验验证提醒策略，把结论沉淀进可追踪的 backlog —— 全程围绕「提醒 + 记录」主线迭代。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">口径 → 验证 → backlog；2025.09 起。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025-09 界定</span><span class="dev-flow-note">深访+商店差评，定「提醒+记录」主线（非社交）</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">2025-09 MVP</span><span class="dev-flow-note">砍掉社区/商城；档案·疫苗日历·花费·提醒 四主线</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">9-10 月 信任</span><span class="dev-flow-note">OCR 三方案比选→本地路径（本地优先，降低上传顾虑）</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">2025-10 验证</span><span class="dev-flow-note">提醒策略分组观察：配置意愿与回访同向</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">2025-10 迭代</span><span class="dev-flow-note">种子回访→自动算有效期、按月花费视图</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">10-11 月 交付</span><span class="dev-flow-note">可安装 PWA；口径写进指标说明；与版本记录一致</span></li></ol></div>
+</details>
+
+<div class="container">
+    <!-- ========== 主页：疫苗记录 ========= -->
+    <div id="page-home" class="page active">
+        <div class="example-hint">
+            💡 <strong>使用举例：</strong> 点击「➕ 添加疫苗」→ 下拉选“猫三联”→ 接种日期自动算到期日。右上角按钮可导出/导入数据。
+        </div>
+
+        <!-- 宠物信息卡片 -->
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <span>🐶 我的宠物</span>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-sm" id="openPetDictionaryBtn" title="物种、花费类别、驱虫类型">⚙️ 自定义选项</button>
+                    <button class="btn btn-sm btn-primary" id="showAddPetBtn">➕ 添加宠物</button>
+                </div>
+            </div>
+            <div id="petListContainer"></div>
+            <div style="margin-top:12px;">
+                <span class="fake-link" id="gotoExpenseLink">💸 查看花费明细 →</span>
+            </div>
+        </div>
+
+        <!-- 疫苗记录卡片 -->
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <span>📋 疫苗记录</span>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn btn-sm btn-link fake-link" id="exportDataBtn">📤 导出Excel</button>
+                    <button class="btn btn-sm btn-link fake-link" id="importDataBtn">📂 导入备份</button>
+                    <button class="btn btn-sm btn-primary" id="showAddVaccineForm">➕ 添加疫苗</button>
+                </div>
+            </div>
+            <!-- 月份选择器 -->
+            <div class="month-selector">
+                <input type="month" id="monthPicker" value="">
+            </div>
+            <!-- 添加疫苗表单 (隐藏) -->
+            <div id="addVaccineForm" style="display:none;">
+                <div class="input-group">
+                    <select id="vaccineSelect">
+                        <option value="">-- 选择常见疫苗 --</option>
+                        <option value="猫三联" data-cycle="365">🐱 猫三联 (1年)</option>
+                        <option value="狂犬疫苗" data-cycle="365">🐕 狂犬 (1年)</option>
+                        <option value="犬六联" data-cycle="1095">🐶 犬六联 (3年)</option>
+                        <option value="犬八联" data-cycle="1095">🐶 犬八联 (3年)</option>
+                        <option value="__custom__">✏️ 自定义...</option>
+                    </select>
+                    <input type="text" id="customVaccineName" placeholder="输入疫苗名" style="display:none;">
+                    <input type="text" id="vaccineBrand" placeholder="品牌 (可选)">
+                    <input type="text" id="vaccineBatch" placeholder="批号 (可选)">
+                    <input type="date" id="vaccineDate" value="">
+                    <input type="date" id="vaccineNextDue" value="">
+                    <select id="petSelect"></select>
+                </div>
+                <div class="small-note">*选择疫苗后到期日自动计算，也可手动修改</div>
+                <div id="vaccineKbTip" class="kb-tip" style="display:none;"></div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" id="saveVaccineBtn">保存</button>
+                    <button class="btn" id="cancelAddVaccine">取消</button>
+                </div>
+                <hr>
+            </div>
+            <div id="vaccineListContainer"></div>
+        </div>
+
+        <!-- 体重独立管理（新增UI） -->
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <span>⚖️ 体重管理</span>
+                <button class="btn btn-sm btn-primary" id="showAddWeightForm">➕ 记录体重</button>
+            </div>
+            <div id="addWeightForm" style="display:none;">
+                <div class="input-group">
+                    <input type="date" id="weightDate" value="">
+                    <input type="number" id="weightValue" placeholder="体重 (kg)" step="0.1" min="0">
+                    <select id="weightPetSelect"></select>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" id="saveWeightBtn">保存</button>
+                    <button class="btn" id="cancelAddWeight">取消</button>
+                </div>
+                <hr>
+            </div>
+            <div id="weightListContainer"></div>
+            <div class="small-note">*体重记录会用于“看板→体重变化”和健康评分</div>
+        </div>
+
+        <!-- 日历视图（新增） -->
+        <div class="card">
+            <div class="card-header">🗓️ 日历视图（本月）</div>
+            <div id="calendarContainer"></div>
+            <div class="small-note">*标记：💉 疫苗到期 / 🪱 驱虫到期 / ✅ 已预约</div>
+        </div>
+
+        <!-- 健康评分（新增） -->
+        <div class="card">
+            <div class="card-header">🏅 健康评分</div>
+            <div id="healthScoreContainer"></div>
+            <div class="small-note">*评分为产品化估算：按“到期风险/记录完整度/体重更新”计算，便于你追踪习惯</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span>🧩 多宠统一待办（未来30天）</span>
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    <button class="btn btn-sm" id="todoFilterAllBtn">全部</button>
+                    <button class="btn btn-sm" id="todoFilterOverdueBtn">只看超期</button>
+                    <button class="btn btn-sm" id="todoFilter7dBtn">只看7天内</button>
+                    <span class="small-note" id="todoSummaryText"></span>
+                </div>
+            </div>
+            <div id="unifiedTodoContainer"></div>
+            <div class="small-note">*按紧急度自动排序；勾选完成后将从首页提醒中淡化展示。</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">🔥 连续记录（P3-首批）</div>
+            <div id="streakCardBox" class="report-box">暂无记录，先新增一条疫苗/驱虫/花费/体重数据开始积累连续天数。</div>
+            <div id="streakBadgeRow" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;"></div>
+            <div class="small-note" id="todayTaskHint" style="margin-top:8px;">今日任务：完成至少 1 条记录。</div>
+        </div>
+
+        <!-- 驱虫管理卡片（新增） -->
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <span>🪱 驱虫管理</span>
+                <button class="btn btn-sm btn-primary" id="showAddDewormForm">➕ 记录驱虫</button>
+            </div>
+            <div id="addDewormForm" style="display:none;">
+                <div class="input-group">
+                    <select id="dewormType"></select>
+                    <input type="text" id="dewormProduct" placeholder="药名/品牌 (可选)">
+                    <input type="date" id="dewormDate" value="">
+                    <input type="date" id="dewormNextDue" value="">
+                    <select id="dewormPetSelect"></select>
+                </div>
+                <div class="small-note">*默认按 30 天估算下次到期，可手动修改</div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" id="saveDewormBtn">保存</button>
+                    <button class="btn" id="cancelAddDeworm">取消</button>
+                </div>
+                <hr>
+            </div>
+            <div id="dewormListContainer"></div>
+        </div>
+
+        <!-- 提醒设置（优化版） -->
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span>⏰ 到期提醒设置</span>
+                <button class="btn btn-sm" id="smartRecommendBtn">🧠 智能推荐</button>
+            </div>
+            <div class="input-group">
+                <label>提前 <input type="number" id="remindDays" min="0" max="30" value="3" style="width:70px;"> 天提醒</label>
+                <button class="btn btn-sm" id="testReminderBtn">测试弹窗</button>
+            </div>
+            <div class="input-group">
+                <label>每日定时 <input type="time" id="dailyRemindTime" value="09:00"></label>
+                <button class="btn btn-sm" id="setDailyReminderBtn">开启每日提醒</button>
+            </div>
+            <div class="input-group">
+                <button class="btn btn-sm" id="enableNotificationsBtn">🔔 开启系统通知</button>
+                <span class="small-note" id="notificationStatus" style="margin-left:6px;"></span>
+            </div>
+            <div class="input-group">
+                <label>筛选宠物：</label>
+                <div id="reminderPetFilter" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+            </div>
+            <div class="small-note">*点击提醒项可快速跳转到对应日期</div>
+        </div>
+    </div>
+
+    <!-- ========== 花费明细页面 ========= -->
+    <div id="page-expense" class="page">
+        <div class="card">
+            <div class="card-header">
+                <span>💰 养宠花费明细</span>
+                <button class="btn btn-sm btn-primary" id="showAddExpenseForm">➕ 记一笔</button>
+            </div>
+            <div id="addExpenseForm" style="display:none;">
+                <div class="input-group">
+                    <select id="expenseCategory"></select>
+                    <input type="number" id="expenseAmount" placeholder="金额 (元)" min="0" step="0.01">
+                    <input type="date" id="expenseDate" value="">
+                    <input type="text" id="expenseNote" placeholder="备注 (可选)">
+                    <select id="expensePetSelect"></select>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" id="saveExpenseBtn">保存</button>
+                    <button class="btn" id="cancelAddExpense">取消</button>
+                </div>
+                <hr>
+            </div>
+            <div id="expenseSummary" class="expense-summary">加载中...</div>
+            <div id="expenseListContainer"></div>
+        </div>
+    </div>
+
+    <!-- ========== OCR 真实识别页面 ========= -->
+    <div id="page-ocr" class="page">
+        <div class="card">
+            <div class="card-header">📷 智能识别 (真实OCR)</div>
+            <p>上传接种凭证或免疫记录单照片，本地 OCR 识别并生成台账记录</p>
+            <div class="ocr-demo" style="background:#f0e5de; border-radius:20px; padding:16px; text-align:center; margin-top:12px;">
+                <input type="file" id="ocrImageInput" accept="image/*" capture="environment" style="display:none;">
+                <button class="btn btn-primary" id="triggerOCR">📸 拍照/选图</button>
+                <div id="ocrResult" style="margin-top:16px; text-align:left;"></div>
+                
+                <div class="preprocess-controls" id="preprocessPanel" style="display:none;">
+                    <div class="slider-container">
+                        <span>对比度:</span>
+                        <input type="range" id="contrastSlider" min="0.5" max="2.5" step="0.1" value="1.5">
+                        <span id="contrastValue">1.5</span>
+                    </div>
+                    <div class="slider-container">
+                        <span>阈值:</span>
+                        <input type="range" id="thresholdSlider" min="60" max="200" step="1" value="128">
+                        <span id="thresholdValue">128</span>
+                    </div>
+                    <div class="preview-area">
+                        <canvas id="previewCanvas" width="300" height="200"></canvas>
+                    </div>
+                    <div class="small-note" style="margin-top:8px;">💡 调整参数让文字更清晰，然后点击下方按钮识别</div>
+                    <button class="btn btn-primary" id="startRecognition" style="margin-top:10px;">🔍 开始识别</button>
+                </div>
+                
+                <div id="ocrProgress" style="display:none; margin-top:12px;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="small-note" style="text-align:center;">正在识别中...</div>
+                </div>
+            </div>
+            <div class="small-note" style="margin-top:8px;">*真实OCR引擎，数据完全在本地处理，不上传服务器</div>
+        </div>
+    </div>
+
+    <!-- ========== 数据看板与年报（新增） ========= -->
+    <div id="page-dashboard" class="page">
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <span>📊 数据看板</span>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <select id="dashboardYearSelect" class="btn" style="padding:8px 12px; border-radius:999px;">
+                        <option value="">选择年份</option>
+                    </select>
+                    <button class="btn btn-primary" id="generateYearReportBtn">🧾 年度报告</button>
+                </div>
+            </div>
+            <div class="dashboard-grid" style="margin-top:12px;">
+                <div class="chart-wrap">
+                    <div style="font-weight:600; color:#4a3728; margin-bottom:6px;">💰 花费趋势（按月）</div>
+                    <canvas id="expenseTrendChart"></canvas>
+                </div>
+                <div class="chart-wrap">
+                    <div style="font-weight:600; color:#4a3728; margin-bottom:6px;">💉 疫苗覆盖率（本年）</div>
+                    <canvas id="vaccineCoverageChart"></canvas>
+                    <div class="small-note" id="vaccineCoverageNote" style="margin-top:6px;"></div>
+                </div>
+                <div class="chart-wrap">
+                    <div style="font-weight:600; color:#4a3728; margin-bottom:6px;">⚖️ 体重变化（本年）</div>
+                    <canvas id="weightTrendChart"></canvas>
+                    <div class="small-note" id="weightTrendNote" style="margin-top:6px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">🐾 多宠对比表</div>
+            <div style="overflow:auto;">
+                <table id="compareTable" style="width:100%; border-collapse:collapse; font-size:0.9rem;"></table>
+            </div>
+            <div class="small-note">*用于多宠家庭快速对比：年龄、最新体重、本年花费、疫苗/驱虫记录等</div>
+        </div>
+        <div class="card">
+            <div class="card-header">🧾 年度总结</div>
+            <div id="yearReportBox" class="report-box">选择年份后点击“年度报告”生成总结。</div>
+            <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+                <button class="btn" id="copyYearReportBtn">复制总结</button>
+                <button class="btn" id="downloadYearReportBtn">下载为 .txt</button>
+            </div>
+            <div class="small-note">*报告基于本地记录生成（花费/疫苗/驱虫/体重），不会上传。</div>
+        </div>
+        <div class="card">
+            <div class="card-header">🔎 异常洞察</div>
+            <div id="anomalyInsightBox" class="report-box">选择年份后自动分析体重与花费异常。</div>
+            <div class="small-note">*用于快速发现“体重突变”与“月花费异常偏高”信号，便于及时回看记录。</div>
+        </div>
+    </div>
+</div>
+
+<!-- AI 健康报告页面 -->
+<div id="page-ai-report" class="page">
+    <div class="card">
+        <h2>🤖 AI 健康周报</h2>
+        <p class="small-note">基于宠物健康数据（疫苗、驱虫、花费等）生成智能健康报告</p>
+        <div style="display:flex;gap:8px;margin:16px 0;flex-wrap:wrap;">
+            <select id="aiReportPetSelect" style="flex:1;min-width:150px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);">
+                <option value="">选择宠物</option>
+            </select>
+            <button class="btn primary" id="generateAiReportBtn">生成报告</button>
+        </div>
+        <div id="aiReportResult" style="display:none;">
+            <div class="card" style="background:var(--surface);border:1px solid var(--border);margin-top:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <h3 style="margin:0;" id="aiReportTitle">健康周报</h3>
+                    <button class="btn" id="copyAiReportBtn">📋 复制</button>
+                </div>
+                <div id="aiReportContent" style="font-size:.9rem;line-height:1.7;white-space:pre-wrap;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 底部导航栏 -->
+<div class="tab-bar">
+    <div class="tab-item active" data-page="home"><span class="tab-icon">🏠</span><span>疫苗</span></div>
+    <div class="tab-item" data-page="expense"><span class="tab-icon">💰</span><span>花费</span></div>
+    <div class="tab-item" data-page="ocr"><span class="tab-icon">📷</span><span>OCR</span></div>
+    <div class="tab-item" data-page="dashboard"><span class="tab-icon">📊</span><span>看板</span></div>
+    <div class="tab-item" data-page="ai-report"><span class="tab-icon">🤖</span><span>AI报告</span></div>
+</div>
+
+<!-- 右下角浮动快捷 +（新增） -->
+<div id="quickAddMenu" class="fab-menu">
+    <div class="fab-action" id="quickAddVaccine"><strong>💉</strong> 一键添加疫苗</div>
+    <div class="fab-action" id="quickAddDeworm"><strong>🪱</strong> 一键记录驱虫</div>
+    <div class="fab-action" id="quickAddExpense"><strong>💰</strong> 一键记一笔花费</div>
+</div>
+<div id="quickAddFab" class="fab" aria-label="快捷添加" title="快捷添加">＋</div>
+
+<!-- 添加/编辑宠物模态框 -->
+<div id="petModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3 style="color:#a0452b;" id="petModalTitle">➕ 添加宠物</h3>
+        <input type="hidden" id="editPetId">
+        <!-- 头像上传 -->
+        <div class="avatar-upload">
+            <div class="avatar-preview" id="avatarPreview">
+                <span id="avatarEmoji">🐾</span>
+                <img id="avatarImg" src="" style="display:none;">
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" capture="environment" style="display:none;">
+            <button class="btn btn-sm btn-link" id="uploadAvatarBtn">📷 上传头像</button>
+            <button class="btn btn-sm btn-link" id="clearAvatarBtn" style="display:none;">清除头像</button>
+        </div>
+        <div class="input-group">
+            <input type="text" id="petName" placeholder="名字 *" maxlength="20">
+            <select id="petSpecies"></select>
+            <input type="text" id="petBreed" placeholder="品种 (如: 布偶)">
+            <input type="number" id="petWeight" placeholder="体重 (kg)" step="0.1" min="0">
+            <input type="date" id="petBirth" value="">
+        </div>
+        <div style="display:flex; gap:8px;">
+            <button class="btn btn-primary" id="savePetBtn">保存</button>
+            <button class="btn" id="cancelPetModal">取消</button>
+        </div>
+    </div>
+</div>
+
+<!-- 到期提醒弹窗（优化版） -->
+<div id="reminderModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3>⚠️ 疫苗到期提醒</h3>
+        <div id="reminderContent" style="margin:16px 0;">...</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="closeReminder">知道了</button>
+            <button class="btn btn-primary" id="quickFillAfterScheduleBtn" style="display:none;">📝 去补录</button>
+            <button class="btn" id="snoozeReminder">⏰ 1小时后再提醒</button>
+            <button class="btn" id="dismissTodayReminder">📅 今日不再提醒</button>
+            <button class="btn" id="markScheduledBtn">✅ 已预约接种</button>
+        </div>
+        <div class="small-note" style="margin-top:10px;">*点击提醒项可跳转；“已预约接种”会追踪提醒是否转化为行动</div>
+    </div>
+</div>
+
+<!-- 日历当日清单弹窗 -->
+<div id="calendarDayModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3 id="calendarDayTitle">🗓️ 当日到期清单</h3>
+        <div id="calendarDayContent" style="margin:16px 0;">...</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="closeCalendarDayModal">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 自定义选项（物种 / 花费类别 / 驱虫类型） -->
+<div id="dictionaryModal" class="modal-overlay" style="display:none;">
+    <div class="modal" style="max-width:440px;">
+        <h3 style="margin-bottom:12px;">⚙️ 自定义选项库</h3>
+        <p class="small-note" style="margin-bottom:12px;">以下为追加项；内置选项不可删除。用于下拉框与新建记录。</p>
+        <div style="margin-bottom:16px;">
+            <strong>物种</strong>（如 🐰 兔）
+            <div id="dictSpeciesList" style="margin:6px 0; max-height:120px; overflow:auto;"></div>
+            <div class="input-group" style="margin:8px 0;">
+                <input type="text" id="dictNewSpecies" placeholder="输入物种显示文案，建议含 emoji" maxlength="24">
+                <button type="button" class="btn btn-primary btn-sm" id="dictAddSpeciesBtn">添加</button>
+            </div>
+        </div>
+        <div style="margin-bottom:16px;">
+            <strong>花费类别</strong>
+            <div id="dictExpenseList" style="margin:6px 0; max-height:100px; overflow:auto;"></div>
+            <div class="input-group" style="margin:8px 0;">
+                <input type="text" id="dictNewExpense" placeholder="新类别名称" maxlength="16">
+                <button type="button" class="btn btn-primary btn-sm" id="dictAddExpenseBtn">添加</button>
+            </div>
+        </div>
+        <div style="margin-bottom:16px;">
+            <strong>驱虫类型</strong>
+            <div id="dictDewormList" style="margin:6px 0; max-height:100px; overflow:auto;"></div>
+            <div class="input-group" style="margin:8px 0;">
+                <input type="text" id="dictNewDeworm" placeholder="新类型名称" maxlength="16">
+                <button type="button" class="btn btn-primary btn-sm" id="dictAddDewormBtn">添加</button>
+            </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-primary" id="closeDictionaryModal">完成</button>
+        </div>
+    </div>
+</div>
+
+<!-- 新手引导（Top10-P0） -->
+<div id="onboardingModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3>🚀 3步完成首次建档</h3>
+        <div id="onboardingChecklist" style="margin:14px 0; line-height:1.8;"></div>
+        <div class="small-note">建议顺序：先加宠物，再录第一条记录，最后开启提醒，后续到期提示会更准确。</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+            <button class="btn btn-primary" id="onboardingAddPetBtn">① 添加宠物</button>
+            <button class="btn" id="onboardingAddRecordBtn">② 添加记录</button>
+            <button class="btn" id="onboardingEnableReminderBtn">③ 开启提醒</button>
+            <button class="btn btn-link" id="onboardingSkipBtn">稍后再说</button>
+        </div>
+    </div>
+</div>
+
+<!-- 导入备份文件 input (隐藏) -->
+<input type="file" id="importFileInput" accept=".json,application/json" style="display:none;">
+
+<script>
+    (function(){
+        "use strict";
+
+        // ---------- 数据 ----------
+        let pets = [];
+        let vaccines = [];
+        let expenses = [];
+
+        const STORAGE_PETS = 'pets_v7';
+        const STORAGE_VACCINES = 'vaccines_v7';
+        const STORAGE_EXPENSES = 'expenses_v7';
+
+        let deworms = [];
+        let weightLogs = [];
+        let reminderConversions = {};
+
+        const STORAGE_DEWORMS = 'deworms_v1';
+        const STORAGE_WEIGHTLOGS = 'weightLogs_v1';
+        const STORAGE_REMINDER_CONV = 'reminderConversions_v1';
+        const STORAGE_THEME = 'ui_theme_v1';
+        const STORAGE_NOTIF = 'ui_notif_enabled_v1';
+        const STORAGE_A11Y_MODE = 'ui_accessibility_mode_v1';
+        const STORAGE_PET_DICTIONARY = 'pet_dictionary_v1';
+        const STORAGE_ONBOARDING = 'retention_onboarding_v1';
+        const STORAGE_BEHAVIOR = 'retention_behavior_v1';
+        const STORAGE_WEEKLY_DIGEST = 'retention_weekly_digest_v1';
+        const STORAGE_UNIFIED_TODO = 'retention_unified_todo_v1';
+
+        const DEFAULT_SPECIES_OPTIONS = [{ value: '🐱 猫', label: '🐱 猫咪' }, { value: '🐶 狗', label: '🐶 狗狗' }];
+        const DEFAULT_EXPENSE_KEYS = ['食品', '医疗', '美容', '玩具', '其他'];
+        const DEFAULT_EXPENSE_OPTIONS = [['食品', '🍖 食品'], ['医疗', '💊 医疗'], ['美容', '✂️ 美容'], ['玩具', '🧸 玩具'], ['其他', '📦 其他']];
+        const DEFAULT_DEWORM_KEYS = ['体内', '体外', '体内外'];
+        const DEFAULT_DEWORM_OPTIONS = [['体内', '🧬 体内'], ['体外', '🛡️ 体外'], ['体内外', '🧬🛡️ 体内外']];
+
+        let dictSpeciesCustom = [];
+        let dictExpenseCustom = [];
+        let dictDewormCustom = [];
+
+        function loadPetDictionary() {
+            try {
+                const raw = localStorage.getItem(STORAGE_PET_DICTIONARY);
+                if (!raw) return;
+                const d = JSON.parse(raw);
+                dictSpeciesCustom = Array.isArray(d.species) ? d.species.filter(Boolean) : [];
+                dictExpenseCustom = Array.isArray(d.expenseCategories) ? d.expenseCategories.filter(Boolean) : [];
+                dictDewormCustom = Array.isArray(d.dewormTypes) ? d.dewormTypes.filter(Boolean) : [];
+            } catch (e) {}
+        }
+        function savePetDictionary() {
+            localStorage.setItem(STORAGE_PET_DICTIONARY, JSON.stringify({
+                species: dictSpeciesCustom,
+                expenseCategories: dictExpenseCustom,
+                dewormTypes: dictDewormCustom
+            }));
+        }
+        function escAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+        function escapeHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        function speciesAvatarEmoji(species) {
+            const s = String(species || '');
+            if (s === '🐱 猫') return '🐱';
+            if (s === '🐶 狗') return '🐶';
+            const ch = [...s.trim()][0];
+            return ch || '🐾';
+        }
+        function refreshDictionarySelects() {
+            const speciesSel = document.getElementById('petSpecies');
+            const expSel = document.getElementById('expenseCategory');
+            const dewSel = document.getElementById('dewormType');
+            const prevSp = speciesSel?.value;
+            const prevE = expSel?.value;
+            const prevD = dewSel?.value;
+            const seenSp = new Set(DEFAULT_SPECIES_OPTIONS.map(o => o.value));
+            const spOpts = DEFAULT_SPECIES_OPTIONS.map(o => `<option value="${escAttr(o.value)}">${o.label}</option>`);
+            dictSpeciesCustom.forEach(v => {
+                if (seenSp.has(v)) return;
+                seenSp.add(v);
+                spOpts.push(`<option value="${escAttr(v)}">${escapeHtml(v)}</option>`);
+            });
+            if (speciesSel) {
+                speciesSel.innerHTML = spOpts.join('');
+                if (prevSp && [...speciesSel.options].some(o => o.value === prevSp)) speciesSel.value = prevSp;
+            }
+            const defEk = new Set(DEFAULT_EXPENSE_KEYS);
+            const expOpts = DEFAULT_EXPENSE_OPTIONS.map(([v, lab]) => `<option value="${escAttr(v)}">${lab}</option>`);
+            dictExpenseCustom.forEach(v => {
+                if (!defEk.has(v)) expOpts.push(`<option value="${escAttr(v)}">${escapeHtml(v)}</option>`);
+            });
+            if (expSel) {
+                expSel.innerHTML = expOpts.join('');
+                if (prevE && [...expSel.options].some(o => o.value === prevE)) expSel.value = prevE;
+            }
+            const defDk = new Set(DEFAULT_DEWORM_KEYS);
+            const dewOpts = DEFAULT_DEWORM_OPTIONS.map(([v, lab]) => `<option value="${escAttr(v)}">${lab}</option>`);
+            dictDewormCustom.forEach(v => {
+                if (!defDk.has(v)) dewOpts.push(`<option value="${escAttr(v)}">${escapeHtml(v)}</option>`);
+            });
+            if (dewSel) {
+                dewSel.innerHTML = dewOpts.join('');
+                if (prevD && [...dewSel.options].some(o => o.value === prevD)) dewSel.value = prevD;
+            }
+        }
+        function renderDictionaryModalLists() {
+            const boxS = document.getElementById('dictSpeciesList');
+            const boxE = document.getElementById('dictExpenseList');
+            const boxD = document.getElementById('dictDewormList');
+            if (boxS) {
+                boxS.innerHTML = DEFAULT_SPECIES_OPTIONS.map(o => `<div class="small-note">${escapeHtml(o.label)} <span style="opacity:0.6;">(内置)</span></div>`).join('') +
+                    dictSpeciesCustom.map(v => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0;"><span>${escapeHtml(v)}</span><button type="button" class="btn btn-sm del-dict-species" data-v="${escAttr(v)}">删除</button></div>`).join('');
+                boxS.querySelectorAll('.del-dict-species').forEach(btn => btn.addEventListener('click', () => {
+                    const v = btn.getAttribute('data-v');
+                    dictSpeciesCustom = dictSpeciesCustom.filter(x => x !== v);
+                    savePetDictionary();
+                    refreshDictionarySelects();
+                    renderDictionaryModalLists();
+                }));
+            }
+            if (boxE) {
+                boxE.innerHTML = DEFAULT_EXPENSE_OPTIONS.map(([v, lab]) => `<div class="small-note">${lab} <span style="opacity:0.6;">(内置)</span></div>`).join('') +
+                    dictExpenseCustom.map(v => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0;"><span>${escapeHtml(v)}</span><button type="button" class="btn btn-sm del-dict-expense" data-v="${escAttr(v)}">删除</button></div>`).join('');
+                boxE.querySelectorAll('.del-dict-expense').forEach(btn => btn.addEventListener('click', () => {
+                    const v = btn.getAttribute('data-v');
+                    dictExpenseCustom = dictExpenseCustom.filter(x => x !== v);
+                    savePetDictionary();
+                    refreshDictionarySelects();
+                    renderDictionaryModalLists();
+                }));
+            }
+            if (boxD) {
+                boxD.innerHTML = DEFAULT_DEWORM_OPTIONS.map(([v, lab]) => `<div class="small-note">${lab} <span style="opacity:0.6;">(内置)</span></div>`).join('') +
+                    dictDewormCustom.map(v => `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0;"><span>${escapeHtml(v)}</span><button type="button" class="btn btn-sm del-dict-deworm" data-v="${escAttr(v)}">删除</button></div>`).join('');
+                boxD.querySelectorAll('.del-dict-deworm').forEach(btn => btn.addEventListener('click', () => {
+                    const v = btn.getAttribute('data-v');
+                    dictDewormCustom = dictDewormCustom.filter(x => x !== v);
+                    savePetDictionary();
+                    refreshDictionarySelects();
+                    renderDictionaryModalLists();
+                }));
+            }
+        }
+
+        const VACCINE_CYCLES = { '猫三联':365, '狂犬疫苗':365, '犬六联':1095, '犬八联':1095 };
+        const VACCINE_KB = {
+            '猫三联': { cycleDays: 365, ageHint: '常见建议：幼猫 8/12/16 周完成基础免疫，之后每年加强。', note: '用于预防猫瘟、猫鼻支、猫杯状。若为首次接种，请咨询兽医确认针次。' },
+            '狂犬疫苗': { cycleDays: 365, ageHint: '常见建议：满 3 月龄后可接种，之后按当地规定/医生建议加强。', note: '不同地区管理要求不同；若外出/寄养频繁，建议更重视按期加强。' },
+            '犬六联': { cycleDays: 1095, ageHint: '常见建议：幼犬基础免疫完成后，后续加强周期因品牌与地区而异。', note: '用于多种犬传染病联合预防，务必按医生建议完成基础免疫流程。' },
+            '犬八联': { cycleDays: 1095, ageHint: '常见建议：幼犬基础免疫完成后再进入加强阶段。', note: '联合苗覆盖面更广，但方案需要结合犬只健康情况评估。' }
+        };
+
+        let currentMonth = new Date().toISOString().slice(0,7);
+        let currentOcrImage = null;
+        let pendingAvatarBase64 = null;
+
+        // 提醒系统变量
+        let reminderTimer = null;
+        let snoozeUntil = null;
+        let dismissedToday = false;
+        let selectedPetFilter = [];
+        let dailyReminderEnabled = false;
+        let lastReminderSelection = null; // { type: 'vaccine'|'deworm', id: string }
+
+        // 看板图表实例
+        let expenseTrendChartInstance = null;
+        let vaccineCoverageChartInstance = null;
+        let weightTrendChartInstance = null;
+
+        let petCloudPushTimer = null;
+        let weeklyDigestState = { lastSentWeek: '', lastReadAt: '', autoShownWeek: '' };
+        let unifiedTodoState = {};
+        let backupHealthState = { lastLocalSaveAt: '', lastCloudPushAt: '', cloudStatus: 'idle' };
+        let unifiedTodoFilter = 'all';
+        let unifiedTodoItemsCache = [];
+        let editingVaccineId = '';
+        let editingDewormId = '';
+        let onboardingState = {
+            startedAt: '',
+            completedAt: '',
+            steps: { pet: false, record: false, reminder: false },
+            firstRecordHintShown: false
+        };
+        let behaviorSignals = { dismisses: [], ignores: [] };
+
+        function readJsonStorage(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return fallback;
+                const parsed = JSON.parse(raw);
+                return parsed && typeof parsed === 'object' ? parsed : fallback;
+            } catch (e) {
+                return fallback;
+            }
+        }
+        function saveOnboardingState() { localStorage.setItem(STORAGE_ONBOARDING, JSON.stringify(onboardingState)); }
+        function saveBehaviorSignals() { localStorage.setItem(STORAGE_BEHAVIOR, JSON.stringify(behaviorSignals)); }
+        function trimSignals(days = 7) {
+            const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+            behaviorSignals.dismisses = (behaviorSignals.dismisses || []).filter(ts => Number(ts) >= cutoff);
+            behaviorSignals.ignores = (behaviorSignals.ignores || []).filter(ts => Number(ts) >= cutoff);
+        }
+        function markOnboardingStep(step) {
+            if (!onboardingState.startedAt) onboardingState.startedAt = new Date().toISOString();
+            if (onboardingState.steps[step]) return;
+            onboardingState.steps[step] = true;
+            if (onboardingState.steps.pet && onboardingState.steps.record && onboardingState.steps.reminder && !onboardingState.completedAt) {
+                onboardingState.completedAt = new Date().toISOString();
+                alert('🎉 首次建档完成！后续提醒会根据你的记录自动跟进。');
+            }
+            saveOnboardingState();
+            renderOnboardingChecklist();
+        }
+        function renderOnboardingChecklist() {
+            const box = document.getElementById('onboardingChecklist');
+            if (!box) return;
+            const s = onboardingState.steps;
+            box.innerHTML = `
+                <div>${s.pet ? '✅' : '⬜'} 添加至少 1 只宠物</div>
+                <div>${s.record ? '✅' : '⬜'} 保存至少 1 条记录（疫苗/驱虫/花费）</div>
+                <div>${s.reminder ? '✅' : '⬜'} 开启每日提醒或系统通知</div>
+            `;
+        }
+        function maybeShowOnboarding() {
+            if (onboardingState.completedAt) return;
+            renderOnboardingChecklist();
+            const shouldOpen = !onboardingState.startedAt || pets.length === 0 || !onboardingState.steps.record;
+            if (shouldOpen) document.getElementById('onboardingModal').style.display = 'flex';
+        }
+        function showFirstRecordHintIfNeeded() {
+            if (onboardingState.firstRecordHintShown) return;
+            onboardingState.firstRecordHintShown = true;
+            saveOnboardingState();
+            alert('✅ 首条记录已完成！建议继续开启提醒，把“到期提醒→行动”闭环跑起来。');
+        }
+        function hasFollowupCompleted(entry, originalId) {
+            const at = String(entry?.at || '').slice(0, 10);
+            if (!entry?.petId || !at) return false;
+            if (entry.kind === 'deworm') {
+                return deworms.some(d => d.petId === entry.petId && d.id !== originalId && d.date && d.date >= at);
+            }
+            return vaccines.some(v => v.petId === entry.petId && v.id !== originalId && v.date && v.date >= at);
+        }
+        function checkScheduledFollowup() {
+            const dueEntries = [];
+            Object.entries(reminderConversions || {}).forEach(([key, val]) => {
+                if (!val || val.status !== 'scheduled' || val.followupResolvedAt) return;
+                const atTs = Date.parse(val.at || '');
+                if (!atTs || Date.now() - atTs < 24 * 60 * 60 * 1000) return;
+                const [kind, id] = key.split(':');
+                const completed = hasFollowupCompleted({ ...val, kind }, id);
+                if (completed) {
+                    val.followupResolvedAt = new Date().toISOString();
+                    return;
+                }
+                dueEntries.push({ key, kind, id, val });
+            });
+            if (!dueEntries.length) return;
+            const first = dueEntries[0];
+            const reminderContent = document.getElementById('reminderContent');
+            reminderContent.innerHTML = `
+                <div class="reminder-item" style="padding:10px; border-radius:12px; background:var(--panel-bg);">
+                    <strong>📝 预约后补录提醒</strong>
+                    <div style="margin-top:6px;">你已标记“已预约”，但还没有新增${first.kind === 'deworm' ? '驱虫' : '接种'}记录，建议现在补录，避免后续提醒失真。</div>
+                </div>
+            `;
+            document.getElementById('quickFillAfterScheduleBtn').style.display = 'inline-block';
+            document.getElementById('markScheduledBtn').style.display = 'none';
+            lastReminderSelection = { type: first.kind, id: first.id };
+            document.getElementById('reminderModal').style.display = 'flex';
+            saveAll();
+        }
+        function getWeekKey(dt = new Date()) {
+            const d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate()));
+            const dayNum = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const weekNum = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return `${d.getUTCFullYear()}-W${String(weekNum).padStart(2, '0')}`;
+        }
+        function generateWeeklyDigestText() {
+            const now = new Date();
+            const start = new Date(now);
+            start.setDate(now.getDate() - 7);
+            const startStr = formatDateKey(start);
+            const endStr = formatDateKey(now);
+            const vaccines7 = vaccines.filter(v => v.date && v.date >= startStr && v.date <= endStr).length;
+            const deworms7 = deworms.filter(d => d.date && d.date >= startStr && d.date <= endStr).length;
+            const weights7 = weightLogs.filter(w => w.date && w.date >= startStr && w.date <= endStr).length;
+            const expense7 = expenses
+                .filter(e => e.date && e.date >= startStr && e.date <= endStr)
+                .reduce((s, e) => s + (parseFloat(e.amount) || 0), 0);
+            const upcoming7 = [...vaccines.filter(v => v.nextDue && v.nextDue >= endStr), ...deworms.filter(d => d.nextDue && d.nextDue >= endStr)]
+                .filter(x => {
+                    const due = x.nextDue;
+                    const diff = (new Date(due) - new Date(endStr)) / (1000 * 60 * 60 * 24);
+                    return diff >= 0 && diff <= 7;
+                }).length;
+            return [
+                `📬 每周健康周报（${startStr} ~ ${endStr}）`,
+                `本周完成：疫苗 ${vaccines7} 条，驱虫 ${deworms7} 条，体重 ${weights7} 条`,
+                `本周花费：¥${expense7.toFixed(2)}`,
+                `未来7天待办：${upcoming7} 项`,
+                upcoming7 > 0 ? '建议：打开提醒弹窗逐项点“已预约/已处理”，提高到期事项转化。' : '建议：保持当前节奏，下一周继续补充体重与花费记录。'
+            ].join('\n');
+        }
+        function maybeAutoShowWeeklyDigest() {
+            const wk = getWeekKey(new Date());
+            if (weeklyDigestState.autoShownWeek === wk) return;
+            const text = generateWeeklyDigestText();
+            document.getElementById('yearReportBox').textContent = text;
+            weeklyDigestState.autoShownWeek = wk;
+            weeklyDigestState.lastSentWeek = wk;
+            saveAll();
+            alert('📬 本周健康周报已生成，可在看板页查看。');
+        }
+        function renderAnomalyInsights(year) {
+            const box = document.getElementById('anomalyInsightBox');
+            if (!box) return;
+            const y = String(year);
+            const parts = [];
+            const { months, totals } = sumExpenseByMonth(year);
+            const nonZero = totals.filter(x => x > 0);
+            const avg = nonZero.length ? (nonZero.reduce((s, n) => s + n, 0) / nonZero.length) : 0;
+            totals.forEach((t, i) => {
+                if (avg > 0 && t > Math.max(200, avg * 1.6)) {
+                    parts.push(`💸 ${y}-${months[i]} 花费异常偏高：¥${t.toFixed(2)}（近月均值约 ¥${avg.toFixed(2)}）`);
+                }
+            });
+            const byPet = weightSeriesByPet(year);
+            byPet.forEach((arr, petId) => {
+                if (arr.length < 2) return;
+                for (let i = 1; i < arr.length; i += 1) {
+                    const prev = parseFloat(arr[i - 1].weight);
+                    const curr = parseFloat(arr[i].weight);
+                    if (!prev || !curr) continue;
+                    const changeRate = Math.abs(curr - prev) / prev;
+                    if (changeRate >= 0.12) {
+                        const pet = pets.find(p => p.id === petId);
+                        parts.push(`⚖️ ${pet?.name || '未知宠物'} 在 ${arr[i].date} 体重变化 ${(changeRate * 100).toFixed(1)}%（${prev.toFixed(1)}kg → ${curr.toFixed(1)}kg）`);
+                    }
+                }
+            });
+            if (!parts.length) {
+                box.textContent = `${year} 年暂未检测到明显异常，建议持续记录体重与花费以提高检测准确度。`;
+                return;
+            }
+            box.textContent = parts.slice(0, 8).join('\n');
+        }
+        function formatTimeHm(isoStr) {
+            if (!isoStr) return '--';
+            const d = new Date(isoStr);
+            if (isNaN(d.getTime())) return '--';
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            const h = String(d.getHours()).padStart(2, '0');
+            const mm = String(d.getMinutes()).padStart(2, '0');
+            return `${y}-${m}-${day} ${h}:${mm}`;
+        }
+        function updateBackupHealthBar() {
+            const bar = document.getElementById('backupHealthBar');
+            if (!bar) return;
+            const localPart = `💾 本地保存：${formatTimeHm(backupHealthState.lastLocalSaveAt)}`;
+            let cloudPart = '☁️ 云端：未启用';
+            if (document.getElementById('petCloudSync')?.checked) {
+                if (backupHealthState.cloudStatus === 'ok') cloudPart = `☁️ 云端：已同步 ${formatTimeHm(backupHealthState.lastCloudPushAt)}`;
+                else if (backupHealthState.cloudStatus === 'pending') cloudPart = '☁️ 云端：同步中…';
+                else if (backupHealthState.cloudStatus === 'error') cloudPart = '☁️ 云端：同步失败，请检查网络/API';
+                else cloudPart = `☁️ 云端：待同步（最近成功 ${formatTimeHm(backupHealthState.lastCloudPushAt)}）`;
+            }
+            bar.textContent = `${localPart} · ${cloudPart}`;
+        }
+        function renderStreakCard() {
+            const box = document.getElementById('streakCardBox');
+            const badgeRow = document.getElementById('streakBadgeRow');
+            const taskHint = document.getElementById('todayTaskHint');
+            if (!box) return;
+            const dateSet = new Set();
+            vaccines.forEach(v => v.date && dateSet.add(v.date));
+            deworms.forEach(d => d.date && dateSet.add(d.date));
+            expenses.forEach(e => e.date && dateSet.add(e.date));
+            weightLogs.forEach(w => w.date && dateSet.add(w.date));
+            const dates = Array.from(dateSet).sort((a, b) => a.localeCompare(b));
+            if (!dates.length) {
+                box.textContent = '暂无记录，先新增一条疫苗/驱虫/花费/体重数据开始积累连续天数。';
+                if (badgeRow) badgeRow.innerHTML = '';
+                if (taskHint) taskHint.textContent = '今日任务：完成至少 1 条记录。';
+                return;
+            }
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const dayMs = 24 * 60 * 60 * 1000;
+            let currentStreak = 0;
+            let cursor = new Date(today);
+            const hasDate = (d) => dateSet.has(formatDateKey(d));
+            while (hasDate(cursor)) {
+                currentStreak += 1;
+                cursor = new Date(cursor.getTime() - dayMs);
+            }
+            if (currentStreak === 0) {
+                const y = new Date(today.getTime() - dayMs);
+                while (hasDate(y)) {
+                    currentStreak += 1;
+                    y.setDate(y.getDate() - 1);
+                }
+            }
+            let maxStreak = 1;
+            let run = 1;
+            for (let i = 1; i < dates.length; i += 1) {
+                const prev = new Date(dates[i - 1]);
+                const curr = new Date(dates[i]);
+                const diff = Math.round((curr - prev) / dayMs);
+                if (diff === 1) run += 1;
+                else run = 1;
+                if (run > maxStreak) maxStreak = run;
+            }
+            box.textContent = `当前连续记录：${currentStreak} 天\n历史最长连续：${maxStreak} 天\n最近记录日期：${dates[dates.length - 1]}\n建议：保持“每天至少1条记录”的节奏，提醒转化会更稳定。`;
+            if (badgeRow) {
+                const tiers = [3, 7, 14, 30];
+                badgeRow.innerHTML = tiers.map(n => {
+                    const ok = maxStreak >= n;
+                    return `<span style="padding:4px 10px; border-radius:999px; font-size:0.78rem; border:1px solid var(--card-border); background:${ok ? 'var(--tab-active-bg)' : 'var(--panel-bg)'}; color:${ok ? 'var(--accent)' : 'var(--muted)'};">${ok ? '🏅' : '⬜'} ${n}天徽章</span>`;
+                }).join('');
+            }
+            if (taskHint) {
+                const todayKey = formatDateKey(today);
+                const doneToday = dateSet.has(todayKey);
+                taskHint.textContent = doneToday
+                    ? '今日任务：已完成 ✅（你今天已经有记录）'
+                    : '今日任务：未完成 ⏳（再记录 1 条即可）';
+            }
+        }
+        function buildUnifiedTodoItems() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const in30 = new Date(today);
+            in30.setDate(in30.getDate() + 30);
+            const items = [];
+            vaccines.forEach(v => {
+                if (!v.nextDue) return;
+                const due = new Date(v.nextDue);
+                due.setHours(0, 0, 0, 0);
+                if (due > in30) return;
+                const pet = pets.find(p => p.id === v.petId);
+                const key = `vaccine:${v.id}`;
+                const daysLeft = Math.floor((due - today) / (24 * 60 * 60 * 1000));
+                items.push({ key, kind: '疫苗', kindKey: 'vaccine', recordId: v.id, petName: pet?.name || '未知', title: v.name, due: v.nextDue, overdue: due < today, within7d: daysLeft >= 0 && daysLeft <= 7 });
+            });
+            deworms.forEach(d => {
+                if (!d.nextDue) return;
+                const due = new Date(d.nextDue);
+                due.setHours(0, 0, 0, 0);
+                if (due > in30) return;
+                const pet = pets.find(p => p.id === d.petId);
+                const key = `deworm:${d.id}`;
+                const daysLeft = Math.floor((due - today) / (24 * 60 * 60 * 1000));
+                items.push({ key, kind: '驱虫', kindKey: 'deworm', recordId: d.id, petName: pet?.name || '未知', title: d.type, due: d.nextDue, overdue: due < today, within7d: daysLeft >= 0 && daysLeft <= 7 });
+            });
+            return items.sort((a, b) => {
+                if (a.overdue !== b.overdue) return a.overdue ? -1 : 1;
+                return a.due.localeCompare(b.due);
+            });
+        }
+        function renderUnifiedTodo() {
+            const box = document.getElementById('unifiedTodoContainer');
+            const summary = document.getElementById('todoSummaryText');
+            if (!box) return;
+            const rawItems = buildUnifiedTodoItems();
+            let items = rawItems;
+            if (unifiedTodoFilter === 'overdue') items = rawItems.filter(it => it.overdue);
+            if (unifiedTodoFilter === '7d') items = rawItems.filter(it => it.within7d || it.overdue);
+            unifiedTodoItemsCache = rawItems;
+            if (!items.length) {
+                box.innerHTML = '<div class="empty-state">当前筛选下暂无待办 👍</div>';
+                if (summary) summary.textContent = `0/${rawItems.length} 显示`;
+                return;
+            }
+            const done = rawItems.filter(it => unifiedTodoState[it.key]?.done).length;
+            if (summary) summary.textContent = `${done}/${rawItems.length} 已完成`;
+            const allBtn = document.getElementById('todoFilterAllBtn');
+            const overdueBtn = document.getElementById('todoFilterOverdueBtn');
+            const d7Btn = document.getElementById('todoFilter7dBtn');
+            if (allBtn) allBtn.classList.toggle('btn-primary', unifiedTodoFilter === 'all');
+            if (overdueBtn) overdueBtn.classList.toggle('btn-primary', unifiedTodoFilter === 'overdue');
+            if (d7Btn) d7Btn.classList.toggle('btn-primary', unifiedTodoFilter === '7d');
+            box.innerHTML = items.map(it => {
+                const checked = unifiedTodoState[it.key]?.done ? 'checked' : '';
+                const overdueBadge = it.overdue ? '<span class="reminder-badge" style="margin-left:8px;">超期</span>' : '';
+                return `<label style="display:flex; align-items:flex-start; gap:10px; padding:10px; border:1px solid var(--card-border); border-radius:12px; margin-bottom:8px; background:var(--soft-bg);">
+                    <input type="checkbox" data-todo-key="${it.key}" ${checked} style="margin-top:4px;">
+                    <div style="flex:1;">
+                        <div><strong>${it.petName}</strong> · ${it.kind} · ${it.title}${overdueBadge}</div>
+                        <div class="small-note">到期：${it.due}</div>
+                    </div>
+                    <button type="button" class="btn btn-sm" data-jump-todo="${it.key}">去编辑</button>
+                </label>`;
+            }).join('');
+        }
+        function getApiBase() {
+            const u = document.getElementById('portfolioCloudBase')?.value?.trim()
+                || localStorage.getItem('portfolio_cloud_base') || '';
+            return u.replace(/\/$/, '');
+        }
+        function apiHeaders(json = true) {
+            const h = {};
+            if (json) h['Content-Type'] = 'application/json';
+            const token = document.getElementById('portfolioCloudToken')?.value?.trim()
+                || localStorage.getItem('portfolio_cloud_token') || '';
+            if (token) h['X-API-Key'] = token;
+            return h;
+        }
+        function restorePortfolioCloudInputs() {
+            const b = localStorage.getItem('portfolio_cloud_base');
+            const t = localStorage.getItem('portfolio_cloud_token');
+            const baseEl = document.getElementById('portfolioCloudBase');
+            const tokEl = document.getElementById('portfolioCloudToken');
+            if (b && baseEl) baseEl.value = b;
+            if (t && tokEl) tokEl.value = t;
+            const cb = document.getElementById('petCloudSync');
+            if (cb) cb.checked = localStorage.getItem('pet_cloud_sync') === '1';
+        }
+        function persistPetCloudSettings() {
+            localStorage.setItem('portfolio_cloud_base', document.getElementById('portfolioCloudBase')?.value?.trim() || '');
+            localStorage.setItem('portfolio_cloud_token', document.getElementById('portfolioCloudToken')?.value?.trim() || '');
+            localStorage.setItem('pet_cloud_sync', document.getElementById('petCloudSync')?.checked ? '1' : '0');
+        }
+        async function tryLoadPetFromCloud() {
+            if (!document.getElementById('petCloudSync')?.checked || !getApiBase()) return false;
+            try {
+                const r = await fetch(`${getApiBase()}/api/demo/pet-vaccine`, { headers: apiHeaders(false) });
+                if (!r.ok) return false;
+                const data = await r.json();
+                if (!data.payload) return false;
+                const p = data.payload;
+                if (Array.isArray(p.pets)) pets = p.pets;
+                if (Array.isArray(p.vaccines)) vaccines = p.vaccines;
+                if (Array.isArray(p.expenses)) expenses = p.expenses;
+                if (Array.isArray(p.deworms)) deworms = p.deworms;
+                if (Array.isArray(p.weightLogs)) weightLogs = p.weightLogs;
+                if (p.reminderConversions && typeof p.reminderConversions === 'object') reminderConversions = p.reminderConversions;
+                if (p.dictionaries && typeof p.dictionaries === 'object') {
+                    dictSpeciesCustom = Array.isArray(p.dictionaries.species) ? p.dictionaries.species : dictSpeciesCustom;
+                    dictExpenseCustom = Array.isArray(p.dictionaries.expenseCategories) ? p.dictionaries.expenseCategories : dictExpenseCustom;
+                    dictDewormCustom = Array.isArray(p.dictionaries.dewormTypes) ? p.dictionaries.dewormTypes : dictDewormCustom;
+                    savePetDictionary();
+                    refreshDictionarySelects();
+                }
+                saveAll();
+                return true;
+            } catch (e) {
+                console.warn(e);
+                return false;
+            }
+        }
+        async function pushPetToCloud() {
+            if (!document.getElementById('petCloudSync')?.checked || !getApiBase()) return;
+            backupHealthState.cloudStatus = 'pending';
+            updateBackupHealthBar();
+            try {
+                const r = await fetch(`${getApiBase()}/api/demo/pet-vaccine`, {
+                    method: 'PUT',
+                    headers: apiHeaders(),
+                    body: JSON.stringify({
+                        payload: {
+                            pets,
+                            vaccines,
+                            expenses,
+                            deworms,
+                            weightLogs,
+                            reminderConversions,
+                            dictionaries: {
+                                species: dictSpeciesCustom,
+                                expenseCategories: dictExpenseCustom,
+                                dewormTypes: dictDewormCustom
+                            },
+                            schemaVersion: 2
+                        }
+                    })
+                });
+                if (!r.ok) {
+                    backupHealthState.cloudStatus = 'error';
+                    console.warn('云端备份 HTTP', r.status);
+                } else {
+                    backupHealthState.cloudStatus = 'ok';
+                    backupHealthState.lastCloudPushAt = new Date().toISOString();
+                }
+            } catch (e) {
+                backupHealthState.cloudStatus = 'error';
+                console.warn('云端备份失败', e);
+            }
+            updateBackupHealthBar();
+        }
+        function schedulePetCloudPush() {
+            if (!document.getElementById('petCloudSync')?.checked || !getApiBase()) return;
+            clearTimeout(petCloudPushTimer);
+            petCloudPushTimer = setTimeout(() => pushPetToCloud(), 650);
+        }
+
+        // 工具函数
+        function formatDateKey(d) { return d.toISOString().slice(0,10); }
+        function genId() { return Date.now() + '-' + Math.random().toString(36).substr(2,6); }
+
+        function applyTheme(theme) {
+            const t = theme || 'warm';
+            if (t === 'warm') document.body.removeAttribute('data-theme');
+            else document.body.setAttribute('data-theme', t);
+            localStorage.setItem(STORAGE_THEME, t);
+            const sel = document.getElementById('themeSelect');
+            if (sel && sel.value !== t) sel.value = t;
+        }
+        function applyAccessibilityMode(mode) {
+            const m = mode === 'elder' ? 'elder' : 'normal';
+            document.body.classList.toggle('elder-mode', m === 'elder');
+            localStorage.setItem(STORAGE_A11Y_MODE, m);
+            const sel = document.getElementById('accessibilityModeSelect');
+            if (sel && sel.value !== m) sel.value = m;
+        }
+
+        async function registerServiceWorker() {
+            if (!('serviceWorker' in navigator)) return null;
+            try {
+                const reg = await navigator.serviceWorker.register('./sw.js');
+                return reg;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        async function ensureNotificationPermission() {
+            if (!('Notification' in window)) return { ok:false, reason:'浏览器不支持通知' };
+            if (Notification.permission === 'granted') return { ok:true };
+            if (Notification.permission === 'denied') return { ok:false, reason:'通知权限被拒绝' };
+            const p = await Notification.requestPermission();
+            return { ok: p === 'granted', reason: p };
+        }
+
+        async function showSystemNotification(title, body) {
+            const enabled = localStorage.getItem(STORAGE_NOTIF) === '1';
+            if (!enabled) return;
+            const perm = await ensureNotificationPermission();
+            if (!perm.ok) return;
+            const reg = await registerServiceWorker();
+            if (reg?.showNotification) {
+                reg.showNotification(title, { body, icon: './icon.svg' });
+            } else {
+                new Notification(title, { body });
+            }
+        }
+        function saveAll() { 
+            localStorage.setItem(STORAGE_PETS, JSON.stringify(pets));
+            localStorage.setItem(STORAGE_VACCINES, JSON.stringify(vaccines));
+            localStorage.setItem(STORAGE_EXPENSES, JSON.stringify(expenses));
+            localStorage.setItem(STORAGE_DEWORMS, JSON.stringify(deworms));
+            localStorage.setItem(STORAGE_WEIGHTLOGS, JSON.stringify(weightLogs));
+            localStorage.setItem(STORAGE_REMINDER_CONV, JSON.stringify(reminderConversions));
+            localStorage.setItem(STORAGE_WEEKLY_DIGEST, JSON.stringify(weeklyDigestState));
+            localStorage.setItem(STORAGE_UNIFIED_TODO, JSON.stringify(unifiedTodoState));
+            backupHealthState.lastLocalSaveAt = new Date().toISOString();
+            if (document.getElementById('petCloudSync')?.checked && getApiBase()) backupHealthState.cloudStatus = 'pending';
+            updateBackupHealthBar();
+            renderUnifiedTodo();
+            renderStreakCard();
+            schedulePetCloudPush();
+        }
+
+        function loadData() {
+            const sp = localStorage.getItem(STORAGE_PETS); 
+            if(sp) {
+                pets = JSON.parse(sp);
+                pets.forEach(p => { p.avatar = p.avatar || ''; p.breed = p.breed || ''; p.weight = p.weight || ''; });
+            } else pets = [];
+            const sv = localStorage.getItem(STORAGE_VACCINES); if(sv) vaccines = JSON.parse(sv); else vaccines = [];
+            const se = localStorage.getItem(STORAGE_EXPENSES); if(se) expenses = JSON.parse(se); else expenses = [];
+            const sd = localStorage.getItem(STORAGE_DEWORMS); if(sd) deworms = JSON.parse(sd); else deworms = [];
+            const sw = localStorage.getItem(STORAGE_WEIGHTLOGS); if(sw) weightLogs = JSON.parse(sw); else weightLogs = [];
+            const sc = localStorage.getItem(STORAGE_REMINDER_CONV); if(sc) reminderConversions = JSON.parse(sc); else reminderConversions = {};
+
+            // 兼容：把旧 pets.weight（如果有）转成 weightLogs 的初始点（只做一次）
+            const migratedKey = 'weightLogsMigrated_v1';
+            if (!localStorage.getItem(migratedKey)) {
+                const todayStr = formatDateKey(new Date());
+                pets.forEach(p => {
+                    const w = parseFloat(p.weight);
+                    if (!isNaN(w) && w > 0) weightLogs.push({ id: genId(), petId: p.id, date: todayStr, weight: w });
+                });
+                localStorage.setItem(migratedKey, '1');
+            }
+        }
+
+        function refreshPetSelects() {
+            const vaccineSelect = document.getElementById('petSelect');
+            const expenseSelect = document.getElementById('expensePetSelect');
+            const dewormSelect = document.getElementById('dewormPetSelect');
+            const weightSelect = document.getElementById('weightPetSelect');
+            const options = pets.map(p => `<option value="${p.id}">${p.name} (${p.species})</option>`).join('');
+            vaccineSelect.innerHTML = options || '<option value="">请先添加宠物</option>';
+            expenseSelect.innerHTML = options || '<option value="">请先添加宠物</option>';
+            if (dewormSelect) dewormSelect.innerHTML = options || '<option value="">请先添加宠物</option>';
+            if (weightSelect) weightSelect.innerHTML = options || '<option value="">请先添加宠物</option>';
+        }
+
+        // 渲染宠物筛选复选框
+        function renderReminderPetFilter() {
+            const container = document.getElementById('reminderPetFilter');
+            if (!pets.length) {
+                container.innerHTML = '<span style="color:#ab988b;">暂无宠物</span>';
+                return;
+            }
+            let html = '';
+            pets.forEach(p => {
+                const checked = selectedPetFilter.length === 0 || selectedPetFilter.includes(p.id);
+                html += `<label style="display:flex; align-items:center; gap:4px; background:#f3e7de; padding:4px 12px; border-radius:20px;">
+                    <input type="checkbox" value="${p.id}" ${checked ? 'checked' : ''} data-pet-filter> ${p.name}
+                </label>`;
+            });
+            container.innerHTML = html;
+            container.querySelectorAll('[data-pet-filter]').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    selectedPetFilter = Array.from(container.querySelectorAll('[data-pet-filter]:checked')).map(cb => cb.value);
+                });
+            });
+        }
+
+        function renderPetList() {
+            const container = document.getElementById('petListContainer');
+            if(!pets.length) {
+                container.innerHTML = `<div class="big-add-btn" id="emptyAddPetBtn">➕ 添加第一个宠物</div>`;
+                document.getElementById('emptyAddPetBtn')?.addEventListener('click', ()=> openPetModal());
+                return;
+            }
+            let html = '';
+            pets.forEach(p => {
+                const avatarHtml = p.avatar 
+                    ? `<img src="${p.avatar}">` 
+                    : `<span>${speciesAvatarEmoji(p.species)}</span>`;
+                const info = [p.breed, p.weight ? p.weight+'kg' : ''].filter(Boolean).join(' · ');
+                html += `<div style="display:flex; align-items:center; margin-bottom:8px; background:#fef6f2; padding:8px 12px; border-radius:40px;" data-pet-id="${p.id}">`;
+                html += `<div class="pet-avatar-small" style="cursor:pointer;" data-edit-pet="${p.id}">${avatarHtml}</div>`;
+                html += `<div style="flex:1;"><strong>${p.name}</strong> ${p.species}<br><span style="font-size:0.75rem; color:#7b5e4b;">${info || '暂无更多信息'}</span></div>`;
+                html += `<button class="btn-sm btn" style="background:transparent; border-color:#e0cfc5;" data-delete-pet="${p.id}">🗑️</button>`;
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+            container.querySelectorAll('[data-edit-pet]').forEach(el => {
+                el.addEventListener('click', e => {
+                    const id = e.currentTarget.dataset.editPet;
+                    const pet = pets.find(p => p.id === id);
+                    if(pet) openPetModal(pet);
+                });
+            });
+            container.querySelectorAll('[data-delete-pet]').forEach(el => {
+                el.addEventListener('click', e => {
+                    const id = e.currentTarget.dataset.deletePet;
+                    if(confirm('确定删除这只宠物吗？相关疫苗和花费记录也会被清理。')) {
+                        pets = pets.filter(p => p.id !== id);
+                        vaccines = vaccines.filter(v => v.petId !== id);
+                        expenses = expenses.filter(e => e.petId !== id);
+                        deworms = deworms.filter(d => d.petId !== id);
+                        weightLogs = weightLogs.filter(w => w.petId !== id);
+                        saveAll();
+                        renderPetList();
+                        refreshPetSelects();
+                        renderVaccineList();
+                        renderDewormList();
+                        renderExpensePage();
+                        renderReminderPetFilter();
+                    }
+                });
+            });
+            renderReminderPetFilter();
+        }
+
+        function renderVaccineList() {
+            const container = document.getElementById('vaccineListContainer');
+            const filtered = vaccines.filter(v => v.date && v.date.startsWith(currentMonth));
+            if(!filtered.length) {
+                container.innerHTML = '<div class="empty-state">📭 这个月没有接种记录</div>';
+                return;
+            }
+            filtered.sort((a,b) => a.date.localeCompare(b.date));
+            let html = '';
+            filtered.forEach(v => {
+                const pet = pets.find(p => p.id === v.petId) || { name: '未知' };
+                html += `<div class="vaccine-item">`;
+                html += `<div style="display:flex; justify-content:space-between;"><span><strong>${v.name}</strong> · ${pet.name}</span><span>📅 ${v.date}</span></div>`;
+                const extra = [v.brand ? ('品牌: ' + v.brand) : '', v.batch ? ('批号: ' + v.batch) : ''].filter(Boolean).join(' · ');
+                html += `<div style="font-size:0.8rem; color:var(--muted);">⏳ 到期: ${v.nextDue || '未设置'}${extra ? `<br>🏷️ ${extra}` : ''}</div>`;
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function calcDewormNextDue(dateStr) {
+            if(!dateStr) return '';
+            const d = new Date(dateStr);
+            d.setDate(d.getDate() + 30);
+            return formatDateKey(d);
+        }
+
+        function renderDewormList() {
+            const container = document.getElementById('dewormListContainer');
+            if(!container) return;
+            const filtered = deworms.filter(d => d.date && d.date.startsWith(currentMonth));
+            if(!filtered.length) {
+                container.innerHTML = '<div class="empty-state">📭 这个月没有驱虫记录</div>';
+                return;
+            }
+            filtered.sort((a,b) => a.date.localeCompare(b.date));
+            let html = '';
+            filtered.forEach(d => {
+                const pet = pets.find(p => p.id === d.petId) || { name: '未知' };
+                html += `<div class="vaccine-item" style="border-left-color:#b49a89;">`;
+                html += `<div style="display:flex; justify-content:space-between;"><span><strong>${d.type}</strong> · ${pet.name}${d.product ? (' · ' + d.product) : ''}</span><span>📅 ${d.date}</span></div>`;
+                html += `<div style="font-size:0.8rem; color:#7b5e4b;">⏳ 到期: ${d.nextDue || '未设置'}</div>`;
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderWeightList() {
+            const container = document.getElementById('weightListContainer');
+            if(!container) return;
+            const filtered = weightLogs.filter(w => w.date && w.date.startsWith(currentMonth));
+            if(!filtered.length) {
+                container.innerHTML = '<div class="empty-state">📭 这个月没有体重记录</div>';
+                return;
+            }
+            filtered.sort((a,b) => a.date.localeCompare(b.date));
+            let html = '';
+            filtered.forEach(w => {
+                const pet = pets.find(p => p.id === w.petId) || { name: '未知' };
+                html += `<div class="expense-item" style="border-left-color:var(--accent);">`;
+                html += `<div style="display:flex; justify-content:space-between;"><span><strong>${pet.name}</strong> · 体重</span><span><strong>${parseFloat(w.weight).toFixed(1)}kg</strong></span></div>`;
+                html += `<div style="font-size:0.8rem; color:var(--muted);">📅 ${w.date}</div>`;
+                html += `<div style="text-align:right;"><span style="cursor:pointer; color:var(--accent);" data-delete-weight="${w.id}">删除</span></div>`;
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderCalendar() {
+            const container = document.getElementById('calendarContainer');
+            if(!container) return;
+            const [yStr, mStr] = (currentMonth || '').split('-');
+            const y = parseInt(yStr, 10);
+            const m = parseInt(mStr, 10);
+            if(!y || !m) { container.innerHTML = '<div class="empty-state">请选择月份</div>'; return; }
+
+            const first = new Date(y, m-1, 1);
+            const startDay = first.getDay(); // 0 Sun
+            const daysInMonth = new Date(y, m, 0).getDate();
+            const todayStr = formatDateKey(new Date());
+
+            const dueV = vaccines.filter(v => v.nextDue && v.nextDue.startsWith(currentMonth)).map(v => ({ kind:'vaccine', petId:v.petId, id:v.id, date:v.nextDue }));
+            const dueD = deworms.filter(d => d.nextDue && d.nextDue.startsWith(currentMonth)).map(d => ({ kind:'deworm', petId:d.petId, id:d.id, date:d.nextDue }));
+            const byDate = new Map();
+            [...dueV, ...dueD].forEach(it => {
+                if(!byDate.has(it.date)) byDate.set(it.date, []);
+                byDate.get(it.date).push(it);
+            });
+
+            const week = ['日','一','二','三','四','五','六'];
+            let html = '';
+            html += `<div style="display:grid; grid-template-columns:repeat(7,1fr); gap:6px; font-size:0.8rem; color:var(--muted); text-align:center; margin-bottom:8px;">`;
+            week.forEach(w => { html += `<div>${w}</div>`; });
+            html += `</div>`;
+
+            html += `<div style="display:grid; grid-template-columns:repeat(7,1fr); gap:6px;">`;
+            const totalCells = Math.ceil((startDay + daysInMonth) / 7) * 7;
+            for(let i=0;i<totalCells;i++){
+                const dayNum = i - startDay + 1;
+                if(dayNum <= 0 || dayNum > daysInMonth){
+                    html += `<div style="height:54px;"></div>`;
+                    continue;
+                }
+                const dateStr = `${yStr}-${String(m).padStart(2,'0')}-${String(dayNum).padStart(2,'0')}`;
+                const items = byDate.get(dateStr) || [];
+                const hasScheduled = items.some(it => reminderConversions?.[`${it.kind}:${it.id}`]?.status === 'scheduled');
+                const dots = items.map(it => it.kind === 'vaccine' ? '💉' : '🪱').slice(0,3).join('');
+                const isToday = dateStr === todayStr;
+                const bg = isToday ? 'rgba(106,166,255,0.12)' : 'transparent';
+                const border = items.length ? `1px solid var(--card-border)` : '1px dashed rgba(0,0,0,0.08)';
+                const mark = hasScheduled ? ' ✅' : '';
+                html += `<div data-calendar-date="${dateStr}" style="height:54px; border:${border}; border-radius:14px; padding:6px; background:${bg}; overflow:hidden; cursor:pointer;" title="点击查看当日到期清单">`;
+                html += `<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.9rem;"><span style="font-weight:700; color:var(--text);">${dayNum}</span><span style="font-size:0.8rem;">${mark}</span></div>`;
+                html += `<div style="font-size:0.9rem; margin-top:4px;">${dots}</div>`;
+                html += `</div>`;
+            }
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function openCalendarDayModal(dateStr) {
+            const modal = document.getElementById('calendarDayModal');
+            const title = document.getElementById('calendarDayTitle');
+            const content = document.getElementById('calendarDayContent');
+            if(!modal || !title || !content || !dateStr) return;
+
+            const vItems = vaccines
+                .filter(v => v.nextDue === dateStr)
+                .map(v => ({ kind: 'vaccine', id: v.id, petId: v.petId, text: `${v.name}${v.brand ? ' · ' + v.brand : ''}${v.batch ? ' · 批号:' + v.batch : ''}` }));
+            const dItems = deworms
+                .filter(d => d.nextDue === dateStr)
+                .map(d => ({ kind: 'deworm', id: d.id, petId: d.petId, text: `驱虫 · ${d.type}${d.product ? ' · ' + d.product : ''}` }));
+            const items = [...vItems, ...dItems];
+
+            title.textContent = `🗓️ ${dateStr} 当日到期清单`;
+            if(!items.length) {
+                content.innerHTML = '<div class="empty-state" style="padding:16px 8px;">这一天没有到期事项</div>';
+                modal.style.display = 'flex';
+                return;
+            }
+
+            let html = '';
+            items.forEach(item => {
+                const pet = pets.find(p => p.id === item.petId) || { name: '未知' };
+                const key = `${item.kind}:${item.id}`;
+                const scheduled = reminderConversions?.[key]?.status === 'scheduled';
+                html += `<div class="expense-item" style="margin-bottom:10px;">`;
+                html += `<div style="display:flex; justify-content:space-between; gap:8px;">`;
+                html += `<div><strong>${pet.name}</strong> · ${item.text}<div style="font-size:0.8rem; color:var(--muted);">到期日：${dateStr}</div></div>`;
+                html += `<div style="text-align:right;">`;
+                html += `<div>${item.kind === 'vaccine' ? '💉' : '🪱'}${scheduled ? ' ✅' : ''}</div>`;
+                html += `<button class="btn btn-sm" style="margin-top:6px; padding:6px 10px;" data-mark-scheduled="${item.kind}:${item.id}" data-scheduled="${scheduled ? '1' : '0'}">${scheduled ? '取消预约' : '标记已预约'}</button>`;
+                html += `</div>`;
+                html += `</div></div>`;
+            });
+            content.innerHTML = html;
+            modal.style.display = 'flex';
+        }
+
+        function renderHealthScores() {
+            const container = document.getElementById('healthScoreContainer');
+            if(!container) return;
+            if(!pets.length) { container.innerHTML = '<div class="empty-state">先添加宠物后会生成评分</div>'; return; }
+
+            const now = new Date();
+            const withinDays = (dateStr, d) => {
+                if(!dateStr) return null;
+                const due = new Date(dateStr); due.setHours(0,0,0,0);
+                const today = new Date(); today.setHours(0,0,0,0);
+                return (due - today) / (1000*60*60*24) <= d;
+            };
+
+            let html = '';
+            pets.forEach(p => {
+                let score = 100;
+                const vDueSoon = vaccines.filter(v => v.petId===p.id && v.nextDue).some(v => withinDays(v.nextDue, 7));
+                const vOverdue = vaccines.filter(v => v.petId===p.id && v.nextDue).some(v => new Date(v.nextDue) < now);
+                const dDueSoon = deworms.filter(d => d.petId===p.id && d.nextDue).some(d => withinDays(d.nextDue, 7));
+                const dOverdue = deworms.filter(d => d.petId===p.id && d.nextDue).some(d => new Date(d.nextDue) < now);
+
+                if (vOverdue) score -= 25;
+                else if (vDueSoon) score -= 10;
+                if (dOverdue) score -= 20;
+                else if (dDueSoon) score -= 8;
+
+                // 体重 60 天内是否更新
+                const recentW = weightLogs
+                    .filter(w => w.petId===p.id && w.date)
+                    .sort((a,b)=> b.date.localeCompare(a.date))[0];
+                if(!recentW) score -= 12;
+                else {
+                    const dt = new Date(recentW.date); dt.setHours(0,0,0,0);
+                    const diff = (now - dt) / (1000*60*60*24);
+                    if (diff > 60) score -= 8;
+                }
+
+                score = clamp(score, 0, 100);
+                const bar = `<div style="height:10px; background:rgba(0,0,0,0.08); border-radius:999px; overflow:hidden; margin-top:6px;">
+                    <div style="height:10px; width:${score}%; background:var(--primary);"></div>
+                </div>`;
+                const risk = [
+                    vOverdue ? '疫苗超期' : (vDueSoon ? '疫苗将到期' : null),
+                    dOverdue ? '驱虫超期' : (dDueSoon ? '驱虫将到期' : null),
+                    !recentW ? '缺体重记录' : null
+                ].filter(Boolean).join(' · ') || '状态良好';
+                html += `<div class="expense-item" style="border-left-color:var(--primary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span><strong>${p.name}</strong> <span style="color:var(--muted); font-size:0.85rem;">${p.species}</span></span>
+                        <span style="font-weight:800; color:var(--accent);">${score}</span>
+                    </div>
+                    ${bar}
+                    <div style="font-size:0.8rem; color:var(--muted); margin-top:6px;">${risk}</div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderExpensePage() {
+            const summaryDiv = document.getElementById('expenseSummary');
+            const listDiv = document.getElementById('expenseListContainer');
+            const total = expenses.reduce((sum, e) => sum + (parseFloat(e.amount)||0), 0);
+            summaryDiv.innerHTML = `💰 总花费: <strong>¥${total.toFixed(2)}</strong>  ·  共 ${expenses.length} 笔`;
+            if(!expenses.length) {
+                listDiv.innerHTML = '<div class="empty-state">💸 还没有花费记录，点上方按钮记一笔</div>';
+                return;
+            }
+            let html = '';
+            expenses.sort((a,b)=> (a.date < b.date ? 1 : -1));
+            expenses.forEach(e => {
+                const pet = pets.find(p => p.id === e.petId) || { name: '未指定' };
+                html += `<div class="expense-item"><div style="display:flex; justify-content:space-between;"><span><strong>${e.category}</strong> · ${pet.name}</span><span>¥${parseFloat(e.amount).toFixed(2)}</span></div>`;
+                html += `<div style="font-size:0.8rem; color:#7b5e4b;">📅 ${e.date} ${e.note ? '· '+e.note : ''}</div>`;
+                html += `<div style="text-align:right;"><span style="cursor:pointer; color:#a0452b;" data-delete-expense="${e.id}">删除</span></div></div>`;
+            });
+            listDiv.innerHTML = html;
+        }
+
+        function calcNextDue(vaccineName, dateStr) {
+            if(!vaccineName || !dateStr) return '';
+            const cycle = VACCINE_CYCLES[vaccineName];
+            if(!cycle) return '';
+            const d = new Date(dateStr);
+            d.setDate(d.getDate() + cycle);
+            return formatDateKey(d);
+        }
+
+        function clamp(n, min, max) { return Math.min(max, Math.max(min, n)); }
+
+        function getPetAgeMonths(pet) {
+            if(!pet?.birth) return null;
+            const b = new Date(pet.birth);
+            if (isNaN(b.getTime())) return null;
+            const now = new Date();
+            let months = (now.getFullYear() - b.getFullYear()) * 12 + (now.getMonth() - b.getMonth());
+            if (now.getDate() < b.getDate()) months -= 1;
+            return Math.max(0, months);
+        }
+
+        function updateVaccineKbTip(vaccineName) {
+            const tip = document.getElementById('vaccineKbTip');
+            if(!tip) return;
+            const kb = VACCINE_KB[vaccineName];
+            if(!kb) { tip.style.display = 'none'; tip.innerHTML = ''; return; }
+            tip.style.display = 'block';
+            tip.innerHTML = `<strong>🧠 科学提示</strong><br>周期：约 ${kb.cycleDays} 天<br>${kb.ageHint}<br><span style="color:#7b5e4b;">${kb.note}</span>`;
+        }
+
+        function buildReminderItemHtml({ kind, id, petId, name, nextDue }) {
+            const pet = pets.find(p => p.id === petId);
+            const key = `${kind}:${id}`;
+            const conv = reminderConversions?.[key];
+            const badge = conv?.status === 'scheduled' ? `<span class="reminder-badge" style="margin-left:8px;">已预约</span>` : '';
+            const timeLeft = getPreciseTimeRemaining(nextDue);
+            return [
+                `<div class="reminder-item" style="margin-bottom:12px; padding:8px; background:#fff3ed; border-radius:12px; cursor:pointer;" data-item-type="${kind}" data-item-id="${id}" data-pet-id="${petId}" data-nextdue="${nextDue}">`,
+                `<div style="display:flex; justify-content:space-between; gap:8px; align-items:flex-start;">`,
+                `<div><strong>${pet?.name || '未知'}</strong> · ${name}${badge}<br>📅 到期: ${nextDue}  (⏳ ${timeLeft})</div>`,
+                `<div style="white-space:nowrap; color:#7b5e4b;">${kind === 'vaccine' ? '💉' : '🪱'}</div>`,
+                `</div>`,
+                `</div>`
+            ].join('');
+        }
+
+        function buildAvailableYears() {
+            const years = new Set();
+            const collect = (dateStr) => {
+                if(!dateStr || dateStr.length < 4) return;
+                const y = parseInt(dateStr.slice(0,4), 10);
+                if(!isNaN(y)) years.add(y);
+            };
+            vaccines.forEach(v => collect(v.date));
+            vaccines.forEach(v => collect(v.nextDue));
+            expenses.forEach(e => collect(e.date));
+            deworms.forEach(d => collect(d.date));
+            deworms.forEach(d => collect(d.nextDue));
+            weightLogs.forEach(w => collect(w.date));
+            years.add(new Date().getFullYear());
+            const list = Array.from(years).sort((a,b)=>b-a);
+            const sel = document.getElementById('dashboardYearSelect');
+            if(!sel) return;
+            sel.innerHTML = list.map(y => `<option value="${y}">${y}</option>`).join('');
+            if(!sel.value) sel.value = String(new Date().getFullYear());
+        }
+
+        function sumExpenseByMonth(year) {
+            const months = Array.from({length:12}, (_,i)=> String(i+1).padStart(2,'0'));
+            const totals = months.map(()=>0);
+            expenses.forEach(e => {
+                if(!e.date || !e.date.startsWith(String(year))) return;
+                const m = parseInt(e.date.slice(5,7), 10);
+                if(m>=1 && m<=12) totals[m-1] += (parseFloat(e.amount)||0);
+            });
+            return { months, totals };
+        }
+
+        function vaccineCoverage(year) {
+            const totalPets = pets.length;
+            if(totalPets === 0) return { totalPets: 0, coveredPets: 0 };
+            const covered = new Set();
+            vaccines.forEach(v => {
+                if(!v.date || !v.date.startsWith(String(year))) return;
+                if(v.petId) covered.add(v.petId);
+            });
+            return { totalPets, coveredPets: covered.size };
+        }
+
+        function weightSeriesByPet(year) {
+            const byPet = new Map();
+            weightLogs.forEach(w => {
+                if(!w.date || !w.date.startsWith(String(year))) return;
+                const petId = w.petId;
+                if(!petId) return;
+                if(!byPet.has(petId)) byPet.set(petId, []);
+                byPet.get(petId).push({ date: w.date, weight: parseFloat(w.weight) });
+            });
+            byPet.forEach(arr => arr.sort((a,b)=> a.date.localeCompare(b.date)));
+            return byPet;
+        }
+
+        function renderDashboard() {
+            if (typeof Chart === 'undefined') {
+                const box = document.getElementById('yearReportBox');
+                if (box) box.textContent = 'Chart.js 未加载成功：请检查网络或 CDN。';
+                return;
+            }
+            buildAvailableYears();
+            const year = parseInt(document.getElementById('dashboardYearSelect').value, 10) || new Date().getFullYear();
+
+            const { months, totals } = sumExpenseByMonth(year);
+            const ctx1 = document.getElementById('expenseTrendChart');
+            if (expenseTrendChartInstance) expenseTrendChartInstance.destroy();
+            expenseTrendChartInstance = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: months.map(m => `${m}月`),
+                    datasets: [{ label: '花费(元)', data: totals.map(t=>Number(t.toFixed(2))), borderColor: '#a0452b', backgroundColor: 'rgba(160,69,43,0.12)', tension: 0.25, fill: true }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: (v)=> `¥${v}` } } } }
+            });
+
+            const cov = vaccineCoverage(year);
+            const ctx2 = document.getElementById('vaccineCoverageChart');
+            if (vaccineCoverageChartInstance) vaccineCoverageChartInstance.destroy();
+            const covered = cov.coveredPets;
+            const uncovered = Math.max(0, cov.totalPets - covered);
+            vaccineCoverageChartInstance = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['本年有接种记录', '本年无接种记录'],
+                    datasets: [{ data: [covered, uncovered], backgroundColor: ['#c1a28b', '#efe2d9'], borderWidth: 1 }]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+            });
+            const note = document.getElementById('vaccineCoverageNote');
+            if(note) {
+                if (cov.totalPets === 0) note.textContent = '请先添加宠物并记录疫苗。';
+                else note.textContent = `${year} 年：覆盖 ${covered}/${cov.totalPets}（${Math.round(covered/cov.totalPets*100)}%）`;
+            }
+
+            const byPet = weightSeriesByPet(year);
+            const ctx3 = document.getElementById('weightTrendChart');
+            if (weightTrendChartInstance) weightTrendChartInstance.destroy();
+            const labelsSet = new Set();
+            byPet.forEach(arr => arr.forEach(p => labelsSet.add(p.date)));
+            const labels = Array.from(labelsSet).sort((a,b)=>a.localeCompare(b));
+            const palette = ['#a0452b','#c1a28b','#6b4f3e','#b13e2b','#7b5e4b','#8f7768'];
+            const datasets = [];
+            let idx = 0;
+            byPet.forEach((arr, petId) => {
+                const pet = pets.find(p => p.id === petId);
+                const map = new Map(arr.map(x => [x.date, x.weight]));
+                datasets.push({
+                    label: pet?.name || '未知',
+                    data: labels.map(d => map.has(d) ? map.get(d) : null),
+                    borderColor: palette[idx % palette.length],
+                    spanGaps: true,
+                    tension: 0.2
+                });
+                idx += 1;
+            });
+            weightTrendChartInstance = new Chart(ctx3, {
+                type: 'line',
+                data: { labels: labels.map(d=>d.slice(5)), datasets: datasets.length ? datasets : [] },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { y: { ticks: { callback: (v)=> `${v}kg` } } } }
+            });
+            const wNote = document.getElementById('weightTrendNote');
+            if(wNote) wNote.textContent = datasets.length ? '体重来自“编辑宠物时的体重变更记录”。' : '暂无体重数据：编辑宠物并填写/更新体重后会自动形成曲线。';
+
+            renderCompareTable(year);
+            renderAnomalyInsights(year);
+        }
+
+        function renderCompareTable(year) {
+            const table = document.getElementById('compareTable');
+            if(!table) return;
+            if(!pets.length) { table.innerHTML = `<tr><td style="padding:10px; color:var(--muted);">暂无宠物</td></tr>`; return; }
+
+            const yearStr = String(year);
+            const monthStr = currentMonth || `${yearStr}-01`;
+            const ytdExpenseByPet = new Map();
+            const mtdExpenseByPet = new Map();
+            expenses.forEach(e => {
+                if(!e.date || !e.date.startsWith(yearStr)) return;
+                const v = ytdExpenseByPet.get(e.petId) || 0;
+                ytdExpenseByPet.set(e.petId, v + (parseFloat(e.amount)||0));
+                if (e.date.startsWith(monthStr)) {
+                    const mv = mtdExpenseByPet.get(e.petId) || 0;
+                    mtdExpenseByPet.set(e.petId, mv + (parseFloat(e.amount)||0));
+                }
+            });
+            const vaccineCountByPet = new Map();
+            vaccines.forEach(v => {
+                if(!v.date || !v.date.startsWith(yearStr)) return;
+                vaccineCountByPet.set(v.petId, (vaccineCountByPet.get(v.petId)||0) + 1);
+            });
+            const dewormCountByPet = new Map();
+            deworms.forEach(d => {
+                if(!d.date || !d.date.startsWith(yearStr)) return;
+                dewormCountByPet.set(d.petId, (dewormCountByPet.get(d.petId)||0) + 1);
+            });
+            const latestWeightByPet = new Map();
+            weightLogs
+                .filter(w => w.petId && w.date)
+                .sort((a,b)=> b.date.localeCompare(a.date))
+                .forEach(w => { if(!latestWeightByPet.has(w.petId)) latestWeightByPet.set(w.petId, w); });
+            const overdueByPet = new Map();
+            const today = formatDateKey(new Date());
+            vaccines.forEach(v => {
+                if(v.petId && v.nextDue && v.nextDue < today) overdueByPet.set(v.petId, (overdueByPet.get(v.petId) || 0) + 1);
+            });
+            deworms.forEach(d => {
+                if(d.petId && d.nextDue && d.nextDue < today) overdueByPet.set(d.petId, (overdueByPet.get(d.petId) || 0) + 1);
+            });
+
+            const header = `
+                <tr style="text-align:left; border-bottom:1px solid var(--card-border);">
+                    <th style="padding:10px 8px;">宠物</th>
+                    <th style="padding:10px 8px;">月龄</th>
+                    <th style="padding:10px 8px;">最新体重</th>
+                    <th style="padding:10px 8px;">本月花费</th>
+                    <th style="padding:10px 8px;">本年花费</th>
+                    <th style="padding:10px 8px;">疫苗(本年)</th>
+                    <th style="padding:10px 8px;">驱虫(本年)</th>
+                    <th style="padding:10px 8px;">超期项</th>
+                </tr>`;
+
+            let rows = '';
+            pets.forEach(p => {
+                const age = getPetAgeMonths(p);
+                const lw = latestWeightByPet.get(p.id);
+                const mexp = mtdExpenseByPet.get(p.id) || 0;
+                const exp = ytdExpenseByPet.get(p.id) || 0;
+                const vc = vaccineCountByPet.get(p.id) || 0;
+                const dc = dewormCountByPet.get(p.id) || 0;
+                const overdue = overdueByPet.get(p.id) || 0;
+                rows += `
+                    <tr style="border-bottom:1px solid var(--card-border);">
+                        <td style="padding:10px 8px;"><strong>${p.name}</strong><div style="font-size:0.75rem; color:var(--muted);">${p.species}${p.breed ? ' · ' + p.breed : ''}</div></td>
+                        <td style="padding:10px 8px;">${age === null ? '-' : age}</td>
+                        <td style="padding:10px 8px;">${lw ? (parseFloat(lw.weight).toFixed(1) + 'kg') : '-'}</td>
+                        <td style="padding:10px 8px;">¥${mexp.toFixed(2)}</td>
+                        <td style="padding:10px 8px;">¥${exp.toFixed(2)}</td>
+                        <td style="padding:10px 8px;">${vc}</td>
+                        <td style="padding:10px 8px;">${dc}</td>
+                        <td style="padding:10px 8px; color:${overdue ? 'var(--accent)' : 'var(--muted)'};">${overdue}</td>
+                    </tr>`;
+            });
+            table.innerHTML = header + rows;
+        }
+
+        function generateYearReportText(year) {
+            const yearStr = String(year);
+            const expenseInYear = expenses.filter(e => e.date && e.date.startsWith(yearStr));
+            const vaccineInYear = vaccines.filter(v => v.date && v.date.startsWith(yearStr));
+            const dewormInYear = deworms.filter(d => d.date && d.date.startsWith(yearStr));
+            const weightInYear = weightLogs.filter(w => w.date && w.date.startsWith(yearStr));
+
+            const totalExpense = expenseInYear.reduce((s,e)=> s + (parseFloat(e.amount)||0), 0);
+            const byCat = {};
+            expenseInYear.forEach(e => { byCat[e.category] = (byCat[e.category]||0) + (parseFloat(e.amount)||0); });
+            const topCats = Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,3);
+
+            const cov = vaccineCoverage(year);
+            const scheduledCount = Object.values(reminderConversions || {}).filter(x => x?.status === 'scheduled' && x?.at?.startsWith(yearStr)).length;
+
+            const lines = [];
+            lines.push(`宠伴健康年报 · ${year} 年`);
+            lines.push('--------------------------------');
+            lines.push(`🐾 宠物数量：${pets.length}`);
+            lines.push('');
+            lines.push(`💰 年度总花费：¥${totalExpense.toFixed(2)}（${expenseInYear.length} 笔）`);
+            if (topCats.length) {
+                lines.push('花费 TOP：');
+                topCats.forEach(([cat, amt], i) => lines.push(`  ${i+1}. ${cat}：¥${amt.toFixed(2)}`));
+            } else {
+                lines.push('花费 TOP：暂无记录');
+            }
+            lines.push('');
+            lines.push(`💉 疫苗记录：${vaccineInYear.length} 条；覆盖率：${cov.totalPets ? Math.round(cov.coveredPets/cov.totalPets*100) : 0}%（${cov.coveredPets}/${cov.totalPets || 0}）`);
+            lines.push(`🪱 驱虫记录：${dewormInYear.length} 条`);
+            lines.push(`⚖️ 体重记录：${weightInYear.length} 条`);
+            lines.push('');
+            lines.push(`✅ “已预约接种”追踪：${scheduledCount} 次（基于提醒弹窗手动标记）`);
+            lines.push('');
+            lines.push('建议：定期导出 Excel 备份；如果是幼宠或首次免疫，请按兽医建议完善基础免疫针次。');
+            return lines.join('\n');
+        }
+
+        // ---------- 优化版提醒系统 ----------
+        function getPreciseTimeRemaining(dueDateStr) {
+            const now = new Date();
+            const due = new Date(dueDateStr);
+            due.setHours(0,0,0,0);
+            const diffMs = due - now;
+            const diffDays = Math.floor(diffMs / (1000*60*60*24));
+            const diffHours = Math.floor((diffMs % (1000*60*60*24)) / (1000*60*60));
+            if (diffDays > 0) return `${diffDays}天${diffHours}小时`;
+            if (diffDays === 0) return `${diffHours}小时`;
+            return `已超期 ${Math.abs(diffDays)}天`;
+        }
+
+        function checkReminders(showEvenIfEmpty = false) {
+            const now = new Date();
+            if (snoozeUntil && now < snoozeUntil) return;
+            snoozeUntil = null;
+            if (dismissedToday && !showEvenIfEmpty) {
+                const todayStr = formatDateKey(now);
+                if (localStorage.getItem('dismissedReminderDate') === todayStr) return;
+            }
+
+            const days = parseInt(document.getElementById('remindDays').value) || 3;
+            const today = new Date(); today.setHours(0,0,0,0);
+            
+            let upcomingVaccines = vaccines.filter(v => {
+                if (!v.nextDue) return false;
+                const due = new Date(v.nextDue); due.setHours(0,0,0,0);
+                const diff = (due - today) / (1000*60*60*24);
+                return diff >= 0 && diff <= days;
+            });
+            let upcomingDeworms = deworms.filter(d => {
+                if (!d.nextDue) return false;
+                const due = new Date(d.nextDue); due.setHours(0,0,0,0);
+                const diff = (due - today) / (1000*60*60*24);
+                return diff >= 0 && diff <= days;
+            });
+
+            if (selectedPetFilter.length > 0) {
+                upcomingVaccines = upcomingVaccines.filter(v => selectedPetFilter.includes(v.petId));
+                upcomingDeworms = upcomingDeworms.filter(d => selectedPetFilter.includes(d.petId));
+            }
+
+            const items = [
+                ...upcomingVaccines.map(v => ({ kind: 'vaccine', id: v.id, petId: v.petId, name: v.name, nextDue: v.nextDue })),
+                ...upcomingDeworms.map(d => ({ kind: 'deworm', id: d.id, petId: d.petId, name: '驱虫 · ' + d.type + (d.product ? (' · ' + d.product) : ''), nextDue: d.nextDue }))
+            ].sort((a,b) => (a.nextDue > b.nextDue ? 1 : -1));
+
+            if (items.length > 0 || showEvenIfEmpty) {
+                document.getElementById('quickFillAfterScheduleBtn').style.display = 'none';
+                document.getElementById('markScheduledBtn').style.display = '';
+                let msg = '';
+                if (items.length === 0) {
+                    msg = '✨ 未来 ' + days + ' 天内没有到期事项，最近照顾得很稳！';
+                } else {
+                    items.forEach(item => { msg += buildReminderItemHtml(item); });
+                }
+                document.getElementById('reminderContent').innerHTML = msg;
+                document.querySelectorAll('.reminder-item').forEach(el => {
+                    el.addEventListener('click', () => {
+                        lastReminderSelection = { type: el.dataset.itemType, id: el.dataset.itemId };
+                        const nextDue = el.dataset.nextdue;
+                        if (nextDue) {
+                            currentMonth = nextDue.slice(0,7);
+                            document.getElementById('monthPicker').value = currentMonth;
+                            renderVaccineList();
+                            renderDewormList();
+                            renderWeightList();
+                            renderCalendar();
+                            renderHealthScores();
+                        }
+                        document.querySelector('.tab-item[data-page="home"]').click();
+                        document.getElementById('reminderModal').style.display = 'none';
+                    });
+                });
+                document.getElementById('reminderModal').style.display = 'flex';
+                if (!showEvenIfEmpty && items.length > 0) {
+                    const title = '到期提醒';
+                    const body = `未来 ${days} 天内有 ${items.length} 项到期（疫苗/驱虫）。打开查看详情。`;
+                    showSystemNotification(title, body);
+                }
+            }
+        }
+
+        function setupDailyReminder() {
+            const timeInput = document.getElementById('dailyRemindTime').value;
+            if (!timeInput) return;
+            const [hours, minutes] = timeInput.split(':').map(Number);
+            if (reminderTimer) clearTimeout(reminderTimer);
+            const now = new Date();
+            const triggerTime = new Date();
+            triggerTime.setHours(hours, minutes, 0, 0);
+            if (triggerTime <= now) triggerTime.setDate(triggerTime.getDate() + 1);
+            const delay = triggerTime - now;
+            reminderTimer = setTimeout(() => {
+                checkReminders();
+                setupDailyReminder();
+            }, delay);
+            dailyReminderEnabled = true;
+            markOnboardingStep('reminder');
+            alert(`每日提醒已开启，将在每天 ${timeInput} 检查疫苗到期情况。`);
+        }
+
+        function snoozeReminder() {
+            snoozeUntil = new Date(Date.now() + 60 * 60 * 1000);
+            document.getElementById('reminderModal').style.display = 'none';
+        }
+
+        function dismissTodayReminder() {
+            dismissedToday = true;
+            behaviorSignals.dismisses.push(Date.now());
+            trimSignals(7);
+            saveBehaviorSignals();
+            localStorage.setItem('dismissedReminderDate', formatDateKey(new Date()));
+            document.getElementById('reminderModal').style.display = 'none';
+        }
+
+        // 导出/导入
+        function exportData() {
+            const wb = XLSX.utils.book_new();
+            const petData = pets.map(p => ({ '名字': p.name, '物种': p.species, '品种': p.breed || '', '体重(kg)': p.weight || '', '生日': p.birth || '' }));
+            const petSheet = XLSX.utils.json_to_sheet(petData);
+            XLSX.utils.book_append_sheet(wb, petSheet, '宠物列表');
+            const vaccineData = vaccines.map(v => {
+                const pet = pets.find(p => p.id === v.petId);
+                return { '宠物名': pet?.name || '未知', '疫苗名称': v.name, '品牌': v.brand || '', '批号': v.batch || '', '接种日期': v.date, '到期日期': v.nextDue || '' };
+            });
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(vaccineData), '疫苗记录');
+            const expenseData = expenses.map(e => {
+                const pet = pets.find(p => p.id === e.petId);
+                return { '宠物名': pet?.name || '未指定', '类别': e.category, '金额(元)': e.amount, '日期': e.date, '备注': e.note || '' };
+            });
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(expenseData), '花费明细');
+            const dewormData = deworms.map(d => {
+                const pet = pets.find(p => p.id === d.petId);
+                return { '宠物名': pet?.name || '未知', '类型': d.type, '药名/品牌': d.product || '', '日期': d.date, '到期日期': d.nextDue || '' };
+            });
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dewormData), '驱虫记录');
+            const weightData = weightLogs.map(w => {
+                const pet = pets.find(p => p.id === w.petId);
+                return { '宠物名': pet?.name || '未知', '日期': w.date, '体重(kg)': w.weight };
+            });
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(weightData), '体重记录');
+            XLSX.writeFile(wb, `宠伴健康台账_${formatDateKey(new Date())}.xlsx`);
+        }
+
+        function importBackup(file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!data.pets || !data.vaccines || !data.expenses) throw new Error('无效的备份文件');
+                    if (confirm('导入备份将替换当前所有数据，确定继续吗？')) {
+                        pets = data.pets;
+                        vaccines = data.vaccines;
+                        expenses = data.expenses;
+                        deworms = data.deworms || [];
+                        weightLogs = data.weightLogs || [];
+                        reminderConversions = data.reminderConversions || {};
+                        if (data.dictionaries && typeof data.dictionaries === 'object') {
+                            dictSpeciesCustom = Array.isArray(data.dictionaries.species) ? data.dictionaries.species : [];
+                            dictExpenseCustom = Array.isArray(data.dictionaries.expenseCategories) ? data.dictionaries.expenseCategories : [];
+                            dictDewormCustom = Array.isArray(data.dictionaries.dewormTypes) ? data.dictionaries.dewormTypes : [];
+                            savePetDictionary();
+                            refreshDictionarySelects();
+                        }
+                        vaccines.forEach(v => { v.brand = v.brand || ''; v.batch = v.batch || ''; });
+                        pets.forEach(p => { p.avatar = p.avatar || ''; p.breed = p.breed || ''; p.weight = p.weight || ''; });
+                        saveAll();
+                        refreshPetSelects();
+                        renderPetList();
+                        renderVaccineList();
+                        renderDewormList();
+                        renderWeightList();
+                        renderCalendar();
+                        renderHealthScores();
+                        renderExpensePage();
+                        renderReminderPetFilter();
+                        alert('数据导入成功！');
+                    }
+                } catch(err) { alert('文件解析失败，请确认是有效的备份文件。'); }
+            };
+            reader.readAsText(file);
+        }
+
+        // 打开宠物模态框
+        function openPetModal(pet = null) {
+            const modal = document.getElementById('petModal');
+            const title = document.getElementById('petModalTitle');
+            const idInput = document.getElementById('editPetId');
+            const nameInput = document.getElementById('petName');
+            const speciesSelect = document.getElementById('petSpecies');
+            const breedInput = document.getElementById('petBreed');
+            const weightInput = document.getElementById('petWeight');
+            const birthInput = document.getElementById('petBirth');
+            const avatarImg = document.getElementById('avatarImg');
+            const avatarEmoji = document.getElementById('avatarEmoji');
+            const clearBtn = document.getElementById('clearAvatarBtn');
+            
+            pendingAvatarBase64 = pet?.avatar || null;
+            
+            if (pet) {
+                title.textContent = '✏️ 编辑宠物';
+                idInput.value = pet.id;
+                nameInput.value = pet.name || '';
+                speciesSelect.value = pet.species || '🐱 猫';
+                breedInput.value = pet.breed || '';
+                weightInput.value = pet.weight || '';
+                birthInput.value = pet.birth || '';
+                if (pet.avatar) {
+                    avatarImg.src = pet.avatar;
+                    avatarImg.style.display = 'block';
+                    avatarEmoji.style.display = 'none';
+                    clearBtn.style.display = 'inline-block';
+                } else {
+                    avatarImg.style.display = 'none';
+                    avatarEmoji.style.display = 'block';
+                    avatarEmoji.textContent = speciesAvatarEmoji(pet.species);
+                    clearBtn.style.display = 'none';
+                }
+            } else {
+                title.textContent = '➕ 添加宠物';
+                idInput.value = '';
+                nameInput.value = '';
+                speciesSelect.value = '🐱 猫';
+                breedInput.value = '';
+                weightInput.value = '';
+                birthInput.value = new Date().toISOString().slice(0,10);
+                avatarImg.style.display = 'none';
+                avatarEmoji.style.display = 'block';
+                avatarEmoji.textContent = '🐾';
+                clearBtn.style.display = 'none';
+                pendingAvatarBase64 = null;
+            }
+            modal.style.display = 'flex';
+            modal.dataset.oldWeight = pet?.weight || '';
+        }
+
+        // OCR 相关函数
+        function updatePreview(imageFile, contrast = 1.5, threshold = 128) {
+            const canvas = document.getElementById('previewCanvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = URL.createObjectURL(imageFile);
+            img.onload = () => {
+                const maxW = 300, maxH = 200;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * (maxW / w); w = maxW; }
+                if (h > maxH) { w = w * (maxH / h); h = maxH; }
+                canvas.width = w; canvas.height = h;
+                ctx.drawImage(img, 0, 0, w, h);
+                const imageData = ctx.getImageData(0, 0, w, h);
+                const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    let gray = 0.34 * data[i] + 0.5 * data[i+1] + 0.16 * data[i+2];
+                    gray = (gray - 128) * contrast + 128;
+                    gray = Math.max(0, Math.min(255, gray));
+                    const binary = gray > threshold ? 255 : 0;
+                    data[i] = data[i+1] = data[i+2] = binary;
+                }
+                ctx.putImageData(imageData, 0, 0);
+            };
+        }
+
+        async function performOCR(imageFile, contrast, threshold) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = URL.createObjectURL(imageFile);
+            await new Promise(r => img.onload = r);
+            canvas.width = img.width; canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+                let gray = 0.34 * data[i] + 0.5 * data[i+1] + 0.16 * data[i+2];
+                gray = (gray - 128) * contrast + 128;
+                gray = Math.max(0, Math.min(255, gray));
+                const binary = gray > threshold ? 255 : 0;
+                data[i] = data[i+1] = data[i+2] = binary;
+            }
+            ctx.putImageData(imageData, 0, 0);
+            const { data: { text } } = await Tesseract.recognize(
+                canvas, 'chi_sim+eng',
+                { tessedit_pageseg_mode: Tesseract.PSM.SINGLE_BLOCK, tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789年月日.-猫犬狂六联四三联疫苗' },
+                { logger: m => { if (m.status === 'recognizing text') { const fill = document.getElementById('progressFill'); if (fill) fill.style.width = `${Math.round(m.progress * 100)}%`; } } }
+            );
+            return text;
+        }
+
+        function parseVaccineInfo(ocrText) {
+            const vaccinePatterns = [{ regex: /猫三联/, name: '猫三联' },{ regex: /狂犬/, name: '狂犬疫苗' },{ regex: /犬六联/, name: '犬六联' }];
+            let vaccineName = '';
+            for (const p of vaccinePatterns) if(p.regex.test(ocrText)) { vaccineName = p.name; break; }
+            const datePatterns = [/(\d{4})[年\-\.](\d{1,2})[月\-\.](\d{1,2})/, /(\d{4})-(\d{1,2})-(\d{1,2})/, /(\d{4})\/(\d{1,2})\/(\d{1,2})/];
+            let vaccineDate = '';
+            for (const p of datePatterns) { const m = ocrText.match(p); if(m) { vaccineDate = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`; break; } }
+            return { vaccineName, vaccineDate, rawText: ocrText };
+        }
+
+        // 事件绑定
+        function bindEvents() {
+            document.getElementById('openPetDictionaryBtn')?.addEventListener('click', () => {
+                renderDictionaryModalLists();
+                document.getElementById('dictionaryModal').style.display = 'flex';
+            });
+            document.getElementById('closeDictionaryModal')?.addEventListener('click', () => {
+                document.getElementById('dictionaryModal').style.display = 'none';
+            });
+            document.getElementById('dictAddSpeciesBtn')?.addEventListener('click', () => {
+                const v = document.getElementById('dictNewSpecies').value.trim();
+                if (!v) return;
+                if (dictSpeciesCustom.includes(v) || DEFAULT_SPECIES_OPTIONS.some(o => o.value === v)) { alert('已存在'); return; }
+                dictSpeciesCustom.push(v);
+                document.getElementById('dictNewSpecies').value = '';
+                savePetDictionary();
+                refreshDictionarySelects();
+                renderDictionaryModalLists();
+            });
+            document.getElementById('dictAddExpenseBtn')?.addEventListener('click', () => {
+                const v = document.getElementById('dictNewExpense').value.trim();
+                if (!v) return;
+                if (DEFAULT_EXPENSE_KEYS.includes(v) || dictExpenseCustom.includes(v)) { alert('已存在'); return; }
+                dictExpenseCustom.push(v);
+                document.getElementById('dictNewExpense').value = '';
+                savePetDictionary();
+                refreshDictionarySelects();
+                renderDictionaryModalLists();
+            });
+            document.getElementById('dictAddDewormBtn')?.addEventListener('click', () => {
+                const v = document.getElementById('dictNewDeworm').value.trim();
+                if (!v) return;
+                if (DEFAULT_DEWORM_KEYS.includes(v) || dictDewormCustom.includes(v)) { alert('已存在'); return; }
+                dictDewormCustom.push(v);
+                document.getElementById('dictNewDeworm').value = '';
+                savePetDictionary();
+                refreshDictionarySelects();
+                renderDictionaryModalLists();
+            });
+            document.getElementById('petSpecies')?.addEventListener('change', () => {
+                const avatarImg = document.getElementById('avatarImg');
+                const avatarEmoji = document.getElementById('avatarEmoji');
+                if (avatarImg && avatarEmoji && avatarImg.style.display === 'none') {
+                    avatarEmoji.textContent = speciesAvatarEmoji(document.getElementById('petSpecies').value);
+                }
+            });
+
+            // 底部导航
+            document.querySelectorAll('.tab-item').forEach(t => {
+                t.addEventListener('click', () => {
+                    const page = t.dataset.page;
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById(`page-${page}`).classList.add('active');
+                    document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
+                    t.classList.add('active');
+                    if(page === 'expense') renderExpensePage();
+                    if(page === 'dashboard') renderDashboard();
+                });
+            });
+
+            document.getElementById('gotoExpenseLink').addEventListener('click', ()=> document.querySelector('.tab-item[data-page="expense"]').click());
+
+            // 宠物模态框
+            document.getElementById('showAddPetBtn').addEventListener('click', ()=> openPetModal());
+            document.getElementById('cancelPetModal').addEventListener('click', ()=> document.getElementById('petModal').style.display='none');
+            
+            const avatarInput = document.getElementById('avatarInput');
+            const avatarImg = document.getElementById('avatarImg');
+            const avatarEmoji = document.getElementById('avatarEmoji');
+            const clearBtn = document.getElementById('clearAvatarBtn');
+            document.getElementById('uploadAvatarBtn').addEventListener('click', ()=> avatarInput.click());
+            avatarInput.addEventListener('change', e => {
+                const file = e.target.files[0];
+                if(!file) return;
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    pendingAvatarBase64 = ev.target.result;
+                    avatarImg.src = ev.target.result;
+                    avatarImg.style.display = 'block';
+                    avatarEmoji.style.display = 'none';
+                    clearBtn.style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+                avatarInput.value = '';
+            });
+            clearBtn.addEventListener('click', ()=> {
+                pendingAvatarBase64 = null;
+                avatarImg.style.display = 'none';
+                avatarEmoji.style.display = 'block';
+                const species = document.getElementById('petSpecies').value;
+                avatarEmoji.textContent = speciesAvatarEmoji(species);
+                clearBtn.style.display = 'none';
+            });
+
+            document.getElementById('savePetBtn').addEventListener('click', ()=>{
+                const id = document.getElementById('editPetId').value;
+                const name = document.getElementById('petName').value.trim();
+                if(!name) { alert('请输入宠物名字'); return; }
+                const species = document.getElementById('petSpecies').value;
+                const breed = document.getElementById('petBreed').value.trim();
+                const weight = document.getElementById('petWeight').value;
+                const birth = document.getElementById('petBirth').value;
+                const petData = { id: id || genId(), name, species, breed, weight, birth, avatar: pendingAvatarBase64 || '' };
+                const oldWeight = document.getElementById('petModal').dataset.oldWeight || '';
+                const newWeightNum = parseFloat(weight);
+                const oldWeightNum = parseFloat(oldWeight);
+                const shouldLogWeight = !isNaN(newWeightNum) && newWeightNum > 0 && (isNaN(oldWeightNum) || newWeightNum !== oldWeightNum);
+
+                if (id) { const index = pets.findIndex(p => p.id === id); if(index !== -1) pets[index] = petData; }
+                else pets.push(petData);
+                if (pets.length > 0) markOnboardingStep('pet');
+                if (shouldLogWeight) {
+                    weightLogs.push({ id: genId(), petId: petData.id, date: formatDateKey(new Date()), weight: newWeightNum });
+                }
+                saveAll();
+                refreshPetSelects();
+                renderPetList();
+                renderReminderPetFilter();
+                document.getElementById('petModal').style.display = 'none';
+            });
+
+            // 月份
+            const monthPicker = document.getElementById('monthPicker');
+            monthPicker.value = currentMonth;
+            monthPicker.addEventListener('change', e => { currentMonth = e.target.value; renderVaccineList(); renderDewormList(); renderWeightList(); renderCalendar(); renderHealthScores(); });
+
+            // 疫苗表单
+            document.getElementById('showAddVaccineForm').addEventListener('click', ()=>{
+                if(!pets.length) { alert('请先添加宠物'); return; }
+                document.getElementById('addVaccineForm').style.display='block';
+                document.getElementById('vaccineDate').value = formatDateKey(new Date());
+                document.getElementById('vaccineNextDue').value = '';
+                document.getElementById('vaccineSelect').value = '';
+                document.getElementById('customVaccineName').style.display='none';
+                document.getElementById('vaccineBrand').value = '';
+                document.getElementById('vaccineBatch').value = '';
+                updateVaccineKbTip('');
+            });
+            document.getElementById('cancelAddVaccine').addEventListener('click', ()=> document.getElementById('addVaccineForm').style.display='none');
+            document.getElementById('cancelAddVaccine').addEventListener('click', ()=> { editingVaccineId = ''; document.getElementById('saveVaccineBtn').textContent = '保存'; });
+            document.getElementById('vaccineSelect').addEventListener('change', e => {
+                const val = e.target.value;
+                const custom = document.getElementById('customVaccineName');
+                const due = document.getElementById('vaccineNextDue');
+                const date = document.getElementById('vaccineDate').value;
+                if(val === '__custom__') { custom.style.display='block'; due.value = ''; }
+                else { custom.style.display='none'; if(val && date) due.value = calcNextDue(val, date); }
+                updateVaccineKbTip(val && val !== '__custom__' ? val : '');
+            });
+            document.getElementById('vaccineDate').addEventListener('change', e => {
+                const sel = document.getElementById('vaccineSelect').value;
+                if(sel && sel!=='__custom__') document.getElementById('vaccineNextDue').value = calcNextDue(sel, e.target.value);
+            });
+            document.getElementById('saveVaccineBtn').addEventListener('click', ()=>{
+                const beforeCount = vaccines.length + deworms.length + expenses.length;
+                let name = document.getElementById('vaccineSelect').value;
+                if(name === '__custom__') name = document.getElementById('customVaccineName').value.trim();
+                if(!name) { alert('请输入疫苗名称'); return; }
+                const petId = document.getElementById('petSelect').value;
+                if(!petId) { alert('请选择宠物'); return; }
+                const payload = {
+                    id: editingVaccineId || genId(),
+                    petId,
+                    name,
+                    brand: document.getElementById('vaccineBrand').value.trim(),
+                    batch: document.getElementById('vaccineBatch').value.trim(),
+                    date: document.getElementById('vaccineDate').value,
+                    nextDue: document.getElementById('vaccineNextDue').value
+                };
+                if (editingVaccineId) {
+                    const idx = vaccines.findIndex(v => v.id === editingVaccineId);
+                    if (idx >= 0) vaccines[idx] = payload;
+                } else vaccines.push(payload);
+                saveAll();
+                if (beforeCount === 0) showFirstRecordHintIfNeeded();
+                markOnboardingStep('record');
+                const newDate = document.getElementById('vaccineDate').value;
+                if(newDate && newDate.startsWith(currentMonth)) renderVaccineList();
+                document.getElementById('addVaccineForm').style.display='none';
+                editingVaccineId = '';
+                document.getElementById('saveVaccineBtn').textContent = '保存';
+            });
+
+            // 驱虫表单（新增）
+            document.getElementById('showAddDewormForm').addEventListener('click', ()=>{
+                if(!pets.length) { alert('请先添加宠物'); return; }
+                document.getElementById('addDewormForm').style.display='block';
+                document.getElementById('dewormDate').value = formatDateKey(new Date());
+                document.getElementById('dewormNextDue').value = calcDewormNextDue(document.getElementById('dewormDate').value);
+            });
+            document.getElementById('cancelAddDeworm').addEventListener('click', ()=> document.getElementById('addDewormForm').style.display='none');
+            document.getElementById('cancelAddDeworm').addEventListener('click', ()=> { editingDewormId = ''; document.getElementById('saveDewormBtn').textContent = '保存'; });
+            document.getElementById('dewormDate').addEventListener('change', e => {
+                if(!document.getElementById('dewormNextDue').value) {
+                    document.getElementById('dewormNextDue').value = calcDewormNextDue(e.target.value);
+                }
+            });
+            document.getElementById('saveDewormBtn').addEventListener('click', ()=>{
+                const beforeCount = vaccines.length + deworms.length + expenses.length;
+                const petId = document.getElementById('dewormPetSelect').value;
+                if(!petId) { alert('请选择宠物'); return; }
+                const date = document.getElementById('dewormDate').value;
+                if(!date) { alert('请选择日期'); return; }
+                const payload = {
+                    id: editingDewormId || genId(),
+                    petId,
+                    type: document.getElementById('dewormType').value,
+                    product: document.getElementById('dewormProduct').value.trim(),
+                    date,
+                    nextDue: document.getElementById('dewormNextDue').value
+                };
+                if (editingDewormId) {
+                    const idx = deworms.findIndex(d => d.id === editingDewormId);
+                    if (idx >= 0) deworms[idx] = payload;
+                } else deworms.push(payload);
+                saveAll();
+                if (beforeCount === 0) showFirstRecordHintIfNeeded();
+                markOnboardingStep('record');
+                if(date.startsWith(currentMonth)) renderDewormList();
+                document.getElementById('addDewormForm').style.display='none';
+                document.getElementById('dewormProduct').value = '';
+                editingDewormId = '';
+                document.getElementById('saveDewormBtn').textContent = '保存';
+            });
+
+            // 体重（新增UI绑定）
+            document.getElementById('showAddWeightForm').addEventListener('click', ()=>{
+                if(!pets.length) { alert('请先添加宠物'); return; }
+                document.getElementById('addWeightForm').style.display='block';
+                document.getElementById('weightDate').value = formatDateKey(new Date());
+                document.getElementById('weightValue').value = '';
+            });
+            document.getElementById('cancelAddWeight').addEventListener('click', ()=> document.getElementById('addWeightForm').style.display='none');
+            document.getElementById('saveWeightBtn').addEventListener('click', ()=>{
+                const petId = document.getElementById('weightPetSelect').value;
+                const date = document.getElementById('weightDate').value;
+                const w = parseFloat(document.getElementById('weightValue').value);
+                if(!petId) { alert('请选择宠物'); return; }
+                if(!date) { alert('请选择日期'); return; }
+                if(isNaN(w) || w <= 0) { alert('请输入有效体重'); return; }
+                weightLogs.push({ id: genId(), petId, date, weight: w });
+                saveAll();
+                if(date.startsWith(currentMonth)) renderWeightList();
+                document.getElementById('addWeightForm').style.display='none';
+                renderDashboard();
+                renderHealthScores();
+            });
+
+            document.getElementById('weightListContainer').addEventListener('click', (e) => {
+                if(e.target.dataset.deleteWeight) {
+                    weightLogs = weightLogs.filter(w => w.id !== e.target.dataset.deleteWeight);
+                    saveAll();
+                    renderWeightList();
+                    renderDashboard();
+                    renderHealthScores();
+                }
+            });
+
+            // 花费
+            document.getElementById('showAddExpenseForm').addEventListener('click', ()=>{
+                if(!pets.length) { alert('请先添加宠物'); return; }
+                document.getElementById('addExpenseForm').style.display='block';
+                document.getElementById('expenseDate').value = formatDateKey(new Date());
+            });
+            document.getElementById('cancelAddExpense').addEventListener('click', ()=> document.getElementById('addExpenseForm').style.display='none');
+            document.getElementById('saveExpenseBtn').addEventListener('click', ()=>{
+                const beforeCount = vaccines.length + deworms.length + expenses.length;
+                const petId = document.getElementById('expensePetSelect').value;
+                const amount = parseFloat(document.getElementById('expenseAmount').value);
+                if(!petId || isNaN(amount) || amount<=0) { alert('请选择宠物并输入有效金额'); return; }
+                expenses.push({ id: genId(), petId, category: document.getElementById('expenseCategory').value, amount, date: document.getElementById('expenseDate').value, note: document.getElementById('expenseNote').value.trim() });
+                saveAll();
+                if (beforeCount === 0) showFirstRecordHintIfNeeded();
+                markOnboardingStep('record');
+                renderExpensePage();
+                document.getElementById('addExpenseForm').style.display='none';
+                document.getElementById('expenseAmount').value = '';
+                document.getElementById('expenseNote').value = '';
+            });
+            document.getElementById('expenseListContainer').addEventListener('click', e => {
+                if(e.target.dataset.deleteExpense) {
+                    expenses = expenses.filter(ex => ex.id !== e.target.dataset.deleteExpense);
+                    saveAll(); renderExpensePage();
+                }
+            });
+
+            // 提醒
+            document.getElementById('testReminderBtn').addEventListener('click', () => { dismissedToday = false; snoozeUntil = null; checkReminders(true); });
+            document.getElementById('closeReminder').addEventListener('click', ()=> {
+                behaviorSignals.ignores.push(Date.now());
+                trimSignals(7);
+                saveBehaviorSignals();
+                document.getElementById('reminderModal').style.display='none';
+            });
+            document.getElementById('quickFillAfterScheduleBtn').addEventListener('click', () => {
+                const sel = lastReminderSelection;
+                document.getElementById('reminderModal').style.display = 'none';
+                if (!sel?.type) return;
+                if (sel.type === 'deworm') {
+                    document.querySelector('.tab-item[data-page="home"]').click();
+                    document.getElementById('showAddDewormForm').click();
+                } else {
+                    document.querySelector('.tab-item[data-page="home"]').click();
+                    document.getElementById('showAddVaccineForm').click();
+                }
+            });
+            document.getElementById('snoozeReminder').addEventListener('click', snoozeReminder);
+            document.getElementById('dismissTodayReminder').addEventListener('click', dismissTodayReminder);
+            document.getElementById('setDailyReminderBtn').addEventListener('click', setupDailyReminder);
+            document.getElementById('markScheduledBtn').addEventListener('click', () => {
+                if(!lastReminderSelection?.id || !lastReminderSelection?.type) { alert('请先点击选择一条提醒项'); return; }
+                const key = `${lastReminderSelection.type}:${lastReminderSelection.id}`;
+                let petId = '';
+                if (lastReminderSelection.type === 'deworm') petId = (deworms.find(d => d.id === lastReminderSelection.id)?.petId) || '';
+                else petId = (vaccines.find(v => v.id === lastReminderSelection.id)?.petId) || '';
+                reminderConversions[key] = { status: 'scheduled', at: new Date().toISOString(), petId, kind: lastReminderSelection.type };
+                saveAll();
+                document.getElementById('reminderModal').style.display = 'none';
+                alert('已标记为“已预约接种/处理”，后续可在年度报告里查看追踪统计。');
+            });
+
+            document.getElementById('smartRecommendBtn').addEventListener('click', () => {
+                if(!pets.length) { alert('请先添加宠物'); return; }
+                const ages = pets.map(getPetAgeMonths).filter(x => x !== null);
+                const hasYoung = ages.some(m => m < 12);
+                const hasShortCycle = vaccines.some(v => VACCINE_CYCLES[v.name] && VACCINE_CYCLES[v.name] <= 365) || deworms.length > 0;
+                let rec = 7;
+                if (hasShortCycle) rec = 10;
+                if (hasYoung) rec = 14;
+                trimSignals(7);
+                if ((behaviorSignals.dismisses || []).length >= 2) rec = Math.max(3, rec - 2);
+                if ((behaviorSignals.ignores || []).length >= 2) rec = Math.max(2, rec - 3);
+                rec = clamp(rec, 0, 30);
+                document.getElementById('remindDays').value = String(rec);
+                alert(`已智能推荐：提前 ${rec} 天提醒（依据宠物年龄与常见周期做的本地估算，可按需要微调）。`);
+            });
+            document.getElementById('generateYearReportBtn').insertAdjacentHTML('afterend', '<button class="btn" id="generateWeeklyDigestBtn">📬 每周周报</button>');
+            document.getElementById('generateWeeklyDigestBtn').addEventListener('click', () => {
+                const text = generateWeeklyDigestText();
+                document.getElementById('yearReportBox').textContent = text;
+                weeklyDigestState.lastSentWeek = getWeekKey(new Date());
+                weeklyDigestState.lastReadAt = new Date().toISOString();
+                saveAll();
+                alert('每周健康周报已生成。');
+            });
+
+            // PWA 通知（新增）
+            const notifBtn = document.getElementById('enableNotificationsBtn');
+            const notifStatus = document.getElementById('notificationStatus');
+            const refreshNotifStatus = () => {
+                const enabled = localStorage.getItem(STORAGE_NOTIF) === '1';
+                const perm = ('Notification' in window) ? Notification.permission : 'unsupported';
+                if (!notifStatus) return;
+                if (perm === 'unsupported') notifStatus.textContent = '当前浏览器不支持通知';
+                else notifStatus.textContent = enabled ? `已开启（权限：${perm}）` : `未开启（权限：${perm}）`;
+            };
+            refreshNotifStatus();
+            notifBtn.addEventListener('click', async () => {
+                const perm = await ensureNotificationPermission();
+                if (!perm.ok) { alert('无法开启通知：' + (perm.reason || '未知原因')); refreshNotifStatus(); return; }
+                localStorage.setItem(STORAGE_NOTIF, '1');
+                await registerServiceWorker();
+                markOnboardingStep('reminder');
+                refreshNotifStatus();
+                alert('已开启系统通知：到期提醒弹窗出现时，会同时发一条系统通知（无需后端推送）。');
+            });
+
+            document.getElementById('onboardingAddPetBtn').addEventListener('click', () => {
+                document.getElementById('onboardingModal').style.display = 'none';
+                openPetModal();
+            });
+            document.getElementById('onboardingAddRecordBtn').addEventListener('click', () => {
+                document.getElementById('onboardingModal').style.display = 'none';
+                document.querySelector('.tab-item[data-page="home"]').click();
+                document.getElementById('showAddVaccineForm').click();
+            });
+            document.getElementById('onboardingEnableReminderBtn').addEventListener('click', () => {
+                document.getElementById('onboardingModal').style.display = 'none';
+                document.getElementById('dailyRemindTime').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            document.getElementById('onboardingSkipBtn').addEventListener('click', () => {
+                document.getElementById('onboardingModal').style.display = 'none';
+            });
+            document.getElementById('todoFilterAllBtn').addEventListener('click', () => { unifiedTodoFilter = 'all'; renderUnifiedTodo(); });
+            document.getElementById('todoFilterOverdueBtn').addEventListener('click', () => { unifiedTodoFilter = 'overdue'; renderUnifiedTodo(); });
+            document.getElementById('todoFilter7dBtn').addEventListener('click', () => { unifiedTodoFilter = '7d'; renderUnifiedTodo(); });
+            document.getElementById('unifiedTodoContainer').addEventListener('change', (e) => {
+                const cb = e.target.closest('[data-todo-key]');
+                if (!cb) return;
+                const key = cb.dataset.todoKey;
+                unifiedTodoState[key] = { done: cb.checked, doneAt: cb.checked ? new Date().toISOString() : '' };
+                saveAll();
+                renderUnifiedTodo();
+            });
+            document.getElementById('unifiedTodoContainer').addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-jump-todo]');
+                if (!btn) return;
+                const key = btn.dataset.jumpTodo;
+                const item = unifiedTodoItemsCache.find(x => x.key === key);
+                if (!item) return;
+                document.querySelector('.tab-item[data-page="home"]').click();
+                const month = item.due?.slice(0, 7);
+                if (month) {
+                    currentMonth = month;
+                    document.getElementById('monthPicker').value = month;
+                }
+                renderVaccineList();
+                renderDewormList();
+                renderCalendar();
+                renderHealthScores();
+                if (item.kindKey === 'vaccine') {
+                    const target = vaccines.find(v => v.id === item.recordId);
+                    if (!target) return;
+                    editingVaccineId = target.id;
+                    document.getElementById('saveVaccineBtn').textContent = '更新疫苗';
+                    document.getElementById('addVaccineForm').style.display = 'block';
+                    const isKnown = !!VACCINE_CYCLES[target.name];
+                    document.getElementById('vaccineSelect').value = isKnown ? target.name : '__custom__';
+                    document.getElementById('customVaccineName').style.display = isKnown ? 'none' : 'block';
+                    document.getElementById('customVaccineName').value = isKnown ? '' : target.name;
+                    document.getElementById('vaccineBrand').value = target.brand || '';
+                    document.getElementById('vaccineBatch').value = target.batch || '';
+                    document.getElementById('vaccineDate').value = target.date || '';
+                    document.getElementById('vaccineNextDue').value = target.nextDue || '';
+                    document.getElementById('petSelect').value = target.petId || '';
+                    document.getElementById('addVaccineForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    const target = deworms.find(d => d.id === item.recordId);
+                    if (!target) return;
+                    editingDewormId = target.id;
+                    document.getElementById('saveDewormBtn').textContent = '更新驱虫';
+                    document.getElementById('addDewormForm').style.display = 'block';
+                    document.getElementById('dewormType').value = target.type || '';
+                    document.getElementById('dewormProduct').value = target.product || '';
+                    document.getElementById('dewormDate').value = target.date || '';
+                    document.getElementById('dewormNextDue').value = target.nextDue || '';
+                    document.getElementById('dewormPetSelect').value = target.petId || '';
+                    document.getElementById('addDewormForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+
+            // 日历点击查看当日清单（新增）
+            document.getElementById('calendarContainer').addEventListener('click', (e) => {
+                const cell = e.target.closest('[data-calendar-date]');
+                if (!cell) return;
+                openCalendarDayModal(cell.dataset.calendarDate);
+            });
+            document.getElementById('calendarDayContent').addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-mark-scheduled]');
+                if (!btn) return;
+                const key = btn.dataset.markScheduled;
+                if (!key) return;
+                const isScheduled = btn.dataset.scheduled === '1';
+                if (isScheduled) {
+                    delete reminderConversions[key];
+                    btn.dataset.scheduled = '0';
+                    btn.textContent = '标记已预约';
+                } else {
+                    reminderConversions[key] = { status: 'scheduled', at: formatDateKey(new Date()) };
+                    btn.dataset.scheduled = '1';
+                    btn.textContent = '取消预约';
+                }
+                saveAll();
+                renderCalendar();
+                renderHealthScores();
+                // 看板页的年度统计与对比表也会读取该转化数据
+                renderDashboard();
+            });
+            document.getElementById('closeCalendarDayModal').addEventListener('click', () => {
+                document.getElementById('calendarDayModal').style.display = 'none';
+            });
+
+            // 导入导出
+            document.getElementById('exportDataBtn').addEventListener('click', exportData);
+            document.getElementById('importDataBtn').addEventListener('click', ()=> document.getElementById('importFileInput').click());
+            document.getElementById('importFileInput').addEventListener('change', e => { const file = e.target.files[0]; if(file) importBackup(file); e.target.value = ''; });
+
+            // OCR
+            const fileInput = document.getElementById('ocrImageInput');
+            const triggerBtn = document.getElementById('triggerOCR');
+            const preprocessPanel = document.getElementById('preprocessPanel');
+            const contrastSlider = document.getElementById('contrastSlider');
+            const thresholdSlider = document.getElementById('thresholdSlider');
+            const contrastVal = document.getElementById('contrastValue');
+            const thresholdVal = document.getElementById('thresholdValue');
+            const startBtn = document.getElementById('startRecognition');
+            const progressDiv = document.getElementById('ocrProgress');
+            const resultDiv = document.getElementById('ocrResult');
+            triggerBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', e => {
+                const file = e.target.files[0];
+                if (!file) return;
+                currentOcrImage = file;
+                preprocessPanel.style.display = 'block';
+                resultDiv.innerHTML = '';
+                progressDiv.style.display = 'none';
+                updatePreview(file, contrastSlider.value, thresholdSlider.value);
+                contrastSlider.oninput = () => { contrastVal.textContent = contrastSlider.value; updatePreview(file, contrastSlider.value, thresholdSlider.value); };
+                thresholdSlider.oninput = () => { thresholdVal.textContent = thresholdSlider.value; updatePreview(file, contrastSlider.value, thresholdSlider.value); };
+            });
+            startBtn.addEventListener('click', async () => {
+                if (!currentOcrImage) return;
+                progressDiv.style.display = 'block';
+                resultDiv.innerHTML = '';
+                document.getElementById('progressFill').style.width = '0%';
+                try {
+                    const text = await performOCR(currentOcrImage, parseFloat(contrastSlider.value), parseInt(thresholdSlider.value));
+                    const { vaccineName, vaccineDate, rawText } = parseVaccineInfo(text);
+                    if (vaccineName || vaccineDate) {
+                        const nextDue = vaccineDate && vaccineName ? calcNextDue(vaccineName, vaccineDate) : '';
+                        const petOpts = pets.map(p => `<option value="${p.id}" ${rawText.includes(p.name) ? 'selected' : ''}>${p.name} (${p.species})</option>`).join('');
+                        const vaccineOpts = ['猫三联', '狂犬疫苗', '犬六联', '犬八联']
+                            .map(v => `<option value="${v}" ${v === vaccineName ? 'selected' : ''}>${v}</option>`).join('');
+                        resultDiv.innerHTML = `
+                            <strong>✅ 识别成功，请确认后直接入账</strong><br>
+                            <div class="input-group" style="margin-top:8px;">
+                                <select id="ocrConfirmPet">${petOpts || '<option value="">请先添加宠物</option>'}</select>
+                                <select id="ocrConfirmVaccine">${vaccineOpts}<option value="__custom__">自定义</option></select>
+                                <input type="text" id="ocrConfirmCustomName" placeholder="自定义疫苗名" style="display:none;">
+                                <input type="date" id="ocrConfirmDate" value="${vaccineDate || formatDateKey(new Date())}">
+                                <input type="date" id="ocrConfirmNextDue" value="${nextDue || ''}">
+                            </div>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <button class="btn btn-sm btn-primary" id="saveOcrDirectBtn">确认并入账</button>
+                                <button class="btn btn-sm" id="openManualFormBtn">去表单页再编辑</button>
+                            </div>
+                        `;
+                        const vacSel = document.getElementById('ocrConfirmVaccine');
+                        const customInput = document.getElementById('ocrConfirmCustomName');
+                        const dateInput = document.getElementById('ocrConfirmDate');
+                        const dueInput = document.getElementById('ocrConfirmNextDue');
+                        vacSel.addEventListener('change', () => {
+                            customInput.style.display = vacSel.value === '__custom__' ? 'block' : 'none';
+                            if (vacSel.value !== '__custom__' && dateInput.value) dueInput.value = calcNextDue(vacSel.value, dateInput.value);
+                        });
+                        dateInput.addEventListener('change', () => {
+                            if (vacSel.value && vacSel.value !== '__custom__') dueInput.value = calcNextDue(vacSel.value, dateInput.value);
+                        });
+                        document.getElementById('saveOcrDirectBtn').onclick = () => {
+                            const petId = document.getElementById('ocrConfirmPet').value;
+                            if (!petId) { alert('请先选择宠物'); return; }
+                            let name = vacSel.value;
+                            if (name === '__custom__') name = customInput.value.trim();
+                            if (!name) { alert('请填写疫苗名称'); return; }
+                            const date = dateInput.value;
+                            if (!date) { alert('请填写接种日期'); return; }
+                            vaccines.push({
+                                id: genId(),
+                                petId,
+                                name,
+                                brand: '',
+                                batch: '',
+                                date,
+                                nextDue: dueInput.value || ''
+                            });
+                            saveAll();
+                            markOnboardingStep('record');
+                            renderVaccineList();
+                            renderCalendar();
+                            renderHealthScores();
+                            renderDashboard();
+                            resultDiv.innerHTML = '<strong>✅ 已成功入账！</strong><div class="small-note">你可以继续识别下一张凭证。</div>';
+                        };
+                        document.getElementById('openManualFormBtn').onclick = () => {
+                            document.querySelector('.tab-item[data-page="home"]').click();
+                            document.getElementById('showAddVaccineForm').click();
+                        };
+                    } else {
+                        resultDiv.innerHTML = `<strong>⚠️ 未能识别</strong><br><small>${rawText.substring(0,150)}...</small><br><button class="btn btn-sm" id="manualFill">手动填写</button>`;
+                        document.getElementById('manualFill').onclick = () => { document.querySelector('.tab-item[data-page="home"]').click(); document.getElementById('showAddVaccineForm').click(); };
+                    }
+                } catch (err) {
+                    resultDiv.innerHTML = `<strong>❌ 识别失败</strong><br>${err.message}<br><button class="btn btn-sm" id="retryOcr">重试</button>`;
+                    document.getElementById('retryOcr').onclick = () => fileInput.click();
+                } finally {
+                    progressDiv.style.display = 'none';
+                    preprocessPanel.style.display = 'none';
+                    fileInput.value = '';
+                }
+            });
+
+            // 看板（新增）
+            document.getElementById('dashboardYearSelect').addEventListener('change', () => renderDashboard());
+            document.getElementById('generateYearReportBtn').addEventListener('click', () => {
+                const year = parseInt(document.getElementById('dashboardYearSelect').value, 10) || new Date().getFullYear();
+                document.getElementById('yearReportBox').textContent = generateYearReportText(year);
+            });
+            document.getElementById('copyYearReportBtn').addEventListener('click', async () => {
+                const text = document.getElementById('yearReportBox').textContent || '';
+                try { await navigator.clipboard.writeText(text); alert('已复制到剪贴板'); } catch(e) { alert('复制失败（可能不支持剪贴板权限），你可以手动全选复制。'); }
+            });
+            document.getElementById('downloadYearReportBtn').addEventListener('click', () => {
+                const text = document.getElementById('yearReportBox').textContent || '';
+                const year = document.getElementById('dashboardYearSelect').value || String(new Date().getFullYear());
+                const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `年度报告_${year}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(()=> URL.revokeObjectURL(a.href), 500);
+            });
+
+            // 浮动快捷 +（新增）
+            const fab = document.getElementById('quickAddFab');
+            const menu = document.getElementById('quickAddMenu');
+            const toggleMenu = () => { menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex'; if(menu.style.display === 'flex') menu.style.flexDirection = 'column'; };
+            fab.addEventListener('click', toggleMenu);
+            document.addEventListener('click', (e) => {
+                if (e.target === fab || menu.contains(e.target)) return;
+                menu.style.display = 'none';
+            });
+            document.getElementById('quickAddVaccine').addEventListener('click', () => {
+                menu.style.display = 'none';
+                document.querySelector('.tab-item[data-page="home"]').click();
+                document.getElementById('showAddVaccineForm').click();
+            });
+            document.getElementById('quickAddDeworm').addEventListener('click', () => {
+                menu.style.display = 'none';
+                document.querySelector('.tab-item[data-page="home"]').click();
+                document.getElementById('showAddDewormForm').click();
+                document.getElementById('showAddDewormForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            document.getElementById('quickAddExpense').addEventListener('click', () => {
+                menu.style.display = 'none';
+                document.querySelector('.tab-item[data-page="expense"]').click();
+                document.getElementById('showAddExpenseForm').click();
+            });
+
+            window.addEventListener('load', ()=>{
+                renderReminderPetFilter();
+                renderUnifiedTodo();
+                renderStreakCard();
+                setTimeout(checkReminders, 500);
+                setTimeout(checkScheduledFollowup, 900);
+                setTimeout(maybeShowOnboarding, 1200);
+                setTimeout(maybeAutoShowWeeklyDigest, 1400);
+            });
+        }
+
+        async function init() {
+            // 主题（尽早应用，避免闪烁）
+            applyTheme(localStorage.getItem(STORAGE_THEME) || 'warm');
+            applyAccessibilityMode(localStorage.getItem(STORAGE_A11Y_MODE) || 'normal');
+            onboardingState = {
+                startedAt: '',
+                completedAt: '',
+                steps: { pet: false, record: false, reminder: false },
+                firstRecordHintShown: false,
+                ...readJsonStorage(STORAGE_ONBOARDING, {})
+            };
+            onboardingState.steps = { pet: false, record: false, reminder: false, ...(onboardingState.steps || {}) };
+            behaviorSignals = { dismisses: [], ignores: [], ...readJsonStorage(STORAGE_BEHAVIOR, {}) };
+            weeklyDigestState = { lastSentWeek: '', lastReadAt: '', autoShownWeek: '', ...readJsonStorage(STORAGE_WEEKLY_DIGEST, {}) };
+            unifiedTodoState = { ...readJsonStorage(STORAGE_UNIFIED_TODO, {}) };
+            trimSignals(7);
+            saveBehaviorSignals();
+            const themeSelect = document.getElementById('themeSelect');
+            if (themeSelect) themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
+            const modeSelect = document.getElementById('accessibilityModeSelect');
+            if (modeSelect) modeSelect.addEventListener('change', (e) => applyAccessibilityMode(e.target.value));
+            const petModeBox = document.getElementById('petHeaderModeBox');
+            document.getElementById('petModeToggleBtn')?.addEventListener('click', () => {
+                petModeBox?.classList.toggle('is-expanded');
+            });
+            const appHeader = document.querySelector('.app-header');
+            if (appHeader) {
+                let lastY = window.scrollY;
+                let ticking = false;
+                const autoHideHeader = () => {
+                    ticking = false;
+                    const y = window.scrollY;
+                    const isMobile = window.innerWidth <= 900;
+                    if (!isMobile || y < 24) {
+                        appHeader.classList.remove('auto-hide-hidden');
+                        lastY = y;
+                        return;
+                    }
+                    const delta = y - lastY;
+                    if (delta > 8) appHeader.classList.add('auto-hide-hidden');
+                    else if (delta < -8) appHeader.classList.remove('auto-hide-hidden');
+                    lastY = y;
+                };
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        ticking = true;
+                        requestAnimationFrame(autoHideHeader);
+                    }
+                }, { passive: true });
+                const revealHeaderIfTopTapped = (ev) => {
+                    const isMobile = window.innerWidth <= 900;
+                    const clientY = ev.touches?.[0]?.clientY ?? ev.clientY;
+                    if (!isMobile || typeof clientY !== 'number') return;
+                    if (clientY <= 64) appHeader.classList.remove('auto-hide-hidden');
+                };
+                window.addEventListener('touchstart', revealHeaderIfTopTapped, { passive: true });
+                window.addEventListener('pointerdown', revealHeaderIfTopTapped, { passive: true });
+                window.addEventListener('resize', autoHideHeader, { passive: true });
+                autoHideHeader();
+            }
+
+            restorePortfolioCloudInputs();
+            document.getElementById('petCloudSync')?.addEventListener('change', persistPetCloudSettings);
+            document.getElementById('portfolioCloudBase')?.addEventListener('blur', persistPetCloudSettings);
+            document.getElementById('portfolioCloudToken')?.addEventListener('blur', persistPetCloudSettings);
+            document.getElementById('petCloudPullBtn')?.addEventListener('click', async () => {
+                persistPetCloudSettings();
+                const st = document.getElementById('petCloudStatus');
+                if (!getApiBase()) { st.textContent = '请先填写 API 地址'; return; }
+                st.textContent = '拉取中…';
+                await tryLoadPetFromCloud();
+                loadData();
+                refreshPetSelects();
+                renderPetList();
+                renderVaccineList();
+                renderDewormList();
+                renderWeightList();
+                renderCalendar();
+                renderHealthScores();
+                renderExpensePage();
+                buildAvailableYears();
+                st.textContent = '已尝试从云端合并到本地';
+            });
+            document.getElementById('petCloudHealthBtn')?.addEventListener('click', async () => {
+                persistPetCloudSettings();
+                const st = document.getElementById('petCloudStatus');
+                const base = getApiBase();
+                if (!base) { st.textContent = '请先填写 API 地址'; return; }
+                st.textContent = '检测中…';
+                try {
+                    const r = await fetch(`${base}/api/health`, { headers: apiHeaders(false) });
+                    const j = await r.json().catch(() => ({}));
+                    st.textContent = r.ok ? `✅ ${j.service || 'OK'}` : `HTTP ${r.status}`;
+                } catch (e) {
+                    st.textContent = '❌ ' + e.message;
+                }
+            });
+
+            loadPetDictionary();
+            refreshDictionarySelects();
+            await tryLoadPetFromCloud();
+            loadData();
+            refreshPetSelects();
+            renderPetList();
+            renderVaccineList();
+            renderDewormList();
+            renderWeightList();
+            renderCalendar();
+            renderHealthScores();
+            renderUnifiedTodo();
+            renderStreakCard();
+            renderExpensePage();
+            bindEvents();
+            buildAvailableYears();
+            updateBackupHealthBar();
+            initAiReport();
+        }
+        init();
+
+        function initAiReport() {
+            const petSelect = document.getElementById('aiReportPetSelect');
+            if (!petSelect) return;
+            state.pets.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = p.name;
+                petSelect.appendChild(opt);
+            });
+            document.getElementById('generateAiReportBtn')?.addEventListener('click', () => {
+                const petId = petSelect.value;
+                if (!petId) return showToast('请先选择宠物');
+                const pet = state.pets.find(p => p.id === petId);
+                if (!pet) return;
+                const petVax = state.vaccines.filter(v => v.petId === petId);
+                const petDeworm = state.deworms.filter(d => d.petId === petId);
+                const petExpenses = state.expenses.filter(e => e.petId === petId);
+                const report = generateHealthReport(pet, petVax, petDeworm, petExpenses);
+                document.getElementById('aiReportTitle').textContent = `${pet.name} 的 AI 健康周报`;
+                document.getElementById('aiReportContent').textContent = report;
+                document.getElementById('aiReportResult').style.display = 'block';
+                showToast('报告已生成');
+            });
+            document.getElementById('copyAiReportBtn')?.addEventListener('click', () => {
+                const text = document.getElementById('aiReportContent').textContent;
+                navigator.clipboard?.writeText(text).then(() => showToast('已复制到剪贴板'));
+            });
+        }
+
+        function generateHealthReport(pet, vaccines, deworms, expenses) {
+            const now = new Date();
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const recentVax = vaccines.filter(v => new Date(v.date) >= weekAgo);
+            const recentDeworm = deworms.filter(d => new Date(d.date) >= weekAgo);
+            const recentExpenses = expenses.filter(e => new Date(e.date) >= weekAgo);
+            const totalExpense = recentExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+
+            let report = `📋 ${pet.name} 健康周报\n`;
+            report += `生成时间：${now.toLocaleDateString('zh-CN')}\n`;
+            report += `宠物品种：${pet.species || '未设置'} | 年龄：${pet.birthDate ? Math.floor((now - new Date(pet.birthDate)) / (365.25 * 24 * 60 * 60 * 1000)) + ' 岁' : '未设置'}\n\n`;
+
+            report += `💉 疫苗状态\n`;
+            if (vaccines.length === 0) {
+                report += `  暂无疫苗记录，建议尽快接种核心疫苗\n`;
+            } else {
+                const latestVax = vaccines.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                const daysSinceVax = Math.floor((now - new Date(latestVax.date)) / (24 * 60 * 60 * 1000));
+                report += `  最近接种：${latestVax.name}（${daysSinceVax} 天前）\n`;
+                if (daysSinceVax > 365) report += `  ⚠️ 距离上次接种已超过 1 年，建议加强免疫\n`;
+                if (recentVax.length > 0) report += `  本周新接种：${recentVax.length} 针\n`;
+            }
+
+            report += `\n🪱 驱虫状态\n`;
+            if (deworms.length === 0) {
+                report += `  暂无驱虫记录，建议每月定期驱虫\n`;
+            } else {
+                const latestDeworm = deworms.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                const daysSinceDeworm = Math.floor((now - new Date(latestDeworm.date)) / (24 * 60 * 60 * 1000));
+                report += `  最近驱虫：${daysSinceDeworm} 天前\n`;
+                if (daysSinceDeworm > 30) report += `  ⚠️ 距离上次驱虫已超过 1 个月，建议尽快驱虫\n`;
+                if (recentDeworm.length > 0) report += `  本周新记录：${recentDeworm.length} 次\n`;
+            }
+
+            report += `\n💰 花费分析\n`;
+            report += `  本周总花费：¥${totalExpense.toFixed(2)}\n`;
+            if (recentExpenses.length > 0) {
+                const categories = {};
+                recentExpenses.forEach(e => {
+                    categories[e.category || '其他'] = (categories[e.category || '其他'] || 0) + (e.amount || 0);
+                });
+                Object.entries(categories).sort((a, b) => b[1] - a[1]).forEach(([cat, amount]) => {
+                    report += `  - ${cat}：¥${amount.toFixed(2)}\n`;
+                });
+            }
+
+            report += `\n🏥 健康建议\n`;
+            const suggestions = [];
+            if (vaccines.length === 0) suggestions.push('尽快接种核心疫苗（犬瘟、细小、狂犬）');
+            if (deworms.length === 0) suggestions.push('建立每月驱虫习惯');
+            if (totalExpense > 500) suggestions.push('本周花费偏高，建议检查是否有异常支出');
+            if (suggestions.length === 0) suggestions.push('当前健康状态良好，继续保持定期体检');
+            suggestions.forEach((s, i) => report += `  ${i + 1}. ${s}\n`);
+
+            report += `\n📊 数据统计\n`;
+            report += `  疫苗记录：${vaccines.length} 条 | 驱虫记录：${deworms.length} 条 | 花费记录：${expenses.length} 条\n`;
+
+            return report;
+        }
+    })();
+</script>
+</body>
+</html>

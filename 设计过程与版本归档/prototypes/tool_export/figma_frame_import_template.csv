@@ -1,0 +1,15 @@
+project_id,frame_name,width,height,hi_fi_file,notes
+pet,宠伴-首页疫苗,390,844,pet-vaccine.html,含多宠与月份
+pet,宠伴-添加疫苗表单,390,844,pet-vaccine.html,表单展开态可另帧
+pet,宠伴-花费,390,844,pet-vaccine.html,跳转花费后截屏
+meeting,会议-配置与录音,390,844,meeting-ruminant.html,窄屏；桌面可用 1200x900 另档
+meeting,会议-纪要结构,1200,900,meeting-ruminant.html,桌面建议尺寸
+meeting,会议-待办追踪,1200,900,meeting-ruminant.html,
+creation,创作-双栏工作台,1280,900,creation-cabin.html,侧栏+正文
+creation,创作-仅正文聚焦,900,900,creation-cabin.html,可折叠侧栏后截屏
+coldstart,冷启动-输入,390,844,cold-start.html,
+coldstart,冷启动-结果与任务,390,844,cold-start.html,含 Tab
+script,剧本-侧栏+记录,1280,900,script-review.html,
+script,剧本-热力图,1280,900,script-review.html,弹层或全页
+script,剧本-场景看板,1280,900,script-review.html,
+promptlib,Prompt-列表与卡片,760,900,prompt-library.html,与 max-width 对齐

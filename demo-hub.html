@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-ui="neumorphic" data-app="hub">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Demo 导航页</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #e6e6e6;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --primary: #2563eb;
+      --primary-soft: #dbeafe;
+    }
+    * { box-sizing: border-box; }
+    body { overflow-x: hidden; 
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      margin-bottom: 16px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .desc {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .btn-row {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    button, .link-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    button:hover, .link-btn:hover { opacity: 0.92; }
+    .group {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      margin-top: 14px;
+      overflow: hidden;
+    }
+    .group-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #fbfdff;
+      border-bottom: 1px solid var(--line);
+    }
+    .group-title {
+      margin: 0;
+      font-size: 16px;
+    }
+    .group-sub {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+      padding: 12px;
+    }
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+    .item h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+    .item p {
+      margin: 6px 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      min-height: 36px;
+    }
+    .item .actions {
+      display: flex;
+      gap: 8px;
+    }
+    .mini {
+      font-size: 12px;
+      padding: 7px 10px;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--primary-soft);
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: none;
+    }
+  
+    /* Android tap fix */
+    html{overflow-x:hidden;-webkit-tap-highlight-color:transparent}img,canvas,pre,code,table,iframe{max-width:100%}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
+  </style>
+  <link rel="stylesheet" href="./neumorphic-shared.css">
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Demo 导航页</h1>
+      <p class="desc">按功能分组查看，支持一键打开全部 Demo（浏览器可能拦截多标签页，首次建议手动允许）。</p>
+      <div class="btn-row">
+        <button id="openAllBtn" class="primary">打开全部 Demo</button>
+        <a class="link-btn" href="./index.html" target="_blank" rel="noopener">打开作品集首页</a>
+      </div>
+      <div id="status" class="status"></div>
+    </section>
+
+    <section id="groups"></section>
+  </main>
+
+  <script>
+    const GROUPS = [
+      {
+        key: "core",
+        title: "核心产品案例",
+        subtitle: "求职主叙事与完整产品闭环",
+        items: [
+          { title: "宠伴·健康台账", href: "./pet-vaccine.html", note: "多宠健康记录、提醒与复盘" },
+          { title: "会议·反刍舱", href: "./meeting-ruminant.html", note: "会后待办抽取、追踪与复盘" },
+          { title: "星途·创作舱", href: "./creation-cabin.html", note: "创作流程管理与目标追踪" },
+          { title: "剧本·复盘舱", href: "./script-review.html", note: "剧本改稿与复盘流程整理" },
+          { title: "Cold Start 冷启动", href: "./cold-start.html", note: "拖延诊断与最小行动任务" },
+          { title: "住值·租房生命成本", href: "./zhuzhi-rent.html", note: "贪心预算分配与隐性成本计算" }
+        ]
+      },
+      {
+        key: "support",
+        title: "支持工具",
+        subtitle: "内容辅助与提示词管理",
+        items: [
+          { title: "Prompt Library", href: "./prompt-library.html", note: "提示词与模板管理页" }
+        ]
+      },
+      {
+        key: "vertical",
+        title: "行业垂直应用",
+        subtitle: "AIGC + 跨境电商 & 垂直场景验证",
+        items: [
+          { title: "跨境电商 AI Agent", href: "./cross-border-ai.html", note: "MCP 服务总线下的多 Agent 选品/翻译/物流协同" }
+        ]
+      }
+    ];
+
+    function openUrls(urls) {
+      let opened = 0;
+      for (const url of urls) {
+        const win = window.open(url, "_blank", "noopener");
+        if (win) opened++;
+      }
+      return opened;
+    }
+
+    function showStatus(text) {
+      const el = document.getElementById("status");
+      el.textContent = text;
+      el.style.display = "block";
+    }
+
+    function renderGroups() {
+      const host = document.getElementById("groups");
+      host.innerHTML = "";
+
+      for (const group of GROUPS) {
+        const box = document.createElement("section");
+        box.className = "group";
+
+        const head = document.createElement("div");
+        head.className = "group-head";
+
+        const headLeft = document.createElement("div");
+        headLeft.innerHTML =
+          `<h2 class="group-title">${group.title}</h2><p class="group-sub">${group.subtitle}</p>`;
+
+        const openGroupBtn = document.createElement("button");
+        openGroupBtn.className = "mini";
+        openGroupBtn.textContent = "打开本组全部";
+        openGroupBtn.addEventListener("click", () => {
+          const opened = openUrls(group.items.map((item) => item.href));
+          showStatus(`已尝试打开 ${group.items.length} 个，本次成功弹出 ${opened} 个标签页。`);
+        });
+
+        head.appendChild(headLeft);
+        head.appendChild(openGroupBtn);
+
+        const items = document.createElement("div");
+        items.className = "items";
+
+        for (const item of group.items) {
+          const card = document.createElement("article");
+          card.className = "item";
+          card.innerHTML = `
+            <h3>${item.title}</h3>
+            <p>${item.note}</p>
+            <div class="actions">
+              <a class="link-btn mini" href="${item.href}" target="_blank" rel="noopener">打开 Demo</a>
+            </div>
+          `;
+          items.appendChild(card);
+        }
+
+        box.appendChild(head);
+        box.appendChild(items);
+        host.appendChild(box);
+      }
+    }
+
+    document.getElementById("openAllBtn").addEventListener("click", () => {
+      const allUrls = GROUPS.flatMap((g) => g.items.map((i) => i.href));
+      const opened = openUrls(allUrls);
+      showStatus(`已尝试打开 ${allUrls.length} 个，本次成功弹出 ${opened} 个标签页。`);
+    });
+
+    renderGroups();
+  </script>
+</body>
+</html>
