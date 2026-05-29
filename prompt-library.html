@@ -100,6 +100,26 @@
   }
   .footer-badge a{color:var(--accent);text-decoration:none}
 
+  .search-bar{margin:12px 0 16px}
+  .search-input{width:100%;padding:12px 16px;border:none;border-radius:var(--r2);font-size:.85rem;font-family:inherit;color:var(--text);background:var(--bg);box-shadow:inset 4px 4px 8px rgba(0,0,0,.06),inset -4px -4px 8px rgba(255,255,255,.5);outline:none;transition:box-shadow .2s}
+  .search-input:focus{box-shadow:inset 4px 4px 8px rgba(0,0,0,.08),inset -4px -4px 8px rgba(255,255,255,.4),0 0 0 2px var(--accent)}
+  .search-input::placeholder{color:var(--text3)}
+  .search-hint{font-size:.75rem;color:var(--text3);margin-top:6px;padding-left:4px;min-height:1.2em}
+
+  .cat-count{display:inline-block;font-size:.65rem;color:var(--text3);font-weight:400;margin-left:2px}
+  .cat-btn.active .cat-count{color:var(--accent)}
+
+  .fav-btn{background:none;border:none;cursor:pointer;font-size:1rem;padding:4px;transition:transform .2s;filter:grayscale(1);opacity:.5}
+  .fav-btn:hover{transform:scale(1.2)}
+  .fav-btn.active{filter:grayscale(0);opacity:1}
+  .fav-btn.active:hover{transform:scale(1.2)}
+
+  .prompt-usage{font-size:.68rem;color:var(--text3);margin-top:6px;display:flex;align-items:center;gap:4px}
+
+  .no-results{text-align:center;padding:40px 16px;color:var(--text3)}
+  .no-results .emoji{font-size:2rem;margin-bottom:8px}
+  .no-results p{font-size:.85rem}
+
   .section-title{font-size:.85rem;font-weight:600;color:var(--text2);margin:24px 0 12px;padding-left:4px;display:flex;align-items:center;gap:6px}
   .section-title::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.06)}
 
@@ -201,16 +221,22 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
   </div>
 
   <div class="category-nav" id="catNav">
-    <button class="cat-btn active" data-cat="all">全部</button>
-    <button class="cat-btn" data-cat="prd">PRD / 需求</button>
-    <button class="cat-btn" data-cat="ui">UI / 交互</button>
-    <button class="cat-btn" data-cat="code">代码生成</button>
-    <button class="cat-btn" data-cat="debug">调试 / 优化</button>
-    <button class="cat-btn" data-cat="analysis">分析 / 复盘</button>
-    <button class="cat-btn" data-cat="content">内容 / 文案</button>
-    <button class="cat-btn" data-cat="ops">内容运营</button>
-    <button class="cat-btn" data-cat="workflow">工作流 / 提效</button>
-    <button class="cat-btn" data-cat="aigc">AIGC 场景</button>
+    <button class="cat-btn active" data-cat="all">全部 <span class="cat-count" data-cat-count="all"></span></button>
+    <button class="cat-btn" data-cat="prd">PRD / 需求 <span class="cat-count" data-cat-count="prd"></span></button>
+    <button class="cat-btn" data-cat="ui">UI / 交互 <span class="cat-count" data-cat-count="ui"></span></button>
+    <button class="cat-btn" data-cat="code">代码生成 <span class="cat-count" data-cat-count="code"></span></button>
+    <button class="cat-btn" data-cat="debug">调试 / 优化 <span class="cat-count" data-cat-count="debug"></span></button>
+    <button class="cat-btn" data-cat="analysis">分析 / 复盘 <span class="cat-count" data-cat-count="analysis"></span></button>
+    <button class="cat-btn" data-cat="content">内容 / 文案 <span class="cat-count" data-cat-count="content"></span></button>
+    <button class="cat-btn" data-cat="ops">内容运营 <span class="cat-count" data-cat-count="ops"></span></button>
+    <button class="cat-btn" data-cat="workflow">工作流 / 提效 <span class="cat-count" data-cat-count="workflow"></span></button>
+    <button class="cat-btn" data-cat="aigc">AIGC 场景 <span class="cat-count" data-cat-count="aigc"></span></button>
+    <button class="cat-btn" data-cat="fav">⭐ 收藏 <span class="cat-count" data-cat-count="fav"></span></button>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" class="search-input ni" placeholder="🔍 搜索 Prompt（标题/标签/场景）" aria-label="搜索">
+    <div id="searchHint" class="search-hint"></div>
   </div>
 
   <div id="promptList"></div>
@@ -1082,25 +1108,79 @@ RICE 分 = (R × I × C) / E
 
 function render(cat){
   const list=document.getElementById('promptList');
-  const filtered=cat==='all'?PROMPTS:PROMPTS.filter(p=>p.cat===cat);
+  const searchVal=(document.getElementById('searchInput').value||'').trim().toLowerCase();
+  var filtered=cat==='all'?PROMPTS.slice():PROMPTS.filter(p=>p.cat===cat);
+  if(cat==='fav'){
+    var favSet=getFavSet();
+    filtered=PROMPTS.filter(function(p){return favSet.has(p.title);});
+  }
+  if(searchVal){
+    filtered=filtered.filter(function(p){
+      return p.title.toLowerCase().indexOf(searchVal)>=0||
+        p.tags.join(' ').toLowerCase().indexOf(searchVal)>=0||
+        p.scene.toLowerCase().indexOf(searchVal)||
+        p.cat.toLowerCase().indexOf(searchVal)>=0;
+    });
+  }
   document.getElementById('totalCount').textContent=filtered.length;
-  list.innerHTML=filtered.map((p,i)=>`
-    <div class="prompt-card nr" data-cat="${p.cat}">
-      <div class="prompt-header">
-        <div>
-          <div class="prompt-title">${p.title}</div>
-          <div class="prompt-meta">
-            ${p.tags.map(t=>`<span class="prompt-tag">${t}</span>`).join('')}
-          </div>
-        </div>
-      </div>
-      <div class="prompt-scene">${p.scene}</div>
-      <div class="prompt-body">
-        <pre class="prompt-text" id="pt-${i}">${p.text}</pre>
-        <button class="copy-btn" data-idx="${i}">复制</button>
-      </div>
-    </div>
-  `).join('');
+  var hint=document.getElementById('searchHint');
+  if(searchVal){
+    hint.textContent='找到 '+filtered.length+' 条相关 Prompt';
+  }else{
+    hint.textContent='';
+  }
+  if(filtered.length===0){
+    list.innerHTML='<div class="no-results"><div class="emoji">🔍</div><p>没有找到匹配的 Prompt，试试其他关键词？</p></div>';
+    return;
+  }
+  var usageMap=getUsageMap();
+  var favSet=getFavSet();
+  list.innerHTML=filtered.map(function(p,i){
+    var realIdx=PROMPTS.indexOf(p);
+    var useCount=usageMap[p.title]||0;
+    var isFav=favSet.has(p.title);
+    return '<div class="prompt-card nr" data-cat="'+p.cat+'">'+
+      '<div class="prompt-header">'+
+        '<div>'+
+          '<div class="prompt-title">'+p.title+'</div>'+
+          '<div class="prompt-meta">'+
+            p.tags.map(function(t){return '<span class="prompt-tag">'+t+'</span>';}).join('')+
+          '</div>'+
+        '</div>'+
+        '<button class="fav-btn'+(isFav?' active':'')+'" data-title="'+p.title.replace(/"/g,'&quot;')+'" aria-label="收藏">'+(isFav?'⭐':'☆')+'</button>'+
+      '</div>'+
+      '<div class="prompt-scene">'+p.scene+'</div>'+
+      '<div class="prompt-body">'+
+        '<pre class="prompt-text" id="pt-'+realIdx+'">'+p.text+'</pre>'+
+        '<button class="copy-btn" data-idx="'+realIdx+'">复制</button>'+
+      '</div>'+
+      (useCount>0?'<div class="prompt-usage">📋 已复制 '+useCount+' 次</div>':'')+
+    '</div>';
+  }).join('');
+}
+
+function getFavSet(){
+  try{var d=JSON.parse(localStorage.getItem('promptlib_favs')||'[]');return new Set(d);}catch(e){return new Set();}
+}
+function saveFavSet(s){
+  try{localStorage.setItem('promptlib_favs',JSON.stringify(Array.from(s)));}catch(e){}
+}
+function getUsageMap(){
+  try{return JSON.parse(localStorage.getItem('promptlib_usage')||'{}');}catch(e){return {};}
+}
+function saveUsageMap(m){
+  try{localStorage.setItem('promptlib_usage',JSON.stringify(m));}catch(e){}
+}
+function updateCatCounts(){
+  var cats=['all','prd','ui','code','debug','analysis','content','ops','workflow','aigc','fav'];
+  var favSet=getFavSet();
+  cats.forEach(function(c){
+    var el=document.querySelector('[data-cat-count="'+c+'"]');
+    if(!el)return;
+    if(c==='all'){el.textContent='('+PROMPTS.length+')';}
+    else if(c==='fav'){el.textContent='('+favSet.size+')';}
+    else{el.textContent='('+PROMPTS.filter(function(p){return p.cat===c;}).length+')';}
+  });
 }
 
 document.getElementById('catNav').addEventListener('click',e=>{
@@ -1109,6 +1189,11 @@ document.getElementById('catNav').addEventListener('click',e=>{
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   render(btn.dataset.cat);
+});
+
+document.getElementById('searchInput').addEventListener('input',function(){
+  var activeBtn=document.querySelector('.cat-btn.active');
+  render(activeBtn?activeBtn.dataset.cat:'all');
 });
 
 document.addEventListener('click',e=>{
@@ -1120,10 +1205,31 @@ document.addEventListener('click',e=>{
     btn.textContent='已复制 ✓';
     btn.classList.add('copied');
     setTimeout(()=>{btn.textContent='复制';btn.classList.remove('copied');},2000);
+    var p=PROMPTS[parseInt(idx)];
+    if(p){
+      var um=getUsageMap();
+      um[p.title]=(um[p.title]||0)+1;
+      saveUsageMap(um);
+      var usageEl=btn.closest('.prompt-card').querySelector('.prompt-usage');
+      if(usageEl){usageEl.textContent='📋 已复制 '+um[p.title]+' 次';}
+      else{var d=document.createElement('div');d.className='prompt-usage';d.textContent='📋 已复制 '+um[p.title]+' 次';btn.closest('.prompt-body').after(d);}
+    }
   });
 });
 
+document.addEventListener('click',e=>{
+  var btn=e.target.closest('.fav-btn');
+  if(!btn)return;
+  var title=btn.getAttribute('data-title');
+  var favSet=getFavSet();
+  if(favSet.has(title)){favSet.delete(title);btn.textContent='☆';btn.classList.remove('active');}
+  else{favSet.add(title);btn.textContent='⭐';btn.classList.add('active');}
+  saveFavSet(favSet);
+  updateCatCounts();
+});
+
 render('all');
+updateCatCounts();
 
 (function(){
   var sel=document.getElementById('themeSel');

@@ -935,7 +935,7 @@
         </div>
     </details>
     <div class="main-layout">
-        <div class="script-sidebar"><div class="sidebar-title"><span>📚 我的星舰项目</span><button class="btn-icon" id="addScriptBtn">➕</button></div><ul class="script-list" id="scriptListContainer"></ul><details class="sidebar-tools-panel" id="sidebarQuickTools"><summary class="sidebar-tools-title">🎯 写作目标与快照</summary><div class="sidebar-tools-body"><div style="display:flex; gap:6px; flex-wrap:wrap;"><input type="number" id="dailyGoalInput" placeholder="今日目标" min="100" step="100" style="max-width:112px; padding:6px 8px;"><input type="number" id="weeklyGoalInput" placeholder="本周目标" min="500" step="100" style="max-width:112px; padding:6px 8px;"><button class="btn-sm btn-primary" id="saveGoalBtn">保存</button></div><div class="small-note" style="margin-top:6px;">今日：<span id="todayWordText">0/0</span></div><div style="height:8px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="todayWordBar" style="height:8px; width:0%; background:var(--accent-border);"></div></div><div class="small-note" style="margin-top:8px;">本周：<span id="weekWordText">0/0</span></div><div style="height:8px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="weekWordBar" style="height:8px; width:0%; background:var(--accent-border);"></div></div><div style="display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;"><button class="btn-sm" id="createSnapshotBtn">创建快照</button><button class="btn-sm" id="openSnapshotManagerBtn">管理快照</button></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🔎 快速搜索与筛选</summary><div class="sidebar-tools-body"><div style="display:flex; gap:8px; flex-wrap:wrap;"><input type="text" id="globalSearchInput" placeholder="搜索章节/角色/标签..." style="flex:1; min-width:220px;"><select id="statusFilterSelect" style="max-width:160px;"></select><button class="btn-sm" id="manageChapterStatusBtn" type="button">状态管理</button><button class="btn-sm" id="clearFilterBtn">清空</button></div><div id="searchResultSummary" class="small-note" style="margin-top:8px;">输入关键词开始搜索</div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🗓️ 时间线视图</summary><div class="sidebar-tools-body"><div id="timelineContainer"></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🏅 创作健康评分</summary><div class="sidebar-tools-body"><div id="healthScoreBox"></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">📊 多项目对比看板</summary><div class="sidebar-tools-body"><div style="overflow:auto;"><table id="projectCompareTable" style="width:100%; border-collapse:collapse; font-size:0.9rem;"></table></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🧾 导出周报/月报</summary><div class="sidebar-tools-body"><div style="display:flex; gap:8px; flex-wrap:wrap;"><button class="btn-sm btn-primary" id="exportWeeklyReportBtn">导出本周摘要</button><button class="btn-sm btn-primary" id="exportMonthlyReportBtn">导出本月摘要</button></div></div></details><details class="sidebar-tools-panel" id="aiInspirationPanel"><summary class="sidebar-tools-title">✨ AI 灵感生成</summary><div class="sidebar-tools-body"><div class="small-note" style="margin-bottom:8px;">输入关键词，AI 生成标题灵感、开头段落、角色设定</div><input type="text" id="aiKeywordInput" placeholder="输入关键词（如：星际、悬疑）" style="width:100%; padding:6px 8px; margin-bottom:8px;"><div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;"><button class="btn-sm btn-primary" id="aiGenTitleBtn">🎯 生成标题</button><button class="btn-sm btn-primary" id="aiGenOpeningBtn">📝 生成开头</button><button class="btn-sm btn-primary" id="aiGenCharBtn">🎭 生成角色</button></div><div id="aiInspirationResult" style="display:none; background:var(--card-bg); border:1px solid var(--card-border); border-radius:10px; padding:10px; margin-top:8px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span style="font-weight:600; font-size:0.9rem;" id="aiResultTitle">灵感结果</span><button class="btn-sm" id="aiCopyResultBtn">📋 复制</button></div><div id="aiResultContent" style="font-size:0.88rem; line-height:1.6; white-space:pre-wrap;"></div><button class="btn-sm" id="aiApplyToEditorBtn" style="margin-top:8px;">✏️ 应用到编辑器</button></div></div></details><button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button><div class="auto-backup-toggle"><input type="checkbox" id="autoBackupCheckbox"> <label>退出/刷新时自动备份</label></div></div>
+        <div class="script-sidebar"><div class="sidebar-title"><span>📚 我的星舰项目</span><button class="btn-icon" id="addScriptBtn">➕</button></div><ul class="script-list" id="scriptListContainer"></ul><details class="sidebar-tools-panel" id="sidebarQuickTools"><summary class="sidebar-tools-title">🎯 写作目标与快照</summary><div class="sidebar-tools-body"><div style="display:flex; gap:6px; flex-wrap:wrap;"><input type="number" id="dailyGoalInput" placeholder="今日目标" min="100" step="100" style="max-width:112px; padding:6px 8px;"><input type="number" id="weeklyGoalInput" placeholder="本周目标" min="500" step="100" style="max-width:112px; padding:6px 8px;"><button class="btn-sm btn-primary" id="saveGoalBtn">保存</button></div><div class="small-note" style="margin-top:6px;">今日：<span id="todayWordText">0/0</span></div><div style="height:8px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="todayWordBar" style="height:8px; width:0%; background:var(--accent-border);"></div></div><div class="small-note" style="margin-top:8px;">本周：<span id="weekWordText">0/0</span></div><div style="height:8px; background:var(--tag-bg); border-radius:999px; overflow:hidden; margin-top:4px;"><div id="weekWordBar" style="height:8px; width:0%; background:var(--accent-border);"></div></div><div style="display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;"><button class="btn-sm" id="createSnapshotBtn">创建快照</button><button class="btn-sm" id="openSnapshotManagerBtn">管理快照</button></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🔎 快速搜索与筛选</summary><div class="sidebar-tools-body"><div style="display:flex; gap:8px; flex-wrap:wrap;"><input type="text" id="globalSearchInput" placeholder="搜索章节/角色/标签..." style="flex:1; min-width:220px;"><select id="statusFilterSelect" style="max-width:160px;"></select><button class="btn-sm" id="manageChapterStatusBtn" type="button">状态管理</button><button class="btn-sm" id="clearFilterBtn">清空</button></div><div id="searchResultSummary" class="small-note" style="margin-top:8px;">输入关键词开始搜索</div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🗓️ 时间线视图</summary><div class="sidebar-tools-body"><div id="timelineContainer"></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🏅 创作健康评分</summary><div class="sidebar-tools-body"><div id="healthScoreBox"></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">📊 多项目对比看板</summary><div class="sidebar-tools-body"><div style="overflow:auto;"><table id="projectCompareTable" style="width:100%; border-collapse:collapse; font-size:0.9rem;"></table></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">📈 字数趋势图</summary><div class="sidebar-tools-body"><div style="position:relative; min-height:150px;"><canvas id="wordTrendChart" width="300" height="150"></canvas></div><div id="wordTrendStats" style="font-size:.85rem; margin-top:8px; color:var(--muted);"></div></div></details><details class="sidebar-tools-panel"><summary class="sidebar-tools-title">🧾 导出周报/月报</summary><div class="sidebar-tools-body"><div style="display:flex; gap:8px; flex-wrap:wrap;"><button class="btn-sm btn-primary" id="exportWeeklyReportBtn">导出本周摘要</button><button class="btn-sm btn-primary" id="exportMonthlyReportBtn">导出本月摘要</button></div></div></details><details class="sidebar-tools-panel" id="aiInspirationPanel"><summary class="sidebar-tools-title">✨ AI 灵感生成</summary><div class="sidebar-tools-body"><div class="small-note" style="margin-bottom:8px;">输入关键词，AI 生成标题灵感、开头段落、角色设定</div><input type="text" id="aiKeywordInput" placeholder="输入关键词（如：星际、悬疑）" style="width:100%; padding:6px 8px; margin-bottom:8px;"><div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;"><button class="btn-sm btn-primary" id="aiGenTitleBtn">🎯 生成标题</button><button class="btn-sm btn-primary" id="aiGenOpeningBtn">📝 生成开头</button><button class="btn-sm btn-primary" id="aiGenCharBtn">🎭 生成角色</button></div><div id="aiInspirationResult" style="display:none; background:var(--card-bg); border:1px solid var(--card-border); border-radius:10px; padding:10px; margin-top:8px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span style="font-weight:600; font-size:0.9rem;" id="aiResultTitle">灵感结果</span><button class="btn-sm" id="aiCopyResultBtn">📋 复制</button></div><div id="aiResultContent" style="font-size:0.88rem; line-height:1.6; white-space:pre-wrap;"></div><button class="btn-sm" id="aiApplyToEditorBtn" style="margin-top:8px;">✏️ 应用到编辑器</button></div></div></details><button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button><div class="auto-backup-toggle"><input type="checkbox" id="autoBackupCheckbox"> <label>退出/刷新时自动备份</label></div></div>
         <div class="content-panel"><div class="current-script-header"><div class="current-script-title" id="currentScriptNameDisplay">选择项目</div><button class="edit-name-btn" id="renameScriptBtn">✏️ 编辑信息</button></div>
             <!-- 大纲区域：标题改为星海巡游轨迹 -->
             <div class="outline-section"><div class="section-title">🚀 星海巡游轨迹 <input type="text" id="outlineTypeInput" style="width:120px; padding:4px 8px;" list="outlineTypeOptions"><datalist id="outlineTypeOptions"></datalist><button class="btn-sm" id="saveOutlineTypeBtn">💾 存为新类型</button><button class="btn-sm" id="manageOutlineTypesBtn">⚙️ 类型管理</button></div>
@@ -1428,6 +1428,99 @@
         `;
     }
 
+    let wordTrendChartInstance = null;
+
+    function renderWordTrend(){
+        const ctx = document.getElementById('wordTrendChart');
+        const statsBox = document.getElementById('wordTrendStats');
+        if (!ctx || !statsBox) return;
+
+        const script = getActiveScript();
+        if (!script) {
+            statsBox.innerHTML = '<div style="color:var(--muted);">请先选择项目</div>';
+            return;
+        }
+
+        const records = script.records || [];
+        const outlineWords = countWords(script.outline?.text || '');
+        
+        const dailyWords = {};
+        const now = new Date();
+        for (let i = 29; i >= 0; i--) {
+            const d = new Date(now);
+            d.setDate(d.getDate() - i);
+            const key = dateKey(d);
+            dailyWords[key] = 0;
+        }
+
+        records.forEach(r => {
+            if (r.date && dailyWords.hasOwnProperty(r.date)) {
+                dailyWords[r.date] += countWords(r.reflection || '');
+            }
+        });
+
+        const labels = Object.keys(dailyWords).map(d => d.substring(5));
+        const data = Object.values(dailyWords);
+
+        if (wordTrendChartInstance) wordTrendChartInstance.destroy();
+
+        wordTrendChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '每日字数',
+                    data: data,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 2,
+                    pointHoverRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { maxTicksLimit: 7 }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 100 }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `字数: ${context.parsed.y}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const totalWords = data.reduce((sum, v) => sum + v, 0);
+        const avgWords = data.length > 0 ? Math.round(totalWords / data.length) : 0;
+        const maxWords = Math.max(...data);
+        const maxDay = labels[data.indexOf(maxWords)] || '-';
+
+        statsHtml = `
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <div>📝 总字数: <strong>${totalWords.toLocaleString()}</strong></div>
+                <div>📊 日均: <strong>${avgWords}</strong></div>
+                <div>🏆 峰值: <strong>${maxWords}</strong> (${maxDay})</div>
+            </div>
+        `;
+        statsBox.innerHTML = statsHtml;
+    }
+
     function buildReportText(mode='week'){
         const script=getActiveScript(); if(!script) return '';
         const now=new Date(); const start = new Date(now); start.setHours(0,0,0,0);
@@ -1456,7 +1549,7 @@
         const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
     }
 
-    function refreshUI(){ renderSidebar(); renderRecords(); renderCharactersAndWorld(); renderOutline(); renderReferences(); renderLotteryResult(); renderGoalTracking(); renderTimeline(); renderChapterStatusSelects(); renderHealthScore(); renderProjectCompare(); }
+    function refreshUI(){ renderSidebar(); renderRecords(); renderCharactersAndWorld(); renderOutline(); renderReferences(); renderLotteryResult(); renderGoalTracking(); renderTimeline(); renderChapterStatusSelects(); renderHealthScore(); renderProjectCompare(); renderWordTrend(); }
     function openScriptModal(script){ let modal=document.getElementById('scriptModal'); document.getElementById('modalScriptName').value=script?script.name:''; renderTagSelector(script?.tags||[]); window._editingScriptId=script?.id; modal.style.visibility='visible'; }
     function renderTagSelector(selected=[]){ let container=document.getElementById('tagSelectorContainer'); if(!container) return; container.innerHTML=globalTags.map(t=>`<span class="tag-chip ${selected.includes(t)?'selected':''}" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join(''); document.querySelectorAll('.tag-chip').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('selected'))); }
     function renderOutlineDatalist(){ let datalist=document.getElementById('outlineTypeOptions'); let allTypes=[...DEFAULT_OUTLINE_TYPES,...appData.customOutlineTypes]; datalist.innerHTML=allTypes.map(t=>`<option value="${escapeHtml(t)}">`).join(''); }

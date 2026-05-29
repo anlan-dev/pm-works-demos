@@ -1096,6 +1096,18 @@
                     <input type="checkbox" id="autoBackupCheckbox">
                     <label for="autoBackupCheckbox">退出/刷新时自动备份到下载</label>
                 </div>
+                <details class="sidebar-tools-panel" id="versionComparePanel">
+                    <summary class="sidebar-tools-title">🔀 版本并排对比</summary>
+                    <div class="sidebar-tools-body">
+                        <div class="small-note" style="margin-bottom:8px;">选择两条记录，对比复盘内容差异</div>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
+                            <select id="compareRecordA" style="flex:1; min-width:120px; padding:6px 8px;"></select>
+                            <select id="compareRecordB" style="flex:1; min-width:120px; padding:6px 8px;"></select>
+                        </div>
+                        <button class="btn-sm btn-primary" id="compareVersionsBtn" style="width:100%;">🔍 对比选中版本</button>
+                        <div id="versionCompareResult" style="display:none; margin-top:12px; font-size:0.85rem; line-height:1.6;"></div>
+                    </div>
+                </details>
             </div>
 
             <div class="content-panel">
@@ -1596,7 +1608,7 @@
             }
 
             function refreshUI() { renderSidebar();
-                renderRecords(); }
+                renderRecords(); renderVersionCompareSelects(); }
 
             function renderSidebar() {
                 let html = '';
@@ -1613,6 +1625,102 @@
                 });
                 document.getElementById('scriptListContainer').innerHTML = html ||
                     '<li class="empty-message">暂无剧本</li>';
+            }
+
+            function renderVersionCompareSelects() {
+                const selectA = document.getElementById('compareRecordA');
+                const selectB = document.getElementById('compareRecordB');
+                if (!selectA || !selectB) return;
+
+                const script = getActiveScript();
+                const records = script ? (script.records || []) : [];
+                
+                const options = records.map(r => {
+                    const date = r.date || '未知日期';
+                    const title = r.title || '无标题';
+                    return `<option value="${r.id}">${date} - ${escapeHtml(title.substring(0, 20))}</option>`;
+                }).join('');
+
+                selectA.innerHTML = '<option value="">选择记录A</option>' + options;
+                selectB.innerHTML = '<option value="">选择记录B</option>' + options;
+
+                document.getElementById('compareVersionsBtn')?.addEventListener('click', compareVersions);
+            }
+
+            function compareVersions() {
+                const selectA = document.getElementById('compareRecordA');
+                const selectB = document.getElementById('compareRecordB');
+                const resultBox = document.getElementById('versionCompareResult');
+                if (!selectA || !selectB || !resultBox) return;
+
+                const idA = selectA.value;
+                const idB = selectB.value;
+                
+                if (!idA || !idB) {
+                    showToast('⚠️ 请选择两条记录进行对比', 1500);
+                    return;
+                }
+
+                if (idA === idB) {
+                    showToast('⚠️ 请选择不同的记录进行对比', 1500);
+                    return;
+                }
+
+                const script = getActiveScript();
+                if (!script) return;
+
+                const recordA = script.records.find(r => r.id === idA);
+                const recordB = script.records.find(r => r.id === idB);
+                
+                if (!recordA || !recordB) {
+                    showToast('⚠️ 未找到选中的记录', 1500);
+                    return;
+                }
+
+                const reflectionA = recordA.reflection || '';
+                const reflectionB = recordB.reflection || '';
+                
+                const wordsA = reflectionA.length;
+                const wordsB = reflectionB.length;
+                const diff = wordsB - wordsA;
+                const diffPercent = wordsA > 0 ? Math.round((diff / wordsA) * 100) : 0;
+
+                const tagsA = (recordA.tags || []).join(', ') || '无';
+                const tagsB = (recordB.tags || []).join(', ') || '无';
+
+                const statusA = recordA.status || '草稿';
+                const statusB = recordB.status || '草稿';
+
+                resultBox.style.display = 'block';
+                resultBox.innerHTML = `
+                    <div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:8px; padding:12px;">
+                        <div style="font-weight:600; margin-bottom:8px;">📊 版本对比结果</div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                            <div>
+                                <div style="font-size:0.8rem; color:var(--muted);">记录A: ${recordA.date || '未知'}</div>
+                                <div style="font-weight:600;">${escapeHtml(recordA.title || '无标题')}</div>
+                                <div style="margin-top:4px;">状态: ${statusA}</div>
+                                <div>字数: ${wordsA}</div>
+                                <div>标签: ${escapeHtml(tagsA)}</div>
+                            </div>
+                            <div>
+                                <div style="font-size:0.8rem; color:var(--muted);">记录B: ${recordB.date || '未知'}</div>
+                                <div style="font-weight:600;">${escapeHtml(recordB.title || '无标题')}</div>
+                                <div style="margin-top:4px;">状态: ${statusB}</div>
+                                <div>字数: ${wordsB}</div>
+                                <div>标签: ${escapeHtml(tagsB)}</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px; padding-top:8px; border-top:1px solid var(--card-border);">
+                            <div style="font-weight:600;">📈 变化分析</div>
+                            <div>字数变化: ${diff > 0 ? '+' : ''}${diff} (${diffPercent > 0 ? '+' : ''}${diffPercent}%)</div>
+                            <div>状态变化: ${statusA} → ${statusB}</div>
+                            <div>标签变化: ${tagsA} → ${tagsB}</div>
+                        </div>
+                    </div>
+                `;
+
+                showToast('✅ 对比完成', 1000);
             }
 
             function openFileSmart(dataUrl, fileName, fileType) {

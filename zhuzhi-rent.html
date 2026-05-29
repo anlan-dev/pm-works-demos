@@ -1475,6 +1475,15 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
         <canvas id="barChart"></canvas>
       </div>
     </div>
+
+    <div class="section-title">📈 租金敏感度曲线</div>
+    <div class="chart-grid">
+      <div class="chart-card" style="grid-column: 1 / -1;">
+        <h4>📈 净收益 vs 月租 — 找到你的盈亏平衡点</h4>
+        <canvas id="rentTrendChart"></canvas>
+        <div id="rentTrendStats" style="margin-top:10px; font-size:0.82rem; color:var(--muted);"></div>
+      </div>
+    </div>
   </div>
 
   <!-- Page 3: 方案列表 -->
@@ -1638,6 +1647,7 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
   var currentSort = 'default';
   var doughnutChartInstance = null;
   var barChartInstance = null;
+  var rentTrendChartInstance = null;
 
   var $ = function(id) { return document.getElementById(id); };
   var PInput = $('P'), HInput = $('H'), KInput = $('K'), SInput = $('S');
@@ -1935,6 +1945,7 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
     if (typeof Chart === 'undefined') return;
     renderDoughnut();
     renderBar();
+    renderRentTrend();
   }
 
   function renderDoughnut() {
@@ -1986,6 +1997,98 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
         }
       }
     });
+  }
+
+  function renderRentTrend() {
+    var ctx = document.getElementById('rentTrendChart');
+    var statsBox = document.getElementById('rentTrendStats');
+    if (!ctx || !statsBox) return;
+
+    var sal = parseFloat(smartSalary.value) || 15000;
+    var Tc = parseFloat(smartCommute.value) || 1.5;
+    var M = parseFloat(smartTransport.value) || 200;
+    var gb = greedyBudget(sal, Tc, M);
+    var maxRent = Math.max(0, Math.round(gb.remain));
+    var step = Math.max(100, Math.round(maxRent / 30 / 100) * 100);
+    var labels = [];
+    var netData = [];
+    var rentRatioData = [];
+    var breakEvenRent = 0;
+
+    for (var r = 0; r <= maxRent * 1.2; r += step) {
+      labels.push('¥' + r.toLocaleString());
+      var mockPlan = { rent: r, commuteTime: Tc, transportCost: M, workDays: personalValues.defaultD, workHours: personalValues.defaultTw, monthlySalary: sal, name: '模拟' };
+      var result = computePlan(mockPlan);
+      netData.push(Math.round(result.N));
+      rentRatioData.push(Math.round(result.rent_ratio * 100));
+      if (result.N >= 0 && breakEvenRent === 0) breakEvenRent = r;
+    }
+
+    if (breakEvenRent > 0 && breakEvenRent < maxRent * 1.2) {
+      var safeRent = Math.round(breakEvenRent * 0.85);
+      statsBox.innerHTML = '盈亏平衡点: <strong>¥' + breakEvenRent.toLocaleString() + '</strong> · 建议舒适线: <strong>¥' + safeRent.toLocaleString() + '</strong> (85%) · 超过 ¥' + breakEvenRent.toLocaleString() + ' 即隐性亏损';
+    } else {
+      statsBox.innerHTML = '当前参数下无法找到盈亏平衡点，请调整收入或支出参数';
+    }
+
+    if (rentTrendChartInstance) rentTrendChartInstance.destroy();
+    var textColor = getComputedStyle(document.body).getPropertyValue('--muted').trim();
+    rentTrendChartInstance = new Chart(ctx.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: '净收益 ¥/月',
+            data: netData,
+            borderColor: '#5a6a7a',
+            backgroundColor: 'rgba(90,106,122,0.1)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            borderWidth: 2
+          },
+          {
+            label: '租收比 %',
+            data: rentRatioData,
+            borderColor: '#c09040',
+            backgroundColor: 'transparent',
+            borderDash: [6, 3],
+            tension: 0.3,
+            pointRadius: 2,
+            pointHoverRadius: 5,
+            borderWidth: 1.5,
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { size: 11 }, color: textColor } },
+          tooltip: { callbacks: { label: function(c) { return c.dataset.label + ': ' + (c.datasetIndex === 0 ? '¥' + c.raw.toLocaleString() : c.raw + '%'); } } },
+          annotation: undefined
+        },
+        scales: {
+          y: { grid: { color: 'rgba(128,128,128,0.15)' }, ticks: { color: textColor, callback: function(v) { return '¥' + v.toLocaleString(); } }, title: { display: true, text: '净收益', color: textColor } },
+          y1: { position: 'right', grid: { display: false }, ticks: { color: '#c09040', callback: function(v) { return v + '%'; } }, title: { display: true, text: '租收比', color: '#c09040' } },
+          x: { grid: { display: false }, ticks: { color: textColor, maxTicksLimit: 10 } }
+        }
+      }
+    });
+
+    if (plans.length > 0) {
+      var planPoints = plans.map(function(p) {
+        var r = computePlan(p);
+        return { name: p.name, rent: r.B, net: Math.round(r.N) };
+      });
+      var highlight = planPoints.map(function(pp) {
+        return pp.name + ': ¥' + pp.rent + '(净收益' + (pp.net >= 0 ? '+' : '') + pp.net + ')';
+      }).join(' · ');
+      statsBox.innerHTML += '<br>📍 当前方案: ' + highlight;
+    }
   }
 
   // === 对比表 ===

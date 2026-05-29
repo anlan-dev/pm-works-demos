@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"><meta name="description" content="王天娇 · 产品经理实习生作品集 — 需求取舍与用户验证 | 宠伴/会议舱/冷启动/Prompt 库嵌图表与指标口径，完整产品案例叙事"><title>王天娇 · 产品实习生 · 作品集</title>
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"><meta name="description" content="王天娇 · 产品经理实习生作品集 — 需求取舍与用户验证 | 宠伴/会议舱/冷启动/Prompt 库嵌图表与指标口径，完整产品案例叙事"><title>王天娇 · 产品实习生 · 作品集</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
   </script>
   <style>
@@ -2598,6 +2598,222 @@ details.nfr-table-wrap[open] > summary {
     min-height: 36px;
   }
 }
+
+/* ===== UI/UX 优化样式 ===== */
+
+/* 1. Hero 区域视觉增强 */
+.hero h1 {
+  background: linear-gradient(135deg, #1e293b 0%, #3b82f6 50%, #8b5cf6 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 4s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hero 区域背景增强 */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+  animation: heroGlow 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes heroGlow {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-2%, -2%) rotate(1deg); }
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 2. 项目卡片 hover 效果增强 */
+.project-card-wrap {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card-wrap:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12), 0 8px 16px rgba(15, 23, 42, 0.08);
+}
+
+.project-card-wrap:hover .project-title {
+  color: #3b82f6;
+}
+
+.project-card-wrap:hover .project-emoji {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.project-emoji {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 3. 按钮 hover 动效增强 */
+.scan-btn.primary,
+.case-cta-btn.primary {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scan-btn.primary::after,
+.case-cta-btn.primary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.scan-btn.primary:hover::after,
+.case-cta-btn.primary:hover::after {
+  width: 300%;
+  height: 300%;
+}
+
+.scan-btn.primary:hover,
+.case-cta-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* 4. 数据图表入场动画 */
+.chart-container {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chart-container.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 5. 视角切换过渡效果 */
+.lens-btn {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lens-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.lens-btn.is-active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.scan-summary {
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 6. 标签 hover 效果 */
+.project-tag {
+  transition: all 0.2s ease;
+}
+
+.project-tag:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* 7. 滚动渐入动画增强 */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 8. 移动端优化 */
+@media (max-width: 640px) {
+  .hero h1 {
+    font-size: clamp(1.6rem, 5vw, 2rem);
+  }
+  
+  .project-card-wrap:hover {
+    transform: translateY(-4px);
+  }
+  
+  .scan-btn.primary:hover,
+  .case-cta-btn.primary:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* 9. 暗色模式适配 */
+body[data-theme="dark"] .hero h1 {
+  background: linear-gradient(135deg, #e2e8f0 0%, #60a5fa 50%, #a78bfa 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body[data-theme="ink"] .hero h1 {
+  background: linear-gradient(135deg, #1e293b 0%, #475569 50%, #64748b 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 10. 加载动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero {
+  animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.project-card-wrap:nth-child(1) { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both; }
+.project-card-wrap:nth-child(2) { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both; }
+.project-card-wrap:nth-child(3) { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
+.project-card-wrap:nth-child(4) { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both; }
+.project-card-wrap:nth-child(5) { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; }
+.project-card-wrap:nth-child(6) { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both; }
+.project-card-wrap:nth-child(7) { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
+.project-card-wrap:nth-child(8) { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both; }
 </style>
 </head><body><!-- ===== 桌面端浮动目录 ===== --><aside class="toc-float collapsed" id="tocFloat" title="点击 ◀ 展开目录"><div class="toc-header"><span class="toc-title">快速跳转</span><button class="toc-toggle" id="tocToggleBtn" aria-label="折叠大纲">◀</button></div><ul class="toc-list"><li class="toc-item"><a href="#flagship-journey" class="toc-link"><span class="toc-icon">🐾</span><span>旗舰案例</span></a></li><li class="toc-item"><a href="#all-projects" class="toc-link"><span class="toc-icon">🧩</span><span>项目全景</span></a></li><li class="toc-item"><a href="#deep-case-studies" class="toc-link"><span class="toc-icon">🎙️</span><span>深度案例</span></a></li><li class="toc-item"><a href="#design-methodology" class="toc-link"><span class="toc-icon">💡</span><span>方法论</span></a></li><li class="toc-item"><a href="#frontier-insights" class="toc-link"><span class="toc-icon">🔬</span><span>前沿观察</span></a></li><li class="toc-item"><a href="#design-docs" class="toc-link"><span class="toc-icon">📄</span><span>迭代文档</span></a></li><li class="toc-item"><a href="#prd-sample" class="toc-link"><span class="toc-icon">📎</span><span>PRD·竞品</span></a></li><li class="toc-item"><a href="#contact-section" class="toc-link"><span class="toc-icon">📬</span><span>联系</span></a></li></ul></aside><!-- ===== 移动端底部导航 ===== --><div class="mobile-side-toc" id="mobileSideToc" aria-label="侧边目录"><button type="button" class="mobile-side-toc-toggle" id="mobileSideTocBtn" aria-label="展开侧边目录">☰</button><div class="mobile-side-toc-links"><a href="#flagship-journey">旗舰</a><a href="#all-projects">项目</a><a href="#deep-case-studies">深度</a><a href="#design-methodology">方法</a><a href="#frontier-insights">前沿</a><a href="#design-docs">文档</a><a href="#prd-sample">PRD</a><a href="#contact-section">联系</a></div></div><div class="container"><div class="inline-mode-wrap"><div class="ui-mode-dock" id="indexModeDock"><button type="button" class="ui-mode-toggle" id="indexModeToggleBtn" aria-label="展开模式设置">⚙️</button><div class="ui-mode-panel"><select id="globalThemeSelect" aria-label="界面主题"><option value="">默认</option><option value="dark">暗色</option><option value="ink">Ink</option></select></div></div></div><div class="hero"><h1>王天娇</h1><p style="font-size:clamp(1rem, 1.6vw, 1.25rem); font-weight:500; color:#1e293b; margin: 8px 0 4px;">用语言学读懂用户，用数据把决策做对</p><p style="font-size:clamp(0.8rem, 1.1vw, 0.95rem); color:#475569; margin: 0 0 16px;">求职<strong>产品经理/用户研究/内容策略实习</strong>：我用社会语言学判断“谁在什么语境下说了什么”，用语料库与统计语言学验证“这种差异是否稳定”，并按岗位视角把结论转成可上线的产品决策、研究洞察与内容策略实验。</p><div class="badge-group"><span class="badge">🎯 需求与取舍</span><span class="badge">📈 假设—验证—指标</span><span class="badge">⚡ 从想法到落地闭环</span><span class="badge" onclick="document.getElementById('aigc-showcase').scrollIntoView({behavior:'smooth'})" style="cursor:pointer;">✨ AIGC 能力</span></div><div class="subtitle">
         香港理工大学 · 中国语言学研究生 · 用数据驱动决策，用 AI 加速落地

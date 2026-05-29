@@ -1597,7 +1597,7 @@ body {
             </div>
         </div>
         <div class="top-actions">
-            <button class="lang-switch" id="langToggle" aria-label="切换语言">🇨🇳 中文</button>
+    <button class="lang-switch" id="langToggle" aria-label="切换语言" onclick="window._toggleLang()">🇨🇳 中文</button>
             <span class="currency-badge" id="currencyDisplay">¥ CNY</span>
         </div>
     </div>
@@ -3239,6 +3239,222 @@ body {
 
         // Remove old pay modal events (they are overwritten by order flow)
         // The old pay modal is still in DOM but won't be triggered
+    })();
+
+    // ====== i18n 多语言系统 ======
+    var _i18n = {
+        zh: {
+            flag: '🇨🇳', label: '中文', currency: '¥ CNY',
+            brand: 'GlobalFUN', brandSub: 'Cross-Border Group Buy',
+            login: '登录', logout: '退出', guest: '游客', notLoggedIn: '未登录',
+            mainBtn: '登录后开启跨境拼团', mainBtnLoggedIn: '⚡ 立即开团',
+            aiRecTitle: 'AI 跨境选品 · 为你推荐', aiRecRefresh: '⟳ 换一批',
+            shareBtn: '📤 分享拼团', copyLink: '🔗 复制链接',
+            transToggle: '日文原文',
+            prodOrigin: '🇯🇵 日本 · 大阪直发', prodSold: '已售 8,342 件',
+            prodName: 'Yamanashi 白桃水润精华 200ml',
+            prodNameEn: 'Yamanashi Peach Moisture Essence',
+            groupPrice: '拼团价', originalPrice: '¥599',
+            saveTip: '🔥 比国内省¥331',
+            tagHot: '🔥 全球爆款', tagOrigin: '🌏 日本直邮',
+            logIntl: '✈️ 国际直邮', logTax: '📋 关税已含', logAuth: '🛡️ 正品承保',
+            priceTitle: 'AI 到手价计算', priceSeen: '所见即所付',
+            priceGoods: '商品拼团价', priceShip: '国际运费', priceShipVal: '¥0.00 (包邮)',
+            priceTax: '进口关税', priceTaxVal: '¥0.00 (已含)', priceFx: '💱 汇率锁定',
+            priceTotal: '到手价', priceSave: '比天猫国际省 ¥321 · 相当于 4.5 折 · 关税已含无隐藏费用',
+            compareTitle: '多平台比价', compareLow: '最低价',
+            histTitle: '近30天价格走势', histSource: '数据来源: 慢慢买',
+            hist30d: '30天降幅', histUpdate: '更新于: 2小时前',
+            trust1: '正品保障', trust1d: '假一赔十',
+            trust2: '海关备案', trust2d: '合规清关',
+            trust3: '品牌授权', trust3d: '官方渠道',
+            trust4: '7天无忧', trust4d: '退换保障',
+            supplyTitle: '供应链溯源 · 全链路可追踪',
+            supplyAi: 'AI 全托管：从比价到清关，所有环节由 AI Agent 自动处理',
+            trackTitle: '物流全程可追踪', trackDetail: '查看详情 →',
+            trackStep1: '已揽收', trackStep2: '已清关', trackStep3: '派送中', trackStep4: '待签收',
+            tierTitle: '阶梯拼团 · 人越多越便宜',
+            tier3: '当前团 · 已有 2/3 人', tier3s: '进行中',
+            tier5: '再邀 2 人解锁 · 每人再省 ¥30', tier5s: '🔒 待解锁',
+            tier10: '终极团 · 每人省 ¥70（比原价省 67%）', tier10s: '🔥 极限价',
+            progLabel: '拼团进度', progVal: '2/3 人 · 仅差 1 人',
+            shareTip: '分享给好友一起参团，人越多越便宜！',
+            liveTitle: '实时拼团动态', liveTotal: '今日已有 128 人参与拼团',
+            countdownTitle: '⏳ 跨境限时拼团',
+            stockTip: '库存紧张', stockLeft: '仅剩 12 件', stockSold: '已售 75%', stockTotal: '限量 50 件',
+            aiChat: '👋 Hello! 我是 GlobalFUN 的 AI 跨境导购。\n\n我可以帮你：🌏 推荐跨境好物 · 🌐 翻译评价 · 💰 计算到手价',
+            aiSug1: '差价多少？', aiSug2: '物流&关税', aiSug3: '推荐类似的', aiSug4: '评价怎么样', aiSug5: '怎么选规格',
+            orderTitle: '选择规格',
+            orderAddr: '收货地址', orderPay: '支付方式', orderConfirm: '订单确认', orderSuccess: '下单成功',
+            orderNext: '下一步 →', orderBack: '← 上一步', orderSubmit: '确认下单', orderContinue: '继续逛 →',
+            orderSpecCap: '容量', orderSpecPack: '套装', orderSpecQty: '数量',
+            orderAiHint: 'AI 检测到跨境收货，已自动填入常用地址。清关需要身份证号。',
+            orderPayHint: 'AI 推荐微信支付：免跨境手续费 + 实时到账。',
+            orderSuccessTitle: '下单成功！', orderTracking: '📦 物流追踪',
+            orderAiFollow: '包裹从大阪发出后，我会自动推送物流更新给您。',
+            payTitle: '🧾 订单确认', payConfirm: '确认', payCancel: '取消'
+        },
+        en: {
+            flag: '🇺🇸', label: 'English', currency: '$ USD',
+            brand: 'GlobalFUN', brandSub: 'Cross-Border Group Buy',
+            login: 'Login', logout: 'Logout', guest: 'Guest', notLoggedIn: 'Not logged in',
+            mainBtn: 'Login to Join Group Buy', mainBtnLoggedIn: '⚡ Start Group Buy',
+            aiRecTitle: 'AI Picks · For You', aiRecRefresh: '⟳ Refresh',
+            shareBtn: '📤 Share', copyLink: '🔗 Copy Link',
+            transToggle: 'Original JP',
+            prodOrigin: '🇯🇵 Japan · Direct from Osaka', prodSold: '8,342 sold',
+            prodName: 'Yamanashi Peach Moisture Essence 200ml',
+            prodNameEn: 'Yamanashi Peach Moisture Essence',
+            groupPrice: 'Group Price', originalPrice: '¥599',
+            saveTip: '🔥 ¥331 cheaper than domestic',
+            tagHot: '🔥 Global Hit', tagOrigin: '🌏 Japan Direct',
+            logIntl: '✈️ Intl Shipping', logTax: '📋 Tax Included', logAuth: '🛡️ Authentic',
+            priceTitle: 'AI Final Price', priceSeen: 'What you see is what you pay',
+            priceGoods: 'Item Price', priceShip: 'Intl Shipping', priceShipVal: '¥0.00 (Free)',
+            priceTax: 'Import Tax', priceTaxVal: '¥0.00 (Included)', priceFx: '💱 FX Locked',
+            priceTotal: 'Total', priceSave: '¥321 cheaper than Tmall Global · 4.5折 · No hidden fees',
+            compareTitle: 'Price Comparison', compareLow: 'Lowest',
+            histTitle: '30-Day Price Trend', histSource: 'Source: Manmanbuy',
+            hist30d: '30-day drop', histUpdate: 'Updated: 2h ago',
+            trust1: 'Authentic', trust1d: '10x refund',
+            trust2: 'Customs Filed', trust2d: 'Compliant',
+            trust3: 'Brand Auth', trust3d: 'Official',
+            trust4: '7-Day Return', trust4d: 'Guarantee',
+            supplyTitle: 'Supply Chain · Full Traceability',
+            supplyAi: 'AI Managed: From pricing to customs, all handled by AI Agent',
+            trackTitle: 'Full Tracking', trackDetail: 'Details →',
+            trackStep1: 'Picked up', trackStep2: 'Cleared', trackStep3: 'In transit', trackStep4: 'Pending',
+            tierTitle: 'Tiered Group Buy · More people = cheaper',
+            tier3: 'Current group · 2/3 joined', tier3s: 'Active',
+            tier5: '2 more to unlock · Save ¥30 each', tier5s: '🔒 Locked',
+            tier10: 'Ultimate · Save ¥70 each (67% off)', tier10s: '🔥 Best Price',
+            progLabel: 'Progress', progVal: '2/3 · Need 1 more',
+            shareTip: 'Share with friends — more people = lower price!',
+            liveTitle: 'Live Activity', liveTotal: '128 people joined today',
+            countdownTitle: '⏳ Limited Time Group Buy',
+            stockTip: 'Low Stock', stockLeft: 'Only 12 left', stockSold: '75% sold', stockTotal: 'Limited to 50',
+            aiChat: '👋 Hello! I\'m Globy, your AI cross-border shopping assistant.\n\nI can help: 🌏 Recommendations · 🌐 Translate reviews · 💰 Calculate final price',
+            aiSug1: 'Price diff?', aiSug2: 'Shipping & Tax', aiSug3: 'Similar items', aiSug4: 'Reviews?', aiSug5: 'How to choose?',
+            orderTitle: 'Select Options',
+            orderAddr: 'Shipping Address', orderPay: 'Payment', orderConfirm: 'Confirm Order', orderSuccess: 'Order Placed',
+            orderNext: 'Next →', orderBack: '← Back', orderSubmit: 'Place Order', orderContinue: 'Continue Shopping →',
+            orderSpecCap: 'Size', orderSpecPack: 'Bundle', orderSpecQty: 'Qty',
+            orderAiHint: 'AI detected cross-border delivery. Address auto-filled. ID required for customs.',
+            orderPayHint: 'AI recommends WeChat Pay: no cross-border fee + instant.',
+            orderSuccessTitle: 'Order Placed!', orderTracking: '📦 Tracking',
+            orderAiFollow: 'I\'ll push tracking updates once shipped from Osaka.',
+            payTitle: '🧾 Order Confirm', payConfirm: 'Confirm', payCancel: 'Cancel'
+        },
+        ja: {
+            flag: '🇯🇵', label: '日本語', currency: '¥ JPY',
+            brand: 'GlobalFUN', brandSub: '越境グループバイ',
+            login: 'ログイン', logout: 'ログアウト', guest: 'ゲスト', notLoggedIn: '未ログイン',
+            mainBtn: 'ログインしてグループバイに参加', mainBtnLoggedIn: '⚡ グループバイ開始',
+            aiRecTitle: 'AI おすすめ · あなたへ', aiRecRefresh: '⟳ 更新',
+            shareBtn: '📤 シェア', copyLink: '🔗 リンクコピー',
+            transToggle: '中国語訳',
+            prodOrigin: '🇯🇵 日本 · 大阪直送', prodSold: '8,342件販売済',
+            prodName: 'Yamanashi 白桃美容液 200ml',
+            prodNameEn: 'Yamanashi Peach Moisture Essence',
+            groupPrice: 'グループ価格', originalPrice: '¥599',
+            saveTip: '🔥 国内より¥331お得',
+            tagHot: '🔥 グローバルヒット', tagOrigin: '🌏 日本直送',
+            logIntl: '✈️ 国際配送', logTax: '📋 関税込み', logAuth: '🛡️ 正規品保証',
+            priceTitle: 'AI 最終価格', priceSeen: '表示価格＝支払い額',
+            priceGoods: '商品価格', priceShip: '国際送料', priceShipVal: '¥0.00 (送料無料)',
+            priceTax: '輸入関税', priceTaxVal: '¥0.00 (込み)', priceFx: '💱 為替ロック',
+            priceTotal: '合計', priceSave: '天猫国際より¥321お得 · 隠れた費用なし',
+            compareTitle: '他社比較', compareLow: '最安値',
+            histTitle: '30日間の価格推移', histSource: 'データ: 慢慢买',
+            hist30d: '30日間の値下げ', histUpdate: '更新: 2時間前',
+            trust1: '正規品保証', trust1d: '10倍返金',
+            trust2: '税関届出', trust2d: '法令遵守',
+            trust3: 'ブランド認証', trust3d: '公式ルート',
+            trust4: '7日間返品', trust4d: '返品保障',
+            supplyTitle: 'サプライチェーン · 全工程追跡',
+            supplyAi: 'AI管理：価格比較から通関まで、すべてAIエージェントが処理',
+            trackTitle: '配送追跡', trackDetail: '詳細 →',
+            trackStep1: '集荷済', trackStep2: '通関済', trackStep3: '配送中', trackStep4: 'お届け待ち',
+            tierTitle: '段階グループバイ · 人数が増えるほどお得',
+            tier3: '現在のグループ · 2/3名参加', tier3s: '進行中',
+            tier5: 'あと2名で解放 · お一人様¥30お得', tier5s: '🔒 未解放',
+            tier10: '究極 · お一人様¥70お得（67%割引）', tier10s: '🔥 最安値',
+            progLabel: '進捗', progVal: '2/3 · あと1名',
+            shareTip: 'お友達を招待して一緒にグループバイ！',
+            liveTitle: 'リアルタイム情報', liveTotal: '本日128名が参加',
+            countdownTitle: '⏳ 期間限定グループバイ',
+            stockTip: '残りわずか', stockLeft: '残り12個', stockSold: '75%販売済', stockTotal: '限定50個',
+            aiChat: '👋 こんにちは！GlobalFUNのAI越境ショッピングアシスタントです。\n\n🌏 おすすめ · 🌐 レビュー翻訳 · 💰 最終価格計算',
+            aiSug1: '差額は？', aiSug2: '送料&関税', aiSug3: '類似品', aiSug4: 'レビューは？', aiSug5: '選び方',
+            orderTitle: '仕様選択',
+            orderAddr: '配送先', orderPay: 'お支払い', orderConfirm: '注文確認', orderSuccess: '注文完了',
+            orderNext: '次へ →', orderBack: '← 戻る', orderSubmit: '注文する', orderContinue: 'お買い物を続ける →',
+            orderSpecCap: '容量', orderSpecPack: 'セット', orderSpecQty: '数量',
+            orderAiHint: 'AIが越境配送を検知。住所を自動入力しました。通関には身分証が必要です。',
+            orderPayHint: 'AIおすすめWeChat Pay：越境手数料なし＋即時反映。',
+            orderSuccessTitle: '注文完了！', orderTracking: '📦 配送追跡',
+            orderAiFollow: '大阪から発送後、配送状況をお知らせします。',
+            payTitle: '🧾 注文確認', payConfirm: '確認', payCancel: 'キャンセル'
+        },
+        langs: ['zh', 'en', 'ja'],
+        current: 0,
+        t: function(key) {
+            var lang = this.langs[this.current];
+            return (this[lang] && this[lang][key]) || this.zh[key] || key;
+        },
+        apply: function() {
+            var self = this;
+            var lang = self.langs[self.current];
+            var toggle = document.getElementById('langToggle');
+            if (toggle) toggle.textContent = self.t('flag') + ' ' + self.t('label');
+            var currency = document.getElementById('currencyDisplay');
+            if (currency) currency.textContent = self.t('currency');
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : (lang === 'ja' ? 'ja' : 'en');
+            var brandText = document.querySelector('.brand-text');
+            if (brandText) brandText.textContent = self.t('brand');
+            var brandSub = document.querySelector('.brand-sub');
+            if (brandSub) brandSub.textContent = self.t('brandSub');
+            var toggleLogin = document.getElementById('toggleLoginBtn');
+            if (toggleLogin) toggleLogin.textContent = isLoggedIn ? self.t('logout') : self.t('login');
+            var userName = document.getElementById('userNameDisplay');
+            if (userName) userName.textContent = isLoggedIn ? '李小喵' : self.t('notLoggedIn');
+            var userTag = document.getElementById('userTagDisplay');
+            if (userTag) userTag.textContent = isLoggedIn ? 'VIP' : self.t('guest');
+            var mainBtn = document.getElementById('mainActionBtn');
+            if (mainBtn) mainBtn.textContent = isLoggedIn ? self.t('mainBtnLoggedIn') : self.t('mainBtn');
+            var aiRecTitle = document.querySelector('.ai-rec-title');
+            if (aiRecTitle) aiRecTitle.textContent = self.t('aiRecTitle');
+            var aiRecRefresh = document.getElementById('aiRecRefresh');
+            if (aiRecRefresh) aiRecRefresh.textContent = self.t('aiRecRefresh');
+            var shareBtn = document.getElementById('shareTriggerBtn');
+            if (shareBtn) shareBtn.textContent = self.t('shareBtn');
+            var copyLink = document.getElementById('copyLinkBtn');
+            if (copyLink) copyLink.textContent = self.t('copyLink');
+            var transToggle = document.getElementById('transToggle');
+            if (transToggle) transToggle.textContent = self.t('transToggle');
+            try { localStorage.setItem('globalfun_lang', lang); } catch(e) {}
+        }
+    };
+
+    window._toggleLang = function() {
+        _i18n.current = (_i18n.current + 1) % _i18n.langs.length;
+        _i18n.apply();
+        var lang = _i18n.langs[_i18n.current];
+        var msgs = { zh: '已切换到中文', en: 'Switched to English', ja: '日本語に切り替えました' };
+        var toast = document.getElementById('toast');
+        if (toast) { toast.textContent = msgs[lang]; toast.style.opacity = 1; setTimeout(function() { toast.style.opacity = 0; }, 1500); }
+    };
+
+    (function() {
+        try {
+            var saved = localStorage.getItem('globalfun_lang');
+            if (saved) {
+                var idx = _i18n.langs.indexOf(saved);
+                if (idx >= 0) _i18n.current = idx;
+            }
+        } catch(e) {}
+        _i18n.apply();
+    })();
 </script>
 <script>
 document.addEventListener('keydown', function(e) {
