@@ -1397,7 +1397,7 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
 </head>
 <body>
 <div class="container">
-  <div class="top-bar">
+  <div class="top-bar scroll-reveal">
     <h1>🏡 住值 <span class="brand-en">LiveWorth</span></h1>
     <div class="theme-dots" role="radiogroup" aria-label="主题切换">
       <div class="theme-dot t-light active" data-theme="" title="浅色" role="radio" aria-checked="true" aria-label="浅色主题" tabindex="0"></div>
@@ -1405,10 +1405,10 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
       <div class="theme-dot t-ink" data-theme="ink" title="墨水屏" role="radio" aria-checked="false" aria-label="墨水屏主题" tabindex="-1"></div>
     </div>
   </div>
-  <div class="subtitle">把时间和健康算进房租里 · 看看你真正赚了多少</div>
+  <div class="subtitle scroll-reveal" data-delay="100">把时间和健康算进房租里 · 看看你真正赚了多少</div>
 
   <!-- Page 1: 价值观 -->
-  <div class="page active" id="page-values">
+  <div class="page active scroll-reveal" id="page-values" data-delay="200">
     <div class="section-title">🧠 我的生命价值观</div>
     <div class="values-panel" id="valuesPanel">
       <div class="input-group">
@@ -2491,6 +2491,23 @@ document.addEventListener('keydown', function(e) {
     });
   }
 });
+</script>
+<style>
+.scroll-reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.scroll-reveal.visible{opacity:1;transform:translateY(0)}
+.scroll-reveal[data-delay="100"]{transition-delay:.1s}
+.scroll-reveal[data-delay="200"]{transition-delay:.2s}
+.scroll-reveal[data-delay="300"]{transition-delay:.3s}
+</style>
+<script>
+(function(){
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.scroll-reveal').forEach(function(el){obs.observe(el)});
+})();
 </script>
 <script>
 if ('serviceWorker' in navigator) {
