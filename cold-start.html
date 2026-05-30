@@ -575,7 +575,7 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
 <div class="app">
 
   <!-- Header -->
-  <div class="hdr scroll-reveal">
+  <div class="hdr">
     <div class="hdr-l">
       <div class="hdr-logo nr">⚡</div>
       <div>
@@ -602,18 +602,18 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
 
   <!-- ===== Tab: 冷启动 ===== -->
   <div id="page-launch" class="tab-page active">
-    <div class="tagline scroll-reveal" data-delay="100">
+    <div class="tagline">
       <div class="q">别想了，开始。</div>
       <div class="qe">Stop planning. Start doing.</div>
     </div>
-    <div class="input-area ni scroll-reveal" data-delay="200">
+    <div class="input-area ni">
       <textarea id="goalInput" placeholder="你想做什么？比如：我想学 Python、我想开始健身、我想做一个个人游戏开发项目、我想做任何事..." rows="3" maxlength="200"></textarea>
       <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
         <button id="creativeModeBtn" onclick="toggleCreativeMode()" style="padding:6px 14px;border-radius:20px;border:1px solid var(--b2);background:var(--bg2);color:var(--text2);font-size:.8rem;cursor:pointer;transition:all .2s;">🎮 创意模式</button>
         <span id="creativeModeHint" style="font-size:.75rem;color:var(--text3);">开启后生成游戏化、趣味化的启动任务</span>
       </div>
     </div>
-    <div class="launch-row scroll-reveal" data-delay="300">
+    <div class="launch-row">
       <button class="btn-launch" id="launchBtn" onclick="handleLaunch()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         <span id="btnLabel">冷启动</span>
@@ -2611,23 +2611,6 @@ document.addEventListener('keydown', function(e) {
     });
   }
 });
-</script>
-<style>
-.scroll-reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
-.scroll-reveal.visible{opacity:1;transform:translateY(0)}
-.scroll-reveal[data-delay="100"]{transition-delay:.1s}
-.scroll-reveal[data-delay="200"]{transition-delay:.2s}
-.scroll-reveal[data-delay="300"]{transition-delay:.3s}
-</style>
-<script>
-(function(){
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}
-    });
-  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.scroll-reveal').forEach(function(el){obs.observe(el)});
-})();
 </script>
 <script>
 if ('serviceWorker' in navigator) {
