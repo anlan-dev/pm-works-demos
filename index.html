@@ -118,6 +118,7 @@ body{
 .harness{background:linear-gradient(135deg,#f0f4ff,#f8fafc);border:1px solid #c7d2fe;border-radius:10px;padding:clamp(12px,1.4vw,16px);margin:8px 0}
 .harness .htitle{font-weight:600;font-size:clamp(.78rem,.88vw,.82rem);color:#3730a3;margin-bottom:8px}
 .harness .hstep{display:flex;align-items:flex-start;gap:6px;margin:4px 0;font-size:clamp(.74rem,.84vw,.8rem);color:#2d3a4b}
+.harness .hstep>span:last-child{flex:1;min-width:0}
 .harness .hstep b{color:#0f172a;font-weight:570}
 .harness .hnum{flex-shrink:0;width:20px;height:20px;border-radius:6px;background:#e0e7ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(.6rem,.68vw,.64rem)}
 
@@ -214,11 +215,11 @@ a{color:#0071e3;text-decoration:none}
   <div class="card-sub">所有 AI 项目遵循同一思维链路——从用户任务出发，经过评测验证，用数据驱动迭代</div>
   <div class="harness">
     <div class="htitle">功能点 → AI技术方案 → 评测集+MECE标准 → 跑评测找链路问题 → 改链路重测 → 展示分数改善</div>
-    <div class="hstep"><span class="hnum">1</span>从<b>具体用户任务</b>出发，不是从模型能力出发</div>
-    <div class="hstep"><span class="hnum">2</span>选择<b>AI技术方案</b>（Prompt Chain / RAG / Workflow / Agent Team），解释为什么不用更复杂/更简单的</div>
-    <div class="hstep"><span class="hnum">3</span>设计<b>评测集 + MECE评分标准</b>，目的是发现链路问题而非证明"AI很厉害"</div>
-    <div class="hstep"><span class="hnum">4</span>跑评测集，定位<b>链路节点具体问题</b>，归因到 prompt / query rewrite / context / routing / fallback</div>
-    <div class="hstep"><span class="hnum">5</span>针对低分维度迭代对应节点，用<b>同一评测集复测</b>，观察指标改善</div>
+    <div class="hstep"><span class="hnum">1</span><span></span>从<b>具体用户任务</b>出发，不是从模型能力出发</span></div>
+    <div class="hstep"><span class="hnum">2</span><span>选择<b>AI技术方案</b>（Prompt Chain / RAG / Workflow / Agent Team），解释为什么不用更复杂/更简单的</span></div>
+    <div class="hstep"><span class="hnum">3</span><span>设计<b>评测集 + MECE评分标准</b>，目的是发现链路问题而非证明"AI很厉害"</span></div>
+    <div class="hstep"><span class="hnum">4</span><span>跑评测集，定位<b>链路节点具体问题</b>，归因到 prompt / query rewrite / context / routing / fallback</span></div>
+    <div class="hstep"><span class="hnum">5</span><span>针对低分维度迭代对应节点，用<b>同一评测集复测</b>，观察指标改善</span></div>
   </div>
 </div>
 
