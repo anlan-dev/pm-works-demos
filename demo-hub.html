@@ -274,10 +274,6 @@
     }
     
     .group-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
       padding: 24px 28px;
       background: linear-gradient(135deg, rgba(79, 70, 229, 0.02) 0%, rgba(255, 255, 255, 0) 100%);
       border-bottom: 1px solid var(--border-light);
@@ -288,9 +284,6 @@
       font-size: 20px;
       font-weight: 700;
       color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
     
     .group-sub {
@@ -298,12 +291,6 @@
       color: var(--text-tertiary);
       font-size: 14px;
       font-weight: 400;
-    }
-    
-    .group-actions {
-      display: flex;
-      gap: 12px;
-      flex-shrink: 0;
     }
     
     .items {
@@ -406,30 +393,6 @@
       border-radius: var(--radius-sm);
     }
     
-    /* 状态提示 */
-    .status {
-      margin-top: 20px;
-      font-size: 14px;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border: 1px solid rgba(79, 70, 229, 0.2);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      display: none;
-      animation: slideDown 0.3s ease;
-    }
-    
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
     /* 底部 */
     .footer {
       text-align: center;
@@ -524,9 +487,6 @@
       }
       
       .group-head {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
         padding: 16px;
       }
       
@@ -536,15 +496,6 @@
       
       .group-sub {
         font-size: 12px;
-      }
-      
-      .group-actions {
-        width: 100%;
-      }
-      
-      .group-actions button {
-        flex: 1;
-        padding: 12px;
       }
       
       .items {
@@ -694,22 +645,26 @@
           </div>
         </div>
         
-        <!-- 快速操作区 -->
+        <!-- 快速操作区 - 面试官视角 -->
         <div class="actions">
-          <button id="openAllBtn" class="primary">
-            <span class="icon">🚀</span>
-            打开全部 Demo
-          </button>
+          <a class="link-btn primary" href="#core-cases" rel="noopener">
+            <span class="icon">🎯</span>
+            查看核心案例
+          </a>
           <a class="link-btn" href="./index.html" target="_blank" rel="noopener">
             <span class="icon">📋</span>
             查看完整作品集
           </a>
+          <a class="link-btn" href="mailto:Wangtj0212@outlook.com" rel="noopener">
+            <span class="icon">📧</span>
+            联系我
+          </a>
         </div>
-        <div id="status" class="status"></div>
       </div>
     </section>
 
     <!-- 分组内容 -->
+    <section id="core-cases"></section>
     <section id="groups"></section>
   </main>
   
@@ -728,7 +683,6 @@
         key: "core",
         title: "核心产品案例",
         subtitle: "求职主叙事与完整产品闭环，展示 AI 产品经理核心能力",
-        icon: "🎯",
         items: [
           { 
             title: "宠伴·健康台账", 
@@ -778,7 +732,6 @@
         key: "support",
         title: "支持工具",
         subtitle: "内容辅助与提示词管理，提升 AI 产品开发效率",
-        icon: "🛠️",
         items: [
           { 
             title: "Prompt Library", 
@@ -793,7 +746,6 @@
         key: "vertical",
         title: "行业垂直应用",
         subtitle: "AIGC + 跨境电商 & 垂直场景验证，展示 AI 技术落地能力",
-        icon: "🌐",
         items: [
           { 
             title: "跨境电商 AI Agent", 
@@ -805,50 +757,6 @@
         ]
       }
     ];
-
-    function openUrls(urls) {
-      let opened = 0;
-      let blocked = 0;
-      
-      // 使用延迟来避免浏览器弹窗拦截
-      urls.forEach((url, index) => {
-        setTimeout(() => {
-          const win = window.open(url, "_blank", "noopener");
-          if (win) {
-            opened++;
-          } else {
-            blocked++;
-          }
-          
-          // 最后一个窗口打开后显示状态
-          if (index === urls.length - 1) {
-            setTimeout(() => {
-              if (blocked > 0) {
-                showStatus(`已尝试打开 ${urls.length} 个，成功 ${opened} 个，被拦截 ${blocked} 个。请允许弹窗后重试。`);
-              } else {
-                showStatus(`已成功打开 ${opened} 个 Demo 页面！`);
-              }
-            }, 500);
-          }
-        }, index * 200); // 每个窗口间隔200ms
-      });
-      
-      return urls.length;
-    }
-
-    function showStatus(text) {
-      const el = document.getElementById("status");
-      el.textContent = text;
-      el.style.display = "block";
-      // 5秒后自动隐藏
-      setTimeout(() => {
-        el.style.opacity = "0";
-        setTimeout(() => {
-          el.style.display = "none";
-          el.style.opacity = "1";
-        }, 300);
-      }, 5000);
-    }
 
     function renderGroups() {
       const host = document.getElementById("groups");
@@ -863,27 +771,11 @@
 
         const headLeft = document.createElement("div");
         headLeft.innerHTML = `
-          <h2 class="group-title">
-            <span>${group.icon}</span>
-            ${group.title}
-          </h2>
+          <h2 class="group-title">${group.title}</h2>
           <p class="group-sub">${group.subtitle}</p>
         `;
 
-        const headRight = document.createElement("div");
-        headRight.className = "group-actions";
-        
-        const openGroupBtn = document.createElement("button");
-        openGroupBtn.className = "mini";
-        openGroupBtn.innerHTML = `<span class="icon">📂</span> 打开本组全部`;
-        openGroupBtn.addEventListener("click", () => {
-          const opened = openUrls(group.items.map((item) => item.href));
-          showStatus(`已尝试打开 ${group.items.length} 个，本次成功弹出 ${opened} 个标签页。`);
-        });
-
-        headRight.appendChild(openGroupBtn);
         head.appendChild(headLeft);
-        head.appendChild(headRight);
 
         const items = document.createElement("div");
         items.className = "items";
@@ -928,12 +820,6 @@
         host.appendChild(box);
       }
     }
-
-    document.getElementById("openAllBtn").addEventListener("click", () => {
-      const allUrls = GROUPS.flatMap((g) => g.items.map((i) => i.href));
-      const opened = openUrls(allUrls);
-      showStatus(`已尝试打开 ${allUrls.length} 个，本次成功弹出 ${opened} 个标签页。`);
-    });
 
     // 初始化
     renderGroups();
