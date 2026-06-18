@@ -1603,6 +1603,21 @@ body {
 .skeleton-line:last-child { width: 60%; }
 .skeleton-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius); }
 @keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* Ripple effect */
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+/* AI推荐卡片hover增强 */
+.ai-rec-item { transition: all 0.2s ease; cursor: pointer; }
+.ai-rec-item:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+.ai-rec-item:active { transform: scale(0.97); }
+
+/* 按钮点击反馈 */
+.primary-btn:active, .share-btn:active, .neu-btn:active { transform: scale(0.96); }
+.ai-trans-toggle:active { transform: scale(0.95); }
+
+/* 实时动态入场动画 */
+@keyframes feedSlideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
@@ -3291,6 +3306,29 @@ body {
             });
         }
 
+        // 分享渠道点击
+        document.querySelectorAll('.channel-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const channel = item.dataset.channel;
+                if (channel === 'wechat') {
+                    showToast('💬 请截图分享到微信');
+                } else if (channel === 'copy') {
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        showToast('✅ 链接已复制');
+                    }).catch(() => {
+                        showToast('复制失败，请手动复制');
+                    });
+                }
+                // 关闭分享面板
+                const overlay = document.getElementById('shareOverlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    overlay.querySelector('.share-panel').style.transform = 'translateY(100%)';
+                    setTimeout(() => overlay.style.visibility = 'hidden', 300);
+                }
+            });
+        });
+
         // 复制链接
         const copyLinkBtn = document.getElementById('copyLinkBtn');
         if (copyLinkBtn) {
@@ -3332,11 +3370,204 @@ body {
         if (loadMoreReviews) {
             loadMoreReviews.addEventListener('click', () => {
                 showToast('📝 更多评价加载中...');
+                const container = loadMoreReviews.parentElement;
+                const newReviews = [
+                    { name: '🌸 佐藤ゆき', stars: '★★★★★', orig: '肌荒れが改善しました。リピート決定！', trans: '皮肤粗糙改善了，决定回购！' },
+                    { name: '🍀 山本みどり', stars: '★★★★☆', orig: '保湿力は高いですが、香りが少し強いです。', trans: '保湿力很强，但香味稍微有点浓。' }
+                ];
                 setTimeout(() => {
-                    showToast('✅ 已加载最新评价');
+                    newReviews.forEach(r => {
+                        const div = document.createElement('div');
+                        div.className = 'review-item';
+                        div.style.marginBottom = '10px';
+                        div.style.padding = '14px';
+                        div.innerHTML = `<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-weight:600;font-size:14px;color:var(--text);">${r.name}</span><span style="color:#f59e0b;font-size:13px;">${r.stars}</span></div><div style="font-size:13px;color:var(--muted);margin-bottom:4px;font-style:italic;">${r.orig}</div><div style="font-size:13px;color:var(--text);">${r.trans}</div>`;
+                        container.insertBefore(div, loadMoreReviews);
+                    });
+                    loadMoreReviews.textContent = '✅ 已加载全部评价';
+                    loadMoreReviews.style.pointerEvents = 'none';
+                    loadMoreReviews.style.opacity = '0.5';
                 }, 1000);
             });
         }
+
+        // ====== AI推荐卡片点击 ======
+        document.querySelectorAll('.ai-rec-item').forEach(item => {
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', () => {
+                const name = item.querySelector('.ai-rec-name').textContent;
+                const price = item.querySelector('.ai-rec-price').textContent;
+                showToast(`🔍 正在查看 ${name}...`);
+                // 模拟跳转到商品详情
+                setTimeout(() => {
+                    const productEmoji = item.querySelector('.ai-rec-emoji').textContent;
+                    const mainEmoji = document.querySelector('.product-emoji');
+                    const mainName = document.querySelector('.product-name');
+                    if (mainEmoji) mainEmoji.textContent = productEmoji;
+                    if (mainName) {
+                        mainName.innerHTML = `${name} <span class="en">AI Recommended</span>`;
+                    }
+                    showToast(`✅ 已切换到 ${name}`);
+                    // 滚动到商品区域
+                    document.querySelector('.product-media').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500);
+            });
+        });
+
+        // ====== AI推荐换一批 ======
+        const aiRecRefresh = document.getElementById('aiRecRefresh');
+        if (aiRecRefresh) {
+            const products = [
+                [
+                    { emoji: '🧴', name: 'SK-II 神仙水', price: '¥899 · 比专柜省¥400', reason: '⭐ 跨境热销TOP1' },
+                    { emoji: '🐟', name: 'Swisse 鱼油胶囊', price: '¥159 · 澳洲直邮', reason: '⭐ 好评率98%' },
+                    { emoji: '🌸', name: 'Chanel N°5 香水', price: '¥699 · 免税价', reason: '⭐ 限时拼团中' },
+                    { emoji: '💆', name: 'Mediheal 面膜10片', price: '¥69 · 首单包邮', reason: '⭐ 新人专享价' }
+                ],
+                [
+                    { emoji: '🍵', name: '宇治抹茶粉 100g', price: '¥89 · 日本直邮', reason: '⭐ 限定产地' },
+                    { emoji: '👟', name: 'Nike Air Max 90', price: '¥459 · 美国直邮', reason: '⭐ 比官网省¥300' },
+                    { emoji: '💊', name: 'DHC 维生素B群', price: '¥39 · 日本药妆', reason: '⭐ 回购率95%' },
+                    { emoji: '🧸', name: 'Jellycat 巴塞罗那熊', price: '¥199 · 英国直邮', reason: '⭐ 送礼首选' }
+                ],
+                [
+                    { emoji: '☕', name: 'UCC 职人咖啡', price: '¥45 · 日本进口', reason: '⭐ 办公室爆款' },
+                    { emoji: '🧴', name: 'La Mer 面霜 30ml', price: '¥1299 · 免税仓', reason: '⭐ 比专柜省¥800' },
+                    { emoji: '🍫', name: 'Royce 生巧克力', price: '¥129 · 北海道直发', reason: '⭐ 冷链保鲜' },
+                    { emoji: '🎒', name: 'Samsonite 行李箱', price: '¥599 · 美国仓', reason: '⭐ 旅行必备' }
+                ]
+            ];
+            let currentSet = 0;
+            aiRecRefresh.addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentSet = (currentSet + 1) % products.length;
+                const grid = document.getElementById('aiRecGrid');
+                const items = grid.querySelectorAll('.ai-rec-item');
+                products[currentSet].forEach((p, i) => {
+                    if (items[i]) {
+                        items[i].querySelector('.ai-rec-emoji').textContent = p.emoji;
+                        items[i].querySelector('.ai-rec-name').textContent = p.name;
+                        items[i].querySelector('.ai-rec-price').textContent = p.price;
+                        items[i].querySelector('.ai-rec-reason').textContent = p.reason;
+                    }
+                });
+                showToast('🔄 已刷新推荐');
+            });
+        }
+
+        // ====== 物流查看详情 ======
+        document.querySelectorAll('[style*="cursor:pointer"]').forEach(el => {
+            if (el.textContent.includes('查看详情')) {
+                el.addEventListener('click', () => {
+                    showToast('📦 物流详情：大阪→上海浦东 已清关，预计明天送达');
+                });
+            }
+            if (el.textContent.includes('查看全部')) {
+                el.addEventListener('click', () => {
+                    showToast('👥 今日已有 128 人参与拼团，23 人拼团成功');
+                });
+            }
+        });
+
+        // ====== 实时倒计时 ======
+        (function startCountdown() {
+            let totalSeconds = 2 * 3600 + 28 * 60 + 45;
+            const hourEl = document.getElementById('hour');
+            const minuteEl = document.getElementById('minute');
+            const secondEl = document.getElementById('second');
+            if (!hourEl || !minuteEl || !secondEl) return;
+            setInterval(() => {
+                totalSeconds--;
+                if (totalSeconds <= 0) totalSeconds = 2 * 3600 + 28 * 60 + 45;
+                const h = Math.floor(totalSeconds / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+                hourEl.textContent = String(h).padStart(2, '0');
+                minuteEl.textContent = String(m).padStart(2, '0');
+                secondEl.textContent = String(s).padStart(2, '0');
+            }, 1000);
+        })();
+
+        // ====== 实时动态自动滚动 ======
+        (function startLiveFeed() {
+            const feed = document.getElementById('liveFeed');
+            if (!feed) return;
+            const names = ['小红', '阿杰', '莉莉', '小王', '安娜', '大卫', '小美', '老张'];
+            const emojis = ['🐱', '🐰', '🌸', '🍀', '😊', '🎈', '🌟', '🐻'];
+            const sources = ['微信', '小程序', 'APP', 'H5'];
+            setInterval(() => {
+                const name = names[Math.floor(Math.random() * names.length)];
+                const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+                const source = sources[Math.floor(Math.random() * sources.length)];
+                const isGroup = Math.random() > 0.3;
+                const div = document.createElement('div');
+                div.style.cssText = 'display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border-radius:10px;opacity:0;transform:translateY(-10px);transition:all 0.3s;';
+                div.innerHTML = `<div style="width:32px;height:32px;background:#dbeafe;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;">${emoji}</div><div style="flex:1;"><div style="font-size:13px;color:var(--text);"><span style="font-weight:600;">${name}</span> ${isGroup ? '刚刚拼团成功' : '正在拼团中'}</div><div style="font-size:11px;color:var(--muted);">刚刚 · 来自${source}</div></div><div style="font-size:12px;background:${isGroup ? '#dcfce7' : '#fef3c7'};color:${isGroup ? '#16a34a' : '#d97706'};padding:4px 8px;border-radius:4px;">${isGroup ? '已成团' : '进行中'}</div>`;
+                feed.insertBefore(div, feed.firstChild);
+                requestAnimationFrame(() => { div.style.opacity = '1'; div.style.transform = 'translateY(0)'; });
+                // 保持最多5条
+                while (feed.children.length > 5) feed.removeChild(feed.lastChild);
+                // 更新总数
+                const totalEl = feed.parentElement.querySelector('[style*="128"]');
+                if (totalEl) {
+                    const current = parseInt(totalEl.textContent) || 128;
+                    totalEl.textContent = current + 1;
+                }
+            }, 8000);
+        })();
+
+        // ====== 拼团进度动画 ======
+        (function animateProgress() {
+            const progressBar = document.querySelector('.countdown-section + .neu-card div[style*="width:66%"]');
+            if (!progressBar) return;
+            let width = 66;
+            setInterval(() => {
+                width += Math.random() * 2;
+                if (width > 95) width = 66;
+                progressBar.style.width = width + '%';
+            }, 5000);
+        })();
+
+        // ====== 库存递减动画 ======
+        (function animateStock() {
+            const stockEl = document.querySelector('[style*="仅剩"] span[style*="font-weight:800"], [style*="Only"] span[style*="font-weight:800"]');
+            if (!stockEl) return;
+            let stock = 12;
+            setInterval(() => {
+                if (stock > 3) {
+                    stock--;
+                    stockEl.textContent = stock;
+                }
+            }, 30000);
+        })();
+
+        // ====== 按钮涟漪效果 ======
+        document.querySelectorAll('.primary-btn, .share-btn, .neu-btn, .ai-trans-toggle').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,0.3);left:${e.clientX - rect.left - size/2}px;top:${e.clientY - rect.top - size/2}px;transform:scale(0);animation:ripple 0.6s ease-out;pointer-events:none;`;
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // ====== 拼团tier升级 ======
+        document.querySelectorAll('[style*="待解锁"], [style*="Locked"]').forEach(el => {
+            el.addEventListener('click', () => {
+                showToast('📤 分享给好友即可解锁更低价格！');
+            });
+        });
+
+        // ====== 信任徽章点击 ======
+        document.querySelectorAll('[style*="假一赔十"], [style*="10x refund"]').forEach(el => {
+            el.closest('[style*="text-align:center"]')?.addEventListener('click', () => {
+                showToast('🛡️ 正品保障：假一赔十，全球溯源');
+            });
+        });
     })();
 
     // ====== i18n 多语言系统 ======
