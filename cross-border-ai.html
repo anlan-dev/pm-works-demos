@@ -2753,13 +2753,17 @@ body {
             if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > minSwipeDistance) {
                 if (diffX > 0) {
                     // 右滑：返回上一页或关闭面板
-                    if (els.chatOverlay.style.visibility === 'visible') {
-                        els.chatClose.click();
+                    const overlay = document.getElementById('aiChatOverlay');
+                    if (overlay && overlay.style.visibility === 'visible') {
+                        const closeBtn = document.getElementById('aiChatClose');
+                        if (closeBtn) closeBtn.click();
                     }
                 } else {
                     // 左滑：打开AI面板
-                    if (els.chatOverlay.style.visibility !== 'visible') {
-                        els.aiFab.click();
+                    const overlay = document.getElementById('aiChatOverlay');
+                    if (overlay && overlay.style.visibility !== 'visible') {
+                        const fabBtn = document.getElementById('aiFab');
+                        if (fabBtn) fabBtn.click();
                     }
                 }
             }
@@ -2774,11 +2778,7 @@ body {
             showToast(isLoggedIn ? '已登录' : '已退出');
         });
 
-        els.mainAction.addEventListener('click', () => {
-            if(!isLoggedIn) { showToast('请先登录'); return; }
-            els.payModal.style.visibility = 'visible';
-            els.payModal.style.opacity = '1';
-        });
+        // mainAction click handler moved to order flow section (line ~3239) to avoid duplicate binding
 
         els.cancelPay.addEventListener('click', () => {
             els.payModal.style.visibility = 'hidden';
@@ -2791,17 +2791,34 @@ body {
             showToast('✅ 支付成功');
         });
 
-        els.aiFab.addEventListener('click', () => {
-            els.chatOverlay.style.visibility = 'visible';
-            els.chatOverlay.style.opacity = '1';
-            els.chatOverlay.querySelector('.ai-chat-panel').style.transform = 'translateY(0)';
-        });
+        // AI 浮动按钮 — 打开对话面板
+        const fabBtn = document.getElementById('aiFab');
+        if (fabBtn) {
+            fabBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const overlay = document.getElementById('aiChatOverlay');
+                if (overlay) {
+                    overlay.style.visibility = 'visible';
+                    overlay.style.opacity = '1';
+                    const panel = overlay.querySelector('.ai-chat-panel');
+                    if (panel) panel.style.transform = 'translateY(0)';
+                }
+            });
+        }
         
-        els.chatClose.addEventListener('click', () => {
-            els.chatOverlay.style.opacity = '0';
-            els.chatOverlay.querySelector('.ai-chat-panel').style.transform = 'translateY(100%)';
-            setTimeout(() => els.chatOverlay.style.visibility = 'hidden', 300);
-        });
+        // AI 对话面板 — 关闭
+        const closeBtn = document.getElementById('aiChatClose');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                const overlay = document.getElementById('aiChatOverlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    const panel = overlay.querySelector('.ai-chat-panel');
+                    if (panel) panel.style.transform = 'translateY(100%)';
+                    setTimeout(() => overlay.style.visibility = 'hidden', 300);
+                }
+            });
+        }
 
         // AI 对话事件
         els.chatSend.addEventListener('click', () => {
