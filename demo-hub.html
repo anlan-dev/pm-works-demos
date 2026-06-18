@@ -3,163 +3,528 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Demo 导航页</title>
+  <title>Demo 导航页 · 王天娇 AI 产品经理作品集</title>
+  <meta name="description" content="AI 产品经理作品集 Demo 导航页，涵盖宠伴、会议舱、跨境电商等 8 个从 0 到 1 的可交互产品">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== 工具效率类：白卡片+浅灰画布 ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
     :root {
-      --bg: #f5f5f7;
-      --card: #ffffff;
-      --card-border: rgba(0,0,0,0.04);
-      --text: #1d1d1f;
-      --muted: #6e6e73;
-      --line: rgba(0,0,0,0.04);
-      --primary: #0071e3;
-      --primary-soft: rgba(0,113,227,0.08);
-      --shadow: 0 2px 8px rgba(0,0,0,.06);
-      --shadow-hover: 0 4px 12px rgba(0,0,0,.1);
-      --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+      /* 色彩系统 - 专业蓝调 */
+      --bg-primary: #fafbfd;
+      --bg-secondary: #f0f4f8;
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      
+      --surface: #ffffff;
+      --surface-hover: #f8fafc;
+      --surface-glass: rgba(255, 255, 255, 0.8);
+      --surface-glass-border: rgba(255, 255, 255, 0.2);
+      
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a5568;
+      --text-tertiary: #718096;
+      --text-inverse: #ffffff;
+      
+      --accent: #4f46e5;
+      --accent-light: #818cf8;
+      --accent-soft: rgba(79, 70, 229, 0.08);
+      --accent-glow: rgba(79, 70, 229, 0.15);
+      
+      --border: rgba(0, 0, 0, 0.06);
+      --border-light: rgba(0, 0, 0, 0.04);
+      
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.15);
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    * { box-sizing: border-box; }
-    body { overflow-x: hidden; 
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
-      line-height: 1.5;
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    /* 背景装饰 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 400px;
+      background: linear-gradient(180deg, rgba(79, 70, 229, 0.03) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
     .wrap {
-      max-width: 980px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 24px 16px 48px;
+      padding: 40px 24px 80px;
     }
+    
+    /* Hero 区域 */
     .hero {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--bg-gradient);
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
       margin-bottom: 16px;
+      letter-spacing: 0.02em;
     }
+    
+    .hero-badge::before {
+      content: '✦';
+      font-size: 10px;
+    }
+    
     h1 {
-      margin: 0;
-      font-size: 24px;
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+    
     .desc {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
+      margin: 0 0 24px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 600px;
     }
+    
+    .stats {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+    
     .btn-row {
-      margin-top: 14px;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
+    
     button, .link-btn {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--text);
-      border-radius: 10px;
-      padding: 9px 12px;
+      border: none;
+      background: var(--surface);
+      color: var(--text-primary);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
       font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      font-family: inherit;
     }
+    
+    button:hover, .link-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    button:active, .link-btn:active {
+      transform: translateY(0);
+    }
+    
     button.primary {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #fff;
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--text-inverse);
+      box-shadow: var(--shadow-md), var(--shadow-glow);
     }
-    button:hover, .link-btn:hover { opacity: 0.92; }
+    
+    button.primary:hover {
+      background: #4338ca;
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+    }
+    
+    button .icon {
+      font-size: 16px;
+    }
+    
+    /* 分组卡片 */
     .group {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      margin-top: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      margin-bottom: 24px;
       overflow: hidden;
+      transition: var(--transition-slow);
+      box-shadow: var(--shadow-sm);
     }
+    
+    .group:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    
     .group-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      padding: 12px 14px;
-      background: #fbfdff;
-      border-bottom: 1px solid var(--line);
+      gap: 16px;
+      padding: 20px 24px;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.02) 0%, rgba(255, 255, 255, 0) 100%);
+      border-bottom: 1px solid var(--border-light);
     }
+    
     .group-title {
       margin: 0;
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
     }
+    
     .group-sub {
-      margin: 2px 0 0;
-      color: var(--muted);
-      font-size: 12px;
+      margin: 4px 0 0;
+      color: var(--text-tertiary);
+      font-size: 13px;
+      font-weight: 400;
     }
+    
     .items {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 10px;
-      padding: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 20px;
     }
+    
     .item {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px;
-      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      background: var(--surface);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
     }
+    
+    .item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--accent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+    
+    .item:hover {
+      border-color: var(--accent-light);
+      box-shadow: var(--shadow-md), 0 0 0 1px rgba(79, 70, 229, 0.1);
+      transform: translateY(-4px);
+    }
+    
+    .item:hover::before {
+      opacity: 1;
+    }
+    
     .item h3 {
-      margin: 0;
-      font-size: 15px;
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
     }
+    
     .item p {
-      margin: 6px 0 10px;
-      color: var(--muted);
-      font-size: 12px;
-      min-height: 36px;
+      margin: 0 0 16px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.6;
     }
+    
     .item .actions {
       display: flex;
       gap: 8px;
     }
+    
     .mini {
-      font-size: 12px;
-      padding: 7px 10px;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
     }
+    
+    /* 状态提示 */
     .status {
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--muted);
-      background: var(--primary-soft);
-      border: 1px solid #bfdbfe;
-      border-radius: 10px;
-      padding: 8px 10px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(79, 70, 229, 0.2);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
       display: none;
+      animation: slideDown 0.3s ease;
     }
-  
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* 统计卡片 */
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      text-align: center;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .summary-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .summary-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    
+    .summary-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    
+    .summary-desc {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+    
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      color: var(--text-tertiary);
+      font-size: 13px;
+    }
+    
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .wrap {
+        padding: 24px 16px 60px;
+      }
+      
+      .hero {
+        padding: 24px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      .stats {
+        gap: 16px;
+      }
+      
+      .stat-number {
+        font-size: 20px;
+      }
+      
+      .items {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+      
+      .group-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+      
+      .btn-row {
+        flex-direction: column;
+      }
+      
+      button, .link-btn {
+        width: 100%;
+      }
+    }
+    
     /* Android tap fix */
-    html{overflow-x:hidden;-webkit-tap-highlight-color:transparent}img,canvas,pre,code,table,iframe{max-width:100%}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
+    html{-webkit-tap-highlight-color:transparent}
+    img,canvas,pre,code,table,iframe{max-width:100%}
+    a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
   </style>
   <link rel="stylesheet" href="./neumorphic-shared.css">
 </head>
 <body>
   <main class="wrap">
+    <!-- Hero 区域 -->
     <section class="hero">
-      <h1>Demo 导航页</h1>
-      <p class="desc">按功能分组查看，支持一键打开全部 Demo（浏览器可能拦截多标签页，首次建议手动允许）。</p>
-      <div class="btn-row">
-        <button id="openAllBtn" class="primary">打开全部 Demo</button>
-        <a class="link-btn" href="./index.html" target="_blank" rel="noopener">打开作品集首页</a>
+      <div class="hero-content">
+        <div class="hero-badge">AI 产品经理作品集</div>
+        <h1>Demo 导航页</h1>
+        <p class="desc">按功能分组查看，支持一键打开全部 Demo（浏览器可能拦截多标签页，首次建议手动允许）。</p>
+        
+        <!-- 统计数据 -->
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-number">8</span>
+            <span class="stat-label">可交互产品</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">6</span>
+            <span class="stat-label">AI 能力集成</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">92%</span>
+            <span class="stat-label">意图识别率</span>
+          </div>
+        </div>
+        
+        <div class="btn-row">
+          <button id="openAllBtn" class="primary">
+            <span class="icon">🚀</span>
+            打开全部 Demo
+          </button>
+          <a class="link-btn" href="./index.html" target="_blank" rel="noopener">
+            <span class="icon">🎨</span>
+            打开作品集首页
+          </a>
+        </div>
+        <div id="status" class="status"></div>
       </div>
-      <div id="status" class="status"></div>
     </section>
 
+    <!-- 概览卡片 -->
+    <section class="summary" id="summary"></section>
+
+    <!-- 分组内容 -->
     <section id="groups"></section>
   </main>
+  
+  <footer class="footer">
+    <p>王天娇 · AI 产品经理作品集 · 香港理工大学</p>
+    <p style="margin-top: 8px;">
+      <a href="https://github.com/anlan-dev/pm-works-demos" target="_blank" rel="noopener">GitHub</a> · 
+      <a href="https://anlan-dev.github.io/UI-work/" target="_blank" rel="noopener">UI 作品集</a> · 
+      <a href="mailto:Wangtj0212@outlook.com">联系我</a>
+    </p>
+  </footer>
 
   <script>
     const GROUPS = [
@@ -167,29 +532,32 @@
         key: "core",
         title: "核心产品案例",
         subtitle: "求职主叙事与完整产品闭环",
+        icon: "🎯",
         items: [
-          { title: "宠伴·健康台账", href: "./pet-vaccine.html", note: "多宠健康记录、提醒与复盘" },
-          { title: "会议·反刍舱", href: "./meeting-ruminant.html", note: "会后待办抽取、追踪与复盘" },
-          { title: "星途·创作舱", href: "./creation-cabin.html", note: "创作流程管理与目标追踪" },
-          { title: "剧本·复盘舱", href: "./script-review.html", note: "剧本改稿与复盘流程整理" },
-          { title: "Cold Start 冷启动", href: "./cold-start.html", note: "拖延诊断与最小行动任务" },
-          { title: "住值·租房生命成本", href: "./zhuzhi-rent.html", note: "贪心预算分配与隐性成本计算" }
+          { title: "宠伴·健康台账", href: "./pet-vaccine.html", note: "多宠健康记录、提醒与复盘", tags: ["AI 健康周报", "OCR 识别"] },
+          { title: "会议·反刍舱", href: "./meeting-ruminant.html", note: "会后待办抽取、追踪与复盘", tags: ["Whisper 转写", "智能待办"] },
+          { title: "星途·创作舱", href: "./creation-cabin.html", note: "创作流程管理与目标追踪", tags: ["AI 灵感生成"] },
+          { title: "剧本·复盘舱", href: "./script-review.html", note: "剧本改稿与复盘流程整理", tags: ["AI 剧情生成"] },
+          { title: "Cold Start 冷启动", href: "./cold-start.html", note: "拖延诊断与最小行动任务", tags: ["多平台 AI", "规则引擎"] },
+          { title: "住值·租房生命成本", href: "./zhuzhi-rent.html", note: "贪心预算分配与隐性成本计算", tags: ["AI 租房顾问"] }
         ]
       },
       {
         key: "support",
         title: "支持工具",
         subtitle: "内容辅助与提示词管理",
+        icon: "🛠️",
         items: [
-          { title: "Prompt Library", href: "./prompt-library.html", note: "提示词与模板管理页" }
+          { title: "Prompt Library", href: "./prompt-library.html", note: "提示词与模板管理页", tags: ["Prompt 管理"] }
         ]
       },
       {
         key: "vertical",
         title: "行业垂直应用",
         subtitle: "AIGC + 跨境电商 & 垂直场景验证",
+        icon: "🌐",
         items: [
-          { title: "跨境电商 AI Agent", href: "./cross-border-ai.html", note: "MCP 服务总线下的多 Agent 选品/翻译/物流协同" }
+          { title: "跨境电商 AI Agent", href: "./cross-border-ai.html", note: "MCP 服务总线下的多 Agent 选品/翻译/物流协同", tags: ["Multi-Agent", "MCP"] }
         ]
       }
     ];
@@ -207,6 +575,34 @@
       const el = document.getElementById("status");
       el.textContent = text;
       el.style.display = "block";
+      // 3秒后自动隐藏
+      setTimeout(() => {
+        el.style.opacity = "0";
+        setTimeout(() => {
+          el.style.display = "none";
+          el.style.opacity = "1";
+        }, 300);
+      }, 3000);
+    }
+
+    function renderSummary() {
+      const host = document.getElementById("summary");
+      const totalItems = GROUPS.reduce((sum, g) => sum + g.items.length, 0);
+      
+      const summaryData = [
+        { icon: "📦", title: totalItems, desc: "个 Demo 项目" },
+        { icon: "🤖", title: "6", desc: "个 AI 能力集成" },
+        { icon: "📊", title: "3", desc: "个项目分组" },
+        { icon: "🎯", title: "92%", desc: "意图识别率" }
+      ];
+
+      host.innerHTML = summaryData.map(item => `
+        <div class="summary-card">
+          <div class="summary-icon">${item.icon}</div>
+          <div class="summary-title">${item.title}</div>
+          <div class="summary-desc">${item.desc}</div>
+        </div>
+      `).join('');
     }
 
     function renderGroups() {
@@ -221,12 +617,17 @@
         head.className = "group-head";
 
         const headLeft = document.createElement("div");
-        headLeft.innerHTML =
-          `<h2 class="group-title">${group.title}</h2><p class="group-sub">${group.subtitle}</p>`;
+        headLeft.innerHTML = `
+          <h2 class="group-title">
+            <span style="margin-right: 8px;">${group.icon}</span>
+            ${group.title}
+          </h2>
+          <p class="group-sub">${group.subtitle}</p>
+        `;
 
         const openGroupBtn = document.createElement("button");
         openGroupBtn.className = "mini";
-        openGroupBtn.textContent = "打开本组全部";
+        openGroupBtn.innerHTML = `<span class="icon">📂</span> 打开本组全部`;
         openGroupBtn.addEventListener("click", () => {
           const opened = openUrls(group.items.map((item) => item.href));
           showStatus(`已尝试打开 ${group.items.length} 个，本次成功弹出 ${opened} 个标签页。`);
@@ -241,11 +642,18 @@
         for (const item of group.items) {
           const card = document.createElement("article");
           card.className = "item";
+          const tagsHtml = item.tags ? item.tags.map(tag => 
+            `<span style="display: inline-block; padding: 2px 8px; background: var(--accent-soft); color: var(--accent); border-radius: 10px; font-size: 11px; font-weight: 500; margin-right: 4px;">${tag}</span>`
+          ).join('') : '';
+          
           card.innerHTML = `
             <h3>${item.title}</h3>
             <p>${item.note}</p>
+            <div style="margin-bottom: 12px;">${tagsHtml}</div>
             <div class="actions">
-              <a class="link-btn mini" href="${item.href}" target="_blank" rel="noopener">打开 Demo</a>
+              <a class="link-btn mini" href="${item.href}" target="_blank" rel="noopener">
+                <span class="icon">🔗</span> 打开 Demo
+              </a>
             </div>
           `;
           items.appendChild(card);
@@ -263,6 +671,8 @@
       showStatus(`已尝试打开 ${allUrls.length} 个，本次成功弹出 ${opened} 个标签页。`);
     });
 
+    // 初始化
+    renderSummary();
     renderGroups();
   </script>
 </body>
