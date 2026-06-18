@@ -15,7 +15,7 @@
 | **AI 效果评估** | A/B 测试 + 指标体系搭建 + 数据驱动迭代 | 宠伴、会议舱 |
 | **AI 体验设计** | AI 交互范式探索 + 信任体系构建 + 降级兜底策略 | 跨境电商、创作舱 |
 
-快速入口：`demo-hub.html`（按功能分组导航，支持一页打开全部 Demo）
+快速入口：[demo-hub.html](./demo-hub.html)（按功能分组导航，支持一页打开全部 Demo）
 
 **UI 设计作品集**：见 [UIwork/index.html](https://anlan-dev.github.io/UI-work/)（11 个设计风格探索，覆盖标准浅色 / 扁平 / Glassmorphism / Cyberpunk / 侘寂 / Brutalism 等 6 种风格）。
 
