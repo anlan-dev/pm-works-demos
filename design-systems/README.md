@@ -1,4 +1,4 @@
-# Awesome DESIGN.md · 王天娇作品集设计系统
+# DESIGN.md · 王天娇作品集设计系统
 
 > 基于 [awesome-design-md](https://github.com/VoltAgent/awesome-design-md) 的理念，为每个项目创建 DESIGN.md 文件。
 > 将 DESIGN.md 放入项目根目录，AI 编码工具即可生成一致的 UI。
@@ -18,84 +18,121 @@
 
 ---
 
+## 统一设计语言
+
+### Token 三层体系
+
+```
+Layer 1: Global Tokens（全局原始值）
+├── --color-blue-500: #0071e3
+├── --color-gray-100: #f5f5f7（画布）
+├── --color-gray-50: #ffffff（卡片）
+├── --color-gray-900: #1d1d1f（主文字）
+├── --color-gray-600: #6e6e73（辅助文字）
+├── --font-sans: 'Inter', 'Noto Sans SC', system-ui
+├── --font-mono: 'JetBrains Mono', monospace
+├── --space-unit: 4px（4/8/12/16/24/32/48）
+├── --radius-sm: 8px / --radius-md: 12px / --radius-lg: 16px
+└── --shadow: 0 2px 8px rgba(0,0,0,.06)
+
+Layer 2: Alias Tokens（语义化别名）
+├── --color-primary: 按产品类型分配
+├── --color-surface: #ffffff
+├── --color-background: #f5f5f7
+└── --color-text-primary: #1d1d1f
+
+Layer 3: Component Tokens（组件级）
+├── --button-height: 44px
+├── --card-padding: 16-24px
+├── --input-height: 44px
+└── --nav-height: 56px
+```
+
+### 通用规范
+
+| 规范 | 标准 |
+|------|------|
+| **字体** | Inter + Noto Sans SC（正文），JetBrains Mono（代码） |
+| **字号** | 标题 18-24px/600，正文 14px/400，辅助 12px/500 |
+| **画布** | `#f5f5f7`（浅灰） |
+| **卡片** | `#ffffff`（纯白）+ `0 2px 8px rgba(0,0,0,.06)` |
+| **圆角** | sm=8px / md=12px / lg=16px / pill=9999px |
+| **间距** | 4px 基准（4/8/12/16/24/32/48） |
+| **触控** | 最小 44×44px |
+| **动效** | 200ms ease-out 微交互，300ms ease-out 页面切换 |
+| **可访问性** | WCAG AA 对比度，prefers-reduced-motion 支持 |
+
+---
+
 ## 📁 项目设计系统
 
 ### 🏥 健康医疗类
 
-| 项目 | DESIGN.md | 描述 |
-|------|-----------|------|
-| **宠伴·健康台账** | [pet-vaccine/DESIGN.md](./pet-vaccine/DESIGN.md) | 新拟物风格，Noto Sans SC，暖色调，宠物疫苗/驱虫/体检记录 |
-| **会议·反刍舱** | [meeting-ruminant/DESIGN.md](./meeting-ruminant/DESIGN.md) | 暗色主题，深海军蓝画布，indigo-purple 强调色，录音转写+会议复盘 |
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **宠伴·健康台账** | [pet-vaccine/DESIGN.md](./pet-vaccine/DESIGN.md) | 工具效率类 | `#0071e3` | 白卡片+浅灰画布，Inter 字体，宠物疫苗/驱虫/体检记录 |
+| **会议·反刍舱** | [meeting-ruminant/DESIGN.md](./meeting-ruminant/DESIGN.md) | 工具效率类 | `#0071e3` | 白卡片+浅灰画布，Inter 字体，录音转写+会议复盘 |
 
 ### 🏠 生活服务类
 
-| 项目 | DESIGN.md | 描述 |
-|------|-----------|------|
-| **住值·租房决策** | [zhuzhi-rent/DESIGN.md](./zhuzhi-rent/DESIGN.md) | 新拟物风格，双轴图表（净收益+租收比），滑块输入，租房计算器 |
-| **冷启动·行动引擎** | [cold-start/DESIGN.md](./cold-start/DESIGN.md) | 极简新拟物，大地色系（蓝灰/橄榄绿/暖灰红），倒计时启动器 |
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **住值·租房决策** | [zhuzhi-rent/DESIGN.md](./zhuzhi-rent/DESIGN.md) | 工具效率类 | `#10b981` | 白卡片+浅灰画布，双轴图表，滑块输入，租房计算器 |
+| **冷启动·行动引擎** | [cold-start/DESIGN.md](./cold-start/DESIGN.md) | 工具效率类 | `#0071e3` | 白卡片+浅灰画布，极简风格，倒计时启动器 |
 
 ### 🎨 创作工具类
 
-| 项目 | DESIGN.md | 描述 |
-|------|-----------|------|
-| **星途·创作舱** | [creation-cabin/DESIGN.md](./creation-cabin/DESIGN.md) | 三栏工作台，4 套主题（浅灰/深色/薄荷/墨水屏），角色管理+大纲+多格式导出 |
-| **剧本·进度复盘** | [script-review/DESIGN.md](./script-review/DESIGN.md) | 热力图看板+词云+场景卡片，Apple HIG 色板，AI 剧情辅助生成 |
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **星途·创作舱** | [creation-cabin/DESIGN.md](./creation-cabin/DESIGN.md) | 消费娱乐类 | `#667eea` | 品牌渐变+白卡片，4 套主题，角色管理+大纲+多格式导出 |
+| **剧本·进度复盘** | [script-review/DESIGN.md](./script-review/DESIGN.md) | 消费娱乐类 | `#e74c3c` | 剧场红+白卡片，热力图看板+词云+场景卡片 |
 
 ### 🌐 跨境电商类
 
-| 项目 | DESIGN.md | 描述 |
-|------|-----------|------|
-| **GlobalFUN·跨境拼团** | [cross-border-ai/DESIGN.md](./cross-border-ai/DESIGN.md) | 移动 APP 壳 (430px)，Tailwind 色板，中/英/日三语 i18n，双币价格 |
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **GlobalFUN·跨境拼团** | [cross-border-ai/DESIGN.md](./cross-border-ai/DESIGN.md) | 企业服务类 | `#1e4a6b` | 深蓝专业+白卡片，中/英/日三语 i18n，双币价格 |
 
 ### 🛠 工具效率类
 
-| 项目 | DESIGN.md | 描述 |
-|------|-----------|------|
-| **Prompt Library** | [prompt-library/DESIGN.md](./prompt-library/DESIGN.md) | 新拟物极简，JetBrains Mono 代码块，搜索+收藏+使用统计，localStorage 持久化 |
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **Prompt Library** | [prompt-library/DESIGN.md](./prompt-library/DESIGN.md) | 工具效率类 | `#0071e3` | 白卡片+浅灰画布，JetBrains Mono 代码块，搜索+收藏+使用统计 |
 
 ---
 
-## 🎨 两大设计家族
+## 🎨 四类产品设计风格
 
-### 家族 A：新拟物（Neumorphism）
+### A. 工具效率类（pet-vaccine / meeting-ruminant / zhuzhi-rent / cold-start / prompt-library）
 
-**适用项目**：宠伴、住值、冷启动、Prompt Library
-
-```css
-/* 凸起卡片 — 双向阴影 */
-.nr {
-  box-shadow: -8px -8px 16px rgba(255,255,255,0.66),
-               8px 8px 16px rgba(0,0,0,0.12);
-}
-
-/* 凹陷输入框 */
-.ni {
-  box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06),
-              inset -4px -4px 8px rgba(255,255,255,0.5);
-}
-
-/* 按钮交互 — hover 减弱, active 凹陷 */
-.nb:hover { box-shadow: -3px -3px 8px var(--sl), 3px 3px 8px var(--sd); }
-.nb:active { box-shadow: inset 4px 4px 8px rgba(0,0,0,0.08), inset -4px -4px 8px rgba(255,255,255,0.4); }
+```
+画布：#f5f5f7 | 卡片：#ffffff | 主色：#0071e3（或按产品定制）
+阴影：0 2px 8px rgba(0,0,0,.06) | 圆角：8/12/16px
+字体：Inter + Noto Sans SC | 动效：200ms ease-out
 ```
 
-| 项目 | 画布色 | 强调色 | 特色 |
-|------|--------|--------|------|
-| 宠伴 | `#f0f0f3` | `#4a90d9` | 暖色调，Noto Sans SC |
-| 住值 | `#e6e6e6` | `#5a6a7a` | 双轴图表，滑块输入 |
-| 冷启动 | `#e6e6e6` | `#5a6a7a` | 大地色三色系，倒计时 |
-| Prompt Lib | `#e6e6e6` | `#5a6a7a` | JetBrains Mono 代码块 |
+### B. 消费娱乐类（creation-cabin / script-review）
 
-### 家族 B：扁平/Apple HIG
+```
+画布：#f5f5f7 | 卡片：#ffffff | 主色：品牌定制
+阴影：0 2px 8px rgba(0,0,0,.06) | 圆角：8/12/16px
+字体：Inter + Noto Sans SC + Display 字体 | 动效：弹性 cubic-bezier(.34,1.56,.64,1)
+```
 
-**适用项目**：会议反刍、创作舱、剧本复盘、GlobalFUN
+### C. 企业服务类（cross-border-ai）
 
-| 项目 | 风格 | 画布色 | 强调色 | 主题数 |
-|------|------|--------|--------|--------|
-| 会议反刍 | 深色专业 | `#0a1628` | `#818cf8` | 1 (暗) |
-| 创作舱 | 多主题 | `#e6e6e6` | `#0071e3` | 4 (浅灰/暗/薄荷/墨水屏) |
-| 剧本复盘 | Apple HIG | `#e8e8ed` | `#0071e3` | 2 (浅灰/暗) |
-| GlobalFUN | 电商扁平 | `#f5f7fb` | `#2563eb` | 1 (浅) |
+```
+画布：#f8fafc | 卡片：#ffffff | 主色：#1e4a6b
+阴影：0 2px 8px rgba(0,0,0,.06) | 圆角：8/12/16px
+字体：Inter + Noto Sans SC | 动效：克制，仅功能性
+```
+
+### D. 创新实验类（UIwork 08-11）
+
+```
+按风格定制（玻璃拟态/赛博朋克/日式极简/粗野主义）
+详见 demo/UIwork/ 目录
+```
 
 ---
 
@@ -103,15 +140,14 @@
 
 | 章节 | 内容 |
 |------|------|
-| 1. Visual Theme | 氛围、密度、设计哲学 |
-| 2. Color Palette | 语义色 + 功能角色 |
-| 3. Typography | 字体、层级表 |
-| 4. Components | 按钮、卡片、输入框、导航 |
-| 5. Layout | 间距、网格、留白 |
-| 6. Depth | 阴影、表面层级 |
-| 7. Do's and Don'ts | 设计红线 |
-| 8. Responsive | 断点、触控目标 |
-| 9. Agent Prompt | 快速色彩参考、即用提示词 |
+| 1. Overview | 产品定位、设计原则 |
+| 2. Colors | 语义色 + 功能角色（已对齐实际 CSS 变量） |
+| 3. Typography | 字体栈、层级表（Inter + Noto Sans SC） |
+| 4. Components | 按钮、卡片、输入框、导航（标准阴影+圆角） |
+| 5. Layout | 间距（4px 基准）、网格、留白 |
+| 6. Responsive | 断点、触控目标（44px）、viewport 配置 |
+| 7. Motion | 动效规范、prefers-reduced-motion |
+| 8. Accessibility | WCAG AA、键盘导航、焦点状态 |
 
 ---
 
@@ -126,10 +162,11 @@
 ```
 请按照 DESIGN.md 的设计规范，构建一个宠物健康记录页面。
 要求：
-- 使用新拟物风格（参考 DESIGN.md 中的阴影系统）
-- 主色调使用 #4a90d9
-- 卡片圆角 16px
-- 移动端优先，响应式布局
+- 使用白卡片+浅灰画布风格（参考 DESIGN.md 中的色彩系统）
+- 主色调使用 #0071e3
+- 卡片圆角 12px，阴影 0 2px 8px rgba(0,0,0,.06)
+- 字体使用 Inter + Noto Sans SC
+- 移动端优先，响应式布局，最小触控目标 44px
 ```
 
 ---
@@ -142,17 +179,6 @@
 
 ---
 
-## 📝 贡献
-
-欢迎提交 Issue 或 PR 来改进设计系统文件。
-
----
-
-## 📄 License
-
-MIT License
-
----
-
 **作者**：王天娇 · PM Portfolio
 **GitHub**：[anlan-dev/pm-works-demos](https://github.com/anlan-dev/pm-works-demos)
+**最后更新**：2026-06-19

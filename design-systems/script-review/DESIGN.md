@@ -1,153 +1,80 @@
 ---
-version: "1.0"
+version: "2.0"
 name: "剧本·进度复盘"
-description: "长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成，多主题适配。"
+description: "消费娱乐类剧本分析工具，剧场红（#e74c3c）+白卡片，Inter+JetBrains Mono 字体，热力图+词云+场景卡片。"
+product-type: 消费娱乐类
+last-updated: 2026-06-19
 colors:
-  canvas: "#e6e6e6"
-  surface: "#e6e6e6"
+  canvas: "#f5f5f7"
+  surface: "#ffffff"
+  primary: "#e74c3c"
+  primary-soft: "rgba(231,76,60,0.08)"
   text-primary: "#1d1d1f"
-  text-secondary: "#424245"
-  text-muted: "#86868b"
-  accent-blue: "#0071e3"
-  tag-bg: "#dedede"
-  toast-bg: "rgba(29,29,31,0.9)"
-  filter-active-bg: "#0071e3"
-  filter-active-text: "#ffffff"
-themes:
-  light-gray:
-    canvas: "#e8e8ed"
-    surface: "#e6e6e6"
-    text: "#1d1d1f"
-    accent: "#0071e3"
-    header-bg: "rgba(255,255,255,0.78)"
-  dark:
-    canvas: "#000000"
-    surface: "#1c1c1e"
-    card: "#2c2c2e"
-    text: "#ffffff"
-    accent: "#0a84ff"
+  text-muted: "#6e6e73"
+  hairline: "rgba(0,0,0,0.04)"
+  shadow: "0 2px 8px rgba(0,0,0,.06)"
 typography:
-  family: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', system-ui, sans-serif"
-  weight-regular: 400
-  weight-medium: 500
-  weight-semibold: 600
-  weight-bold: 700
-  heading-size: "1.2rem"
-  body-size: "0.875rem"
-  caption-size: "0.75rem"
+  family: "'Inter', 'Noto Sans SC', system-ui, sans-serif"
+  mono-family: "'JetBrains Mono', monospace"
 rounded:
-  small: 8px
-  medium: 12px
-  large: 16px
-spacing-unit: 8px
+  sm: 8px
+  md: 12px
+  lg: 16px
+spacing:
+  unit: 4px
 components:
-  - workspace-layout
-  - sidebar-tree
-  - heatmap-board
-  - word-cloud
-  - scene-card
-  - progress-bar
-  - filter-tabs
-  - modal-dialog
-  - toast-notification
-  - ai-panel
+  card:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.md}"
+    boxShadow: "{colors.shadow}"
+  heatmap:
+    cell-radius: 4px
+    color-scale: "white → {colors.primary}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    height: 44px
+responsive:
+  touch-target-min: 44px
+  viewport: "width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"
+motion:
+  micro: "200ms ease-out"
+  reduced-motion: "prefers-reduced-motion: reduce → disable all animations"
 ---
 
 # 剧本·进度复盘 Design System
 
 ## Overview
 
-剧本进度复盘是一款面向**长剧本/网文创作者**的进度管理工具。核心功能包括：高频词分析（词云+柱状图）、热力图看板（每日字数可视化）、场景复盘（按章节/场景查看进度）、AI 剧情辅助生成。
+剧本复盘是一款面向**编剧/内容创作者**的剧本分析工具。核心功能：拖拽导入 → AI 场景拆分 → diff 对比改稿 → 热力图复盘。
 
 ### 设计原则
 
-- **数据驱动**：用热力图和词云让创作进度一目了然
-- **场景化**：按场景/章节组织，而非线性文档
-- **多主题**：默认浅灰、深色模式，适配长时间写作
-- **AI 增强**：AI 面板作为辅助，不干扰主流程
+- **剧场感**：剧场红主色，营造创作氛围
+- **数据可视化**：热力图+词云，直观呈现剧本结构
+- **AI 辅助**：AI 拆分+改稿建议，减少手动工作
 
 ## Colors
 
-### Default — Light Gray
-
 | Token | Value | Usage |
 |---|---|---|
-| Canvas | `#e8e8ed` | 页面背景 |
-| Surface | `#e6e6e6` | 卡片/侧边栏 |
-| Text Primary | `#1d1d1f` | 标题、正文 |
-| Text Secondary | `#424245` | 说明文字 |
-| Text Muted | `#86868b` | 辅助信息（Apple 灰） |
-| Accent Blue | `#0071e3` | 链接、选中态 |
-| Tag BG | `#dedede` | 标签背景 |
-| Filter Active | `#0071e3` | 筛选按钮激活态 |
+| Canvas | `#f5f5f7` | 页面背景 |
+| Surface | `#ffffff` | 卡片 |
+| Primary | `#e74c3c` | 剧场红品牌色 |
+| Primary Soft | `rgba(231,76,60,0.08)` | 选中态背景 |
 
-色板比 Cold Start 更接近 Apple 官方色值（`#1d1d1f` 替代 `#3f3f3f`），因为剧本复盘是数据密集型工具，需要更高对比度。
+## Components
 
-### Dark — 深色模式
+| 组件 | 规格 |
+|------|------|
+| Card | 圆角 12px，阴影 0 2px 8px rgba(0,0,0,.06) |
+| Heatmap Cell | 圆角 4px，颜色从白到剧场红 |
+| Scene Card | 左侧色条+标题+摘要+AI标签 |
+| Diff View | 绿色新增/红色删除，等宽字体 |
 
-同创作舱的 Apple HIG true black 系统。
+## Responsive
 
-## Typography
-
-- **字体栈**：`SF Pro Text` → `PingFang SC` → `system-ui`
-- **标题**：bold, 1.2rem
-- **数据标签**：medium, 0.75rem
-- **正文**：regular, 0.875rem
-
-## Layout
-
-### 工作台布局
-
-```
-┌─────────────────────────────────────────────┐
-│ Header (标题 + 日期范围 + 导出按钮)          │
-├──────┬──────────────────────────────────────┤
-│      │ ┌──────────────────────────────────┐ │
-│ 侧边栏 │ │ 热力图看板 (GitHub-style)       │ │
-│(章节树) │ ├──────────────────────────────────┤ │
-│      │ │ 词云 + 高频词柱状图               │ │
-│      │ ├──────────────────────────────────┤ │
-│      │ │ 场景卡片列表                      │ │
-│      │ └──────────────────────────────────┘ │
-├──────┴──────────────────────────────────────┤
-│ AI 面板 (可折叠)                             │
-└─────────────────────────────────────────────┘
-```
-
-- **侧边栏**：`220px`，章节/场景树形导航
-- **热力图**：GitHub 贡献图风格，按天显示写作字数
-- **词云**：字号按词频缩放，颜色按情感分类
-- **AI 面板**：底部抽屉，默认折叠
-
-## Elevation
-
-同创作舱设计系统，Light 主题使用新拟物双向阴影，Dark 主题使用 Apple 风格单向阴影 + 半透明边框。
-
-## Do's and Don'ts
-
-### Do
-
-- ✅ 热力图支持月/季/年三种时间跨度
-- ✅ 词云支持点击高亮对应场景
-- ✅ 场景卡片显示字数、完成度、最后编辑时间
-- ✅ 筛选按钮使用新拟物凹陷态标记激活
-
-### Don't
-
-- ❌ 不要在热力图上加过多颜色（保持 4-5 级灰度）
-- ❌ 不要让 AI 面板遮挡主内容区
-- ❌ 不要在词云中显示停用词（的、了、是）
-- ❌ 不要自动保存时打断用户（静默保存 + 状态栏提示）
-
-## Agent Prompt Guide
-
-> 当你为剧本进度复盘生成 UI 代码时：
->
-> 1. 使用工作台三栏布局：侧边栏 + 主内容区 + 可折叠 AI 面板
-> 2. 热力图使用 CSS Grid，每个格子 12×12px，4-5 级灰度
-> 3. 词云使用绝对定位 + 随机旋转（±15°）
-> 4. 场景卡片使用新拟物凸起样式，hover 时阴影减弱
-> 5. 筛选标签栏支持多选，激活态使用凹陷样式
-> 6. 支持 Light Gray / Dark 两套主题切换
-> 7. 字体使用 SF Pro Text + PingFang SC
-> 8. 数据加载时使用骨架屏（skeleton），不用 spinner
+| 断点 | 布局 |
+|------|------|
+| Mobile | 单列，Tab 切换（导入/场景/改稿/热力图） |
+| Tablet | 双面板 |
+| Desktop | 三面板完整布局 |

@@ -1,161 +1,100 @@
 ---
-version: alpha
-name: 会议·反刍舱
-description: A dark-themed meeting productivity interface with deep navy canvas, gradient accents, and data-dense dashboard panels. The system emphasizes audio waveform visualization, timeline-based content navigation, and structured todo extraction from meeting transcripts.
+version: "2.0"
+name: "会议·反刍舱"
+description: "工具效率类会议复盘 PWA，白卡片+浅灰画布，Inter 字体，录音转写+待办提取+周报复盘。"
+product-type: 工具效率类
+last-updated: 2026-06-19
 colors:
-  primary: "#6366f1"
-  primary-hover: "#818cf8"
-  primary-active: "#4f46e5"
-  success: "#10b981"
-  warning: "#f59e0b"
-  danger: "#ef4444"
-  ink: "#f1f5f9"
-  body: "#cbd5e1"
-  muted: "#94a3b8"
-  muted-soft: "#64748b"
-  canvas: "#0f172a"
-  surface-1: "#1e293b"
-  surface-2: "#334155"
-  surface-3: "#475569"
-  hairline: "#334155"
-  accent-gradient-start: "#6366f1"
-  accent-gradient-end: "#8b5cf6"
+  canvas: "#f5f5f7"
+  surface: "#ffffff"
+  primary: "#0071e3"
+  primary-hover: "#0077ed"
+  primary-soft: "rgba(0,113,227,0.08)"
+  success: "#34c759"
+  warning: "#ff9500"
+  danger: "#ff3b30"
+  text-primary: "#1d1d1f"
+  text-muted: "#6e6e73"
+  hairline: "rgba(0,0,0,0.04)"
+  shadow: "0 2px 8px rgba(0,0,0,.06)"
+  shadow-hover: "0 4px 12px rgba(0,0,0,.1)"
 typography:
-  display-lg:
-    fontFamily: "'Inter', 'SF Pro Display', sans-serif"
-    fontSize: 24px
-    fontWeight: 700
-    lineHeight: 1.2
-    letterSpacing: -0.5px
-  display-md:
-    fontFamily: "'Inter', 'SF Pro Display', sans-serif"
-    fontSize: 20px
-    fontWeight: 600
-    lineHeight: 1.3
-    letterSpacing: -0.3px
-  title:
-    fontFamily: "'Inter', 'SF Pro Text', sans-serif"
-    fontSize: 16px
-    fontWeight: 600
-    lineHeight: 1.4
-    letterSpacing: 0
-  body:
-    fontFamily: "'Inter', 'SF Pro Text', sans-serif"
-    fontSize: 14px
-    fontWeight: 400
-    lineHeight: 1.6
-    letterSpacing: 0
-  caption:
-    fontFamily: "'Inter', 'SF Pro Text', sans-serif"
-    fontSize: 12px
-    fontWeight: 500
-    lineHeight: 1.4
-    letterSpacing: 0.5px
-  mono:
-    fontFamily: "'JetBrains Mono', 'SF Mono', monospace"
-    fontSize: 13px
-    fontWeight: 400
-    lineHeight: 1.6
-    letterSpacing: 0
+  family: "'Inter', 'Noto Sans SC', system-ui, sans-serif"
+  mono-family: "'JetBrains Mono', monospace"
 rounded:
-  sm: 6px
-  md: 8px
-  lg: 12px
-  xl: 16px
+  sm: 8px
+  md: 12px
+  lg: 16px
   pill: 9999px
 spacing:
-  xs: 8px
-  sm: 12px
-  md: 16px
-  lg: 24px
-  xl: 32px
+  unit: 4px
 components:
-  card-dark:
-    backgroundColor: "{colors.surface-1}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: 20px
-    border: "1px solid {colors.hairline}"
-  card-elevated:
-    backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: 20px
+  card:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.md}"
+    padding: 16-24px
+    boxShadow: "{colors.shadow}"
   button-primary:
     backgroundColor: "{colors.primary}"
     textColor: "#ffffff"
-    rounded: "{rounded.md}"
-    padding: 10px 20px
-  button-ghost:
-    backgroundColor: "transparent"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.md}"
-    padding: 10px 20px
-    border: "1px solid {colors.hairline}"
+    height: 44px
   input-field:
-    backgroundColor: "{colors.surface-1}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.md}"
-    padding: 10px 14px
-    border: "1px solid {colors.hairline}"
-  badge-status:
-    backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.pill}"
-    padding: 4px 10px
-  audio-waveform:
-    backgroundColor: "{colors.surface-1}"
-    accentColor: "{colors.primary}"
-    height: 48px
-  timeline-item:
-    backgroundColor: "transparent"
-    textColor: "{colors.body}"
-    borderLeft: "2px solid {colors.hairline}"
-    padding: "12px 0 12px 16px"
+    height: 44px
+    rounded: "{rounded.sm}"
+  tab-bar:
+    height: 40px
+    activeColor: "{colors.primary}"
+  compliance-disclaimer:
+    position: "fixed; bottom: 0"
+    backgroundColor: "rgba(255,255,255,0.96)"
+    backdropFilter: "blur(12px)"
+responsive:
+  breakpoints:
+    mobile: 360px
+    tablet: 768px
+    desktop: 1024px
+  touch-target-min: 44px
+  viewport: "width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"
+motion:
+  micro: "200ms ease-out"
+  reduced-motion: "prefers-reduced-motion: reduce → disable all animations"
 ---
+
+# 会议·反刍舱 Design System
+
 ## Overview
-会议·反刍舱 is a dark-themed meeting productivity tool. The atmosphere is **deep navy canvas** (`{colors.canvas}` — #0f172a) with a three-step surface ladder for content hierarchy. The design philosophy is **focused, data-dense, and professional** — users should feel productive and in control.
 
-The single chromatic accent is **indigo-purple** (`{colors.primary}` — #6366f1) with a gradient variant for emphasis. The dark theme reduces eye strain during long meeting review sessions.
+会议反刍舱是一款面向**职场白领**的会议复盘工具。核心功能：录音转写 → 待办提取 → 周报复盘。支持 Web Speech API 本地转写，数据存储在 IndexedDB/localStorage。
 
-**Key Characteristics:**
-- Deep navy canvas (#0f172a) with surface ladder
-- Indigo-purple accent (#6366f1) for primary actions
-- Audio waveform visualization with gradient fill
-- Timeline-based content navigation
-- Structured todo extraction with status badges
-- Monospace font for transcript text
-- Chart.js data visualizations (line charts, bar charts)
+### 设计原则
+
+- **工具效率**：一键录音，自动转写，减少手动操作
+- **信息密度**：待办按优先级分组，周报按日期聚合（Miller 7±2）
+- **隐私优先**：录音本地处理，合规声明模块
+
 ## Colors
-### Brand & Accent
-- **Indigo** ({colors.primary} — #6366f1): Primary CTA, active states
-- **Gradient** (indigo → purple): Audio waveform, emphasis elements
-### Surface
-- **Canvas** (#0f172a): Page background
-- **Surface 1** (#1e293b): Default cards
-- **Surface 2** (#334155): Elevated cards, hover states
-- **Surface 3** (#475569): Active/selected states
-### Text
-- **Ink** (#f1f5f9): Headlines on dark
-- **Body** (#cbd5e1): Running text
-- **Muted** (#94a3b8): Secondary labels
-## Layout
-- Mobile-first, single column
-- Sidebar navigation on desktop
-- Bottom controls for audio playback
-## Do's and Don'ts
-### Do
-- Use dark surfaces consistently
-- Maintain high contrast for readability
-- Use gradient accents sparingly for emphasis
-### Don't
-- Use light backgrounds — stay in dark theme
-- Overuse gradients — reserve for key elements
-## Agent Prompt Guide
-```
-请按照 DESIGN.md 的暗色主题规范构建会议记录页面：
-- 背景色 #0f172a，卡片使用 #1e293b
-- 主色调 #6366f1，渐变用于音频波形
-- 文字颜色 #f1f5f9（标题）/ #cbd5e1（正文）
-- 使用等宽字体显示转写文本
-```
+
+| Token | Value | Usage |
+|---|---|---|
+| Canvas | `#f5f5f7` | 页面背景 |
+| Surface | `#ffffff` | 卡片/面板 |
+| Primary | `#0071e3` | 录音按钮/强调 |
+| Success | `#34c759` | 待办完成 |
+| Warning | `#ff9500` | 待办优先级高 |
+
+## Components
+
+| 组件 | 规格 |
+|------|------|
+| Card | 圆角 12px，阴影 0 2px 8px rgba(0,0,0,.06) |
+| Record Button | 64px 圆形，居中置底（Fitts 定律） |
+| Todo Item | 左侧色点标记优先级，支持拖拽排序 |
+| Tab Bar | 底部胶囊式，高度 40px |
+
+## Responsive
+
+| 断点 | 布局 |
+|------|------|
+| Mobile | 单列，录音按钮居中 |
+| Tablet | 双面板（录音+待办） |
+| Desktop | 三面板（录音+待办+周报） |

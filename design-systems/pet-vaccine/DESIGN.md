@@ -1,250 +1,190 @@
 ---
-version: alpha
-name: 宠伴·健康台账
-description: A neumorphic pet health tracking interface with warm cream canvas, soft inner/outer shadows, and a calming blue primary accent. The system prioritizes touch-friendly cards, gentle transitions, and data-driven health visualizations. Designed for pet owners who need quick-glance health status and frictionless vaccine logging.
+version: "2.0"
+name: "宠伴·健康台账"
+description: "工具效率类宠物健康管理 PWA，白卡片+浅灰画布，Inter 字体，本地 OCR 识别，隐私优先架构。"
+product-type: 工具效率类
+last-updated: 2026-06-19
 colors:
-  primary: "#4a90d9"
-  primary-hover: "#3a7bc8"
-  primary-active: "#2a6ab7"
-  primary-disabled: "#a8c5e8"
-  success: "#2b7a4b"
-  success-light: "#e8f5e9"
-  warning: "#c09040"
-  warning-light: "#fff3e0"
-  danger: "#c04040"
-  danger-light: "#ffebee"
-  ink: "#2d3436"
-  body: "#4a4a4a"
-  muted: "#7f8c8d"
-  muted-soft: "#b2bec3"
-  hairline: "#d1d9e6"
-  canvas: "#f0f0f3"
+  canvas: "#f5f5f7"
   surface: "#ffffff"
-  surface-raised: "#f8f9fa"
-  shadow-dark: "rgba(0, 0, 0, 0.1)"
-  shadow-light: "rgba(255, 255, 255, 0.7)"
+  primary: "#0071e3"
+  primary-hover: "#0077ed"
+  primary-soft: "rgba(0,113,227,0.08)"
+  success: "#34c759"
+  success-soft: "rgba(52,199,89,0.08)"
+  warning: "#ff9500"
+  warning-soft: "rgba(255,149,0,0.08)"
+  danger: "#ff3b30"
+  danger-soft: "rgba(255,59,48,0.08)"
+  text-primary: "#1d1d1f"
+  text-secondary: "#424245"
+  text-muted: "#6e6e73"
+  hairline: "rgba(0,0,0,0.04)"
+  shadow: "0 2px 8px rgba(0,0,0,.06)"
+  shadow-hover: "0 4px 12px rgba(0,0,0,.1)"
 typography:
+  family: "'Inter', 'Noto Sans SC', system-ui, sans-serif"
+  mono-family: "'JetBrains Mono', monospace"
   display-lg:
-    fontFamily: "'Noto Sans SC', 'SF Pro Display', sans-serif"
-    fontSize: 28px
+    fontSize: 24px
     fontWeight: 700
     lineHeight: 1.2
-    letterSpacing: -0.5px
+    letterSpacing: -0.02em
   display-md:
-    fontFamily: "'Noto Sans SC', 'SF Pro Display', sans-serif"
-    fontSize: 22px
+    fontSize: 20px
     fontWeight: 600
     lineHeight: 1.3
-    letterSpacing: -0.3px
+    letterSpacing: -0.01em
   title:
-    fontFamily: "'Noto Sans SC', 'SF Pro Display', sans-serif"
     fontSize: 18px
     fontWeight: 600
     lineHeight: 1.4
-    letterSpacing: 0
   body-lg:
-    fontFamily: "'Noto Sans SC', 'SF Pro Text', sans-serif"
     fontSize: 16px
     fontWeight: 400
-    lineHeight: 1.6
-    letterSpacing: 0
+    lineHeight: 1.5
   body:
-    fontFamily: "'Noto Sans SC', 'SF Pro Text', sans-serif"
     fontSize: 14px
     fontWeight: 400
-    lineHeight: 1.6
-    letterSpacing: 0
+    lineHeight: 1.5
   caption:
-    fontFamily: "'Noto Sans SC', 'SF Pro Text', sans-serif"
     fontSize: 12px
     fontWeight: 500
     lineHeight: 1.4
-    letterSpacing: 0.5px
   button:
-    fontFamily: "'Noto Sans SC', 'SF Pro Text', sans-serif"
     fontSize: 14px
     fontWeight: 600
     lineHeight: 1
-    letterSpacing: 0.5px
 rounded:
+  sm: 8px
+  md: 12px
+  lg: 16px
+  pill: 9999px
+spacing:
+  unit: 4px
   xs: 4px
   sm: 8px
   md: 12px
   lg: 16px
-  xl: 20px
-  pill: 9999px
-spacing:
-  xxs: 4px
-  xs: 8px
-  sm: 12px
-  md: 16px
-  lg: 24px
-  xl: 32px
-  xxl: 48px
+  xl: 24px
+  xxl: 32px
+  xxxl: 48px
 components:
-  card-neumorphic:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body}"
-    rounded: "{rounded.lg}"
-    padding: 20px
-    boxShadow: "8px 8px 16px {colors.shadow-dark}, -8px -8px 16px {colors.shadow-light}"
-  card-neumorphic-pressed:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: 20px
-    boxShadow: "inset 4px 4px 8px {colors.shadow-dark}, inset -4px -4px 8px {colors.shadow-light}"
+  card:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.md}"
+    padding: 16-24px
+    boxShadow: "{colors.shadow}"
+  card-hover:
+    boxShadow: "{colors.shadow-hover}"
+    transform: "translateY(-1px)"
   button-primary:
     backgroundColor: "{colors.primary}"
     textColor: "#ffffff"
-    typography: "{typography.button}"
-    rounded: "{rounded.md}"
-    padding: 12px 24px
-  button-success:
-    backgroundColor: "{colors.success}"
-    textColor: "#ffffff"
-    typography: "{typography.button}"
-    rounded: "{rounded.md}"
-    padding: 12px 24px
-  button-danger:
-    backgroundColor: "{colors.danger}"
-    textColor: "#ffffff"
-    typography: "{typography.button}"
-    rounded: "{rounded.md}"
-    padding: 12px 24px
+    rounded: "{rounded.sm}"
+    height: 44px
+    padding: 10px 24px
+  button-secondary:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.sm}"
+    height: 44px
+    border: "1px solid {colors.hairline}"
   input-field:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-lg}"
-    rounded: "{rounded.md}"
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.sm}"
+    height: 44px
     padding: 12px 16px
-    boxShadow: "inset 2px 2px 5px {colors.shadow-dark}, inset -2px -2px 5px {colors.shadow-light}"
+    border: "1px solid {colors.hairline}"
   tab-bar:
+    backgroundColor: "rgba(255,255,255,0.9)"
+    activeColor: "{colors.primary}"
+    activeBackground: "{colors.primary-soft}"
+    height: 40px
+  pill-badge:
     backgroundColor: "{colors.canvas}"
-    textColor: "{colors.muted}"
-    typography: "{typography.caption}"
-    height: 60px
-  tab-bar-active:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.primary}"
-    typography: "{typography.caption}"
-  status-badge-healthy:
-    backgroundColor: "{colors.success-light}"
-    textColor: "{colors.success}"
-    typography: "{typography.caption}"
+    textColor: "{colors.text-muted}"
     rounded: "{rounded.pill}"
+    height: 28px
     padding: 4px 12px
-  status-badge-warning:
-    backgroundColor: "{colors.warning-light}"
-    textColor: "{colors.warning}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.pill}"
-    padding: 4px 12px
-  status-badge-danger:
-    backgroundColor: "{colors.danger-light}"
-    textColor: "{colors.danger}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.pill}"
-    padding: 4px 12px
-  pet-avatar:
-    backgroundColor: "{colors.surface}"
-    rounded: "{rounded.pill}"
-    size: 64px
-  chart-container:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: 16px
+  compliance-disclaimer:
+    position: "fixed; bottom: 0"
+    backgroundColor: "rgba(255,255,255,0.96)"
+    backdropFilter: "blur(12px)"
+    maxHeight: "60vh"
+    triggerHeight: "44px"
+responsive:
+  breakpoints:
+    mobile: 360px
+    mobile-lg: 412px
+    tablet: 768px
+    desktop: 1024px
+  touch-target-min: 44px
+  viewport: "width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"
+motion:
+  micro: "200ms ease-out"
+  page-transition: "300ms ease-out"
+  stagger: "+50ms"
+  reduced-motion: "prefers-reduced-motion: reduce → disable all animations"
+accessibility:
+  contrast-min: "4.5:1 (body text)"
+  contrast-large: "3:1 (large text, 18px+)"
+  focus-visible: "2px solid {colors.primary}"
+  keyboard-nav: "Tab traversal, Enter submit, Esc close modal"
 ---
+
+# 宠伴·健康台账 Design System
+
 ## Overview
-宠伴·健康台账 is a neumorphic pet health tracking PWA. The base atmosphere is a **warm light-gray canvas** (`{colors.canvas}` — #f0f0f3) with soft inner and outer shadows creating the signature neumorphic depth. The design philosophy is **gentle, approachable, and data-driven** — pet owners should feel calm while tracking health data.
 
-Brand identity comes from the **blue + cream pairing** — calming blue (`{colors.primary}` — #4a90d9) for primary actions, warm cream canvas for the background. The neumorphic shadow system uses two shadows: a dark shadow (`rgba(0,0,0,0.1)`) and a light shadow (`rgba(255,255,255,0.7)`) to create the raised/pressed effect.
+宠伴是一款面向**多宠家庭**的健康管理 PWA。核心理念是"隐私优先、本地存储、零服务器依赖"。使用 Tesseract.js 在浏览器端完成 OCR 识别，所有数据存储在 localStorage。
 
-**Key Characteristics:**
-- Neumorphic card system with dual shadows (dark + light)
-- Warm light-gray canvas (#f0f0f3) as the base
-- Calming blue primary (#4a90d9) for actions
-- Green/amber/red semantic status badges
-- Touch-friendly 44px minimum touch targets
-- Gentle transitions (0.3s ease)
-- Data visualization with Chart.js (doughnut charts, line trends)
-- PWA-ready with offline support
+### 设计原则
+
+- **工具效率**：信息密度适中，操作路径最短，视觉不抢功能
+- **隐私优先**：隐私 Consent 拦截 + 本地存储声明 + 合规声明模块
+- **数据驱动**：疫苗完成率、花费趋势、AI 健康摘要卡片
+- **渐进披露**：可折叠介绍区，默认展示主应用，减少认知负荷
+
 ## Colors
-### Brand & Accent
-- **Primary Blue** ({colors.primary} — #4a90d9): Main CTA, active tabs, links
-- **Primary Hover** ({colors.primary-hover} — #3a7bc8): Hover state
-- **Primary Active** ({colors.primary-active} — #2a6ab7): Pressed state
-- **Primary Disabled** ({colors.primary-disabled} — #a8c5e8): Disabled buttons
-### Semantic
-- **Success Green** ({colors.success} — #2b7a4b): Healthy status, completed actions
-- **Warning Amber** ({colors.warning} — #c09040): Upcoming vaccines, alerts
-- **Danger Red** ({colors.danger} — #c04040): Overdue, errors
-### Surface
-- **Canvas** ({colors.canvas} — #f0f0f3): Page background, neumorphic base
-- **Surface** ({colors.surface} — #ffffff): Cards, modals, elevated content
-- **Surface Raised** ({colors.surface-raised} — #f8f9fa): Subtle elevation
-### Text
-- **Ink** ({colors.ink} — #2d3436): Headlines
-- **Body** ({colors.body} — #4a4a4a): Running text
-- **Muted** ({colors.muted} — #7f8c8d): Secondary labels
-- **Muted Soft** ({colors.muted-soft} — #b2bec3): Captions, timestamps
-## Typography
-### Font Family
-- **Noto Sans SC** — Chinese + Latin display and body
-- **SF Pro Display** — macOS/iOS fallback
-- **SF Pro Text** — Body text fallback
-### Hierarchy
-| Token | Size | Weight | Use |
-|---|---|---|---|
-| display-lg | 28px | 700 | Page titles |
-| display-md | 22px | 600 | Section headers |
-| title | 18px | 600 | Card titles |
-| body-lg | 16px | 400 | Lead text, form labels |
-| body | 14px | 400 | Default body |
-| caption | 12px | 500 | Badges, timestamps |
-| button | 14px | 600 | Button labels |
-## Layout
-### Spacing System
-- Base unit: 4px
-- Card padding: 20px
-- Section gap: 24px
-- Page padding: 16px (mobile), 24px (tablet)
-### Grid
-- Mobile-first single column
-- Tablet: 2-column card grid
-- Max width: 480px (mobile PWA)
-## Elevation & Depth
-| Level | Treatment | Use |
+
+| Token | Value | Usage |
 |---|---|---|
-| 0 (flat) | No shadow | Background text |
-| 1 (raised) | Outer shadow (8px 8px 16px dark/light) | Default cards |
-| 2 (pressed) | Inner shadow (inset 4px 4px 8px) | Active buttons, input fields |
-| 3 (floating) | Larger outer shadow + border | Modals, dropdowns |
-## Do's and Don'ts
-### Do
-- Use neumorphic shadows consistently on all cards
-- Keep touch targets ≥ 44px
-- Use semantic colors for status (green/amber/red)
-- Show data visualizations for health trends
-- Use gentle transitions (0.3s ease)
-### Don't
-- Use flat design — always apply neumorphic shadows
-- Use harsh borders — shadows replace borders
-- Overcrowd cards — maintain generous padding
-- Use bright/saturated colors — keep palette muted
+| Canvas | `#f5f5f7` | 页面背景 |
+| Surface | `#ffffff` | 卡片/面板背景 |
+| Primary | `#0071e3` | 主操作/强调 |
+| Success | `#34c759` | 疫苗完成/正向数据 |
+| Warning | `#ff9500` | 驱虫提醒/注意 |
+| Danger | `#ff3b30` | 过期/删除操作 |
+| Text Primary | `#1d1d1f` | 标题、正文 |
+| Text Muted | `#6e6e73` | 辅助说明 |
+
+## Components
+
+| 组件 | 规格 |
+|------|------|
+| Card | 圆角 12px，padding 16-24px，阴影 0 2px 8px rgba(0,0,0,.06) |
+| Button | 高度 44px，圆角 8px，padding 10px 24px |
+| Input | 高度 44px，圆角 8px，padding 12px 16px |
+| Tab Bar | 底部胶囊式，高度 40px，当前项蓝色+底部指示条 |
+| Pill Badge | 圆角 9999px，高度 28px |
+| Compliance Disclaimer | 固定底部，毛玻璃背景，可展开收起 |
+
 ## Responsive
-- Mobile: 320px - 480px, single column
-- Tablet: 481px - 768px, 2-column grid
-- Touch targets: 44px minimum
-- Bottom tab bar: 60px height, 5 tabs max
-## Agent Prompt Guide
-```
-请按照 DESIGN.md 的新拟物风格规范构建宠物健康记录页面：
-- 背景色 #f0f0f3，卡片使用双向阴影（8px 8px 16px rgba(0,0,0,0.1) + -8px -8px 16px rgba(255,255,255,0.7)）
-- 主色调 #4a90d9，圆角 16px
-- 输入框使用内阴影效果
-- 状态标签使用胶囊形状（绿色=健康，橙色=待接种，红色=逾期）
-- 移动端优先，底部 Tab 栏导航
-```
+
+| 断点 | 宽度 | 布局 |
+|------|------|------|
+| Mobile | 360-412px | 单列，底部 Tab 导航 |
+| Tablet | 768-1024px | 双列卡片网格 |
+| Desktop | 1024px+ | 三列卡片网格 |
+
+## Motion
+
+| 场景 | 时长 | 缓动 |
+|------|------|------|
+| 微交互 | 200ms | ease-out |
+| 页面切换 | 300ms | ease-out |
+| 列表错开 | +50ms | stagger |
+| Reduced Motion | 禁用所有非必要动画 | - |
