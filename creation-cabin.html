@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" data-ui="neumorphic" data-app="workspace">
+<html lang="zh" data-app="workspace">
 <head>
     <meta charset="UTF-8">
     <!--
@@ -35,22 +35,25 @@
     <link rel="apple-touch-icon" href="icon.svg">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* ===== 原有样式完整保留 ===== */
-        * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, sans-serif; }
+        /* ===== 消费娱乐类：品牌色渐变+白卡片 ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600&display=swap');
+        * { box-sizing: border-box; margin: 0; font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
         :root {
-            --bg-body: #e6e6e6; --bg-app: #e6e6e6; --border-light: rgba(0,0,0,0.08); --header-bg: #e6e6e6; --sidebar-bg: #e6e6e6;
-            --sidebar-border: rgba(0,0,0,0.06); --card-bg: #e6e6e6; --card-border: rgba(0,0,0,0.08); --accent-border: #0071e3;
-            --text-primary: #3f3f3f; --text-secondary: #4a4a4a; --text-muted: #6b6b6b; --btn-bg: #e6e6e6;
-            --btn-border: rgba(0,0,0,0.1); --form-bg: #e6e6e6; --record-bg: #e6e6e6; --shadow: 0 1px 3px rgba(0,0,0,0.08);
-            --tag-bg: #d8d8d8; --tag-text: #3f3f3f; --modal-overlay: rgba(0,0,0,0.28); --toast-bg: #3f3f3fe6;
-            --role-bg: #e6e6e6; --role-border: rgba(0,0,0,0.08);
+            --bg-body: #f5f5f7; --bg-app: #ffffff; --border-light: rgba(0,0,0,0.04); --header-bg: rgba(255,255,255,0.92); --sidebar-bg: #ffffff;
+            --sidebar-border: rgba(0,0,0,0.06); --card-bg: #ffffff; --card-border: rgba(0,0,0,0.04); --accent-border: #667eea;
+            --text-primary: #1d1d1f; --text-secondary: #424245; --text-muted: #6e6e73; --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.08); --form-bg: #ffffff; --record-bg: #f5f5f7; --shadow: 0 2px 8px rgba(0,0,0,.06);
+            --tag-bg: #f0f0f2; --tag-text: #1d1d1f; --modal-overlay: rgba(0,0,0,0.28); --toast-bg: #1d1d1fe6;
+            --role-bg: #f5f5f7; --role-border: rgba(0,0,0,0.04);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,.1); --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+            --primary: #667eea; --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         body.theme-lightgray {
-            --bg-body: #e6e6e6; --bg-app: #e6e6e6; --border-light: rgba(0,0,0,0.08); --header-bg: #e6e6e6; --sidebar-bg: #e6e6e6;
-            --sidebar-border: rgba(0,0,0,0.08); --card-bg: #e6e6e6; --card-border: rgba(0,0,0,0.1); --accent-border: #0071e3;
-            --text-primary: #3f3f3f; --text-secondary: #4a4a4a; --text-muted: #6b6b6b; --btn-bg: #e6e6e6;
-            --btn-border: rgba(0,0,0,0.1); --form-bg: #e6e6e6; --record-bg: #e6e6e6; --tag-bg: #d8d8d8; --tag-text: #3f3f3f;
-            --toast-bg: #3f3f3fe6; --role-bg: #e6e6e6; --role-border: rgba(0,0,0,0.08);
+            --bg-body: #f5f5f7; --bg-app: #ffffff; --border-light: rgba(0,0,0,0.04); --header-bg: rgba(255,255,255,0.92); --sidebar-bg: #ffffff;
+            --sidebar-border: rgba(0,0,0,0.06); --card-bg: #ffffff; --card-border: rgba(0,0,0,0.04); --accent-border: #667eea;
+            --text-primary: #1d1d1f; --text-secondary: #424245; --text-muted: #6e6e73; --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.08); --form-bg: #ffffff; --record-bg: #f5f5f7; --tag-bg: #f0f0f2; --tag-text: #1d1d1f;
+            --toast-bg: #1d1d1fe6; --role-bg: #f5f5f7; --role-border: rgba(0,0,0,0.04);
         }
         body.theme-dark {
             /* Apple-style dark: True Black canvas → 1C / 2C / 3A surfaces */

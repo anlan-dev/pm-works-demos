@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" data-ui="neumorphic" data-app="workspace">
+<html lang="zh" data-app="workspace">
 <head>
   <meta charset="UTF-8">
   <!--
@@ -37,41 +37,46 @@
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', sans-serif;
         }
+        /* ===== 消费娱乐类：剧场红+白卡片 ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
         :root {
-            --bg-body: #e6e6e6;
-            --bg-app: #e6e6e6;
-            --border-light: rgba(0, 0, 0, 0.08);
-            --header-bg: rgba(255, 255, 255, 0.72);
-            --sidebar-bg: #e6e6e6;
-            --sidebar-border: rgba(0, 0, 0, 0.06);
-            --card-bg: #e6e6e6;
-            --card-border: rgba(0, 0, 0, 0.08);
-            --accent-border: #0071e3;
+            --bg-body: #f5f5f7;
+            --bg-app: #ffffff;
+            --border-light: rgba(0,0,0,0.04);
+            --header-bg: rgba(255,255,255,0.92);
+            --sidebar-bg: #ffffff;
+            --sidebar-border: rgba(0,0,0,0.06);
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.04);
+            --accent-border: #e74c3c;
             --text-primary: #1d1d1f;
             --text-secondary: #424245;
-            --text-muted: #86868b;
-            --btn-bg: #e6e6e6;
-            --btn-border: rgba(0, 0, 0, 0.1);
-            --form-bg: #e6e6e6;
-            --record-bg: #e6e6e6;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-            --tag-bg: #dedede;
+            --text-muted: #6e6e73;
+            --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.08);
+            --form-bg: #ffffff;
+            --record-bg: #f5f5f7;
+            --shadow: 0 2px 8px rgba(0,0,0,.06);
+            --tag-bg: #f0f0f2;
             --tag-text: #1d1d1f;
-            --modal-overlay: rgba(0, 0, 0, 0.28);
+            --modal-overlay: rgba(0,0,0,0.28);
             --toast-bg: #1d1d1fe6;
-            --toast-text: #e6e6e6;
-            --filter-active-bg: #0071e3;
+            --toast-text: #f5f5f7;
+            --filter-active-bg: #e74c3c;
             --filter-active-text: #fff;
+            --shadow-hover: 0 4px 12px rgba(0,0,0,.1);
+            --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+            --primary: #e74c3c;
         }
         body.theme-lightgray {
-            --bg-body: #e8e8ed;
-            --bg-app: #e6e6e6;
-            --border-light: rgba(0, 0, 0, 0.08);
-            --header-bg: rgba(255, 255, 255, 0.78);
-            --sidebar-bg: #dedede;
-            --sidebar-border: rgba(0, 0, 0, 0.08);
-            --card-bg: #e6e6e6;
-            --card-border: rgba(0, 0, 0, 0.1);
+            --bg-body: #f5f5f7;
+            --bg-app: #ffffff;
+            --border-light: rgba(0,0,0,0.04);
+            --header-bg: rgba(255,255,255,0.92);
+            --sidebar-bg: #ffffff;
+            --sidebar-border: rgba(0,0,0,0.06);
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.04);
             --accent-border: #0071e3;
             --text-primary: #1d1d1f;
             --text-secondary: #424245;

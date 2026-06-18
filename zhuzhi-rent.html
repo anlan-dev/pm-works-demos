@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-ui="neumorphic" data-app="live">
+<html lang="zh-CN" data-app="live">
 <head>
   <meta charset="UTF-8">
   <!--
@@ -39,26 +39,28 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    /* ===== 工具效率类：财务绿+白卡片 ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
     :root {
-      --bg: #e6e6e6;
-      --text: #3f3f3f;
-      --muted: #6b6b6b;
-      --card-bg: #e6e6e6;
-      --card-radius: 28px;
-      --btn-radius: 40px;
-      --shadow: -8px -8px 16px rgba(255,255,255,0.66), 8px 8px 16px rgba(0,0,0,0.12);
-      --shadow-hover: -6px -6px 12px rgba(255,255,255,0.6), 6px 6px 12px rgba(0,0,0,0.14);
-      --shadow-inset: inset 4px 4px 8px rgba(0,0,0,0.09), inset -4px -4px 8px rgba(255,255,255,0.72);
-      --accent: #5a6a7a;
-      --accent-light: rgba(90,106,122,0.12);
-      --border: transparent;
-      --green: #2b7a4b;
-      --red: #c04040;
-      --amber: #b08530;
-      --input-bg: #e6e6e6;
-      --inset-bg: #e6e6e6;
-      --tab-bg: rgba(230,230,230,0.92);
-      --tab-active-bg: rgba(90,106,122,0.12);
+      --bg: #f5f5f7;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --card-bg: #ffffff;
+      --card-radius: 12px;
+      --btn-radius: 8px;
+      --shadow: 0 2px 8px rgba(0,0,0,.06);
+      --shadow-hover: 0 4px 12px rgba(0,0,0,.1);
+      --shadow-inset: none;
+      --accent: #10b981;
+      --accent-light: rgba(16,185,129,0.08);
+      --border: rgba(0,0,0,0.04);
+      --green: #34c759;
+      --red: #ff3b30;
+      --amber: #ff9500;
+      --input-bg: #ffffff;
+      --inset-bg: #f5f5f7;
+      --tab-bg: rgba(255,255,255,0.9);
+      --tab-active-bg: rgba(16,185,129,0.1);
     }
 
     body[data-theme="dark"] {
