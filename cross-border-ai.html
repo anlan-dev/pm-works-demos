@@ -3322,6 +3322,37 @@ body {
             });
         }
 
+        // 安全复制函数
+        function safeCopy(text) {
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('✅ 链接已复制');
+                    }).catch(() => {
+                        fallbackCopy(text);
+                    });
+                } else {
+                    fallbackCopy(text);
+                }
+            } catch (e) {
+                fallbackCopy(text);
+            }
+        }
+        function fallbackCopy(text) {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.cssText = 'position:fixed;left:-9999px;';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast('✅ 链接已复制');
+            } catch (e) {
+                showToast('复制失败，请长按地址栏手动复制');
+            }
+        }
+
         // 分享渠道点击
         document.querySelectorAll('.channel-item').forEach(item => {
             item.addEventListener('click', () => {
@@ -3329,17 +3360,14 @@ body {
                 if (channel === 'wechat') {
                     showToast('💬 请截图分享到微信');
                 } else if (channel === 'copy') {
-                    navigator.clipboard.writeText(window.location.href).then(() => {
-                        showToast('✅ 链接已复制');
-                    }).catch(() => {
-                        showToast('复制失败，请手动复制');
-                    });
+                    safeCopy(window.location.href);
                 }
                 // 关闭分享面板
                 const overlay = document.getElementById('shareOverlay');
                 if (overlay) {
                     overlay.style.opacity = '0';
-                    overlay.querySelector('.share-panel').style.transform = 'translateY(100%)';
+                    const panel = overlay.querySelector('.share-panel');
+                    if (panel) panel.style.transform = 'translateY(100%)';
                     setTimeout(() => overlay.style.visibility = 'hidden', 300);
                 }
             });
@@ -3348,12 +3376,8 @@ body {
         // 复制链接
         const copyLinkBtn = document.getElementById('copyLinkBtn');
         if (copyLinkBtn) {
-            copyLinkBtn.addEventListener('click', () => {
-                navigator.clipboard.writeText(window.location.href).then(() => {
-                    showToast('✅ 链接已复制');
-                }).catch(() => {
-                    showToast('复制失败，请手动复制');
-                });
+            copyLinkBtn.addEventListener('click', function() {
+                safeCopy(window.location.href);
             });
         }
 
