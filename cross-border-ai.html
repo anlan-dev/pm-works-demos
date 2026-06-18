@@ -3263,6 +3263,80 @@ body {
 
         // Remove old pay modal events (they are overwritten by order flow)
         // The old pay modal is still in DOM but won't be triggered
+
+        // ====== 缺失的事件绑定修复 ======
+        // 分享按钮
+        const shareTrigger = document.getElementById('shareTriggerBtn');
+        if (shareTrigger) {
+            shareTrigger.addEventListener('click', () => {
+                const overlay = document.getElementById('shareOverlay');
+                if (overlay) {
+                    overlay.style.visibility = 'visible';
+                    overlay.style.opacity = '1';
+                    overlay.querySelector('.share-panel').style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // 关闭分享面板
+        const closeSharePanel = document.getElementById('closeSharePanel');
+        if (closeSharePanel) {
+            closeSharePanel.addEventListener('click', () => {
+                const overlay = document.getElementById('shareOverlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    overlay.querySelector('.share-panel').style.transform = 'translateY(100%)';
+                    setTimeout(() => overlay.style.visibility = 'hidden', 300);
+                }
+            });
+        }
+
+        // 复制链接
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        if (copyLinkBtn) {
+            copyLinkBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    showToast('✅ 链接已复制');
+                }).catch(() => {
+                    showToast('复制失败，请手动复制');
+                });
+            });
+        }
+
+        // 翻译切换
+        const transToggle = document.getElementById('transToggle');
+        if (transToggle) {
+            let showOriginal = false;
+            const reviewItems = document.querySelectorAll('.review-item');
+            transToggle.addEventListener('click', () => {
+                showOriginal = !showOriginal;
+                transToggle.textContent = showOriginal ? '中文翻译' : '日文原文';
+                reviewItems.forEach(item => {
+                    const italicDiv = item.querySelector('div[style*="font-style:italic"]');
+                    const normalDiv = item.querySelector('div:not([style*="font-style"]):last-of-type');
+                    if (italicDiv && normalDiv) {
+                        if (showOriginal) {
+                            italicDiv.style.display = 'block';
+                            normalDiv.style.display = 'none';
+                        } else {
+                            italicDiv.style.display = 'none';
+                            normalDiv.style.display = 'block';
+                        }
+                    }
+                });
+            });
+        }
+
+        // 加载更多评价
+        const loadMoreReviews = document.getElementById('loadMoreReviews');
+        if (loadMoreReviews) {
+            loadMoreReviews.addEventListener('click', () => {
+                showToast('📝 更多评价加载中...');
+                setTimeout(() => {
+                    showToast('✅ 已加载最新评价');
+                }, 1000);
+            });
+        }
     })();
 
     // ====== i18n 多语言系统 ======
