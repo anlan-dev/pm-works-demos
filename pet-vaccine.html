@@ -654,11 +654,55 @@
     <div class="dev-flow" aria-label="宠伴·健康台账（2025年9月起）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">先统一阶段目标与指标口径，再用分组实验验证提醒策略，把结论沉淀进可追踪的 backlog —— 全程围绕「提醒 + 记录」主线迭代。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">口径 → 验证 → backlog；2025.09 起。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025-09 界定</span><span class="dev-flow-note">深访+商店差评，定「提醒+记录」主线（非社交）</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">2025-09 MVP</span><span class="dev-flow-note">砍掉社区/商城；档案·疫苗日历·花费·提醒 四主线</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">9-10 月 信任</span><span class="dev-flow-note">OCR 三方案比选→本地路径（本地优先，降低上传顾虑）</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">2025-10 验证</span><span class="dev-flow-note">提醒策略分组观察：配置意愿与回访同向</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">2025-10 迭代</span><span class="dev-flow-note">种子回访→自动算有效期、按月花费视图</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">10-11 月 交付</span><span class="dev-flow-note">可安装 PWA；口径写进指标说明；与版本记录一致</span></li></ol></div>
 </details>
 
+<!-- ========== 欢迎引导页 ========== -->
+<div id="welcome-screen" style="max-width:640px;margin:0 auto;padding:clamp(24px,4vw,48px) 16px;text-align:center;">
+  <div style="font-size:3rem;margin-bottom:12px">🐱🐶</div>
+  <h2 style="font-size:clamp(1.4rem,3vw,1.8rem);font-weight:700;margin-bottom:8px">宠伴·健康台账</h2>
+  <p style="color:var(--muted);font-size:.95rem;margin-bottom:24px">多宠家庭的健康记录助手 — 疫苗、驱虫、花费，一站管理</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;text-align:left">
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px">
+      <div style="font-size:1.4rem;margin-bottom:6px">📋</div>
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:4px">多宠档案</div>
+      <div style="font-size:.8rem;color:var(--muted)">每只宠物独立记录</div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px">
+      <div style="font-size:1.4rem;margin-bottom:6px">💉</div>
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:4px">疫苗日历</div>
+      <div style="font-size:.8rem;color:var(--muted)">自动算到期日，到期提醒</div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px">
+      <div style="font-size:1.4rem;margin-bottom:6px">📸</div>
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:4px">本地OCR</div>
+      <div style="font-size:.8rem;color:var(--muted)">拍照识别，数据不上传</div>
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px">
+      <div style="font-size:1.4rem;margin-bottom:6px">💰</div>
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:4px">花费看板</div>
+      <div style="font-size:.8rem;color:var(--muted)">月度/年度花费可视化</div>
+    </div>
+  </div>
+  <div style="background:var(--panel-bg);border:1px solid var(--card-border);border-radius:12px;padding:14px;margin-bottom:16px;text-align:left;font-size:.85rem;color:var(--muted)">
+    🔒 <b>隐私优先：</b>所有数据存在浏览器本地，不上传任何服务器。可随时导出备份。
+  </div>
+  <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin-bottom:20px;font-size:.78rem;color:var(--muted)">
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0">1</span><span>添加宠物</span>
+    <span style="color:var(--primary);font-weight:700">→</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0">2</span><span>记录疫苗/驱虫</span>
+    <span style="color:var(--primary);font-weight:700">→</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0">3</span><span>拍照OCR识别</span>
+    <span style="color:var(--primary);font-weight:700">→</span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0">4</span><span>查看花费看板</span>
+  </div>
+  <button onclick="document.getElementById('welcome-screen').style.display='none';document.getElementById('main-app').style.display='block'" style="padding:14px 36px;border-radius:14px;border:none;background:var(--primary);color:#fff;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,113,227,.3)">开始使用 →</button>
+  <div style="margin-top:12px"><button onclick="document.getElementById('welcome-screen').style.display='none';document.getElementById('main-app').style.display='block'" style="padding:8px 20px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--muted);font-size:.85rem;cursor:pointer">先看看 Demo 数据</button></div>
+</div>
+
+<div id="main-app" style="display:none">
 <div class="container">
     <!-- ========== 主页：疫苗记录 ========= -->
     <div id="page-home" class="page active">
         <div class="example-hint">
-            💡 <strong>使用举例：</strong> 点击「➕ 添加疫苗」→ 下拉选“猫三联”→ 接种日期自动算到期日。右上角按钮可导出/导入数据。
+            💡 <strong>使用举例：</strong> 点击「➕ 添加疫苗」→ 下拉选"猫三联"→ 接种日期自动算到期日。右上角按钮可导出/导入数据。
         </div>
 
         <!-- 宠物信息卡片 -->
@@ -1144,6 +1188,7 @@
 
 <!-- 导入备份文件 input (隐藏) -->
 <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;">
+</div><!-- /main-app -->
 
 <script>
     (function(){

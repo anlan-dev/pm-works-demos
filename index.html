@@ -69,7 +69,8 @@ body{
 .scroll-margin{scroll-margin-top:80px}
 
 /* ===== Cards ===== */
-.card{display:block;background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(18px,2.8vw,28px);margin-bottom:clamp(14px,2vw,20px);border:.5px solid rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .25s ease}
+.card{display:block;background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(18px,2.8vw,28px);margin-bottom:clamp(14px,2vw,20px);border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 12px rgba(0,0,0,.08);transition:all .15s ease}
+.card .step,.card .data-row,.card .flow-box,.card .result{background:rgba(245,247,252,.6);border:1px solid rgba(0,0,0,.05);border-radius:10px;padding:12px 14px;margin-top:10px}
 .card:hover{border-color:rgba(0,0,0,.12);box-shadow:0 4px 16px rgba(0,0,0,.08)}
 .card-icon{font-size:clamp(1.8rem,3vw,2.5rem);margin-bottom:clamp(6px,1vw,10px);line-height:1}
 .card-title{font-size:clamp(1.15rem,1.6vw,1.4rem);font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
@@ -157,6 +158,12 @@ body{
 
 /* ===== Utilities ===== */
 a{color:#0071e3;text-decoration:none}
+
+/* ===== Flow Badge (compact flow indicator) ===== */
+.flow-badge{display:inline-flex;align-items:center;gap:3px;font-size:clamp(.6rem,.68vw,.64rem);font-weight:600;background:rgba(0,113,227,.08);color:#0071e3;padding:3px 8px;border-radius:999px;margin:4px 0 6px;white-space:nowrap}
+.flow-badge .fb-step{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#0071e3;color:#fff;font-size:.56rem;font-weight:700;flex-shrink:0}
+.flow-badge .fb-arrow{color:#0071e3;font-size:.6rem;margin:0 1px}
+@media(max-width:640px){.flow-badge{font-size:.56rem;padding:2px 6px}.flow-badge .fb-step{width:16px;height:16px;font-size:.5rem}}
 </style>
 </head>
 <body id="top">
@@ -203,6 +210,7 @@ a{color:#0071e3;text-decoration:none}
     <span class="tag">Cursor</span><span class="tag">Dify</span><span class="tag">SQL</span><span class="tag">Python</span>
     <span class="tag">雅思6.5</span><span class="tag">CET-6</span>
   </div>
+  <div style="margin-top:12px"><button id="speedBtn" style="padding:6px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;font-size:13px;cursor:pointer;color:#1d1d1f;font-weight:500;transition:all .15s" onclick="toggleSpeed()">⚡ 快速浏览模式</button></div>
 </header>
 <div class="divider"></div>
 
@@ -451,6 +459,7 @@ a{color:#0071e3;text-decoration:none}
   <div class="card-icon">✍️</div>
   <div class="card-title">星途·创作舱</div>
   <div class="card-sub">独立产品 · 2025.09-至今</div>
+  <div class="flow-badge"><span class="fb-step">1</span>新建主题<span class="fb-arrow">→</span><span class="fb-step">2</span>角色设定<span class="fb-arrow">→</span><span class="fb-step">3</span>章节写作<span class="fb-arrow">→</span><span class="fb-step">4</span>AI灵感辅助<span class="fb-arrow">→</span><span class="fb-step">5</span>进度追踪+导出</div>
   <div class="step-text" style="margin-bottom:8px">连载/兼职作者资料分散、断更焦虑。核心判断：问题不是"写不出来"，而是"不知道怎么开始"。AI降低开始成本，不替代创作。</div>
   <ul class="ft-list">
     <li>多主题+角色设定+章节状态流转</li><li>AI灵感生成（标题/开头/角色）</li>
@@ -463,6 +472,7 @@ a{color:#0071e3;text-decoration:none}
   <div class="card-icon">🎭</div>
   <div class="card-title">剧本·复盘舱</div>
   <div class="card-sub">独立产品 · 2025.12-至今</div>
+  <div class="flow-badge"><span class="fb-step">1</span>导入剧本<span class="fb-arrow">→</span><span class="fb-step">2</span>场景拆分<span class="fb-arrow">→</span><span class="fb-step">3</span>改稿追踪<span class="fb-arrow">→</span><span class="fb-step">4</span>AI剧情建议<span class="fb-arrow">→</span><span class="fb-step">5</span>热力图复盘</div>
   <div class="step-text" style="margin-bottom:8px">长剧本改稿忘因、进度模糊。产品架构：GitHub风格热力图(26周+连续天数) + Trello场景看板 + AI剧情面板。</div>
   <ul class="ft-list">
     <li>热力图+场景看板+分场标签</li><li>AI剧情生成（走向/对白/场景）</li>
@@ -476,6 +486,7 @@ a{color:#0071e3;text-decoration:none}
   <div class="card-icon">🏠</div>
   <div class="card-title">住值·租房生命成本计算器</div>
   <div class="card-sub">独立产品 · 2026.05</div>
+  <div class="flow-badge"><span class="fb-step">1</span>输入收入+生活参数<span class="fb-arrow">→</span><span class="fb-step">2</span>贪心预算分配<span class="fb-arrow">→</span><span class="fb-step">3</span>Bmax计算房租上限<span class="fb-arrow">→</span><span class="fb-step">4</span>多方案对比<span class="fb-arrow">→</span><span class="fb-step">5</span>AI顾问建议</div>
   <div class="arch-box"><b>贪心预算分配算法</b>逐项分配→<b>双层Bmax公式</b>计算房租上限→<b>多方案对比</b>输出净收益/有效时薪/租收比→<b>DeepSeek V4 Flash AI顾问</b>个性化建议</div>
   <div class="result"><div class="rtitle">关键价值</div>展示把复杂计算逻辑产品化——用户不需理解算法，输入参数即可得到可决策的结果。</div>
   <a href="./zhuzhi-rent.html" target="_blank" class="demo-link">体验 Demo →</a>
@@ -485,6 +496,7 @@ a{color:#0071e3;text-decoration:none}
   <div class="card-icon">🚀</div>
   <div class="card-title">冷启动·行动引擎</div>
   <div class="card-sub">独立产品 · 2026.01-05</div>
+  <div class="flow-badge"><span class="fb-step">1</span>描述拖延任务<span class="fb-arrow">→</span><span class="fb-step">2</span>AI拆解最小行动<span class="fb-arrow">→</span><span class="fb-step">3</span>选择执行模式<span class="fb-arrow">→</span><span class="fb-step">4</span>倒计时执行<span class="fb-arrow">→</span><span class="fb-step">5</span>完成反馈+复盘</div>
   <div class="arch-box"><b>双模式设计：</b>规则引擎保底（离线可用）+AI创意模式（联网增强）。AI失败自动降级，离线兜底触发率&lt;5%。多平台LLM支持。</div>
   <div class="data-row"><span class="data-chip"><span class="num g">~80%</span><span class="label">AI诊断满意度</span></span><span class="data-chip"><span class="num g">&lt;5%</span><span class="label">离线触发率</span></span></div>
   <a href="./cold-start.html" target="_blank" class="demo-link">体验 Demo →</a>
@@ -494,6 +506,7 @@ a{color:#0071e3;text-decoration:none}
   <div class="card-icon">🌐</div>
   <div class="card-title">GlobalFUN · 跨境电商AI拼团</div>
   <div class="card-sub">行业垂直探索 · 2026.01-05</div>
+  <div class="flow-badge"><span class="fb-step">1</span>浏览商品<span class="fb-arrow">→</span><span class="fb-step">2</span>发起/加入拼团<span class="fb-arrow">→</span><span class="fb-step">3</span>AI比价+关税+物流<span class="fb-arrow">→</span><span class="fb-step">4</span>确认下单<span class="fb-arrow">→</span><span class="fb-step">5</span>多语言追踪</div>
   <div class="arch-box"><b>MCP服务总线+Multi-Agent：</b>比价Agent+关税Agent+物流Agent+翻译Agent→Orchestrator路由→结构化卡片推送。不做传统问答Chatbot。</div>
   <div class="result"><div class="rtitle">探索价值</div>验证MCP下Multi-Agent交互可行性，为跨境电商+AI Agent方向积累产品认知。</div>
   <a href="./cross-border-ai.html" target="_blank" class="demo-link">体验 Demo →</a>
@@ -503,6 +516,7 @@ a{color:#0071e3;text-decoration:none}
   <div class="card-icon">📚</div>
   <div class="card-title">Prompt Library · AIGC提示词库</div>
   <div class="card-sub">开源工具 · 2025.11-至今</div>
+  <div class="flow-badge"><span class="fb-step">1</span>识别PM工作流节点<span class="fb-arrow">→</span><span class="fb-step">2</span>标准化Prompt模板<span class="fb-arrow">→</span><span class="fb-step">3</span>分类入库<span class="fb-arrow">→</span><span class="fb-step">4</span>实际验证迭代<span class="fb-arrow">→</span><span class="fb-step">5</span>GitHub开源</div>
   <div class="step-text" style="margin-bottom:8px">按PM实际工作流分类，而非按AI能力分类。把AI使用经验沉淀为可复用的标准化资产。</div>
   <ul class="ft-list">
     <li>12个标准化Prompt，覆盖6步PM工作流</li><li>8个分类（写作/营销/编程/AIGC等）</li>
@@ -605,6 +619,28 @@ window.addEventListener('scroll',()=>{
   secs.forEach(s=>{if(s&&window.scrollY>=s.offsetTop-100)cur=s.id});
   tocLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
 });
+
+// 快速浏览模式
+let speedMode=false;
+function toggleSpeed(){
+  speedMode=!speedMode;
+  const btn=document.getElementById('speedBtn');
+  if(speedMode){
+    btn.textContent='📖 正常浏览';
+    btn.style.background='#0071e3';
+    btn.style.color='#fff';
+    btn.style.borderColor='#0071e3';
+    document.querySelectorAll('details').forEach(d=>d.open=true);
+    document.body.style.scrollBehavior='auto';
+  }else{
+    btn.textContent='⚡ 快速浏览模式';
+    btn.style.background='#fff';
+    btn.style.color='#1d1d1f';
+    btn.style.borderColor='rgba(0,0,0,.12)';
+    document.querySelectorAll('details').forEach(d=>d.open=false);
+    document.body.style.scrollBehavior='smooth';
+  }
+}
 </script>
 
 </body>
