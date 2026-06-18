@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" data-ui="neumorphic" data-app="meeting">
+<html lang="zh" data-app="meeting">
 <head>
     <meta charset="UTF-8">
     <!--
@@ -33,42 +33,53 @@
     <meta name="twitter:description" content="AI 驱动的会议复盘工具，语音转录、行动项提取、历史反刍、待办管理一站式完成。">
     <style>
         /* ===== 基础变量与主题 ===== */
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, sans-serif; transition: background-color 0.2s ease, border-color 0.2s; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+        * { box-sizing: border-box; font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; transition: background-color 0.2s ease, border-color 0.2s; }
 
         :root {
-            --bg-body: #e6e6e6;
-            --card-bg: #e6e6e6;
-            --card-border: rgba(0,0,0,0.08);
+            --bg-body: #f5f5f7;
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.04);
             --text-primary: #1d1d1f;
+            --text-muted: #6e6e73;
             --accent-color: #0071e3;
-            --accent-light: rgba(0,113,227,0.1);
-            --accent-border: rgba(0,113,227,0.25);
-            --badge-bg: #dedede;
-            --ruminant-bg: #e6e6e6;
-            --api-bg: #e6e6e6;
-            --history-hover: #dedede;
-            --btn-bg: #e6e6e6;
-            --btn-border: rgba(0,0,0,0.12);
+            --accent-light: rgba(0,113,227,0.08);
+            --accent-border: rgba(0,113,227,0.2);
+            --badge-bg: #f0f0f2;
+            --ruminant-bg: #ffffff;
+            --api-bg: #f5f5f7;
+            --history-hover: #f5f5f7;
+            --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.08);
             --pre-bg: #1d1d1f;
-            --pre-color: #e6e6e6;
+            --pre-color: #f5f5f7;
+            --shadow: 0 2px 8px rgba(0,0,0,.06);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --success: #34c759;
+            --warning: #ff9500;
+            --danger: #ff3b30;
         }
 
         body.theme-gray {
-            --bg-body: #e8e8ed;
-            --card-bg: #e6e6e6;
-            --card-border: rgba(0,0,0,0.1);
+            --bg-body: #f5f5f7;
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.04);
             --text-primary: #1d1d1f;
             --accent-color: #0071e3;
-            --accent-light: rgba(0,113,227,0.1);
-            --accent-border: rgba(0,113,227,0.25);
-            --badge-bg: #dedede;
-            --ruminant-bg: #dedede;
-            --api-bg: #e6e6e6;
-            --history-hover: #ececf1;
-            --btn-bg: #e6e6e6;
-            --btn-border: rgba(0,0,0,0.12);
+            --accent-light: rgba(0,113,227,0.08);
+            --accent-border: rgba(0,113,227,0.2);
+            --badge-bg: #f0f0f2;
+            --ruminant-bg: #ffffff;
+            --api-bg: #f5f5f7;
+            --history-hover: #f5f5f7;
+            --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.08);
             --pre-bg: #1d1d1f;
-            --pre-color: #e6e6e6;
+            --pre-color: #f5f5f7;
+            --shadow: 0 2px 8px rgba(0,0,0,.06);
         }
 
         body.theme-mint {
