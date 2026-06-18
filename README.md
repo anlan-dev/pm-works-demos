@@ -17,7 +17,7 @@
 
 快速入口：`demo-hub.html`（按功能分组导航，支持一页打开全部 Demo）
 
-**UI 设计作品集**：见 [UIwork/index.html](https://github.com/anlan-dev/UI-work)（11 个设计风格探索，覆盖标准浅色 / 扁平 / Glassmorphism / Cyberpunk / 侘寂 / Brutalism 等 6 种风格）。
+**UI 设计作品集**：见 [UIwork/index.html](https://anlan-dev.github.io/UI-work/)（11 个设计风格探索，覆盖标准浅色 / 扁平 / Glassmorphism / Cyberpunk / 侘寂 / Brutalism 等 6 种风格）。
 
 **设计过程与版本归档（PRD / 用户与实验数据…）**：与 Demo 同步维护，见 [`设计过程与版本归档/README.md`](./设计过程与版本归档/README.md)；**流程图（SVG/Mermaid）**见 [`设计过程与版本归档/flows/README.md`](./设计过程与版本归档/flows/README.md)；**原型清单与 Figma/Axure 映射**见 [`设计过程与版本归档/prototypes/README.md`](./设计过程与版本归档/prototypes/README.md)。  
 **原始材料样例（访谈纪要 / 宠伴可用性任务表 / Q4 需求池 CSV / 版本节点）**：路径见 [`设计过程与版本归档/摘录_用户与实验数据一览表.md`](./设计过程与版本归档/摘录_用户与实验数据一览表.md) 第 4 节。  
