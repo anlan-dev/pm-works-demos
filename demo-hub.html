@@ -564,11 +564,32 @@
 
     function openUrls(urls) {
       let opened = 0;
-      for (const url of urls) {
-        const win = window.open(url, "_blank", "noopener");
-        if (win) opened++;
-      }
-      return opened;
+      let blocked = 0;
+      
+      // 使用延迟来避免浏览器弹窗拦截
+      urls.forEach((url, index) => {
+        setTimeout(() => {
+          const win = window.open(url, "_blank", "noopener");
+          if (win) {
+            opened++;
+          } else {
+            blocked++;
+          }
+          
+          // 最后一个窗口打开后显示状态
+          if (index === urls.length - 1) {
+            setTimeout(() => {
+              if (blocked > 0) {
+                showStatus(`已尝试打开 ${urls.length} 个，成功 ${opened} 个，被拦截 ${blocked} 个。请允许弹窗后重试。`);
+              } else {
+                showStatus(`已成功打开 ${opened} 个 Demo 页面！`);
+              }
+            }, 500);
+          }
+        }, index * 200); // 每个窗口间隔200ms
+      });
+      
+      return urls.length;
     }
 
     function showStatus(text) {
