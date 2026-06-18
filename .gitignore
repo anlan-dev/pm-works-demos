@@ -28,6 +28,9 @@ yarn-error.log*
 Thumbs.db
 desktop.ini
 
+# 面试准备（个人自用，禁止推送）
+面试准备/
+
 # IDE 文件
 .vscode/
 .idea/
