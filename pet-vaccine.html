@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="zh" data-ui="neumorphic" data-app="pet">
+<html lang="zh" data-app="pet">
 <head>
     <meta charset="UTF-8">
     <!--
       ╔══════════════════════════════════════════════════════════════╗
       ║  DESIGN.md · 宠伴·健康台账                                  ║
       ║  Spec: design-systems/pet-vaccine/DESIGN.md                 ║
-      ║  Family: 新拟物 (Neumorphism)                               ║
-      ║  Colors: canvas=#f0f0f3 / surface=#ffffff / primary=#4a90d9 ║
-      ║          success=#2b7a4b / warning=#c09040 / danger=#c04040 ║
-      ║  Font: 'Noto Sans SC', 'SF Pro Display', sans-serif         ║
-      ║  Rounded: xs=4 / sm=8 / md=12 / lg=16 / xl=20 / pill=9999 ║
-      ║  Shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px     ║
-      ║          rgba(255,255,255,0.7)                              ║
-      ║  Spacing: 4/8/12/16/24/32/48                               ║
-      ║  Components: card-neumorphic / button-primary/success/danger║
-      ║              input-field / pill-badge / data-table          ║
+      ║  Family: 工具效率类 (Utility Tool)                           ║
+      ║  Colors: canvas=#f5f5f7 / surface=#ffffff / primary=#0071e3 ║
+      ║          success=#34c759 / warning=#ff9500 / danger=#ff3b30 ║
+      ║  Font: 'Inter', 'Noto Sans SC', system-ui, sans-serif       ║
+      ║  Rounded: sm=8 / md=12 / lg=16 / pill=9999                 ║
+      ║  Shadow: 0 2px 8px rgba(0,0,0,.06)                         ║
+      ║  Spacing: 4px base (4/8/12/16/24/32/48)                    ║
+      ║  Components: card / button-primary/success/danger            ║
+      ║              input-field / pill-badge / data-table / tab     ║
+      ║  Motion: 200ms ease-out micro / 300ms ease-out transition   ║
       ╚══════════════════════════════════════════════════════════════╝
     -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -45,24 +45,31 @@
     
     <style>
         :root{
-            /* 默认：极简浅色（Apple-like） */
-            --bg: #e6e6e6;
-            --header-bg: rgba(255,255,255,0.72);
-            --header-border: rgba(0,0,0,0.08);
+            /* 工具效率类：白卡片+浅灰画布 */
+            --bg: #f5f5f7;
+            --header-bg: rgba(255,255,255,0.92);
+            --header-border: rgba(0,0,0,0.06);
             --text: #1d1d1f;
-            --muted: #86868b;
-            --card-bg: #e6e6e6;
-            --card-border: rgba(0,0,0,0.06);
-            --panel-bg: #e6e6e6;
-            --soft-bg: #e6e6e6;
+            --muted: #6e6e73;
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.04);
+            --panel-bg: #ffffff;
+            --soft-bg: #f5f5f7;
             --accent: #0071e3;
             --primary: #0071e3;
             --primary-border: #0077ed;
-            --btn-bg: #e6e6e6;
-            --btn-border: rgba(0,0,0,0.1);
-            --tab-bg: rgba(255,255,255,0.82);
+            --success: #34c759;
+            --warning: #ff9500;
+            --danger: #ff3b30;
+            --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.08);
+            --tab-bg: rgba(255,255,255,0.9);
             --tab-active-bg: rgba(0,113,227,0.1);
-            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow: 0 2px 8px rgba(0,0,0,.06);
+            --shadow-hover: 0 4px 12px rgba(0,0,0,.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
         }
 
         body[data-theme="gray"]{
@@ -71,18 +78,18 @@
             --header-border: rgba(0,0,0,0.08);
             --text: #1d1d1f;
             --muted: #6e6e73;
-            --card-bg: #e6e6e6;
-            --card-border: rgba(0,0,0,0.08);
-            --panel-bg: #dedede;
-            --soft-bg: #e6e6e6;
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.04);
+            --panel-bg: #ffffff;
+            --soft-bg: #f5f5f7;
             --accent: #0071e3;
             --primary: #0071e3;
             --primary-border: #0077ed;
-            --btn-bg: #dedede;
-            --btn-border: rgba(0,0,0,0.1);
-            --tab-bg: rgba(255,255,255,0.88);
+            --btn-bg: #f5f5f7;
+            --btn-border: rgba(0,0,0,0.08);
+            --tab-bg: rgba(255,255,255,0.9);
             --tab-active-bg: rgba(0,113,227,0.1);
-            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow: 0 2px 8px rgba(0,0,0,.06);
         }
 
         body[data-theme="night"]{
@@ -126,15 +133,17 @@
             --shadow: none;
         }
 
-        * { box-sizing: border-box; margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
         html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-        body { overflow-x: hidden; 
+        body { overflow-x: hidden;
             background: var(--bg);
             padding-bottom: 84px;
             min-height: 100vh;
             color: var(--text);
-            line-height: 1.47059;
-            letter-spacing: -0.022em;
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            font-size: 14px;
         }
         .app-header {
             position: sticky;
