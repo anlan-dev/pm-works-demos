@@ -164,20 +164,94 @@ a{color:#0071e3;text-decoration:none}
 .flow-badge .fb-step{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#0071e3;color:#fff;font-size:.56rem;font-weight:700;flex-shrink:0}
 .flow-badge .fb-arrow{color:#0071e3;font-size:.6rem;margin:0 1px}
 @media(max-width:640px){.flow-badge{font-size:.56rem;padding:2px 6px}.flow-badge .fb-step{width:16px;height:16px;font-size:.5rem}}
+
+/* ===== Scroll Animations ===== */
+.anim-ready .card,.anim-ready .section-title,.anim-ready .divider{opacity:0;transform:translateY(24px);transition:opacity .45s cubic-bezier(.4,0,.2,1),transform .45s cubic-bezier(.4,0,.2,1)}
+.anim-ready .card.in-view,.anim-ready .section-title.in-view,.anim-ready .divider.in-view{opacity:1;transform:translateY(0)}
+.anim-ready .hero{opacity:1;transform:none}
+.anim-ready .hero .role-badge,.anim-ready .hero h1,.anim-ready .hero .contact,.anim-ready .hero .edu,.anim-ready .hero .tags{opacity:0;animation:heroReveal .4s cubic-bezier(.4,0,.2,1) forwards}
+.anim-ready .hero h1{animation-delay:.05s}
+.anim-ready .hero .role-badge{animation-delay:.1s}
+.anim-ready .hero .contact{animation-delay:.15s}
+.anim-ready .hero .edu{animation-delay:.2s}
+.anim-ready .hero .tags{animation-delay:.25s}
+@keyframes heroReveal{to{opacity:1;transform:none}}
+body.anim-off .card,body.anim-off .section-title,body.anim-off .divider,body.anim-off .hero *{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
+
+/* ===== Speed Mode ===== */
+body.speed-active{padding-top:36px}
+body.speed-active .card{border-left:3px solid #0071e3;background:linear-gradient(135deg,rgba(0,113,227,.02),rgba(255,255,255,1))}
+body.speed-active .section-title::after{content:'⚡';margin-left:8px;font-size:.8em;opacity:.5}
+body.speed-active .harness{border-color:#93c5fd;background:linear-gradient(135deg,#eff6ff,#f0f4ff)}
+body.speed-active .quote{border-left-color:#0071e3;background:rgba(0,113,227,.06)}
+body.speed-active .result{border-color:rgba(0,113,227,.2);background:rgba(0,113,227,.04)}
+body.speed-active details{border:1px dashed #93c5fd;border-radius:10px;padding:8px 12px;margin-top:10px;background:rgba(0,113,227,.02)}
+body.speed-active .step-num{background:rgba(0,113,227,.15)}
+
+/* ===== Progress Bar ===== */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#0071e3,#0a84ff,#5856d6);z-index:10001;width:0%;transition:width 50ms linear;border-radius:0 2px 2px 0}
+
+/* ===== Top Nav Bar ===== */
+.top-nav{position:fixed;top:0;left:0;right:0;z-index:9998;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:0.5px solid rgba(0,0,0,.08);transform:translateY(-100%);transition:transform .3s ease}
+.top-nav.visible{transform:translateY(0)}
+.top-nav-inner{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:4px;padding:6px clamp(12px,2vw,20px);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.top-nav-inner::-webkit-scrollbar{display:none}
+.top-nav-link{display:flex;align-items:center;gap:3px;text-decoration:none;font-size:clamp(.62rem,.78vw,.72rem);font-weight:500;color:#4b6589;padding:5px 10px;border-radius:999px;white-space:nowrap;transition:all .15s;border:1px solid transparent;flex-shrink:0}
+.top-nav-link:hover{background:#ecf3fa;color:#0b1e2e}
+.top-nav-link.active{background:#e0ecf7;color:#0c3a56;font-weight:600;border-color:rgba(0,113,227,.15)}
+.top-nav-link .nav-icon{font-size:.8rem;opacity:.8}
+body.has-top-nav{padding-top:44px}
+
+/* ===== Competency Matrix ===== */
+.comp-matrix{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(6px,1vw,10px);margin:clamp(14px,2vw,20px) 0}
+.comp-item{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:clamp(10px,1.4vw,16px);text-align:center;transition:all .2s}
+.comp-item:hover{border-color:rgba(0,113,227,.2);box-shadow:0 4px 12px rgba(0,113,227,.08);transform:translateY(-2px)}
+.comp-icon{font-size:clamp(1.2rem,2vw,1.6rem);margin-bottom:4px}
+.comp-label{font-size:clamp(.64rem,.78vw,.72rem);font-weight:600;color:#1d1d1f;margin-bottom:2px}
+.comp-value{font-size:clamp(.58rem,.7vw,.66rem);color:#6e6e73;line-height:1.3}
+.comp-value strong{color:#0071e3;font-weight:700}
+@media(max-width:640px){.comp-matrix{grid-template-columns:repeat(3,1fr)}.comp-matrix .comp-item:nth-child(4),.comp-matrix .comp-item:nth-child(5){grid-column:span 1}}
+
+/* ===== Section reorder helpers ===== */
+.section-priority-1{order:1}
+.section-priority-2{order:2}
+.section-priority-3{order:3}
+.section-priority-4{order:4}
+
+/* ===== Android/WeChat compat ===== */
+@supports(-webkit-touch-callout:none){.top-nav-inner{-webkit-overflow-scrolling:touch}}
 </style>
 </head>
 <body id="top">
 
-<!-- ===== Float TOC (right) ===== -->
+<!-- ===== Progress Bar ===== -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ===== Top Nav Bar ===== -->
+<nav class="top-nav" id="topNav">
+  <div class="top-nav-inner">
+    <a href="#comp" class="top-nav-link active"><span class="nav-icon">📊</span>能力总览</a>
+    <a href="#intern" class="top-nav-link"><span class="nav-icon">🏋️</span>实习</a>
+    <a href="#pet" class="top-nav-link"><span class="nav-icon">🐾</span>宠伴</a>
+    <a href="#quality" class="top-nav-link"><span class="nav-icon">🔍</span>PRD Gate</a>
+    <a href="#meeting" class="top-nav-link"><span class="nav-icon">🎙️</span>会议舱</a>
+    <a href="#more" class="top-nav-link"><span class="nav-icon">📦</span>更多项目</a>
+    <a href="#method" class="top-nav-link"><span class="nav-icon">🔄</span>方法论</a>
+    <a href="#frontier" class="top-nav-link"><span class="nav-icon">🔬</span>前沿</a>
+  </div>
+</nav>
+
+<!-- ===== Float TOC (right, desktop only) ===== -->
 <nav class="toc-float" id="toc">
   <div class="toc-header"><span class="toc-title">目录</span><button class="toc-toggle" id="tocToggle" aria-label="折叠目录">−</button></div>
   <ul class="toc-list">
-    <li><a href="#method" class="toc-link"><span class="toc-icon">🔄</span>方法论</a></li>
+    <li><a href="#comp" class="toc-link"><span class="toc-icon">📊</span>能力总览</a></li>
     <li><a href="#intern" class="toc-link"><span class="toc-icon">🏋️</span>实习经历</a></li>
-    <li><a href="#quality" class="toc-link"><span class="toc-icon">🔍</span>PRD Gate</a></li>
     <li><a href="#pet" class="toc-link"><span class="toc-icon">🐾</span>宠伴</a></li>
+    <li><a href="#quality" class="toc-link"><span class="toc-icon">🔍</span>PRD Gate</a></li>
     <li><a href="#meeting" class="toc-link"><span class="toc-icon">🎙️</span>会议舱</a></li>
     <li><a href="#more" class="toc-link"><span class="toc-icon">📦</span>更多项目</a></li>
+    <li><a href="#method" class="toc-link"><span class="toc-icon">🔄</span>方法论</a></li>
     <li><a href="#frontier" class="toc-link"><span class="toc-icon">🔬</span>前沿观察</a></li>
   </ul>
 </nav>
@@ -185,12 +259,18 @@ a{color:#0071e3;text-decoration:none}
 <!-- ===== Mobile bottom nav ===== -->
 <nav class="mobile-nav" id="mobileNav">
   <div class="mobile-nav-inner">
-    <a href="#method">🔄 方法论</a><a href="#intern">🏋️ 实习</a>
-    <a href="#quality">🔍 PRD Gate</a><a href="#pet">🐾 宠伴</a>
+    <a href="#comp">📊 能力</a><a href="#intern">🏋️ 实习</a>
+    <a href="#pet">🐾 宠伴</a><a href="#quality">🔍 Gate</a>
     <a href="#meeting">🎙️ 会议</a><a href="#more">📦 更多</a>
-    <a href="#frontier">🔬 前沿</a>
+    <a href="#method">🔄 方法</a><a href="#frontier">🔬 前沿</a>
   </div>
 </nav>
+
+<!-- Speed mode banner -->
+<div id="speedBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:linear-gradient(135deg,#0071e3,#0a84ff);color:#fff;font-size:13px;font-weight:600;letter-spacing:.3px;box-shadow:0 2px 12px rgba(0,113,227,.3)">
+  <span>⚡ 快速浏览模式已开启</span>
+  <span style="opacity:.7;font-weight:400">· 所有折叠内容已展开 · 滚动动画已关闭</span>
+</div>
 
 <div class="container">
 
@@ -210,43 +290,42 @@ a{color:#0071e3;text-decoration:none}
     <span class="tag">Cursor</span><span class="tag">Dify</span><span class="tag">SQL</span><span class="tag">Python</span>
     <span class="tag">雅思6.5</span><span class="tag">CET-6</span>
   </div>
-  <div style="margin-top:12px"><button id="speedBtn" style="padding:6px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;font-size:13px;cursor:pointer;color:#1d1d1f;font-weight:500;transition:all .15s" onclick="toggleSpeed()">⚡ 快速浏览模式</button></div>
+  <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+    <button id="speedBtn" style="padding:6px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;font-size:13px;cursor:pointer;color:#1d1d1f;font-weight:500;transition:all .15s" onclick="toggleSpeed()">⚡ 快速浏览模式</button>
+    <button id="animBtn" style="padding:6px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;font-size:13px;cursor:pointer;color:#1d1d1f;font-weight:500;transition:all .15s" onclick="toggleAnim()">🎬 关闭动画</button>
+  </div>
 </header>
+
+<!-- ===== 核心能力矩阵 ===== -->
+<h2 class="section-title scroll-margin" id="comp" style="margin-top:clamp(16px,2.5vw,24px)">核心能力总览</h2>
+<div class="comp-matrix">
+  <div class="comp-item">
+    <div class="comp-icon">🎯</div>
+    <div class="comp-label">需求分析</div>
+    <div class="comp-value"><strong>20+</strong>用户深访 · <strong>83%</strong>洞察命中率 · 从差评/访谈中提炼共性需求</div>
+  </div>
+  <div class="comp-item">
+    <div class="comp-icon">📐</div>
+    <div class="comp-label">产品规划</div>
+    <div class="comp-value"><strong>6</strong>个从0到1产品 · <strong>3</strong>条产品线并行 · P0/P1优先级体系</div>
+  </div>
+  <div class="comp-item">
+    <div class="comp-icon">🚀</div>
+    <div class="comp-label">项目落地</div>
+    <div class="comp-value"><strong>100%</strong>P0交付率 · <strong>8</strong>项核心需求V2.0 · App Store上架</div>
+  </div>
+  <div class="comp-item">
+    <div class="comp-icon">📊</div>
+    <div class="comp-label">数据驱动</div>
+    <div class="comp-value">NPS <strong>+12→+38</strong> · 留存<strong>44%</strong> · 评测集+MECE评分闭环</div>
+  </div>
+  <div class="comp-item">
+    <div class="comp-icon">🤝</div>
+    <div class="comp-label">跨团队协同</div>
+    <div class="comp-value">iOS/Android/后端三方对齐 · App Store审核 · <strong>4</strong>产品<strong>20</strong>条需求池</div>
+  </div>
+</div>
 <div class="divider"></div>
-
-<!-- ===== 方法论 ===== -->
-<h2 class="section-title scroll-margin" id="method">我的产品方法论</h2>
-
-<div class="card">
-  <div class="card-icon">🔄</div>
-  <div class="card-title">底层逻辑：Harness 五步法</div>
-  <div class="card-sub">所有 AI 项目遵循同一思维链路——从用户任务出发，经过评测验证，用数据驱动迭代</div>
-  <div class="harness">
-    <div class="htitle">功能点 → AI技术方案 → 评测集+MECE标准 → 跑评测找链路问题 → 改链路重测 → 展示分数改善</div>
-    <div class="hstep"><span class="hnum">1</span><span></span>从<b>具体用户任务</b>出发，不是从模型能力出发</span></div>
-    <div class="hstep"><span class="hnum">2</span><span>选择<b>AI技术方案</b>（Prompt Chain / RAG / Workflow / Agent Team），解释为什么不用更复杂/更简单的</span></div>
-    <div class="hstep"><span class="hnum">3</span><span>设计<b>评测集 + MECE评分标准</b>，目的是发现链路问题而非证明"AI很厉害"</span></div>
-    <div class="hstep"><span class="hnum">4</span><span>跑评测集，定位<b>链路节点具体问题</b>，归因到 prompt / query rewrite / context / routing / fallback</span></div>
-    <div class="hstep"><span class="hnum">5</span><span>针对低分维度迭代对应节点，用<b>同一评测集复测</b>，观察指标改善</span></div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-icon">🚦</div>
-  <div class="card-title">六道关卡（Stage Gate 1-6）</div>
-  <div class="card-sub">设计任何 AI 功能前，逐一验证这六关——任一关不通过就暂停</div>
-  <div style="overflow-x:auto">
-  <table class="gate-table">
-    <tr><th>G</th><th>关卡</th><th>检查什么</th><th>我的实际应用</th></tr>
-    <tr><td class="pass">1</td><td>场景与需求</td><td>用户是谁？失败成本？</td><td>"练错无人纠正"→训练效果差+受伤风险</td></tr>
-    <tr><td class="pass">2</td><td>AI必要性</td><td>为什么不用规则/人工？</td><td>PRD检查=确定规则→System Prompt比RAG更稳定</td></tr>
-    <tr><td class="pass">3</td><td>链路可落地</td><td>输入→AI→验证→输出→人确认→反馈</td><td>三重护栏：操作确认→过程可解释→结果可修正</td></tr>
-    <tr><td class="pass">4</td><td>评测可设计</td><td>怎么判断AI好坏？</td><td>四维拆解+人工对照验证</td></tr>
-    <tr><td class="pass">5</td><td>Badcase迭代</td><td>出错怎么归因改？</td><td>13处遗漏→按维度归类→优化Prompt</td></tr>
-    <tr><td class="warn">6</td><td>证据边界</td><td>能写/不能写什么？</td><td>实测数据可讲，不编造未上线效果</td></tr>
-  </table>
-  </div>
-</div>
 
 <!-- ===== 实习经历 ===== -->
 <h2 class="section-title scroll-margin" id="intern">实习经历</h2>
@@ -480,7 +559,6 @@ a{color:#0071e3;text-decoration:none}
   </ul>
   <a href="./script-review.html" target="_blank" class="demo-link">体验 Demo →</a>
 </div>
-</div>
 
 <div class="card">
   <div class="card-icon">🏠</div>
@@ -523,6 +601,41 @@ a{color:#0071e3;text-decoration:none}
     <li>19项PRD质量检查清单系统化</li><li>GitHub开源（MIT，零依赖）</li>
   </ul>
   <a href="./prompt-library.html" target="_blank" class="demo-link">体验 Demo →</a>
+</div>
+</div>
+
+<!-- ===== 方法论 ===== -->
+<h2 class="section-title scroll-margin" id="method">产品方法论</h2>
+
+<div class="card">
+  <div class="card-icon">🔄</div>
+  <div class="card-title">底层逻辑：Harness 五步法</div>
+  <div class="card-sub">所有 AI 项目遵循同一思维链路——从用户任务出发，经过评测验证，用数据驱动迭代</div>
+  <div class="harness">
+    <div class="htitle">功能点 → AI技术方案 → 评测集+MECE标准 → 跑评测找链路问题 → 改链路重测 → 展示分数改善</div>
+    <div class="hstep"><span class="hnum">1</span><span></span>从<b>具体用户任务</b>出发，不是从模型能力出发</span></div>
+    <div class="hstep"><span class="hnum">2</span><span>选择<b>AI技术方案</b>（Prompt Chain / RAG / Workflow / Agent Team），解释为什么不用更复杂/更简单的</span></div>
+    <div class="hstep"><span class="hnum">3</span><span>设计<b>评测集 + MECE评分标准</b>，目的是发现链路问题而非证明"AI很厉害"</span></div>
+    <div class="hstep"><span class="hnum">4</span><span>跑评测集，定位<b>链路节点具体问题</b>，归因到 prompt / query rewrite / context / routing / fallback</span></div>
+    <div class="hstep"><span class="hnum">5</span><span>针对低分维度迭代对应节点，用<b>同一评测集复测</b>，观察指标改善</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-icon">🚦</div>
+  <div class="card-title">六道关卡（Stage Gate 1-6）</div>
+  <div class="card-sub">设计任何 AI 功能前，逐一验证这六关——任一关不通过就暂停</div>
+  <div style="overflow-x:auto">
+  <table class="gate-table">
+    <tr><th>G</th><th>关卡</th><th>检查什么</th><th>我的实际应用</th></tr>
+    <tr><td class="pass">1</td><td>场景与需求</td><td>用户是谁？失败成本？</td><td>"练错无人纠正"→训练效果差+受伤风险</td></tr>
+    <tr><td class="pass">2</td><td>AI必要性</td><td>为什么不用规则/人工？</td><td>PRD检查=确定规则→System Prompt比RAG更稳定</td></tr>
+    <tr><td class="pass">3</td><td>链路可落地</td><td>输入→AI→验证→输出→人确认→反馈</td><td>三重护栏：操作确认→过程可解释→结果可修正</td></tr>
+    <tr><td class="pass">4</td><td>评测可设计</td><td>怎么判断AI好坏？</td><td>四维拆解+人工对照验证</td></tr>
+    <tr><td class="pass">5</td><td>Badcase迭代</td><td>出错怎么归因改？</td><td>13处遗漏→按维度归类→优化Prompt</td></tr>
+    <tr><td class="warn">6</td><td>证据边界</td><td>能写/不能写什么？</td><td>实测数据可讲，不编造未上线效果</td></tr>
+  </table>
+  </div>
 </div>
 
 <!-- ===== 前沿观察 ===== -->
@@ -572,6 +685,65 @@ a{color:#0071e3;text-decoration:none}
   </div>
 </details>
 
+<details class="card" style="cursor:pointer">
+  <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
+    <span class="card-icon" style="margin:0">💻</span>
+    <div style="flex:1">
+      <div class="card-title" style="font-size:1.05rem">Vibe Coding 与 PM 原型能力升级</div>
+      <div class="card-sub" style="margin-bottom:0">2026年63%的Vibe Coding用户是非工程师——PM的"原型能力"正在被重新定义</div>
+    </div>
+  </summary>
+  <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
+    <b>趋势：</b>Vibe Coding 从2025年安德烈·卡帕西的概念推文，到2026年成为Collins词典年度词汇，市场规模达47亿美元。Cursor估值293亿美元，92%的美国开发者日常使用AI编程工具。歌手胡彦斌用AI编程做App、非技术创始人两周上线SaaS——"用自然语言描述需求，AI完成从架构到部署的全链路"已成为现实。<br>
+    <b>我的实践：</b>我用 Cursor 从零搭建了宠伴PWA（含本地OCR、Chart.js看板、双端适配），创作舱6页完整原型也是Vibe Coding产出。作为一个文科背景的PM，我验证了"不懂代码也能交付可交互产品"这个命题。<br>
+    <b>PM 启示：</b>未来PM的核心竞争力不是"画原型"，而是"描述清楚需求+验证AI产出"。PRD写得越精确，AI生成的结果越可用。PM的新工作流：写PRD → Cursor生成初版 → 人工验收badcase → 迭代，本质上和Harness五步法一致。
+  </div>
+</details>
+
+<details class="card" style="cursor:pointer">
+  <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
+    <span class="card-icon" style="margin:0">🔌</span>
+    <div style="flex:1">
+      <div class="card-title" style="font-size:1.05rem">MCP：AI Agent 的"USB-C"标准</div>
+      <div class="card-sub" style="margin-bottom:0">Model Context Protocol 正在成为AI连接外部系统的统一协议——PM需要理解它的产品含义</div>
+    </div>
+  </summary>
+  <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
+    <b>趋势：</b>MCP 由 Anthropic 于2024年底开源，2025年底捐赠给 Linux 基金会，2026年已成为行业事实标准——OpenAI、Google、Microsoft、AWS 全部支持。SDK月下载量超9700万次。它解决了N×M集成问题：过去每个AI工具对接每个外部系统都需要定制开发，现在通过一个标准协议即可完成。微软已将MCP集成到Fabric数据平台，Cursor、Claude等工具原生支持MCP Server。<br>
+    <b>PM 启示：</b>MCP改变了PM思考"AI功能边界"的方式。过去PM问"这个功能AI能不能做"，现在应该问"这个场景需要连接哪些外部系统，MCP Server是否已存在"。在EasyRight实习中，我设计跨境电商AI Agent时用MCP服务总线连接比价/翻译/物流三个Agent——这个架构思路在未来会成为标配。
+  </div>
+</details>
+
+<details class="card" style="cursor:pointer">
+  <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
+    <span class="card-icon" style="margin:0">🧠</span>
+    <div style="flex:1">
+      <div class="card-title" style="font-size:1.05rem">AI Native 产品设计思维</div>
+      <div class="card-sub" style="margin-bottom:0">从"给产品加AI功能"到"用AI重新定义产品形态"——范式正在转换</div>
+    </div>
+  </summary>
+  <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
+    <b>趋势：</b>2024-2025年大多数产品的AI策略是"在现有功能上叠加AI"——搜索框加个AI摘要、编辑器加个AI续写。2026年的趋势是AI Native：产品形态本身由AI能力定义。Perplexity不是"搜索引擎+AI"，而是"AI回答引擎"；v0不是"设计工具+AI"，而是"自然语言→界面"。Collins词典将Vibe Coding选为年度词汇，标志着"非工程师用自然语言构建软件"进入主流认知。<br>
+    <b>我的实践：</b>PRD Quality Gate是典型的AI Native设计——它不是"PRD模板+AI检查"，而是"AI自动审查PRD质量"这个全新产品形态。宠伴的"先数据后功能"策略也是AI Native思路：先用本地OCR建立数据壁垒，再基于数据提供AI健康报告。<br>
+    <b>PM 启示：</b>AI Native产品设计的核心不是"AI能做什么"，而是"用户的工作流中，哪些环节可以被AI重新定义"。PM应该从用户任务链出发，找到AI介入的最佳节点，而不是反过来从技术能力出发找场景。
+  </div>
+</details>
+
+<details class="card" style="cursor:pointer">
+  <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
+    <span class="card-icon" style="margin:0">📱</span>
+    <div style="flex:1">
+      <div class="card-title" style="font-size:1.05rem">端侧AI与隐私计算的产品化机遇</div>
+      <div class="card-sub" style="margin-bottom:0">当AI推理从云端迁移到设备端，PM需要重新思考数据策略和产品架构</div>
+    </div>
+  </summary>
+  <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
+    <b>趋势：</b>Apple Intelligence、Google Gemini Nano、高通AI Engine推动端侧AI能力快速增长。2026年主流手机已能本地运行7B参数模型。这意味着OCR、语音转写、图像识别等任务可以在设备端完成，无需上传云端。同时GDPR、中国《个人信息保护法》等法规趋严，用户对数据上传的容忍度持续下降。<br>
+    <b>我的实践：</b>宠伴选择Tesseract.js本地OCR而非云端API，正是因为访谈中83%用户明确拒绝上传疫苗凭证。会议舱转写也优先端侧处理。这些不是"技术选型"，而是"产品策略"——隐私优先本身就是卖点。<br>
+    <b>PM 启示：</b>端侧AI让"隐私优先"不再是体验妥协，而是可以做到"既安全又好用"。PM在设计AI功能时，应该先评估：这个功能能否端侧完成？如果能，就不应该要求用户上传数据。这不仅是合规要求，更是用户信任的基石。
+  </div>
+</details>
+
 <!-- ===== Capability Summary ===== -->
 <div class="card" style="background:linear-gradient(180deg,#f0f9ff,#ffffff);border-color:rgba(0,113,227,.15);text-align:center;margin-top:clamp(28px,4vw,40px)">
   <div class="card-icon">✨</div>
@@ -602,6 +774,46 @@ a{color:#0071e3;text-decoration:none}
 </div>
 
 <script>
+// Scroll Animations with IntersectionObserver
+(function(){
+  const body=document.body;
+  body.classList.add('anim-ready');
+  const targets=document.querySelectorAll('.card,.section-title,.divider,.comp-matrix');
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        const d=e.target.dataset.animDelay||0;
+        setTimeout(()=>e.target.classList.add('in-view'),+d);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  targets.forEach((t,i)=>{
+    const isCard=t.classList.contains('card');
+    const delay=isCard?Math.min(i%3,2)*80:0;
+    t.dataset.animDelay=delay;
+    obs.observe(t);
+  });
+  document.querySelectorAll('.hero *').forEach(el=>{el.style.opacity='';el.style.transform=''});
+})();
+let animOn=true;
+function toggleAnim(){
+  animOn=!animOn;
+  const btn=document.getElementById('animBtn');
+  const body=document.body;
+  if(animOn){
+    body.classList.remove('anim-off');
+    body.classList.add('anim-ready');
+    btn.textContent='🎬 关闭动画';
+    btn.style.background='#fff';btn.style.color='#1d1d1f';btn.style.borderColor='rgba(0,0,0,.12)';
+  }else{
+    body.classList.add('anim-off');
+    body.classList.remove('anim-ready');
+    btn.textContent='🎬 开启动画';
+    btn.style.background='#0071e3';btn.style.color='#fff';btn.style.borderColor='#0071e3';
+  }
+}
+
 // Toggle TOC
 const toc=document.getElementById('toc'), toggle=document.getElementById('tocToggle');
 let collapsed=false;
@@ -611,25 +823,51 @@ toggle.addEventListener('click',()=>{
   toggle.textContent=collapsed?'+':'−';
 });
 
-// Active tracking for TOC + mobile nav
-const tocLinks=document.querySelectorAll('.toc-link, .mobile-nav a[href^="#"]');
-const secs=[...tocLinks].map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-window.addEventListener('scroll',()=>{
-  let cur='';
-  secs.forEach(s=>{if(s&&window.scrollY>=s.offsetTop-100)cur=s.id});
-  tocLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
-});
+// ===== Progress Bar + Top Nav + Active Tracking =====
+const progressBar=document.getElementById('progressBar');
+const topNav=document.getElementById('topNav');
+const allNavLinks=document.querySelectorAll('.toc-link,.mobile-nav a[href^="#"],.top-nav-link');
+const allSections=[...new Set([...allNavLinks].map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')))].map(h=>document.querySelector(h)).filter(Boolean);
+
+let ticking=false;
+function onScroll(){
+  if(ticking)return;
+  ticking=true;
+  requestAnimationFrame(()=>{
+    const scrollTop=window.pageYOffset||document.documentElement.scrollTop;
+    const docHeight=document.documentElement.scrollHeight-window.innerHeight;
+    // Progress bar
+    if(progressBar)progressBar.style.width=(docHeight>0?(scrollTop/docHeight)*100:0)+'%';
+    // Top nav visibility (show after scrolling past hero)
+    const heroEl=document.querySelector('.hero');
+    if(heroEl&&topNav){
+      const heroBottom=heroEl.offsetTop+heroEl.offsetHeight;
+      topNav.classList.toggle('visible',scrollTop>heroBottom-60);
+      document.body.classList.toggle('has-top-nav',scrollTop>heroBottom-60);
+    }
+    // Active section tracking
+    let cur='';
+    allSections.forEach(s=>{if(s&&scrollTop>=s.offsetTop-120)cur=s.id});
+    allNavLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+    ticking=false;
+  });
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
 
 // 快速浏览模式
 let speedMode=false;
 function toggleSpeed(){
   speedMode=!speedMode;
   const btn=document.getElementById('speedBtn');
+  const banner=document.getElementById('speedBanner');
   if(speedMode){
     btn.textContent='📖 正常浏览';
     btn.style.background='#0071e3';
     btn.style.color='#fff';
     btn.style.borderColor='#0071e3';
+    banner.style.display='flex';
+    document.body.classList.add('speed-active');
     document.querySelectorAll('details').forEach(d=>d.open=true);
     document.body.style.scrollBehavior='auto';
   }else{
@@ -637,6 +875,8 @@ function toggleSpeed(){
     btn.style.background='#fff';
     btn.style.color='#1d1d1f';
     btn.style.borderColor='rgba(0,0,0,.12)';
+    banner.style.display='none';
+    document.body.classList.remove('speed-active');
     document.querySelectorAll('details').forEach(d=>d.open=false);
     document.body.style.scrollBehavior='smooth';
   }

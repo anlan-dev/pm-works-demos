@@ -654,58 +654,121 @@
     <div class="dev-flow" aria-label="宠伴·健康台账（2025年9月起）"><div class="dev-flow-kicker"><span class="dev-flow-kicker-text dev-flow-kicker-text--full">先统一阶段目标与指标口径，再用分组实验验证提醒策略，把结论沉淀进可追踪的 backlog —— 全程围绕「提醒 + 记录」主线迭代。</span><span class="dev-flow-kicker-text dev-flow-kicker-text--short">口径 → 验证 → backlog；2025.09 起。</span></div><ol class="dev-flow-track"><li class="dev-flow-step"><span class="dev-flow-num">1</span><span class="dev-flow-title">2025-09 界定</span><span class="dev-flow-note">深访+商店差评，定「提醒+记录」主线（非社交）</span></li><li class="dev-flow-step"><span class="dev-flow-num">2</span><span class="dev-flow-title">2025-09 MVP</span><span class="dev-flow-note">砍掉社区/商城；档案·疫苗日历·花费·提醒 四主线</span></li><li class="dev-flow-step"><span class="dev-flow-num">3</span><span class="dev-flow-title">9-10 月 信任</span><span class="dev-flow-note">OCR 三方案比选→本地路径（本地优先，降低上传顾虑）</span></li><li class="dev-flow-step"><span class="dev-flow-num">4</span><span class="dev-flow-title">2025-10 验证</span><span class="dev-flow-note">提醒策略分组观察：配置意愿与回访同向</span></li><li class="dev-flow-step"><span class="dev-flow-num">5</span><span class="dev-flow-title">2025-10 迭代</span><span class="dev-flow-note">种子回访→自动算有效期、按月花费视图</span></li><li class="dev-flow-step"><span class="dev-flow-num">6</span><span class="dev-flow-title">10-11 月 交付</span><span class="dev-flow-note">可安装 PWA；口径写进指标说明；与版本记录一致</span></li></ol></div>
 </details>
 
-<!-- ========== 欢迎引导页 ========== -->
-<div id="welcome-screen" style="max-width:640px;margin:0 auto;padding:clamp(24px,4vw,48px) 16px;text-align:center;">
-  <div style="font-size:3rem;margin-bottom:12px">🐱🐶</div>
-  <h2 style="font-size:clamp(1.4rem,3vw,1.8rem);font-weight:700;margin-bottom:8px">宠伴·健康台账</h2>
-  <p style="color:var(--muted);font-size:.95rem;margin-bottom:24px">多宠家庭的健康记录助手 — 疫苗、驱虫、花费，一站管理</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;text-align:left">
-    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px">
-      <div style="font-size:1.4rem;margin-bottom:6px">📋</div>
-      <div style="font-weight:600;font-size:.9rem;margin-bottom:4px">多宠档案</div>
-      <div style="font-size:.8rem;color:var(--muted)">每只宠物独立记录</div>
+<!-- ========== 产品介绍（可折叠） ========== -->
+<div id="welcome-screen" style="max-width:640px;margin:0 auto;padding:clamp(12px,2vw,16px) 16px 0;text-align:center;">
+  <details id="introPanel" style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;text-align:left;overflow:hidden">
+    <summary style="padding:12px 16px;cursor:pointer;font-weight:600;font-size:.92rem;display:flex;align-items:center;gap:8px;list-style:none;user-select:none">
+      <span style="font-size:1.2rem">🐱🐶</span>
+      <span style="flex:1">宠伴·健康台账 — 产品功能介绍</span>
+      <span style="font-size:.75rem;color:var(--muted);font-weight:400">点击展开</span>
+    </summary>
+    <div style="padding:0 16px 16px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px;text-align:left">
+        <div style="background:var(--bg);border:1px solid var(--card-border);border-radius:12px;padding:12px">
+          <div style="font-size:1.1rem;margin-bottom:3px">📋</div>
+          <div style="font-weight:600;font-size:.82rem;margin-bottom:2px">多宠档案</div>
+          <div style="font-size:.72rem;color:var(--muted)">每只宠物独立记录</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--card-border);border-radius:12px;padding:12px">
+          <div style="font-size:1.1rem;margin-bottom:3px">💉</div>
+          <div style="font-weight:600;font-size:.82rem;margin-bottom:2px">疫苗日历</div>
+          <div style="font-size:.72rem;color:var(--muted)">自动算到期日</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--card-border);border-radius:12px;padding:12px">
+          <div style="font-size:1.1rem;margin-bottom:3px">📸</div>
+          <div style="font-weight:600;font-size:.82rem;margin-bottom:2px">本地OCR</div>
+          <div style="font-size:.72rem;color:var(--muted)">拍照识别，不上传</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--card-border);border-radius:12px;padding:12px">
+          <div style="font-size:1.1rem;margin-bottom:3px">💰</div>
+          <div style="font-weight:600;font-size:.82rem;margin-bottom:2px">花费看板</div>
+          <div style="font-size:.72rem;color:var(--muted)">月度/年度可视化</div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--card-border);border-radius:12px;padding:12px;text-align:left;margin-bottom:12px">
+        <div style="font-weight:600;font-size:.82rem;margin-bottom:6px">🔒 你的数据，你做主</div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:.75rem;color:var(--muted)">
+          <div><span style="color:var(--primary);font-weight:700">✓</span> <b>无需注册</b> — 打开即用，不收集个人信息</div>
+          <div><span style="color:var(--primary);font-weight:700">✓</span> <b>本地存储</b> — 数据存在浏览器，不上传服务器</div>
+          <div><span style="color:var(--primary);font-weight:700">✓</span> <b>本地识别</b> — OCR在设备端完成，照片不离开手机</div>
+          <div><span style="color:var(--primary);font-weight:700">✓</span> <b>随时导出</b> — 一键备份JSON/Excel，数据由你掌控</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;font-size:.72rem;color:var(--muted)">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--primary);color:#fff;font-size:.55rem;font-weight:700">1</span><span>添加宠物</span>
+        <span style="color:var(--primary);font-weight:700">→</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--primary);color:#fff;font-size:.55rem;font-weight:700">2</span><span>记录疫苗</span>
+        <span style="color:var(--primary);font-weight:700">→</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--primary);color:#fff;font-size:.55rem;font-weight:700">3</span><span>拍照OCR</span>
+        <span style="color:var(--primary);font-weight:700">→</span>
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--primary);color:#fff;font-size:.55rem;font-weight:700">4</span><span>查看看板</span>
+      </div>
     </div>
-    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px">
-      <div style="font-size:1.4rem;margin-bottom:6px">💉</div>
-      <div style="font-weight:600;font-size:.9rem;margin-bottom:4px">疫苗日历</div>
-      <div style="font-size:.8rem;color:var(--muted)">自动算到期日，到期提醒</div>
-    </div>
-    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px">
-      <div style="font-size:1.4rem;margin-bottom:6px">📸</div>
-      <div style="font-weight:600;font-size:.9rem;margin-bottom:4px">本地OCR</div>
-      <div style="font-size:.8rem;color:var(--muted)">拍照识别，数据不上传</div>
-    </div>
-    <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px">
-      <div style="font-size:1.4rem;margin-bottom:6px">💰</div>
-      <div style="font-weight:600;font-size:.9rem;margin-bottom:4px">花费看板</div>
-      <div style="font-size:.8rem;color:var(--muted)">月度/年度花费可视化</div>
-    </div>
-  </div>
-  <div style="background:var(--panel-bg);border:1px solid var(--card-border);border-radius:14px;padding:16px;margin-bottom:16px;text-align:left">
-    <div style="font-weight:600;font-size:.9rem;margin-bottom:10px;display:flex;align-items:center;gap:6px">
-      <span style="font-size:1.1rem">🔒</span> 你的数据，你做主
-    </div>
-    <div style="display:flex;flex-direction:column;gap:6px;font-size:.82rem;color:var(--muted)">
-      <div style="display:flex;align-items:flex-start;gap:8px"><span style="color:var(--primary);flex-shrink:0;font-weight:700">✓</span><span><b>无需注册</b> — 打开即用，不收集手机号、邮箱等个人信息</span></div>
-      <div style="display:flex;align-items:flex-start;gap:8px"><span style="color:var(--primary);flex-shrink:0;font-weight:700">✓</span><span><b>本地存储</b> — 所有数据存在你的浏览器里，不上传任何服务器</span></div>
-      <div style="display:flex;align-items:flex-start;gap:8px"><span style="color:var(--primary);flex-shrink:0;font-weight:700">✓</span><span><b>本地识别</b> — OCR 在设备端完成，接种凭证照片不会离开你的手机</span></div>
-      <div style="display:flex;align-items:flex-start;gap:8px"><span style="color:var(--primary);flex-shrink:0;font-weight:700">✓</span><span><b>随时导出</b> — 一键备份 JSON/Excel，数据完全由你掌控</span></div>
-    </div>
-  </div>
-  <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin-bottom:20px;font-size:.78rem;color:var(--muted)">
-    <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0">1</span><span>添加宠物</span>
-    <span style="color:var(--primary);font-weight:700">→</span>
-    <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0">2</span><span>记录疫苗/驱虫</span>
-    <span style="color:var(--primary);font-weight:700">→</span>
-    <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0">3</span><span>拍照OCR识别</span>
-    <span style="color:var(--primary);font-weight:700">→</span>
-    <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;flex-shrink:0">4</span><span>查看花费看板</span>
-  </div>
-  <button onclick="document.getElementById('welcome-screen').style.display='none';document.getElementById('main-app').style.display='block'" style="padding:14px 36px;border-radius:14px;border:none;background:var(--primary);color:#fff;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,113,227,.3)">开始使用 →</button>
-  <div style="margin-top:12px"><button onclick="document.getElementById('welcome-screen').style.display='none';document.getElementById('main-app').style.display='block'" style="padding:8px 20px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--muted);font-size:.85rem;cursor:pointer">先看看 Demo 数据</button></div>
+  </details>
 </div>
 
-<div id="main-app" style="display:none">
+<!-- ========== 信息填写前置说明弹窗 ========== -->
+<div id="privacyConsentModal" class="modal-overlay" style="display:none;">
+  <div class="modal-content" style="max-width:420px;">
+    <h3 style="margin-bottom:12px;font-size:1rem;">📋 信息填写说明</h3>
+    <div style="background:var(--bg);border:1px solid var(--card-border);border-radius:12px;padding:14px;margin-bottom:14px;text-align:left;font-size:.84rem;line-height:1.7;color:var(--text)">
+      <p style="margin-bottom:8px"><b>你需要提供什么？</b></p>
+      <p style="margin-bottom:10px">宠物名称、品种、疫苗接种日期等基础健康信息，用于自动计算下次接种时间、生成健康报告。</p>
+      <p style="margin-bottom:8px"><b>隐私如何保护？</b></p>
+      <p style="margin-bottom:10px">所有数据存储在浏览器本地（localStorage），<b>不上传任何服务器</b>。OCR在设备端完成，照片不会离开手机。可随时导出JSON备份。</p>
+      <p style="margin:0"><b>接下来？</b> 填写后即可设置疫苗提醒、记录驱虫、查看花费看板。全程无需注册。</p>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" id="privacyConsentOk" style="padding:10px 24px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:.88rem;font-weight:600;cursor:pointer">我知道了，开始填写</button>
+      <button class="btn" id="privacyConsentCancel" style="padding:10px 18px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--muted);font-size:.84rem;cursor:pointer">稍后再说</button>
+    </div>
+  </div>
+</div>
+
+<div id="main-app">
+<!-- 页面编号指示器 -->
+<div id="pageIndicator" style="position:fixed;top:12px;right:12px;z-index:100;background:rgba(0,0,0,.55);color:#fff;font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:999px;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);letter-spacing:.02em;user-select:none;transition:all .2s" title="疫苗档案 — 点击查看流程导览" onclick="document.getElementById('flowNavModal').style.display='flex'">1/5</div>
+
+<!-- 流程导览弹窗 -->
+<div id="flowNavModal" class="modal-overlay" style="display:none;">
+  <div class="modal-content" style="max-width:400px;">
+    <h3 style="margin-bottom:14px;font-size:1rem;">📍 产品流程导览</h3>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=home]').click();document.getElementById('flowNavModal').style.display='none'">
+        <span style="font-size:1.1rem">🏠</span>
+        <span style="flex:1;font-weight:600;font-size:.85rem">疫苗档案</span>
+        <span style="font-size:.7rem;color:var(--muted)">1/5</span>
+        <span style="font-size:.7rem;color:var(--primary)">→</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=expense]').click();document.getElementById('flowNavModal').style.display='none'">
+        <span style="font-size:1.1rem">💰</span>
+        <span style="flex:1;font-weight:600;font-size:.85rem">花费记录</span>
+        <span style="font-size:.7rem;color:var(--muted)">2/5</span>
+        <span style="font-size:.7rem;color:var(--primary)">→</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=ocr]').click();document.getElementById('flowNavModal').style.display='none'">
+        <span style="font-size:1.1rem">📷</span>
+        <span style="flex:1;font-weight:600;font-size:.85rem">OCR识别</span>
+        <span style="font-size:.7rem;color:var(--muted)">3/5</span>
+        <span style="font-size:.7rem;color:var(--primary)">→</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=dashboard]').click();document.getElementById('flowNavModal').style.display='none'">
+        <span style="font-size:1.1rem">📊</span>
+        <span style="flex:1;font-weight:600;font-size:.85rem">数据看板</span>
+        <span style="font-size:.7rem;color:var(--muted)">4/5</span>
+        <span style="font-size:.7rem;color:var(--primary)">→</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=ai-report]').click();document.getElementById('flowNavModal').style.display='none'">
+        <span style="font-size:1.1rem">🤖</span>
+        <span style="flex:1;font-weight:600;font-size:.85rem">AI报告</span>
+        <span style="font-size:.7rem;color:var(--muted)">5/5</span>
+        <span style="font-size:.7rem;color:var(--primary)">→</span>
+      </div>
+    </div>
+    <div style="text-align:center"><button onclick="document.getElementById('flowNavModal').style.display='none'" style="padding:8px 24px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--muted);font-size:.84rem;cursor:pointer">关闭</button></div>
+  </div>
+</div>
+
 <div class="container">
     <!-- ========== 主页：疫苗记录 ========= -->
     <div id="page-home" class="page active">
@@ -2987,6 +3050,18 @@
                 }
             });
 
+            // 页面编号映射
+            const pageOrder = ['home','expense','ocr','dashboard','ai-report'];
+            const pageLabels = ['疫苗档案','花费记录','OCR识别','数据看板','AI报告'];
+            function updatePageIndicator(page) {
+                const idx = pageOrder.indexOf(page);
+                const el = document.getElementById('pageIndicator');
+                if (el && idx >= 0) {
+                    el.textContent = (idx+1) + '/' + pageOrder.length;
+                    el.title = pageLabels[idx] + ' — 点击查看流程导览';
+                }
+            }
+
             // 底部导航
             document.querySelectorAll('.tab-item').forEach(t => {
                 t.addEventListener('click', () => {
@@ -2995,6 +3070,7 @@
                     document.getElementById(`page-${page}`).classList.add('active');
                     document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
                     t.classList.add('active');
+                    updatePageIndicator(page);
                     if(page === 'expense') renderExpensePage();
                     if(page === 'dashboard') renderDashboard();
                     if(page === 'ai-report') { renderEnhancedInsights(); renderPetTimeline(); }
@@ -3003,8 +3079,24 @@
 
             document.getElementById('gotoExpenseLink').addEventListener('click', ()=> document.querySelector('.tab-item[data-page="expense"]').click());
 
-            // 宠物模态框
-            document.getElementById('showAddPetBtn').addEventListener('click', ()=> openPetModal());
+            // 宠物模态框 — 首次点击先弹隐私说明
+            let privacyConsented = localStorage.getItem('pet_privacy_consent') === '1';
+            document.getElementById('showAddPetBtn').addEventListener('click', () => {
+                if (!privacyConsented) {
+                    document.getElementById('privacyConsentModal').style.display = 'flex';
+                } else {
+                    openPetModal();
+                }
+            });
+            document.getElementById('privacyConsentOk').addEventListener('click', () => {
+                privacyConsented = true;
+                localStorage.setItem('pet_privacy_consent', '1');
+                document.getElementById('privacyConsentModal').style.display = 'none';
+                openPetModal();
+            });
+            document.getElementById('privacyConsentCancel').addEventListener('click', () => {
+                document.getElementById('privacyConsentModal').style.display = 'none';
+            });
             document.getElementById('cancelPetModal').addEventListener('click', ()=> document.getElementById('petModal').style.display='none');
             
             const avatarInput = document.getElementById('avatarInput');
