@@ -1528,7 +1528,157 @@ body {
     padding-bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)) !important;
 }
 
-/* 6. 小屏 (≤375px) 字距/字号微调 */
+/* 6. 手机端适配 (≤480px) */
+@media (max-width: 480px) {
+    /* Agent Matrix 3列→2列 */
+    #agentMatrix {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+    }
+    #agentMatrix .agent-card {
+        padding: 6px !important;
+    }
+    #agentMatrix .agent-card div:first-child {
+        font-size: 14px !important;
+    }
+    #agentMatrix .agent-card div:nth-child(2) {
+        font-size: 9px !important;
+    }
+
+    /* MCP面板优化 */
+    .mcp-log-box {
+        max-height: 80px !important;
+        font-size: 10px !important;
+    }
+
+    /* AI对话面板全屏 */
+    .ai-chat-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+    }
+    .ai-chat-overlay {
+        align-items: flex-end !important;
+    }
+
+    /* 订单面板全屏 */
+    .order-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+    }
+
+    /* 商品卡片优化 */
+    .product-media {
+        height: 200px !important;
+    }
+    .product-emoji {
+        font-size: 48px !important;
+    }
+
+    /* 到手价计算器 */
+    .landed-price-grid {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+    }
+
+    /* 比价表格 */
+    .compare-table {
+        font-size: 12px !important;
+    }
+    .compare-table td, .compare-table th {
+        padding: 8px 6px !important;
+    }
+
+    /* 供应链溯源 */
+    .supply-chain-track {
+        gap: 6px !important;
+    }
+    .supply-step {
+        min-width: 60px !important;
+        padding: 8px !important;
+    }
+    .supply-step-icon {
+        font-size: 16px !important;
+    }
+    .supply-step-label {
+        font-size: 10px !important;
+    }
+
+    /* 阶梯拼团 */
+    .group-tier-card {
+        padding: 10px !important;
+    }
+    .group-tier-info h4 {
+        font-size: 13px !important;
+    }
+    .group-tier-price {
+        font-size: 12px !important;
+    }
+
+    /* 评价区域 */
+    .review-item {
+        padding: 10px !important;
+    }
+
+    /* AI推荐卡片 */
+    .ai-rec-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+    .ai-rec-item {
+        padding: 8px !important;
+    }
+    .ai-rec-emoji {
+        font-size: 20px !important;
+    }
+    .ai-rec-name {
+        font-size: 12px !important;
+    }
+    .ai-rec-price {
+        font-size: 10px !important;
+    }
+
+    /* 按钮优化 */
+    .primary-btn {
+        font-size: 14px !important;
+        padding: 12px !important;
+    }
+    .share-btn {
+        font-size: 12px !important;
+        padding: 8px !important;
+    }
+
+    /* 信任徽章 */
+    .trust-badge {
+        padding: 6px !important;
+    }
+    .trust-badge-icon {
+        font-size: 14px !important;
+    }
+    .trust-badge-label {
+        font-size: 10px !important;
+    }
+
+    /* 倒计时 */
+    .countdown-section {
+        padding: 10px 12px !important;
+    }
+    #hour, #minute, #second {
+        font-size: 14px !important;
+        padding: 4px 6px !important;
+    }
+
+    /* 库存提示 */
+    .stock-alert {
+        font-size: 11px !important;
+        padding: 6px 10px !important;
+    }
+}
+
+/* 7. 小屏 (≤375px) 字距/字号微调 */
 @media (max-width: 375px) {
     .brand-text { font-size: 16px; }
     .brand-sub { font-size: 10px; }
@@ -1549,6 +1699,16 @@ body {
     .order-body { padding: 0 14px 14px !important; }
     .order-summary-box { padding: 12px !important; }
     .order-summary-total { font-size: 16px !important; }
+
+    /* Agent Matrix 2列→1列 */
+    #agentMatrix {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* AI推荐卡片单列 */
+    .ai-rec-grid {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 /* 7. 超小屏 (≤360px) 进一步压缩 */
@@ -1566,6 +1726,75 @@ body {
     .primary-btn { font-size: 15px; padding: 12px !important; }
     .msg { font-size: 13px; }
     .ai-card-wrap { border-radius: 14px; }
+}
+
+/* ====== 触摸优化 ====== */
+/* 禁用触摸高亮 */
+* {
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+}
+
+/* 触摸操作优化 */
+button, a, .neu-card, .ai-rec-item, .order-spec-btn, .order-pay-option, .agent-card {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+}
+
+/* 增大触摸目标（最小44px） */
+button, a, .neu-btn, .share-btn, .primary-btn, .lang-switch, .toggle-login, .user-avatar {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* 滚动优化 */
+.neu-card, .ai-chat-messages, .order-body, .mcp-log-box, .supply-chain-track {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+/* 防止双击缩放 */
+html {
+    touch-action: manipulation;
+}
+
+/* 手机端安全区域适配 */
+@supports (padding: max(0px)) {
+    .top-bar {
+        padding-top: max(16px, env(safe-area-inset-top, 16px)) !important;
+    }
+    .ai-chat-input, .order-bottom-bar {
+        padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)) !important;
+    }
+}
+
+/* 手机端键盘弹出时适配 */
+@media (max-width: 480px) {
+    .ai-chat-panel {
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+    }
+    .order-panel {
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+    }
+}
+
+/* 滑动手势反馈 */
+.ai-rec-item:active, .neu-card:active, .agent-card:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+
+/* 长按菜单禁用 */
+.ai-chat-messages, .product-name, .ai-rec-name {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+/* 输入框优化 */
+input, textarea, select {
+    font-size: 16px !important; /* 防止iOS缩放 */
 }
 
 /* 8. 横屏适配 */
