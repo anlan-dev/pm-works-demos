@@ -374,7 +374,7 @@ body.has-top-nav{padding-top:44px}
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · 竞品功能对比</div><div class="step-text">对比4款宠物管理类App的疫苗提醒功能、隐私策略、付费模式，发现现有工具<b>重社交商城、轻健康记录</b>，隐私保护均弱于用户预期。由此确定"本地存储+零服务器"的技术差异化路线，把差异化写进PRD。</div></div></div>
 
-  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：跨境电商 · 市场格局分析</div><div class="step-text">调研跨境购物场景中关税、物流、翻译三大信息痛点，对比传统Chatbot与Agent主动推送的信息获取效率差异。发现用户"不知道该问什么"比"找不到答案"更致命，由此设计<b>"Agent主动结构化"</b>范式——系统主动推送结构化信息卡片，而非等用户提问。</div></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：跨境电商 · 市场格局分析</div><div class="step-text">调研跨境电商全链路痛点（需求模糊、市场信息碎片化、选品靠经验、文案多语言难、合规风险高、运营策略缺失），对比传统Chatbot与Multi-Agent协作的效率差异。发现用户"不知道该问什么"比"找不到答案"更致命，由此设计<b>"6-Agent全链路协作"</b>范式——从需求解析到运营策略，6个Agent各司其职，Orchestrator路由调度，系统主动推送结构化信息卡片。</div></div></div>
 </div>
 
 <!-- ===== PM核心能力：数据分析 ===== -->
@@ -495,7 +495,7 @@ body.has-top-nav{padding-top:44px}
 </div></div></div>
 
 <!-- ===== PRD Quality Gate ===== -->
-<h2 class="section-title scroll-margin" id="quality">独立项目</h2>
+<h2 class="section-title scroll-margin" id="quality-gate">独立项目</h2>
 
 <div class="card">
   <div class="card-icon">🔍</div>
@@ -803,9 +803,9 @@ body.has-top-nav{padding-top:44px}
   <div class="card-icon">🌐</div>
   <div class="card-title">GlobalFUN · 跨境电商AI拼团</div>
   <div class="card-sub">行业垂直探索 · 2026.01-05</div>
-  <div class="flow-badge"><span class="fb-step">1</span>浏览商品<span class="fb-arrow">→</span><span class="fb-step">2</span>发起/加入拼团<span class="fb-arrow">→</span><span class="fb-step">3</span>AI比价+关税+物流<span class="fb-arrow">→</span><span class="fb-step">4</span>确认下单<span class="fb-arrow">→</span><span class="fb-step">5</span>多语言追踪</div>
-  <div class="arch-box"><b>MCP服务总线+Multi-Agent：</b>比价Agent+关税Agent+物流Agent+翻译Agent→Orchestrator路由→结构化卡片推送。不做传统问答Chatbot。</div>
-  <div class="result"><div class="rtitle">探索价值</div>验证MCP下Multi-Agent交互可行性，为跨境电商+AI Agent方向积累产品认知。</div>
+  <div class="flow-badge"><span class="fb-step">1</span>需求输入<span class="fb-arrow">→</span><span class="fb-step">2</span>市场调研<span class="fb-arrow">→</span><span class="fb-step">3</span>选品推荐<span class="fb-arrow">→</span><span class="fb-step">4</span>文案生成<span class="fb-arrow">→</span><span class="fb-step">5</span>合规审核<span class="fb-arrow">→</span><span class="fb-step">6</span>运营上架</div>
+  <div class="arch-box"><b>MCP服务总线+6-Agent协作：</b>需求解析Agent+市场调研Agent+选品分析Agent+文案生成Agent+合规审核Agent+运营策略Agent→Orchestrator路由→结构化卡片推送。覆盖跨境电商全链路闭环，不做传统问答Chatbot。</div>
+  <div class="result"><div class="rtitle">探索价值</div>从4-Agent扩展到6-Agent全链路协作，覆盖需求→调研→选品→文案→合规→运营完整跨境电商闭环。验证MCP下多Agent并行协作+流水线编排的交互可行性。</div>
   <a href="./cross-border-ai.html" target="_blank" class="demo-link">体验 Demo →</a>
 
   <details style="cursor:pointer;margin-top:10px">
@@ -814,7 +814,7 @@ body.has-top-nav{padding-top:44px}
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>访谈<b>8位</b>跨境电商用户（含代购、海淘新手），问卷<b>42份</b>，行业报告分析（海关总署/艾瑞咨询跨境报告）；KANO：基础型（商品浏览+拼团）、期望型（AI比价+关税计算）、兴奋型（多语言追踪+Agent主动推送）。<b>竞品：</b>直接——拼多多全球购、天猫国际；间接——亚马逊海淘；替代——代购+转运公司。差异化：MCP+Multi-Agent结构化推送。<b>数据：</b>Agent卡片点击率、拼团发起率、比价→下单转化漏斗、多语言使用分布。
+      <b>调研：</b>访谈<b>8位</b>跨境电商用户（含代购、海淘新手），问卷<b>42份</b>，行业报告分析（海关总署/艾瑞咨询跨境报告）；KANO：基础型（商品浏览+拼团+多语言切换）、期望型（AI比价+关税计算+结构化信息推送）、兴奋型（6-Agent全链路协作+合规校验+多语言文案生成）。<b>竞品：</b>直接——拼多多全球购、天猫国际；间接——亚马逊海淘；替代——代购+转运公司。差异化：MCP+6-Agent结构化推送，覆盖从需求解析到运营策略的完整闭环。<b>数据：</b>Agent卡片点击率、意图识别率（<b>98.2%</b>）、MCP平均延迟（<b>180ms</b>）、比价→下单转化漏斗、6-Agent协作流水线完成率。
     </div>
   </details>
 </div>
@@ -891,7 +891,7 @@ body.has-top-nav{padding-top:44px}
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>趋势：</b>2025年 AI Agent 从单轮对话走向多工具协作。MCP 标准化了模型调用外部工具的方式，Function Calling 成为 Agent 的"神经系统"。<br>
-    <b>我的实践：</b>跨境电商 AI Agent 中设计了 MCP 服务总线 + 多 Agent（比价/翻译/物流）协同架构，实现结构化卡片输出。冷启动助手的 Prompt 模板本质上是轻量级 Agent 定义。<br>
+    <b>我的实践：</b>跨境电商 AI Agent 中设计了 MCP 服务总线 + 6-Agent（需求解析/市场调研/选品分析/文案生成/合规审核/运营策略）全链路协作架构，实现结构化卡片输出与多Agent并行协作。冷启动助手的 Prompt 模板本质上是轻量级 Agent 定义。<br>
     <b>PM 启示：</b>Agent 不是万能的——PM 的核心价值是定义"什么场景用什么工具链"，以及失败时的降级策略。
   </div>
 </details>
@@ -949,7 +949,7 @@ body.has-top-nav{padding-top:44px}
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>趋势：</b>MCP 由 Anthropic 于2024年底开源，2025年底捐赠给 Linux 基金会，2026年已成为行业事实标准——OpenAI、Google、Microsoft、AWS 全部支持。SDK月下载量超9700万次。它解决了N×M集成问题：过去每个AI工具对接每个外部系统都需要定制开发，现在通过一个标准协议即可完成。微软已将MCP集成到Fabric数据平台，Cursor、Claude等工具原生支持MCP Server。<br>
-    <b>PM 启示：</b>MCP改变了PM思考"AI功能边界"的方式。过去PM问"这个功能AI能不能做"，现在应该问"这个场景需要连接哪些外部系统，MCP Server是否已存在"。在EasyRight实习中，我设计跨境电商AI Agent时用MCP服务总线连接比价/翻译/物流三个Agent——这个架构思路在未来会成为标配。
+    <b>PM 启示：</b>MCP改变了PM思考"AI功能边界"的方式。过去PM问"这个功能AI能不能做"，现在应该问"这个场景需要连接哪些外部系统，MCP Server是否已存在"。在跨境电商项目中，我设计了MCP服务总线连接6个Agent（需求解析/市场调研/选品/文案/合规/运营）的全链路协作架构——这种多Agent编排思路在未来会成为标配。
   </div>
 </details>
 
