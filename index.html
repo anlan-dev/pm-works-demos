@@ -231,6 +231,9 @@ body.has-top-nav{padding-top:44px}
   <div class="top-nav-inner">
     <a href="./demo-hub.html" target="_blank" class="top-nav-link" style="background:rgba(0,113,227,.15);color:#0071e3;font-weight:600"><span class="nav-icon">🚀</span>Demo导航</a>
     <a href="#comp" class="top-nav-link active"><span class="nav-icon">📊</span>能力总览</a>
+    <a href="#need" class="top-nav-link"><span class="nav-icon">🔍</span>需求</a>
+    <a href="#comp-analysis" class="top-nav-link"><span class="nav-icon">⚔️</span>竞品</a>
+    <a href="#data-analysis" class="top-nav-link"><span class="nav-icon">📈</span>数据</a>
     <a href="#intern" class="top-nav-link"><span class="nav-icon">🏋️</span>实习</a>
     <a href="#pet" class="top-nav-link"><span class="nav-icon">🐾</span>宠伴</a>
     <a href="#quality" class="top-nav-link"><span class="nav-icon">🔍</span>PRD Gate</a>
@@ -246,6 +249,9 @@ body.has-top-nav{padding-top:44px}
   <div class="toc-header"><span class="toc-title">目录</span><button class="toc-toggle" id="tocToggle" aria-label="折叠目录">−</button></div>
   <ul class="toc-list">
     <li><a href="#comp" class="toc-link"><span class="toc-icon">📊</span>能力总览</a></li>
+    <li><a href="#need" class="toc-link"><span class="toc-icon">🔍</span>需求发现</a></li>
+    <li><a href="#comp-analysis" class="toc-link"><span class="toc-icon">⚔️</span>竞品分析</a></li>
+    <li><a href="#data-analysis" class="toc-link"><span class="toc-icon">📈</span>数据分析</a></li>
     <li><a href="#intern" class="toc-link"><span class="toc-icon">🏋️</span>实习经历</a></li>
     <li><a href="#pet" class="toc-link"><span class="toc-icon">🐾</span>宠伴</a></li>
     <li><a href="#quality" class="toc-link"><span class="toc-icon">🔍</span>PRD Gate</a></li>
@@ -260,9 +266,10 @@ body.has-top-nav{padding-top:44px}
 <nav class="mobile-nav" id="mobileNav">
   <div class="mobile-nav-inner">
     <a href="./demo-hub.html" target="_blank" style="background:rgba(0,113,227,.1);color:#0071e3;font-weight:600">🚀 Demo导航</a>
-    <a href="#comp">📊 能力</a><a href="#intern">🏋️ 实习</a>
-    <a href="#pet">🐾 宠伴</a><a href="#quality">🔍 Gate</a>
-    <a href="#meeting">🎙️ 会议</a><a href="#more">📦 更多</a>
+    <a href="#comp">📊 能力</a><a href="#need">🔍 需求</a>
+    <a href="#comp-analysis">⚔️ 竞品</a><a href="#data-analysis">📈 数据</a>
+    <a href="#intern">🏋️ 实习</a><a href="#pet">🐾 宠伴</a>
+    <a href="#quality">🔍 Gate</a><a href="#more">📦 更多</a>
     <a href="#method">🔄 方法</a><a href="#frontier">🔬 前沿</a>
   </div>
 </nav>
@@ -336,6 +343,60 @@ body.has-top-nav{padding-top:44px}
 </div>
 <div class="divider"></div>
 
+<!-- ===== PM核心能力：需求发现 ===== -->
+<h2 class="section-title scroll-margin" id="need">PM核心能力 · 需求发现</h2>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">用户访谈 + 行为数据 + 差评挖掘三管齐下，从"用户说的"和"用户做的"两个维度交叉验证需求真伪</p>
+
+<div class="card">
+  <div class="card-icon">🔍</div>
+  <div class="card-title">需求发现方法论</div>
+  <div class="card-sub">从用户行为数据和真实反馈中定义需求，而非从技术能力出发找场景</div>
+
+  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架</div><div class="step-text"><b>三管齐下：</b>①用户深度访谈（挖掘隐性需求）②SQL行为数据（验证用户真实行为）③应用商店差评分析（发现竞品未满足的需求）。交叉验证"用户说的"和"用户做的"，过滤伪需求。</div></div></div>
+
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：EasyRight AI · 行为数据驱动</div><div class="step-text">通过SQL拆解AI纠错功能全链路（上传视频→触发分析→查看报告→分享）各环节转化数据，发现<b>「查看报告→分享」环节跳出率60%</b>——用户完成训练后才看到纠错报告，错误动作模式已经形成。结合用户反馈验证：用户不是不想纠错，而是反馈来得太晚。由此定义<b>"将反馈时机从训练后前置到训练中"</b>的核心需求。</div></div></div>
+
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · 访谈+差评挖掘</div><div class="step-text"><b>20位</b>宠物主深度访谈+应用商店差评分析，量化定义核心问题——<b>70%</b>用户每月遗忘疫苗接种，<b>83%</b>将隐私顾虑置于成本之上。主动砍掉社区/商城模块，聚焦轻量健康记录，确定"隐私优先+零成本"的产品定位。</div></div></div>
+
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：会议·反刍舱 · 场景观察</div><div class="step-text">访谈PM/项目协作人群，发现会后整理纪要平均耗时15-20分钟，漏项率约<b>30%</b>。核心矛盾不是"没有工具"，而是"工具太重"——用户需要的是"这一场会议的产出可被追踪"。明确不做大而全的协作套件，聚焦最小闭环。</div></div></div>
+</div>
+
+<!-- ===== PM核心能力：竞品分析 ===== -->
+<h2 class="section-title scroll-margin" id="comp-analysis">PM核心能力 · 竞品分析</h2>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">多维度结构化对比 + LLM辅助批量分析竞品更新日志，提炼可落地的产品决策</p>
+
+<div class="card">
+  <div class="card-icon">⚔️</div>
+  <div class="card-title">竞品分析方法论</div>
+  <div class="card-sub">按迭代趋势/共性方向/差异化方向/用户痛点四维度输出结构化报告</div>
+
+  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架</div><div class="step-text"><b>四维度结构化对比：</b>①迭代趋势（近12个月更新方向）②共性功能（行业标配）③差异化（竞品独有）④用户痛点（差评高频词）。用LLM辅助批量分析竞品更新日志和用户评论，输出可落地的产品决策。</div></div></div>
+
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：高球记 · 4款竞品深度分析</div><div class="step-text">用DeepSeek/ChatGPT批量分析<b>Golfcam、18Birdies、The Grint、Golfshot</b>近12个月App Store更新日志和用户评论。关键发现：行业趋势从"记录工具"转向"社交分享"，用户核心需求从"看数据"升级为"晒成绩"。<b>直接推动产品决策：</b>海报模板首批设计6套（后优化为3套精选）、历史记录提升为首页一级入口、海报尺寸适配微信朋友圈。</div></div></div>
+
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · 竞品功能对比</div><div class="step-text">对比4款宠物管理类App的疫苗提醒功能、隐私策略、付费模式，发现现有工具<b>重社交商城、轻健康记录</b>，隐私保护均弱于用户预期。由此确定"本地存储+零服务器"的技术差异化路线，把差异化写进PRD。</div></div></div>
+
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：跨境电商 · 市场格局分析</div><div class="step-text">调研跨境购物场景中关税、物流、翻译三大信息痛点，对比传统Chatbot与Agent主动推送的信息获取效率差异。发现用户"不知道该问什么"比"找不到答案"更致命，由此设计<b>"Agent主动结构化"</b>范式——系统主动推送结构化信息卡片，而非等用户提问。</div></div></div>
+</div>
+
+<!-- ===== PM核心能力：数据分析 ===== -->
+<h2 class="section-title scroll-margin" id="data-analysis">PM核心能力 · 数据分析</h2>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">SQL埋点分析 + 漏斗转化 + 数据验证闭环，用数据驱动需求优先级决策和效果验证</p>
+
+<div class="card">
+  <div class="card-icon">📊</div>
+  <div class="card-title">数据分析方法论</div>
+  <div class="card-sub">定义指标→埋点设计→数据采集→漏斗分析→验证闭环</div>
+
+  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架</div><div class="step-text"><b>数据分析闭环：</b>①定义核心指标（转化率/NPS/留存等）②埋点事件设计（事件名/触发时机/关键参数）③SQL数据采集与漏斗分析④A/B测试验证⑤数据反向驱动需求优先级。</div></div></div>
+
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：高球记 · 全模块埋点体系</div><div class="step-text">基于原型Demo定义全模块埋点事件体系（共<b>26个事件覆盖11个页面</b>），其中单杆轨迹模块8个事件（首页点击→导入视频→相册/相机选择→轨迹颜色→重播/导出）为核心工作。定义事件名、触发时机、关键参数（trace_color颜色选择等），输出埋点验收标准。用SQL验证单杆轨迹核心漏斗（导入→导出）的事件触发率与参数完整性。</div></div></div>
+
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · A/B验证体系</div><div class="step-text">建立"假设→实验→指标"验证体系：提醒配置意愿指数（任务完成率0.35+配置意愿量表0.35+主观耗时0.30）<b>+13%</b>，记录耗时缩短约<b>60%</b>，种子用户NPS <b>+12→+38</b>，转化率<b>42%</b>，7日留存<b>44%</b>。</div></div></div>
+
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：PRD Quality Gate · 效果测评</div><div class="step-text">~5000字PRD实测<b>850ms</b>响应，检出<b>6/19</b>项合规项定位<b>13处</b>遗漏，验证System Prompt直写规则优于RAG检索的适用边界。用数据证明"确定性审核场景用Prompt直写、开放性场景用RAG"的技术选型结论。</div></div></div>
+</div>
+
 <!-- ===== 实习经历 ===== -->
 <h2 class="section-title scroll-margin" id="intern">实习经历</h2>
 <p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">上海析微智能科技有限公司 · AI产品经理实习生 · 2026.04-至今 · 3条产品线并行管理</p>
@@ -384,6 +445,8 @@ body.has-top-nav{padding-top:44px}
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义</div><div class="step-text"><b>① 缺乏回看手段：</b>打球后想复盘但没好工具 · <b>② 首页过重：</b>四模块认知负担高 · <b>③ 3个P0阻塞Bug：</b>相册卡死/视频导入失败/页面死循环</div></div></div>
 
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>四大功能模块：</b>单杆轨迹（AI识别挥杆→飞行轨迹+距离）→比赛视频（多人挥杆对比）→成绩战报（照片+记分卡→海报）→历史记录（数据沉淀+趋势追踪）</div></div></div>
+
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能与产出</div><ul class="ft-list">
     <li>参与单杆轨迹PRD迭代（V2.0→V5.0），覆盖四大模块交互闭环</li>
     <li>搭建可交互HTML原型 V5.0→V5.4，支持方案评审与设计对齐</li>
@@ -392,6 +455,10 @@ body.has-top-nav{padding-top:44px}
     <li>利用LLM自动分析竞品迭代路径、提炼用户痛点</li>
     <li>首页四模块精简为三模块</li>
   </ul></div></div>
+
+  <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">用户流程</div><div class="flow-box">
+    <span class="flow-step">导入挥杆视频</span><span class="flow-arrow">→</span><span class="flow-step">AI识别击球动作</span><span class="flow-arrow">→</span><span class="flow-step">生成飞行轨迹+距离</span><span class="flow-arrow">→</span><span class="flow-step">选择轨迹颜色</span><span class="flow-arrow">→</span><span class="flow-step">重播/导出→生成战报海报</span>
+  </div></div></div>
 
   <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">交付结果</div>
   <div class="data-row">
@@ -518,6 +585,8 @@ body.has-top-nav{padding-top:44px}
   <div class="quote">「我最怕的是会开完了群里还在重复问谁做什么。」——用户原话（已脱敏）</div></div></div>
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">产品决策</div><div class="step-text"><b>不做</b>大而全协作套件。最小闭环：转写→结构化待办→状态追踪→周报复盘。</div></div></div>
+
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>4大核心模块：</b>语音转写（Whisper本地）→待办台账（结构化字段）→状态流转（待办→进行中→完成→归档状态机）→复盘笔记（短周期回顾）· 可选Node.js+Express+SQLite后端满足团队私有化部署</div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能</div><ul class="ft-list">
     <li>本地Whisper语音转写（隐私优先）</li><li>结构化待办+P0/P1/P2优先级+状态流转</li>
