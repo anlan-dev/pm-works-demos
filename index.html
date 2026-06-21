@@ -235,8 +235,8 @@ body.has-top-nav{padding-top:44px}
     <a href="#comp-analysis" class="top-nav-link"><span class="nav-icon">⚔️</span>竞品</a>
     <a href="#data-analysis" class="top-nav-link"><span class="nav-icon">📈</span>数据</a>
     <a href="#intern" class="top-nav-link"><span class="nav-icon">🏋️</span>实习</a>
-    <a href="#quality" class="top-nav-link"><span class="nav-icon">🔍</span>独立项目</a>
-    <a href="#pet" class="top-nav-link"><span class="nav-icon">🐾</span>个人项目</a>
+    <a href="#pet" class="top-nav-link"><span class="nav-icon">🐾</span>宠伴</a>
+    <a href="#quality" class="top-nav-link"><span class="nav-icon">🔍</span>个人项目</a>
     <a href="#more" class="top-nav-link"><span class="nav-icon">📦</span>更多项目</a>
     <a href="#method" class="top-nav-link"><span class="nav-icon">🔄</span>方法论</a>
     <a href="#frontier" class="top-nav-link"><span class="nav-icon">🔬</span>前沿</a>
@@ -252,8 +252,8 @@ body.has-top-nav{padding-top:44px}
     <li><a href="#comp-analysis" class="toc-link"><span class="toc-icon">⚔️</span>竞品分析</a></li>
     <li><a href="#data-analysis" class="toc-link"><span class="toc-icon">📈</span>数据分析</a></li>
     <li><a href="#intern" class="toc-link"><span class="toc-icon">🏋️</span>实习经历</a></li>
-    <li><a href="#quality" class="toc-link"><span class="toc-icon">🔍</span>独立项目</a></li>
-    <li><a href="#pet" class="toc-link"><span class="toc-icon">🐾</span>个人项目</a></li>
+    <li><a href="#pet" class="toc-link"><span class="toc-icon">🐾</span>宠伴</a></li>
+    <li><a href="#quality" class="toc-link"><span class="toc-icon">🔍</span>个人项目</a></li>
     <li><a href="#more" class="toc-link"><span class="toc-icon">📦</span>更多项目</a></li>
     <li><a href="#method" class="toc-link"><span class="toc-icon">🔄</span>方法论</a></li>
     <li><a href="#frontier" class="toc-link"><span class="toc-icon">🔬</span>前沿观察</a></li>
@@ -266,8 +266,8 @@ body.has-top-nav{padding-top:44px}
     <a href="./demo-hub.html" target="_blank" style="background:rgba(0,113,227,.1);color:#0071e3;font-weight:600">🚀 Demo导航</a>
     <a href="#comp">📊 能力</a><a href="#need">🔍 需求</a>
     <a href="#comp-analysis">⚔️ 竞品</a><a href="#data-analysis">📈 数据</a>
-    <a href="#intern">🏋️ 实习</a><a href="#quality">🔍 独立</a>
-    <a href="#pet">🐾 个人</a><a href="#more">📦 更多</a>
+    <a href="#intern">🏋️ 实习</a><a href="#pet">🐾 宠伴</a>
+    <a href="#quality">🔍 个人</a><a href="#more">📦 更多</a>
     <a href="#method">🔄 方法</a><a href="#frontier">🔬 前沿</a>
   </div>
 </nav>
@@ -513,9 +513,9 @@ body.has-top-nav{padding-top:44px}
   <a href="https://github.com/anlan-dev/ai-pmwork-prompts" target="_blank" class="demo-link" style="margin-left:12px">查看 GitHub 仓库 →</a>
 </div></div></div>
 
-<!-- ===== 个人项目 ===== -->
-<h2 class="section-title scroll-margin" id="pet">个人产品项目</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1独立完成 · 每个项目都有完整的产品闭环</p>
+<!-- ===== 宠伴·健康台账（核心案例） ===== -->
+<h2 class="section-title scroll-margin" id="pet">核心案例：宠伴·健康台账</h2>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1独立完成的核心产品，展示AI产品经理完整能力闭环</p>
 
 <div class="card">
   <div class="card-icon">🐾</div>
@@ -573,6 +573,25 @@ body.has-top-nav{padding-top:44px}
     </div>
   </details>
 </div></div></div>
+
+<!-- ===== 个人项目 ===== -->
+<h2 class="section-title scroll-margin" id="quality">个人项目</h2>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1独立完成 · 每个项目都有完整的产品闭环</p>
+
+<div class="two-col">
+<div class="card">
+  <div class="card-icon">🚦</div>
+  <div class="card-title">PRD Quality Gate</div>
+  <div class="card-sub">团队效率工具 · 2026.04</div>
+  <div class="flow-badge"><span class="fb-step">1</span>提交PRD<span class="fb-arrow">→</span><span class="fb-step">2</span>确认输入<span class="fb-arrow">→</span><span class="fb-step">3</span>AI逐项检查<span class="fb-arrow">→</span><span class="fb-step">4</span>输出报告<span class="fb-arrow">→</span><span class="fb-step">5</span>确认修改</div>
+  <div class="step-text" style="margin-bottom:8px">PRD质量检查依赖人工经验，新手容易遗漏关键要素。核心判断：确定性规则用System Prompt直写比RAG更稳定。</div>
+  <ul class="ft-list">
+    <li>19条PRD质量检查规则（覆盖场景/AI必要性/链路/数据/伦理/交付）</li>
+    <li>System Prompt直写规则，~850ms响应</li>
+    <li>三重护栏：操作确认→过程可解释→结果可修正</li>
+  </ul>
+  <a href="https://cloud.dify.ai/app/2642a91c-7892-45f0-b086-9c93520806cc/workflow" target="_blank" class="demo-link">查看 Dify 工作流 →</a>
+</div>
 
 <div class="card">
   <div class="card-icon">🎙️</div>
