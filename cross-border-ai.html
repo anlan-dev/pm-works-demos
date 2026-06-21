@@ -810,7 +810,87 @@
                 box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
             }
         }
-    
+
+        /* PC端大屏优化 (≥1024px) */
+        @media (min-width: 1024px) {
+            /* Agent Matrix 4列布局 */
+            #agentMatrix {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 12px !important;
+            }
+            #agentMatrix .agent-card {
+                padding: 12px !important;
+                transition: all 0.2s ease;
+            }
+            #agentMatrix .agent-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+
+            /* AI推荐卡片4列 */
+            .ai-rec-grid {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 12px !important;
+            }
+
+            /* 比价表格优化 */
+            .compare-table {
+                font-size: 14px !important;
+            }
+            .compare-table td, .compare-table th {
+                padding: 12px 10px !important;
+            }
+
+            /* 供应链溯源 */
+            .supply-chain-track {
+                gap: 12px !important;
+            }
+            .supply-step {
+                min-width: 80px !important;
+                padding: 12px !important;
+            }
+
+            /* 阶梯拼团 */
+            .group-tier-card {
+                padding: 16px !important;
+            }
+
+            /* 评价区域 */
+            .review-item {
+                padding: 16px !important;
+            }
+
+            /* 信任徽章 */
+            .trust-badge {
+                padding: 12px !important;
+            }
+        }
+
+        /* PC端超大屏优化 (≥1280px) */
+        @media (min-width: 1280px) {
+            #app {
+                max-width: 480px !important;
+            }
+
+            /* Agent Matrix 6列一行 */
+            #agentMatrix {
+                grid-template-columns: repeat(6, 1fr) !important;
+                gap: 12px !important;
+            }
+
+            /* AI推荐卡片 */
+            .ai-rec-grid {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 16px !important;
+            }
+
+            /* 到手价计算器 */
+            .landed-price-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+        }
+
 /* ====== Debug Mode (面试官模式) ====== */
 #debugBanner {
     display: none;
@@ -1795,6 +1875,55 @@ html {
 /* 输入框优化 */
 input, textarea, select {
     font-size: 16px !important; /* 防止iOS缩放 */
+}
+
+/* ====== PC端鼠标交互优化 ====== */
+@media (hover: hover) and (pointer: fine) {
+    /* 鼠标悬停效果 */
+    .neu-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .ai-rec-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .agent-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        background: rgba(124, 58, 237, 0.05) !important;
+    }
+
+    button:hover, .primary-btn:hover, .share-btn:hover, .neu-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .lang-switch:hover, .toggle-login:hover {
+        background: rgba(124, 58, 237, 0.08);
+    }
+
+    .order-spec-btn:hover:not(.selected) {
+        border-color: rgba(124, 58, 237, 0.3);
+        background: rgba(124, 58, 237, 0.03);
+    }
+
+    .msg-suggestions button:hover {
+        background: rgba(124, 58, 237, 0.08);
+        border-color: rgba(124, 58, 237, 0.3);
+    }
+
+    /* 鼠标指针优化 */
+    .neu-card, .ai-rec-item, .agent-card, button, .order-spec-btn, .order-pay-option {
+        cursor: pointer;
+    }
+
+    /* 禁用触摸设备的悬停效果 */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
 }
 
 /* 8. 横屏适配 */
