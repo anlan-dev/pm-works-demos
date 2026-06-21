@@ -2141,18 +2141,33 @@ body {
             <div style="font-size:11px;color:#a78bfa;margin-bottom:10px;font-weight:600;">🌐 AGENT ORCHESTRATION MATRIX</div>
             <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;" id="agentMatrix">
                 <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
+                    <div style="font-size:16px;">🔍</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">需求解析</div>
+                    <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
+                </div>
+                <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
+                    <div style="font-size:16px;">📊</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">市场调研</div>
+                    <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
+                </div>
+                <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
                     <div style="font-size:16px;">🛍️</div>
-                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">比价 Agent</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">选品分析</div>
                     <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
                 </div>
                 <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
-                    <div style="font-size:16px;">🌐</div>
-                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">翻译 Agent</div>
+                    <div style="font-size:16px;">✍️</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">文案生成</div>
                     <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
                 </div>
                 <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
-                    <div style="font-size:16px;">🚚</div>
-                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">物流 Agent</div>
+                    <div style="font-size:16px;">🛡️</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">合规审核</div>
+                    <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
+                </div>
+                <div class="agent-card" style="background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;text-align:center;">
+                    <div style="font-size:16px;">📈</div>
+                    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">运营策略</div>
                     <div class="agent-status" style="font-size:9px;color:#4ade80;margin-top:2px;">IDLE</div>
                 </div>
             </div>
@@ -2578,6 +2593,14 @@ body {
                         statusEl.textContent = 'RUNNING';
                         statusEl.style.color = '#a78bfa';
                     }
+                } else if (activeAgentIndex === -2) {
+                    // Multi-agent: mark all as active
+                    card.style.border = '1px solid rgba(124, 58, 237, 0.3)';
+                    card.style.background = 'rgba(124, 58, 237, 0.03)';
+                    if (statusEl) {
+                        statusEl.textContent = 'RUNNING';
+                        statusEl.style.color = '#a78bfa';
+                    }
                 } else {
                     card.style.border = '1px solid transparent';
                     card.style.background = 'rgba(255,255,255,0.03)';
@@ -2595,7 +2618,8 @@ body {
                 idle: { bg: '#94a3b8', text: 'Orchestrator IDLE' },
                 analyzing: { bg: '#fbbf24', text: '分析意图...' },
                 routing: { bg: '#60a5fa', text: `调度: ${agentName}` },
-                parallel: { bg: '#a78bfa', text: '并行调度中...' },
+                parallel: { bg: '#a78bfa', text: '多Agent并行协作...' },
+                pipeline: { bg: '#f97316', text: `全链路: ${agentName}` },
                 done: { bg: '#4ade80', text: '任务完成' }
             };
             
@@ -3060,6 +3084,150 @@ body {
                             </div>
                         </div>
                     </div>
+                </div>`,
+
+            // 合规校验卡片
+            compliance: () => `
+                <div class="ai-card-wrap">
+                    <div class="ai-card-header">
+                        <div class="ai-card-header-icon" style="background:#fef2f2;">🛡️</div>
+                        <span class="ai-card-header-title">合规审核报告</span>
+                        <span class="ai-card-header-badge" style="background:#dcfce7;color:#16a34a;">已通过</span>
+                    </div>
+                    <div class="ai-card-body">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:10px;background:#dcfce7;border-radius:10px;">
+                            <span style="font-size:18px;">✅</span>
+                            <span style="font-size:13px;font-weight:600;color:#16a34a;">该商品符合目标市场法规要求</span>
+                        </div>
+                        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">📋 检查项目</div>
+                        <div style="display:flex;flex-direction:column;gap:6px;">
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border-radius:8px;font-size:12px;">
+                                <span style="color:#16a34a;">✅</span><span>成分合规（欧盟EC 1223/2009）</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border-radius:8px;font-size:12px;">
+                                <span style="color:#16a34a;">✅</span><span>标签规范（中文+英文双语）</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border-radius:8px;font-size:12px;">
+                                <span style="color:#16a34a;">✅</span><span>进口备案（国家药监局）</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border-radius:8px;font-size:12px;">
+                                <span style="color:#16a34a;">✅</span><span>知识产权（无侵权风险）</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg);border-radius:8px;font-size:12px;">
+                                <span style="color:#f59e0b;">⚠️</span><span>关税税率：化妆品类 6.5%（已含）</span>
+                            </div>
+                        </div>
+                        <div style="font-size:12px;color:var(--muted);margin-top:10px;">🌐 适用市场：中国大陆 · 欧盟 · 东南亚</div>
+                    </div>
+                </div>`,
+
+            // 多语言文案生成卡片
+            copywriting: () => `
+                <div class="ai-card-wrap">
+                    <div class="ai-card-header">
+                        <div class="ai-card-header-icon" style="background:#f3e8ff;">✍️</div>
+                        <span class="ai-card-header-title">AI 多语言文案</span>
+                    </div>
+                    <div class="ai-card-body">
+                        <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+                            <span style="font-size:11px;padding:4px 10px;background:var(--primary-soft);color:var(--primary);border-radius:6px;font-weight:600;">🇨🇳 中文</span>
+                            <span style="font-size:11px;padding:4px 10px;background:var(--bg);border-radius:6px;cursor:pointer;">🇺🇸 English</span>
+                            <span style="font-size:11px;padding:4px 10px;background:var(--bg);border-radius:6px;cursor:pointer;">🇫🇷 Français</span>
+                            <span style="font-size:11px;padding:4px 10px;background:var(--bg);border-radius:6px;cursor:pointer;">🇩🇪 Deutsch</span>
+                            <span style="font-size:11px;padding:4px 10px;background:var(--bg);border-radius:6px;cursor:pointer;">🇪🇸 Español</span>
+                        </div>
+                        <div style="padding:12px;background:var(--bg);border-radius:12px;box-shadow:var(--neu-shadow-inset);margin-bottom:10px;">
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">📝 商品标题</div>
+                            <div style="font-size:14px;font-weight:600;color:var(--text);">Yamanashi 白桃水润精华 200ml · 日本直邮 · 保湿锁水</div>
+                        </div>
+                        <div style="padding:12px;background:var(--bg);border-radius:12px;box-shadow:var(--neu-shadow-inset);margin-bottom:10px;">
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">📱 社交媒体文案</div>
+                            <div style="font-size:13px;color:var(--text);line-height:1.6;">🍑 日本直邮！Yamanashi白桃精华，水润不黏腻～拼团价只要¥268，比专柜省一半！限时3人团，快来一起拼！#跨境好物 #日本直邮</div>
+                        </div>
+                        <div style="padding:12px;background:var(--bg);border-radius:12px;box-shadow:var(--neu-shadow-inset);">
+                            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">📧 EDM邮件标题（A/B测试）</div>
+                            <div style="font-size:13px;color:var(--text);margin-bottom:4px;">A: 🔥 限时拼团 | 日本白桃精华 ¥268，比专柜省50%</div>
+                            <div style="font-size:13px;color:var(--text);">B: 🍑 你的肌肤渴了吗？日本直邮白桃精华，拼团价揭晓</div>
+                        </div>
+                    </div>
+                </div>`,
+
+            // 运营策略卡片
+            strategy: () => `
+                <div class="ai-card-wrap">
+                    <div class="ai-card-header">
+                        <div class="ai-card-header-icon" style="background:#fef3c7;">📈</div>
+                        <span class="ai-card-header-title">AI 运营策略建议</span>
+                    </div>
+                    <div class="ai-card-body">
+                        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">📊 市场洞察</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                            <div style="padding:10px;background:var(--bg);border-radius:10px;text-align:center;">
+                                <div style="font-size:18px;font-weight:700;color:var(--primary);">68%</div>
+                                <div style="font-size:11px;color:var(--muted);">目标用户偏好日本美妆</div>
+                            </div>
+                            <div style="padding:10px;background:var(--bg);border-radius:10px;text-align:center;">
+                                <div style="font-size:18px;font-weight:700;color:#16a34a;">¥200-400</div>
+                                <div style="font-size:11px;color:var(--muted);">最优价格带</div>
+                            </div>
+                        </div>
+                        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">🎯 推荐策略</div>
+                        <div style="display:flex;flex-direction:column;gap:6px;">
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#dcfce7;border-radius:8px;font-size:12px;">
+                                <span>1️⃣</span><span>拼团裂变：分享得¥20优惠券，3人成团再减¥30</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#dbeafe;border-radius:8px;font-size:12px;">
+                                <span>2️⃣</span><span>限时闪购：每日10点开抢，营造紧迫感</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#f3e8ff;border-radius:8px;font-size:12px;">
+                                <span>3️⃣</span><span>KOL种草：小红书+抖音达人合作，预计ROI 1:5</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;padding:8px;background:#fef3c7;border-radius:8px;font-size:12px;">
+                                <span>4️⃣</span><span>复购提醒：30天后自动推送补货通知</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>`,
+
+            // 跨平台数据卡片
+            platform: () => `
+                <div class="ai-card-wrap">
+                    <div class="ai-card-header">
+                        <div class="ai-card-header-icon" style="background:#dbeafe;">🌐</div>
+                        <span class="ai-card-header-title">跨平台数据概览</span>
+                    </div>
+                    <div class="ai-card-body">
+                        <div style="display:flex;flex-direction:column;gap:8px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:10px;">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <span style="font-size:16px;">📦</span>
+                                    <div><div style="font-size:13px;font-weight:600;">Amazon JP</div><div style="font-size:11px;color:var(--muted);">日本站 · 评分4.6</div></div>
+                                </div>
+                                <span style="font-size:14px;font-weight:700;color:var(--primary);">¥328</span>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:10px;">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <span style="font-size:16px;">🏪</span>
+                                    <div><div style="font-size:13px;font-weight:600;">速卖通</div><div style="font-size:11px;color:var(--muted);">全球站 · 月销2.3k</div></div>
+                                </div>
+                                <span style="font-size:14px;font-weight:700;">¥298</span>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:10px;">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <span style="font-size:16px;">🏷️</span>
+                                    <div><div style="font-size:13px;font-weight:600;">Temu</div><div style="font-size:11px;color:var(--muted);">美国站 · 热销榜</div></div>
+                                </div>
+                                <span style="font-size:14px;font-weight:700;">¥278</span>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--primary-soft);border-radius:10px;border:1.5px solid var(--primary);">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <span style="font-size:16px;">🌍</span>
+                                    <div><div style="font-size:13px;font-weight:600;color:var(--primary);">GlobalFUN 拼团</div><div style="font-size:11px;color:var(--primary);">最低价 · 含关税</div></div>
+                                </div>
+                                <span style="font-size:16px;font-weight:800;color:var(--primary);">¥268</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>`
         };
 
@@ -3130,18 +3298,53 @@ body {
                 routeMsg = '路由: "比价/价格" → 比价专家 → 调用多平台比价服务';
                 updateOrchestratorStatus('routing', '比价专家');
                 updateAgentMatrix(0);
+            } else if (t.includes('合规') || t.includes('法规') || t.includes('能不能寄') || t.includes('禁运') || t.includes('认证')) {
+                cardHtml = cardTemplates.compliance();
+                agentName = '合规审核Agent';
+                agentIdx = 4;
+                routeMsg = '路由: "合规/法规" → 合规审核Agent → 调用合规规则引擎';
+                updateOrchestratorStatus('routing', '合规审核Agent');
+                updateAgentMatrix(4);
+            } else if (t.includes('文案') || t.includes('标题') || t.includes('描述') || t.includes('营销') || t.includes('推广')) {
+                cardHtml = cardTemplates.copywriting();
+                agentName = '文案生成Agent';
+                agentIdx = 3;
+                routeMsg = '路由: "文案/营销" → 文案生成Agent → 调用多语言文案引擎';
+                updateOrchestratorStatus('routing', '文案生成Agent');
+                updateAgentMatrix(3);
+            } else if (t.includes('运营') || t.includes('策略') || t.includes('怎么做') || t.includes('建议') || t.includes('方案')) {
+                cardHtml = cardTemplates.strategy();
+                agentName = '运营策略Agent';
+                agentIdx = 5;
+                routeMsg = '路由: "运营/策略" → 运营策略Agent → 调用市场分析引擎';
+                updateOrchestratorStatus('routing', '运营策略Agent');
+                updateAgentMatrix(5);
+            } else if (t.includes('平台') || t.includes('亚马逊') || t.includes('速卖通') || t.includes('temu') || t.includes('对比')) {
+                cardHtml = cardTemplates.platform();
+                agentName = '市场调研Agent';
+                agentIdx = 1;
+                routeMsg = '路由: "平台/对比" → 市场调研Agent → 调用跨平台数据服务';
+                updateOrchestratorStatus('routing', '市场调研Agent');
+                updateAgentMatrix(1);
             } else {
-                // Fallback: generic response
-                typingDiv.remove();
-                addMessage('🤖 抱歉，我专注于跨境购物领域。您可以问我：\n\n💰 比价 · 🚚 物流关税 · 📊 评价 · 🎯 推荐 · 💱 汇率 · 🧴 选购建议', 'ai');
-                updateOrchestratorStatus('idle');
-                return;
+                // Default: multi-agent pipeline
+                cardHtml = cardTemplates.platform();
+                agentName = '多Agent协作';
+                agentIdx = -1;
+                routeMsg = '复杂需求 → 需求解析→市场调研→选品分析→运营策略 全链路协作';
+                updateOrchestratorStatus('pipeline', '需求解析→市场调研→选品→运营');
+                updateAgentMatrix(-2); // All agents active
+                // Sequential pipeline animation
+                setTimeout(() => { updateAgentMatrix(0); updateRouteLog('active', '需求解析Agent: 分析用户意图...'); }, 0);
+                setTimeout(() => { updateAgentMatrix(1); updateRouteLog('active', '市场调研Agent: 查询跨境数据...'); }, 600);
+                setTimeout(() => { updateAgentMatrix(2); updateRouteLog('active', '选品分析Agent: 分析商品数据...'); }, 1200);
+                setTimeout(() => { updateAgentMatrix(5); updateRouteLog('active', '运营策略Agent: 生成策略建议...'); }, 1800);
             }
 
             highlightArch('agent');
             updateRouteLog('active', routeMsg);
 
-            await new Promise(r => setTimeout(r, 800));
+            await new Promise(r => setTimeout(r, 1200));
             highlightArch('tools');
             updateOrchestratorStatus('parallel');
 
@@ -3162,18 +3365,27 @@ body {
             sugDiv.className = 'msg msg-ai';
             sugDiv.style.padding = '10px';
             const suggestions = {
-                compare: ['物流&关税', '推荐类似的', '评价怎么样'],
-                logistics: ['差价多少？', '推荐类似的', '怎么选规格'],
-                recommend: ['差价多少？', '物流&关税', '评价怎么样'],
-                reviews: ['推荐类似的', '差价多少？', '怎么选规格'],
-                currency: ['差价多少？', '物流&关税', '推荐类似的'],
-                spec: ['差价多少？', '物流&关税', '推荐类似的']
+                compare: ['物流&关税', '推荐类似的', '合规检查'],
+                logistics: ['差价多少？', '推荐类似的', '合规检查'],
+                recommend: ['差价多少？', '物流&关税', '生成文案'],
+                reviews: ['推荐类似的', '差价多少？', '运营策略'],
+                currency: ['差价多少？', '物流&关税', '合规检查'],
+                spec: ['差价多少？', '物流&关税', '合规检查'],
+                compliance: ['合规检查', '运营策略', '生成文案'],
+                copywriting: ['运营策略', '合规检查', '跨平台对比'],
+                strategy: ['生成文案', '合规检查', '跨平台对比'],
+                platform: ['运营策略', '合规检查', '生成文案']
             };
             let sugKey = 'compare';
             if (agentName === '多语言专家') sugKey = 'reviews';
             else if (agentName === '物流关税专家') sugKey = 'logistics';
             else if (agentName === '金融助手') sugKey = 'currency';
             else if (agentName === '选购顾问') sugKey = 'spec';
+            else if (agentName === '合规审核Agent') sugKey = 'compliance';
+            else if (agentName === '文案生成Agent') sugKey = 'copywriting';
+            else if (agentName === '运营策略Agent') sugKey = 'strategy';
+            else if (agentName === '市场调研Agent') sugKey = 'platform';
+            else if (agentName === '多Agent协作') sugKey = 'platform';
             else if (routeMsg.includes('推荐')) sugKey = 'recommend';
             const sugs = suggestions[sugKey] || suggestions.compare;
             sugDiv.innerHTML = '<div class="msg-suggestions" style="display:flex;flex-wrap:wrap;gap:6px;">' +
@@ -3765,7 +3977,58 @@ body {
             orderAiFollow: '大阪から発送後、配送状況をお知らせします。',
             payTitle: '🧾 注文確認', payConfirm: '確認', payCancel: 'キャンセル'
         },
-        langs: ['zh', 'en', 'ja'],
+        fr: {
+            flag: '🇫🇷', label: 'Français', currency: '€ EUR',
+            brand: 'GlobalFUN', brandSub: 'Achat Groupé Transfrontalier',
+            login: 'Connexion', logout: 'Déconnexion', guest: 'Invité', notLoggedIn: 'Non connecté',
+            mainBtn: 'Connectez-vous pour rejoindre', mainBtnLoggedIn: '⚡ Commencer le groupe',
+            aiRecTitle: 'Sélection IA · Pour vous', aiRecRefresh: '⟳ Actualiser',
+            shareBtn: '📤 Partager', copyLink: '🔗 Copier le lien',
+            transToggle: 'Original JP',
+            prodOrigin: '🇯🇵 Japon · Direct d\'Osaka', prodSold: '8 342 vendus',
+            prodName: 'Yamanashi Sérum Hydratant Pêche 200ml',
+            prodNameEn: 'Yamanashi Peach Moisture Essence',
+            groupPrice: 'Prix groupe', originalPrice: '¥599',
+            saveTip: '🔥 Économisez ¥331 vs. prix domestique',
+            aiChat: '👋 Bonjour ! Je suis Globy, votre assistant IA cross-border.\n\n🌏 Recommandations · 🌐 Traduire · 💰 Calculer le prix',
+            aiSug1: 'Différence de prix ?', aiSug2: 'Livraison & Taxe', aiSug3: 'Articles similaires', aiSug4: 'Avis ?', aiSug5: 'Comment choisir ?',
+            payTitle: '🧾 Confirmation', payConfirm: 'Confirmer', payCancel: 'Annuler'
+        },
+        de: {
+            flag: '🇩🇪', label: 'Deutsch', currency: '€ EUR',
+            brand: 'GlobalFUN', brandSub: 'Grenzüberschreitender Gruppenkauf',
+            login: 'Anmelden', logout: 'Abmelden', guest: 'Gast', notLoggedIn: 'Nicht angemeldet',
+            mainBtn: 'Anmelden zum Gruppenkauf', mainBtnLoggedIn: '⚡ Gruppe starten',
+            aiRecTitle: 'KI-Auswahl · Für Sie', aiRecRefresh: '⟳ Aktualisieren',
+            shareBtn: '📤 Teilen', copyLink: '🔗 Link kopieren',
+            transToggle: 'Original JP',
+            prodOrigin: '🇯🇵 Japan · Direkt aus Osaka', prodSold: '8.342 verkauft',
+            prodName: 'Yamanashi Pfirsich-Serum 200ml',
+            prodNameEn: 'Yamanashi Peach Moisture Essence',
+            groupPrice: 'Gruppenpreis', originalPrice: '¥599',
+            saveTip: '🔥 ¥331 günstiger als im Inland',
+            aiChat: '👋 Hallo! Ich bin Globy, Ihr KI-Grenzshopping-Assistent.\n\n🌏 Empfehlungen · 🌐 Übersetzen · 💰 Preis berechnen',
+            aiSug1: 'Preisunterschied?', aiSug2: 'Versand & Zoll', aiSug3: 'Ähnliche Artikel', aiSug4: 'Bewertungen?', aiSug5: 'Wie wählen?',
+            payTitle: '🧾 Bestätigung', payConfirm: 'Bestätigen', payCancel: 'Abbrechen'
+        },
+        es: {
+            flag: '🇪🇸', label: 'Español', currency: '€ EUR',
+            brand: 'GlobalFUN', brandSub: 'Compra Grupal Transfronteriza',
+            login: 'Iniciar sesión', logout: 'Cerrar sesión', guest: 'Invitado', notLoggedIn: 'No conectado',
+            mainBtn: 'Inicia sesión para unirte', mainBtnLoggedIn: '⚡ Iniciar grupo',
+            aiRecTitle: 'Selección IA · Para ti', aiRecRefresh: '⟳ Actualizar',
+            shareBtn: '📤 Compartir', copyLink: '🔗 Copiar enlace',
+            transToggle: 'Original JP',
+            prodOrigin: '🇯🇵 Japón · Directo de Osaka', prodSold: '8.342 vendidos',
+            prodName: 'Yamanashi Sérum Hidratante Melocotón 200ml',
+            prodNameEn: 'Yamanashi Peach Moisture Essence',
+            groupPrice: 'Precio grupo', originalPrice: '¥599',
+            saveTip: '🔥 Ahorra ¥331 vs. precio nacional',
+            aiChat: '👋 ¡Hola! Soy Globy, tu asistente IA de compras transfronterizas.\n\n🌏 Recomendaciones · 🌐 Traducir · 💰 Calcular precio',
+            aiSug1: '¿Diferencia de precio?', aiSug2: 'Envío e Impuestos', aiSug3: 'Artículos similares', aiSug4: '¿Reseñas?', aiSug5: '¿Cómo elegir?',
+            payTitle: '🧾 Confirmación', payConfirm: 'Confirmar', payCancel: 'Cancelar'
+        },
+        langs: ['zh', 'en', 'ja', 'fr', 'de', 'es'],
         current: 0,
         t: function(key) {
             var lang = this.langs[this.current];
@@ -3809,7 +4072,7 @@ body {
         _i18n.current = (_i18n.current + 1) % _i18n.langs.length;
         _i18n.apply();
         var lang = _i18n.langs[_i18n.current];
-        var msgs = { zh: '已切换到中文', en: 'Switched to English', ja: '日本語に切り替えました' };
+        var msgs = { zh: '已切换到中文', en: 'Switched to English', ja: '日本語に切り替えました', fr: 'Passé en Français', de: 'Auf Deutsch umgeschaltet', es: 'Cambiado a Español' };
         var toast = document.getElementById('toast');
         if (toast) { toast.textContent = msgs[lang]; toast.style.opacity = 1; setTimeout(function() { toast.style.opacity = 0; }, 1500); }
     };
@@ -3845,5 +4108,10 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./demo-sw.js').catch(function() {});
 }
 </script>
+<footer style="text-align:center;padding:40px 20px;font-size:12px;color:#94a3b8;background:var(--bg);margin-top:40px;">
+    <div style="margin-bottom:8px;font-weight:600;">GlobalFUN · 6-Agent Multi-Agent Collaboration · MCP Protocol</div>
+    <div style="margin-bottom:8px;">需求解析 → 市场调研 → 选品分析 → 文案生成 → 合规审核 → 运营策略</div>
+    <div>Demo by 王天娇 · <a href="https://anlan-dev.github.io/pm-works-demos/" style="color:#60a5fa;">PM作品集</a> · <a href="https://anlan-dev.github.io/UI-work/" style="color:#60a5fa;">UI作品集</a></div>
+</footer>
 </body>
 </html>
