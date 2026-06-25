@@ -1301,10 +1301,105 @@ details .step-text {
       <b>调研：</b>访谈<b>8位</b>跨境电商用户（含代购、海淘新手），问卷<b>42份</b>，行业报告分析（海关总署/艾瑞咨询跨境报告）；KANO：基础型（商品浏览+拼团+多语言切换）、期望型（AI比价+关税计算+结构化信息推送）、兴奋型（6-Agent全链路协作+合规校验+多语言文案生成）。<b>竞品：</b>直接——<a href="https://xueqiu.com/1290568231/391301031" style="color:#0071e3" target="_blank">拼多多全球购（Temu Q1 2026 GMV达280亿美元，全球月活5.3亿）</a>、天猫国际（AI客服+智能翻译）；间接——亚马逊全球购（全球电商巨头，AI驱动个性化推荐）；替代——代购+转运公司（人工服务，高成本低效率）。差异化：MCP+6-Agent结构化推送，覆盖从需求解析到运营策略的完整闭环，区别于传统电商平台的单一AI推荐功能。[竞品数据来源：雪球PDD 2026Q1财报分析]<b>数据：</b>Agent卡片点击率、意图识别率（<b>98.2%</b>）、MCP平均延迟（<b>180ms</b>）、比价→下单转化漏斗、6-Agent协作流水线完成率。
     </div>
   </details>
-</div>
-</div>
 
-<!-- PM工具链 -->
+  <details style="cursor:pointer;margin-top:10px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
+      <span style="width:22px;height:22px;border-radius:6px;background:rgba(16,185,129,.08);color:#059669;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">💬</span>
+      Agent架构深度问答（面试追问预案·点击展开）
+    </summary>
+    <div style="padding-left:clamp(24px,3vw,32px);margin-top:8px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.6">
+
+      <!-- (a) 北极星指标与过程指标 -->
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(a) 北极星指标与过程指标</div>
+        <div style="margin-bottom:6px"><b>北极星指标：6-Agent协作流水线完成率</b>——即用户发起需求后，6个Agent全部成功执行并输出最终结果的比率。这个指标直接衡量"端到端价值交付"，因为它要求从需求解析到运营策略的每个环节都不能断裂。</div>
+        <div style="margin-bottom:6px"><b>过程指标（按Agent拆解）：</b></div>
+        <div style="overflow-x:auto;margin:6px 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.7rem;color:#2d3a4b">
+            <tr style="background:#ecfdf5"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">Agent</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">过程指标</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">衡量什么</th></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">需求解析</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">意图识别准确率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户输入→结构化意图的正确率（实测98.2%[内部测试]）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">市场调研</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">数据源命中率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">返回结果中包含有效市场数据的比率</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">选品分析</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">比价→下单转化率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户查看选品卡片后进入下单流程的比率</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">文案生成</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">多语言文案采纳率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户直接使用AI生成文案（不修改）的比率</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">合规审核</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">合规拦截准确率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">正确拦截不合规商品的比率（减少误拦/漏拦）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">运营策略</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">策略采纳率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户采纳AI运营建议的比率</td></tr>
+          </table>
+        </div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>PM视角：</b>北极星指标衡量"链路是否跑通"，过程指标定位"哪个环节断了"。两者结合形成完整的诊断体系——北极星掉了看过程指标，过程指标掉了定位到具体Agent。</div>
+      </div>
+
+      <!-- (b) 技术框架 -->
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(b) 技术框架</div>
+        <div style="margin-bottom:6px"><b>没有使用LangChain。</b>本项目采用原生搭建方案，技术栈如下：</div>
+        <div style="margin-bottom:4px">• <b>LLM层：</b>OpenAI GPT-4o（主模型）+ GPT-4o-mini（轻量子任务），通过OpenAI API直接调用</div>
+        <div style="margin-bottom:4px">• <b>编排层：</b>自研Orchestrator路由器，基于Node.js实现MCP服务总线，负责请求分发、结果聚合、错误重试</div>
+        <div style="margin-bottom:4px">• <b>Agent层：</b>每个Sub Agent是独立的System Prompt + 工具定义，通过Function Calling与MCP Server交互</div>
+        <div style="margin-bottom:4px">• <b>协议层：</b>MCP（Model Context Protocol）作为Agent与外部工具/数据源的标准接口</div>
+        <div style="margin-bottom:4px">• <b>前端：</b>单页HTML应用，结构化卡片渲染</div>
+        <div style="font-size:.68rem;color:#6e6e73;margin-top:6px"><b>为什么不用LangChain：</b>LangChain是通用框架，抽象层多、调试链路长。本项目Agent数量固定（6个）、协作模式明确（流水线+并行），用原生代码直接编排更轻量、可控、易调试。LangChain更适合需要动态Agent创建或复杂RAG检索的场景。</div>
+      </div>
+
+      <!-- (c) 架构选择：原生Agent vs 嵌入OpenClaw -->
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(c) 架构选择：原生Agent vs 嵌入OpenClaw</div>
+        <div style="margin-bottom:6px">两种方式的对比：</div>
+        <div style="overflow-x:auto;margin:6px 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.7rem;color:#2d3a4b">
+            <tr style="background:#fef3e2"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">维度</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">原生搭建Agent</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">嵌入OpenClaw+MCP</th></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">开发成本</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">高（需自建编排、错误处理、状态管理）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">低（平台提供基础设施）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">控制精度</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>高</b>（每个环节可精确控制Prompt、参数、输出格式）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">中（受平台抽象层约束）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">调试效率</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>高</b>（链路透明，可逐环节Debug）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">中（平台黑盒，需通过日志排查）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">扩展性</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">中（需手动扩展编排逻辑）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>高</b>（平台支持动态Agent注册）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">适合场景</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">Agent数量固定、协作模式明确、需要精确控制输出</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">Agent数量动态、需要快速原型、团队协作开发</td></tr>
+          </table>
+        </div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>本项目选择原生搭建的原因：</b>①6个Agent的协作模式是固定的流水线+并行，不需要动态创建Agent；②跨境电商场景对输出格式要求严格（结构化卡片），需要精确控制每个Agent的输出Schema；③作为PM个人项目，需要深入理解Agent编排的每个细节，而不是把问题丢给平台黑盒。如果未来Agent数量扩展到10+或需要动态编排，会考虑迁移到OpenClaw/AutoGen等平台。</div>
+      </div>
+
+      <!-- (d) 为什么Sub Agent模式适合 -->
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(d) 为什么Sub Agent模式适合跨境电商场景</div>
+        <div style="margin-bottom:4px"><b>核心原因：任务可拆解、领域可隔离、失败可定位。</b></div>
+        <div style="margin-bottom:4px">• <b>任务可拆解：</b>跨境电商的业务链路天然分为6个独立阶段（需求→调研→选品→文案→合规→运营），每个阶段有明确的输入/输出，适合拆分为独立Agent</div>
+        <div style="margin-bottom:4px">• <b>领域可隔离：</b>每个Agent的System Prompt和工具集完全不同（调研Agent需要搜索工具，合规Agent需要法规库，文案Agent需要翻译工具）。如果用单个大Agent，Prompt会变得极其臃肿，上下文窗口会被无关信息占用</div>
+        <div style="margin-bottom:4px">• <b>失败可定位：</b>Sub Agent模式下，如果最终结果有问题，可以通过检查每个Sub Agent的输出精确定位是哪个环节出了问题。单Agent模式下所有逻辑混在一起，难以定位</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>对比单Agent方案：</b>如果用单个GPT-4o完成全部6个环节，需要一次性输入所有工具定义和业务规则，Prompt长度会超过4000 tokens，导致注意力分散、输出质量下降。拆分为6个Sub Agent后，每个Agent的Prompt控制在500-800 tokens，专注度更高。</div>
+      </div>
+
+      <!-- (e) Main Agent与Sub Agent的通讯方式 -->
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(e) Main Agent与Sub Agent的通讯方式</div>
+        <div style="margin-bottom:6px"><b>通讯架构：</b>Main Agent（Orchestrator）通过MCP服务总线向Sub Agent发送结构化请求，Sub Agent处理后返回结构化JSON响应。</div>
+        <div style="margin-bottom:6px"><b>Sub Agent对Main Agent的输出结构：</b>针对通过筛选和未通过筛选两种情况，定义了不同的输出Schema：</div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:10px;margin-bottom:8px;font-family:monospace;font-size:.68rem;line-height:1.5;white-space:pre-wrap;overflow-x:auto">
+// 通过筛选的输出结构
+{
+  "status": "pass",
+  "agent": "需求解析Agent",
+  "intent": { "category": "选品", "keywords": ["蓝牙耳机","TWS"], "confidence": 0.95 },
+  "structured_data": { "budget": "200-500元", "target_market": "东南亚", "quantity": 100 },
+  "next_agent": "市场调研Agent",
+  "latency_ms": 180
+}
+
+// 未通过筛选的输出结构
+{
+  "status": "fail",
+  "agent": "合规审核Agent",
+  "reason": "商品涉及CE认证缺失",
+  "severity": "high",
+  "suggestion": "建议补充CE认证文件或更换供应商",
+  "blocked": true,
+  "fallback": "运营策略Agent（生成合规整改建议）"
+}</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>设计决策：</b>通过/失败两种输出结构的核心差异在于：pass状态携带<code>next_agent</code>字段引导流转，fail状态携带<code>suggestion</code>和<code>fallback</code>字段提供补救路径。这样Main Agent不需要理解业务逻辑，只需根据status字段决定路由——pass则转发给next_agent，fail则执行fallback或终止。</div>
+      </div>
+
+    </div>
+  </details>
+</div>
+</div>
 <h3 id="pm-tools" class="scroll-margin" style="font-size:clamp(1rem,1.4vw,1.15rem);font-weight:600;color:#1d1d1f;margin:clamp(24px,3vw,32px) 0 clamp(10px,1.5vw,14px);display:flex;align-items:center;gap:8px">
   <span style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#a18cd1,#fbc2eb);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff">📚</span>
   PM工具链
