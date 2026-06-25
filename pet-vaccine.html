@@ -19,6 +19,41 @@
       ╚══════════════════════════════════════════════════════════════╝
     -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <!-- 适配检测脚本 -->
+    <script>
+        // 三端适配检测
+        (function() {
+            const ua = navigator.userAgent;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+            const isTablet = /iPad|Android(?!.*Mobile)|Tablet/i.test(ua);
+            const isPC = !isMobile && !isTablet;
+            
+            // 添加设备类型标识
+            document.documentElement.setAttribute('data-device', isPC ? 'pc' : isTablet ? 'tablet' : 'mobile');
+            
+            // 视口适配
+            function setViewport() {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                document.documentElement.style.setProperty('--viewport-width', width + 'px');
+                document.documentElement.style.setProperty('--viewport-height', height + 'px');
+                document.documentElement.style.setProperty('--viewport-ratio', (width / height).toFixed(2));
+            }
+            
+            setViewport();
+            window.addEventListener('resize', setViewport);
+            
+            // 触控设备检测
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                document.documentElement.setAttribute('data-touch', 'true');
+            }
+            
+            // 高分辨率屏幕检测
+            if (window.devicePixelRatio > 1) {
+                document.documentElement.setAttribute('data-retina', 'true');
+            }
+        })();
+    </script>
     <title>宠伴·健康台账 — 养宠全周期档案</title>
     <meta name="description" content="宠伴·健康台账 — 养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。">
     <!-- Open Graph / Facebook -->
@@ -364,6 +399,17 @@
             .tab-bar { max-width: 640px; }
             .fab { right: 22px; bottom: 104px; }
             .fab-menu { right: 22px; bottom: 166px; }
+            
+            /* 平板端增强：双栏布局优化 */
+            .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+            .card:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(16,24,40,0.08); }
+            
+            /* 平板端：输入组优化 */
+            .input-group { flex-wrap: wrap; }
+            .input-group input, .input-group select { min-width: 140px; }
+            
+            /* 平板端：表格响应式 */
+            .compare-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         }
 
         /* PC 端：顶栏横向 + 看板略增宽 */
@@ -409,6 +455,18 @@
             .header-cloud-details { max-width: 1160px; margin-top: 14px; }
             .fab { right: max(24px, calc((100vw - 1160px) / 2 + 12px)); bottom: 108px; }
             .fab-menu { right: max(24px, calc((100vw - 1160px) / 2 + 12px)); bottom: 172px; }
+            
+            /* PC端增强：卡片网格布局 */
+            .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+            .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(16,24,40,0.1); }
+            
+            /* PC端：表单横向排列 */
+            .input-group { flex-wrap: nowrap; }
+            .input-group input, .input-group select { min-width: 0; }
+            
+            /* PC端：表格优化 */
+            #compareTable { font-size: 0.95rem; }
+            #compareTable th { font-weight: 600; }
         }
 
         /* 小屏手机优化 */
@@ -439,6 +497,20 @@
             .header-cloud-inner {
                 padding: 10px 2px 2px;
             }
+            
+            /* 手机端增强：触控优化 */
+            .btn { min-height: 44px; min-width: 44px; }
+            .tab-item { min-height: 48px; }
+            .input-group input, .input-group select { min-height: 48px; }
+            
+            /* 手机端：手势友好 */
+            .swipe-hint { display: block; text-align: center; font-size: 0.75rem; color: var(--muted); margin: 8px 0; }
+            
+            /* 手机端：卡片间距优化 */
+            .card { margin-bottom: 12px; }
+            
+            /* 手机端：模态框全屏优化 */
+            .modal { width: 100%; max-width: 100%; border-radius: 16px 16px 0 0; position: fixed; bottom: 0; left: 0; right: 0; }
         }
 
         /* 长辈模式：更大字号、触达更友好 */
@@ -492,11 +564,47 @@
             --sp-3: 16px;
             --sp-4: 24px;
             --sp-5: 32px;
+            
+            /* 设计规范：统一色彩系统 */
+            --color-primary: #0071e3;
+            --color-primary-hover: #0077ed;
+            --color-success: #34c759;
+            --color-warning: #ff9500;
+            --color-danger: #ff3b30;
+            --color-info: #5ac8fa;
+            
+            /* 设计规范：统一圆角 */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            
+            /* 设计规范：统一阴影 */
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-xl: 0 12px 32px rgba(0,0,0,0.16);
+            
+            /* 设计规范：统一过渡 */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.2s ease;
+            --transition-slow: 0.3s ease;
         }
         body { font-size: var(--fs-body); line-height: 1.62; }
         h1 { font-size: var(--fs-h1); margin-bottom: var(--sp-2); }
         h2, h3, .section-title { font-size: var(--fs-h2); margin-bottom: var(--sp-2); }
         .small-note, .muted, .hint, .kb-tip { font-size: var(--fs-caption); }
+        
+        /* 统一组件样式 */
+        .card { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); transition: box-shadow var(--transition-normal); }
+        .btn { border-radius: var(--radius-full); transition: all var(--transition-fast); }
+        .btn:active { transform: scale(0.96); }
+        .input-group input, .input-group select { border-radius: var(--radius-md); }
+        .tab-bar { border-radius: var(--radius-lg); }
+        .tab-item { border-radius: var(--radius-full); }
+        .fab { border-radius: var(--radius-full); box-shadow: var(--shadow-lg); }
+        .fab-action { border-radius: var(--radius-md); }
         .card { margin-bottom: var(--sp-4); padding: var(--sp-4); }
         .input-group { margin: var(--sp-3) 0; gap: var(--sp-2); }
         body.elder-mode { --fs-body: 1.08rem; --fs-h2: 1.28rem; --fs-caption: 0.96rem; }
@@ -529,6 +637,43 @@
             .tab-item { min-width: 0; padding: 6px 4px; }
             .fab-menu { gap: 6px; }
             .fab-action { border-radius: 10px; padding: 7px 9px; font-size: 0.78rem; }
+        }
+        
+        /* 设备特定适配：触控设备 */
+        @media (hover: none) and (pointer: coarse) {
+            .btn { min-height: 44px; min-width: 44px; }
+            .tab-item { min-height: 48px; }
+            .input-group input, .input-group select { min-height: 48px; }
+            .fab { width: 56px; height: 56px; }
+            .fab-action { min-height: 44px; }
+        }
+        
+        /* 设备特定适配：鼠标设备 */
+        @media (hover: hover) and (pointer: fine) {
+            .btn { min-height: 36px; }
+            .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+            .vaccine-item:hover, .expense-item:hover, .deworm-item:hover { transform: translateX(4px); }
+            .reminder-item:hover { background: color-mix(in srgb, var(--panel-bg) 70%, white 30%) !important; }
+        }
+        
+        /* 横屏适配 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .app-header { padding: 8px 16px; }
+            .app-header h1 { font-size: 1.2rem; margin-bottom: 0; }
+            .app-header p { display: none; }
+            .tab-bar { bottom: 4px; padding: 4px; }
+            .tab-item { padding: 4px 2px; }
+            .tab-icon { font-size: 1.2rem; margin-bottom: 0; }
+            .fab { bottom: 60px; width: 44px; height: 44px; }
+            .container { padding: 8px 16px; }
+            .card { padding: 12px 16px; margin-bottom: 12px; }
+        }
+        
+        /* 超宽屏适配 */
+        @media (min-width: 1440px) {
+            .container { max-width: 1280px; }
+            #page-dashboard.page.active { max-width: 1280px; }
+            .dashboard-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         }
 
         /* 严格三档（安卓 360 / 393 / 412） */
@@ -611,6 +756,47 @@
     /* Page transition */
     .page { transition: opacity 0.2s ease; }
     .page[style*="display: none"] { opacity: 0; }
+    
+    /* 增强动画效果 */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    @keyframes slideInUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    
+    /* 模态框动画 */
+    .modal-overlay { animation: fadeIn 0.2s ease; }
+    .modal { animation: scaleIn 0.3s ease; }
+    
+    /* 卡片悬停效果 */
+    .card { transition: transform var(--transition-normal), box-shadow var(--transition-normal); }
+    .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    
+    /* 按钮悬停效果 */
+    .btn { transition: all var(--transition-fast); }
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0) scale(0.98); }
+    
+    /* 浮动按钮动画 */
+    .fab { transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
+    .fab:hover { transform: scale(1.1); box-shadow: var(--shadow-xl); }
+    .fab:active { transform: scale(0.95); }
+    
+    /* 标签页切换动画 */
+    .tab-item { transition: all var(--transition-fast); }
+    .tab-item.active { animation: scaleIn 0.2s ease; }
+    
+    /* 列表项动画 */
+    .vaccine-item, .expense-item, .deworm-item { transition: all var(--transition-normal); }
+    .vaccine-item:hover, .expense-item:hover, .deworm-item:hover { transform: translateX(4px); }
+    
+    /* 进度条动画 */
+    .progress-fill { transition: width 0.5s ease; }
+    
+    /* 提醒徽章动画 */
+    .reminder-badge { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
   </style>
     <link rel="stylesheet" href="./neumorphic-shared.css">
 </head>
