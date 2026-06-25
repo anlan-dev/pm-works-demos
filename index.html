@@ -8,18 +8,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{
-  overflow-x:hidden;
-  -webkit-text-size-adjust:100%;
-}
 body{
   background:#f5f5f7; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   color:#1d1d1f; line-height:1.47059; scroll-behavior:smooth;
-  -webkit-font-smoothing:antialiased; letter-spacing:-0.022em;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden; letter-spacing:-0.022em;
 }
-.container{max-width:780px;width:100%;margin:0 auto;padding:clamp(32px,4vw,52px) clamp(16px,4vw,32px) clamp(40px,5vw,72px);overflow-x:hidden}
+.container{max-width:880px;width:100%;margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,4vw,32px) clamp(36px,5vw,64px)}
 @media(min-width:821px) and (max-width:1120px){.container{padding-right:clamp(44px,7vw,72px)}}
-@media(min-width:1400px){.container{max-width:760px}}
 
 /* ===== Right-Floating TOC ===== */
 .toc-float{
@@ -59,7 +54,7 @@ body{
 @media(max-width:820px){.mobile-nav{display:block}.mobile-nav-inner{max-height:160px;overflow-y:auto}body{padding-bottom:max(80px,calc(env(safe-area-inset-bottom,0)+60px))}}
 
 /* ===== Hero ===== */
-.hero{text-align:center;margin-bottom:clamp(24px,3.5vw,32px)}
+.hero{text-align:center;margin-bottom:clamp(20px,3vw,28px)}
 .hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:600;letter-spacing:-.03em;margin-bottom:8px}
 .hero .role-badge{display:inline-block;font-size:clamp(.72rem,.9vw,.82rem);font-weight:600;background:rgba(0,113,227,.1);color:#0071e3;padding:4px 14px;border-radius:999px;margin-bottom:12px}
 .hero .contact{font-size:clamp(.78rem,1vw,.85rem);color:#6e6e73;display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(8px,2vw,18px)}
@@ -67,19 +62,19 @@ body{
 .hero .tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
 .hero .tag{background:#f2f2f7;color:#1d1d1f;padding:4px 12px;border-radius:999px;font-size:clamp(.68rem,.8vw,.74rem);font-weight:500;border:.5px solid rgba(0,0,0,.06)}
 .hero .tag.accent{background:rgba(0,113,227,.1);color:#0071e3;border-color:rgba(0,113,227,.15)}
-.divider{width:100%;height:1px;background:radial-gradient(circle,#e2e8f0 30%,transparent 100%);margin:clamp(32px,4.5vw,44px) 0}
+.divider{width:100%;height:1px;background:radial-gradient(circle,#e2e8f0 30%,transparent 100%);margin:clamp(28px,4vw,40px) 0}
 
 /* ===== Sections ===== */
-.section-title{font-size:clamp(1.35rem,2.2vw,1.75rem);font-weight:550;letter-spacing:-.01em;margin:clamp(40px,5.5vw,56px) 0 clamp(16px,2.5vw,24px);padding-bottom:clamp(6px,0.8vw,10px);border-bottom:1px solid rgba(0,0,0,.06)}
+.section-title{font-size:clamp(1.3rem,2.2vw,1.75rem);font-weight:550;letter-spacing:-.01em;margin:clamp(32px,4.5vw,48px) 0 clamp(14px,2vw,20px)}
 .scroll-margin{scroll-margin-top:80px}
 
 /* ===== Cards ===== */
-.card{display:block;background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(22px,3.2vw,32px);margin-bottom:clamp(18px,2.5vw,24px);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.06);transition:all .15s ease;max-width:100%;overflow:hidden}
+.card{display:block;background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(18px,2.8vw,28px);margin-bottom:clamp(14px,2vw,20px);border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 12px rgba(0,0,0,.08);transition:all .15s ease}
 .card .step,.card .data-row,.card .flow-box,.card .result{background:rgba(245,247,252,.6);border:1px solid rgba(0,0,0,.05);border-radius:10px;padding:12px 14px;margin-top:10px}
 .card:hover{border-color:rgba(0,0,0,.12);box-shadow:0 4px 16px rgba(0,0,0,.08)}
 .card-icon{font-size:clamp(1.8rem,3vw,2.5rem);margin-bottom:clamp(6px,1vw,10px);line-height:1}
 .card-title{font-size:clamp(1.15rem,1.6vw,1.4rem);font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
-.card-sub{font-size:clamp(.76rem,.9vw,.82rem);color:#6e6e73;font-weight:500;border-left:2px solid rgba(0,0,0,.12);padding-left:10px;margin-bottom:clamp(14px,2vw,22px)}
+.card-sub{font-size:clamp(.76rem,.9vw,.82rem);color:#6e6e73;font-weight:500;border-left:2px solid rgba(0,0,0,.12);padding-left:8px;margin-bottom:clamp(12px,1.8vw,18px)}
 .card-badge{display:inline-flex;align-items:center;font-size:clamp(.64rem,.78vw,.7rem);font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
 .card-badge.primary{background:rgba(0,113,227,.1);color:#0071e3}
 .card-badge.success{background:rgba(5,150,105,.1);color:#059669}
@@ -87,11 +82,11 @@ body{
 .desensitized{font-size:clamp(.6rem,.7vw,.64rem);color:#86868b;font-style:italic}
 
 /* ===== Steps ===== */
-.step{display:flex;gap:clamp(10px,1.4vw,14px);margin-bottom:clamp(12px,1.8vw,16px);align-items:flex-start;min-width:0}
+.step{display:flex;gap:clamp(8px,1.2vw,12px);margin-bottom:clamp(10px,1.5vw,14px);align-items:flex-start}
 .step-num{flex-shrink:0;width:clamp(24px,2.8vw,28px);height:clamp(24px,2.8vw,28px);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(.68rem,.78vw,.74rem);background:rgba(0,113,227,.1);color:#0071e3}
 .step-body{flex:1;min-width:0}
 .step-title{font-weight:600;font-size:clamp(.84rem,.96vw,.9rem);color:#0f172a;margin-bottom:2px}
-.step-text{font-size:clamp(.82rem,.98vw,.88rem);color:#2d3a4b;line-height:1.7}
+.step-text{font-size:clamp(.82rem,.98vw,.88rem);color:#2d3a4b;line-height:1.6}
 .step-text b{color:#0f172a;font-weight:570}
 
 /* ===== Feature list ===== */
@@ -136,23 +131,22 @@ body{
 .gate-table .warn{color:#d97706;font-weight:600}
 
 /* ===== More projects list ===== */
-.two-col{display:flex;flex-direction:column;gap:clamp(12px,1.5vw,18px);margin:12px 0}
+.two-col{display:flex;flex-direction:column;gap:clamp(10px,1.2vw,14px);margin:10px 0}
 
 /* ===== Demo link ===== */
 .demo-link{display:inline-flex;align-items:center;gap:6px;margin-top:clamp(10px,1.5vw,14px);font-size:clamp(.78rem,.9vw,.82rem);font-weight:520;color:#3b6e8b;text-decoration:none;border-bottom:1px solid transparent;transition:all .2s}
 .demo-link:hover{color:#1e4a6b;gap:10px;border-bottom-color:#3b6e8b}
 
 /* ===== Footer ===== */
-.footer{text-align:center;padding:clamp(28px,3.5vw,40px) 0 clamp(18px,2.5vw,24px);font-size:clamp(.74rem,.84vw,.78rem);color:#86868b;border-top:1px solid #e5e7eb;margin-top:clamp(32px,5vw,48px)}
+.footer{text-align:center;padding:clamp(24px,3vw,36px) 0 clamp(16px,2vw,20px);font-size:clamp(.74rem,.84vw,.78rem);color:#86868b;border-top:1px solid #e5e7eb;margin-top:clamp(28px,4vw,40px)}
 .footer a{color:#0071e3;text-decoration:none}
 
 /* ===== Responsive ===== */
 @media(max-width:640px){
   .container{padding:clamp(20px,5vw,28px) 14px clamp(24px,6vw,32px)}
   .hero h1{font-size:1.6rem}
-  .section-title{font-size:1.2rem;margin-top:clamp(28px,4vw,36px)}
-  .step{flex-direction:column;gap:4px;margin-bottom:10px}
-  .card{padding:18px;margin-bottom:14px}
+  .step{flex-direction:column;gap:4px}
+  .card{padding:16px}
   .flow-box{gap:3px}
   .flow-step{padding:3px 7px;font-size:.62rem}
   .data-chip{padding:3px 8px;font-size:.64rem}
@@ -199,7 +193,7 @@ body.speed-active .step-num{background:rgba(0,113,227,.15)}
 /* ===== Top Nav Bar ===== */
 .top-nav{position:fixed;top:0;left:0;right:0;z-index:9998;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:0.5px solid rgba(0,0,0,.08);transform:translateY(-100%);transition:transform .3s ease}
 .top-nav.visible{transform:translateY(0)}
-.top-nav-inner{max-width:780px;margin:0 auto;display:flex;align-items:center;gap:4px;padding:6px clamp(12px,2vw,20px);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.top-nav-inner{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:4px;padding:6px clamp(12px,2vw,20px);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .top-nav-inner::-webkit-scrollbar{display:none}
 .top-nav-link{display:flex;align-items:center;gap:3px;text-decoration:none;font-size:clamp(.62rem,.78vw,.72rem);font-weight:500;color:#4b6589;padding:5px 10px;border-radius:999px;white-space:nowrap;transition:all .15s;border:1px solid transparent;flex-shrink:0}
 .top-nav-link:hover{background:#ecf3fa;color:#0b1e2e}
@@ -208,7 +202,7 @@ body.speed-active .step-num{background:rgba(0,113,227,.15)}
 body.has-top-nav{padding-top:44px}
 
 /* ===== Competency Matrix ===== */
-.comp-matrix{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(8px,1.2vw,12px);margin:clamp(16px,2.5vw,24px) 0}
+.comp-matrix{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(6px,1vw,10px);margin:clamp(14px,2vw,20px) 0}
 .comp-item{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:clamp(10px,1.4vw,16px);text-align:center;transition:all .2s}
 .comp-item:hover{border-color:rgba(0,113,227,.2);box-shadow:0 4px 12px rgba(0,113,227,.08);transform:translateY(-2px)}
 .comp-icon{font-size:clamp(1.2rem,2vw,1.6rem);margin-bottom:4px}
@@ -226,15 +220,46 @@ body.has-top-nav{padding-top:44px}
 /* ===== Android/WeChat compat ===== */
 @supports(-webkit-touch-callout:none){.top-nav-inner{-webkit-overflow-scrolling:touch}}
 
-/* ===== 长文本防溢出（仅针对文本元素，不影响布局） ===== */
-.step-text, .card-sub, .card-title, .arch-box, .harness .hstep > span:last-child,
-.quote, .ft-list li, .comp-value, .result, .gate-table td,
-details summary, details summary > div {
+/* ===== 安卓端文字溢出修复 ===== */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.step-text, .card-sub, .arch-box, .harness .hstep > span:last-child, .quote, .ft-list li, .comp-value, .result, .gate-table td {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+.step-body {
+  min-width: 0;
+  overflow: hidden;
+}
+.card {
+  overflow: hidden;
+}
+.card-title {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.data-row {
   overflow-wrap: break-word;
   word-break: break-word;
 }
-.demo-link {
+.flow-box {
   word-break: break-word;
+  overflow-wrap: break-word;
+}
+.demo-link {
+  word-break: break-all;
+}
+details summary {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+details summary > div {
+  min-width: 0;
 }
 details .step-text {
   padding-right: 8px;
@@ -243,11 +268,13 @@ details .step-text {
   .step-text, .card-sub, .arch-box, .harness .hstep > span:last-child, .quote, .ft-list li, .comp-value, .result {
     font-size: 13px;
     line-height: 1.6;
+    word-break: break-all;
   }
   .gate-table {
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
   }
   .gate-table td, .gate-table th {
     white-space: normal;
@@ -535,7 +562,7 @@ details .step-text {
 </header>
 
 <!-- ===== 作品集描述 ===== -->
-<div class="card">
+<section style="background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(20px,3vw,32px);margin-bottom:clamp(20px,3vw,28px);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.04)">
   <h2 style="font-size:clamp(1.1rem,1.6vw,1.35rem);font-weight:600;letter-spacing:-.02em;margin-bottom:clamp(12px,1.8vw,18px);color:#1d1d1f">📖 关于这个作品集</h2>
   <div style="font-size:clamp(.82rem,.98vw,.88rem);color:#2d3a4b;line-height:1.75">
     <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，正在寻找AI产品经理实习机会。这个作品集记录了我从"不会写代码"到"独立交付8个AI产品Demo"的完整成长路径——每一个项目都是真实的需求驱动，每一个Demo都经过用户验证。</p>
@@ -553,7 +580,7 @@ details .step-text {
       </div>
     </details>
   </div>
-</div>
+</section>
 
 <!-- ===== AI PM 核心能力矩阵 ===== -->
 <h2 class="section-title scroll-margin" id="comp" style="margin-top:clamp(16px,2.5vw,24px)">AI 产品经理核心能力</h2>
@@ -730,7 +757,7 @@ details .step-text {
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>四大功能模块：</b>单杆轨迹（AI识别挥杆→飞行轨迹+距离）→比赛视频（多人挥杆对比）→成绩战报（照片+记分卡→海报）→历史记录（数据沉淀+趋势追踪）</div>
   <div class="step-text" style="margin-top:8px"><b>为什么"单杆轨迹"优先于其他功能：</b>用户访谈发现"挥杆后想立刻看飞行轨迹"是最高频需求——也是用户选择AI高尔夫工具的核心原因。单杆轨迹是用户价值链的起点（看轨迹→比较→改进→分享），优先交付能最快验证产品核心价值。如果先做比赛视频或历史记录，用户连"看轨迹"这个基本需求都没满足，后续功能没有根基。</div>
   <div class="step-text"><b>为什么重点做社交分享（海报）而非纯数据展示：</b>竞品分析发现行业趋势从"记录工具"转向"社交分享"——高尔夫玩家核心需求从"看数据"升级为"晒成绩"。战报海报适配微信朋友圈尺寸，形成社交裂变闭环。竞品（Golfcam/18Birdies）的分享功能弱，海报模板是差异化切入点——用户分享朋友圈后带来的自然流量，比投放广告成本低且转化率高。</div>
-  </div></div></div>
+</div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能与产出</div><ul class="ft-list">
     <li>参与单杆轨迹PRD迭代（V2.0→V5.0），覆盖四大模块交互闭环</li>
@@ -787,7 +814,7 @@ details .step-text {
       <div class="step-text"><b>推荐方案：Blast Motion（挥杆数据）+ Arccos（击球数据）双传感器组合</b>——挥杆效率×实际击球距离可发现"高挥速低距离"的发力问题；不同杆型数据对比可智能推荐最佳杆型；历史趋势分析追踪进步曲线。数据融合后与现有视频轨迹形成互补，打造"看得到+量得出"的全维度训练体系。[数据来源：2025-2026年Golf Digest行业报告、GolferHive/SouthOfScotlandGolf评测]</div>
     </div>
   </details>
-</div>
+</div></div></div>
 
 <!-- ===== PRD Quality Gate ===== -->
 <h2 class="section-title scroll-margin" id="quality-gate">独立项目</h2>
@@ -836,7 +863,7 @@ details .step-text {
   <div class="result"><div class="rtitle">核心结论</div>验证了System Prompt直写规则比RAG更适用于确定性审核场景。项目已上线交付团队使用。</div>
   <a href="https://cloud.dify.ai/app/2642a91c-7892-45f0-b086-9c93520806cc/workflow" target="_blank" class="demo-link">查看 Dify 工作流 →</a>
   <a href="https://github.com/anlan-dev/ai-pmwork-prompts" target="_blank" class="demo-link" style="margin-left:12px">查看 GitHub 仓库 →</a>
-</div>
+</div></div></div>
 
 <!-- ===== 宠伴·健康台账（核心案例） ===== -->
 <h2 class="section-title scroll-margin" id="pet">核心案例：宠伴·健康台账</h2>
@@ -1041,7 +1068,7 @@ details .step-text {
       </div>
     </div>
   </details>
-</div>
+</div></div></div>
 
 <!-- ===== 个人项目 ===== -->
 <h2 class="section-title scroll-margin" id="quality">个人项目</h2>
@@ -1089,7 +1116,7 @@ details .step-text {
   <div class="step-text" style="margin-top:8px"><b>为什么选Whisper本地转写而非云端：</b>访谈发现"会议内容涉及商业机密"是用户最大顾虑。飞书妙记/通义听悟都走云端，数据上传后用户无法控制。Whisper本地转写牺牲少量准确率换取数据主权，符合目标用户（项目管理/产品团队）的隐私需求——这和宠伴"本地优先"的决策逻辑一致。</div>
   <div class="step-text"><b>为什么做状态流转而非简单待办列表：</b>用户反馈"待办列了但没人管进度"——问题不是没有待办，而是待办没有生命周期。简单待办列表只有"完成/未完成"两态，但真实场景是"已分配→进行中→遇到阻塞→已完成"。状态流转让每条待办有"进度可查"，也支持漏项抽检——超过3天未流转的待办自动标红提醒。</div>
   <div class="step-text"><b>为什么聚焦最小闭环而非大协作套件：</b>20人访谈中发现，用户不需要"又一个协作平台"——他们已经有飞书/钉钉/Notion。真正缺的是"会议中说的事有没有落地"。做最小闭环（转写→待办→状态→复盘）可以在不改变用户现有工具链的情况下补上缺失的一环。如果做大而全，就要和飞书正面竞争，必输无疑。</div>
-  </div></div></div>
+</div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能</div><ul class="ft-list">
     <li>本地Whisper语音转写（隐私优先）</li><li>结构化待办+P0/P1/P2优先级+状态流转</li>
@@ -1122,7 +1149,7 @@ details .step-text {
       <div class="step-text"><b>数据分析：</b>①数据源：用户行为埋点（录音→转写→待办提取→确认→状态流转→复盘各环节耗时与完成率）、业务数据（每场会议提取待办数、待办完成率、漏项检出率）、协作者反馈（6-8场演练+4名协作者跟评）；②核心指标：待办完成指数（加权综合指标：完成率×0.4+及时率×0.3+漏项率×0.3），目标>100，实测<b>104→118</b>；转写准确率（Whisper基准>95%）；周报生成率（自动生成周报的会议占比）；③可视化：面向产研——待办完成趋势图（每轮迭代改善<b>+4%→+12%→+18%</b>）+转写准确率监控；面向管理层——会议健康评分仪表盘（待办完成率+漏项率+复盘率综合）。</div>
     </div>
   </details>
-</div>
+</div></div></div>
 
 <!-- ===== 更多项目 ===== -->
 <h2 class="section-title scroll-margin" id="more">更多产品项目</h2>
