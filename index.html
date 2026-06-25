@@ -717,6 +717,29 @@ details .step-text {
       <div class="step-text"><b>数据分析：</b>①数据源：用户行为埋点（训练开始/结束、纠错报告查看、海报生成/分享、功能模块访问路径）、业务数据（日活训练次数、纠错触发频次、IAP转化漏斗）、第三方数据（健身App行业MAU/留存基准报告）；②核心指标：用户增长——周新增注册用户数、渠道转化率；活跃留存——7日留存率、周均训练次数、单次训练时长；转化变现——IAP订阅转化率、海报分享率（社交裂变系数）；体验反馈——纠错准确率（用户确认/忽略比）、NPS、纠错延迟P95；③可视化方案：面向产研——实时纠错延迟监控+训练漏斗看板；面向管理层——DAU/MAU趋势+IAP收入仪表盘；面向运营——海报分享转化报表+用户分层活跃度。</div>
     </div>
   </details>
+
+  <!-- 未来规划：智能硬件接入 -->
+  <details style="cursor:pointer;margin-top:12px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:8px;font-size:clamp(.78rem,.88vw,.82rem);font-weight:600;color:#0f172a">
+      <span style="width:24px;height:24px;border-radius:6px;background:rgba(16,185,129,.1);color:#059669;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.68rem;flex-shrink:0">🔧</span>
+      未来规划·摄像头AI姿态识别接入设想（点击展开）
+    </summary>
+    <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
+      <div class="step-text"><b>规划背景：</b>EasyRight当前依赖硬件传感器（IMU）捕捉动作数据，用户需额外购买设备。接入手机摄像头AI姿态识别后，可实现"零硬件成本"的实时动作纠错——用户只需打开手机摄像头即可开始训练，大幅降低使用门槛，扩大潜在用户基数。</div>
+      <div class="step-text"><b>技术方案对比：</b></div>
+      <div style="overflow-x:auto;margin:10px 0">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+          <tr style="background:#ecfdf5"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">技术方案</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">关键点数</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">运行环境</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">实时性</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">适用场景</th></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>MediaPipe Pose</b>（推荐）</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">33个（含3D坐标）</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">Android/iOS/Web/桌面</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">30fps+</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">健身/瑜伽/康复/AR</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>MoveNet</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">17个</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">边缘设备/Web</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">30fps+</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">轻量级实时场景</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>YOLO11</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">COCO关键点</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">GPU/边缘/WebGPU</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">高帧率</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">多任务+AR/VR</td></tr>
+        </table>
+      </div>
+      <div class="step-text"><b>推荐方案：MediaPipe Pose Landmarker</b>——Google开源，33个关键点含3D坐标，支持实时摄像头输入，跨平台（Android/iOS/Web），检测准确率高（支持复杂动作如瑜伽）。与现有IMU传感器数据融合后，形成"视觉+惯性"双通道校验，纠错精度可进一步提升。</div>
+      <div class="step-text"><b>实现路径：</b>手机摄像头 → MediaPipe Pose → 33个关键点坐标 → 动作识别逻辑（如深蹲膝盖角度<90°、俯卧撑手臂弯曲等） → 实时反馈（动作计数/姿态评分/语音提示）。零硬件成本，用户无需额外购买设备，技术栈开源成熟。</div>
+      <div class="step-text"><b>数据来源：</b>[Google MediaPipe Pose Landmarker官方文档](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker)、[CSDN姿势识别技术对比（2026年5月）](https://blog.csdn.net/daiziguizhong/article/details/146274184)、[Unity AI健身动作识别开发实践（2025年1月）](https://blog.csdn.net/chenby186119/article/details/144212642)</div>
+    </div>
+  </details>
 </div></div></div>
 
 <div class="card">
@@ -762,6 +785,27 @@ details .step-text {
       <div class="step-text"><b>用户需求调研：</b>①调研范围：潜在用户——高尔夫初学者（差点>30，无视频复盘习惯），活跃用户——每周打球≥1次的业余球手，流失用户——曾使用高尔夫App后卸载者，行业专家——PGA认证教练（2人）、高尔夫自媒体博主（1人）；②调研方法：深度访谈<b>15位</b>高尔夫爱好者（含6位高球记种子用户），线上问卷<b>203份</b>（有效<b>167份</b>），App Store评论情感分析<b>500+</b>条（用LLM提取"复盘需求""社交分享""数据准确性"三大主题），SQL埋点数据分析挥杆视频导入→导出全链路转化；③KANO分层：基础型——视频导入、轨迹生成（不满足则流失），期望型——轨迹颜色自选、历史记录（满意度线性增长），兴奋型——战报海报生成、多人挥杆对比（超预期传播点）。</div>
       <div class="step-text"><b>竞品分析：</b>①竞品选取：直接竞品——Golfcam、18Birdies（AI视频分析+轨迹生成），间接竞品——The Grint、Golfshot（数据记录为主，视频为辅），替代竞品——教练人工指导+手机慢动作回放；②核心维度对比：用户体验（导入→出轨迹<10s vs 竞品30s+）、功能完整性（单杆轨迹+比赛+战报+历史四大模块 vs 竞品仅轨迹）、技术能力（自研AI识别+距离估算 vs 竞品GPS辅助）、商业化（订阅+导出付费 vs 竞品广告+内购）；③差异化优势：AI识别速度快、战报海报社交传播性强（适配微信朋友圈尺寸）、历史记录趋势追踪（竞品无此功能）→迭代方向：强化社交分享闭环+数据沉淀价值。</div>
       <div class="step-text"><b>数据分析：</b>①数据源：用户行为埋点（<b>26个事件覆盖11个页面</b>，核心：视频导入→轨迹生成→颜色选择→重播/导出→海报分享）、业务数据（日活导入量、轨迹生成成功率、分享转化率）、第三方数据（Golf Digest行业报告、App Annie竞品下载量趋势）；②核心指标：用户增长——周新增用户、渠道ROI；活跃留存——7日留存率、周均导入视频数；转化变现——导出付费转化率、海报分享率（社交裂变系数）；体验反馈——轨迹识别准确率、导入→导出漏斗完成率；③可视化方案：面向产研——单杆轨迹核心漏斗看板（导入→导出各环节转化率+参数完整性）；面向管理层——DAU/MAU+付费转化趋势仪表盘；面向运营——海报分享渠道分析+用户活跃分层报表。</div>
+    </div>
+  </details>
+
+  <!-- 未来规划：智能硬件接入 -->
+  <details style="cursor:pointer;margin-top:12px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:8px;font-size:clamp(.78rem,.88vw,.82rem);font-weight:600;color:#0f172a">
+      <span style="width:24px;height:24px;border-radius:6px;background:rgba(16,185,129,.1);color:#059669;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.68rem;flex-shrink:0">🔧</span>
+      未来规划·智能硬件接入设想（点击展开）
+    </summary>
+    <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
+      <div class="step-text"><b>规划背景：</b>高球记当前依赖手机摄像头拍摄+AI视频分析，存在拍摄角度受限、数据维度单一（仅视觉）等瓶颈。接入挥杆传感器后，可获取挥杆速度/节奏/杆面角/击球距离等物理数据，与现有视频轨迹形成"视觉+物理"双通道分析，大幅提升数据丰富度和训练指导精度。</div>
+      <div style="overflow-x:auto;margin:10px 0">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+          <tr style="background:#ecfdf5"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">设备</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">品牌</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">核心数据</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">对接方式</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">参考价格</th></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5">杆尾挥杆传感器</td><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>Blast Motion GEN3</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">挥杆速度/节奏/效率评分/视频叠加</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">BLE + Blast API</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">$120 · 首月免费会员</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5">全杆传感器套装</td><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>Arccos Gen4</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">16支杆自动追踪/AI球童/击球距离</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">BLE + REST API + Webhook</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">$180 · $100/年订阅</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5">便携发射监测仪</td><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>Garmin Approach R10</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">球速/发射角/旋转/carry距离/3D模拟</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">BLE + Garmin Connect API</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">$600 · 无订阅费</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5">杆头传感器套装</td><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>Garmin CT10</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">14支杆自动识别/击球统计/GPS联动</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">BLE + Garmin Connect API</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">$400 · 无订阅费</td></tr>
+        </table>
+      </div>
+      <div class="step-text"><b>推荐方案：Blast Motion（挥杆数据）+ Arccos（击球数据）双传感器组合</b>——挥杆效率×实际击球距离可发现"高挥速低距离"的发力问题；不同杆型数据对比可智能推荐最佳杆型；历史趋势分析追踪进步曲线。数据融合后与现有视频轨迹形成互补，打造"看得到+量得出"的全维度训练体系。[数据来源：2025-2026年Golf Digest行业报告、GolferHive/SouthOfScotlandGolf评测]</div>
     </div>
   </details>
 </div></div></div>
