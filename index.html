@@ -959,7 +959,7 @@ details .step-text {
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px">
         <div style="background:linear-gradient(135deg,#e8f4fd,#f0f7ff);border:1px solid #b8d4e8;border-radius:10px;padding:12px">
           <div style="font-weight:700;color:#0071e3;font-size:.82rem;margin-bottom:4px">V1 · 数据桥接</div>
-          <div style="font-size:.72rem;color:#4a5568;line-height:1.5">接入现有智能设备数据，补全活动量+健康指标，<b>零硬件开发成本</b></div>
+          <div style="font-size:.72rem;color:#4a5568;line-height:1.5">接入现有智能设备数据，补全活动量+健康指标，<b>MVP性价比方案</b></div>
         </div>
         <div style="background:linear-gradient(135deg,#fef3e2,#fff8f0);border:1px solid #e8c99b;border-radius:10px;padding:12px">
           <div style="font-weight:700;color:#d97706;font-size:.82rem;margin-bottom:4px">V2 · 场景联动</div>
@@ -985,6 +985,10 @@ details .step-text {
           </table>
         </div>
         <div class="step-text"><b>推荐首选：FitBark 2</b>——零订阅费、6个月续航、10g超轻量、API开放，与宠伴"本地优先+零成本"理念最契合。数据融合点：活动量→体重趋势分析，睡眠→异常预警，健康指数→疫苗/驱虫交叉分析。</div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;margin-top:10px">
+          <div style="font-weight:700;color:#065f46;font-size:.78rem;margin-bottom:6px">💡 MVP性价比方案：ESP32 DIY宠物体重秤（¥30-50 BOM）</div>
+          <div style="font-size:.72rem;color:#4a5568;line-height:1.6">如果不急于接入商业设备，可用ESP32+HX711+称重传感器自制宠物体重秤，通过WiFi/MQTT自动同步数据到宠伴。技术栈：ESPHome（YAML配置，零固件开发）+ REST API对接。开源参考：<a href="https://github.com/mblk/cat-scale" style="color:#0071e3" target="_blank">mblk/cat-scale</a>（81次commit完整方案）。迭代路线：V1体重自动称重(¥30) → V2加超声波监测碗中余粮(+¥5) → V3加ESP32-CAM拍照识别进食(+¥8) → V4 3D打印外壳产品化(+¥15)。</div>
+        </div>
       </div>
 
       <!-- V2 详细方案 -->
