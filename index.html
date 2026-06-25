@@ -680,7 +680,10 @@ details .step-text {
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 发现的优化点</div><div class="step-text"><b>① AI纠错时效瓶颈：</b>用户完成训练后才能看报告，错误动作模式已形成，纠错时效差<br><b>② iOS端跨端问题：</b>Apple登录+微信互通、IAP支付验单、App Store审核修正<br><b>③ 首页信息过重：</b>四模块信息量大，用户认知负担高<br><b>④ AI效果缺乏评估：</b>需建立"定义问题→权衡方案→数据验证"闭环</div></div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>4模块并行推进：</b>体态评估(P0) | 松解工具(P1) | 视频上传(P0) | Golf(P1) · <b>优先级体系：</b>P0/P1/P2 + 每周站会 · <b>需求池：</b>4产品20条P0-P3分级追踪</div></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>4模块并行推进：</b>体态评估(P0) | 松解工具(P1) | 视频上传(P0) | Golf(P1) · <b>优先级体系：</b>P0/P1/P2 + 每周站会 · <b>需求池：</b>4产品20条P0-P3分级追踪</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么4模块并行而非串行：</b>析微智能是创业公司，三条产品线（EasyRight/高球记/健身房硬件）共享同一套生物力学底层技术。并行推进是因为：①三条产品线的用户群体不同（C端健身用户/高尔夫玩家/B端健身房），市场需求独立；②底层AI模型（人体关键点检测）可复用，并行开发边际成本低；③创业公司需要快速验证多条赛道，不能All-in单一线。</div>
+  <div class="step-text"><b>为什么首页从四模块精简为三模块：</b>用户测试发现四模块首页的认知负担过高——用户打开App后不知道"先看什么"。精简原则：合并功能相似的模块（体态评估+松解工具→"训练"），保留独立模块（视频/Golf）。精简后首页首屏信息密度降低30%，用户首次点击目标明确度提升。</div>
+  </div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能与产出</div><ul class="ft-list">
     <li>推动分析结果页、图文详解页、分析模式选择页三端同步优化（P0上线）</li>
@@ -751,7 +754,10 @@ details .step-text {
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义</div><div class="step-text"><b>① 缺乏回看手段：</b>打球后想复盘但没好工具 · <b>② 首页过重：</b>四模块认知负担高 · <b>③ 3个P0阻塞Bug：</b>相册卡死/视频导入失败/页面死循环</div></div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>四大功能模块：</b>单杆轨迹（AI识别挥杆→飞行轨迹+距离）→比赛视频（多人挥杆对比）→成绩战报（照片+记分卡→海报）→历史记录（数据沉淀+趋势追踪）</div></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>四大功能模块：</b>单杆轨迹（AI识别挥杆→飞行轨迹+距离）→比赛视频（多人挥杆对比）→成绩战报（照片+记分卡→海报）→历史记录（数据沉淀+趋势追踪）</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么"单杆轨迹"优先于其他功能：</b>用户访谈发现"挥杆后想立刻看飞行轨迹"是最高频需求——也是用户选择AI高尔夫工具的核心原因。单杆轨迹是用户价值链的起点（看轨迹→比较→改进→分享），优先交付能最快验证产品核心价值。如果先做比赛视频或历史记录，用户连"看轨迹"这个基本需求都没满足，后续功能没有根基。</div>
+  <div class="step-text"><b>为什么重点做社交分享（海报）而非纯数据展示：</b>竞品分析发现行业趋势从"记录工具"转向"社交分享"——高尔夫玩家核心需求从"看数据"升级为"晒成绩"。战报海报适配微信朋友圈尺寸，形成社交裂变闭环。竞品（Golfcam/18Birdies）的分享功能弱，海报模板是差异化切入点——用户分享朋友圈后带来的自然流量，比投放广告成本低且转化率高。</div>
+</div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能与产出</div><ul class="ft-list">
     <li>参与单杆轨迹PRD迭代（V2.0→V5.0），覆盖四大模块交互闭环</li>
@@ -820,7 +826,11 @@ details .step-text {
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">团队PRD评审依赖人工逐条检查，经常遗漏模糊点和歧义描述，导致开发阶段反复返工。</div></div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 核心判断</div><div class="step-text">基于个人积累的<b>19项PRD质量检查清单</b>，识别到这部分工作可通过AI自动化——规则确定性强，适合System Prompt直写，无需RAG知识库。<b>核心判断：</b>PRD检查是确定性规则检查→System Prompt比RAG更稳定可控。</div></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 核心判断</div><div class="step-text">基于个人积累的<b>19项PRD质量检查清单</b>，识别到这部分工作可通过AI自动化——规则确定性强，适合System Prompt直写，无需RAG知识库。<b>核心判断：</b>PRD检查是确定性规则检查→System Prompt比RAG更稳定可控。</div>
+  <div class="step-text"><b>为什么选System Prompt直写而非RAG：</b>RAG适合"答案在知识库里、需要检索"的场景（如客服问答）。但PRD检查的规则是固定的（"用户故事是否包含验收标准""异常流程是否覆盖"等），不需要检索外部知识，只需要把规则"教"给LLM。用RAG反而会引入检索噪声——检索到不相关的规则片段会干扰判断。实测验证：System Prompt方案的遗漏检出密度（13处/5000字）优于RAG方案（8处/5000字）。</div>
+  <div class="step-text"><b>为什么Temperature设0.2而非0：</b>Temp=0会导致输出完全确定，对于"判断PRD是否有问题"这种需要一定推理的任务，完全确定性会降低判断灵活性。Temp=0.2在"可控"和"灵活"之间取平衡——相同PRD多次审核结果一致性>95%，同时保留对模糊表述的推理能力。</div>
+  <div class="step-text"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>PRD遗漏通常不是随机分布的，而是集中在特定维度。四维拆解基于MECE原则：输入侧检查"有没有说清楚要什么"，逻辑侧检查"逻辑是否自洽"，异常侧检查"边界情况有没有覆盖"，评估侧检查"怎么验证做对了"。实测13处遗漏中，异常侧占7处（54%），验证了"PRD最常遗漏异常流程"的行业共识。</div>
+  </div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>平台：</b>Dify Chatflow · <b>模型：</b>mimo-v2-flash · Temperature 0.2（控制幻觉）· <b>审核四维：</b>输入侧/逻辑侧/异常侧/评估侧 · <b>三重护栏：</b>操作确认→过程可解释→结果可修正</div></div></div>
 
@@ -874,7 +884,13 @@ details .step-text {
   <div class="quote">「我不想为了记这个再下一个特别重的App，最好打开就能补一条。」——用户原话（已脱敏）</div>
   <div class="quote">「家里俩狗之前老搞混谁该驱虫了，现在分开看一目了然，总算不用拿本子记了。」——种子用户反馈</div></div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构与决策</div><div class="arch-box"><b>定位：</b>轻量健康记录册·隐私优先·零服务器依赖 · <b>主动砍掉：</b>社区、商城（访谈中仅2人提到）· <b>MVP闭环：</b>自动提醒+疫苗记录→反馈驱动加OCR→再加数据看板 · <b>迭代规则：</b>需求被超过50%用户提及才下一个做</div></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构与决策</div>
+  <div class="arch-box"><b>定位：</b>轻量健康记录册·隐私优先·零服务器依赖 · <b>主动砍掉：</b>社区、商城（访谈中仅2人提到）· <b>MVP闭环：</b>自动提醒+疫苗记录→反馈驱动加OCR→再加数据看板 · <b>迭代规则：</b>需求被超过50%用户提及才下一个做</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么这样定位：</b>调研发现83%用户拒绝云上传，而竞品（宠物家、小爪在家）全部走云端路线。这意味着存在一个被忽略的细分市场——"只想要提醒功能、不想注册、不想上传数据"的轻量用户。与其和竞品在功能丰富度上竞争，不如在"零门槛+零隐私风险"上建立差异化。</div>
+  <div class="step-text"><b>为什么砍掉社区和商城：</b>20人深访中仅2人提到社区需求，而社区/商城会引入内容审核、服务器成本、广告变现压力，与"轻量+隐私"定位直接矛盾。砍掉后产品架构从"App"简化为"PWA"，开发成本降低60%，且无需应用商店审核。</div>
+  <div class="step-text"><b>为什么用KANO模型：</b>用户需求多样（提醒、OCR、花费、周报、导出），但MVP资源有限。KANO模型能区分"不做就流失"（基础型）和"做了有惊喜"（兴奋型），避免把资源浪费在"做了用户也无感"的功能上。实测验证：优先交付基础型需求后，NPS从+12提升到+38。</div>
+  <div class="step-text"><b>为什么选PWA而非原生App：</b>①目标用户是"不想下一个新App"的人（用户原话），PWA无需安装、打开即用，降低使用门槛；②离线可用满足"地铁上记一笔"的场景；③无需应用商店审核，迭代速度更快。</div>
+  </div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能点</div><ul class="ft-list">
     <li>多宠独立档案+疫苗日历+花费看板+智能提醒（按宠隔离）</li>
@@ -1096,7 +1112,11 @@ details .step-text {
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">产品决策</div><div class="step-text"><b>不做</b>大而全协作套件。最小闭环：转写→结构化待办→状态追踪→周报复盘。</div></div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>4大核心模块：</b>语音转写（Whisper本地）→待办台账（结构化字段）→状态流转（待办→进行中→完成→归档状态机）→复盘笔记（短周期回顾）· 可选Node.js+Express+SQLite后端满足团队私有化部署</div></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>4大核心模块：</b>语音转写（Whisper本地）→待办台账（结构化字段）→状态流转（待办→进行中→完成→归档状态机）→复盘笔记（短周期回顾）· 可选Node.js+Express+SQLite后端满足团队私有化部署</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么选Whisper本地转写而非云端：</b>访谈发现"会议内容涉及商业机密"是用户最大顾虑。飞书妙记/通义听悟都走云端，数据上传后用户无法控制。Whisper本地转写牺牲少量准确率换取数据主权，符合目标用户（项目管理/产品团队）的隐私需求——这和宠伴"本地优先"的决策逻辑一致。</div>
+  <div class="step-text"><b>为什么做状态流转而非简单待办列表：</b>用户反馈"待办列了但没人管进度"——问题不是没有待办，而是待办没有生命周期。简单待办列表只有"完成/未完成"两态，但真实场景是"已分配→进行中→遇到阻塞→已完成"。状态流转让每条待办有"进度可查"，也支持漏项抽检——超过3天未流转的待办自动标红提醒。</div>
+  <div class="step-text"><b>为什么聚焦最小闭环而非大协作套件：</b>20人访谈中发现，用户不需要"又一个协作平台"——他们已经有飞书/钉钉/Notion。真正缺的是"会议中说的事有没有落地"。做最小闭环（转写→待办→状态→复盘）可以在不改变用户现有工具链的情况下补上缺失的一环。如果做大而全，就要和飞书正面竞争，必输无疑。</div>
+</div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能</div><ul class="ft-list">
     <li>本地Whisper语音转写（隐私优先）</li><li>结构化待办+P0/P1/P2优先级+状态流转</li>
@@ -1149,6 +1169,8 @@ details .step-text {
   <div class="card-sub">独立产品 · 2025.09-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>新建主题<span class="fb-arrow">→</span><span class="fb-step">2</span>角色设定<span class="fb-arrow">→</span><span class="fb-step">3</span>章节写作<span class="fb-arrow">→</span><span class="fb-step">4</span>AI灵感辅助<span class="fb-arrow">→</span><span class="fb-step">5</span>进度追踪+导出</div>
   <div class="step-text" style="margin-bottom:8px">连载/兼职作者资料分散、断更焦虑。核心判断：问题不是"写不出来"，而是"不知道怎么开始"。AI降低开始成本，不替代创作。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么聚焦"降低开始成本"而非提升写作质量：</b>访谈发现兼职/连载作者最大的痛点不是"写不好"，而是"坐下来开始写"这个动作。断更的原因80%是"打开文档不知道从哪续"。AI帮生成标题/开头/角色设定，降低的是"开始"的心理门槛，而非替代创作过程本身——创作质量仍然取决于作者，AI只是帮你"坐下来"。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么用健康分+进度追踪：</b>连载作者的隐性焦虑是"我这个月写了多少"。GitHub风格的贡献热力图把模糊的焦虑量化为可视数据——看到连续创作天数形成正向反馈，中断则触发提醒。这是行为设计中"损失厌恶"的应用：人们更害怕失去已有的连续记录，而非追求未来的写作目标。</div>
   <ul class="ft-list">
     <li>多主题+角色设定+章节状态流转</li><li>AI灵感生成（标题/开头/角色）</li>
     <li>写作目标+进度+时间线+健康分</li><li>周月报+快照+PWA</li>
@@ -1172,6 +1194,8 @@ details .step-text {
   <div class="card-sub">独立产品 · 2025.12-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>导入剧本<span class="fb-arrow">→</span><span class="fb-step">2</span>场景拆分<span class="fb-arrow">→</span><span class="fb-step">3</span>改稿追踪<span class="fb-arrow">→</span><span class="fb-step">4</span>AI剧情建议<span class="fb-arrow">→</span><span class="fb-step">5</span>热力图复盘</div>
   <div class="step-text" style="margin-bottom:8px">长剧本改稿忘因、进度模糊。产品架构：GitHub风格热力图(26周+连续天数) + Trello场景看板 + AI剧情面板。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么用GitHub风格热力图：</b>编剧改稿是高频低量的工作（每天改一点），热力图把碎片化的修改行为可视化为"贡献日历"——26周的时间跨度让编剧看到自己的修改节奏，而不是只记得"最近改了什么"。借鉴GitHub是因为程序员群体已验证这个可视化模式对"持续性习惯追踪"的有效性。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么做Trello场景看板而非线性文档：</b>剧本是非线性的——改第3场可能影响第15场。线性文档（Word）让编剧只能从头翻到尾，而场景看板让每场戏独立成卡片，可拖拽排序、标记状态（草稿/初审/定稿），符合编剧"跳跃式修改"的真实工作方式。</div>
   <ul class="ft-list">
     <li>热力图+场景看板+分场标签</li><li>AI剧情生成（走向/对白/场景）</li>
     <li>月度回顾+高频词+多格式导出</li>
@@ -1195,6 +1219,8 @@ details .step-text {
   <div class="card-sub">独立产品 · 2025.10-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>用户调研<span class="fb-arrow">→</span><span class="fb-step">2</span>信息架构设计<span class="fb-arrow">→</span><span class="fb-step">3</span>AI辅助内容生成<span class="fb-arrow">→</span><span class="fb-step">4</span>质量控制流程<span class="fb-arrow">→</span><span class="fb-step">5</span>数据驱动迭代</div>
   <div class="step-text" style="margin-bottom:8px">独立游戏产品设计项目。核心价值：验证AI辅助内容生产的PM工作流——用户调研→信息架构→AI生成→人工质控→数据迭代的完整闭环。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么做"AI辅助"而非"AI生成"：</b>文字冒险游戏的核心体验是"选择感"——玩家觉得自己的选择有意义。如果完全AI生成，分支逻辑会混乱，玩家很快发现"选什么都一样"。28条分支路径×6结局的架构是人工设计的，AI只负责填充文本内容（对白/描述），确保结构可控、体验一致。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么用暗骰机制：</b>传统文字冒险的属性检定是透明的（"力量15，检定成功"），暗骰让玩家看不到具体数值——这增加了不确定性带来的紧张感，也防止玩家"save scum"（反复读档刷结果）。5属性暗骰机制让每次选择都有真实后果，提升重玩价值。</div>
   <ul class="ft-list">
     <li>用户调研：15款文字冒险游戏体验分析，提取核心玩法要素</li><li>信息架构：28条分支路径×6结局×5属性暗骰机制设计</li>
     <li>质量控制：建立AI生成→人工筛选精修的标准化流程</li><li>数据埋点：结局达成分布、分支路径覆盖率、用户留存追踪</li>
@@ -1228,6 +1254,9 @@ details .step-text {
   <div class="card-sub">独立产品 · 2026.01-05</div>
   <div class="flow-badge"><span class="fb-step">1</span>描述拖延任务<span class="fb-arrow">→</span><span class="fb-step">2</span>AI拆解最小行动<span class="fb-arrow">→</span><span class="fb-step">3</span>选择执行模式<span class="fb-arrow">→</span><span class="fb-step">4</span>倒计时执行<span class="fb-arrow">→</span><span class="fb-step">5</span>完成反馈+复盘</div>
   <div class="arch-box"><b>双模式设计：</b>规则引擎保底（离线可用）+AI创意模式（联网增强）。AI失败自动降级，离线兜底触发率&lt;5%。多平台LLM支持。</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么双模式设计：</b>用户拖延时往往是情绪低落或焦虑状态，此时如果AI服务不可用（网络差/服务器限流），会加重挫败感导致直接放弃。规则引擎保底确保"任何时候打开都能用"——即使AI挂了，也能按预设规则拆解最小行动。AI增强在联网时提供更好的个性化诊断，但产品可用性不依赖它。</div>
+  <div class="step-text"><b>为什么用倒计时作为执行模式：</b>拖延的本质是"启动成本高"，不是"不想做"。倒计时创造"有限承诺"的心理框架——"只需要坚持25分钟"，降低启动门槛。这是番茄钟的行为心理学原理：把模糊的"去做吧"转化为具体的"现在开始倒计时"，用外部时间约束替代内部意志力。</div>
+  <div class="step-text"><b>为什么AI诊断拖延原因而非直接给方案：</b>如果直接给方案（"去做吧"），和用户的自我对话没有区别。诊断拖延原因能帮用户看到自己看不到的心理障碍——完美主义倾向、任务粒度太大、害怕失败、缺乏意义感。这些是AI比人类朋友更擅长的，因为没有社交压力，用户愿意对AI坦诚。</div>
   <div class="data-row"><span class="data-chip"><span class="num g">~80%</span><span class="label">AI诊断满意度</span></span><span class="data-chip"><span class="num g">&lt;5%</span><span class="label">离线触发率</span></span></div>
   <a href="./cold-start.html" target="_blank" class="demo-link">体验 Demo →</a>
 
@@ -1257,6 +1286,8 @@ details .step-text {
   <div class="card-sub">独立产品 · 2026.05</div>
   <div class="flow-badge"><span class="fb-step">1</span>输入收入+生活参数<span class="fb-arrow">→</span><span class="fb-step">2</span>贪心预算分配<span class="fb-arrow">→</span><span class="fb-step">3</span>Bmax计算房租上限<span class="fb-arrow">→</span><span class="fb-step">4</span>多方案对比<span class="fb-arrow">→</span><span class="fb-step">5</span>AI顾问建议</div>
   <div class="arch-box"><b>贪心预算分配算法</b>逐项分配→<b>双层Bmax公式</b>计算房租上限→<b>多方案对比</b>输出净收益/有效时薪/租收比→<b>DeepSeek V4 Flash AI顾问</b>个性化建议</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么用贪心预算分配算法而非简单百分比：</b>用户搜"租房预算"得到的建议都是"房租不超过收入30%"——但这个数字忽略了交通、饮食、储蓄的个体差异。贪心算法按优先级逐项分配（税→社保→储蓄→饮食→交通→…），剩余才是房租上限。同样的月入8000元，在南山科技园上班和在龙华住的人，合理房租上限可以差2倍。</div>
+  <div class="step-text"><b>为什么加AI顾问而非纯公式输出：</b>公式算出的数字是冷冰冰的结论，但用户租房决策涉及很多非量化因素（通勤体验、社区环境、室友关系）。AI顾问基于计算结果提供个性化建议（"你当前租收比偏高，建议考虑合租或缩短通勤距离"），把数据转化为可执行的决策参考——让用户"理解为什么"，而不只是"知道数字"。</div>
   <div class="result"><div class="rtitle">关键价值</div>展示把复杂计算逻辑产品化——用户不需理解算法，输入参数即可得到可决策的结果。</div>
   <a href="./zhuzhi-rent.html" target="_blank" class="demo-link">体验 Demo →</a>
 
@@ -1286,6 +1317,9 @@ details .step-text {
   <div class="card-sub">行业垂直探索 · 2026.01-05</div>
   <div class="flow-badge"><span class="fb-step">1</span>需求输入<span class="fb-arrow">→</span><span class="fb-step">2</span>市场调研<span class="fb-arrow">→</span><span class="fb-step">3</span>选品推荐<span class="fb-arrow">→</span><span class="fb-step">4</span>文案生成<span class="fb-arrow">→</span><span class="fb-step">5</span>合规审核<span class="fb-arrow">→</span><span class="fb-step">6</span>运营上架</div>
   <div class="arch-box"><b>MCP服务总线+6-Agent协作：</b>需求解析Agent+市场调研Agent+选品分析Agent+文案生成Agent+合规审核Agent+运营策略Agent→Orchestrator路由→结构化卡片推送。覆盖跨境电商全链路闭环，不做传统问答Chatbot。</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么选MCP服务总线而非传统API网关：</b>跨境电商涉及多语言/多市场/多环节，传统API网关是"请求-响应"模式，不支持Agent间上下文传递。MCP协议原生支持"工具描述+上下文传递"，让每个Agent能获取前序Agent的结构化输出，而非从头理解用户意图——6个Agent接力处理，中间结果零损耗传递。</div>
+  <div class="step-text"><b>为什么从4-Agent扩展到6-Agent：</b>初版4-Agent（需求/调研/选品/运营）缺少"文案生成"和"合规审核"。用户反馈"选品推荐了但文案要自己写、合规要自己查"——这两个环节恰好是跨境电商最耗时且最容易出错的。拆分独立Agent后，每个Agent的System Prompt更聚焦（500-800 tokens），输出质量可控。如果合成单Agent，Prompt超4000 tokens会导致注意力分散。</div>
+  <div class="step-text"><b>为什么做结构化卡片推送而非传统Chatbot：</b>访谈发现用户"不知道该问什么"——跨境新人不知道该问关税、物流还是合规。传统Chatbot需要用户主动提问，而结构化卡片是Agent主动推送（"这是您选品的关税风险评估""以下是3套多语言文案方案"），把"搜索"变"推荐"，降低使用门槛。</div>
   <div class="result"><div class="rtitle">探索价值</div>从4-Agent扩展到6-Agent全链路协作，覆盖需求→调研→选品→文案→合规→运营完整跨境电商闭环。验证MCP服务总线下多Agent并行协作与流水线编排的交互可行性，探索Agent数量扩展带来的能力边界与工程挑战。</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
     <a href="./cross-border-ai.html" target="_blank" class="demo-link">体验 Demo →</a>
@@ -1413,6 +1447,8 @@ details .step-text {
   <div class="card-sub">开源工具 · 2025.11-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>识别PM工作流节点<span class="fb-arrow">→</span><span class="fb-step">2</span>标准化Prompt模板<span class="fb-arrow">→</span><span class="fb-step">3</span>分类入库<span class="fb-arrow">→</span><span class="fb-step">4</span>实际验证迭代<span class="fb-arrow">→</span><span class="fb-step">5</span>GitHub开源</div>
   <div class="step-text" style="margin-bottom:8px">按PM实际工作流分类，而非按AI能力分类。把AI使用经验沉淀为可复用的标准化资产。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么按PM工作流分类而非按AI能力分类：</b>市面上的Prompt库大多按"写作/营销/编程"等AI能力分类，但PM的工作不是"写一篇文章"或"编一段代码"，而是"定义需求→设计功能→写PRD→评审→验收→复盘"。按工作流分类让PM能在正确的工作节点找到正确的Prompt，而不是在一堆"写作类"Prompt里大海捞针。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么开源：</b>Prompt是经验资产，不是代码专利。PM社区对AI工具的使用经验高度碎片化——每个人都在自己摸索。GitHub开源让其他PM可以直接复用、提Issue反馈、贡献自己的Prompt，形成社区效应。MIT协议意味着零使用门槛。</div>
   <ul class="ft-list">
     <li>12个标准化Prompt，覆盖6步PM工作流</li><li>8个分类（写作/营销/编程/AIGC等）</li>
     <li>19项PRD质量检查清单系统化</li><li>GitHub开源（MIT，零依赖）</li>
