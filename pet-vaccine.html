@@ -757,6 +757,291 @@
     .page { transition: opacity 0.2s ease; }
     .page[style*="display: none"] { opacity: 0; }
     
+    /* ========================================
+       PC端多分辨率尺寸优化（1920×1080 / 2560×1440）
+       ======================================== */
+    
+    /* 栅格布局规范 */
+    :root {
+        --grid-max-width: 1200px;
+        --grid-gutter: 24px;
+        --grid-column: 12;
+        
+        /* 模块高度基准 */
+        --header-height: 72px;
+        --header-height-scrolled: 56px;
+        --card-min-height: 120px;
+        --card-padding-base: 24px;
+        --card-gap: 20px;
+        --tab-bar-height: 64px;
+        --fab-size: 56px;
+        
+        /* 间距系统 */
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 16px;
+        --space-lg: 24px;
+        --space-xl: 32px;
+        --space-2xl: 48px;
+        --space-3xl: 64px;
+    }
+    
+    /* PC端基础布局 */
+    @media (min-width: 1200px) {
+        .container {
+            max-width: var(--grid-max-width);
+            padding: var(--space-xl) var(--space-2xl);
+            margin: 0 auto;
+        }
+        
+        /* 卡片尺寸规范 */
+        .card {
+            padding: var(--card-padding-base);
+            margin-bottom: var(--card-gap);
+            min-height: var(--card-min-height);
+        }
+        
+        /* 主要卡片（宠物信息、疫苗记录） */
+        .card:first-child,
+        .card:nth-child(2) {
+            min-height: 180px;
+        }
+        
+        /* 次要卡片（统计、设置） */
+        .card:nth-child(n+3) {
+            min-height: 140px;
+        }
+        
+        /* 图表区域 */
+        .chart-wrap {
+            min-height: 320px;
+            padding: var(--space-lg);
+        }
+        .chart-wrap canvas {
+            height: 280px !important;
+        }
+        
+        /* 输入组 */
+        .input-group {
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+        .input-group input,
+        .input-group select {
+            height: 48px;
+            padding: 0 var(--space-md);
+        }
+        
+        /* 按钮 */
+        .btn {
+            height: 44px;
+            padding: 0 var(--space-lg);
+            font-size: 0.95rem;
+        }
+        
+        /* 列表项 */
+        .vaccine-item,
+        .expense-item,
+        .deworm-item,
+        .weight-item {
+            padding: var(--space-md) var(--space-lg);
+            margin-bottom: var(--space-sm);
+        }
+        
+        /* 表格 */
+        #compareTable {
+            font-size: 0.95rem;
+        }
+        #compareTable th,
+        #compareTable td {
+            padding: var(--space-md);
+        }
+        
+        /* 报告区域 */
+        .report-box {
+            min-height: 120px;
+            padding: var(--space-lg);
+            font-size: 0.95rem;
+        }
+    }
+    
+    /* 1920×1080 优化 */
+    @media (min-width: 1920px) {
+        :root {
+            --grid-max-width: 1400px;
+            --header-height: 80px;
+            --card-padding-base: 28px;
+            --card-gap: 24px;
+        }
+        
+        .container {
+            padding: var(--space-2xl) var(--space-3xl);
+        }
+        
+        .card {
+            padding: var(--card-padding-base);
+        }
+        
+        .chart-wrap {
+            min-height: 360px;
+        }
+        .chart-wrap canvas {
+            height: 320px !important;
+        }
+        
+        .btn {
+            height: 48px;
+            padding: 0 var(--space-xl);
+        }
+    }
+    
+    /* 2560×1440 优化 */
+    @media (min-width: 2560px) {
+        :root {
+            --grid-max-width: 1800px;
+            --header-height: 88px;
+            --card-padding-base: 32px;
+            --card-gap: 28px;
+        }
+        
+        .container {
+            padding: var(--space-3xl) 80px;
+        }
+        
+        .card {
+            padding: var(--card-padding-base);
+            min-height: 160px;
+        }
+        
+        .card:first-child,
+        .card:nth-child(2) {
+            min-height: 220px;
+        }
+        
+        .chart-wrap {
+            min-height: 420px;
+        }
+        .chart-wrap canvas {
+            height: 380px !important;
+        }
+        
+        .btn {
+            height: 52px;
+            padding: 0 var(--space-xl);
+            font-size: 1rem;
+        }
+        
+        .input-group input,
+        .input-group select {
+            height: 52px;
+            font-size: 1rem;
+        }
+        
+        .vaccine-item,
+        .expense-item,
+        .deworm-item,
+        .weight-item {
+            padding: var(--space-lg) var(--space-xl);
+        }
+        
+        #compareTable {
+            font-size: 1rem;
+        }
+        #compareTable th,
+        #compareTable td {
+            padding: var(--space-lg);
+        }
+        
+        .report-box {
+            min-height: 160px;
+            padding: var(--space-xl);
+            font-size: 1rem;
+        }
+    }
+    
+    /* 导航栏尺寸规范 */
+    @media (min-width: 1200px) {
+        .app-header {
+            height: var(--header-height);
+            padding: 0 var(--space-2xl);
+            display: flex;
+            align-items: center;
+        }
+        
+        .app-header .header-brand {
+            max-width: var(--grid-max-width);
+            margin: 0 auto;
+            width: 100%;
+        }
+    }
+    
+    /* 底部标签栏尺寸规范 */
+    @media (min-width: 1200px) {
+        .tab-bar {
+            height: var(--tab-bar-height);
+            max-width: 800px;
+            padding: 0 var(--space-xl);
+        }
+        
+        .tab-item {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    
+    /* 浮动按钮尺寸规范 */
+    @media (min-width: 1200px) {
+        .fab {
+            width: var(--fab-size);
+            height: var(--fab-size);
+            right: calc((100vw - var(--grid-max-width)) / 2 - var(--fab-size) - var(--space-xl));
+            bottom: calc(var(--tab-bar-height) + var(--space-xl));
+        }
+    }
+    
+    /* 模态框尺寸规范 */
+    @media (min-width: 1200px) {
+        .modal {
+            max-width: 560px;
+            padding: var(--space-xl);
+            border-radius: var(--space-lg);
+        }
+    }
+    
+    /* 看板页面栅格布局 */
+    @media (min-width: 1200px) {
+        #page-dashboard.page.active {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--card-gap);
+            max-width: var(--grid-max-width);
+            margin: 0 auto;
+        }
+        
+        #page-dashboard > .card:first-of-type {
+            grid-column: 1 / -1;
+        }
+        
+        .dashboard-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--card-gap);
+        }
+    }
+    
+    /* 2560×1440 看板优化 */
+    @media (min-width: 2560px) {
+        #page-dashboard.page.active {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .dashboard-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+    
     /* 增强动画效果 */
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
