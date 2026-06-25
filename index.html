@@ -803,7 +803,7 @@ details .step-text {
   <div class="step-text"><b>为什么选System Prompt直写而非RAG：</b>RAG适合"答案在知识库里、需要检索"的场景（如客服问答）。但PRD检查的规则是固定的（"用户故事是否包含验收标准""异常流程是否覆盖"等），不需要检索外部知识，只需要把规则"教"给LLM。用RAG反而会引入检索噪声——检索到不相关的规则片段会干扰判断。实测验证：System Prompt方案的遗漏检出密度（13处/5000字）优于RAG方案（8处/5000字）。</div>
   <div class="step-text"><b>为什么Temperature设0.2而非0：</b>Temp=0会导致输出完全确定，对于"判断PRD是否有问题"这种需要一定推理的任务，完全确定性会降低判断灵活性。Temp=0.2在"可控"和"灵活"之间取平衡——相同PRD多次审核结果一致性>95%，同时保留对模糊表述的推理能力。</div>
   <div class="step-text"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>PRD遗漏通常不是随机分布的，而是集中在特定维度。四维拆解基于MECE原则：输入侧检查"有没有说清楚要什么"，逻辑侧检查"逻辑是否自洽"，异常侧检查"边界情况有没有覆盖"，评估侧检查"怎么验证做对了"。实测13处遗漏中，异常侧占7处（54%），验证了"PRD最常遗漏异常流程"的行业共识。</div>
-  </div></div></div>
+  </div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>平台：</b>Dify Chatflow · <b>模型：</b>mimo-v2-flash · Temperature 0.2（控制幻觉）· <b>审核四维：</b>输入侧/逻辑侧/异常侧/评估侧 · <b>三重护栏：</b>操作确认→过程可解释→结果可修正</div></div></div>
 
