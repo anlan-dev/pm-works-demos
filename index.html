@@ -603,7 +603,7 @@ details .step-text {
   <div class="comp-item">
     <div class="comp-icon">🎯</div>
     <div class="comp-label">用户体验设计</div>
-    <div class="comp-value"><strong>20+</strong>用户深访 · 隐私优先架构 · 渐进披露 · 83%洞察命中率</div>
+    <div class="comp-value"><strong>20+</strong>用户深访 · 隐私优先架构 · 渐进披露 · <span title="基于用户测试与专家评审" style="border-bottom:1px dashed #9ca3af;cursor:help">83%洞察命中率[内部测试]</span></div>
   </div>
   <div class="comp-item">
     <div class="comp-icon">🚀</div>
@@ -662,9 +662,9 @@ details .step-text {
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：高球记 · 全模块埋点体系</div><div class="step-text">基于原型Demo定义全模块埋点事件体系（共<b>26个事件覆盖11个页面</b>），其中单杆轨迹模块8个事件（首页点击→导入视频→相册/相机选择→轨迹颜色→重播/导出）为核心工作。定义事件名、触发时机、关键参数（trace_color颜色选择等），输出埋点验收标准。用SQL验证单杆轨迹核心漏斗（导入→导出）的事件触发率与参数完整性。</div></div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · A/B验证体系</div><div class="step-text">建立"假设→实验→指标"验证体系：提醒配置意愿指数（任务完成率0.35+配置意愿量表0.35+主观耗时0.30）<b>+13%</b>，记录耗时缩短约<b>60%</b>，种子用户NPS <b>+12→+38</b>，转化率<b>42%</b>，7日留存<b>44%</b>。</div></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · A/B验证体系</div><div class="step-text">建立"假设→实验→指标"验证体系：提醒配置意愿指数（任务完成率0.35+配置意愿量表0.35+主观耗时0.30）<b>+13%</b>，记录耗时缩短约<b>60%</b>，种子用户NPS <b>+12→+38</b>，转化率<b>42%</b>，7日留存<b>44%</b>。<span style="font-size:.72rem;color:#6e6e73">[内部测试·种子用户轮次验证]</span></div></div></div>
 
-  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：PRD Quality Gate · 效果测评</div><div class="step-text">~5000字PRD实测<b>850ms</b>响应，检出<b>6/19</b>项合规项定位<b>13处</b>遗漏，验证System Prompt直写规则优于RAG检索的适用边界。用数据证明"确定性审核场景用Prompt直写、开放性场景用RAG"的技术选型结论。</div></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：PRD Quality Gate · 效果测评</div><div class="step-text">~5000字PRD实测<b>850ms</b>响应，检出<b>6/19</b>项合规项定位<b>13处</b>遗漏，验证System Prompt直写规则优于RAG检索的适用边界。用数据证明"确定性审核场景用Prompt直写、开放性场景用RAG"的技术选型结论。<span style="font-size:.72rem;color:#6e6e73">[内部实测·单次PRD样本]</span></div></div></div>
 </div>
 
 <!-- ===== 实习经历 ===== -->
@@ -1001,13 +1001,13 @@ details .step-text {
         <div style="overflow-x:auto;margin:8px 0">
           <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
             <tr style="background:#eef2f7"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">设备类型</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">推荐品牌</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">可获取数据</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">对接方式</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">参考价格</th></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动监测项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>FitBark 2</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动量/睡眠/健康指数/卡路里</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + Apple HealthKit/Google Fit同步</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$70 · 无订阅费 · 续航6个月</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">健康+GPS项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>Whistle Health</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">抓挠/舔舐/饮食/睡眠/活动/GPS</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + Webhook</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$149 + $8.25/月订阅</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">医疗级监测项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>PetPace 2.0</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">心率/HRV/呼吸/体温/姿态/疼痛指数</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + 兽医端数据共享</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$320 + $15/月订阅</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动监测项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>FitBark 2</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动量/睡眠/健康指数/卡路里</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + Apple HealthKit/Google Fit同步</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><a href="https://www.fitbark.com/en-CA/store/fitbark2/" style="color:#0071e3" target="_blank">$49.95</a> · 无订阅费 · 续航6个月</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">健康+GPS项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>Whistle Health</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">抓挠/舔舐/饮食/睡眠/活动/GPS</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + Webhook</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><a href="https://www.amazon.com/dp/B0B7CQ4WFL" style="color:#0071e3" target="_blank">~$99-149</a> · 订阅费另计</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">医疗级监测项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>PetPace V3.0</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">心率/HRV/呼吸/体温/姿态/疼痛指数</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + 兽医端数据共享</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><a href="https://www.amazon.com/dp/B0FNYK2KYY" style="color:#0071e3" target="_blank">$349</a> · 订阅费另计</td></tr>
             <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">GPS+活动项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>Fi Series 3+</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">GPS定位/活动量/睡眠/LED灯</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + LTE-M蜂窝网络</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$99 + $19/月订阅 · 续航3个月</td></tr>
           </table>
         </div>
-        <div class="step-text"><b>推荐首选：FitBark 2</b>——零订阅费、6个月续航、10g超轻量、API开放，与宠伴"本地优先+零成本"理念最契合。数据融合点：活动量→体重趋势分析，睡眠→异常预警，健康指数→疫苗/驱虫交叉分析。</div>
+        <div class="step-text"><b>推荐首选：FitBark 2</b>——<a href="https://www.fitbark.com/en-CA/store/fitbark2/" style="color:#0071e3" target="_blank">$49.95</a>、零订阅费、6个月续航、10g超轻量、API开放，与宠伴"本地优先+零成本"理念最契合。数据融合点：活动量→体重趋势分析，睡眠→异常预警，健康指数→疫苗/驱虫交叉分析。</div>
       </div>
 
       <!-- V2 详细方案 -->
@@ -1019,11 +1019,11 @@ details .step-text {
             <tr style="background:#fef3e2"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">设备类型</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">推荐品牌</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">可获取数据</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">对接方式</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">参考价格</th></tr>
             <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能喂食器</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 YumShare 2</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">进食量/进食时间/余粮/多猫识别</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi（开源Python库）+ PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">￥399-599 · 无订阅费</td></tr>
             <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能饮水机</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 Eversweet Ultra</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">饮水量/饮水频率/滤芯寿命</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi + PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">￥299-399 · 无订阅费</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能猫砂盆</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 Purobot Max Pro 2</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">如厕次数/时长/体重/尿液pH/AI粪便分析</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi + PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">$443 · CES 2026创新奖 · 无订阅费</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能猫砂盆</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 Purobot Max Pro 2</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">如厕次数/时长/体重/尿液pH/AI粪便分析</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi + PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><a href="https://petkit.com/products/purobot-max-pro-2-automatic-cat-litter-box-with-ai-camera" style="color:#d97706" target="_blank">$499.99</a> · <a href="https://petkit.com/blogs/blog/2026-petkit-best-automatic-litter-boxes-ultimate-buying-guide" style="color:#d97706" target="_blank">Microsoft AI创新奖@CES 2026</a></td></tr>
             <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能猫砂盆（多猫）</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>CATLINK Self-Cleaning</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">如厕次数/时长/体重/RFID多猫识别</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">CATLINK REST API + RFID项圈</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">$330 · 双AI摄像头 · 零误识别</td></tr>
           </table>
         </div>
-        <div class="step-text"><b>生态选型推荐：小佩（PETKIT）全屋方案</b>——喂食器+饮水机+猫砂盆统一API（pypetkitapi开源库已可用），零订阅费，CES 2026创新奖，国内品牌售后有保障。备选方案：CATLINK（多猫识别更强）或霍曼（性价比更高）。[竞品数据来源：2025-2026年CES官方、CNPP品牌榜、SmarthomeExplorer评测]</div>
+        <div class="step-text"><b>生态选型推荐：小佩（PETKIT）全屋方案</b>——喂食器+饮水机+猫砂盆统一API（pypetkitapi开源库已可用），零订阅费，<a href="https://petkit.com/blogs/blog/2026-petkit-best-automatic-litter-boxes-ultimate-buying-guide" style="color:#d97706" target="_blank">Microsoft AI创新奖@CES 2026</a>，国内品牌售后有保障。备选方案：CATLINK（多猫识别更强）或霍曼（性价比更高）。[竞品数据来源：2025-2026年PETKIT官网、PyPI/pypetkitapi]</div>
       </div>
 
       <!-- V3 详细方案 -->
@@ -1125,7 +1125,7 @@ details .step-text {
     </summary>
     <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
       <div class="step-text"><b>用户需求调研：</b>①调研范围：潜在用户——日均会议≥3场的项目协调人，活跃用户——已使用会议纪要工具（飞书/钉钉/Notion）的PM/TL，流失用户——试用后放弃者（反馈"整理比手写还慢""待办没法追踪"），行业专家——企业OA产品经理（1人）、敏捷教练（1人）；②调研方法：深度访谈<b>10位</b>PM/项目协调人（含4名种子用户），会议场景观察<b>6-8场</b>真实会议（记录会后整理行为），问卷<b>62份</b>（有效<b>51份</b>），竞品工具对比试用（飞书妙记/通义听悟/Fireflies.ai）；③KANO分层：基础型——语音转写、待办提取（不满足则无价值），期望型——状态流转、漏项抽检（满意度线性增长），兴奋型——周报复盘、会议知识图谱（超预期价值点）。</div>
-      <div class="step-text"><b>竞品分析：</b>①直接竞品——飞书妙记（2026年全球AI会议转录软件市场排名前三，支持语音识别+自动摘要+待办提取，但依赖飞书生态，云端处理）、通义听悟（阿里巴巴旗下，支持实时转写+多语言+摘要，云端处理，企业版按席位收费）、Otter.ai（全球领先AI会议助手，2025年ARR达约1亿美元，支持Zoom/Teams/Meet集成）；间接竞品——Notion AI（文档内AI辅助，非专项会议工具）、Fireflies.ai（AI会议转录+搜索，支持7种语言）；替代竞品——人工手写纪要+微信群发任务；②核心维度：用户体验（会后0操作自动出待办 vs 竞品需手动整理）、功能完整性（转写→待办→状态→复盘闭环 vs 竞品仅转写+纪要）、技术能力（Whisper本地端侧 vs 竞品云端转写）、商业化（私有化部署零边际成本 vs 竞品按席位订阅）；③差异化：本地Whisper隐私优先（竞品均云端），状态流转+漏项抽检（竞品无此功能），周报复盘闭环（竞品需导出到其他工具）。[竞品数据来源：2025-2026年行业报告及公开产品信息]</div>
+      <div class="step-text"><b>竞品分析：</b>①直接竞品——飞书妙记（支持语音识别+自动摘要+待办提取，依赖飞书生态，云端处理）、通义听悟（阿里巴巴旗下，支持实时转写+多语言+摘要，云端处理）、<a href="https://otter.ai/blog/otter-ai-caps-transformational-2025-with-100m-arr-milestone-industry-first-ai-meeting-agents-and-global-enterprise-expansion" style="color:#0071e3" target="_blank">Otter.ai（2025年3月突破$100M ARR，25M+用户）</a>；间接竞品——Notion AI、Fireflies.ai（AI会议转录+搜索，支持7种语言）；替代竞品——人工手写纪要+微信群发任务；②核心维度：用户体验（会后0操作自动出待办 vs 竞品需手动整理）、功能完整性（转写→待办→状态→复盘闭环 vs 竞品仅转写+纪要）、技术能力（Whisper本地端侧 vs 竞品云端转写）、商业化（私有化部署零边际成本 vs 竞品按席位订阅）；③差异化：本地Whisper隐私优先（竞品均云端），状态流转+漏项抽检（竞品无此功能），周报复盘闭环（竞品需导出到其他工具）。[竞品数据来源：2025-2026年行业报告及公开产品信息]</div>
       <div class="step-text"><b>数据分析：</b>①数据源：用户行为埋点（录音→转写→待办提取→确认→状态流转→复盘各环节耗时与完成率）、业务数据（每场会议提取待办数、待办完成率、漏项检出率）、协作者反馈（6-8场演练+4名协作者跟评）；②核心指标：待办完成指数（加权综合指标：完成率×0.4+及时率×0.3+漏项率×0.3），目标>100，实测<b>104→118</b>；转写准确率（Whisper基准>95%）；周报生成率（自动生成周报的会议占比）；③可视化：面向产研——待办完成趋势图（每轮迭代改善<b>+4%→+12%→+18%</b>）+转写准确率监控；面向管理层——会议健康评分仪表盘（待办完成率+漏项率+复盘率综合）。</div>
     </div>
   </details>
