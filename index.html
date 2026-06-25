@@ -902,6 +902,89 @@ details .step-text {
         <b>关键发现→设计决策：</b>多数竞品未很好支持"多宠独立提醒+单次粒度安抚"。优先交付按宠独立提醒与本地OCR，把差异化写进PRD，避免做成又一个通用日历。</p>
     </div>
   </details>
+
+  <!-- ===== 智能硬件接入方案（三版迭代） ===== -->
+  <details style="cursor:pointer;margin-top:12px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:8px;font-size:clamp(.78rem,.88vw,.82rem);font-weight:600;color:#0f172a">
+      <span style="width:24px;height:24px;border-radius:6px;background:rgba(0,113,227,.1);color:#0071e3;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.68rem;flex-shrink:0">🔧</span>
+      智能硬件接入方案·三版迭代规划（点击展开）
+    </summary>
+    <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
+
+      <!-- 版本路线图概览 -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px">
+        <div style="background:linear-gradient(135deg,#e8f4fd,#f0f7ff);border:1px solid #b8d4e8;border-radius:10px;padding:12px">
+          <div style="font-weight:700;color:#0071e3;font-size:.82rem;margin-bottom:4px">V1 · 数据桥接</div>
+          <div style="font-size:.72rem;color:#4a5568;line-height:1.5">接入现有智能设备数据，补全活动量+健康指标，<b>零硬件开发成本</b></div>
+        </div>
+        <div style="background:linear-gradient(135deg,#fef3e2,#fff8f0);border:1px solid #e8c99b;border-radius:10px;padding:12px">
+          <div style="font-weight:700;color:#d97706;font-size:.82rem;margin-bottom:4px">V2 · 场景联动</div>
+          <div style="font-size:.72rem;color:#4a5568;line-height:1.5">喂食/饮水/如厕数据自动同步，构建宠物<b>全天候健康画像</b></div>
+        </div>
+        <div style="background:linear-gradient(135deg,#ecfdf5,#f0fff4);border:1px solid #a7d7c5;border-radius:10px;padding:12px">
+          <div style="font-weight:700;color:#059669;font-size:.82rem;margin-bottom:4px">V3 · AI健康中枢</div>
+          <div style="font-size:.72rem;color:#4a5568;line-height:1.5">多设备数据融合+AI异常检测，从记录工具升级为<b>智能健康管家</b></div>
+        </div>
+      </div>
+
+      <!-- V1 详细方案 -->
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:12px">
+        <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">📦 V1 · 数据桥接方案（推荐首选）</div>
+        <div class="step-text" style="margin-bottom:8px"><b>核心思路：</b>不自研硬件，通过已有智能设备的开放API获取数据，与宠伴现有记录体系融合。</div>
+        <div style="overflow-x:auto;margin:8px 0">
+          <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+            <tr style="background:#eef2f7"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">设备类型</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">推荐品牌</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">可获取数据</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">对接方式</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">参考价格</th></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动监测项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>FitBark 2</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动量/睡眠/健康指数/卡路里</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + Apple HealthKit/Google Fit同步</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$70 · 无订阅费 · 续航6个月</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">健康+GPS项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>Whistle Health</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">抓挠/舔舐/饮食/睡眠/活动/GPS</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + Webhook</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$149 + $8.25/月订阅</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">医疗级监测项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>PetPace 2.0</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">心率/HRV/呼吸/体温/姿态/疼痛指数</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + 兽医端数据共享</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$320 + $15/月订阅</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">GPS+活动项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>Fi Series 3+</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">GPS定位/活动量/睡眠/LED灯</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + LTE-M蜂窝网络</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$99 + $19/月订阅 · 续航3个月</td></tr>
+          </table>
+        </div>
+        <div class="step-text"><b>推荐首选：FitBark 2</b>——零订阅费、6个月续航、10g超轻量、API开放，与宠伴"本地优先+零成本"理念最契合。数据融合点：活动量→体重趋势分析，睡眠→异常预警，健康指数→疫苗/驱虫交叉分析。</div>
+      </div>
+
+      <!-- V2 详细方案 -->
+      <div style="background:#fffbf5;border:1px solid #f0e6d0;border-radius:10px;padding:14px;margin-bottom:12px">
+        <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">🏠 V2 · 场景联动方案（中期规划）</div>
+        <div class="step-text" style="margin-bottom:8px"><b>核心思路：</b>接入宠物智能家居生态（喂食器+饮水机+猫砂盆），实现"吃喝拉撒"全场景数据自动采集。</div>
+        <div style="overflow-x:auto;margin:8px 0">
+          <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+            <tr style="background:#fef3e2"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">设备类型</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">推荐品牌</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">可获取数据</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">对接方式</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">参考价格</th></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能喂食器</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 YumShare 2</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">进食量/进食时间/余粮/多猫识别</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi（开源Python库）+ PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">￥399-599 · 无订阅费</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能饮水机</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 Eversweet Ultra</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">饮水量/饮水频率/滤芯寿命</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi + PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">￥299-399 · 无订阅费</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能猫砂盆</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 Purobot Max Pro 2</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">如厕次数/时长/体重/尿液pH/AI粪便分析</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi + PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">$443 · CES 2026创新奖 · 无订阅费</td></tr>
+            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能猫砂盆（多猫）</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>CATLINK Self-Cleaning</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">如厕次数/时长/体重/RFID多猫识别</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">CATLINK REST API + RFID项圈</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">$330 · 双AI摄像头 · 零误识别</td></tr>
+          </table>
+        </div>
+        <div class="step-text"><b>生态选型推荐：小佩（PETKIT）全屋方案</b>——喂食器+饮水机+猫砂盆统一API（pypetkitapi开源库已可用），零订阅费，CES 2026创新奖，国内品牌售后有保障。备选方案：CATLINK（多猫识别更强）或霍曼（性价比更高）。[竞品数据来源：2025-2026年CES官方、CNPP品牌榜、SmarthomeExplorer评测]</div>
+      </div>
+
+      <!-- V3 详细方案 -->
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;margin-bottom:12px">
+        <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">🧠 V3 · AI健康中枢方案（长期愿景）</div>
+        <div class="step-text" style="margin-bottom:8px"><b>核心思路：</b>多设备数据融合 + AI异常检测 + 兽医端数据共享，从"记录工具"升级为"智能健康管家"。</div>
+        <div style="font-size:.74rem;color:#4a5568;line-height:1.6;margin-bottom:8px">
+          <b>数据融合架构：</b>活动量（FitBark）+ 进食量（小佩喂食器）+ 饮水量（小佩饮水机）+ 如厕数据（小佩猫砂盆）+ 现有记录（疫苗/驱虫/花费/体重）→ AI健康分析引擎 → 综合健康报告 + 异常预警 + 兽医端数据导出
+        </div>
+        <div style="font-size:.74rem;color:#4a5568;line-height:1.6;margin-bottom:8px">
+          <b>AI能力来源：</b>宠智灵AI开放平台（160+企业客户，日均56万次API调用，92.8%识别准确率）提供宠物图像识别、症状结构化、自动诊疗建议等能力；萤石IoT开放平台提供设备接入+云边协同AI+视频模组方案。
+        </div>
+        <div style="font-size:.74rem;color:#4a5568;line-height:1.6">
+          <b>差异化价值：</b>市面产品（Whistle/FitBark/小佩）均为"单设备单App"，用户手机装满宠App但数据不互通。宠伴做"健康中枢"聚合层，一个入口看全维度数据，AI交叉分析发现单一设备无法察觉的健康异常（如：活动量下降+饮水量增加+如厕频率升高 → 可能肾脏问题预警）。
+        </div>
+      </div>
+
+      <!-- 技术对接参考 -->
+      <div style="font-size:.72rem;color:#6e6e73;line-height:1.5;margin-top:8px">
+        <b>技术对接参考：</b>
+        ①pypetkitapi（pip install pypetkitapi，MIT协议，Python 3.10+，支持喂食器/饮水机/猫砂盆/净化器控制+数据获取）；
+        ②萤石IoT开放平台（MCU+模组对接，WiFi/BLE/视频模组，提供API+SDK+公版APP）；
+        ③宠智灵AI开放平台（宠物图像识别/症状结构化/诊疗建议API，支持云端+本地部署）；
+        ④PetPulse开源项目（GitHub PetPulseCLE/PetPulse，AI智能项圈固件+后端+移动端全栈参考）。
+        [数据来源：PyPI/pypetkitapi 1.26.0、萤石官网、CSDN宠智灵报道、GitHub PetPulse]
+      </div>
+    </div>
+  </details>
 </div></div></div>
 
 <!-- ===== 个人项目 ===== -->
