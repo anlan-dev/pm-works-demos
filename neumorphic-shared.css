@@ -636,3 +636,43 @@ html[data-ui="neumorphic"][data-app="cross"] .review-item {
 html[data-ui="neumorphic"][data-app="minimal"] body {
   font-family: "Inter", "Noto Sans SC", "Nunito", system-ui, -apple-system, sans-serif;
 }
+
+/* ===== 安卓端文字溢出修复（全局） ===== */
+html[data-ui="neumorphic"] * {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+html[data-ui="neumorphic"] .card,
+html[data-ui="neumorphic"] .card-body,
+html[data-ui="neumorphic"] .card-title,
+html[data-ui="neumorphic"] .card-desc,
+html[data-ui="neumorphic"] .card-sub {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+html[data-ui="neumorphic"] .step-text,
+html[data-ui="neumorphic"] .quote,
+html[data-ui="neumorphic"] .result {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+html[data-ui="neumorphic"] details summary {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+html[data-ui="neumorphic"] details summary > div {
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  html[data-ui="neumorphic"] .card-title {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  html[data-ui="neumorphic"] .card-sub,
+  html[data-ui="neumorphic"] .card-desc {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}

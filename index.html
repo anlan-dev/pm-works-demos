@@ -219,6 +219,221 @@ body.has-top-nav{padding-top:44px}
 
 /* ===== Android/WeChat compat ===== */
 @supports(-webkit-touch-callout:none){.top-nav-inner{-webkit-overflow-scrolling:touch}}
+
+/* ===== 安卓端文字溢出修复 ===== */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.step-text, .card-sub, .arch-box, .harness .hstep > span:last-child, .quote, .ft-list li, .comp-value, .result, .gate-table td {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+.step-body {
+  min-width: 0;
+  overflow: hidden;
+}
+.card {
+  overflow: hidden;
+}
+.card-title {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.data-row {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.flow-box {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.demo-link {
+  word-break: break-all;
+}
+details summary {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+details summary > div {
+  min-width: 0;
+}
+details .step-text {
+  padding-right: 8px;
+}
+@media (max-width: 640px) {
+  .step-text, .card-sub, .arch-box, .harness .hstep > span:last-child, .quote, .ft-list li, .comp-value, .result {
+    font-size: 13px;
+    line-height: 1.6;
+    word-break: break-all;
+  }
+  .gate-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+  .gate-table td, .gate-table th {
+    white-space: normal;
+    word-break: break-word;
+  }
+  .flow-badge {
+    white-space: normal;
+    flex-wrap: wrap;
+  }
+  .card-title {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .card-badge {
+    flex-shrink: 0;
+  }
+  .data-chip {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+/* ===== 侧边抽屉菜单 ===== */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.drawer-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.drawer-menu {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100%;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 10001;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+}
+.drawer-menu.active {
+  left: 0;
+}
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.drawer-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+.drawer-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+.drawer-close:active {
+  background: #e5e7eb;
+  transform: scale(0.95);
+}
+.drawer-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: #374151;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  margin-bottom: 4px;
+}
+.drawer-link:active, .drawer-link:hover {
+  background: #ecf3fa;
+  color: #0c3a56;
+}
+.drawer-link .nav-icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+.drawer-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 12px 0;
+}
+.drawer-trigger {
+  position: fixed;
+  left: 12px;
+  bottom: max(80px, calc(env(safe-area-inset-bottom, 0) + 70px));
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid #e8ecf2;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  font-size: 20px;
+  transition: all 0.2s;
+}
+.drawer-trigger:active {
+  transform: scale(0.92);
+  background: #ecf3fa;
+}
+@media (max-width: 820px) {
+  .drawer-trigger {
+    display: flex;
+  }
+  /* 隐藏原有的右下角移动导航 */
+  .mobile-nav {
+    display: none !important;
+  }
+  body {
+    padding-bottom: max(20px, calc(env(safe-area-inset-bottom, 0) + 20px)) !important;
+  }
+}
+@media (min-width: 821px) {
+  .drawer-trigger {
+    display: none;
+  }
+  .drawer-overlay, .drawer-menu {
+    display: none;
+  }
+}
 </style>
 </head>
 <body id="top">
@@ -275,6 +490,37 @@ body.has-top-nav{padding-top:44px}
     <a href="#quality">🔍 个人</a><a href="#more">📦 更多</a>
     <a href="#method">🔄 方法</a><a href="#frontier">🔬 前沿</a>
   </div>
+</nav>
+
+<!-- ===== 侧边抽屉菜单（安卓端替代方案） ===== -->
+<button class="drawer-trigger" id="drawerTrigger" aria-label="打开导航菜单">☰</button>
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<nav class="drawer-menu" id="drawerMenu">
+  <div class="drawer-header">
+    <span class="drawer-title">📍 导航目录</span>
+    <button class="drawer-close" id="drawerClose">✕</button>
+  </div>
+  <a href="./demo-hub.html" target="_blank" class="drawer-link" style="background:rgba(0,113,227,.08);color:#0071e3;font-weight:600;">
+    <span class="nav-icon">🚀</span> Demo导航
+  </a>
+  <div class="drawer-divider"></div>
+  <a href="#comp" class="drawer-link"><span class="nav-icon">📊</span> 能力总览</a>
+  <a href="#need" class="drawer-link"><span class="nav-icon">🔍</span> 需求发现</a>
+  <a href="#comp-analysis" class="drawer-link"><span class="nav-icon">⚔️</span> 竞品分析</a>
+  <a href="#data-analysis" class="drawer-link"><span class="nav-icon">📈</span> 数据分析</a>
+  <a href="#intern" class="drawer-link"><span class="nav-icon">🏋️</span> 实习经历</a>
+  <a href="#pet" class="drawer-link"><span class="nav-icon">🐾</span> 宠伴·健康台账</a>
+  <a href="#quality" class="drawer-link"><span class="nav-icon">🔍</span> 个人项目</a>
+  <a href="#more" class="drawer-link"><span class="nav-icon">📦</span> 更多项目</a>
+  <div class="drawer-divider"></div>
+  <a href="#content-creation" class="drawer-link" style="padding-left:32px;font-size:13px;color:#6b7280;"><span class="nav-icon">✍️</span> 内容创作</a>
+  <a href="#efficiency" class="drawer-link" style="padding-left:32px;font-size:13px;color:#6b7280;"><span class="nav-icon">🚀</span> 个人效率</a>
+  <a href="#life-service" class="drawer-link" style="padding-left:32px;font-size:13px;color:#6b7280;"><span class="nav-icon">🏠</span> 生活服务</a>
+  <a href="#cross-border" class="drawer-link" style="padding-left:32px;font-size:13px;color:#6b7280;"><span class="nav-icon">🌐</span> 跨境电商</a>
+  <a href="#pm-tools" class="drawer-link" style="padding-left:32px;font-size:13px;color:#6b7280;"><span class="nav-icon">📚</span> PM工具链</a>
+  <div class="drawer-divider"></div>
+  <a href="#method" class="drawer-link"><span class="nav-icon">🔄</span> 方法论</a>
+  <a href="#frontier" class="drawer-link"><span class="nav-icon">🔬</span> 前沿观察</a>
 </nav>
 
 <!-- Speed mode banner -->
@@ -890,8 +1136,11 @@ body.has-top-nav{padding-top:44px}
   <div class="card-sub">行业垂直探索 · 2026.01-05</div>
   <div class="flow-badge"><span class="fb-step">1</span>需求输入<span class="fb-arrow">→</span><span class="fb-step">2</span>市场调研<span class="fb-arrow">→</span><span class="fb-step">3</span>选品推荐<span class="fb-arrow">→</span><span class="fb-step">4</span>文案生成<span class="fb-arrow">→</span><span class="fb-step">5</span>合规审核<span class="fb-arrow">→</span><span class="fb-step">6</span>运营上架</div>
   <div class="arch-box"><b>MCP服务总线+6-Agent协作：</b>需求解析Agent+市场调研Agent+选品分析Agent+文案生成Agent+合规审核Agent+运营策略Agent→Orchestrator路由→结构化卡片推送。覆盖跨境电商全链路闭环，不做传统问答Chatbot。</div>
-  <div class="result"><div class="rtitle">探索价值</div>从4-Agent扩展到6-Agent全链路协作，覆盖需求→调研→选品→文案→合规→运营完整跨境电商闭环。验证MCP下多Agent并行协作+流水线编排的交互可行性。</div>
-  <a href="./cross-border-ai.html" target="_blank" class="demo-link">体验 Demo →</a>
+  <div class="result"><div class="rtitle">探索价值</div>从4-Agent扩展到6-Agent全链路协作，覆盖需求→调研→选品→文案→合规→运营完整跨境电商闭环。验证MCP服务总线下多Agent并行协作与流水线编排的交互可行性，探索Agent数量扩展带来的能力边界与工程挑战。</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+    <a href="./cross-border-ai.html" target="_blank" class="demo-link">体验 Demo →</a>
+    <a href="https://github.com/anlan-dev/cross-border-ai" target="_blank" class="demo-link" style="background:rgba(36,59,83,.06);color:#243b53">📦 GitHub 仓库 →</a>
+  </div>
 
   <details style="cursor:pointer;margin-top:10px">
     <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
@@ -1244,6 +1493,59 @@ function toggleSpeed(){
     document.body.style.scrollBehavior='smooth';
   }
 }
+
+// ===== 侧边抽屉菜单 =====
+(function(){
+  const trigger = document.getElementById('drawerTrigger');
+  const overlay = document.getElementById('drawerOverlay');
+  const menu = document.getElementById('drawerMenu');
+  const closeBtn = document.getElementById('drawerClose');
+  
+  if (!trigger || !overlay || !menu || !closeBtn) return;
+  
+  function openDrawer() {
+    overlay.classList.add('active');
+    menu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeDrawer() {
+    overlay.classList.remove('active');
+    menu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  trigger.addEventListener('click', openDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  
+  // 点击链接后关闭抽屉
+  menu.querySelectorAll('.drawer-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      closeDrawer();
+    });
+  });
+  
+  // ESC键关闭
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && menu.classList.contains('active')) {
+      closeDrawer();
+    }
+  });
+  
+  // 触摸滑动关闭
+  let touchStartX = 0;
+  menu.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  
+  menu.addEventListener('touchend', function(e) {
+    const touchEndX = e.changedTouches[0].clientX;
+    if (touchStartX - touchEndX > 50) {
+      closeDrawer();
+    }
+  }, { passive: true });
+})();
 </script>
 
 </body>

@@ -1977,9 +1977,399 @@ input, textarea, select {
 
 /* 实时动态入场动画 */
 @keyframes feedSlideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ====== AI 实时工作终端 ====== */
+.live-terminal {
+    background: #0f172a;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #94a3b8;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+.live-terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.live-terminal-dots {
+    display: flex; gap: 6px;
+}
+.live-terminal-dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+}
+.live-terminal-dots span:nth-child(1) { background: #ef4444; }
+.live-terminal-dots span:nth-child(2) { background: #f59e0b; }
+.live-terminal-dots span:nth-child(3) { background: #22c55e; }
+.live-terminal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 500;
+}
+.live-terminal-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.live-terminal-badge.live {
+    background: rgba(34,197,94,0.15);
+    color: #4ade80;
+    animation: badgePulse 2s infinite;
+}
+@keyframes badgePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+.live-terminal-body {
+    padding: 12px 14px;
+    max-height: 320px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 transparent;
+}
+.live-terminal-body::-webkit-scrollbar { width: 4px; }
+.live-terminal-body::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.live-terminal-body::-webkit-scrollbar-track { background: transparent; }
+
+.live-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(4px);
+    animation: lineAppear 0.3s ease forwards;
+    padding: 2px 0;
+}
+.live-line .ts {
+    color: #475569;
+    flex-shrink: 0;
+    font-size: 11px;
+    user-select: none;
+}
+.live-line .icon {
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+}
+.live-line .text {
+    flex: 1;
+    word-break: break-all;
+}
+.live-line.agent-dispatch { color: #60a5fa; }
+.live-line.tool-call { color: #a78bfa; }
+.live-line.tool-result { color: #4ade80; }
+.live-line.route-decision { color: #fbbf24; }
+.live-line.error { color: #f87171; }
+.live-line.info { color: #94a3b8; }
+.live-line.highlight { color: #e2e8f0; font-weight: 500; }
+
+@keyframes lineAppear {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.live-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background: #60a5fa;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ====== 可折叠 MCP 架构面板 ====== */
+.mcp-arch-panel {
+    margin: 14px 20px;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--card-border);
+    overflow: hidden;
+}
+.mcp-arch-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+.mcp-arch-header:hover {
+    background: var(--primary-soft);
+}
+.mcp-arch-header .icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--primary-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+.mcp-arch-header .title {
+    flex: 1;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+}
+.mcp-arch-header .subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+}
+.mcp-arch-header .toggle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.3s;
+    box-shadow: var(--neu-shadow);
+}
+.mcp-arch-header.expanded .toggle {
+    transform: rotate(180deg);
+}
+.mcp-arch-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mcp-arch-body.expanded {
+    max-height: 800px;
+}
+.mcp-arch-content {
+    padding: 0 18px 18px;
+}
+
+/* Agent 卡片网格 */
+.mcp-agent-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.mcp-agent-card {
+    padding: 10px 8px;
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    text-align: center;
+    border: 1.5px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+.mcp-agent-card .agent-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+.mcp-agent-card .agent-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+}
+.mcp-agent-card .agent-role {
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 1px;
+}
+.mcp-agent-card .agent-status-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #94a3b8;
+    transition: all 0.3s;
+}
+.mcp-agent-card.running {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    box-shadow: 0 0 12px rgba(37,99,235,0.12);
+}
+.mcp-agent-card.running .agent-status-dot {
+    background: var(--primary);
+    animation: dotPulse 1s infinite;
+}
+.mcp-agent-card.done {
+    border-color: #16a34a;
+}
+.mcp-agent-card.done .agent-status-dot {
+    background: #16a34a;
+}
+@keyframes dotPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37,99,235,0.4); }
+    50% { transform: scale(1.3); box-shadow: 0 0 0 4px rgba(37,99,235,0); }
+}
+
+/* MCP 总线可视化 */
+.mcp-bus {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+    box-shadow: var(--neu-shadow-inset);
+}
+.mcp-bus-node {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    background: var(--bg);
+    box-shadow: var(--neu-shadow);
+    color: var(--text);
+    white-space: nowrap;
+    transition: all 0.3s;
+}
+.mcp-bus-node.active {
+    background: var(--primary-soft);
+    color: var(--primary);
+    box-shadow: 0 0 8px rgba(37,99,235,0.15);
+}
+.mcp-bus-arrow {
+    color: var(--muted);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* 实时指标 */
+.mcp-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+.mcp-metric {
+    text-align: center;
+    padding: 8px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--neu-shadow);
+}
+.mcp-metric .value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    font-family: 'SF Mono', 'Consolas', monospace;
+}
+.mcp-metric .label {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+/* ====== 响应式 ====== */
+@media (max-width: 480px) {
+    .mcp-agent-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .live-terminal-body {
+        max-height: 260px;
+        font-size: 11px;
+    }
+}
+@media (min-width: 1024px) {
+    .mcp-agent-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+/* ===== 安卓端文字溢出修复 ===== */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.ai-card-wrap, .order-card, .product-card, .group-card, .cart-item, .rate-table td {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+.ai-card-title, .product-name, .order-item-name, .cart-item-name {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.ai-card-body, .product-info, .order-item-info {
+  min-width: 0;
+  overflow: hidden;
+}
+.rate-table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.rate-table td {
+  white-space: normal;
+  word-break: break-word;
+}
+@media (max-width: 380px) {
+  .ai-card-title, .product-name, .order-item-name {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .ai-card-body, .product-info {
+    font-size: 12px;
+  }
+}
+
+/* ===== 返回作品集按钮 ===== */
+.back-to-portfolio {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid #e8ecf2;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.back-to-portfolio:active {
+  transform: scale(0.95);
+  background: #ecf3fa;
+}
+.back-to-portfolio .back-icon {
+  font-size: 16px;
+}
 </style>
 </head>
 <body>
+
+<!-- 返回作品集按钮 -->
+<a href="./index.html" class="back-to-portfolio">
+  <span class="back-icon">←</span>
+  <span>返回作品集</span>
+</a>
 
 <!-- Debug Banner -->
 <div id="debugBanner">🧩 Debug Mode Active — MCP Architecture Visible</div>
@@ -2043,6 +2433,103 @@ input, textarea, select {
                 <div class="ai-rec-name">Mediheal 面膜10片</div>
                 <div class="ai-rec-price">¥69 · 首单包邮</div>
                 <div class="ai-rec-reason">⭐ 新人专享价</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== AI 实时工作终端 ====== -->
+    <div class="neu-card" style="padding:0;overflow:hidden;" id="liveTerminalCard">
+        <div class="live-terminal">
+            <div class="live-terminal-header">
+                <div class="live-terminal-dots"><span></span><span></span><span></span></div>
+                <div class="live-terminal-title">agent-runtime · GlobalFUN Multi-Agent System</div>
+                <span class="live-terminal-badge live" id="liveTerminalBadge">● LIVE</span>
+            </div>
+            <div class="live-terminal-body" id="liveTerminalBody">
+                <!-- 动态插入的日志行 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== MCP 架构面板（可折叠） ====== -->
+    <div class="mcp-arch-panel" id="mcpArchPanel">
+        <div class="mcp-arch-header" id="mcpArchHeader">
+            <div class="icon">🧩</div>
+            <div>
+                <div class="title">Multi-Agent 架构 <span class="subtitle">· 6 Agent + MCP Protocol</span></div>
+            </div>
+            <div class="toggle">▼</div>
+        </div>
+        <div class="mcp-arch-body" id="mcpArchBody">
+            <div class="mcp-arch-content">
+                <!-- MCP 总线 -->
+                <div class="mcp-bus" id="mcpBusViz">
+                    <div class="mcp-bus-node" data-node="intent">用户意图</div>
+                    <div class="mcp-bus-arrow">→</div>
+                    <div class="mcp-bus-node" data-node="orchestrator">Orchestrator</div>
+                    <div class="mcp-bus-arrow">→</div>
+                    <div class="mcp-bus-node" data-node="mcp">MCP 调度</div>
+                    <div class="mcp-bus-arrow">→</div>
+                    <div class="mcp-bus-node" data-node="agents">Agent 协作</div>
+                    <div class="mcp-bus-arrow">→</div>
+                    <div class="mcp-bus-node" data-node="output">结构化输出</div>
+                </div>
+
+                <!-- Agent 网格 -->
+                <div class="mcp-agent-grid" id="mcpAgentGrid">
+                    <div class="mcp-agent-card" data-agent="0">
+                        <div class="agent-status-dot"></div>
+                        <div class="agent-icon">🔍</div>
+                        <div class="agent-name">需求解析</div>
+                        <div class="agent-role">Intent Parser</div>
+                    </div>
+                    <div class="mcp-agent-card" data-agent="1">
+                        <div class="agent-status-dot"></div>
+                        <div class="agent-icon">📊</div>
+                        <div class="agent-name">市场调研</div>
+                        <div class="agent-role">Market Analyst</div>
+                    </div>
+                    <div class="mcp-agent-card" data-agent="2">
+                        <div class="agent-status-dot"></div>
+                        <div class="agent-icon">🛍️</div>
+                        <div class="agent-name">选品分析</div>
+                        <div class="agent-role">Product Scout</div>
+                    </div>
+                    <div class="mcp-agent-card" data-agent="3">
+                        <div class="agent-status-dot"></div>
+                        <div class="agent-icon">✍️</div>
+                        <div class="agent-name">文案生成</div>
+                        <div class="agent-role">Copywriter</div>
+                    </div>
+                    <div class="mcp-agent-card" data-agent="4">
+                        <div class="agent-status-dot"></div>
+                        <div class="agent-icon">🛡️</div>
+                        <div class="agent-name">合规审核</div>
+                        <div class="agent-role">Compliance</div>
+                    </div>
+                    <div class="mcp-agent-card" data-agent="5">
+                        <div class="agent-status-dot"></div>
+                        <div class="agent-icon">📈</div>
+                        <div class="agent-name">运营策略</div>
+                        <div class="agent-role">Strategy</div>
+                    </div>
+                </div>
+
+                <!-- 实时指标 -->
+                <div class="mcp-metrics">
+                    <div class="mcp-metric">
+                        <div class="value" id="mcpMetricLatency">--</div>
+                        <div class="label">延迟 ms</div>
+                    </div>
+                    <div class="mcp-metric">
+                        <div class="value" id="mcpMetricTokens">--</div>
+                        <div class="label">Tokens</div>
+                    </div>
+                    <div class="mcp-metric">
+                        <div class="value" id="mcpMetricAgents">0/6</div>
+                        <div class="label">活跃 Agent</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -3603,6 +4090,10 @@ input, textarea, select {
             addMessage(text, 'user');
             updateMemoryStatus(Math.floor(text.length / 2));
 
+            // 终端日志：意图分析
+            if (window._addLiveLine) window._addLiveLine('Orchestrator 收到任务 · 分析意图中...', 'route-decision', '🎯');
+            if (window._mcpActivateBusNode) window._mcpActivateBusNode('intent');
+
             updateOrchestratorStatus('analyzing');
             updateRouteLog('active', '正在分析意图...');
             highlightArch('user');
@@ -3710,9 +4201,27 @@ input, textarea, select {
             highlightArch('agent');
             updateRouteLog('active', routeMsg);
 
+            // 终端日志：路由决策 + Agent 调度
+            if (window._addLiveLine) window._addLiveLine(`路由决策: ${routeMsg}`, 'route-decision', '🔀');
+            if (window._mcpActivateBusNode) window._mcpActivateBusNode('mcp');
+            if (window._mcpSetActiveAgents) {
+                if (agentIdx === -2) {
+                    window._mcpSetActiveAgents([0,1,2,3,4,5]);
+                } else if (agentIdx >= 0) {
+                    window._mcpSetActiveAgents([agentIdx]);
+                }
+            }
+            if (window._addLiveLine) window._addLiveLine(`Agent[${agentName}] 启动 · 正在调用工具...`, 'agent-dispatch', '⚡');
+            if (window._mcpActivateBusNode) window._mcpActivateBusNode('agents');
+
             await new Promise(r => setTimeout(r, 1200));
             highlightArch('tools');
             updateOrchestratorStatus('parallel');
+
+            // 终端日志：工具调用完成
+            if (window._addLiveLine) window._addLiveLine('工具调用完成 · 生成结构化输出', 'tool-result', '✅');
+            if (window._mcpActivateBusNode) window._mcpActivateBusNode('output');
+            if (window._mcpUpdateMetrics) window._mcpUpdateMetrics(Math.floor(150 + Math.random()*80), Math.floor(600 + Math.random()*400));
 
             // Remove typing indicator and show card
             typingDiv.remove();
@@ -3770,6 +4279,9 @@ input, textarea, select {
                 setTimeout(() => updateOrchestratorStatus('idle'), 1500);
                 updateRouteLog('idle', '任务完成 · 等待新指令');
                 highlightArch(null);
+                // 终端日志 + MCP 面板重置
+                if (window._addLiveLine) window._addLiveLine('任务完成 · Agent 状态已重置', 'info', '🏁');
+                if (window._mcpResetAll) window._mcpResetAll();
             }, 1500);
         };
 
@@ -4186,6 +4698,217 @@ input, textarea, select {
                 showToast('🛡️ 正品保障：假一赔十，全球溯源');
             });
         });
+
+        // ====== MCP 架构面板：折叠/展开 ======
+        const mcpHeader = $('mcpArchHeader');
+        const mcpBody = $('mcpArchBody');
+        if (mcpHeader && mcpBody) {
+            mcpHeader.addEventListener('click', () => {
+                mcpHeader.classList.toggle('expanded');
+                mcpBody.classList.toggle('expanded');
+            });
+        }
+
+        // ====== MCP 面板：Agent 状态联动 ======
+        const mcpAgentCards = document.querySelectorAll('#mcpAgentGrid .mcp-agent-card');
+        const mcpBusNodes = document.querySelectorAll('#mcpBusViz .mcp-bus-node');
+
+        // 暴露给全局，让 handleUserMessage 可以调用
+        window._mcpSetActiveAgents = function(indices) {
+            // indices: array of agent indices, or null to reset all
+            mcpAgentCards.forEach((card, i) => {
+                card.classList.remove('running', 'done');
+                if (indices && indices.includes(i)) {
+                    card.classList.add('running');
+                } else if (indices === null) {
+                    // reset
+                }
+            });
+            // 更新指标
+            const activeCount = indices ? indices.length : 0;
+            const metricAgents = $('mcpMetricAgents');
+            if (metricAgents) metricAgents.textContent = `${activeCount}/6`;
+        };
+
+        window._mcpSetAgentDone = function(index) {
+            const card = mcpAgentCards[index];
+            if (card) {
+                card.classList.remove('running');
+                card.classList.add('done');
+            }
+        };
+
+        window._mcpResetAll = function() {
+            mcpAgentCards.forEach(card => card.classList.remove('running', 'done'));
+            mcpBusNodes.forEach(node => node.classList.remove('active'));
+            const metricAgents = $('mcpMetricAgents');
+            if (metricAgents) metricAgents.textContent = '0/6';
+        };
+
+        window._mcpActivateBusNode = function(nodeName) {
+            mcpBusNodes.forEach(node => {
+                node.classList.toggle('active', node.dataset.node === nodeName);
+            });
+        };
+
+        window._mcpUpdateMetrics = function(latency, tokens) {
+            const latEl = $('mcpMetricLatency');
+            const tokEl = $('mcpMetricTokens');
+            if (latEl) latEl.textContent = latency || '--';
+            if (tokEl) tokEl.textContent = tokens || '--';
+        };
+
+        // ====== 实时终端：日志系统 ======
+        const liveTerminalBody = $('liveTerminalBody');
+        let liveLineCount = 0;
+
+        function addLiveLine(text, type, icon) {
+            if (!liveTerminalBody) return;
+            const now = new Date();
+            const ts = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}.${String(now.getMilliseconds()).padStart(3,'0')}`;
+            const line = document.createElement('div');
+            line.className = `live-line ${type || 'info'}`;
+            line.style.animationDelay = '0s';
+            line.innerHTML = `<span class="ts">${ts}</span><span class="icon">${icon || '›'}</span><span class="text">${text}</span>`;
+            liveTerminalBody.appendChild(line);
+            liveTerminalBody.scrollTop = liveTerminalBody.scrollHeight;
+            liveLineCount++;
+            // 保持最多50行
+            while (liveTerminalBody.children.length > 50) {
+                liveTerminalBody.removeChild(liveTerminalBody.firstChild);
+            }
+        }
+
+        function clearLiveTerminal() {
+            if (liveTerminalBody) liveTerminalBody.innerHTML = '';
+            liveLineCount = 0;
+        }
+
+        // 暴露给全局
+        window._addLiveLine = addLiveLine;
+        window._clearLiveTerminal = clearLiveTerminal;
+
+        // ====== 自动演示：页面加载后播放一次 Agent 工作流 ======
+        async function playAutoDemo() {
+            await new Promise(r => setTimeout(r, 2000)); // 等页面加载完
+
+            addLiveLine('系统初始化完成 · MCP Protocol v2.1 · 6 Agent 就绪', 'info', '⚙️');
+            await new Promise(r => setTimeout(r, 800));
+
+            addLiveLine('WebSocket 连接建立 · 心跳: 30s', 'info', '🔗');
+            await new Promise(r => setTimeout(r, 600));
+
+            addLiveLine('Orchestrator 启动 · 监听用户意图...', 'route-decision', '🎯');
+            window._mcpActivateBusNode('orchestrator');
+            await new Promise(r => setTimeout(r, 1500));
+
+            // 模拟一次完整的 Agent 工作流
+            addLiveLine('收到任务: "分析白桃精华跨境购买可行性"', 'highlight', '📨');
+            window._mcpActivateBusNode('intent');
+            await new Promise(r => setTimeout(r, 500));
+
+            addLiveLine('意图识别: 跨境购物咨询 · confidence=0.96', 'route-decision', '🧠');
+            await new Promise(r => setTimeout(r, 400));
+
+            addLiveLine('路由决策: 选品分析 + 比价服务 + 合规检查 (并行调度)', 'route-decision', '🔀');
+            window._mcpActivateBusNode('mcp');
+            await new Promise(r => setTimeout(r, 300));
+
+            // Agent 1: 选品分析
+            addLiveLine('Agent[选品分析] 启动 · 调用 product_analyzer()', 'agent-dispatch', '🛍️');
+            window._mcpSetActiveAgents([2]);
+            window._mcpActivateBusNode('agents');
+            await new Promise(r => setTimeout(r, 800));
+
+            addLiveLine('Tool[product_analyzer] 查询 Amazon JP / 乐天 / @cosme...', 'tool-call', '📦');
+            window._mcpUpdateMetrics('142', '340');
+            await new Promise(r => setTimeout(r, 1200));
+
+            addLiveLine('Tool[product_analyzer] 返回: 月销 8,342 · 评分 4.6 · 趋势 ↑', 'tool-result', '✅');
+            window._mcpSetAgentDone(2);
+            await new Promise(r => setTimeout(r, 400));
+
+            // Agent 2: 比价
+            addLiveLine('Agent[比价服务] 启动 · 调用 price_compare()', 'agent-dispatch', '💰');
+            window._mcpSetActiveAgents([2, 0]);
+            await new Promise(r => setTimeout(r, 600));
+
+            addLiveLine('Tool[price_compare] 扫描 4 个平台价格...', 'tool-call', '📦');
+            await new Promise(r => setTimeout(r, 900));
+
+            addLiveLine('Tool[price_compare] 结果: 天猫¥589 / 京东¥619 / 考拉¥569 / 拼团¥268', 'tool-result', '✅');
+            window._mcpSetAgentDone(0);
+            await new Promise(r => setTimeout(r, 400));
+
+            // Agent 3: 合规
+            addLiveLine('Agent[合规审核] 启动 · 调用 compliance_check()', 'agent-dispatch', '🛡️');
+            window._mcpSetActiveAgents([4]);
+            await new Promise(r => setTimeout(r, 700));
+
+            addLiveLine('Tool[compliance_check] 校验: 成分/标签/备案/知识产权...', 'tool-call', '📦');
+            await new Promise(r => setTimeout(r, 1000));
+
+            addLiveLine('Tool[compliance_check] 结果: 全部通过 · 关税 6.5% (已含)', 'tool-result', '✅');
+            window._mcpSetAgentDone(4);
+            await new Promise(r => setTimeout(r, 400));
+
+            // 汇总
+            addLiveLine('Orchestrator 收集全部结果 · 生成结构化输出', 'route-decision', '🎯');
+            window._mcpActivateBusNode('output');
+            window._mcpUpdateMetrics('186', '892');
+            await new Promise(r => setTimeout(r, 500));
+
+            addLiveLine('任务完成 · 总耗时 186ms · Token 消耗 892', 'highlight', '🏁');
+            window._mcpSetActiveAgents(null);
+            window._mcpResetAll();
+
+            // 5秒后重置终端状态，准备接收真实交互
+            await new Promise(r => setTimeout(r, 5000));
+            const badge = $('liveTerminalBadge');
+            if (badge) {
+                badge.textContent = '● IDLE';
+                badge.style.background = 'rgba(148,163,184,0.15)';
+                badge.style.color = '#94a3b8';
+                badge.classList.remove('live');
+            }
+        }
+
+        // 启动自动演示
+        playAutoDemo();
+
+        // ====== 增强 handleUserMessage：联动终端和 MCP 面板 ======
+        const _origHandleUserMsg = handleUserMessage;
+        handleUserMessage = async function(text) {
+            // 切换终端为 LIVE 状态
+            const badge = $('liveTerminalBadge');
+            if (badge) {
+                badge.textContent = '● LIVE';
+                badge.className = 'live-terminal-badge live';
+            }
+
+            // 记录用户输入到终端
+            addLiveLine(`用户输入: "${text}"`, 'highlight', '👤');
+
+            // 调用原始处理
+            await _origHandleUserMsg.call(this, text);
+
+            // 3秒后恢复 IDLE
+            setTimeout(() => {
+                if (badge) {
+                    badge.textContent = '● IDLE';
+                    badge.style.background = 'rgba(148,163,184,0.15)';
+                    badge.style.color = '#94a3b8';
+                    badge.classList.remove('live');
+                }
+            }, 3000);
+        };
+
+        // ====== 终端头部点击：滚动到终端 ======
+        const liveTermCard = $('liveTerminalCard');
+        if (liveTermCard) {
+            liveTermCard.style.cursor = 'pointer';
+        }
+
     })();
 
     // ====== i18n 多语言系统 ======
