@@ -730,7 +730,7 @@ details .step-text {
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>四大功能模块：</b>单杆轨迹（AI识别挥杆→飞行轨迹+距离）→比赛视频（多人挥杆对比）→成绩战报（照片+记分卡→海报）→历史记录（数据沉淀+趋势追踪）</div>
   <div class="step-text" style="margin-top:8px"><b>为什么"单杆轨迹"优先于其他功能：</b>用户访谈发现"挥杆后想立刻看飞行轨迹"是最高频需求——也是用户选择AI高尔夫工具的核心原因。单杆轨迹是用户价值链的起点（看轨迹→比较→改进→分享），优先交付能最快验证产品核心价值。如果先做比赛视频或历史记录，用户连"看轨迹"这个基本需求都没满足，后续功能没有根基。</div>
   <div class="step-text"><b>为什么重点做社交分享（海报）而非纯数据展示：</b>竞品分析发现行业趋势从"记录工具"转向"社交分享"——高尔夫玩家核心需求从"看数据"升级为"晒成绩"。战报海报适配微信朋友圈尺寸，形成社交裂变闭环。竞品（Golfcam/18Birdies）的分享功能弱，海报模板是差异化切入点——用户分享朋友圈后带来的自然流量，比投放广告成本低且转化率高。</div>
-</div></div></div>
+  </div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能与产出</div><ul class="ft-list">
     <li>参与单杆轨迹PRD迭代（V2.0→V5.0），覆盖四大模块交互闭环</li>
@@ -787,7 +787,7 @@ details .step-text {
       <div class="step-text"><b>推荐方案：Blast Motion（挥杆数据）+ Arccos（击球数据）双传感器组合</b>——挥杆效率×实际击球距离可发现"高挥速低距离"的发力问题；不同杆型数据对比可智能推荐最佳杆型；历史趋势分析追踪进步曲线。数据融合后与现有视频轨迹形成互补，打造"看得到+量得出"的全维度训练体系。[数据来源：2025-2026年Golf Digest行业报告、GolferHive/SouthOfScotlandGolf评测]</div>
     </div>
   </details>
-</div></div></div>
+</div>
 
 <!-- ===== PRD Quality Gate ===== -->
 <h2 class="section-title scroll-margin" id="quality-gate">独立项目</h2>
@@ -803,7 +803,7 @@ details .step-text {
   <div class="step-text"><b>为什么选System Prompt直写而非RAG：</b>RAG适合"答案在知识库里、需要检索"的场景（如客服问答）。但PRD检查的规则是固定的（"用户故事是否包含验收标准""异常流程是否覆盖"等），不需要检索外部知识，只需要把规则"教"给LLM。用RAG反而会引入检索噪声——检索到不相关的规则片段会干扰判断。实测验证：System Prompt方案的遗漏检出密度（13处/5000字）优于RAG方案（8处/5000字）。</div>
   <div class="step-text"><b>为什么Temperature设0.2而非0：</b>Temp=0会导致输出完全确定，对于"判断PRD是否有问题"这种需要一定推理的任务，完全确定性会降低判断灵活性。Temp=0.2在"可控"和"灵活"之间取平衡——相同PRD多次审核结果一致性>95%，同时保留对模糊表述的推理能力。</div>
   <div class="step-text"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>PRD遗漏通常不是随机分布的，而是集中在特定维度。四维拆解基于MECE原则：输入侧检查"有没有说清楚要什么"，逻辑侧检查"逻辑是否自洽"，异常侧检查"边界情况有没有覆盖"，评估侧检查"怎么验证做对了"。实测13处遗漏中，异常侧占7处（54%），验证了"PRD最常遗漏异常流程"的行业共识。</div>
-  </div></div>
+  </div></div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>平台：</b>Dify Chatflow · <b>模型：</b>mimo-v2-flash · Temperature 0.2（控制幻觉）· <b>审核四维：</b>输入侧/逻辑侧/异常侧/评估侧 · <b>三重护栏：</b>操作确认→过程可解释→结果可修正</div></div></div>
 
@@ -836,7 +836,7 @@ details .step-text {
   <div class="result"><div class="rtitle">核心结论</div>验证了System Prompt直写规则比RAG更适用于确定性审核场景。项目已上线交付团队使用。</div>
   <a href="https://cloud.dify.ai/app/2642a91c-7892-45f0-b086-9c93520806cc/workflow" target="_blank" class="demo-link">查看 Dify 工作流 →</a>
   <a href="https://github.com/anlan-dev/ai-pmwork-prompts" target="_blank" class="demo-link" style="margin-left:12px">查看 GitHub 仓库 →</a>
-</div></div></div>
+</div>
 
 <!-- ===== 宠伴·健康台账（核心案例） ===== -->
 <h2 class="section-title scroll-margin" id="pet">核心案例：宠伴·健康台账</h2>
@@ -1041,7 +1041,7 @@ details .step-text {
       </div>
     </div>
   </details>
-</div></div></div>
+</div>
 
 <!-- ===== 个人项目 ===== -->
 <h2 class="section-title scroll-margin" id="quality">个人项目</h2>
@@ -1089,7 +1089,7 @@ details .step-text {
   <div class="step-text" style="margin-top:8px"><b>为什么选Whisper本地转写而非云端：</b>访谈发现"会议内容涉及商业机密"是用户最大顾虑。飞书妙记/通义听悟都走云端，数据上传后用户无法控制。Whisper本地转写牺牲少量准确率换取数据主权，符合目标用户（项目管理/产品团队）的隐私需求——这和宠伴"本地优先"的决策逻辑一致。</div>
   <div class="step-text"><b>为什么做状态流转而非简单待办列表：</b>用户反馈"待办列了但没人管进度"——问题不是没有待办，而是待办没有生命周期。简单待办列表只有"完成/未完成"两态，但真实场景是"已分配→进行中→遇到阻塞→已完成"。状态流转让每条待办有"进度可查"，也支持漏项抽检——超过3天未流转的待办自动标红提醒。</div>
   <div class="step-text"><b>为什么聚焦最小闭环而非大协作套件：</b>20人访谈中发现，用户不需要"又一个协作平台"——他们已经有飞书/钉钉/Notion。真正缺的是"会议中说的事有没有落地"。做最小闭环（转写→待办→状态→复盘）可以在不改变用户现有工具链的情况下补上缺失的一环。如果做大而全，就要和飞书正面竞争，必输无疑。</div>
-</div></div></div>
+  </div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">功能</div><ul class="ft-list">
     <li>本地Whisper语音转写（隐私优先）</li><li>结构化待办+P0/P1/P2优先级+状态流转</li>
@@ -1122,7 +1122,7 @@ details .step-text {
       <div class="step-text"><b>数据分析：</b>①数据源：用户行为埋点（录音→转写→待办提取→确认→状态流转→复盘各环节耗时与完成率）、业务数据（每场会议提取待办数、待办完成率、漏项检出率）、协作者反馈（6-8场演练+4名协作者跟评）；②核心指标：待办完成指数（加权综合指标：完成率×0.4+及时率×0.3+漏项率×0.3），目标>100，实测<b>104→118</b>；转写准确率（Whisper基准>95%）；周报生成率（自动生成周报的会议占比）；③可视化：面向产研——待办完成趋势图（每轮迭代改善<b>+4%→+12%→+18%</b>）+转写准确率监控；面向管理层——会议健康评分仪表盘（待办完成率+漏项率+复盘率综合）。</div>
     </div>
   </details>
-</div></div></div>
+</div>
 
 <!-- ===== 更多项目 ===== -->
 <h2 class="section-title scroll-margin" id="more">更多产品项目</h2>
