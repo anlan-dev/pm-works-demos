@@ -1,7 +1,7 @@
 # 布局适配规范
 
 > 适用范围：作品集全部页面（index.html 及各 Demo）
-> 版本：v1.1 | 更新日期：2026-06-26
+> 版本：v1.2 | 更新日期：2026-06-26
 
 ---
 
@@ -33,7 +33,30 @@ html, body { overflow-x: hidden }
 | `.top-nav-inner` | 780px | 顶部导航 |
 | 卡片内表格 | 100%（需包裹 `overflow-x:auto`） | 宽表格 |
 
-### 1.3 间距规范（PC 端舒适阅读）
+### 1.3 卡片统一规范（强制）
+
+**所有内容板块必须使用 `.card` 类**，禁止用内联 style 重复定义背景、边框、圆角、阴影、内边距。
+
+```html
+<!-- ✅ 正确 -->
+<div class="card">
+  <h2>标题</h2>
+  <p>内容...</p>
+</div>
+
+<!-- ❌ 错误：内联 style 覆盖 .card 规范 -->
+<section style="background:#fff;border-radius:14px;padding:20px;...">
+  <h2>标题</h2>
+</section>
+```
+
+如需特殊视觉区分，在 `.card` 基础上追加样式，不覆盖核心结构属性：
+```html
+<div class="card" style="background:linear-gradient(180deg,#f0f9ff,#fff);border-color:rgba(0,113,227,.15);text-align:center">
+```
+
+
+### 1.4 间距规范（PC 端舒适阅读）
 
 | 元素 | 间距值（clamp） | 说明 |
 |------|----------------|------|
@@ -53,7 +76,7 @@ html, body { overflow-x: hidden }
 | `.step-text` line-height | `1.7` | 正文行高，提升可读性 |
 | `body` line-height | `1.47059` | 全局行高 |
 
-### 1.4 Flex 子元素防溢出
+### 1.5 Flex 子元素防溢出
 
 ```css
 /* flex 子元素必须设 min-width:0 以允许收缩 */
@@ -187,3 +210,14 @@ pre, code {
 6. 所有间距 clamp 值整体上调约 20-30%
 
 **教训**：内容宽度不只是"不溢出"就够了——在宽屏设备上，窄容器 + 大留白才能创造舒适的阅读体验。780px 是经过验证的"黄金阅读宽度"（约 65-75 个中文字符/行）。
+
+### 2026-06-26：板块样式不统一
+
+**现象**：「关于这个作品集」板块使用内联 `<section>` + 独立 style，与其他 `.card` 板块的 padding/margin/box-shadow 不一致
+**根因**：直接写了内联样式 `style="background:#fff;border-radius:...;padding:...;margin-bottom:...;box-shadow:..."`，未复用 `.card` 类
+**修复**：
+1. 将 `<section style="...">` 改为 `<div class="card">`
+2. 移除与 `.card` 重复的内联样式（background/border-radius/padding/margin/border/box-shadow）
+3. 仅保留内容层的内联样式（h2 字号、p 颜色等）
+
+**教训**：所有内容板块一律使用 `.card` 类。如需特殊视觉效果，在 `.card` 基础上追加而不覆盖核心结构属性。这样可以保证全局 padding/margin/圆角/阴影的一致性。
