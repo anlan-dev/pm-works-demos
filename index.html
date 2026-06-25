@@ -1034,7 +1034,7 @@ details .step-text {
           <b>数据融合架构：</b>活动量（FitBark）+ 进食量（小佩喂食器）+ 饮水量（小佩饮水机）+ 如厕数据（小佩猫砂盆）+ 现有记录（疫苗/驱虫/花费/体重）→ AI健康分析引擎 → 综合健康报告 + 异常预警 + 兽医端数据导出
         </div>
         <div style="font-size:.74rem;color:#4a5568;line-height:1.6;margin-bottom:8px">
-          <b>AI能力来源：</b>宠智灵AI开放平台（160+企业客户，日均56万次API调用，92.8%识别准确率）提供宠物图像识别、症状结构化、自动诊疗建议等能力；萤石IoT开放平台提供设备接入+云边协同AI+视频模组方案。
+          <b>AI能力来源：</b><a href="https://www.gjpet.com/" style="color:#059669" target="_blank">宠智灵AI开放平台</a>（宠物行为识别准确率超92%，情绪识别准确率超88%，支持API/SDK/H5/小程序接入及私有化部署）提供宠物图像识别、行为分析、症状结构化等能力；萤石IoT开放平台提供设备接入+云边协同AI+视频模组方案。
         </div>
         <div style="font-size:.74rem;color:#4a5568;line-height:1.6">
           <b>差异化价值：</b>市面产品（Whistle/FitBark/小佩）均为"单设备单App"，用户手机装满宠App但数据不互通。宠伴做"健康中枢"聚合层，一个入口看全维度数据，AI交叉分析发现单一设备无法察觉的健康异常（如：活动量下降+饮水量增加+如厕频率升高 → 可能肾脏问题预警）。
@@ -1046,9 +1046,9 @@ details .step-text {
         <b>技术对接参考：</b>
         ①pypetkitapi（pip install pypetkitapi，MIT协议，Python 3.10+，支持喂食器/饮水机/猫砂盆/净化器控制+数据获取）；
         ②萤石IoT开放平台（MCU+模组对接，WiFi/BLE/视频模组，提供API+SDK+公版APP）；
-        ③宠智灵AI开放平台（宠物图像识别/症状结构化/诊疗建议API，支持云端+本地部署）；
+        ③宠智灵AI开放平台（<a href="https://www.gjpet.com/" style="color:#059669" target="_blank">gjpet.com</a>，宠物图像识别/行为分析/诊疗建议API，支持云端+本地部署）；
         ④PetPulse开源项目（GitHub PetPulseCLE/PetPulse，AI智能项圈固件+后端+移动端全栈参考）。
-        [数据来源：PyPI/pypetkitapi 1.26.0、萤石官网、CSDN宠智灵报道、GitHub PetPulse]
+        [数据来源：PyPI/pypetkitapi 1.26.0、宠智灵官网gjpet.com、萤石官网、GitHub PetPulse]
       </div>
     </div>
   </details>
@@ -1080,7 +1080,7 @@ details .step-text {
     </summary>
     <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
       <div class="step-text"><b>用户需求调研：</b>①调研范围：潜在用户——初级PM（PRD写作经验<1年），活跃用户——团队内每周写PRD的PM/产品负责人，流失用户——曾用AI工具审PRD后放弃者（反馈"幻觉太多""不理解上下文"），行业专家——资深产品总监（2人）；②调研方法：深度访谈<b>8位</b>PM/产品负责人，内部工具使用日志分析（人工评审耗时、遗漏率），竞品AI审核工具试用对比（3款），KANO分层：基础型——规则完整性、响应速度，期望型——结构化报告、判断依据可追溯，兴奋型——用户可修正AI判断、三重护栏机制。</div>
-      <div class="step-text"><b>竞品分析：</b>①直接竞品——Notion AI（2026年文档AI集成标杆，PRD辅助写作但无专项审核功能，$10/月）、飞书智能助手（通用AI非专项审核，嵌入飞书生态）；间接竞品——Grammarly（全球4000万日活，文本质量检查，非PRD专用，$12/月）、PRD Reviewer（开源AI PRD审查工具，2026年6月上线，DeepSeek驱动，Cloudflare部署）；替代竞品——人工Review+Checklist模板（传统方式，依赖个人经验）；②核心维度：用户体验（提交即审 vs 竞品需手动触发）、功能完整性（19条专项规则 vs 竞品通用建议）、技术能力（System Prompt直写 vs 竞品RAG检索）、商业化（内部工具零成本 vs 竞品订阅制）；③差异化：确定性规则直写，幻觉率低于RAG方案，三重护栏机制（竞品无此设计）。[竞品数据来源：2025-2026年公开产品信息及社区反馈]</div>
+      <div class="step-text"><b>竞品分析：</b>①直接竞品——Notion AI（2026年文档AI集成标杆，PRD辅助写作但无专项审核功能，$10/月）、飞书智能助手（通用AI非专项审核，嵌入飞书生态）；间接竞品——<a href="https://thebestaitools.co/ai-tool-reviews/grammarly-ai-review-is-it-still-the-best-writing-assistant/" style="color:#0071e3" target="_blank">Grammarly（2026年4000万+日活用户，70,000+企业团队，文本质量检查，非PRD专用，$12/月）</a>、PRD Reviewer（开源AI PRD审查工具，DeepSeek驱动，Cloudflare部署）；替代竞品——人工Review+Checklist模板（传统方式，依赖个人经验）；②核心维度：用户体验（提交即审 vs 竞品需手动触发）、功能完整性（19条专项规则 vs 竞品通用建议）、技术能力（System Prompt直写 vs 竞品RAG检索）、商业化（内部工具零成本 vs 竞品订阅制）；③差异化：确定性规则直写，幻觉率低于RAG方案，三重护栏机制（竞品无此设计）。[竞品数据来源：2025-2026年公开产品信息及社区反馈]</div>
       <div class="step-text"><b>数据分析：</b>①数据源：审核日志（每次审核的通过/未通过分布、响应时间、用户修正率）、业务数据（审核频次、PRD平均长度、规则命中分布）、用户反馈（修正原因分类、满意度评分）；②核心指标：响应时间P95（目标<1s，实测<b>~850ms</b>）、规则覆盖率（19/19=100%）、用户修正率（衡量AI准确性）、遗漏检出密度（13处/5000字）；③可视化：面向产研——审核日志看板（规则命中热力图+响应时间趋势）；面向管理层——PRD质量趋势报告（合规率月度变化）。</div>
     </div>
   </details>
@@ -1298,7 +1298,7 @@ details .step-text {
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>访谈<b>8位</b>跨境电商用户（含代购、海淘新手），问卷<b>42份</b>，行业报告分析（海关总署/艾瑞咨询跨境报告）；KANO：基础型（商品浏览+拼团+多语言切换）、期望型（AI比价+关税计算+结构化信息推送）、兴奋型（6-Agent全链路协作+合规校验+多语言文案生成）。<b>竞品：</b>直接——拼多多全球购（2026年Q1跨境GMV超800亿元，AI选品+智能推荐）、天猫国际（阿里巴巴跨境进口平台，AI客服+智能翻译）；间接——亚马逊全球购（全球电商巨头，AI驱动个性化推荐+Alexa语音购物）、ChatGPT/Claude（通用AI助手，可辅助选品分析但非垂直场景）；替代——代购+转运公司（人工服务，高成本低效率）。差异化：MCP+6-Agent结构化推送，覆盖从需求解析到运营策略的完整闭环，区别于传统电商平台的单一AI推荐功能。[竞品数据来源：2025-2026年海关总署报告、艾瑞咨询跨境报告及公开产品信息]<b>数据：</b>Agent卡片点击率、意图识别率（<b>98.2%</b>）、MCP平均延迟（<b>180ms</b>）、比价→下单转化漏斗、6-Agent协作流水线完成率。
+      <b>调研：</b>访谈<b>8位</b>跨境电商用户（含代购、海淘新手），问卷<b>42份</b>，行业报告分析（海关总署/艾瑞咨询跨境报告）；KANO：基础型（商品浏览+拼团+多语言切换）、期望型（AI比价+关税计算+结构化信息推送）、兴奋型（6-Agent全链路协作+合规校验+多语言文案生成）。<b>竞品：</b>直接——<a href="https://xueqiu.com/1290568231/391301031" style="color:#0071e3" target="_blank">拼多多全球购（Temu Q1 2026 GMV达280亿美元，全球月活5.3亿）</a>、天猫国际（AI客服+智能翻译）；间接——亚马逊全球购（全球电商巨头，AI驱动个性化推荐）；替代——代购+转运公司（人工服务，高成本低效率）。差异化：MCP+6-Agent结构化推送，覆盖从需求解析到运营策略的完整闭环，区别于传统电商平台的单一AI推荐功能。[竞品数据来源：雪球PDD 2026Q1财报分析]<b>数据：</b>Agent卡片点击率、意图识别率（<b>98.2%</b>）、MCP平均延迟（<b>180ms</b>）、比价→下单转化漏斗、6-Agent协作流水线完成率。
     </div>
   </details>
 </div>
