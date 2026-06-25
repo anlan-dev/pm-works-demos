@@ -360,11 +360,11 @@
         .kb-tip { margin-top: 10px; background:var(--panel-bg); border: 1px dashed var(--primary); border-radius: 16px; padding: 10px 12px; color:var(--muted); font-size: 0.85rem; }
 
         /* 浮动快捷 + */
-        .fab { position: fixed; right: 14px; bottom: 88px; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,113,227,0.3); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.38rem; opacity: 0.9; }
+        .fab { position: fixed; right: 16px; bottom: 88px; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,113,227,0.3); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.38rem; opacity: 0.9; }
         body[data-theme="ink"] .fab { box-shadow: none; border: 2px solid #111; }
         .fab:active { transform: scale(0.98); }
-        .fab-menu { position: fixed; right: 14px; bottom: 144px; display: none; flex-direction: column; gap: 8px; z-index: 20; max-width: min(260px, calc(100vw - 24px)); }
-        .fab-action { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 12px; padding: 10px 12px; box-shadow: var(--shadow); cursor: pointer; color:var(--text); }
+        .fab-menu { position: fixed; right: 16px; bottom: 144px; display: none; flex-direction: column; gap: 8px; z-index: 20; max-width: min(260px, calc(100vw - 32px)); }
+        .fab-action { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 12px; padding: 10px 12px; box-shadow: var(--shadow); cursor: pointer; color:var(--text); white-space: nowrap; }
         body[data-theme="night"] .fab-action { background: var(--card-bg); }
         body[data-theme="ink"] .fab-action { box-shadow: none; }
         .fab-action strong { color:var(--accent); }
@@ -397,8 +397,8 @@
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
             .tab-bar { max-width: 640px; }
-            .fab { right: 22px; bottom: 104px; }
-            .fab-menu { right: 22px; bottom: 166px; }
+            .fab { right: 20px; bottom: 104px; }
+            .fab-menu { right: 20px; bottom: 166px; }
             
             /* 平板端增强：双栏布局优化 */
             .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -453,8 +453,8 @@
                 justify-content: flex-end;
             }
             .header-cloud-details { max-width: 1160px; margin-top: 14px; }
-            .fab { right: max(24px, calc((100vw - 1160px) / 2 + 12px)); bottom: 108px; }
-            .fab-menu { right: max(24px, calc((100vw - 1160px) / 2 + 12px)); bottom: 172px; }
+            .fab { right: 24px; bottom: 108px; }
+            .fab-menu { right: 24px; bottom: 172px; }
             
             /* PC端增强：卡片网格布局 */
             .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -479,7 +479,7 @@
             .tab-item { font-size: 0.68rem; }
             .tab-icon { font-size: 1.25rem; }
             .fab { width: 44px; height: 44px; right: 10px; bottom: 82px; font-size: 1.2rem; }
-            .fab-menu { right: 10px; bottom: 132px; max-width: calc(100vw - 20px); }
+            .fab-menu { right: 10px; bottom: 132px; max-width: calc(100vw - 20px); left: auto; }
             .header-toolbar {
                 width: 100%;
                 justify-content: flex-start;
@@ -621,7 +621,7 @@
             .card { padding: 14px 12px; border-radius: 14px; }
             .input-group { display: flex; flex-direction: column; gap: 8px; }
             .tab-bar { width: calc(100% - 16px); }
-            .fab-action { font-size: 0.82rem; padding: 8px 10px; }
+            .fab-action { font-size: 0.82rem; padding: 8px 10px; white-space: nowrap; }
         }
         @media (max-width: 520px) {
             .container { padding: 10px 8px 14px; }
@@ -635,8 +635,8 @@
             .header-mode-panel { gap: 6px; }
             .tab-bar { bottom: max(6px, env(safe-area-inset-bottom)); width: calc(100% - 12px); }
             .tab-item { min-width: 0; padding: 6px 4px; }
-            .fab-menu { gap: 6px; }
-            .fab-action { border-radius: 10px; padding: 7px 9px; font-size: 0.78rem; }
+            .fab-menu { gap: 6px; right: 8px; }
+            .fab-action { border-radius: 10px; padding: 7px 9px; font-size: 0.78rem; white-space: nowrap; }
         }
         
         /* 设备特定适配：触控设备 */
