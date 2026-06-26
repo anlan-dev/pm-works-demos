@@ -97,6 +97,7 @@ body{
 .film-notch.secondary{background:var(--chrome-lt);border-color:var(--chrome-lt)}
 .film-label{font-size:.58rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-mono);transition:color .3s}
 .film-notch.active ~ .film-label,.film-notch.done ~ .film-label{color:var(--text-secondary)}
+.film-notch.secondary ~ .film-label{color:var(--text-muted);opacity:.5}
 .film-rail{flex:0 0 clamp(32px,8vw,60px);height:1px;background:var(--border);margin-bottom:20px;position:relative}
 .film-rail.done{background:var(--amber-dim)}
 
@@ -234,7 +235,7 @@ body{
 .compare-bar .label{font-size:.72rem;font-family:var(--font-mono);color:var(--text-muted)}
 .compare-viewport{
   position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;
-  background:#000;user-select:none;-webkit-user-select:none
+  background:#000;user-select:none;-webkit-user-select:none;touch-action:none
 }
 .compare-viewport img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
 .compare-viewport .after-img{clip-path:inset(0 0 0 50%)}
@@ -308,7 +309,7 @@ body{
 
 /* === Toast — 胶片底边提示条 === */
 .toast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  position:fixed;bottom:max(24px,calc(env(safe-area-inset-bottom,0)+12px));left:50%;transform:translateX(-50%);
   background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);
   padding:10px 20px;border-radius:var(--radius-pill);
   font-size:.68rem;font-family:var(--font-mono);z-index:999;
@@ -643,7 +644,7 @@ function renderResults(){
 }
 
 // Compare slider
-let sliderDragging=false;
+let sliderDragging=false,sliderInited=false;
 function goToCompare(){setStep(3);initSlider()}
 function previewCompare(idx){
   const r=analysisResults[idx];
@@ -664,9 +665,13 @@ function initSlider(){
   view.onpointerdown=e=>{sliderDragging=true;view.setPointerCapture(e.pointerId);update(e.clientX)};
   view.onpointermove=e=>{if(sliderDragging) update(e.clientX)};
   view.onpointerup=()=>sliderDragging=false;
-  view.addEventListener('touchstart',e=>{sliderDragging=true;update(e.touches[0].clientX)},{passive:false});
-  view.addEventListener('touchmove',e=>{if(sliderDragging){e.preventDefault();update(e.touches[0].clientX)}},{passive:false});
-  view.addEventListener('touchend',()=>sliderDragging=false);
+  // 确保 touch listeners 只注册一次，避免每次进 Step3 重复叠加
+  if(!sliderInited){
+    sliderInited=true;
+    view.addEventListener('touchstart',e=>{sliderDragging=true;update(e.touches[0].clientX)},{passive:false});
+    view.addEventListener('touchmove',e=>{if(sliderDragging){e.preventDefault();update(e.touches[0].clientX)}},{passive:false});
+    view.addEventListener('touchend',()=>sliderDragging=false);
+  }
 }
 
 // Enhancement
