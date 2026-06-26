@@ -1269,8 +1269,8 @@ details .step-text {
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>需求发现：</b>访谈<b>8 位</b>手机摄影用户（含 3 位小红书博主、2 位宠物主、3 位日常记录者），发现共同痛点：一次出行拍 100-200 张照片，但事后筛选耗时 20-40 分钟——且"选了也不确定是不是最好的那张"。KANO 分层：基础型——清晰度筛选（模糊照片自动排除）；期望型——多维度评分（不仅看清晰度，还看构图和色彩）；兴奋型——增强前后可拖拽对比（不是一键美化黑盒）。核心洞察：用户不是"不会修图"，而是"不知道选哪张来修"——选片环节是比修图更靠前的瓶颈。 <span style="font-size:.64rem;color:#9ca3af">[用户需求来自 8 人访谈，数据供参考]</span>
-      <b>竞品分析：</b>直接竞品——<a href="https://remini.ai/" style="color:#0071e3" target="_blank">Remini</a>（<a href="https://www.appbrain.com/app/remini-ai-photo-enhancer/com.bigwinepot.nwdn.international" style="color:#0071e3" target="_blank">全球 5 亿+ 下载量</a>，100M MAU，月下载 1500 万，主打 AI 一键增强、老照片修复、人脸增强。优势：效果惊艳、操作极简。局限：①无选片能力（只能处理"已经知道要修哪张"的照片）；②增强效果不可控——用户无法对比增强前后的差异，也无法关闭某类增强；③全部云端处理，隐私敏感场景受限）、Google Photos Best Take + AI Enhance（Pixel 8 及以上机型独占，自动从连拍中合成最佳表情，AI Enhance 自动调整光影和色彩。优势：深度整合 Google 生态、端侧 AI 处理、Gemini + Nano Banana 模型驱动。局限：①限定 Pixel 生态和特定机型；②评分标准是黑盒——只告诉用户"这是最佳"但不解释为什么；③增强效果不可对比、不可开关，用户无法理解 AI 做了哪些改动）；间接竞品——Adobe Lightroom（专业修图，AI 自动增强 + 蒙版，但无选片逻辑）、VSCO（AI 滤镜推荐，偏风格化，无评分体系）；替代方案——手动翻相册筛选（零成本，但效率最低）。差异化：①选片+增强连续闭环——竞品要么只做选（Google），要么只做增强（Remini）；②四维评分透明化——每个维度的得分和权重可见，用户理解 AI 的判断依据；③增强可开关可对比——原图/AI增强并排拖拽，效果独立切换，不做黑盒美化。 <span style="font-size:.64rem;color:#9ca3af">[竞品数据来源：Remini 官网 remini.ai、AppBrain 2026 年 6 月公开数据、Google Photos Help 官方文档、Google Blog 2025 年 11 月 Nano Banana 发布公告]</span>
+      <b>需求发现：</b>基于竞品走查和个人手机摄影经验提炼的产品假设（未做正式用户访谈）。假设的痛点链：一次出行拍大量照片，事后筛选耗时且"选了也不确定是不是最好的那张"——选片环节是比修图更靠前的瓶颈。KANO 设计假设：基础型——清晰度筛选（模糊照片自动排除）；期望型——多维度评分（不仅看清晰度，还看构图和色彩）；兴奋型——增强前后可拖拽对比（不是一键美化黑盒）。产品方向假设：用户不是"不会修图"，而是"不知道选哪张来修"。<span style="font-size:.64rem;color:#9ca3af">[产品假设，基于竞品走查+个人体验，待用户验证]</span>
+      <b>竞品分析：</b>直接竞品——<a href="https://remini.ai/" style="color:#0071e3" target="_blank">Remini</a>（<a href="https://www.appbrain.com/app/remini-ai-photo-enhancer/com.bigwinepot.nwdn.international" style="color:#0071e3" target="_blank">全球 5 亿+ 下载量</a>，100M MAU，近 30 天下载约 790 万，主打 AI 一键增强、老照片修复、人脸增强。优势：效果惊艳、操作极简。局限：①无选片能力（只能处理"已经知道要修哪张"的照片）；②增强效果不可控——用户无法对比增强前后的差异，也无法关闭某类增强；③全部云端处理，隐私敏感场景受限）、Google Photos Best Take + AI Enhance（Pixel 8 及以上机型独占，自动从连拍中合成最佳表情，AI Enhance 自动调整光影和色彩。优势：深度整合 Google 生态、端侧 AI 处理、Gemini + Nano Banana 模型驱动。局限：①限定 Pixel 生态和特定机型；②评分标准是黑盒——只告诉用户"这是最佳"但不解释为什么；③增强效果不可对比、不可开关，用户无法理解 AI 做了哪些改动）；间接竞品——Adobe Lightroom（专业修图，AI 自动增强 + 蒙版，但无选片逻辑）、VSCO（AI 滤镜推荐，偏风格化，无评分体系）；替代方案——手动翻相册筛选（零成本，但效率最低）。差异化：①选片+增强连续闭环——竞品要么只做选（Google），要么只做增强（Remini）；②四维评分透明化——每个维度的得分和权重可见，用户理解 AI 的判断依据；③增强可开关可对比——原图/AI增强并排拖拽，效果独立切换，不做黑盒美化。 <span style="font-size:.64rem;color:#9ca3af">[竞品数据来源：Remini 官网 remini.ai、AppBrain 2026 年 6 月公开数据、Google Photos Help 官方文档、Google Blog 2025 年 11 月 Nano Banana 发布公告]</span>
       <b>数据闭环：</b>核心指标——①选片采纳率（用户接受 AI 推荐最佳照片的比例）；②增强满意度（用户使用增强后不撤销的比例）；③拖拽对比交互率（进入对比视图后完成拖拽操作的比例，衡量"用户是否真的在对比"）。过程指标——照片上传完成率、评分查看深度（是否展开查看四维详情）、增强开关独立切换频率（哪个效果被关闭最多，反馈评分维度权重调整）。
     </div>
   </details>
@@ -1308,7 +1308,7 @@ details .step-text {
             <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">延迟</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>即时</b>（无网络往返，200px 采样图像 &lt;50ms 分析）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">200-800ms（取决于网络和图像大小）</td></tr>
             <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">隐私</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>零上传</b>（照片全程留在设备）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">需上传原图到第三方服务器</td></tr>
             <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">精度</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">基础（像素统计 + 启发式规则，无深度学习）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>高</b>（CNN/Transformer 模型，可检测语义内容）</td></tr>
-            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">成本</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>零</b>（纯客户端计算）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">每千张 $1.50（Google Vision API 定价）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">成本</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>零</b>（纯客户端计算）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">每千张 $1.50 起（以 Google Vision API Label Detection 为例，该 API 不做图像质量评分，仅作价格量级参考）</td></tr>
             <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">离线可用</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>是</b></td><td style="padding:5px 8px;border-top:1px solid #f5ead8">否</td></tr>
           </table>
         </div>
@@ -1317,7 +1317,7 @@ details .step-text {
 
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(c) 四维评分权重设计的依据</div>
-        <div style="margin-bottom:4px"><b>核心原则：权重反映用户优先级，而非算法偏好。</b></div>
+        <div style="margin-bottom:4px"><b>核心原则：权重反映产品假设，Demo 阶段未做用户校验。</b></div>
         <div style="margin-bottom:4px">• <b>清晰度 35%：</b>最基础的筛选条件——模糊照片在任何场景下都不可用。权重最高，但评分函数设计为"够用即可"（30-95 分区间，普通清晰度即可得 60+），而非追求极致锐度</div>
         <div style="margin-bottom:4px">• <b>构图 35%：</b>画面结构的核心判断——三等分法则、中心对称、引导线等。与清晰度并列最高权重，因为构图是"拍得好不好"的核心维度，也是手机摄影用户最常提及的评判标准</div>
         <div style="margin-bottom:4px">• <b>色彩 20%：</b>色彩丰富度和和谐度——高饱和≠好照片，但极度单调的灰暗画面通常不受欢迎。中等权重，因为色彩是"锦上添花"而非"雪中送炭"</div>
