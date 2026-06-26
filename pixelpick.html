@@ -190,16 +190,20 @@ body{
   <div id="step1Section">
     <div class="upload-zone" id="uploadZone">
       <span class="icon">📷</span>
-      <div class="title">点击或拖拽上传照片</div>
-      <div class="hint">支持 JPG/PNG/WebP · 建议 3~6 张同类照片</div>
+      <div class="title">点击 / 粘贴 / 拖拽 上传照片</div>
+      <div class="hint">支持 JPG/PNG/WebP · 3~10 张 · 也支持 Ctrl+V 粘贴</div>
+      <div style="margin-top:8px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-outline" style="flex:0;min-width:auto;font-size:.7rem;padding:6px 14px" onclick="pickFolder()">📁 批量选文件夹</button>
+      </div>
       <input type="file" id="fileInput" accept="image/*" multiple>
+      <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
     </div>
 
     <!-- Gallery after upload -->
     <div class="gallery" id="gallery" style="display:none"></div>
     <div class="empty-state" id="noPhotoHint">
       <span class="icon">👆</span>
-      <span>上传 3~6 张照片开始 AI 分析</span>
+      <span>上传 3~10 张照片 · 支持拖拽 / 粘贴 / 选文件夹</span>
     </div>
     <div class="btn-row" style="display:none" id="step1Actions">
       <button class="btn btn-outline" onclick="resetAll()">重新上传</button>
@@ -304,7 +308,7 @@ function handleFilesFromList(files){
   const valid = Array.from(files).filter(f=>f.type.startsWith('image/'));
   if(!valid.length){showToast('请选择图片文件');return}
   if(valid.length < 3){showToast('建议上传至少3张照片');}
-  if(valid.length > 6){showToast('最多支持6张照片');valid.length = 6}
+  if(valid.length > 10){showToast('最多支持10张照片');valid.length = 10}
   
   photos = [];
   document.getElementById('gallery').innerHTML = '';
@@ -350,6 +354,32 @@ function removePhoto(idx){
     document.getElementById('step1Actions').style.display = 'none';
     document.getElementById('noPhotoHint').style.display = 'flex';
   }
+}
+
+// Paste support (Ctrl+V / long press paste)
+document.addEventListener('paste', e => {
+  const items = e.clipboardData?.items;
+  if(!items) return;
+  const imageFiles = [];
+  for(const item of items){
+    if(item.type.startsWith('image/')) imageFiles.push(item.getAsFile());
+  }
+  if(imageFiles.length){
+    e.preventDefault();
+    handleFilesFromList(imageFiles);
+    showToast('已粘贴 ' + imageFiles.length + ' 张照片');
+  }
+});
+
+// Folder picker — 一键批量拉取文件夹内的图片
+function pickFolder(){
+  const input = document.getElementById('folderInput');
+  input.value = '';
+  input.addEventListener('change', function handler(){
+    input.removeEventListener('change', handler);
+    handleFilesFromList(input.files);
+  }, {once:true});
+  input.click();
 }
 
 // === AI Analysis (Canvas-based local scoring) ===
