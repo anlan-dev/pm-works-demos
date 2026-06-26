@@ -377,13 +377,15 @@ body{
       </div>
       <div class="title">Drop photos here</div>
       <div class="hint">JPG / PNG / WebP · 3-10 files · Ctrl+V paste</div>
-      <div class="upload-actions">
-        <button class="btn btn-ghost" onclick="pickFolder()">Select Folder</button>
-        <button class="btn btn-ghost" onclick="loadDemo(event)" style="border-color:rgba(232,168,32,.3);color:var(--amber-dim)">Try Demo Data</button>
-      </div>
-      <input type="file" id="fileInput" accept="image/*" multiple style="position:fixed;top:-9999px;left:-9999px">
-      <input type="file" id="folderInput" webkitdirectory directory multiple style="position:fixed;top:-9999px;left:-9999px">
     </div>
+
+    <div class="upload-actions">
+      <button class="btn btn-ghost" onclick="pickFolder()">Select Folder</button>
+      <button class="btn btn-ghost" onclick="loadDemo();return false" style="border-color:rgba(232,168,32,.3);color:var(--amber-dim)">Try Demo Data</button>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+    <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
 
     <div class="contact-sheet" id="gallery" style="display:none"></div>
     <div class="empty-state" id="noPhotoHint">
@@ -469,11 +471,8 @@ function setStep(s){
   });
 }
 
-// Upload — 点击上传区触发文件选择，但排除按钮区域避免冒泡
-document.getElementById('uploadZone').addEventListener('click',(e)=>{
-  if(e.target.closest('.upload-actions')) return;
-  document.getElementById('fileInput').click();
-});
+// Upload — 点击上传区触发文件选择
+document.getElementById('uploadZone').addEventListener('click',()=>document.getElementById('fileInput').click());
 document.getElementById('fileInput').addEventListener('change',handleFiles);
 const uz = document.getElementById('uploadZone');
 uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag-over')});
@@ -542,8 +541,7 @@ function pickFolder(){
 }
 
 // Demo data — generates 5 synthetic sample images with varied visual characteristics
-function loadDemo(e){
-  if(e) e.stopPropagation();  // 阻止事件冒泡到 upload-zone 触发文件选择器
+function loadDemo(){
   generateDemoImages().then(files => {
     handleFilesFromList(files);
   });
