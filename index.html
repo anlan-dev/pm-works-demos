@@ -1455,6 +1455,36 @@ details .step-text {
   <div class="step-text"><b>技术判断力：</b>亲手画过PCB才知道"加个传感器"需要改BOM、改Layout、改固件、改测试——评估技术方案时不再被工程师一句"做不了"挡住，能准确判断"真的做不了"还是"不想做"。</div>
   <div class="step-text"><b>沟通效率：</b>能用工程师的语言沟通——知道BOM成本/PCB打样周期/舵机扭矩计算/3D打印材料选择——需求评审从"我感觉"变成"这个方案BOM¥35，2周可出原型"。</div>
   </div></div>
+
+  <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">探索方向：相机软硬件协作（学习中）<span style="font-size:.68rem;color:#9ca3af;font-weight:400">—— 面向 Insta360 面试后的深度探索</span></div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么探索这个方向：</b>相机是硬件与软件协作最紧密的品类——镜头/传感器/ISP芯片的硬件能力决定了成像的物理天花板，而ISP tuning/多帧合成/AI增强等软件算法则决定了在天花板以内能做到多好。对于相机公司的软件PM来说，核心判断力不是"AI能做什么"，而是<b>"哪个环节用硬件解决更划算，哪个环节用软件补偿更合理，哪个环节需要AI介入"</b>。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>正在学习的内容：</b></div>
+  <div style="overflow-x:auto;margin:8px 0;border:1px solid #e2e8f0;border-radius:10px;background:#fff">
+    <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+      <tr style="background:#f8fafc"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">学习方向</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">状态</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">关键理解</th></tr>
+      <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">ISP图像处理管线<span style="font-size:.62rem;color:#86868b">（参考 mikeroyal/ISP-Guide·534★）</span></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9;color:#d97706">学习中</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">RAW→去噪→demosaic→色彩校正→锐化的全链路，理解每步"做什么"和"为什么"</td></tr>
+      <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">Insta360开放平台SDK<span style="font-size:.62rem;color:#86868b">（CameraSDK·172★ / MediaSDK·93★）</span></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9;color:#d97706">研究中</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">CameraSDK管相机控制（拍照/录像/参数/固件），MediaSDK管全景拼接和编辑——两者的分工边界就是相机PM的核心命题</td></tr>
+      <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">ESP32-CAM实战<span style="font-size:.62rem;color:#86868b">（DenissStepanjuk 15课教程系列）</span></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9;color:#9ca3af">计划中</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">用¥15的OV2640摄像头模组跑通"传感器→固件→Web图像流"的最小闭环</td></tr>
+    </table>
+  </div>
+  <div class="step-text" style="margin-bottom:6px"><b>案例研究（AI PM视角拆解）：Google Pixel Super Res Zoom</b></div>
+  <div class="step-text" style="margin-bottom:4px">这是一个教科书级的相机软硬件协作案例，展示了AI PM需要具备的系统思维：</div>
+  <ul class="ft-list">
+    <li><b>硬件层：</b>折叠式潜望镜结构把光路横置在机身内——决策理由是"用物理空间换光学性能"，而非堆更多镜片（体积/成本的trade-off）</li>
+    <li><b>软件层：</b>HDR+ with Bracketing 同时拍摄多张不同曝光的图像并融合——决策理由是"用计算量换画质"，在按下快门的瞬间完成多帧合成</li>
+    <li><b>AI层：</b>多帧对齐与细节重建——决策理由是"传统算法在超分辨率下会引入伪影，AI可以在模糊和噪点之间找到更好的平衡点"</li>
+    <li><b>PM启示：</b>这三个层级不是简单的叠加关系，而是互相制约——硬件决定了能捕捉多少原始信息，软件决定了能利用多少，AI决定了能从已有信息里重建多少。PM的工作是理解每层的"能力上限和成本"，在它们之间找到最优解</li>
+  </ul>
+  <div class="step-text" style="margin-top:6px"><b>学习来源（GitHub开源社区）：</b></div>
+  <ul class="ft-list">
+    <li>mikeroyal/ISP-Guide：图像信号处理全链路学习指南，覆盖ISP Pipeline/DSP/计算机视觉/深度学习，适合PM建立ISP领域基本认知框架</li>
+    <li>Insta360Develop/Desktop-CameraSDK-Cpp：Insta360官方相机控制SDK，C++，USB连接，支持X4/X5等全系列全景相机</li>
+    <li>Insta360Develop/Desktop-MediaSDK-Cpp：Insta360官方全景拼接SDK，C++，GPU加速，支持视频/图像导出</li>
+    <li>DenissStepanjuk/ESP32-CAM_TUTORIALS：ESP32摄像头15课实战教程，从帧捕获→Web显示→图像处理→TensorFlow Lite</li>
+    <li>alinjfz/xiao-esp32s3-camera：ESP32-S3→树莓派→浏览器端到端安防摄像头方案，MIT协议，9次commit</li>
+  </ul>
+  <div class="step-text" style="margin-top:6px;color:#6e6e73;font-style:italic">以上为学习路线梳理。本人仍在学习中——这不是"我已经会了"的展示，而是"作为一个AI PM，我认为这个方向很重要，我已经在行动"的记录。</div>
+  </div></div>
 </div>
 
 <!-- ===== 方法论 ===== -->
