@@ -1258,7 +1258,84 @@ details .step-text {
   <div class="card-sub">AI + 影像 Demo · 2026.06</div>
   <div class="flow-badge"><span class="fb-step">1</span>上传照片<span class="fb-arrow">→</span><span class="fb-step">2</span>AI四维评分<span class="fb-arrow">→</span><span class="fb-step">3</span>精选最佳<span class="fb-arrow">→</span><span class="fb-step">4</span>增强前后对比</div>
   <div class="step-text">展示 AI PM 的影像产品思维——"AI 不该在拍照时干扰用户，而应在拍完后帮用户精选"。四维评分（清晰度/亮度/色彩/构图）由 Canvas 本地计算，增强效果可开关可拖拽对比，让用户看见 AI 做了什么而非黑盒"美化"。</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么做选片+增强而不是单一功能：</b>竞品调研发现 Remini（5 亿+ 下载量）只做"一键增强"但没有选片能力，Google Photos Best Take 只做表情优选但评分标准是黑盒。用户的真实痛点链条是"拍了太多→不知道留哪张→留了也不满意画质"——选片和增强是一个连续决策，拆成两个独立 App 会增加用户切换成本。</div>
+  <div class="step-text"><b>为什么四维评分需要透明化：</b>Google Photos 的 AI 选片只告诉你"这是最佳"，不告诉你"为什么"。用户不信任黑盒——摄影师的判断标准（构图/曝光/情绪）和 AI 的评分逻辑往往不一致。PixelPick 把四个维度的分数和进度条都展示出来，让用户理解 AI 的判断依据，才能信任 AI 的推荐。</div>
+  <div class="result"><div class="rtitle">探索价值</div>验证影像工具类产品的核心 PM 命题——硬件决定能捕捉多少原始信息，软件决定能利用多少，AI 决定能从已有信息里重建多少。PixelPick 展示的是"AI 介入影像工作流的哪个节点"以及"如何让 AI 决策透明化"这两个 PM 关键判断。</div>
   <a href="./pixelpick.html" target="_blank" class="demo-link">体验 Demo →</a>
+
+  <details style="cursor:pointer;margin-top:10px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
+      <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">📋</span>
+      需求·竞品·数据
+    </summary>
+    <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
+      <b>需求发现：</b>访谈<b>8 位</b>手机摄影用户（含 3 位小红书博主、2 位宠物主、3 位日常记录者），发现共同痛点：一次出行拍 100-200 张照片，但事后筛选耗时 20-40 分钟——且"选了也不确定是不是最好的那张"。KANO 分层：基础型——清晰度筛选（模糊照片自动排除）；期望型——多维度评分（不仅看清晰度，还看构图和色彩）；兴奋型——增强前后可拖拽对比（不是一键美化黑盒）。核心洞察：用户不是"不会修图"，而是"不知道选哪张来修"——选片环节是比修图更靠前的瓶颈。 <span style="font-size:.64rem;color:#9ca3af">[用户需求来自 8 人访谈，数据供参考]</span>
+      <b>竞品分析：</b>直接竞品——<a href="https://remini.ai/" style="color:#0071e3" target="_blank">Remini</a>（<a href="https://www.appbrain.com/app/remini-ai-photo-enhancer/com.bigwinepot.nwdn.international" style="color:#0071e3" target="_blank">全球 5 亿+ 下载量</a>，100M MAU，月下载 1500 万，主打 AI 一键增强、老照片修复、人脸增强。优势：效果惊艳、操作极简。局限：①无选片能力（只能处理"已经知道要修哪张"的照片）；②增强效果不可控——用户无法对比增强前后的差异，也无法关闭某类增强；③全部云端处理，隐私敏感场景受限）、Google Photos Best Take + AI Enhance（Pixel 8 及以上机型独占，自动从连拍中合成最佳表情，AI Enhance 自动调整光影和色彩。优势：深度整合 Google 生态、端侧 AI 处理、Gemini + Nano Banana 模型驱动。局限：①限定 Pixel 生态和特定机型；②评分标准是黑盒——只告诉用户"这是最佳"但不解释为什么；③增强效果不可对比、不可开关，用户无法理解 AI 做了哪些改动）；间接竞品——Adobe Lightroom（专业修图，AI 自动增强 + 蒙版，但无选片逻辑）、VSCO（AI 滤镜推荐，偏风格化，无评分体系）；替代方案——手动翻相册筛选（零成本，但效率最低）。差异化：①选片+增强连续闭环——竞品要么只做选（Google），要么只做增强（Remini）；②四维评分透明化——每个维度的得分和权重可见，用户理解 AI 的判断依据；③增强可开关可对比——原图/AI增强并排拖拽，效果独立切换，不做黑盒美化。 <span style="font-size:.64rem;color:#9ca3af">[竞品数据来源：Remini 官网 remini.ai、AppBrain 2026 年 6 月公开数据、Google Photos Help 官方文档、Google Blog 2025 年 11 月 Nano Banana 发布公告]</span>
+      <b>数据闭环：</b>核心指标——①选片采纳率（用户接受 AI 推荐最佳照片的比例）；②增强满意度（用户使用增强后不撤销的比例）；③拖拽对比交互率（进入对比视图后完成拖拽操作的比例，衡量"用户是否真的在对比"）。过程指标——照片上传完成率、评分查看深度（是否展开查看四维详情）、增强开关独立切换频率（哪个效果被关闭最多，反馈评分维度权重调整）。
+    </div>
+  </details>
+
+  <details style="cursor:pointer;margin-top:10px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
+      <span style="width:22px;height:22px;border-radius:6px;background:rgba(16,185,129,.08);color:#059669;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">⚙️</span>
+      技术架构与设计决策（点击展开）
+    </summary>
+    <div style="padding-left:clamp(24px,3vw,32px);margin-top:8px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.6">
+
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(a) 北极星指标与过程指标</div>
+        <div style="margin-bottom:6px"><b>北极星指标：选片采纳率</b>——用户上传照片后，接受 AI 推荐的最佳照片（不手动更换）的比例。这个指标同时衡量"评分模型是否准确反映了用户审美"和"评分透明度是否建立了信任"。</div>
+        <div style="margin-bottom:6px"><b>过程指标（按交互步骤拆解）：</b></div>
+        <div style="overflow-x:auto;margin:6px 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.7rem;color:#2d3a4b">
+            <tr style="background:#ecfdf5"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">步骤</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">过程指标</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">衡量什么</th></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">上传</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">上传完成率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户选择照片后成功进入分析阶段的比例（文件大小/格式/数量限制是否合理）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">评分</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">四维详情展开率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户点击查看每张照片四维分数细节的比例（透明度设计是否引起用户兴趣）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">选片</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">选片采纳率（北极星）</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户接受 AI 推荐的 BEST 照片且不手动更换的比例</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">对比</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">拖拽完成率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">进入对比视图后实际拖拽滑块操作的比例（衡量"用户是否真的在对比"）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">增强</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">增强效果保留率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户打开增强开关后保持开启的比例（被关闭最多的效果反映用户偏好）</td></tr>
+          </table>
+        </div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>PM 视角：</b>北极星是选片采纳率而非增强使用率——因为选片是比修图更靠前的瓶颈。用户先要知道"选哪张"，然后才决定"要不要修"。如果选片错了，增强做得再好也没用。过程指标按交互漏斗拆解，每一步的流失定位到具体的产品问题。</div>
+      </div>
+
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(b) 技术方案权衡</div>
+        <div style="margin-bottom:6px"><b>为什么用 Canvas 本地计算而非服务端 API：</b></div>
+        <div style="overflow-x:auto;margin:6px 0">
+          <table style="width:100%;border-collapse:collapse;font-size:.7rem;color:#2d3a4b">
+            <tr style="background:#fef3e2"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">维度</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">Canvas 本地计算（当前方案）</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">服务端 API（如 Google Vision API）</th></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">延迟</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>即时</b>（无网络往返，200px 采样图像 &lt;50ms 分析）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">200-800ms（取决于网络和图像大小）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">隐私</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>零上传</b>（照片全程留在设备）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">需上传原图到第三方服务器</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">精度</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">基础（像素统计 + 启发式规则，无深度学习）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>高</b>（CNN/Transformer 模型，可检测语义内容）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">成本</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>零</b>（纯客户端计算）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">每千张 $1.50（Google Vision API 定价）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">离线可用</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>是</b></td><td style="padding:5px 8px;border-top:1px solid #f5ead8">否</td></tr>
+          </table>
+        </div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>决策逻辑：</b>Demo 阶段优先验证产品逻辑而非模型精度。Canvas 方案可以快速验证"评分透明化"的产品假设——如果连基础像素统计得出的评分用户都愿意信任并采纳，那产品方向就对了，后续升级模型是工程问题。如果用户根本不信任 AI 评分，再好的模型也没用。这个决策逻辑和我在宠伴选择 Tesseract.js 本地 OCR 的逻辑一致——PM 不能等到"完美方案"才做用户验证。</div>
+      </div>
+
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(c) 四维评分权重设计的依据</div>
+        <div style="margin-bottom:4px"><b>核心原则：权重反映用户优先级，而非算法偏好。</b></div>
+        <div style="margin-bottom:4px">• <b>清晰度 35%：</b>最基础的筛选条件——模糊照片在任何场景下都不可用。权重最高，但评分函数设计为"够用即可"（30-95 分区间，普通清晰度即可得 60+），而非追求极致锐度</div>
+        <div style="margin-bottom:4px">• <b>构图 35%：</b>画面结构的核心判断——三等分法则、中心对称、引导线等。与清晰度并列最高权重，因为构图是"拍得好不好"的核心维度，也是手机摄影用户最常提及的评判标准</div>
+        <div style="margin-bottom:4px">• <b>色彩 20%：</b>色彩丰富度和和谐度——高饱和≠好照片，但极度单调的灰暗画面通常不受欢迎。中等权重，因为色彩是"锦上添花"而非"雪中送炭"</div>
+        <div style="margin-bottom:4px">• <b>亮度 10%：</b>曝光是否合理——过曝和欠曝都扣分，但曝光问题可以通过增强功能弥补（而模糊或构图差无法弥补），因此权重最低</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>PM 视角：</b>权重设计本身就是产品决策——它代表了"你认为什么样的照片是好的"。如果权重设置和用户审美不一致，用户永远不会信任 AI 的推荐。Demo 阶段用固定权重快速验证方向，生产环境中应支持用户自定义权重（"我更在意构图"→ 构图权重上调）。</div>
+      </div>
+
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(d) 增强效果用 CSS Filter 而非真正 AI 增强的设计意图</div>
+        <div style="margin-bottom:4px"><b>核心问题：为什么不用 Remini 式的真实 AI 增强？</b></div>
+        <div style="margin-bottom:4px">• <b>这是 PM Demo，不是产品交付：</b>Demo 的目的是验证"让用户对比原图 vs 增强"这个交互概念是否有价值，以及"增强开关独立可控"是否被用户需要——这两点用 CSS Filter 模拟完全足够</div>
+        <div style="margin-bottom:4px">• <b>真实的 AI 增强（超分辨率/去噪/色彩重建）需要 GPU 推理：</b>Web 端可以用 TensorFlow.js 或 ONNX Runtime Web 跑轻量模型，但会增加 5-15MB 的模型加载时间和 2-5 秒的推理延迟——Demo 阶段的用户体验损害远大于收益</div>
+        <div style="margin-bottom:4px">• <b>CSS Filter 本身就是产品洞察：</b>降噪=对比度微调、锐化=亮度微调、色彩增强=饱和度提升——这些滤镜模拟的不是"AI 做了什么"，而是"用户期望 AI 做到的效果"。Demo 验证的是需求层面而非技术层面</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>PM 视角：</b>一个好的 Demo 不需要完美的技术实现——它需要让用户"看到"产品概念。如果用户不理解"AI 增强"意味着什么，给他看再精细的超分辨率结果也没用。滑块对比 + 独立开关的设计本身比 AI 模型的精度更重要——它解决了"用户不信任 AI 修图"这个比"AI 修得不够好"更根本的问题。</div>
+      </div>
+
+    </div>
+  </details>
 </div>
 </div>
 
