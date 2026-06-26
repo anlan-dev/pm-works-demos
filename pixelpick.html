@@ -105,17 +105,26 @@ body{
 .compare-labels{display:flex;justify-content:space-between;padding:8px 12px;font-size:.68rem;color:var(--text-secondary)}
 .enhance-toggles{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px;border-top:1px solid var(--border)}
 .enhance-toggle{
-  display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--radius-pill);
+  display:flex;align-items:center;gap:6px;padding:10px 14px;border-radius:var(--radius-pill);
   border:1px solid var(--border);background:var(--surface);font-size:.74rem;font-weight:500;
-  cursor:pointer;transition:all var(--transition);touch-action:manipulation;white-space:nowrap;
+  cursor:pointer;transition:all var(--transition);touch-action:manipulation;white-space:nowrap;min-height:40px;
 }
 .enhance-toggle.active{background:rgba(0,113,227,.1);border-color:rgba(0,113,227,.25);color:var(--accent)}
 .enhance-toggle .dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all var(--transition)}
 .enhance-toggle.active .dot{background:var(--accent)}
 
-/* === Empty states === */
+/* === Empty states & Loading === */
 .empty-state{display:flex;flex-direction:column;align-items:center;gap:8px;padding:32px 0;color:var(--text-muted);font-size:.82rem;text-align:center}
 .empty-state .icon{font-size:2rem;opacity:.5}
+.loading-overlay{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(255,255,255,.85);z-index:100;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+}
+.loading-overlay.visible{display:flex}
+.loading-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:.8rem;font-weight:500;color:var(--text-secondary)}
 
 /* === Action buttons === */
 .btn-row{display:flex;gap:10px;flex-wrap:wrap}
@@ -156,6 +165,12 @@ body{
 </style>
 </head>
 <body>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">AI 正在分析照片...</div>
+</div>
 
 <div class="app">
   <!-- Header -->
@@ -231,6 +246,7 @@ body{
     </div>
     <div class="btn-row" style="margin-top:12px">
       <button class="btn btn-outline" onclick="backToStep2()">返回评分</button>
+      <button class="btn btn-outline" onclick="screenshotCompare()">📸 截图保存对比</button>
       <button class="btn btn-primary" onclick="resetAll()">重新开始</button>
     </div>
   </div>
@@ -336,6 +352,8 @@ function removePhoto(idx){
 function runAnalysis(){
   if(photos.length < 2){showToast('至少需要2张照片');return}
   
+  document.getElementById('loadingOverlay').classList.add('visible');
+  
   const promises = photos.map(p=>new Promise(resolve=>{
     const img = new Image();
     img.onload = ()=>{
@@ -347,6 +365,7 @@ function runAnalysis(){
   }));
   
   Promise.all(promises).then(()=>{
+    document.getElementById('loadingOverlay').classList.remove('visible');
     analysisResults.sort((a,b)=>a.idx - b.idx);
     // Mark best
     const best = analysisResults.reduce((a,b)=>b.total > a.total ? b : a, analysisResults[0]);
@@ -390,14 +409,30 @@ function analyzeImage(img){
   }
   const colorRichness = Math.min(100, Math.round(hues.length/(w*h/16)*800));
   
-  // Composition (rule of thirds proxy: rough center vs edge contrast)
-  const compScore = Math.min(100, Math.round(55 + Math.random()*20 + (clarity>60?15:0) + (colorRichness>50?10:0)));
-  
+  // Composition: center vs edge luminance variance ratio (rough rule-of-thirds proxy)
+  // Higher ratio = subject likely centered, typical snapshot composition
+  const cw=Math.floor(w/3), ch=Math.floor(h/3);
+  let centerLum=0, edgeLum=0, centerCount=0, edgeCount=0;
+  const cx=Math.floor(w/2), cy=Math.floor(h/2);
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      const idx=(y*w+x)*4;
+      const lum=0.299*data[idx]+0.587*data[idx+1]+0.114*data[idx+2];
+      if(x>cx-cw/2 && x<cx+cw/2 && y>cy-ch/2 && y<cy+ch/2){centerLum+=lum;centerCount++}
+      else{edgeLum+=lum;edgeCount++}
+    }
+  }
+  const centerAvg=centerLum/Math.max(1,centerCount);
+  const edgeAvg=edgeLum/Math.max(1,edgeCount);
+  // Subject-background separation: higher difference = clearer subject
+  const separation=Math.abs(centerAvg-edgeAvg);
+  const compScore=Math.min(90, Math.round(40+separation*0.25+(clarity>55?12:0)));
+
   const scores = {
     clarity: clamp(clarity, 30, 95),
     brightness: clamp(brightness, 40, 92),
     colorRichness: clamp(colorRichness, 25, 90),
-    composition: clamp(compScore, 35, 90)
+    composition: clamp(compScore, 30, 90)
   };
   scores.total = Math.round((scores.clarity*0.35 + scores.brightness*0.1 + scores.colorRichness*0.2 + scores.composition*0.35));
   
@@ -409,15 +444,28 @@ function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 function renderResults(){
   const g = document.getElementById('resultGallery');
   const best = analysisResults.find(r=>r.isBest);
-  g.innerHTML = analysisResults.map((r,i)=>`
+  
+  // Build "why best" summary
+  const bestReasons = [];
+  const all = analysisResults;
+  const avg=(arr,key)=>arr.reduce((s,r)=>s+r[key],0)/arr.length;
+  if(best.clarity >= avg(all,'clarity')) bestReasons.push('最清晰');
+  if(best.brightness >= avg(all,'brightness')) bestReasons.push('曝光最优');
+  if(best.colorRichness >= avg(all,'colorRichness')) bestReasons.push('色彩最丰富');
+  if(best.composition >= avg(all,'composition')) bestReasons.push('构图最佳');
+  const whyBest = bestReasons.length ? bestReasons.slice(0,3).join(' · ') : '综合得分最高';
+  
+  g.innerHTML = (best ? `<div style="text-align:center;margin-bottom:10px;font-size:.76rem;color:#4a5568;background:rgba(0,113,227,.04);border-radius:10px;padding:8px 12px">
+    <b style="color:var(--accent)">BEST · ${best.total}分</b> · ${whyBest}
+  </div>` : '') + analysisResults.map((r,i)=>`
     <div class="photo-card ${r.isBest?'best':''}" onclick="previewCompare(${i})">
       <img class="thumb" src="${r.src}" alt="Photo ${i+1}">
       ${r.isBest ? '<div style="position:absolute;top:6px;right:6px;background:var(--accent);color:#fff;font-size:.6rem;padding:2px 8px;border-radius:var(--radius-pill);font-weight:700">BEST</div>' : ''}
       <div class="score-bar">
-        <div class="score-row"><span class="score-label">清晰度</span><span class="score-track"><span class="score-fill ${r.clarity>65?'high':r.clarity>45?'mid':'low'}" style="width:${r.clarity}%"></span></span><span class="score-value">${r.clarity}</span></div>
-        <div class="score-row"><span class="score-label">亮度</span><span class="score-track"><span class="score-fill ${r.brightness>65?'high':'mid'}" style="width:${r.brightness}%"></span></span><span class="score-value">${r.brightness}</span></div>
-        <div class="score-row"><span class="score-label">色彩</span><span class="score-track"><span class="score-fill ${r.colorRichness>60?'high':'mid'}" style="width:${r.colorRichness}%"></span></span><span class="score-value">${r.colorRichness}</span></div>
-        <div class="score-row"><span class="score-label">构图</span><span class="score-track"><span class="score-fill ${r.composition>65?'high':'mid'}" style="width:${r.composition}%"></span></span><span class="score-value">${r.composition}</span></div>
+        <div class="score-row" title="画面细节的丰富程度，基于像素亮度标准差计算"><span class="score-label">清晰度</span><span class="score-track"><span class="score-fill ${r.clarity>65?'high':r.clarity>45?'mid':'low'}" style="width:${r.clarity}%"></span></span><span class="score-value">${r.clarity}</span></div>
+        <div class="score-row" title="整体曝光的均值，过暗或过亮均会扣分"><span class="score-label">亮度</span><span class="score-track"><span class="score-fill ${r.brightness>65?'high':'mid'}" style="width:${r.brightness}%"></span></span><span class="score-value">${r.brightness}</span></div>
+        <div class="score-row" title="画面中的色彩丰富度，基于色调多样性计算"><span class="score-label">色彩</span><span class="score-track"><span class="score-fill ${r.colorRichness>60?'high':'mid'}" style="width:${r.colorRichness}%"></span></span><span class="score-value">${r.colorRichness}</span></div>
+        <div class="score-row" title="主体与背景的分离度，基于中心/边缘亮度对比"><span class="score-label">构图</span><span class="score-track"><span class="score-fill ${r.composition>65?'high':'mid'}" style="width:${r.composition}%"></span></span><span class="score-value">${r.composition}</span></div>
         <div class="overall-score">综合 <span class="big">${r.total}</span></div>
       </div>
     </div>
@@ -512,6 +560,51 @@ function resetAll(){
   document.getElementById('noPhotoHint').style.display='flex';
   document.getElementById('fileInput').value='';
   setStep(1);
+}
+
+// === Screenshot comparison ===
+function screenshotCompare(){
+  const view = document.getElementById('compareView');
+  // Temporarily remove slider from canvas capture area
+  const slider = view.querySelector('.slider');
+  slider.style.display = 'none';
+  const before = document.getElementById('beforeImg');
+  const after = document.getElementById('afterImg');
+  
+  const canvas = document.createElement('canvas');
+  canvas.width = before.naturalWidth || view.offsetWidth;
+  canvas.height = before.naturalHeight || view.offsetHeight;
+  const ctx = canvas.getContext('2d');
+  
+  // Draw before (left half)
+  const hw = canvas.width / 2;
+  ctx.drawImage(before, 0, 0, hw, canvas.height, 0, 0, hw, canvas.height);
+  // Draw after (right half)
+  ctx.drawImage(after, hw, 0, hw, canvas.height, hw, 0, hw, canvas.height);
+  
+  // Divider line
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(hw, 0);
+  ctx.lineTo(hw, canvas.height);
+  ctx.stroke();
+  
+  // Labels
+  ctx.font = 'bold 14px -apple-system, sans-serif';
+  ctx.fillStyle = '#000';
+  ctx.fillText('原图', 8, 22);
+  ctx.fillStyle = '#fff';
+  ctx.fillText('AI 增强', hw + 8, 22);
+  
+  canvas.toBlob(blob => {
+    slider.style.display = '';
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'pixelpick_compare.png';
+    a.click(); URL.revokeObjectURL(url);
+    showToast('对比截图已保存');
+  }, 'image/png');
 }
 
 // === Toast ===
