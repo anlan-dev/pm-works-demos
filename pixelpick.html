@@ -258,10 +258,13 @@ body{
     </div>
   </div>
 
-  <!-- Product decision note -->
-  <div class="decision-note" style="margin-top:8px">
+  <!-- Product decision note (折叠) -->
+  <details style="cursor:pointer;margin-top:12px">
+    <summary style="list-style:none;font-size:.74rem;font-weight:600;color:var(--text-secondary);padding:4px 0">📋 PM 决策笔记（点击展开）</summary>
+    <div class="decision-note" style="margin-top:8px">
     <b>PM视角：</b>这个 Demo 展示了 AI PM 的三个核心判断——<b>① AI 介入哪个工作流节点</b>（不是在拍照时干扰用户，而是拍完后帮用户精选）；<b>② AI 应该自动工作而非等待指令</b>（上传即分析，零点击直达结果——减少一步操作就是减少一个流失节点）；<b>③ 增强效果需要可对比、可开关</b>（让用户看到 AI 做了什么，而非黑盒"美化"）。影像工具类产品的核心命题：硬件决定了能捕捉多少原始信息，软件决定了能利用多少，AI 决定了能从已有信息里重建多少。
-  </div>
+    </div>
+  </details>
 
   <!-- Toast -->
   <div class="toast" id="toast"></div>
