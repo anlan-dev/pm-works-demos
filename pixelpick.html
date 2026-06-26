@@ -381,8 +381,8 @@ body{
         <button class="btn btn-ghost" onclick="pickFolder()">Select Folder</button>
         <button class="btn btn-ghost" onclick="loadDemo(event)" style="border-color:rgba(232,168,32,.3);color:var(--amber-dim)">Try Demo Data</button>
       </div>
-      <input type="file" id="fileInput" accept="image/*" multiple>
-      <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
+      <input type="file" id="fileInput" accept="image/*" multiple style="position:fixed;top:-9999px;left:-9999px">
+      <input type="file" id="folderInput" webkitdirectory directory multiple style="position:fixed;top:-9999px;left:-9999px">
     </div>
 
     <div class="contact-sheet" id="gallery" style="display:none"></div>
@@ -469,8 +469,11 @@ function setStep(s){
   });
 }
 
-// Upload
-document.getElementById('uploadZone').addEventListener('click',()=>document.getElementById('fileInput').click());
+// Upload — 点击上传区触发文件选择，但排除按钮区域避免冒泡
+document.getElementById('uploadZone').addEventListener('click',(e)=>{
+  if(e.target.closest('.upload-actions')) return;
+  document.getElementById('fileInput').click();
+});
 document.getElementById('fileInput').addEventListener('change',handleFiles);
 const uz = document.getElementById('uploadZone');
 uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag-over')});
