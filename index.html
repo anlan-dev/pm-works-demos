@@ -14,7 +14,8 @@ body{
   -webkit-font-smoothing:antialiased; overflow-x:hidden; letter-spacing:-0.022em;
 }
 .container{max-width:880px;width:100%;margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,4vw,32px) clamp(36px,5vw,64px);overflow-x:hidden}
-@media(min-width:821px) and (max-width:1120px){.container{padding-right:clamp(44px,7vw,72px)}}
+/* 平板横屏：左右内边距保持对称，避免右侧留白过大 */
+@media(min-width:821px) and (max-width:1120px){.container{padding-left:clamp(32px,5vw,48px);padding-right:clamp(32px,5vw,48px)}}
 
 /* ===== Right-Floating TOC ===== */
 .toc-float{
@@ -51,7 +52,7 @@ body{
 .mobile-nav-inner{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
 .mobile-nav a{text-decoration:none;font-size:.64rem;font-weight:500;color:#3a5670;background:#f5f7fa;padding:7px 10px;border-radius:12px;white-space:nowrap;display:flex;align-items:center;gap:4px;border:.5px solid #e4eaf2;min-height:36px;transition:all .2s}
 .mobile-nav a:active{background:#e0ecf7;color:#0c3a56;transform:scale(.96)}
-@media(max-width:820px){.mobile-nav{display:block}.mobile-nav-inner{max-height:160px;overflow-y:auto}body{padding-bottom:max(80px,calc(env(safe-area-inset-bottom,0)+60px))}}
+@media(max-width:820px){.mobile-nav{display:block}.mobile-nav-inner{max-height:160px;overflow-y:auto}/* body padding-bottom 由抽屉菜单统一管理，避免双重定义 */}
 
 /* ===== Hero ===== */
 .hero{text-align:center;margin-bottom:clamp(20px,3vw,28px)}
@@ -199,6 +200,15 @@ body.speed-active .step-num{background:rgba(0,113,227,.15)}
 .top-nav-link:hover{background:#ecf3fa;color:#0b1e2e}
 .top-nav-link.active{background:#e0ecf7;color:#0c3a56;font-weight:600;border-color:rgba(0,113,227,.15)}
 .top-nav-link .nav-icon{font-size:.8rem;opacity:.8}
+/* 窄屏：顶栏链接更紧凑，减少横向滑动距离 */
+@media(max-width:820px){
+  .top-nav-link{font-size:.58rem;padding:4px 7px;gap:2px}
+  .top-nav-link .nav-icon{font-size:.65rem}
+}
+@media(max-width:480px){
+  .top-nav-link{font-size:.52rem;padding:3px 5px;gap:1px}
+  .top-nav-link .nav-icon{font-size:.55rem}
+}
 body.has-top-nav{padding-top:44px}
 
 /* ===== Competency Matrix ===== */
@@ -217,28 +227,20 @@ body.has-top-nav{padding-top:44px}
 .section-priority-3{order:3}
 .section-priority-4{order:4}
 
-/* ===== Android/WeChat compat ===== */
+/* ===== iOS Safari / 微信内置浏览器 惯性滚动兼容 ===== */
 @supports(-webkit-touch-callout:none){.top-nav-inner{-webkit-overflow-scrolling:touch}}
 
-/* ===== 安卓端文字溢出修复 ===== */
-* {
+/* ===== 移动端文字溢出修复 ===== */
+/* 注意：全局 * 选择器已移除，改为精确选择器避免破坏 flex/table 布局 */
+.step-text, .card-sub, .arch-box, .harness .hstep > span:last-child, .quote, .ft-list li, .comp-value, .result, .gate-table td, .gate-table th, .step-body, p, li, td, th {
+  overflow-wrap: break-word;
   word-wrap: break-word;
-  overflow-wrap: break-word;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-.step-text, .card-sub, .arch-box, .harness .hstep > span:last-child, .quote, .ft-list li, .comp-value, .result, .gate-table td {
-  word-break: break-word;
-  overflow-wrap: break-word;
   max-width: 100%;
 }
 .step-body {
   min-width: 0;
-  overflow: hidden;
 }
-.card {
-  overflow: hidden;
-}
+/* .card overflow 已移除 —— overflow:hidden 会裁剪 details 展开内容和横向滚动表格 */
 .card-title {
   word-break: break-word;
   overflow-wrap: break-word;
@@ -270,16 +272,6 @@ details .step-text {
     line-height: 1.6;
     word-break: break-all;
   }
-  .gate-table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    white-space: nowrap;
-  }
-  .gate-table td, .gate-table th {
-    white-space: normal;
-    word-break: break-word;
-  }
   .flow-badge {
     white-space: normal;
     flex-wrap: wrap;
@@ -292,6 +284,21 @@ details .step-text {
     flex-shrink: 0;
   }
   .data-chip {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+/* ===== 平板 + 手机端表格横向滚动（820px 覆盖 iPad mini/md 竖屏） ===== */
+@media (max-width: 820px) {
+  .gate-table, table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+  .gate-table td, .gate-table th, table td, table th {
     white-space: normal;
     word-break: break-word;
   }
@@ -1412,79 +1419,29 @@ details .step-text {
 
 <!-- ===== 智能硬件原型能力 ===== -->
 <h2 class="section-title scroll-margin" id="hardware">跨域能力 · 智能硬件原型</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">PM不止画原型——我能用树莓派/ESP32亲手验证硬件产品方案<span style="font-size:.72rem;color:#9ca3af">[学习来源：GitHub开源社区]</span></p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">用开源硬件快速验证产品假设——不是为了转行做硬件，而是为了更有效地与硬件团队协作</p>
 
 <div class="card">
   <div class="card-icon">🔧</div>
-  <div class="card-title">硬件学习概览</div>
-  <div class="card-sub">从PCB打样到3D打印，从传感器焊接到固件烧录——独立完成智能硬件产品全链路验证</div>
+  <div class="card-title">硬件动手实践</div>
+  <div class="card-sub">3个原型实验，验证"软件PM理解硬件边界"的价值</div>
 
-  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">宠伴·智能体重秤（ESP32 + HX711）</div>
-  <div class="arch-box"><b>方案：</b>ESP32-C3主控 + HX711称重传感器 + WiFi/MQTT通信 · <b>BOM成本：</b>¥30-50 · <b>验证周期：</b>1周末出原型</div>
-  <div class="step-text" style="margin-top:8px"><b>做什么：</b>用ESP32开发板+称重传感器自制宠物体重秤，通过MQTT协议自动同步数据到宠伴后端，验证"硬件自动采集→App数据融合"这条产品链路。</div>
-  <div class="step-text"><b>学习来源（GitHub开源社区）：</b></div>
-  <ul class="ft-list">
-    <li>mblk/cat-scale：ESP32宠物体重监测系统，81次commit完整方案，含ESP32固件+ASP.NET后端+Blazor前端+PostgreSQL+InfluxDB时序数据库</li>
-    <li>coniferconifer/ESP32-HX711-MQTT：ESP32+HX711通过MQTT推送到Node-RED→云端的完整链路参考</li>
-  </ul>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">宠伴·智能体重秤 —— 验证"自动采集→App融合"</div>
+  <div class="step-text">用ESP32+称重传感器搭了一个宠物体重秤原型，成本约¥30，一个周末完成。目的是验证：如果宠物每天上秤的数据能自动同步到宠伴，用户就不需要手动录入体重了——这对持续使用意愿的提升有多大。参考了 GitHub 上 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a> 和 <a href="https://github.com/coniferconifer/ESP32-HX711-MQTT" target="_blank">coniferconifer/ESP32-HX711-MQTT</a> 的开源方案。</div>
   </div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">小小汪·电子宠物机器狗（嘉立创PCB + 拓竹3D打印）</div>
-  <div class="arch-box"><b>方案：</b>嘉立创PCB打样 + 元件选型焊接 + 固件烧录 + 拓竹3D打印外壳 · <b>迭代：</b>V1.0→V2.0两版 · <b>开源协议：</b>MIT</div>
-  <div class="step-text" style="margin-top:8px"><b>做什么：</b>独立完成电子宠物机器狗的硬件全链路——从BOM表采购、PCB打样、元件焊接、固件烧录到3D打印外壳组装。V2.0版本优化了结构件，支持音乐替换和对话交互内容自定义。</div>
-  <div class="step-text"><b>学习来源（GitHub开源社区）：</b></div>
-  <ul class="ft-list">
-    <li>snkyw1/smart-puppy（立创开源硬件平台 oshwhub.com）：ESP32-S3智能小狗，支持AI对话+12种预编程动作+触摸按键+语音控制，嘉立创打印外壳</li>
-    <li>PetoiCamp/OpenCat-Quadruped-Robot：开源四足机器人框架，MIT协议，ESP32/Arduino双平台，支持舵机校准+步态编程+传感器扩展</li>
-  </ul>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">小小汪·电子宠物机器狗 —— 体验"从图纸到实物"全流程</div>
+  <div class="step-text">跟着开源项目复刻了一个电子宠物机器狗，经历了PCB打样、元件焊接、3D打印外壳、固件烧录的完整流程。最大的收获不是技术本身，而是理解了"为什么硬件工程师说加个功能要改BOM"——从此评估需求时能判断技术方给的工期是否合理。主要参考 <a href="https://oshwhub.com/" target="_blank">立创开源硬件平台</a> 上的 smart-puppy 项目和 GitHub 上 <a href="https://github.com/PetoiCamp/OpenCat-Quadruped-Robot" target="_blank">PetoiCamp/OpenCat</a> 四足机器人框架。</div>
   </div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">树莓派 + 传感器 + 语音控制 + OpenClaw机器人关节探索</div>
-  <div class="step-text"><b>已实现：</b>在树莓派平台上完成传感器接入（称重/温湿度/超声波）与机器人关节控制的基础搭建。在此基础上额外接入<b>语音控制模块</b>，实现语音指令→舵机动作的端到端控制链路，验证"自然语言→硬件执行"的交互范式。</div>
-  <div class="step-text"><b>未来规划：</b>计划扩展更多传感器类型（红外避障/陀螺仪姿态/摄像头视觉），实现多传感器融合决策；参考OpenClaw开源项目（dinhnhat0401/GitHub）的三指欠驱动机械爪设计，进一步理解舵机选型、力臂计算、关节联动和关节-传感器融合的基本原理。</div>
-  <div class="step-text"><b>学习来源（GitHub开源社区）：</b></div>
-  <ul class="ft-list">
-    <li>dinhnhat0401/OpenClaw：开源三指机械爪项目，3D打印结构件+Arduino/ESP32控制+可选ROS集成，MIT协议</li>
-    <li>SovGVD/esp32-small-robot-dog-hardware：ESP32四足机器狗3D打印零件，3DOF腿部结构，MIT协议</li>
-    <li>av4625/robot_dog：ESP32四足机器狗，58次commit，含伺服控制+PS4手柄遥控+步态算法</li>
-  </ul>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">树莓派 + 语音控制 —— 探索"自然语言→硬件执行"</div>
+  <div class="step-text">在树莓派上接了传感器和舵机，通过语音指令控制硬件动作。这是一个轻量的"AI+硬件"交互验证——用户说一句话，机器做出反应。虽然只是原型，但让我对端侧AI在IoT设备上的可行性有了直观判断。参考了 <a href="https://github.com/dinhnhat0401/OpenClaw" target="_blank">OpenClaw</a> 机械爪设计和 <a href="https://github.com/av4625/robot_dog" target="_blank">av4625/robot_dog</a> 步态控制方案。</div>
   </div></div>
 
-  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">PM视角：为什么AI产品经理需要硬件动手能力</div>
-  <div class="step-text"><b>快速验证：</b>有了AI辅助编码+开源硬件社区，PM可以在1周内用¥30-500成本搭建硬件原型，快速验证产品假设，不需要等硬件团队排期。</div>
-  <div class="step-text"><b>技术判断力：</b>亲手画过PCB才知道"加个传感器"需要改BOM、改Layout、改固件、改测试——评估技术方案时不再被工程师一句"做不了"挡住，能准确判断"真的做不了"还是"不想做"。</div>
-  <div class="step-text"><b>沟通效率：</b>能用工程师的语言沟通——知道BOM成本/PCB打样周期/舵机扭矩计算/3D打印材料选择——需求评审从"我感觉"变成"这个方案BOM¥35，2周可出原型"。</div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">为什么PM要碰硬件</div>
+  <div class="step-text"><b>不是为了会焊电路板。</b>是三个实际价值：①快速验证——¥30搭个原型验证产品假设，不需要等硬件团队排期两周；②技术判断力——自己动手做过，才知道工程师说"做不了"是真做不了还是不想做；③沟通效率——需求评审时，评估方案周期和成本的判断更接近实际，而不是凭感觉。</div>
   </div></div>
 
-  <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">探索方向：相机软硬件协作（学习中）<span style="font-size:.68rem;color:#9ca3af;font-weight:400">—— 面向 Insta360 面试后的深度探索</span></div>
-  <div class="step-text" style="margin-bottom:6px"><b>为什么探索这个方向：</b>相机是硬件与软件协作最紧密的品类——镜头/传感器/ISP芯片的硬件能力决定了成像的物理天花板，而ISP tuning/多帧合成/AI增强等软件算法则决定了在天花板以内能做到多好。对于相机公司的软件PM来说，核心判断力不是"AI能做什么"，而是<b>"哪个环节用硬件解决更划算，哪个环节用软件补偿更合理，哪个环节需要AI介入"</b>。</div>
-  <div class="step-text" style="margin-bottom:6px"><b>正在学习的内容：</b></div>
-  <div style="overflow-x:auto;margin:8px 0;border:1px solid #e2e8f0;border-radius:10px;background:#fff">
-    <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
-      <tr style="background:#f8fafc"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">学习方向</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">状态</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">关键理解</th></tr>
-      <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">ISP图像处理管线<span style="font-size:.62rem;color:#86868b">（参考 mikeroyal/ISP-Guide·534★）</span></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9;color:#d97706">学习中</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">RAW→去噪→demosaic→色彩校正→锐化的全链路，理解每步"做什么"和"为什么"</td></tr>
-      <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">Insta360开放平台SDK<span style="font-size:.62rem;color:#86868b">（CameraSDK·172★ / MediaSDK·93★）</span></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9;color:#d97706">研究中</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">CameraSDK管相机控制（拍照/录像/参数/固件），MediaSDK管全景拼接和编辑——两者的分工边界就是相机PM的核心命题</td></tr>
-      <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">ESP32-CAM实战<span style="font-size:.62rem;color:#86868b">（DenissStepanjuk 15课教程系列）</span></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9;color:#9ca3af">计划中</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">用¥15的OV2640摄像头模组跑通"传感器→固件→Web图像流"的最小闭环</td></tr>
-    </table>
-  </div>
-  <div class="step-text" style="margin-bottom:6px"><b>案例研究（AI PM视角拆解）：Google Pixel Super Res Zoom</b></div>
-  <div class="step-text" style="margin-bottom:4px">这是一个教科书级的相机软硬件协作案例，展示了AI PM需要具备的系统思维：</div>
-  <ul class="ft-list">
-    <li><b>硬件层：</b>折叠式潜望镜结构把光路横置在机身内——决策理由是"用物理空间换光学性能"，而非堆更多镜片（体积/成本的trade-off）</li>
-    <li><b>软件层：</b>HDR+ with Bracketing 同时拍摄多张不同曝光的图像并融合——决策理由是"用计算量换画质"，在按下快门的瞬间完成多帧合成</li>
-    <li><b>AI层：</b>多帧对齐与细节重建——决策理由是"传统算法在超分辨率下会引入伪影，AI可以在模糊和噪点之间找到更好的平衡点"</li>
-    <li><b>PM启示：</b>这三个层级不是简单的叠加关系，而是互相制约——硬件决定了能捕捉多少原始信息，软件决定了能利用多少，AI决定了能从已有信息里重建多少。PM的工作是理解每层的"能力上限和成本"，在它们之间找到最优解</li>
-  </ul>
-  <div class="step-text" style="margin-top:6px"><b>学习来源（GitHub开源社区）：</b></div>
-  <ul class="ft-list">
-    <li>mikeroyal/ISP-Guide：图像信号处理全链路学习指南，覆盖ISP Pipeline/DSP/计算机视觉/深度学习，适合PM建立ISP领域基本认知框架</li>
-    <li>Insta360Develop/Desktop-CameraSDK-Cpp：Insta360官方相机控制SDK，C++，USB连接，支持X4/X5等全系列全景相机</li>
-    <li>Insta360Develop/Desktop-MediaSDK-Cpp：Insta360官方全景拼接SDK，C++，GPU加速，支持视频/图像导出</li>
-    <li>DenissStepanjuk/ESP32-CAM_TUTORIALS：ESP32摄像头15课实战教程，从帧捕获→Web显示→图像处理→TensorFlow Lite</li>
-    <li>alinjfz/xiao-esp32s3-camera：ESP32-S3→树莓派→浏览器端到端安防摄像头方案，MIT协议，9次commit</li>
-  </ul>
-  <div class="step-text" style="margin-top:6px;color:#6e6e73;font-style:italic">以上为学习路线梳理。本人仍在学习中——这不是"我已经会了"的展示，而是"作为一个AI PM，我认为这个方向很重要，我已经在行动"的记录。</div>
-  </div></div>
 </div>
 
 <!-- ===== 方法论 ===== -->
@@ -1496,7 +1453,7 @@ details .step-text {
   <div class="card-sub">所有 AI 项目遵循同一思维链路——从用户任务出发，经过评测验证，用数据驱动迭代</div>
   <div class="harness">
     <div class="htitle">功能点 → AI技术方案 → 评测集+MECE标准 → 跑评测找链路问题 → 改链路重测 → 展示分数改善</div>
-    <div class="hstep"><span class="hnum">1</span><span></span>从<b>具体用户任务</b>出发，不是从模型能力出发</span></div>
+    <div class="hstep"><span class="hnum">1</span><span>从<b>具体用户任务</b>出发，不是从模型能力出发</span></div>
     <div class="hstep"><span class="hnum">2</span><span>选择<b>AI技术方案</b>（Prompt Chain / RAG / Workflow / Agent Team），解释为什么不用更复杂/更简单的</span></div>
     <div class="hstep"><span class="hnum">3</span><span>设计<b>评测集 + MECE评分标准</b>，目的是发现链路问题而非证明"AI很厉害"</span></div>
     <div class="hstep"><span class="hnum">4</span><span>跑评测集，定位<b>链路节点具体问题</b>，归因到 prompt / query rewrite / context / routing / fallback</span></div>
