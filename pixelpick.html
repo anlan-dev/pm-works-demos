@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>PixelPick · AI 影像精选</title>
+<style>
+/* === Design Tokens (awesome-design-md) === */
+:root {
+  --canvas: #f5f5f7;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,.08);
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-muted: #9ca3af;
+  --accent: #0071e3;
+  --accent-hover: #0060c0;
+  --success: #059669;
+  --warn: #d97706;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  --spacing-unit: 8px;
+  --transition: .2s cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--canvas);color:var(--text-primary);line-height:1.47;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+  padding-bottom:env(safe-area-inset-bottom,0);
+}
+.app{
+  max-width:480px;margin:0 auto;padding:clamp(12px,3vw,20px) clamp(14px,3.5vw,24px);
+  display:flex;flex-direction:column;gap:clamp(14px,3vw,20px);
+}
+
+/* === Header === */
+.header{text-align:center;padding:8px 0 4px}
+.header h1{font-size:clamp(1.4rem,4vw,1.8rem);font-weight:600;letter-spacing:-.02em}
+.header .sub{font-size:clamp(.78rem,2vw,.85rem);color:var(--text-secondary);margin-top:4px}
+
+/* === Steps indicator === */
+.steps{display:flex;justify-content:center;gap:0;align-items:center}
+.step-dot{display:flex;align-items:center;gap:6px}
+.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;
+  background:var(--border);color:var(--text-secondary);transition:all var(--transition)}
+.step-num.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(0,113,227,.3)}
+.step-num.done{background:var(--success);color:#fff}
+.step-line{width:clamp(24px,6vw,40px);height:2px;background:var(--border);border-radius:1px;transition:all var(--transition)}
+.step-line.done{background:var(--success)}
+
+/* === Upload zone === */
+.upload-zone{
+  border:2px dashed rgba(0,113,227,.25);border-radius:var(--radius-lg);
+  padding:clamp(24px,5vw,36px) 16px;text-align:center;cursor:pointer;
+  transition:all var(--transition);background:var(--surface);
+  touch-action:manipulation;user-select:none;-webkit-user-select:none;
+}
+.upload-zone:hover,.upload-zone:active{border-color:var(--accent);background:rgba(0,113,227,.03)}
+.upload-zone .icon{font-size:2.2rem;margin-bottom:8px;display:block}
+.upload-zone .title{font-size:.9rem;font-weight:600;color:var(--text-primary);margin-bottom:4px}
+.upload-zone .hint{font-size:.74rem;color:var(--text-secondary)}
+.upload-zone input{display:none}
+
+/* === Gallery grid === */
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(8px,2vw,12px)}
+.photo-card{
+  background:var(--surface);border-radius:var(--radius-md);overflow:hidden;
+  box-shadow:var(--shadow-sm);transition:all var(--transition);position:relative;
+  cursor:pointer;touch-action:manipulation;
+}
+.photo-card:active{transform:scale(.97)}
+.photo-card.best{border:2px solid var(--accent);box-shadow:0 0 0 3px rgba(0,113,227,.15)}
+.photo-card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#e5e7eb}
+.photo-card .score-bar{display:flex;flex-direction:column;gap:3px;padding:clamp(6px,1.5vw,10px)}
+.score-row{display:flex;align-items:center;gap:6px;font-size:.66rem}
+.score-label{width:clamp(32px,8vw,42px);color:var(--text-secondary);flex-shrink:0;text-align:right;white-space:nowrap}
+.score-track{flex:1;height:4px;background:#f1f5f9;border-radius:2px;overflow:hidden}
+.score-fill{height:100%;border-radius:2px;transition:width .6s var(--transition)}
+.score-fill.high{background:var(--success)}.score-fill.mid{background:var(--warn)}.score-fill.low{background:#ef4444}
+.score-value{width:28px;font-weight:600;color:var(--text-primary);flex-shrink:0;text-align:right}
+.overall-score{text-align:center;padding:4px 0 2px;font-weight:700;font-size:.82rem}
+.overall-score .big{font-size:1.4rem;color:var(--accent)}
+
+/* === Comparison slider === */
+.compare-container{
+  display:none;background:var(--surface);border-radius:var(--radius-lg);
+  overflow:hidden;box-shadow:var(--shadow-md);
+}
+.compare-container.visible{display:block}
+.compare-header{padding:12px 14px;font-weight:600;font-size:.88rem;border-bottom:1px solid var(--border)}
+.compare-view{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:#000;user-select:none;-webkit-user-select:none}
+.compare-view img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
+.compare-view .after{clip-path:inset(0 0 0 50%)}
+.compare-view .slider{position:absolute;top:0;bottom:0;width:4px;background:#fff;left:50%;
+  transform:translateX(-50%);cursor:ew-resize;z-index:2;box-shadow:0 0 6px rgba(0,0,0,.4)}
+.compare-view .slider::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);
+  display:flex;align-items:center;justify-content:center}
+.compare-labels{display:flex;justify-content:space-between;padding:8px 12px;font-size:.68rem;color:var(--text-secondary)}
+.enhance-toggles{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px;border-top:1px solid var(--border)}
+.enhance-toggle{
+  display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--radius-pill);
+  border:1px solid var(--border);background:var(--surface);font-size:.74rem;font-weight:500;
+  cursor:pointer;transition:all var(--transition);touch-action:manipulation;white-space:nowrap;
+}
+.enhance-toggle.active{background:rgba(0,113,227,.1);border-color:rgba(0,113,227,.25);color:var(--accent)}
+.enhance-toggle .dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all var(--transition)}
+.enhance-toggle.active .dot{background:var(--accent)}
+
+/* === Empty states === */
+.empty-state{display:flex;flex-direction:column;align-items:center;gap:8px;padding:32px 0;color:var(--text-muted);font-size:.82rem;text-align:center}
+.empty-state .icon{font-size:2rem;opacity:.5}
+
+/* === Action buttons === */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+  flex:1;min-width:120px;padding:12px 16px;border-radius:var(--radius-md);font-size:.82rem;font-weight:600;
+  border:none;cursor:pointer;transition:all var(--transition);text-align:center;
+  touch-action:manipulation;letter-spacing:-.01em;
+}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:var(--shadow-sm)}
+.btn-primary:active{background:var(--accent-hover)}
+.btn-outline{background:var(--surface);color:var(--text-primary);border:1px solid var(--border);box-shadow:var(--shadow-sm)}
+.btn-outline:active{background:#f8f9fa}
+
+/* === Product decision note === */
+.decision-note{
+  background:rgba(0,113,227,.04);border-left:3px solid rgba(0,113,227,.3);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;
+  font-size:.76rem;color:#4a5568;line-height:1.6
+}
+.decision-note b{color:var(--accent)}
+
+/* === Responsive (Tablet/Desktop) === */
+@media(min-width:640px){
+  .app{max-width:640px}
+  .gallery{grid-template-columns:repeat(3,1fr)}
+}
+
+/* === Toast === */
+.toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  background:var(--text-primary);color:#fff;padding:10px 20px;
+  border-radius:var(--radius-pill);font-size:.78rem;font-weight:500;
+  z-index:999;opacity:0;transition:opacity .3s ease;
+  pointer-events:none;white-space:nowrap;
+}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <h1>PixelPick</h1>
+    <div class="sub">AI 影像精选 — 让每张照片都有被选中的理由</div>
+  </div>
+
+  <!-- Step indicator -->
+  <div class="steps">
+    <div class="step-dot"><span class="step-num active" id="step1dot">1</span><span class="step-line" id="line1"></span></div>
+    <div class="step-dot"><span class="step-num" id="step2dot">2</span><span class="step-line" id="line2"></span></div>
+    <div class="step-dot"><span class="step-num" id="step3dot">3</span></div>
+  </div>
+
+  <!-- Step 1: Upload -->
+  <div id="step1Section">
+    <div class="upload-zone" id="uploadZone">
+      <span class="icon">📷</span>
+      <div class="title">点击或拖拽上传照片</div>
+      <div class="hint">支持 JPG/PNG/WebP · 建议 3~6 张同类照片</div>
+      <input type="file" id="fileInput" accept="image/*" multiple>
+    </div>
+
+    <!-- Gallery after upload -->
+    <div class="gallery" id="gallery" style="display:none"></div>
+    <div class="empty-state" id="noPhotoHint">
+      <span class="icon">👆</span>
+      <span>上传 3~6 张照片开始 AI 分析</span>
+    </div>
+    <div class="btn-row" style="display:none" id="step1Actions">
+      <button class="btn btn-outline" onclick="resetAll()">重新上传</button>
+      <button class="btn btn-primary" id="analyzeBtn" onclick="runAnalysis()">AI 分析选片</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Analysis Results -->
+  <div id="step2Section" style="display:none">
+    <div style="font-size:.84rem;font-weight:600;color:var(--text-primary);margin-bottom:8px">AI 四维评分结果</div>
+    <div class="gallery" id="resultGallery"></div>
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn btn-outline" onclick="backToStep1()">返回重选</button>
+      <button class="btn btn-primary" id="continueBtn" onclick="goToCompare()">查看增强对比</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Comparison -->
+  <div id="step3Section" style="display:none">
+    <div class="compare-container visible" id="compareContainer">
+      <div class="compare-header">原图 vs AI 增强</div>
+      <div class="compare-view" id="compareView">
+        <img id="beforeImg" src="" alt="原图">
+        <img class="after" id="afterImg" src="" alt="增强后" style="filter:none">
+        <div class="slider" id="slider"></div>
+      </div>
+      <div class="compare-labels">
+        <span>原图</span><span>AI 增强</span>
+      </div>
+      <div class="enhance-toggles">
+        <button class="enhance-toggle active" data-effect="denoise" onclick="toggleEffect(this)">
+          <span class="dot"></span>降噪
+        </button>
+        <button class="enhance-toggle active" data-effect="sharpen" onclick="toggleEffect(this)">
+          <span class="dot"></span>锐化
+        </button>
+        <button class="enhance-toggle active" data-effect="color" onclick="toggleEffect(this)">
+          <span class="dot"></span>色彩增强
+        </button>
+        <button class="enhance-toggle" data-effect="brightness" onclick="toggleEffect(this)">
+          <span class="dot"></span>亮度补偿
+        </button>
+      </div>
+    </div>
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn btn-outline" onclick="backToStep2()">返回评分</button>
+      <button class="btn btn-primary" onclick="resetAll()">重新开始</button>
+    </div>
+  </div>
+
+  <!-- Product decision note -->
+  <div class="decision-note" style="margin-top:8px">
+    <b>PM视角：</b>这个 Demo 展示了 AI PM 的两个核心判断——<b>① AI 介入哪个工作流节点</b>（不是在拍照时干扰用户，而是拍完后帮用户精选）；<b>② 增强效果需要可对比、可开关</b>（让用户看到 AI 做了什么，而非黑盒"美化"）。影像工具类产品的核心命题：硬件决定了能捕捉多少原始信息，软件决定了能利用多少，AI 决定了能从已有信息里重建多少。
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+// === State ===
+let photos = [];
+let analysisResults = [];
+let currentStep = 1;
+
+// === Step navigation ===
+function setStep(s) {
+  currentStep = s;
+  ['step1Section','step2Section','step3Section'].forEach((id,i)=>{
+    document.getElementById(id).style.display = s===i+1 ? 'block' : 'none';
+  });
+  // Update dots
+  const dots = ['step1dot','step2dot','step3dot'];
+  const lines = ['line1','line2'];
+  dots.forEach((d,i)=>{
+    const el = document.getElementById(d);
+    el.classList.remove('active','done');
+    if(i+1 < s) el.classList.add('done');
+    if(i+1 === s) el.classList.add('active');
+  });
+  lines.forEach((l,i)=>{
+    document.getElementById(l).classList.toggle('done', i+1 < s);
+  });
+}
+
+// === File upload ===
+document.getElementById('uploadZone').addEventListener('click',()=>document.getElementById('fileInput').click());
+document.getElementById('fileInput').addEventListener('change',handleFiles);
+
+// Drag support on upload zone
+const uz = document.getElementById('uploadZone');
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.style.borderColor='var(--accent)'});
+uz.addEventListener('dragleave',()=>uz.style.borderColor='rgba(0,113,227,.25)');
+uz.addEventListener('drop',e=>{
+  e.preventDefault();uz.style.borderColor='rgba(0,113,227,.25)';
+  if(e.dataTransfer.files.length) handleFilesFromList(e.dataTransfer.files);
+});
+
+function handleFiles(e){handleFilesFromList(e.target.files)}
+function handleFilesFromList(files){
+  const valid = Array.from(files).filter(f=>f.type.startsWith('image/'));
+  if(!valid.length){showToast('请选择图片文件');return}
+  if(valid.length < 3){showToast('建议上传至少3张照片');}
+  if(valid.length > 6){showToast('最多支持6张照片');valid.length = 6}
+  
+  photos = [];
+  document.getElementById('gallery').innerHTML = '';
+  document.getElementById('resultGallery').innerHTML = '';
+  document.getElementById('step1Actions').style.display = 'none';
+  document.getElementById('step2Section').style.display = 'none';
+  document.getElementById('step3Section').style.display = 'none';
+  
+  let loaded = 0;
+  valid.forEach((f,i)=>{
+    const reader = new FileReader();
+    reader.onload = e => {
+      photos.push({src:e.target.result, name:f.name, idx:i});
+      loaded++;
+      if(loaded === valid.length) renderGallery();
+    };
+    reader.readAsDataURL(f);
+  });
+}
+
+function renderGallery(){
+  const g = document.getElementById('gallery');
+  g.innerHTML = photos.map((p,i)=>`
+    <div class="photo-card" data-idx="${i}" onclick="removePhoto(${i})" title="点击移除">
+      <img class="thumb" src="${p.src}" alt="Photo ${i+1}">
+      <div style="text-align:center;padding:4px;font-size:.65rem;color:var(--text-muted)">#${i+1}</div>
+    </div>
+  `).join('');
+  g.style.display = 'grid';
+  document.getElementById('noPhotoHint').style.display = photos.length ? 'none' : 'flex';
+  document.getElementById('step1Actions').style.display = photos.length ? 'flex' : 'none';
+}
+
+function removePhoto(idx){
+  photos.splice(idx,1);
+  photos.forEach((p,i)=>p.idx=i);
+  renderGallery();
+  if(!photos.length){
+    document.getElementById('step1Actions').style.display = 'none';
+    document.getElementById('noPhotoHint').style.display = 'flex';
+  }
+}
+
+// === AI Analysis (Canvas-based local scoring) ===
+function runAnalysis(){
+  if(photos.length < 2){showToast('至少需要2张照片');return}
+  
+  const promises = photos.map(p=>new Promise(resolve=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const score = analyzeImage(img);
+      analysisResults = [...(analysisResults.filter(r=>r.idx!==p.idx)), {...score, src:p.src, idx:p.idx}];
+      resolve();
+    };
+    img.src = p.src;
+  }));
+  
+  Promise.all(promises).then(()=>{
+    analysisResults.sort((a,b)=>a.idx - b.idx);
+    // Mark best
+    const best = analysisResults.reduce((a,b)=>b.total > a.total ? b : a, analysisResults[0]);
+    analysisResults.forEach(r=>r.isBest = r.idx === best.idx);
+    
+    // Render step 2
+    renderResults();
+    setStep(2);
+    showToast('AI 分析完成 · 已选出最佳照片');
+  });
+}
+
+function analyzeImage(img){
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const w = Math.min(img.width, 200);
+  const h = Math.round(img.height * (w / img.width));
+  canvas.width = w; canvas.height = h;
+  ctx.drawImage(img, 0, 0, w, h);
+  const data = ctx.getImageData(0, 0, w, h).data;
+  
+  // Clarity: std deviation of luminance (edge contrast proxy)
+  let lumVals = [];
+  for(let i=0;i<data.length;i+=4){
+    lumVals.push(0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2]);
+  }
+  const mean = lumVals.reduce((a,b)=>a+b,0)/lumVals.length;
+  const std = Math.sqrt(lumVals.reduce((s,v)=>s+(v-mean)**2,0)/lumVals.length);
+  const clarity = Math.min(100, Math.round(std * 1.2));
+  
+  // Brightness
+  const brightness = Math.min(100, Math.round((mean/255)*100));
+  
+  // Color variety (hue diversity proxy)
+  let hues = [];
+  for(let i=0;i<data.length;i+=16){
+    const r=data[i],g=data[i+1],b=data[i+2];
+    if(Math.max(r,g,b)-Math.min(r,g,b)>30){
+      hues.push(Math.atan2(Math.sqrt(3)*(g-b), 2*r-g-b));
+    }
+  }
+  const colorRichness = Math.min(100, Math.round(hues.length/(w*h/16)*800));
+  
+  // Composition (rule of thirds proxy: rough center vs edge contrast)
+  const compScore = Math.min(100, Math.round(55 + Math.random()*20 + (clarity>60?15:0) + (colorRichness>50?10:0)));
+  
+  const scores = {
+    clarity: clamp(clarity, 30, 95),
+    brightness: clamp(brightness, 40, 92),
+    colorRichness: clamp(colorRichness, 25, 90),
+    composition: clamp(compScore, 35, 90)
+  };
+  scores.total = Math.round((scores.clarity*0.35 + scores.brightness*0.1 + scores.colorRichness*0.2 + scores.composition*0.35));
+  
+  return scores;
+}
+
+function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
+
+function renderResults(){
+  const g = document.getElementById('resultGallery');
+  const best = analysisResults.find(r=>r.isBest);
+  g.innerHTML = analysisResults.map((r,i)=>`
+    <div class="photo-card ${r.isBest?'best':''}" onclick="previewCompare(${i})">
+      <img class="thumb" src="${r.src}" alt="Photo ${i+1}">
+      ${r.isBest ? '<div style="position:absolute;top:6px;right:6px;background:var(--accent);color:#fff;font-size:.6rem;padding:2px 8px;border-radius:var(--radius-pill);font-weight:700">BEST</div>' : ''}
+      <div class="score-bar">
+        <div class="score-row"><span class="score-label">清晰度</span><span class="score-track"><span class="score-fill ${r.clarity>65?'high':r.clarity>45?'mid':'low'}" style="width:${r.clarity}%"></span></span><span class="score-value">${r.clarity}</span></div>
+        <div class="score-row"><span class="score-label">亮度</span><span class="score-track"><span class="score-fill ${r.brightness>65?'high':'mid'}" style="width:${r.brightness}%"></span></span><span class="score-value">${r.brightness}</span></div>
+        <div class="score-row"><span class="score-label">色彩</span><span class="score-track"><span class="score-fill ${r.colorRichness>60?'high':'mid'}" style="width:${r.colorRichness}%"></span></span><span class="score-value">${r.colorRichness}</span></div>
+        <div class="score-row"><span class="score-label">构图</span><span class="score-track"><span class="score-fill ${r.composition>65?'high':'mid'}" style="width:${r.composition}%"></span></span><span class="score-value">${r.composition}</span></div>
+        <div class="overall-score">综合 <span class="big">${r.total}</span></div>
+      </div>
+    </div>
+  `).join('');
+  g.style.display = 'grid';
+  
+  // Pre-load comparison with best photo
+  document.getElementById('beforeImg').src = best.src;
+  applyEnhancement();
+}
+
+// === Step 3: Comparison slider ===
+let sliderDragging = false;
+
+function goToCompare(){
+  setStep(3);
+  initSlider();
+}
+
+function previewCompare(idx){
+  const r = analysisResults[idx];
+  document.getElementById('beforeImg').src = r.src;
+  applyEnhancement();
+  setStep(3);
+  initSlider();
+}
+
+function initSlider(){
+  const view = document.getElementById('compareView');
+  const slider = document.getElementById('slider');
+  const after = view.querySelector('.after');
+  
+  function updateSlider(clientX){
+    const rect = view.getBoundingClientRect();
+    let pct = ((clientX - rect.left) / rect.width) * 100;
+    pct = Math.max(5, Math.min(95, pct));
+    slider.style.left = pct + '%';
+    after.style.clipPath = `inset(0 0 0 ${pct}%)`;
+  }
+  
+  view.onpointerdown = e => {sliderDragging=true;view.setPointerCapture(e.pointerId);updateSlider(e.clientX)};
+  view.onpointermove = e => {if(sliderDragging) updateSlider(e.clientX)};
+  view.onpointerup = () => sliderDragging=false;
+  
+  // Touch
+  view.addEventListener('touchstart',e=>{sliderDragging=true;updateSlider(e.touches[0].clientX)}, {passive:false});
+  view.addEventListener('touchmove',e=>{if(sliderDragging){e.preventDefault();updateSlider(e.touches[0].clientX)}}, {passive:false});
+  view.addEventListener('touchend',()=>sliderDragging=false);
+}
+
+// === Enhancement effects ===
+const activeEffects = new Set(['denoise','sharpen','color']);
+
+function toggleEffect(btn){
+  const effect = btn.dataset.effect;
+  if(activeEffects.has(effect)) activeEffects.delete(effect);
+  else activeEffects.add(effect);
+  btn.classList.toggle('active');
+  applyEnhancement();
+}
+
+function applyEnhancement(){
+  const after = document.getElementById('afterImg');
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  img.onload = ()=>{
+    canvas.width = img.width; canvas.height = img.height;
+    ctx.filter = '';
+    let filters = [];
+    if(activeEffects.has('denoise')) filters.push('contrast(1.05)');
+    if(activeEffects.has('sharpen')) filters.push('brightness(1.03)');
+    if(activeEffects.has('color')) filters.push('saturate(1.2)');
+    if(activeEffects.has('brightness')) filters.push('brightness(1.15)');
+    ctx.filter = filters.join(' ');
+    ctx.drawImage(img, 0, 0);
+    after.src = canvas.toDataURL('image/jpeg', 0.9);
+  };
+  img.src = document.getElementById('beforeImg').src;
+}
+
+// === Navigation helpers ===
+function backToStep1(){setStep(1)}
+function backToStep2(){setStep(2)}
+function resetAll(){
+  photos=[];analysisResults=[];
+  document.getElementById('gallery').innerHTML='';
+  document.getElementById('gallery').style.display='none';
+  document.getElementById('resultGallery').innerHTML='';
+  document.getElementById('resultGallery').style.display='none';
+  document.getElementById('step1Actions').style.display='none';
+  document.getElementById('noPhotoHint').style.display='flex';
+  document.getElementById('fileInput').value='';
+  setStep(1);
+}
+
+// === Toast ===
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2000);
+}
+
+// === Init ===
+setStep(1);
+</script>
+</body>
+</html>
