@@ -2,336 +2,501 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PixelPick · AI 影像精选</title>
 <style>
-/* === Design Tokens (awesome-design-md) === */
+/* ================================================================
+   DESIGN SYSTEM: Darkroom Pixelsmith
+   设计理念: 暗房接触印相 (Contact Sheet) × 精密测量工具
+   目标用户: 专业设计师 / 内容创作者 / 摄影师 — 有选图决策需求
+   色彩: 暗室炭黑底 + 琥珀色暗房安全灯光 (Darkroom Safelight)
+   字体: 系统等宽字体用于数据标注, sans-serif 用于正文
+   特效: 放大镜波纹 / 琥珀色脉冲 / 胶片滑条 / 锯齿切角标记
+   ================================================================ */
 :root {
-  --canvas: #f5f5f7;
-  --surface: #ffffff;
-  --border: rgba(0,0,0,.08);
-  --text-primary: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --text-muted: #9ca3af;
-  --accent: #0071e3;
-  --accent-hover: #0060c0;
-  --success: #059669;
-  --warn: #d97706;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
-  --shadow-md: 0 4px 12px rgba(0,0,0,.08);
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
-  --radius-pill: 999px;
-  --spacing-unit: 8px;
-  --transition: .2s cubic-bezier(.4,0,.2,1);
+  --bg-deep:    #141416;   /* 暗室墙壁 */
+  --bg-surface: #1e1e22;   /* 工作台面 */
+  --bg-card:    #25252b;   /* 相纸基底 */
+  --border:     rgba(255,255,255,.06);
+  --border-glow:rgba(232,168,32,.25);
+
+  --text-primary:   #ececee;
+  --text-secondary: #8e8e96;
+  --text-muted:     #5a5a64;
+  --text-inverse:   #141416;
+
+  --amber:       #e8a820;   /* 暗房安全灯光 */
+  --amber-glow:  #f5c842;
+  --amber-dim:   #a07818;
+  --success:     #2ea86c;
+  --warn:        #d98b28;
+  --danger:      #c05050;
+  --chrome:      #3a3a42;   /* 金属导轨 */
+  --chrome-lt:   #555560;
+
+  --radius-print: 6px;     /* 相纸圆角 — 锐利如切纸 */
+  --radius-btn:   8px;
+  --radius-input: 12px;
+  --radius-pill:  999px;
+  --gap-unit: 12px;
+  --gap-lg:   20px;
+
+  --shadow-print: 0 2px 0 rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
+  --shadow-card:  0 1px 0 rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.03);
+  --shadow-loupe: 0 0 0 3px var(--amber-glow), 0 8px 24px rgba(0,0,0,.6);
+
+  --font-mono: "SF Mono","Cascadia Code","Fira Code","JetBrains Mono",Consolas,monospace;
+  --font-sans: -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+
+  --ease-out: cubic-bezier(.2,0,0,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
 }
-*{margin:0;padding:0;box-sizing:border-box}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--bg-deep)}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--canvas);color:var(--text-primary);line-height:1.47;
+  font-family:var(--font-sans);
+  background:
+    /* 暗室墙面纹理 — 细微 film grain */
+    repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.002) 2px,rgba(255,255,255,.002) 3px),
+    var(--bg-deep);
+  color:var(--text-primary);line-height:1.5;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
   -webkit-tap-highlight-color:transparent;
   padding-bottom:env(safe-area-inset-bottom,0);
 }
+
+/* === App Container — 工作台 === */
 .app{
-  max-width:480px;margin:0 auto;padding:clamp(12px,3vw,20px) clamp(14px,3.5vw,24px);
-  display:flex;flex-direction:column;gap:clamp(14px,3vw,20px);
+  max-width:960px;width:100%;margin:0 auto;
+  padding:clamp(16px,3vw,28px) clamp(14px,4vw,32px);
+}
+/* 桌面端: 中央留白 + 栅格背景 */
+@media(min-width:768px){
+  .app{background:
+    linear-gradient(90deg,rgba(255,255,255,.008) 0%,transparent 1%,transparent 99%,rgba(255,255,255,.008) 100%),
+    linear-gradient(0deg,transparent 0%,rgba(255,255,255,.003) 50%,transparent 100%);
+  }
 }
 
-/* === Header === */
-.header{text-align:center;padding:8px 0 4px}
-.header h1{font-size:clamp(1.4rem,4vw,1.8rem);font-weight:600;letter-spacing:-.02em}
-.header .sub{font-size:clamp(.78rem,2vw,.85rem);color:var(--text-secondary);margin-top:4px}
+/* === Header — 暗房门牌 === */
+.header{display:flex;align-items:baseline;gap:12px;margin-bottom:clamp(20px,4vw,32px);padding-bottom:14px;border-bottom:1px solid var(--border)}
+.header h1{font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-.01em;color:var(--amber-glow)}
+.header h1 span{font-weight:400;font-size:.7em;color:var(--text-muted);margin-left:6px;font-family:var(--font-mono);letter-spacing:.04em}
+.header .sub{font-size:clamp(.68rem,1.2vw,.78rem);color:var(--text-muted);font-family:var(--font-mono);letter-spacing:.02em}
+@media(max-width:480px){.header{flex-direction:column;align-items:flex-start;gap:4px}}
 
-/* === Steps indicator === */
-.steps{display:flex;justify-content:center;gap:0;align-items:center}
-.step-dot{display:flex;align-items:center;gap:6px}
-.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;
-  background:var(--border);color:var(--text-secondary);transition:all var(--transition)}
-.step-num.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(0,113,227,.3)}
-.step-num.done{background:var(--success);color:#fff}
-.step-num.secondary{background:rgba(148,163,184,.2);color:var(--text-muted);font-size:.62rem;width:24px;height:24px}
-.step-line{width:clamp(24px,6vw,40px);height:2px;background:var(--border);border-radius:1px;transition:all var(--transition)}
-.step-line.done{background:var(--success)}
+/* === Step Navigator — 胶片齿孔进度条 === */
+.film-strip{display:flex;align-items:center;gap:0;margin-bottom:clamp(16px,3vw,24px)}
+.film-frame{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+.film-notch{width:14px;height:14px;border-radius:3px;background:var(--bg-card);border:1.5px solid var(--border);transition:all .35s var(--ease-out);position:relative}
+.film-notch::after{content:'';position:absolute;inset:-3px;border-radius:5px;opacity:0;transform:scale(.8);transition:all .35s var(--ease-spring)}
+.film-notch.active{background:var(--amber);border-color:var(--amber-glow);box-shadow:0 0 12px rgba(232,168,32,.35)}
+.film-notch.active::after{border:1px solid rgba(232,168,32,.4);opacity:1;transform:scale(1)}
+.film-notch.done{background:var(--success);border-color:var(--success);box-shadow:0 0 6px rgba(46,168,108,.25)}
+.film-notch.secondary{background:var(--chrome-lt);border-color:var(--chrome-lt)}
+.film-label{font-size:.58rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-mono);transition:color .3s}
+.film-notch.active ~ .film-label,.film-notch.done ~ .film-label{color:var(--text-secondary)}
+.film-rail{flex:0 0 clamp(32px,8vw,60px);height:1px;background:var(--border);margin-bottom:20px;position:relative}
+.film-rail.done{background:var(--amber-dim)}
 
-/* === Upload zone === */
+/* === Upload Zone — 放大机投光台 === */
 .upload-zone{
-  border:2px dashed rgba(0,113,227,.25);border-radius:var(--radius-lg);
-  padding:clamp(24px,5vw,36px) 16px;text-align:center;cursor:pointer;
-  transition:all var(--transition);background:var(--surface);
+  background:var(--bg-surface);
+  border:2px dashed rgba(232,168,32,.18);
+  border-radius:var(--radius-input);
+  padding:clamp(28px,6vw,44px) 24px;text-align:center;cursor:pointer;
+  transition:all .3s var(--ease-out);
   touch-action:manipulation;user-select:none;-webkit-user-select:none;
+  position:relative;overflow:hidden;
 }
-.upload-zone:hover,.upload-zone:active{border-color:var(--accent);background:rgba(0,113,227,.03)}
-.upload-zone .icon{font-size:2.2rem;margin-bottom:8px;display:block}
-.upload-zone .title{font-size:.9rem;font-weight:600;color:var(--text-primary);margin-bottom:4px}
-.upload-zone .hint{font-size:.74rem;color:var(--text-secondary)}
+.upload-zone::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(232,168,32,.04) 0%,transparent 70%);
+  opacity:.5;transition:opacity .3s;
+}
+.upload-zone:hover,.upload-zone.drag-over{border-color:rgba(232,168,32,.4)}
+.upload-zone:hover::before,.upload-zone.drag-over::before{opacity:1}
+.upload-zone .zone-icon{
+  width:48px;height:48px;margin:0 auto 12px;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.upload-zone .zone-icon svg{width:40px;height:40px;fill:none;stroke:var(--amber-dim);stroke-width:1.2;transition:all .3s}
+.upload-zone:hover .zone-icon svg{stroke:var(--amber);stroke-width:1.6}
+.upload-zone .zone-icon::after{
+  content:'';position:absolute;width:60px;height:60px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,168,32,.1),transparent);
+  opacity:0;transform:scale(.5);transition:all .4s var(--ease-spring);
+}
+.upload-zone:hover .zone-icon::after{opacity:1;transform:scale(1)}
+.upload-zone .title{font-size:.9rem;font-weight:600;color:var(--text-primary);margin-bottom:6px}
+.upload-zone .hint{font-size:.68rem;color:var(--text-muted);font-family:var(--font-mono)}
 .upload-zone input{display:none}
 
-/* === Gallery grid === */
-.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(8px,2vw,12px)}
-.photo-card{
-  background:var(--surface);border-radius:var(--radius-md);overflow:hidden;
-  box-shadow:var(--shadow-sm);transition:all var(--transition);position:relative;
-  cursor:pointer;touch-action:manipulation;
-}
-.photo-card:active{transform:scale(.97)}
-.photo-card.best{border:2px solid var(--accent);box-shadow:0 0 0 3px rgba(0,113,227,.15)}
-.photo-card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#e5e7eb}
-.photo-card .score-bar{display:flex;flex-direction:column;gap:3px;padding:clamp(6px,1.5vw,10px)}
-.score-row{display:flex;align-items:center;gap:6px;font-size:.66rem}
-.score-label{width:clamp(32px,8vw,42px);color:var(--text-secondary);flex-shrink:0;text-align:right;white-space:nowrap}
-.score-track{flex:1;height:4px;background:#f1f5f9;border-radius:2px;overflow:hidden}
-.score-fill{height:100%;border-radius:2px;transition:width .6s var(--transition)}
-.score-fill.high{background:var(--success)}.score-fill.mid{background:var(--warn)}.score-fill.low{background:#ef4444}
-.score-value{width:28px;font-weight:600;color:var(--text-primary);flex-shrink:0;text-align:right}
-.overall-score{text-align:center;padding:4px 0 2px;font-weight:700;font-size:.82rem}
-.overall-score .big{font-size:1.4rem;color:var(--accent)}
+.upload-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 
-/* === Comparison slider === */
-.compare-container{
-  display:none;background:var(--surface);border-radius:var(--radius-lg);
-  overflow:hidden;box-shadow:var(--shadow-md);
-}
-.compare-container.visible{display:block}
-.compare-header{padding:12px 14px;font-weight:600;font-size:.88rem;border-bottom:1px solid var(--border)}
-.compare-view{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:#000;user-select:none;-webkit-user-select:none}
-.compare-view img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
-.compare-view .after{clip-path:inset(0 0 0 50%)}
-.compare-view .slider{position:absolute;top:0;bottom:0;width:4px;background:#fff;left:50%;
-  transform:translateX(-50%);cursor:ew-resize;z-index:2;box-shadow:0 0 6px rgba(0,0,0,.4)}
-.compare-view .slider::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);
-  display:flex;align-items:center;justify-content:center}
-.compare-labels{display:flex;justify-content:space-between;padding:8px 12px;font-size:.68rem;color:var(--text-secondary)}
-.enhance-toggles{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px;border-top:1px solid var(--border)}
-.enhance-toggle{
-  display:flex;align-items:center;gap:6px;padding:10px 14px;border-radius:var(--radius-pill);
-  border:1px solid var(--border);background:var(--surface);font-size:.74rem;font-weight:500;
-  cursor:pointer;transition:all var(--transition);touch-action:manipulation;white-space:nowrap;min-height:40px;
-}
-.enhance-toggle.active{background:rgba(0,113,227,.1);border-color:rgba(0,113,227,.25);color:var(--accent)}
-.enhance-toggle .dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all var(--transition)}
-.enhance-toggle.active .dot{background:var(--accent)}
+/* === Contact Sheet Grid — 接触印相 === */
+.contact-sheet{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(140px,30vw,200px),1fr));gap:var(--gap-unit)}
+@media(min-width:768px){.contact-sheet{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}}
 
-/* === Empty states & Loading === */
-.empty-state{display:flex;flex-direction:column;align-items:center;gap:8px;padding:32px 0;color:var(--text-muted);font-size:.82rem;text-align:center}
-.empty-state .icon{font-size:2rem;opacity:.5}
-.loading-overlay{
-  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
-  background:rgba(255,255,255,.85);z-index:100;flex-direction:column;
-  align-items:center;justify-content:center;gap:12px;
-}
-.loading-overlay.visible{display:flex}
-.loading-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:.8rem;font-weight:500;color:var(--text-secondary)}
+.print{background:var(--bg-card);border-radius:var(--radius-print);overflow:hidden;box-shadow:var(--shadow-print);transition:all .3s var(--ease-out);cursor:pointer;position:relative}
+.print:hover{transform:translateY(-2px);box-shadow:var(--shadow-loupe)}
+.print .thumb-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--bg-surface)}
+.print .print-meta{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;font-size:.6rem;font-family:var(--font-mono);color:var(--text-muted)}
 
-/* === Action buttons === */
-.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+/* BEST 选中 — 锯齿切角 + 琥珀标记 */
+.print.best{border:2px solid var(--amber);box-shadow:0 0 0 4px rgba(232,168,32,.15),var(--shadow-print)}
+.print.best::before{
+  content:'★';position:absolute;top:6px;right:6px;z-index:2;
+  font-size:1rem;color:var(--amber-glow);
+  filter:drop-shadow(0 0 4px rgba(232,168,32,.6));
+  animation:bestPulse 2s var(--ease-spring) infinite;
+}
+.print.best::after{
+  content:'';position:absolute;top:0;right:0;
+  width:0;height:0;
+  border-style:solid;
+  border-width:0 22px 22px 0;
+  border-color:transparent var(--amber) transparent transparent;
+  z-index:1;opacity:.7;
+}
+@keyframes bestPulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.2);opacity:.8}
+}
+
+/* 悬停放大镜波纹 */
+.print .loupe-ripple{
+  position:absolute;inset:0;pointer-events:none;z-index:3;
+  background:radial-gradient(circle at center,transparent 40%,rgba(232,168,32,.08) 100%);
+  opacity:0;transition:opacity .2s;
+}
+.print:hover .loupe-ripple{opacity:1}
+
+/* === BEST 精选横幅 — 暗房重点照明 === */
+.best-banner{
+  background:linear-gradient(135deg,rgba(232,168,32,.12),rgba(232,168,32,.04));
+  border:1px solid rgba(232,168,32,.2);
+  border-radius:var(--radius-input);padding:clamp(14px,2.5vw,20px);
+  margin-bottom:var(--gap-lg);position:relative;overflow:hidden;
+}
+.best-banner::before{
+  content:'';position:absolute;top:-50%;right:-20%;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(232,168,32,.06),transparent);
+  pointer-events:none;
+}
+.best-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.best-badge{
+  font-family:var(--font-mono);font-size:.58rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;background:var(--amber);color:var(--text-inverse);
+  padding:3px 10px;border-radius:var(--radius-print);
+}
+.best-body{display:flex;gap:clamp(10px,2vw,16px);align-items:center}
+.best-thumb{
+  width:clamp(100px,30vw,160px);aspect-ratio:4/3;object-fit:cover;
+  border-radius:var(--radius-print);border:1.5px solid rgba(255,255,255,.1);flex-shrink:0;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+}
+.best-info{flex:1;min-width:0}
+.best-score{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}
+.best-score .num{font-size:2.2rem;font-weight:700;line-height:1;color:var(--amber-glow);font-family:var(--font-mono)}
+.best-score .unit{font-size:.72rem;color:var(--text-muted);font-family:var(--font-mono)}
+.best-why{font-size:.68rem;color:var(--text-secondary);line-height:1.6;margin-bottom:8px}
+.best-dims{display:flex;flex-wrap:wrap;gap:5px}
+.best-dim{
+  font-size:.6rem;font-family:var(--font-mono);padding:3px 8px;border-radius:var(--radius-pill);
+  background:rgba(232,168,32,.1);color:var(--amber-dim);white-space:nowrap;
+  border:1px solid rgba(232,168,32,.12);
+}
+.best-dim.lead{background:rgba(232,168,32,.2);color:var(--amber);border-color:rgba(232,168,32,.25)}
+
+/* === Secondary prints label === */
+.others-label{
+  font-size:.64rem;font-family:var(--font-mono);color:var(--text-muted);
+  margin-bottom:8px;display:flex;align-items:center;gap:6px
+}
+.others-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* === Compare view — 精密测量台 === */
+.compare-panel{
+  background:var(--bg-surface);border-radius:var(--radius-input);
+  overflow:hidden;box-shadow:var(--shadow-card);
+}
+.compare-bar{
+  display:flex;align-items:center;gap:8px;padding:10px 14px;
+  border-bottom:1px solid var(--border);margin-bottom:0
+}
+.compare-bar .back-btn{
+  background:transparent;border:none;color:var(--text-muted);font-size:1.2rem;
+  cursor:pointer;padding:4px;line-height:1;transition:color .2s;touch-action:manipulation
+}
+.compare-bar .back-btn:hover{color:var(--amber)}
+.compare-bar .label{font-size:.72rem;font-family:var(--font-mono);color:var(--text-muted)}
+.compare-viewport{
+  position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;
+  background:#000;user-select:none;-webkit-user-select:none
+}
+.compare-viewport img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+.compare-viewport .after-img{clip-path:inset(0 0 0 50%)}
+
+/* 金属导轨滑块 */
+.rail-slider{
+  position:absolute;top:0;bottom:0;width:4px;left:50%;transform:translateX(-50%);
+  z-index:5;cursor:ew-resize;pointer-events:auto;
+}
+.rail-slider .rail-line{
+  position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:1.5px;
+  background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,.9),rgba(255,255,255,.5));
+  box-shadow:0 0 6px rgba(0,0,0,.5);
+}
+.rail-slider .knurl{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,#555,#3a3a42);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),inset 0 -1px 0 rgba(0,0,0,.4),0 2px 8px rgba(0,0,0,.5);
+  border:1.5px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center
+}
+.rail-slider .knurl::after{
+  content:'↔';font-size:.65rem;color:rgba(255,255,255,.5);font-family:var(--font-sans)
+}
+.rail-slider .knurl::before{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  background:rgba(232,168,32,.15);opacity:0;transition:opacity .2s
+}
+.rail-slider:active .knurl::before{opacity:1}
+.compare-labels{display:flex;justify-content:space-between;padding:6px 12px;font-size:.58rem;font-family:var(--font-mono);color:var(--text-muted)}
+
+/* === Enhancement toggles — 金属拨杆 === */
+.toggle-row{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px;border-top:1px solid var(--border)}
+.toggle-chip{
+  display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-pill);
+  border:1px solid var(--border);background:var(--bg-card);font-size:.66rem;font-family:var(--font-mono);
+  color:var(--text-muted);cursor:pointer;transition:all .2s;touch-action:manipulation;min-height:36px;
+  letter-spacing:.02em
+}
+.toggle-chip:hover{border-color:var(--amber-dim);color:var(--text-secondary)}
+.toggle-chip.active{background:rgba(232,168,32,.12);border-color:rgba(232,168,32,.3);color:var(--amber)}
+.toggle-chip .chip-dot{width:7px;height:7px;border-radius:2px;background:var(--chrome-lt);transition:all .2s}
+.toggle-chip.active .chip-dot{background:var(--amber);box-shadow:0 0 6px rgba(232,168,32,.4)}
+
+/* === Buttons === */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
 .btn{
-  flex:1;min-width:120px;padding:12px 16px;border-radius:var(--radius-md);font-size:.82rem;font-weight:600;
-  border:none;cursor:pointer;transition:all var(--transition);text-align:center;
-  touch-action:manipulation;letter-spacing:-.01em;
+  flex:1;min-width:100px;padding:10px 16px;border-radius:var(--radius-btn);font-size:.76rem;font-weight:600;
+  border:none;cursor:pointer;transition:all .2s;text-align:center;
+  touch-action:manipulation;letter-spacing:-.01em;font-family:var(--font-sans)
 }
 .btn:active{transform:scale(.96)}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:var(--shadow-sm)}
-.btn-primary:active{background:var(--accent-hover)}
-.btn-outline{background:var(--surface);color:var(--text-primary);border:1px solid var(--border);box-shadow:var(--shadow-sm)}
-.btn-outline:active{background:#f8f9fa}
+.btn-primary{background:var(--amber);color:var(--text-inverse)}
+.btn-primary:active{background:var(--amber-dim)}
+.btn-outline{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}
+.btn-outline:hover{border-color:var(--amber-dim);color:var(--amber)}
+.btn-ghost{flex:0;min-width:auto;background:transparent;border:1px solid var(--border);color:var(--text-muted);font-size:.66rem;padding:6px 12px;font-family:var(--font-mono)}
 
-/* === Product decision note === */
-.decision-note{
-  background:rgba(0,113,227,.04);border-left:3px solid rgba(0,113,227,.3);
-  border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;
-  font-size:.76rem;color:#4a5568;line-height:1.6
+/* === Loading overlay — 暗房红灯闪烁 === */
+.loading-overlay{
+  display:none;position:fixed;inset:0;background:rgba(20,20,22,.92);
+  z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:14px
 }
-.decision-note b{color:var(--accent)}
-
-/* === Responsive (Tablet/Desktop) === */
-@media(min-width:640px){
-  .app{max-width:640px}
-  .gallery{grid-template-columns:repeat(3,1fr)}
+.loading-overlay.visible{display:flex}
+.loading-lamp{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,rgba(232,168,32,.8),rgba(232,168,32,.2));
+  animation:safelight 1s ease-in-out infinite;box-shadow:0 0 28px rgba(232,168,32,.3)
 }
+@keyframes safelight{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+.loading-text{font-size:.72rem;color:var(--text-secondary);font-family:var(--font-mono);letter-spacing:.04em}
 
-/* === Toast === */
+/* === Toast — 胶片底边提示条 === */
 .toast{
-  position:fixed;top:20px;left:50%;transform:translateX(-50%);
-  background:var(--text-primary);color:#fff;padding:10px 20px;
-  border-radius:var(--radius-pill);font-size:.78rem;font-weight:500;
-  z-index:999;opacity:0;transition:opacity .3s ease;
-  pointer-events:none;white-space:nowrap;
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);
+  padding:10px 20px;border-radius:var(--radius-pill);
+  font-size:.68rem;font-family:var(--font-mono);z-index:999;
+  opacity:0;transition:all .3s var(--ease-out);
+  pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.5)
 }
-.toast.show{opacity:1}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-8px)}
+
+/* === Footer note — 折叠 === */
+.footnote-summary{
+  list-style:none;font-size:.62rem;font-family:var(--font-mono);color:var(--text-muted);
+  padding:6px 0;cursor:pointer;letter-spacing:.03em;
+  display:flex;align-items:center;gap:4px;transition:color .2s
+}
+.footnote-summary:hover{color:var(--text-secondary)}
+.note-block{
+  background:var(--bg-surface);border-left:2px solid var(--amber-dim);border-radius:0 var(--radius-print) var(--radius-print) 0;
+  padding:12px 14px;font-size:.68rem;color:var(--text-muted);line-height:1.6
+}
+.note-block b{color:var(--amber-dim);font-weight:600}
+
+/* === Empty state === */
+.empty-state{display:flex;flex-direction:column;align-items:center;gap:8px;padding:36px 0;color:var(--text-muted);font-size:.72rem;text-align:center;font-family:var(--font-mono)}
+
+/* === Responsive === */
+@media(min-width:768px){
+  .app{padding:32px 40px}
+}
+@media(max-width:480px){
+  .best-body{flex-direction:column;align-items:flex-start}
+  .best-thumb{width:100%;aspect-ratio:16/9}
+}
 </style>
 </head>
 <body>
 
-<!-- Loading overlay -->
+<!-- Loading -->
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-spinner"></div>
-  <div class="loading-text">AI 正在分析照片...</div>
+  <div class="loading-lamp"></div>
+  <div class="loading-text">AI ANALYZING PHOTOS</div>
 </div>
 
 <div class="app">
+
   <!-- Header -->
   <div class="header">
-    <h1>PixelPick</h1>
-    <div class="sub">AI 影像精选 — 让每张照片都有被选中的理由</div>
+    <h1>PixelPick <span>v1</span></h1>
+    <div class="sub">PRECISION PHOTO SELECTOR</div>
   </div>
 
-  <!-- Step indicator -->
-  <div class="steps">
-    <div class="step-dot"><span class="step-num active" id="step1dot">1</span><span class="step-line" id="line1"></span></div>
-    <div class="step-dot"><span class="step-num" id="step2dot">2</span><span class="step-line" id="line2"></span></div>
-    <div class="step-dot"><span class="step-num" id="step3dot">3</span></div>
+  <!-- Film strip navigator -->
+  <div class="film-strip">
+    <div class="film-frame"><span class="film-notch active" id="s1"></span><span class="film-label">LOAD</span></div>
+    <div class="film-rail" id="r1"></div>
+    <div class="film-frame"><span class="film-notch" id="s2"></span><span class="film-label">REVIEW</span></div>
+    <div class="film-rail" id="r2"></div>
+    <div class="film-frame"><span class="film-notch" id="s3"></span><span class="film-label">COMPARE</span></div>
   </div>
 
-  <!-- Step 1: Upload -->
+  <!-- STEP 1: Upload -->
   <div id="step1Section">
     <div class="upload-zone" id="uploadZone">
-      <span class="icon">📷</span>
-      <div class="title">点击 / 粘贴 / 拖拽 上传照片</div>
-      <div class="hint">支持 JPG/PNG/WebP · 3~10 张 · 也支持 Ctrl+V 粘贴</div>
-      <div style="margin-top:8px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-        <button class="btn btn-outline" style="flex:0;min-width:auto;font-size:.7rem;padding:6px 14px" onclick="pickFolder()">📁 批量选文件夹</button>
+      <div class="zone-icon">
+        <svg viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="28" rx="3"/><circle cx="14" cy="18" r="4"/><path d="M8 32l8-10 6 7 5-6 9 11"/></svg>
+      </div>
+      <div class="title">Drop photos here</div>
+      <div class="hint">JPG / PNG / WebP · 3-10 files · Ctrl+V paste</div>
+      <div class="upload-actions">
+        <button class="btn btn-ghost" onclick="pickFolder()">Select Folder</button>
       </div>
       <input type="file" id="fileInput" accept="image/*" multiple>
       <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
     </div>
 
-    <!-- Gallery after upload -->
-    <div class="gallery" id="gallery" style="display:none"></div>
+    <div class="contact-sheet" id="gallery" style="display:none"></div>
     <div class="empty-state" id="noPhotoHint">
-      <span class="icon">👆</span>
-      <span>上传 3~10 张照片 · 支持拖拽 / 粘贴 / 选文件夹</span>
+      <div style="font-size:2rem;opacity:.3">[  ]</div>
+      <span>Drop 3-10 photos to begin</span>
     </div>
     <div class="btn-row" style="display:none" id="step1Actions">
-      <button class="btn btn-outline" onclick="resetAll()">重新上传</button>
+      <button class="btn btn-outline" onclick="resetAll()">Reset</button>
     </div>
   </div>
 
-  <!-- Step 2: Analysis Results -->
+  <!-- STEP 2: Results -->
   <div id="step2Section" style="display:none">
-    <div style="font-size:.84rem;font-weight:600;color:var(--text-primary);margin-bottom:8px">AI 四维评分结果</div>
-    <div class="gallery" id="resultGallery"></div>
-    <div class="btn-row" style="margin-top:12px">
-      <button class="btn btn-outline" onclick="backToStep1()">返回重选</button>
-      <button class="btn btn-outline" onclick="runAnalysis()">重新分析</button>
+    <div class="best-banner" id="bestBanner"></div>
+    <div class="others-label" id="othersLabel"></div>
+    <div class="contact-sheet" id="othersGrid"></div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn btn-outline" onclick="backToStep1()">Back</button>
+      <button class="btn btn-outline" onclick="runAnalysis()">Re-analyze</button>
     </div>
   </div>
 
-  <!-- Step 3: Comparison (细节页 — 从 BEST 卡片进入) -->
+  <!-- STEP 3: Compare -->
   <div id="step3Section" style="display:none">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-      <button onclick="backToStep2()" style="background:transparent;border:none;font-size:1.2rem;cursor:pointer;padding:4px;color:var(--accent);line-height:1;touch-action:manipulation">←</button>
-      <span style="font-size:.82rem;font-weight:500;color:var(--text-secondary)">对比详情</span>
-    </div>
-    <div class="compare-container visible" id="compareContainer">
-      <div class="compare-header">原图 vs AI 增强</div>
-      <div class="compare-view" id="compareView">
-        <img id="beforeImg" src="" alt="原图">
-        <img class="after" id="afterImg" src="" alt="增强后" style="filter:none">
-        <div class="slider" id="slider"></div>
+    <div class="compare-panel" id="comparePanel">
+      <div class="compare-bar">
+        <button class="back-btn" onclick="backToStep2()">←</button>
+        <span class="label">COMPARE</span>
       </div>
-      <div class="compare-labels">
-        <span>原图</span><span>AI 增强</span>
+      <div class="compare-viewport" id="compareView">
+        <img id="beforeImg" src="" alt="Original">
+        <img class="after-img" id="afterImg" src="" alt="Enhanced">
+        <div class="rail-slider" id="slider">
+          <span class="rail-line"></span>
+          <span class="knurl"></span>
+        </div>
       </div>
-      <div class="enhance-toggles">
-        <button class="enhance-toggle active" data-effect="denoise" onclick="toggleEffect(this)">
-          <span class="dot"></span>降噪
-        </button>
-        <button class="enhance-toggle active" data-effect="sharpen" onclick="toggleEffect(this)">
-          <span class="dot"></span>锐化
-        </button>
-        <button class="enhance-toggle active" data-effect="color" onclick="toggleEffect(this)">
-          <span class="dot"></span>色彩增强
-        </button>
-        <button class="enhance-toggle" data-effect="brightness" onclick="toggleEffect(this)">
-          <span class="dot"></span>亮度补偿
-        </button>
+      <div class="compare-labels"><span>ORIGINAL</span><span>AI ENHANCED</span></div>
+      <div class="toggle-row">
+        <button class="toggle-chip active" data-effect="denoise" onclick="toggleEffect(this)"><span class="chip-dot"></span>DENOISE</button>
+        <button class="toggle-chip active" data-effect="sharpen" onclick="toggleEffect(this)"><span class="chip-dot"></span>SHARPEN</button>
+        <button class="toggle-chip active" data-effect="color" onclick="toggleEffect(this)"><span class="chip-dot"></span>COLOR+</button>
+        <button class="toggle-chip" data-effect="brightness" onclick="toggleEffect(this)"><span class="chip-dot"></span>EXP+</button>
       </div>
     </div>
     <div class="btn-row" style="margin-top:12px">
-      <button class="btn btn-outline" onclick="screenshotCompare()">📸 截图保存对比</button>
-      <button class="btn btn-primary" onclick="resetAll()">重新开始</button>
+      <button class="btn btn-outline" onclick="screenshotCompare()">Export Screenshot</button>
+      <button class="btn btn-primary" onclick="resetAll()">New Selection</button>
     </div>
   </div>
 
-  <!-- Product decision note (折叠) -->
-  <details style="cursor:pointer;margin-top:12px">
-    <summary style="list-style:none;font-size:.74rem;font-weight:600;color:var(--text-secondary);padding:4px 0">📋 PM 决策笔记（点击展开）</summary>
-    <div class="decision-note" style="margin-top:8px">
-    <b>PM视角：</b>这个 Demo 展示了 AI PM 的三个核心判断——<b>① AI 介入哪个工作流节点</b>（不是在拍照时干扰用户，而是拍完后帮用户精选）；<b>② AI 应该自动工作而非等待指令</b>（上传即分析，零点击直达结果——减少一步操作就是减少一个流失节点）；<b>③ 增强效果需要可对比、可开关</b>（让用户看到 AI 做了什么，而非黑盒"美化"）。影像工具类产品的核心命题：硬件决定了能捕捉多少原始信息，软件决定了能利用多少，AI 决定了能从已有信息里重建多少。
+  <!-- Footnote -->
+  <details style="cursor:pointer;margin-top:var(--gap-lg)">
+    <summary class="footnote-summary">[ i ] DESIGN DECISIONS</summary>
+    <div class="note-block">
+    <b>PM Notes:</b> AI selects the best photo from a batch before the user asks — reducing one click removes one drop-off point. Scoring is transparent (4 dimensions visible) because trust precedes adoption. Enhancement is toggleable &amp; side-by-side comparable because users don't trust black-box "beautify". The product thesis: hardware captures raw data, software leverages it, AI reconstructs meaning from it.
     </div>
   </details>
 
-  <!-- Toast -->
   <div class="toast" id="toast"></div>
 </div>
 
 <script>
-// === State ===
-let photos = [];
-let analysisResults = [];
-let currentStep = 1;
+/* ================================================================
+   Application Logic (Preserved & Extended)
+   ================================================================ */
+let photos = [], analysisResults = [], currentStep = 1;
 
-// === Step navigation ===
-function setStep(s) {
+// Step navigation
+function setStep(s){
   currentStep = s;
   ['step1Section','step2Section','step3Section'].forEach((id,i)=>{
-    document.getElementById(id).style.display = s===i+1 ? 'block' : 'none';
+    document.getElementById(id).style.display = s===i+1?'block':'none';
   });
-  // Update dots
-  const dots = ['step1dot','step2dot','step3dot'];
-  const lines = ['line1','line2'];
-  dots.forEach((d,i)=>{
-    const el = document.getElementById(d);
+  ['s1','s2','s3'].forEach((id,i)=>{
+    const el = document.getElementById(id);
     el.classList.remove('active','done','secondary');
     if(i+1 < s) el.classList.add('done');
     if(i+1 === s) el.classList.add(s===3?'secondary':'active');
   });
-  lines.forEach((l,i)=>{
-    document.getElementById(l).classList.toggle('done', i+1 < s);
+  ['r1','r2'].forEach((id,i)=>{
+    document.getElementById(id).classList.toggle('done', i+1 < s);
   });
 }
 
-// === File upload ===
+// Upload
 document.getElementById('uploadZone').addEventListener('click',()=>document.getElementById('fileInput').click());
 document.getElementById('fileInput').addEventListener('change',handleFiles);
-
-// Drag support on upload zone
 const uz = document.getElementById('uploadZone');
-uz.addEventListener('dragover',e=>{e.preventDefault();uz.style.borderColor='var(--accent)'});
-uz.addEventListener('dragleave',()=>uz.style.borderColor='rgba(0,113,227,.25)');
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag-over')});
+uz.addEventListener('dragleave',()=>uz.classList.remove('drag-over'));
 uz.addEventListener('drop',e=>{
-  e.preventDefault();uz.style.borderColor='rgba(0,113,227,.25)';
+  e.preventDefault();uz.classList.remove('drag-over');
   if(e.dataTransfer.files.length) handleFilesFromList(e.dataTransfer.files);
 });
 
 function handleFiles(e){handleFilesFromList(e.target.files)}
 function handleFilesFromList(files){
   const valid = Array.from(files).filter(f=>f.type.startsWith('image/'));
-  if(!valid.length){showToast('请选择图片文件');return}
-  if(valid.length < 3){showToast('建议上传至少3张照片');}
-  if(valid.length > 10){showToast('最多支持10张照片');valid.length = 10}
-  
-  photos = [];
-  document.getElementById('gallery').innerHTML = '';
-  document.getElementById('resultGallery').innerHTML = '';
-  document.getElementById('step1Actions').style.display = 'none';
-  document.getElementById('step2Section').style.display = 'none';
-  document.getElementById('step3Section').style.display = 'none';
-  
+  if(!valid.length){showToast('Please select image files');return}
+  if(valid.length < 3){showToast('Recommended: at least 3 photos');}
+  if(valid.length > 10){showToast('Maximum: 10 photos');valid.length = 10}
+  photos=[];analysisResults=[];
+  ['gallery','bestBanner','othersGrid','othersLabel','step1Actions','step2Section','step3Section'].forEach(id=>{
+    document.getElementById(id).style.display = id==='othersLabel'?'none':'none';
+    if(id==='gallery'||id==='bestBanner'||id==='othersGrid') document.getElementById(id).innerHTML='';
+  });
   let loaded = 0;
   valid.forEach((f,i)=>{
     const reader = new FileReader();
     reader.onload = e => {
       photos.push({src:e.target.result, name:f.name, idx:i});
       loaded++;
-      if(loaded === valid.length) {
-        renderGallery();
-        // 自动触发 AI 分析——减少一步点击，让 AI ❮自己工作❯
+      if(loaded === valid.length){
+        renderContactSheet();
         if(photos.length >= 2) runAnalysis();
       }
     };
@@ -339,352 +504,236 @@ function handleFilesFromList(files){
   });
 }
 
-function renderGallery(){
+function renderContactSheet(){
   const g = document.getElementById('gallery');
-  g.innerHTML = photos.map((p,i)=>`
-    <div class="photo-card" data-idx="${i}" onclick="removePhoto(${i})" title="点击移除">
-      <img class="thumb" src="${p.src}" alt="Photo ${i+1}">
-      <div style="text-align:center;padding:4px;font-size:.65rem;color:var(--text-muted)">#${i+1}</div>
-    </div>
-  `).join('');
+  g.innerHTML = photos.map((p,i)=>`<div class="print" data-idx="${i}" onclick="removePhoto(${i})" title="Click to remove"><span class="loupe-ripple"></span><img class="thumb-img" src="${p.src}" alt=""><div class="print-meta"><span>#${i+1}</span><span>${p.name.slice(0,12)||'untitled'}</span></div></div>`).join('');
   g.style.display = 'grid';
-  document.getElementById('noPhotoHint').style.display = photos.length ? 'none' : 'flex';
-  document.getElementById('step1Actions').style.display = photos.length ? 'flex' : 'none';
+  document.getElementById('noPhotoHint').style.display = photos.length?'none':'flex';
+  document.getElementById('step1Actions').style.display = photos.length?'flex':'none';
 }
 
 function removePhoto(idx){
-  photos.splice(idx,1);
-  photos.forEach((p,i)=>p.idx=i);
-  renderGallery();
+  photos.splice(idx,1);photos.forEach((p,i)=>p.idx=i);
+  renderContactSheet();
   if(!photos.length){
-    document.getElementById('step1Actions').style.display = 'none';
-    document.getElementById('noPhotoHint').style.display = 'flex';
+    document.getElementById('step1Actions').style.display='none';
+    document.getElementById('noPhotoHint').style.display='flex';
   }
 }
 
-// Paste support (Ctrl+V / long press paste)
-document.addEventListener('paste', e => {
-  const items = e.clipboardData?.items;
-  if(!items) return;
+// Paste
+document.addEventListener('paste',e=>{
+  const items = e.clipboardData?.items; if(!items) return;
   const imageFiles = [];
-  for(const item of items){
-    if(item.type.startsWith('image/')) imageFiles.push(item.getAsFile());
-  }
-  if(imageFiles.length){
-    e.preventDefault();
-    handleFilesFromList(imageFiles);
-    showToast('已粘贴 ' + imageFiles.length + ' 张照片');
-  }
+  for(const item of items){if(item.type.startsWith('image/')) imageFiles.push(item.getAsFile())}
+  if(imageFiles.length){e.preventDefault();handleFilesFromList(imageFiles);showToast('Pasted '+imageFiles.length+' photos')}
 });
 
-// Folder picker — 一键批量拉取文件夹内的图片
+// Folder picker
 function pickFolder(){
-  const input = document.getElementById('folderInput');
-  input.value = '';
-  input.addEventListener('change', function handler(){
-    input.removeEventListener('change', handler);
-    handleFilesFromList(input.files);
-  }, {once:true});
+  const input = document.getElementById('folderInput');input.value='';
+  input.addEventListener('change',function h(){input.removeEventListener('change',h);handleFilesFromList(input.files)},{once:true});
   input.click();
 }
 
-// === AI Analysis (Canvas-based local scoring) ===
+// AI Analysis
 function runAnalysis(){
-  if(photos.length < 2){showToast('至少需要2张照片');return}
-  
+  if(photos.length < 2){showToast('Need at least 2 photos');return}
   document.getElementById('loadingOverlay').classList.add('visible');
-  
   const promises = photos.map(p=>new Promise(resolve=>{
     const img = new Image();
-    img.onload = ()=>{
-      const score = analyzeImage(img);
-      analysisResults = [...(analysisResults.filter(r=>r.idx!==p.idx)), {...score, src:p.src, idx:p.idx}];
-      resolve();
-    };
+    img.onload = ()=>{const score=analyzeImage(img);analysisResults=[...analysisResults.filter(r=>r.idx!==p.idx),{...score,src:p.src,idx:p.idx}];resolve();};
     img.src = p.src;
   }));
-  
   Promise.all(promises).then(()=>{
     document.getElementById('loadingOverlay').classList.remove('visible');
-    analysisResults.sort((a,b)=>a.idx - b.idx);
-    // Mark best
-    const best = analysisResults.reduce((a,b)=>b.total > a.total ? b : a, analysisResults[0]);
-    analysisResults.forEach(r=>r.isBest = r.idx === best.idx);
-    
-    // Render step 2
+    analysisResults.sort((a,b)=>a.idx-b.idx);
+    const best = analysisResults.reduce((a,b)=>b.total>a.total?b:a, analysisResults[0]);
+    analysisResults.forEach(r=>r.isBest = r.idx===best.idx);
     renderResults();
     setStep(2);
-    showToast('AI 分析完成 · 已选出最佳照片');
+    showToast('Best photo selected');
   });
 }
 
 function analyzeImage(img){
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  const w = Math.min(img.width, 200);
-  const h = Math.round(img.height * (w / img.width));
-  canvas.width = w; canvas.height = h;
-  ctx.drawImage(img, 0, 0, w, h);
-  const data = ctx.getImageData(0, 0, w, h).data;
-  
-  // Clarity: std deviation of luminance (edge contrast proxy)
-  let lumVals = [];
-  for(let i=0;i<data.length;i+=4){
-    lumVals.push(0.299*data[i] + 0.587*data[i+1] + 0.114*data[i+2]);
-  }
-  const mean = lumVals.reduce((a,b)=>a+b,0)/lumVals.length;
-  const std = Math.sqrt(lumVals.reduce((s,v)=>s+(v-mean)**2,0)/lumVals.length);
-  const clarity = Math.min(100, Math.round(std * 1.2));
-  
+  const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+  const w=Math.min(img.width,200),h=Math.round(img.height*(w/img.width));
+  canvas.width=w;canvas.height=h;ctx.drawImage(img,0,0,w,h);
+  const data=ctx.getImageData(0,0,w,h).data;
+  // Clarity
+  let lumVals=[];
+  for(let i=0;i<data.length;i+=4) lumVals.push(.299*data[i]+.587*data[i+1]+.114*data[i+2]);
+  const mean=lumVals.reduce((a,b)=>a+b,0)/lumVals.length;
+  const std=Math.sqrt(lumVals.reduce((s,v)=>s+(v-mean)**2,0)/lumVals.length);
+  const clarity=Math.min(100,Math.round(std*1.2));
   // Brightness
-  const brightness = Math.min(100, Math.round((mean/255)*100));
-  
-  // Color variety (hue diversity proxy)
-  let hues = [];
+  const brightness=Math.min(100,Math.round((mean/255)*100));
+  // Color
+  let hues=[];
   for(let i=0;i<data.length;i+=16){
     const r=data[i],g=data[i+1],b=data[i+2];
-    if(Math.max(r,g,b)-Math.min(r,g,b)>30){
-      hues.push(Math.atan2(Math.sqrt(3)*(g-b), 2*r-g-b));
-    }
+    if(Math.max(r,g,b)-Math.min(r,g,b)>30) hues.push(Math.atan2(Math.sqrt(3)*(g-b),2*r-g-b));
   }
-  const colorRichness = Math.min(100, Math.round(hues.length/(w*h/16)*800));
-  
-  // Composition: center vs edge luminance variance ratio (rough rule-of-thirds proxy)
-  // Higher ratio = subject likely centered, typical snapshot composition
-  const cw=Math.floor(w/3), ch=Math.floor(h/3);
-  let centerLum=0, edgeLum=0, centerCount=0, edgeCount=0;
-  const cx=Math.floor(w/2), cy=Math.floor(h/2);
-  for(let y=0;y<h;y++){
-    for(let x=0;x<w;x++){
-      const idx=(y*w+x)*4;
-      const lum=0.299*data[idx]+0.587*data[idx+1]+0.114*data[idx+2];
-      if(x>cx-cw/2 && x<cx+cw/2 && y>cy-ch/2 && y<cy+ch/2){centerLum+=lum;centerCount++}
-      else{edgeLum+=lum;edgeCount++}
-    }
+  const colorRichness=Math.min(100,Math.round(hues.length/(w*h/16)*800));
+  // Composition
+  const cw=Math.floor(w/3),ch=Math.floor(h/3);
+  let cL=0,eL=0,cC=0,eC=0;
+  const cx=Math.floor(w/2),cy=Math.floor(h/2);
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    const idx=(y*w+x)*4;
+    const lum=.299*data[idx]+.587*data[idx+1]+.114*data[idx+2];
+    if(x>cx-cw/2&&x<cx+cw/2&&y>cy-ch/2&&y<cy+ch/2){cL+=lum;cC++}else{eL+=lum;eC++}
   }
-  const centerAvg=centerLum/Math.max(1,centerCount);
-  const edgeAvg=edgeLum/Math.max(1,edgeCount);
-  // Subject-background separation: higher difference = clearer subject
-  const separation=Math.abs(centerAvg-edgeAvg);
-  const compScore=Math.min(90, Math.round(40+separation*0.25+(clarity>55?12:0)));
-
-  const scores = {
-    clarity: clamp(clarity, 30, 95),
-    brightness: clamp(brightness, 40, 92),
-    colorRichness: clamp(colorRichness, 25, 90),
-    composition: clamp(compScore, 30, 90)
-  };
-  scores.total = Math.round((scores.clarity*0.35 + scores.brightness*0.1 + scores.colorRichness*0.2 + scores.composition*0.35));
-  
+  const cA=cL/Math.max(1,cC),eA=eL/Math.max(1,eC);
+  const separation=Math.abs(cA-eA);
+  const compScore=Math.min(90,Math.round(40+separation*.25+(clarity>55?12:0)));
+  const scores={clarity:clamp(clarity,30,95),brightness:clamp(brightness,40,92),colorRichness:clamp(colorRichness,25,90),composition:clamp(compScore,30,90)};
+  scores.total=Math.round(scores.clarity*.35+scores.brightness*.1+scores.colorRichness*.2+scores.composition*.35);
   return scores;
 }
-
 function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 
 function renderResults(){
-  const g = document.getElementById('resultGallery');
-  const best = analysisResults.find(r=>r.isBest);
-  const others = analysisResults.filter(r=>!r.isBest);
-  
-  // Build "why best" summary
-  const bestReasons = [];
-  const all = analysisResults;
+  const all=analysisResults;
+  const best=all.find(r=>r.isBest);
+  const others=all.filter(r=>!r.isBest);
   const avg=(arr,key)=>arr.reduce((s,r)=>s+r[key],0)/arr.length;
-  if(best.clarity >= avg(all,'clarity')) bestReasons.push('最清晰');
-  if(best.brightness >= avg(all,'brightness')) bestReasons.push('曝光最优');
-  if(best.colorRichness >= avg(all,'colorRichness')) bestReasons.push('色彩最丰富');
-  if(best.composition >= avg(all,'composition')) bestReasons.push('构图最佳');
-  const whyBest = bestReasons.length ? bestReasons.slice(0,3).join(' · ') : '综合得分最高';
-  
-  // Core: BEST card — 视觉重心，蓝底横幅
-  g.innerHTML = `
-    <div style="background:linear-gradient(135deg,#0071e3,#0a84ff);border-radius:var(--radius-lg);padding:clamp(14px,3vw,20px);margin-bottom:12px;color:#fff">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-        <span style="background:rgba(255,255,255,.2);font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:var(--radius-pill)">BEST</span>
-        <span style="font-size:.82rem;font-weight:500;opacity:.9">AI 从 ${analysisResults.length} 张中选出最优</span>
-      </div>
-      <div style="display:flex;gap:clamp(10px,3vw,16px);align-items:center">
-        <img src="${best.src}" style="width:clamp(100px,35vw,160px);aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:2px solid rgba(255,255,255,.3);flex-shrink:0" alt="BEST">
-        <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:6px">
-            <span style="font-size:2rem;font-weight:700;line-height:1">${best.total}</span>
-            <span style="font-size:.8rem;opacity:.75">分 · 综合评分</span>
-          </div>
-          <div style="font-size:.7rem;line-height:1.6;opacity:.9;margin-bottom:8px">${whyBest}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:5px">
-            ${['清晰度','亮度','色彩','构图'].map((label,i)=>{
-              const k=['clarity','brightness','colorRichness','composition'][i];
-              const v=best[k]; const avgV=avg(all,k);
-              const lead=v>=avgV;
-              return `<span style="font-size:.62rem;background:rgba(255,255,255,${lead?'.2':'.08'});padding:2px 8px;border-radius:var(--radius-pill);white-space:nowrap">${label} ${v}</span>`;
-            }).join('')}
-          </div>
+  const bestReasons=[];
+  if(best.clarity>=avg(all,'clarity')) bestReasons.push('Sharpest');
+  if(best.brightness>=avg(all,'brightness')) bestReasons.push('Best exposure');
+  if(best.colorRichness>=avg(all,'colorRichness')) bestReasons.push('Richest color');
+  if(best.composition>=avg(all,'composition')) bestReasons.push('Best composition');
+  const why=bestReasons.length?bestReasons.slice(0,3).join(' · '):'Highest overall score';
+
+  // BEST banner
+  document.getElementById('bestBanner').innerHTML=`
+    <div class="best-header"><span class="best-badge">PRIME</span><span style="font-size:.68rem;color:var(--text-muted);font-family:var(--font-mono)">Selected from ${all.length} photos</span></div>
+    <div class="best-body">
+      <img class="best-thumb" src="${best.src}" alt="">
+      <div class="best-info">
+        <div class="best-score"><span class="num">${best.total}</span><span class="unit">/100 · composite</span></div>
+        <div class="best-why">${why}</div>
+        <div class="best-dims">
+          ${['Clarity','Exposure','Color','Composition'].map((label,i)=>{
+            const k=['clarity','brightness','colorRichness','composition'][i];
+            const v=best[k];const lead=v>=avg(all,k);
+            return `<span class="best-dim${lead?' lead':''}">${label} ${v}</span>`;
+          }).join('')}
         </div>
       </div>
-      <button class="btn btn-primary" style="margin-top:12px;background:#fff;color:var(--accent);font-size:.74rem;padding:10px 16px;width:100%;box-shadow:none;font-weight:600" onclick="goToCompare()">
-        增强对比 · 原图 vs AI 增强 →
-      </button>
     </div>
-    
-    <!-- Others: 缩略条 — 次级信息 -->
-    <div style="font-size:.72rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px">其他照片 (${others.length}张) — 点击任意可对比</div>
-    <div style="display:grid;grid-template-columns:repeat(${Math.min(others.length,4)},1fr);gap:8px;margin-bottom:4px">
-      ${others.map((r,i)=>{
-        const origIdx = analysisResults.indexOf(r);
-        return `<div class="photo-card" onclick="previewCompare(${origIdx})" style="cursor:pointer">
-          <img class="thumb" src="${r.src}" alt="Photo ${origIdx+1}">
-          <div style="text-align:center;padding:4px 2px;font-size:.6rem;color:var(--text-muted)">${r.total}分</div>
-        </div>`;
-      }).join('')}
-    </div>
+    <button class="btn btn-primary" style="margin-top:12px;width:100%" onclick="goToCompare()">Compare · Original vs AI Enhanced</button>
   `;
-  g.style.display = 'block';
-  
-  // Pre-load comparison with best photo
-  document.getElementById('beforeImg').src = best.src;
-  applyEnhancement();
-}
+  document.getElementById('bestBanner').style.display='block';
 
-// === Step 3: Comparison slider ===
-let sliderDragging = false;
-
-function goToCompare(){
-  setStep(3);
-  initSlider();
-}
-
-function previewCompare(idx){
-  const r = analysisResults[idx];
-  document.getElementById('beforeImg').src = r.src;
-  applyEnhancement();
-  setStep(3);
-  initSlider();
-}
-
-function initSlider(){
-  const view = document.getElementById('compareView');
-  const slider = document.getElementById('slider');
-  const after = view.querySelector('.after');
-  
-  function updateSlider(clientX){
-    const rect = view.getBoundingClientRect();
-    let pct = ((clientX - rect.left) / rect.width) * 100;
-    pct = Math.max(5, Math.min(95, pct));
-    slider.style.left = pct + '%';
-    after.style.clipPath = `inset(0 0 0 ${pct}%)`;
+  // Others grid
+  if(others.length){
+    document.getElementById('othersLabel').innerHTML=`<span>OTHER CONTACT PRINTS (${others.length})</span>`;
+    document.getElementById('othersLabel').style.display='flex';
   }
-  
-  view.onpointerdown = e => {sliderDragging=true;view.setPointerCapture(e.pointerId);updateSlider(e.clientX)};
-  view.onpointermove = e => {if(sliderDragging) updateSlider(e.clientX)};
-  view.onpointerup = () => sliderDragging=false;
-  
-  // Touch
-  view.addEventListener('touchstart',e=>{sliderDragging=true;updateSlider(e.touches[0].clientX)}, {passive:false});
-  view.addEventListener('touchmove',e=>{if(sliderDragging){e.preventDefault();updateSlider(e.touches[0].clientX)}}, {passive:false});
+  document.getElementById('othersGrid').innerHTML=others.map(r=>{
+    const idx=all.indexOf(r);
+    return `<div class="print" onclick="previewCompare(${idx})"><span class="loupe-ripple"></span><img class="thumb-img" src="${r.src}" alt=""><div class="print-meta"><span>${r.total} pts</span></div></div>`;
+  }).join('');
+  document.getElementById('othersGrid').style.display='grid';
+
+  document.getElementById('beforeImg').src=best.src;
+  applyEnhancement();
+}
+
+// Compare slider
+let sliderDragging=false;
+function goToCompare(){setStep(3);initSlider()}
+function previewCompare(idx){
+  const r=analysisResults[idx];
+  document.getElementById('beforeImg').src=r.src;
+  applyEnhancement();setStep(3);initSlider();
+}
+function initSlider(){
+  const view=document.getElementById('compareView');
+  const slider=document.getElementById('slider');
+  const after=view.querySelector('.after-img');
+  function update(clientX){
+    const rect=view.getBoundingClientRect();
+    let pct=((clientX-rect.left)/rect.width)*100;
+    pct=Math.max(5,Math.min(95,pct));
+    slider.style.left=pct+'%';
+    after.style.clipPath=`inset(0 0 0 ${pct}%)`;
+  }
+  view.onpointerdown=e=>{sliderDragging=true;view.setPointerCapture(e.pointerId);update(e.clientX)};
+  view.onpointermove=e=>{if(sliderDragging) update(e.clientX)};
+  view.onpointerup=()=>sliderDragging=false;
+  view.addEventListener('touchstart',e=>{sliderDragging=true;update(e.touches[0].clientX)},{passive:false});
+  view.addEventListener('touchmove',e=>{if(sliderDragging){e.preventDefault();update(e.touches[0].clientX)}},{passive:false});
   view.addEventListener('touchend',()=>sliderDragging=false);
 }
 
-// === Enhancement effects ===
+// Enhancement
 const activeEffects = new Set(['denoise','sharpen','color']);
-
 function toggleEffect(btn){
-  const effect = btn.dataset.effect;
-  if(activeEffects.has(effect)) activeEffects.delete(effect);
-  else activeEffects.add(effect);
-  btn.classList.toggle('active');
-  applyEnhancement();
+  const ef=btn.dataset.effect;
+  if(activeEffects.has(ef)) activeEffects.delete(ef); else activeEffects.add(ef);
+  btn.classList.toggle('active');applyEnhancement();
 }
-
 function applyEnhancement(){
-  const after = document.getElementById('afterImg');
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  const img = new Image();
-  img.onload = ()=>{
-    canvas.width = img.width; canvas.height = img.height;
-    ctx.filter = '';
-    let filters = [];
-    if(activeEffects.has('denoise')) filters.push('contrast(1.05)');
-    if(activeEffects.has('sharpen')) filters.push('brightness(1.03)');
-    if(activeEffects.has('color')) filters.push('saturate(1.2)');
-    if(activeEffects.has('brightness')) filters.push('brightness(1.15)');
-    ctx.filter = filters.join(' ');
-    ctx.drawImage(img, 0, 0);
-    after.src = canvas.toDataURL('image/jpeg', 0.9);
+  const after=document.getElementById('afterImg');
+  const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+  const img=new Image();
+  img.onload=()=>{
+    canvas.width=img.width;canvas.height=img.height;
+    let f=[];ctx.filter='';
+    if(activeEffects.has('denoise')) f.push('contrast(1.05)');
+    if(activeEffects.has('sharpen')) f.push('brightness(1.03)');
+    if(activeEffects.has('color')) f.push('saturate(1.2)');
+    if(activeEffects.has('brightness')) f.push('brightness(1.15)');
+    ctx.filter=f.join(' ');ctx.drawImage(img,0,0);
+    after.src=canvas.toDataURL('image/jpeg',.9);
   };
-  img.src = document.getElementById('beforeImg').src;
+  img.src=document.getElementById('beforeImg').src;
 }
 
-// === Navigation helpers ===
+// Screenshot
+function screenshotCompare(){
+  const view=document.getElementById('compareView');
+  const slider=view.querySelector('.rail-slider');slider.style.display='none';
+  const before=document.getElementById('beforeImg'),after=document.getElementById('afterImg');
+  const canvas=document.createElement('canvas');
+  canvas.width=before.naturalWidth||view.offsetWidth;
+  canvas.height=before.naturalHeight||view.offsetHeight;
+  const ctx=canvas.getContext('2d'),hw=canvas.width/2;
+  ctx.drawImage(before,0,0,hw,canvas.height,0,0,hw,canvas.height);
+  ctx.drawImage(after,hw,0,hw,canvas.height,hw,0,hw,canvas.height);
+  ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(hw,0);ctx.lineTo(hw,canvas.height);ctx.stroke();
+  ctx.font='bold 13px monospace';ctx.fillStyle='#000';ctx.fillText('ORIGINAL',8,20);ctx.fillStyle='#fff';ctx.fillText('AI ENHANCED',hw+8,20);
+  canvas.toBlob(blob=>{
+    slider.style.display='';const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='pixelpick_compare.png';a.click();URL.revokeObjectURL(url);
+    showToast('Screenshot saved');
+  },'image/png');
+}
+
+// Navigation
 function backToStep1(){setStep(1)}
 function backToStep2(){setStep(2)}
 function resetAll(){
   photos=[];analysisResults=[];
-  document.getElementById('gallery').innerHTML='';
-  document.getElementById('gallery').style.display='none';
-  document.getElementById('resultGallery').innerHTML='';
-  document.getElementById('resultGallery').style.display='none';
+  ['gallery','bestBanner','othersGrid'].forEach(id=>{document.getElementById(id).innerHTML='';document.getElementById(id).style.display='none'});
+  document.getElementById('othersLabel').style.display='none';
   document.getElementById('step1Actions').style.display='none';
   document.getElementById('noPhotoHint').style.display='flex';
   document.getElementById('fileInput').value='';
   setStep(1);
 }
 
-// === Screenshot comparison ===
-function screenshotCompare(){
-  const view = document.getElementById('compareView');
-  // Temporarily remove slider from canvas capture area
-  const slider = view.querySelector('.slider');
-  slider.style.display = 'none';
-  const before = document.getElementById('beforeImg');
-  const after = document.getElementById('afterImg');
-  
-  const canvas = document.createElement('canvas');
-  canvas.width = before.naturalWidth || view.offsetWidth;
-  canvas.height = before.naturalHeight || view.offsetHeight;
-  const ctx = canvas.getContext('2d');
-  
-  // Draw before (left half)
-  const hw = canvas.width / 2;
-  ctx.drawImage(before, 0, 0, hw, canvas.height, 0, 0, hw, canvas.height);
-  // Draw after (right half)
-  ctx.drawImage(after, hw, 0, hw, canvas.height, hw, 0, hw, canvas.height);
-  
-  // Divider line
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(hw, 0);
-  ctx.lineTo(hw, canvas.height);
-  ctx.stroke();
-  
-  // Labels
-  ctx.font = 'bold 14px -apple-system, sans-serif';
-  ctx.fillStyle = '#000';
-  ctx.fillText('原图', 8, 22);
-  ctx.fillStyle = '#fff';
-  ctx.fillText('AI 增强', hw + 8, 22);
-  
-  canvas.toBlob(blob => {
-    slider.style.display = '';
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'pixelpick_compare.png';
-    a.click(); URL.revokeObjectURL(url);
-    showToast('对比截图已保存');
-  }, 'image/png');
-}
-
-// === Toast ===
+// Toast
 let toastTimer;
 function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>t.classList.remove('show'), 2000);
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1800);
 }
 
-// === Init ===
+// Init
 setStep(1);
 </script>
 </body>
