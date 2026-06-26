@@ -1262,6 +1262,7 @@ details .step-text {
   <div class="step-text">展示 AI PM 的影像产品思维——"AI 不该在拍照时干扰用户，而应在拍完后帮用户精选"。四维评分（清晰度/亮度/色彩/构图）由 Canvas 本地计算，增强效果可开关可拖拽对比，让用户看见 AI 做了什么而非黑盒"美化"。</div>
   <div class="step-text" style="margin-top:8px"><b>为什么做选片+增强而不是单一功能：</b>竞品调研发现 Remini（5 亿+ 下载量）只做"一键增强"但没有选片能力，Google Photos Best Take 只做表情优选但评分标准是黑盒。用户的真实痛点链条是"拍了太多→不知道留哪张→留了也不满意画质"——选片和增强是一个连续决策，拆成两个独立 App 会增加用户切换成本。</div>
   <div class="step-text"><b>为什么四维评分需要透明化：</b>Google Photos 的 AI 选片只告诉你"这是最佳"，不告诉你"为什么"。用户不信任黑盒——摄影师的判断标准（构图/曝光/情绪）和 AI 的评分逻辑往往不一致。PixelPick 把四个维度的分数和进度条都展示出来，让用户理解 AI 的判断依据，才能信任 AI 的推荐。</div>
+  <div class="step-text"><b>为什么不用大模型做评分：</b>四维评分全部用 Canvas 像素数学实现——标准差算清晰度、均值算亮度、色相多样性算色彩、中心/边缘亮度差算构图——<b>没有调用任何 LLM API</b>。这是一个刻意的产品决策：选片的本质是排序而非理解，不需要语义推理能力。用大模型（如 GPT-4o Vision）反而引入三个问题——①延迟 800-2000ms vs Canvas 本地 < 50ms；②照片需上传到第三方服务器，与隐私优先的产品策略矛盾；③LLM 有温度参数，同一张照片两次打分可能不同，破坏用户信任。把 AI 用在不需要 AI 的地方不是能力展示，是反模式。</div>
   <div class="result"><div class="rtitle">探索价值</div>验证影像工具类产品的核心 PM 命题——硬件决定能捕捉多少原始信息，软件决定能利用多少，AI 决定能从已有信息里重建多少。PixelPick 展示的是"AI 介入影像工作流的哪个节点"以及"如何让 AI 决策透明化"这两个 PM 关键判断。</div>
   <a href="./pixelpick.html" target="_blank" class="demo-link">体验 Demo →</a>
 
