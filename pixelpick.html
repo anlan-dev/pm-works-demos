@@ -379,7 +379,7 @@ body{
       <div class="hint">JPG / PNG / WebP · 3-10 files · Ctrl+V paste</div>
       <div class="upload-actions">
         <button class="btn btn-ghost" onclick="pickFolder()">Select Folder</button>
-        <button class="btn btn-ghost" onclick="loadDemo()" style="border-color:rgba(232,168,32,.3);color:var(--amber-dim)">Try Demo Data</button>
+        <button class="btn btn-ghost" onclick="loadDemo(event)" style="border-color:rgba(232,168,32,.3);color:var(--amber-dim)">Try Demo Data</button>
       </div>
       <input type="file" id="fileInput" accept="image/*" multiple>
       <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
@@ -539,7 +539,8 @@ function pickFolder(){
 }
 
 // Demo data — generates 5 synthetic sample images with varied visual characteristics
-function loadDemo(){
+function loadDemo(e){
+  if(e) e.stopPropagation();  // 阻止事件冒泡到 upload-zone 触发文件选择器
   generateDemoImages().then(files => {
     handleFilesFromList(files);
   });
