@@ -1427,19 +1427,19 @@ details .step-text {
   <div class="card-sub">3个原型实验，验证"软件PM理解硬件边界"的价值</div>
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">宠伴·智能体重秤 —— 验证"自动采集→App融合"</div>
-  <div class="step-text">用ESP32+称重传感器搭了一个宠物体重秤原型，成本约¥30，一个周末完成。目的是验证：如果宠物每天上秤的数据能自动同步到宠伴，用户就不需要手动录入体重了——这对持续使用意愿的提升有多大。参考了 GitHub 上 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a> 和 <a href="https://github.com/coniferconifer/ESP32-HX711-MQTT" target="_blank">coniferconifer/ESP32-HX711-MQTT</a> 的开源方案。</div>
+  <div class="step-text">照着 GitHub 开源教程买了 ESP32 和称重传感器模组，接线组装后跑通了数据采集，总成本约 ¥30，一个周末搞定。目的是验证产品假设：如果宠物每天上秤的数据能自动同步到宠伴，用户就不需要手动录入了——这对持续使用意愿的提升有多大。参考了 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a> 和 <a href="https://github.com/coniferconifer/ESP32-HX711-MQTT" target="_blank">coniferconifer/ESP32-HX711-MQTT</a> 的开源方案。</div>
   </div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">小小汪·电子宠物机器狗 —— 体验"从图纸到实物"全流程</div>
-  <div class="step-text">跟着开源项目复刻了一个电子宠物机器狗，经历了PCB打样、元件焊接、3D打印外壳、固件烧录的完整流程。最大的收获不是技术本身，而是理解了"为什么硬件工程师说加个功能要改BOM"——从此评估需求时能判断技术方给的工期是否合理。主要参考 <a href="https://oshwhub.com/" target="_blank">立创开源硬件平台</a> 上的 smart-puppy 项目和 GitHub 上 <a href="https://github.com/PetoiCamp/OpenCat-Quadruped-Robot" target="_blank">PetoiCamp/OpenCat</a> 四足机器人框架。</div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">小小汪·电子宠物机器狗 —— 拼装 + Vibecoding</div>
+  <div class="step-text">买了现成的PCB板和3D打印外壳，自己动手做了组装和固件配置，然后用 Vibe Coding 参考开源代码写了交互逻辑。最大的收获不是硬件本身，而是理解了"为什么加一个看起来很小的功能，硬件工程师说要改BOM"——从此评估需求时对技术方给的工期有了更实际的判断。参考了 <a href="https://oshwhub.com/" target="_blank">立创开源硬件平台</a> 的 smart-puppy 和 GitHub 上 <a href="https://github.com/PetoiCamp/OpenCat-Quadruped-Robot" target="_blank">PetoiCamp/OpenCat</a>。</div>
   </div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">树莓派 + 语音控制 —— 探索"自然语言→硬件执行"</div>
-  <div class="step-text">在树莓派上接了传感器和舵机，通过语音指令控制硬件动作。这是一个轻量的"AI+硬件"交互验证——用户说一句话，机器做出反应。虽然只是原型，但让我对端侧AI在IoT设备上的可行性有了直观判断。参考了 <a href="https://github.com/dinhnhat0401/OpenClaw" target="_blank">OpenClaw</a> 机械爪设计和 <a href="https://github.com/av4625/robot_dog" target="_blank">av4625/robot_dog</a> 步态控制方案。</div>
+  <div class="step-text">买了树莓派和现成的传感器、舵机模组，按开源教程接线配置，用 Vibe Coding 实现了语音指令控制硬件动作。这是一个轻量的"AI+硬件"交互验证——用户说一句话，机器做出反应。虽然只是跑通了 Demo，但让我对端侧 AI 在 IoT 设备上的可行性有了直观判断。参考了 <a href="https://github.com/dinhnhat0401/OpenClaw" target="_blank">OpenClaw</a> 和 <a href="https://github.com/av4625/robot_dog" target="_blank">av4625/robot_dog</a> 的开源方案。</div>
   </div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">为什么PM要碰硬件</div>
-  <div class="step-text"><b>不是为了会焊电路板。</b>是三个实际价值：①快速验证——¥30搭个原型验证产品假设，不需要等硬件团队排期两周；②技术判断力——自己动手做过，才知道工程师说"做不了"是真做不了还是不想做；③沟通效率——需求评审时，评估方案周期和成本的判断更接近实际，而不是凭感觉。</div>
+  <div class="step-text"><b>不是为了会焊电路板。</b>是三个实际价值：①快速验证——买现成模组跟着开源教程跑通一个原型，不需要等硬件团队排期两周；②技术判断力——亲手组装过、跑通过、改过代码，才知道工程师说"做不了"是真做不了还是不想做；③沟通效率——需求评审时，评估方案周期和成本的判断更接近实际，而不是凭感觉。</div>
   </div></div>
 
 </div>
