@@ -778,6 +778,7 @@ details .step-text {
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 核心判断</div><div class="step-text">基于个人积累的<b>19项PRD质量检查清单</b>，识别到这部分工作可通过AI自动化——规则确定性强，适合System Prompt直写，无需RAG知识库。<b>核心判断：</b>PRD检查是确定性规则检查→System Prompt比RAG更稳定可控。</div>
   <div class="step-text"><b>为什么选System Prompt直写而非RAG：</b>RAG适合"答案在知识库里、需要检索"的场景（如客服问答）。但PRD检查的规则是固定的（"用户故事是否包含验收标准""异常流程是否覆盖"等），不需要检索外部知识，只需要把规则"教"给LLM。用RAG反而会引入检索噪声——检索到不相关的规则片段会干扰判断。实测验证：System Prompt方案的遗漏检出密度（13处/5000字）优于RAG方案（8处/5000字）。</div>
+  <div class="step-text"><b>为什么Token消耗更低：</b>选择System Prompt直写的另一个被低估的优势是<b>Token成本效率</b>。RAG方案每次审核都要经过"知识库检索→上下文拼接→LLM推理"三步，其中检索和拼接会额外消耗Token。而System Prompt方案将19项规则直接内嵌在Prompt中，单次审核Token消耗比RAG方案低约60%。对于高频使用场景（如每日多份PRD审核），Token累积节省量级可观。这体现了PM的<b>成本意识</b>——不仅考虑"能不能做"，更考虑"规模化后的单位成本"。</div>
   <div class="step-text"><b>为什么Temperature设0.2而非0：</b>Temp=0会导致输出完全确定，对于"判断PRD是否有问题"这种需要一定推理的任务，完全确定性会降低判断灵活性。Temp=0.2在"可控"和"灵活"之间取平衡——相同PRD多次审核结果一致性>95%，同时保留对模糊表述的推理能力。</div>
   <div class="step-text"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>PRD遗漏通常不是随机分布的，而是集中在特定维度。四维拆解基于MECE原则：输入侧检查"有没有说清楚要什么"，逻辑侧检查"逻辑是否自洽"，异常侧检查"边界情况有没有覆盖"，评估侧检查"怎么验证做对了"。实测13处遗漏中，异常侧占7处（54%），验证了"PRD最常遗漏异常流程"的行业共识。</div>
   </div></div>
@@ -1571,65 +1572,78 @@ details .step-text {
 
 <!-- ===== 前沿观察 ===== -->
 <h2 class="section-title scroll-margin" id="frontier">前沿观察与行业思考</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">聚焦四大 AI 产品趋势——每个方向都有我的实践对应</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">聚焦四大 AI 产品趋势——每个方向都有我的实践对应 &nbsp;<span style="color:#86868b;font-size:clamp(.68rem,.78vw,.72rem)">（数据截至 2026-06-28 · 来源：GitHub Trending、CSDN、AI Tool Radar）</span></p>
+
+<!-- ===== 2026年6月趋势洞察 ===== -->
+<div class="card" style="cursor:default">
+  <div class="card-icon">📊</div>
+  <div class="card-title">2026年6月 · AI 产品趋势洞察</div>
+  <div class="card-sub">核心信号：AI 开发重心从"调模型"转向"建系统"——Skills 生态、Token 压缩、本地优先、Agent 安全成为本月四大风口</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px">
+    <div class="step"><strong>🧩 Skills 生态</strong><br>Agent 能力模块化<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">ECC 周增 12万星</span></div>
+    <div class="step"><strong>💰 Token 经济学</strong><br>压缩 60-95% token<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">headroom 等热爆</span></div>
+    <div class="step"><strong>🏠 本地优先</strong><br>数据主权成为刚需<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">odysseus 周增 3.7万</span></div>
+    <div class="step"><strong>🛡️ Agent 安全</strong><br>26.1% 技能含漏洞<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">NVIDIA SkillSpector</span></div>
+  </div>
+</div>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
-    <span class="card-icon" style="margin:0">🤖</span>
+    <span class="card-icon" style="margin:0">🧩</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">AI Agent 架构：从单工具到多Agent协作</div>
-      <div class="card-sub" style="margin-bottom:0">Agent-编排能力是2026年PM的核心竞争力</div>
+      <div class="card-title" style="font-size:1.05rem">Agent Skills：AI 应用进入"乐高式"组装时代</div>
+      <div class="card-sub" style="margin-bottom:0">Skills 生态正在成为新的 App Store——本月 GitHub 最大风口</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>趋势：</b>Claude Code Agent Teams（16个并行Agent构建10万行C编译器）、Microsoft Copilot Studio Agent Orchestrator（多Agent递归任务）、Anthropic定义Agent为"能独立使用工具、在多轮中保持上下文、代表用户完成任务的系统"——2026年Agent不是"调用工具"，而是"Agent间协作"的工程问题。<br>
-    <b>我的实践：</b>跨境电商 6-Agent全链路协作（MCP服务总线+Orchestrator路由），每个Sub Agent独立System Prompt+工具集，通过/失败两种输出结构引导流转。PRD Quality Gate用System Prompt直写19项规则代替RAG，Temperature 0.2控制幻觉。<br>
-    <b>PM启示：</b>PM需要设计的不只是Agent的Prompt，还有任务分解策略、Agent间信任传递、失败升级机制、结果聚合逻辑。好的Agent指令=好的PRD——结构化、可复现、可测试。
+    <b>趋势：</b>2026年6月 GitHub Trending 的最大信号——Agent Skills 取代 Prompt Engineering 成为新范式。affaan-m/ECC（Agent harness 性能优化系统）周增超 12 万星，addyosmani/agent-skills（Google 工程实践封装）日增 512 星。Anthropic 官方定义 Skills 协议标准，pbakaus/impeccable 发布 23 个命令 + 27 条反模式规则——Agent 不再是"一个 Prompt 走天下"，而是可插拔的技能积木。<br>
+    <b>我的实践：</b>跨境电商 6-Agent 全链路协作系统天然兼容 Skills 范式——每个 Sub Agent（合规/文案/产品/策略/价格/意图）本质就是一个独立 Skill 模块，各有自己的 System Prompt + 工具集 + 通过/失败输出结构。MCP 服务总线 + Orchestrator 路由的架构设计，使得新增 Skill（如"物流Agent"）只需注册到总线，无需改动现有 Agent。<br>
+    <b>PM启示：</b>Skills 生态意味着 PM 的核心工作从"写 Prompt"升级为"设计 Skill 的输入/输出接口"。好的 Skill = 好的 PRD：输入明确、输出结构化、可独立测试、可组合复用。如果你的 AI 产品涉及 Agent，现在就应该考虑让用户"安装/卸载技能插件"，而不是"配置一个万能 Prompt"。
   </div>
 </details>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
-    <span class="card-icon" style="margin:0">🔌</span>
+    <span class="card-icon" style="margin:0">💰</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">MCP + A2A：Agent 通信的行业标准</div>
-      <div class="card-sub" style="margin-bottom:0">MCP SDK月下载9700万次，公开服务器21,962个</div>
+      <div class="card-title" style="font-size:1.05rem">Token 经济学：省钱比换模型更重要</div>
+      <div class="card-sub" style="margin-bottom:0">LLM 调用成本是 AI 产品的隐形定价锚——本月多个压缩项目爆火</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>趋势：</b>MCP（Agent↔工具）16个月达到React三年规模，OpenAI/Google/Microsoft/AWS全部支持。A2A（Agent↔Agent）由Google捐赠Linux基金会，微信与华为/小米/OPPO/vivo合作推出A2A助手能力——多Agent通信协议从技术标准变成产品基础设施。<br>
-    <b>我的实践：</b>跨境电商选了原生MCP服务总线而非LangChain——Agent数量固定（6个）、协作模式明确（流水线+并行），原生代码更轻量可控。不用LangChain的核心考虑：抽象层多导致调试链路长，对确定性输出（结构化卡片）来说反向干扰。<br>
-    <b>PM启示：</b>PM需要能回答：这个场景需要连接哪些外部系统、MCP Server是否已存在、Agent间如何通过A2A委托协作。技术选型是PM的产品决策，不是工程师的单独决策。
+    <b>趋势：</b>chopratejas/headroom 实现 60-95% token 节省，DeusData/codebase-memory-mcp（Rust 引擎）减少 99.2% token 消耗，LMCache 加速 LLM KV 缓存——GitHub 上"省钱"类项目正在批量涌现。这不是简单的"用更便宜的模型"，而是在不牺牲质量的前提下，通过智能压缩和缓存降低调用成本。行业共识：<b>Token 成本控制是 AI 产品商业化的前提</b>。<br>
+    <b>我的实践：</b>跨境电商 Agent 通过**意图路由压缩**减少无效调用——先由 Intent Parser 判断请求类型，再路由到对应 Sub Agent，而非每次全链路跑 6 个 Agent（降低约 40% token 消耗）。PRD Quality Gate 选 System Prompt 直写而非 RAG——不仅因为规则确定性强，更因为每次 RAG 检索会引入额外的 token 成本（知识库检索 + 上下文拼接），且检索噪声可能反向损害判定准确率。实测：System Prompt 方案 Token 消耗比 RAG 方案低约 60%。<br>
+    <b>PM启示：</b>PM 在 AI 产品设计中必须有"Token 成本意识"——不是工程师独自操心的事。在产品设计阶段就应该问：这里能否用意图路由减少无效调用？能否用缓存避免重复推理？Chunk Strategy 和 Prompt 长度是否经过成本核算？用户不会为"能用"买单，但会为"既好用又省钱"买单。
   </div>
 </details>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
-    <span class="card-icon" style="margin:0">💻</span>
+    <span class="card-icon" style="margin:0">🏠</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">Vibe Coding + 端侧 AI：PM 原型能力升级</div>
-      <div class="card-sub" style="margin-bottom:0">Cursor/Claude Code + Apple Intelligence = 文科PM也能亲手验证</div>
+      <div class="card-title" style="font-size:1.05rem">本地优先：端侧 AI ≠ 性能妥协，是产品策略</div>
+      <div class="card-sub" style="margin-bottom:0">数据主权从"口头说说"变成"用脚投票"——本地部署项目本月集体爆发</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>趋势：</b>Vibe Coding工具市场爆发——Cursor/Claude Code/Windsurf/Lovable/Bolt.new/v0，AI生成代码比例持续上升。同时WWDC 2026 Apple Intelligence升级：AFM端侧+云端模型，Siri AI进化为操作系统级Agent，端侧AI让"隐私优先"不再是体验妥协。<br>
-    <b>我的实践：</b>用Cursor从零搭了宠伴PWA（含本地OCR+Chart.js看板+双端适配）、创作舱6页原型、PixelPick影像Demo——文科背景验证了"不懂代码也能交付可交互产品"。宠伴选Tesseract.js本地OCR而非云端API（83%用户拒云上传）、会议舱Whisper本地转写——隐私优先是产品策略而非技术妥协。<br>
-    <b>PM启示：</b>未来PM的核心竞争力不是"画原型"，而是"描述清楚需求+验证AI产出+设计Agent协作逻辑"。同时PM应优先评估"这个功能能否端侧完成"——如果能，就不该要求用户上传数据。
+    <b>趋势：</b>odysseus（一键本地 AI 工作台）周增 3.7 万星，shimmy（纯 Rust 推理引擎，无需 Python/CUDA，支持 Vulkan/D3D12/Metal）日增持续攀升，Rapid-MLX 专为 Apple Silicon 优化（3300+ 测试、prompt 缓存）——数据不出本地正在成为开发者的默认选择。同时 whichllm（硬件匹配 LLM 推荐工具）的出现说明：用户连"我的设备能跑什么模型"都需要独立工具了。<br>
+    <b>我的实践：</b>会议舱选 <b>Whisper 本地转写</b>而非云端 API——会议内容涉及内部讨论，数据不出本地是默认要求。宠伴选 <b>Tesseract.js 本地 OCR</b>识别接种凭证——用户调研显示 83% 宠主拒绝云端上传。这两个决策的核心逻辑一致：隐私优先不是"做不到云端所以凑合"，而是主动选择——端侧 AI 在延迟（零网络往返）、隐私（数据 100% 本地）、可用性（离线可用）三方面都有不可替代的优势。<br>
+    <b>PM启示：</b>B 端场景（金融/政务/医疗）,"数据不出本地"已经是强卖点而非加分项。PM 应优先评估"这个功能能否端侧完成"——如果能，就不该要求用户上传数据。Vibe Coding 工具（Cursor/Claude Code）让文科 PM 也能从零搭建可交互原型，但核心的 AI 策略（本地 vs 云端、隐私 vs 成本）才是 PM 不可替代的决策能力。
   </div>
 </details>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
-    <span class="card-icon" style="margin:0">🧠</span>
+    <span class="card-icon" style="margin:0">🛡️</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">AI Native 产品设计 + 多Agent协议生态</div>
-      <div class="card-sub" style="margin-bottom:0">从Perplexity到Siri AI到A2A商用——产品形态被AI能力重新定义</div>
+      <div class="card-title" style="font-size:1.05rem">Agent 安全：26.1% 技能含漏洞，安全审计从可选项变必选项</div>
+      <div class="card-sub" style="margin-bottom:0">Agent 能执行代码了——但安全谁来保证？NVIDIA 和 Apple 本月给出了答案</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>趋势：</b>AI Native不是"现有产品+AI"，而是产品形态本身由AI能力定义——Perplexity=AI回答引擎、v0=自然语言→界面、Siri AI=操作系统级Agent。多Agent协议成熟：MCP管纵向（Agent↔工具）、A2A管横向（Agent↔Agent）、ANP管网状（大规模调度）。A2A由清华大学定义为"AI时代数字委托协议"，微信已与手机厂商合作商用。<br>
-    <b>我的实践：</b>PRD Quality Gate是典型AI Native——不是"PRD模板+AI检查"而是"AI自动审查PRD质量"全新形态。宠伴先本地OCR建数据壁垒→再AI健康报告，也是"AI定义产品形态"的思路。<br>
-    <b>PM启示：</b>PM应从用户任务链出发找AI介入的最佳节点，而不是从技术能力出发找场景。同时设计多Agent系统时必须明确：哪些用MCP调工具、哪些用A2A委托协作、信任如何传递、失败如何升级。
+    <b>趋势：</b>NVIDIA 开源 SkillSpector——对 42,447 个 Agent 技能样本进行安全扫描，发现 <b>26.1% 存在漏洞</b>。Apple 开源 container（端侧 AI 容器化方案），withastro/flue 提供 TypeScript 沙箱 Agent 框架——Agent 安全从"锦上添花"变为"必须有"。这不是危言耸听：当 Agent 可以执行代码、访问文件系统、调用外部 API 时，每个 Skill 都是一个潜在的攻击面。<br>
+    <b>我的实践：</b>跨境电商 Agent 系统内置 <b>Compliance Agent（合规审核模块）</b>——设计思路上与 SkillSpector 的安全审计理念一致：每个 Sub Agent 的输出不是直接交付用户，而是经过 Compliance Agent 的规则检查。PRD Quality Gate 设计了<b>"三重护栏"机制</b>：操作确认（护栏①）→ 过程可解释（护栏②）→ 结果可修正（护栏③），确保 AI 输出始终在人的最终控制下。<br>
+    <b>PM启示：</b>如果你的 AI 产品涉及 Agent 执行代码或访问用户数据，安全审计不再是锦上添花——它是合规刚需。PM 在设计 Agent 系统时必须定义：哪些操作需要人确认、哪些数据不能出本地、每个 Skill 的权限边界在哪里。参考 SkillSpector 的漏洞扫描思路，在产品设计阶段就内建"安全护栏"。
   </div>
 </details>
 

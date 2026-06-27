@@ -135,6 +135,157 @@
         "kicker_full_zh": "把散落指令收成可检索、可一键复制的模板，按 PRD / UI / 调试等场景分类，发版时同步更新条目。",
         "kicker_short_zh": "场景分类 · 一键复制 · 随版本维护。"
       }
+    },
+    {
+      "id": "crossborder",
+      "name_zh": "GlobalFUN·跨境AI拼团",
+      "prd_file": "PRD_08_跨境电商.md",
+      "flow_svg": null,
+      "hi_fi_html": "cross-border-ai.html",
+      "suggested_frame_size": { "width": 760, "height": 900, "unit": "px", "note": "桌面优先，4 Agent 并行卡片" },
+      "primary_screens": [
+        { "frame": "Agent 面板", "description": "4 Agent 并行卡片（比价/关税/物流/推荐）" },
+        { "frame": "拼团流程", "description": "阶梯拼团 3/5/10 人" },
+        { "frame": "到手价 Hero", "description": "AI 到手价计算器" },
+        { "frame": "下单链路", "description": "5 步沉浸式下单" },
+        { "frame": "MCP 架构面板", "description": "面试官模式 · 长按激活" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D", "F"],
+        "portfolio_slot_zh": "补充：GlobalFUN·跨境AI拼团",
+        "flow_aria_label": "GlobalFUN·跨境AI拼团（2025-12起）",
+        "timeline": { "project_start": "2025-12", "internship_crosswalk": "多Agent协同 + 电商产品感" },
+        "kicker_full_zh": "从选品助手到多 Agent 协同（比价/关税/物流/推荐），MCP 服务总线标准化通信，8 轮迭代深耕「产品感」。",
+        "kicker_short_zh": "多Agent协同 · MCP · 产品感迭代。"
+      }
+    },
+    {
+      "id": "zhuzhi",
+      "name_zh": "住值·租房决策",
+      "prd_file": "PRD_07_住值.md",
+      "flow_svg": null,
+      "hi_fi_html": "zhuzhi-rent.html",
+      "suggested_frame_size": { "width": 760, "height": 900, "unit": "px", "note": "桌面优先，双轴图表 + 滑块" },
+      "primary_screens": [
+        { "frame": "预算计算器", "description": "贪心预算 + 双轴图表" },
+        { "frame": "AI 顾问", "description": "租房建议对话" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D", "F"],
+        "portfolio_slot_zh": "补充：住值·租房生命成本计算器",
+        "flow_aria_label": "住值·租房决策",
+        "timeline": { "internship_crosswalk": "量化决策 + 数据可视化" },
+        "kicker_full_zh": "租房场景的量化决策工具：贪心预算 + 双层 Bmax 算法，AI 顾问辅助建议。",
+        "kicker_short_zh": "量化租房决策 · 数据可视化。"
+      }
+    },
+    {
+      "id": "pixelpick",
+      "name_zh": "PixelPick·AI影像精选",
+      "prd_file": null,
+      "flow_svg": "../flows/svg/flow_07_PixelPick.svg",
+      "hi_fi_html": "pixelpick.html",
+      "suggested_frame_size": { "width": 960, "height": 900, "unit": "px", "note": "桌面工作台，Contact Sheet 网格" },
+      "primary_screens": [
+        { "frame": "上传区", "description": "拖拽/点击上传，5 步进度条" },
+        { "frame": "Contact Sheet", "description": "缩略图网格 + Best 标记" },
+        { "frame": "精选横幅", "description": "最佳图片 + 评分 + 维度标签" },
+        { "frame": "放大镜对比", "description": "悬停预览 + 分屏对比" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D"],
+        "portfolio_slot_zh": "新增：PixelPick·AI影像精选（暗房风格）",
+        "flow_aria_label": "PixelPick·AI影像精选（2026-06起）",
+        "timeline": { "project_start": "2026-06", "internship_crosswalk": "从用户场景出发设计 AI 工具" },
+        "kicker_full_zh": "暗房接触印相隐喻 + Apple HIG 暗色规范，上传→AI评分→Best精选→放大镜对比→导出，纯前端零 API 成本。",
+        "kicker_short_zh": "暗房风格 · AI优选 · 纯前端。"
+      }
+    },
+    {
+      "id": "mistlamp",
+      "name_zh": "雾灯残页·游戏本体",
+      "prd_file": null,
+      "flow_svg": "../flows/svg/flow_08_雾灯残页.svg",
+      "hi_fi_html": "mistlamp.html",
+      "suggested_frame_size": { "width": 390, "height": 844, "unit": "px", "note": "移动优先，文字冒险游戏" },
+      "primary_screens": [
+        { "frame": "主菜单", "description": "新游戏/继续/存档管理" },
+        { "frame": "游戏界面", "description": "属性条 + 叙事 + 分支选择" },
+        { "frame": "存档面板", "description": "多槽位存档管理" },
+        { "frame": "设置", "description": "三主题切换" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D"],
+        "portfolio_slot_zh": "新增：雾灯残页·文字冒险游戏（AIGC全流程）",
+        "flow_aria_label": "雾灯残页·游戏本体（2026-06起）",
+        "timeline": { "project_start": "2026-06", "internship_crosswalk": "AIGC 全程开发创意产品" },
+        "kicker_full_zh": "哥特暗色文字冒险游戏，属性系统+分支叙事+存档，全程 AIGC 辅助开发，展示 PM 指导 AI 完成复杂创意项目的能力。",
+        "kicker_short_zh": "AIGC全流程 · 文字冒险 · 分支叙事。"
+      }
+    },
+    {
+      "id": "vngame",
+      "name_zh": "雾灯残页·AIGC展示",
+      "prd_file": null,
+      "flow_svg": null,
+      "hi_fi_html": "vn-game.html",
+      "suggested_frame_size": { "width": 760, "height": 900, "unit": "px", "note": "AIGC 过程展示页" },
+      "primary_screens": [
+        { "frame": "Hero + Stats", "description": "核心数据（万字/调用/结局）" },
+        { "frame": "AIGC 阶段展示", "description": "6 个 AI 协作阶段 Details 面板" },
+        { "frame": "文件溯源", "description": "生成资产链接" },
+        { "frame": "技术架构", "description": "4 Agent 协作模式说明" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D"],
+        "portfolio_slot_zh": "新增：雾灯残页·AIGC开发展示",
+        "flow_aria_label": "雾灯残页·AIGC展示（2026-06起）",
+        "timeline": { "project_start": "2026-06", "internship_crosswalk": "AI 协作过程透明化" },
+        "kicker_full_zh": "面向面试官的 AIGC 能力展示页：Stats Grid + 6 阶段 AI 协作过程 + 文件溯源 + 4 Agent 协作模式。",
+        "kicker_short_zh": "AIGC过程展示 · 文件溯源 · 4Agent协作。"
+      }
+    },
+    {
+      "id": "branchtree",
+      "name_zh": "分支树·游戏结构图",
+      "prd_file": null,
+      "flow_svg": "../flows/svg/flow_08_雾灯残页.svg",
+      "hi_fi_html": "branch_tree.html",
+      "suggested_frame_size": { "width": 1320, "height": 900, "unit": "px", "note": "宽屏展板" },
+      "primary_screens": [
+        { "frame": "Board 展板", "description": "羊皮纸手稿全貌" },
+        { "frame": "Timeline", "description": "章节时序（移动端 accordion）" },
+        { "frame": "结局谱系", "description": "结局接入条件 + 描述" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D"],
+        "portfolio_slot_zh": "新增：分支树·游戏结构示意图",
+        "flow_aria_label": "分支树·游戏结构图（2026-06起）",
+        "timeline": { "project_start": "2026-06", "internship_crosswalk": "信息架构可视化" },
+        "kicker_full_zh": "羊皮纸手稿风格的游戏叙事架构可视化：世界观/角色/分支轴线/章节Timeline/结局谱系全貌。",
+        "kicker_short_zh": "叙事架构可视化 · 羊皮纸手稿风格。"
+      }
+    },
+    {
+      "id": "demohub",
+      "name_zh": "Demo Hub·导航页",
+      "prd_file": null,
+      "flow_svg": null,
+      "hi_fi_html": "demo-hub.html",
+      "suggested_frame_size": { "width": 1200, "height": 900, "unit": "px", "note": "面试官导航门户" },
+      "primary_screens": [
+        { "frame": "Hero + 指标", "description": "4 个核心指标卡片" },
+        { "frame": "Demo Grid", "description": "双栏 Demo 卡片列表" },
+        { "frame": "筛选", "description": "产品类型标签切换" }
+      ],
+      "resume_anchor": {
+        "cv_section_tags": ["C", "D"],
+        "portfolio_slot_zh": "导航：Demo Hub·作品集门户",
+        "flow_aria_label": "Demo Hub·导航页（2026-06起）",
+        "timeline": { "project_start": "2026-06", "internship_crosswalk": "面试官第一印象设计" },
+        "kicker_full_zh": "蓝紫渐变品牌门户：面试官视角指标卡片 + 13 个 Demo 双栏陈列 + 产品类型筛选。",
+        "kicker_short_zh": "面试官门户 · 13 Demo · 双栏导航。"
+      }
     }
   ]
 }

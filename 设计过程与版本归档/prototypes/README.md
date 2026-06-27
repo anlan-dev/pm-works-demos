@@ -12,6 +12,13 @@
 | 冷启动 | `cold-start.html` | …/cold-start.html |
 | 剧本舱 | `script-review.html` | …/script-review.html |
 | Prompt 库 | `prompt-library.html` | …/prompt-library.html |
+| 跨境电商 | `cross-border-ai.html` | …/cross-border-ai.html |
+| 住值 | `zhuzhi-rent.html` | …/zhuzhi-rent.html |
+| **PixelPick** | `pixelpick.html` | …/pixelpick.html |
+| **雾灯残页·游戏** | `mistlamp.html` | …/mistlamp.html |
+| **雾灯残页·AIGC展示** | `vn-game.html` | …/vn-game.html |
+| **分支树·结构图** | `branch_tree.html` | …/branch_tree.html |
+| **Demo Hub·导航** | `demo-hub.html` | …/demo-hub.html |
 
 细节清单见 **`manifest.json`**（可被脚本读取）与 **`specs/全项目屏幕与Frame映射.md`**（人类可读）。**时间线**与各页 `dev-flow`、`manifest.json` 一致；流程顶栏用 `../flows/svg/`。
 

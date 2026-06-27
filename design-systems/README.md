@@ -14,7 +14,7 @@
 | `AGENTS.md` | 编码 Agent | 如何构建项目 |
 | `DESIGN.md` | 设计 Agent | 项目应该长什么样 |
 
-**本仓库为 8 个项目提供即用的 DESIGN.md 文件。**
+**本仓库为 14 篇 DESIGN.md 提供即用设计规范（覆盖 13 个项目 + 1 个 UIwork 合集）。**
 
 ---
 
@@ -99,6 +99,32 @@ Layer 3: Component Tokens（组件级）
 |------|-----------|---------|------|------|
 | **Prompt Library** | [prompt-library/DESIGN.md](./prompt-library/DESIGN.md) | 工具效率类 | `#0071e3` | 白卡片+浅灰画布，JetBrains Mono 代码块，搜索+收藏+使用统计 |
 
+### 🎮 游戏/叙事类
+
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **Mistlamp · 雾灯残页** | [mistlamp/DESIGN.md](./mistlamp/DESIGN.md) | 消费娱乐类 | `#b8905e` | 哥特暗色文字冒险游戏，衬线正文+古铜金强调，属性条+分支选择+存档 |
+| **雾灯残页 · AIGC 展示** | [vn-game/DESIGN.md](./vn-game/DESIGN.md) | 消费娱乐类 | `#c49a6c` | AIGC 开发过程展示页，三主题切换（dark/ink/default），Stats Grid |
+| **Branch Tree · 结构图** | [branch-tree/DESIGN.md](./branch-tree/DESIGN.md) | 数据可视化类 | `#7d5b2a` | 羊皮纸手稿风格叙事分支图，Georgia 衬线+做旧质感，Timeline+结局谱系 |
+
+### 🎨 创作工具类 · 扩展
+
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **PixelPick · AI 影像精选** | [pixelpick/DESIGN.md](./pixelpick/DESIGN.md) | 创作工具类 | `#0071e3` | 暗房接触印相风格，Apple HIG 暗色+琥珀蓝，Best 算法+ Contact Sheet 网格+放大镜预览 |
+
+### 🧭 导航/门户类
+
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **Demo Hub · 导航页** | [demo-hub/DESIGN.md](./demo-hub/DESIGN.md) | 工具/导航类 | `#4f46e5` | 面试官视角门户，蓝紫渐变+白卡片，指标卡片+双栏Demo陈列+快速入口 |
+
+### 🖼 UI 设计作品集
+
+| 项目 | DESIGN.md | 产品类型 | 主色 | 描述 |
+|------|-----------|---------|------|------|
+| **UIwork · 11 风格 Demo** | [UIwork/DESIGN.md](./UIwork/DESIGN.md) | UI 设计展示类 | `#a78bfa` | 暗色画廊框架，11 个风格 Demo（玻璃态/赛博朋克/日式极简/粗野主义等） |
+
 ---
 
 ## 🎨 四类产品设计风格
@@ -127,12 +153,27 @@ Layer 3: Component Tokens（组件级）
 字体：Inter + Noto Sans SC | 动效：克制，仅功能性
 ```
 
-### D. 创新实验类（UIwork 08-11）
+### D. 暗色沉浸类（PixelPick / Mistlamp / 雾灯残页 / Branch Tree）
+
+```
+画布：#000000 ~ #0f0e0c | 卡片：暗色调 | 主色：琥珀蓝/古铜金
+阴影：0 4px 16px rgba(0,0,0,.4) | 圆角：8/10/12px
+字体：Noto Sans SC / Noto Serif SC / JetBrains Mono | 动效：克制，仅功能性
+```
+
+### E. 创新实验类（UIwork 08-11）
 
 ```
 按风格定制（玻璃拟态/赛博朋克/日式极简/粗野主义）
-详见 demo/UIwork/ 目录
+详见 UIwork/DESIGN.md
 ```
+
+### F. 导航/门户类（Demo Hub）
+
+```
+画布：#fafbfd | 卡片：#ffffff | 主色：#4f46e5（蓝紫渐变）
+阴影：多层 shadow（sm→md→lg→xl） | 圆角：8/12/16/20px
+字体：Inter | 动效：200ms cubic-bezier(.4,0,.2,1)
 
 ---
 
@@ -181,4 +222,4 @@ Layer 3: Component Tokens（组件级）
 
 **作者**：王天娇 · PM Portfolio
 **GitHub**：[anlan-dev/pm-works-demos](https://github.com/anlan-dev/pm-works-demos)
-**最后更新**：2026-06-19
+**最后更新**：2026-06-28

@@ -44,5 +44,7 @@
 | 冷启动 | `svg/flow_04_冷启动.svg` | 补充 |
 | 剧本舱 | `svg/flow_05_剧本舱.svg` | 补充 |
 | Prompt 库 | `svg/flow_06_Prompt库.svg` | 协作向 |
+| PixelPick | `svg/flow_07_PixelPick.svg` | 新增 · 2026.06 |
+| 雾灯残页 | `svg/flow_08_雾灯残页.svg` | 新增 · 2026.06 |
 
 高保真 HTML 与 Frame 尺寸见 `../prototypes/manifest.json`。

@@ -85,3 +85,91 @@
 2. Page  per project，先 **Place** 对应 `flow_*.svg` 到顶栏。  
 3. 每行 Frame 按上表命名，**宽高校验**见 `manifest.json` 的 `suggested_frame_size`。  
 4. 高保真：浏览器 **全屏截屏** 或合规 **HTML 导入插件** 放入 Frame（标注「以 HTML 为准」）。
+
+---
+
+## 跨境电商·AI Agent (`cross-border-ai.html`)
+
+| 建议 Frame 名 | 对应 Demo 区域 | 状态/备注 |
+|---------------|----------------|-----------|
+| 跨境-Agent面板 | 4 Agent 并行卡片 | 比价/关税/物流/推荐 |
+| 跨境-拼团 | 阶梯拼团 3/5/10 人 | 价格递减动画 |
+| 跨境-到手价 | Hero 到手价计算器 | 商品+运费+关税+汇率 |
+| 跨境-下单链路 | 5 步下单（规格→地址→支付→确认→成功） | 物流追踪 |
+| 跨境-MCP面板 | 长按 Logo 激活 | 面试官模式 |
+
+**PRD**：`../PRD_08_跨境电商.md`
+
+---
+
+## 住值·租房决策 (`zhuzhi-rent.html`)
+
+| 建议 Frame 名 | 对应 Demo 区域 | 状态/备注 |
+|---------------|----------------|-----------|
+| 住值-预算 | 贪心预算 + 双层 Bmax | 滑块输入 |
+| 住值-AI顾问 | AI 租房建议对话 | Mock 回复 |
+
+**PRD**：`../PRD_07_住值.md`
+
+---
+
+## PixelPick·AI影像精选 (`pixelpick.html`)
+
+| 建议 Frame 名 | 对应 Demo 区域 | 状态/备注 |
+|---------------|----------------|-----------|
+| PixelPick-上传 | 拖拽/点击上传区 + Film Strip | 5 步进度条 |
+| PixelPick-精选横幅 | Best Banner（大缩略图+评分+维度） | ★ 脉冲动画 |
+| PixelPick-网格 | Contact Sheet 网格 + Best 标记 | hover 放大镜波纹 |
+| PixelPick-对比 | 放大镜分屏对比 | 全屏模式 |
+
+**架构**：`../architecture/ARCHITECTURE_PixelPick.md`
+
+---
+
+## 雾灯残页·游戏本体 (`mistlamp.html`)
+
+| 建议 Frame 名 | 对应 Demo 区域 | 状态/备注 |
+|---------------|----------------|-----------|
+| 雾灯-主菜单 | `#menu-overlay`（径向渐变背景） | 新游戏/继续/存档 |
+| 雾灯-游戏中 | Header + 属性条 + 叙事 + 分支选择 | 属性门槛可见 |
+| 雾灯-存档 | 多槽位存档面板 | 保存/读取/删除 |
+| 雾灯-设置 | 三主题切换 | 暗色/更深/羊皮纸 |
+
+**架构**：`../architecture/ARCHITECTURE_Mistlamp.md`
+
+---
+
+## 雾灯残页·AIGC展示 (`vn-game.html`)
+
+| 建议 Frame 名 | 对应 Demo 区域 | 状态/备注 |
+|---------------|----------------|-----------|
+| 雾灯展示-Hero | Hero + Stats Grid（万字/调用/结局） | 三主题可选 |
+| 雾灯展示-过程 | 6 个 AIGC 阶段 Details 面板 | 折叠展开 |
+| 雾灯展示-文件 | 文件溯源链接列表 | 可点击 |
+| 雾灯展示-架构 | 4 Agent 协作模式说明 | 引用块 + 故事块 |
+
+**架构**：`../architecture/ARCHITECTURE_Mistlamp.md`
+
+---
+
+## 分支树·游戏结构图 (`branch_tree.html`)
+
+| 建议 Frame 名 | 对应 Demo 区域 | 状态/备注 |
+|---------------|----------------|-----------|
+| 分支树-展板 | Board 羊皮纸主展板 | 世界观/角色/轴线 |
+| 分支树-时间线 | Timeline 章节时序 | 移动端 accordion |
+| 分支树-结局 | Ending Grid 结局谱系 | 接入条件+描述 |
+
+**架构**：`../architecture/ARCHITECTURE_分枝树.md`
+
+---
+
+## Demo Hub·导航页 (`demo-hub.html`)
+
+| 建议 Frame 名 | 对应 Demo 区域 | 状态/备注 |
+|---------------|----------------|-----------|
+| Hub-Hero | Hero + 4 个指标卡片 | 渐变装饰条 |
+| Hub-DemoGrid | Demo 双栏卡片列表 | 筛选切换 |
+| Hub-Footer | 联系信息 | CTA 按钮 |
+
+**架构**：`../architecture/ARCHITECTURE_DemoHub.md`

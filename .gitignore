@@ -23,6 +23,10 @@ yarn-error.log*
 *.docx
 *.doc
 
+# 备份文件（不进入版本控制）
+*.bak
+*.bak_*
+
 # 操作系统文件
 .DS_Store
 Thumbs.db

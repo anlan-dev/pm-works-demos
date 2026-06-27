@@ -16,3 +16,36 @@ FD-2025-014,跨会议阻塞项单独视图,meeting,active,多主题/UI,self,2025
 FD-2025-015,复诊「一页摘要」实验设计,pet,triage,导出/备份,interview,2025-11-01,,
 FD-2025-016,多宠提醒冲突检测（纸质流程前置）,pet,triage,提醒灵活性,self,2025-11-02,,
 FD-2025-017,企业私有化部署说明占位,meeting,triage,导出/备份,self,2025-11-16,,
+FD-2026-018,选品助手MVP,跨境,closed,AI Agent,interview,2025-12-05,2025-12-28,跨境MVP
+FD-2026-019,多平台AI接入+离线兜底,跨境,closed,AI Agent,dogfood,2026-01-08,2026-01-22,跨境Agent
+FD-2026-020,选品/翻译/物流Agent分工,跨境,closed,多Agent协同,dogfood,2026-02-01,2026-02-18,跨境多Agent
+FD-2026-021,MCP服务总线标准化,跨境,closed,多Agent协同,dogfood,2026-03-04,2026-03-20,跨境MCP
+FD-2026-022,Orchestrator路由可视化,跨境,closed,多Agent协同,dogfood,2026-04-02,2026-04-18,跨境可视化
+FD-2026-023,Agent Matrix并行状态面板,跨境,closed,多Agent协同,dogfood,2026-05-01,2026-05-16,跨境Matrix
+FD-2026-024,AI对话6种结构化卡片,跨境,closed,AI Agent,self,2026-05-28,2026-05-28,跨境外卡升级
+FD-2026-025,5步沉浸式下单链路,跨境,closed,产品感,self,2026-05-28,2026-05-28,跨境下单链路
+FD-2026-026,面试官模式（MCP面板隐藏/激活）,跨境,closed,产品感,self,2026-05-28,2026-05-28,跨境面试官模式
+FD-2026-027,AI到手价Hero计算器,跨境,closed,产品感,interview,2026-05-28,2026-05-28,跨境到手价
+FD-2026-028,供应链7步溯源可视化,跨境,closed,产品感,interview,2026-05-28,2026-05-28,跨境供应链
+FD-2026-029,阶梯拼团3/5/10人,跨境,closed,产品感,interview,2026-05-28,2026-05-28,跨境拼团
+FD-2026-030,按钮交互修复（IIFE/clipboard）,跨境,closed,技术债务,self,2026-06-19,2026-06-19,跨境修复
+FD-2026-031,6项动态功能完善,跨境,closed,产品感,self,2026-06-19,2026-06-19,跨境动态功能
+FD-2026-032,UI风格迁移（Neumorphic→标准）,跨境,closed,多主题/UI,self,2026-06-19,2026-06-19,跨境UI迁移
+FD-2026-033,作品集色彩系统统一,全项目,closed,多主题/UI,self,2026-06-19,2026-06-19,全项目审计
+FD-2026-034,AI PM定位+能力矩阵补全,全项目,closed,文档/口径,self,2026-06-19,2026-06-19,全项目审计
+FD-2026-035,Viewport meta补全+合规声明,全项目,closed,技术债务,self,2026-06-19,2026-06-19,全项目审计
+FD-2026-036,PixelPick暗房上传+评分MVP,pixelpick,closed,AI工具,self,2026-06-26,2026-06-26,PixelPick MVP
+FD-2026-037,PixelPick Contact Sheet+Best精选,pixelpick,closed,AI工具,dogfood,2026-06-27,2026-06-27,PixelPick暗房
+FD-2026-038,雾灯残页游戏本体MVP,mistlamp,closed,AIGC开发,dogfood,2026-06-18,2026-06-18,雾灯游戏MVP
+FD-2026-039,雾灯残页AIGC展示页,mistlamp,closed,AIGC开发,dogfood,2026-06-18,2026-06-18,雾灯展示MVP
+FD-2026-040,分支树游戏结构图,branchtree,closed,信息架构,self,2026-06-20,2026-06-20,分支树MVP
+FD-2026-041,Demo Hub面试官导航页,demohub,closed,导航/门户,self,2026-06-19,2026-06-19,Hub MVP
+FD-2026-042,14项目DESIGN.md全量覆盖,全项目,closed,设计系统,self,2026-06-28,2026-06-28,设计系统梳理
+FD-2026-043,架构文档补全4篇+迭代日志3篇,全项目,closed,文档/口径,self,2026-06-28,2026-06-28,归档补全
+FD-2026-044,prototypes/manifest新项目映射,全项目,closed,文档/口径,self,2026-06-28,2026-06-28,原型映射补全
+FD-2026-045,Flow SVG补全（PixelPick+雾灯）,全项目,closed,设计系统,self,2026-06-28,2026-06-28,Flow SVG补全
+FD-2026-046,雾灯残页存档多槽位优化,mistlamp,active,AIGC开发,usability,2026-06-25,,
+FD-2026-047,PixelPick放大镜分屏对比模式,pixelpick,active,AI工具,usability,2026-06-28,,
+FD-2026-048,跨境拼团价格动画+社交证明强化,跨境,triage,产品感,usability,2026-06-22,,
+FD-2026-049,分支树Timeline动效+Hover细节,branchtree,triage,信息架构,self,2026-06-28,,
+FD-2026-050,Demo Hub按技术标签二级筛选,demohub,triage,导航/门户,self,2026-06-28,,
