@@ -778,10 +778,8 @@ details .step-text {
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">团队PRD评审依赖人工逐条检查，经常遗漏模糊点和歧义描述，导致开发阶段反复返工。</div></div></div>
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 核心判断</div><div class="step-text">基于个人积累的<b>19项PRD质量检查清单</b>，识别到这部分工作可通过AI自动化——规则确定性强，适合System Prompt直写，无需RAG知识库。<b>核心判断：</b>PRD检查是确定性规则检查→System Prompt比RAG更稳定可控。</div>
-  <div class="step-text"><b>为什么选System Prompt直写而非RAG：</b>RAG适合"答案在知识库里、需要检索"的场景（如客服问答）。但PRD检查的规则是固定的（"用户故事是否包含验收标准""异常流程是否覆盖"等），不需要检索外部知识，只需要把规则"教"给LLM。用RAG反而会引入检索噪声——检索到不相关的规则片段会干扰判断。实测验证：System Prompt方案的遗漏检出密度（13处/5000字）优于RAG方案（8处/5000字）。</div>
-  <div class="step-text"><b>为什么Token消耗更低：</b>选择System Prompt直写的另一个被低估的优势是<b>Token成本效率</b>。RAG方案每次审核都要经过"知识库检索→上下文拼接→LLM推理"三步，其中检索和拼接会额外消耗Token。而System Prompt方案将19项规则直接内嵌在Prompt中，单次审核Token消耗比RAG方案低约60%。对于高频使用场景（如每日多份PRD审核），Token累积节省量级可观。这体现了PM的<b>成本意识</b>——不仅考虑"能不能做"，更考虑"规模化后的单位成本"。</div>
-  <div class="step-text"><b>为什么Temperature设0.2而非0：</b>Temp=0会导致输出完全确定，对于"判断PRD是否有问题"这种需要一定推理的任务，完全确定性会降低判断灵活性。Temp=0.2在"可控"和"灵活"之间取平衡——相同PRD多次审核结果一致性>95%，同时保留对模糊表述的推理能力。</div>
-  <div class="step-text"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>PRD遗漏通常不是随机分布的，而是集中在特定维度。四维拆解基于MECE原则：输入侧检查"有没有说清楚要什么"，逻辑侧检查"逻辑是否自洽"，异常侧检查"边界情况有没有覆盖"，评估侧检查"怎么验证做对了"。实测13处遗漏中，异常侧占7处（54%），验证了"PRD最常遗漏异常流程"的行业共识。</div>
+  <div class="step-text"><b>为什么选System Prompt直写而非RAG：</b>PRD检查规则是确定的（"用户故事含验收标准""异常流程覆盖"等），不需要检索外部知识。RAG会引入检索噪声，且每次审核多消耗约<b>60% Token</b>。实测：System Prompt方案的遗漏检出（13处/5000字）优于RAG（8处/5000字），搭配Temp 0.2让一致性>95%同时保留推理灵活度。</div>
+  <div class="step-text"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>基于MECE原则将检查结构化。实测13处遗漏中异常侧占7处（54%），验证了"PRD最常遗漏异常流程"的行业共识。</div>
   </div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>平台：</b>Dify Chatflow · <b>模型：</b>mimo-v2-flash · Temperature 0.2（控制幻觉）· <b>审核四维：</b>输入侧/逻辑侧/异常侧/评估侧 · <b>三重护栏：</b>操作确认→过程可解释→结果可修正</div></div></div>
@@ -829,10 +827,8 @@ details .step-text {
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">多宠家庭疫苗、驱虫、体检提醒分散在相册与群聊，易遗漏；记录路径长，持续使用意愿弱。</div></div></div>
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 用户需求调研</div>
-  <div class="step-text"><b>调研范围（全用户生命周期覆盖）：</b>①潜在用户：养宠1年内新手主人（8人），探索记录习惯尚未固化；②活跃用户：多宠家庭核心用户（9人），已有疫苗管理痛点但缺乏系统工具；③流失用户：曾使用宠物管理App后卸载的用户（3人），明确流失原因为"太重/广告多/隐私顾虑"；④行业专家：宠物医院前台及兽医助理（2人），提供疫苗周期与行业规范视角。</div>
-  <div class="step-text"><b>调研方法（多维度交叉验证）：</b>①定性深访：一对一深度访谈<b>约20位</b>宠物主，每次40-60分钟，覆盖养宠场景、记录习惯、隐私态度；②定量问卷：线上发放<b>86份</b>结构化问卷（有效回收<b>72份</b>），量化疫苗遗忘频率、功能优先级排序、付费意愿边界；③竞品差评挖掘：爬取4款头部宠物App近6个月应用商店评论，提取高频负面关键词（"广告多""太复杂""隐私不放心"等）；④AI辅助情感分析：用LLM对<b>200+</b>条用户评论进行情感极性分类与主题聚类，识别"隐私>免费>简洁"的需求优先级序列。</div>
-  <div class="step-text"><b>KANO模型（需求分类模型，区分基础型/期望型/兴奋型需求）需求分层：</b>①基础型需求（Must-be）：疫苗驱虫到期提醒、多宠独立档案——不满足则用户流失，满足不增加满意度；②期望型需求（One-dimensional）：本地OCR识别接种凭证、按月花费聚合视图——满足程度与满意度线性正相关；③兴奋型需求（Attractive）：AI健康周报、PWA离线可用——超出预期带来惊喜，成为口碑传播点。需求池按KANO分类后，<b>迭代规则：基础型需求优先交付，期望型需求被超过50%用户提及才排期，兴奋型需求作为差异化亮点择机上线</b>。</div>
-  <div class="step-text"><b>核心发现：</b>约<b>70%</b>用户每月至少遗忘一次接种节点；共性需求"简单、免费、易上手"；约<b>83%</b>不愿上传接种凭证到云端——隐私顾虑优先级高于功能丰富度。由此确立"轻量健康记录册·隐私优先·零服务器依赖"的产品定位。</div>
+  <div class="step-text"><b>调研方法：</b><b>约20位</b>宠物主深度访谈（40-60分钟/人，覆盖新手/多宠/流失/行业专家4类人群）+ <b>86份</b>问卷（有效<b>72份</b>）+ 4款头部App近6个月<b>200+</b>条评论LLM情感分析，交叉验证"用户说的"和"用户做的"。KANO分层：基础型（疫苗提醒+多宠档案）、期望型（本地OCR+花费视图）、兴奋型（AI周报+PWA离线），基础型优先交付。</div>
+  <div class="step-text"><b>核心发现：</b>约<b>70%</b>用户每月至少遗忘一次接种节点；约<b>83%</b>不愿上传接种凭证到云端。由此确立"轻量健康记录册·隐私优先·零服务器依赖"的产品定位。</div>
   <div class="quote">「我不想为了记这个再下一个特别重的App，最好打开就能补一条。」——用户原话（已脱敏）</div>
   <div class="quote">「家里俩狗之前老搞混谁该驱虫了，现在分开看一目了然，总算不用拿本子记了。」——种子用户反馈</div></div></div>
 
@@ -952,81 +948,18 @@ details .step-text {
         </div>
       </div>
 
-      <!-- V0 详细方案 -->
-      <div style="background:#faf5ff;border:1px solid #d8b4fe;border-radius:10px;padding:14px;margin-bottom:12px">
-        <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">🔧 V0 · MVP原型方案（快速验证）</div>
-        <div class="step-text" style="margin-bottom:8px"><b>核心思路：</b>用ESP32+称重传感器自制宠物体重秤，通过WiFi/MQTT自动同步数据到宠伴，验证"硬件自动采集→App数据融合"这条链路是否成立。</div>
-        <div style="overflow-x:auto;margin:8px 0">
-          <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
-            <tr style="background:#f3e8ff"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#5b21b6">元件</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#5b21b6">规格</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#5b21b6">参考价格</th></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #e9d5ff">ESP32开发板</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">ESP32-C3/Mini</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">¥10-15</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #e9d5ff">HX711模块</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">24位ADC</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">¥3-5</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #e9d5ff">称重传感器</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">5kg悬臂梁</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">¥5-8</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #e9d5ff">杜邦线+面包板</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">—</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">¥5</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #e9d5ff">5V电源</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">USB供电</td><td style="padding:6px 8px;border-top:1px solid #e9d5ff">¥3</td></tr>
-          </table>
-        </div>
-        <div class="step-text" style="margin-bottom:8px"><b>技术栈：</b>ESPHome（YAML配置，零固件开发）→ WiFi/MQTT → 宠伴后端REST API → 自动更新体重记录。</div>
-        <div class="step-text" style="margin-bottom:8px"><b>开源参考：</b><a href="https://github.com/mblk/cat-scale" style="color:#7c3aed" target="_blank">mblk/cat-scale</a>（81次commit完整方案，含Web前端+InfluxDB时序数据库）</div>
-        <div class="step-text"><b>迭代路线：</b>V0.1体重自动称重(¥30) → V0.2加超声波监测碗中余粮(+¥5) → V0.3加ESP32-CAM拍照识别进食(+¥8) → V0.4 3D打印外壳产品化(+¥15)。验证成功后再接入商业设备（V1）。</div>
+      <!-- 四版方案摘要 -->
+      <div style="overflow-x:auto;margin:12px 0;border:1px solid #e2e8f0;border-radius:10px;background:#fff">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);color:#2d3a4b">
+          <tr style="background:#f8fafc"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">版本</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">方案</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">推荐设备/元件</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">数据维度</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">参考成本</th></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>V0</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">DIY体重秤</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">ESP32 + HX711 + 称重传感器</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">体重自动同步</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>¥30-50</b></td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>V1</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">数据桥接</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>FitBark 2</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动量/睡眠/健康指数</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$49.95 · 无订阅</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>V2</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">场景联动</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>小佩生态</b>（喂食器/饮水机/猫砂盆）</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">进食/饮水/如厕</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">￥300-500/件</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>V3</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">AI健康中枢</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">多设备数据融合+AI异常检测</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">全维度交叉分析+预警</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">长期愿景</td></tr>
+        </table>
       </div>
-
-      <!-- V1 详细方案 -->
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:12px">
-        <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">📦 V1 · 数据桥接方案（推荐首选）</div>
-        <div class="step-text" style="margin-bottom:8px"><b>核心思路：</b>不自研硬件，通过已有智能设备的开放API获取数据，与宠伴现有记录体系融合。</div>
-        <div style="overflow-x:auto;margin:8px 0">
-          <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
-            <tr style="background:#eef2f7"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">设备类型</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">推荐品牌</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">可获取数据</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">对接方式</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#1e4a6b">参考价格</th></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动监测项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>FitBark 2</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">活动量/睡眠/健康指数/卡路里</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + Apple HealthKit/Google Fit同步</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><a href="https://www.fitbark.com/en-CA/store/fitbark2/" style="color:#0071e3" target="_blank">$49.95</a> · 无订阅费 · 续航6个月</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">健康+GPS项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>Whistle Health</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">抓挠/舔舐/饮食/睡眠/活动/GPS</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + Webhook</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><a href="https://www.amazon.com/dp/B0B7CQ4WFL" style="color:#0071e3" target="_blank">~$99-149</a> · 订阅费另计</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">医疗级监测项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>PetPace V3.0</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">心率/HRV/呼吸/体温/姿态/疼痛指数</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + 兽医端数据共享</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><a href="https://www.amazon.com/dp/B0FNYK2KYY" style="color:#0071e3" target="_blank">$349</a> · 订阅费另计</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f1f5f9">GPS+活动项圈</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9"><b>Fi Series 3+</b></td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">GPS定位/活动量/睡眠/LED灯</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">REST API + LTE-M蜂窝网络</td><td style="padding:6px 8px;border-top:1px solid #f1f5f9">$99 + $19/月订阅 · 续航3个月</td></tr>
-          </table>
-        </div>
-        <div class="step-text"><b>推荐首选：FitBark 2</b>——<a href="https://www.fitbark.com/en-CA/store/fitbark2/" style="color:#0071e3" target="_blank">$49.95</a>、零订阅费、6个月续航、10g超轻量、API开放，与宠伴"本地优先+零成本"理念最契合。数据融合点：活动量→体重趋势分析，睡眠→异常预警，健康指数→疫苗/驱虫交叉分析。</div>
-      </div>
-
-      <!-- V2 详细方案 -->
-      <div style="background:#fffbf5;border:1px solid #f0e6d0;border-radius:10px;padding:14px;margin-bottom:12px">
-        <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">🏠 V2 · 场景联动方案（中期规划）</div>
-        <div class="step-text" style="margin-bottom:8px"><b>核心思路：</b>接入宠物智能家居生态（喂食器+饮水机+猫砂盆），实现"吃喝拉撒"全场景数据自动采集。</div>
-        <div style="overflow-x:auto;margin:8px 0">
-          <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
-            <tr style="background:#fef3e2"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">设备类型</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">推荐品牌</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">可获取数据</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">对接方式</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#92400e">参考价格</th></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能喂食器</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 YumShare 2</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">进食量/进食时间/余粮/多猫识别</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi（开源Python库）+ PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">￥399-599 · 无订阅费</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能饮水机</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 Eversweet Ultra</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">饮水量/饮水频率/滤芯寿命</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi + PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">￥299-399 · 无订阅费</td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能猫砂盆</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>小佩 Purobot Max Pro 2</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">如厕次数/时长/体重/尿液pH/AI粪便分析</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">pypetkitapi + PETKIT REST API</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><a href="https://petkit.com/products/purobot-max-pro-2-automatic-cat-litter-box-with-ai-camera" style="color:#d97706" target="_blank">$499.99</a> · <a href="https://petkit.com/blogs/blog/2026-petkit-best-automatic-litter-boxes-ultimate-buying-guide" style="color:#d97706" target="_blank">Microsoft AI创新奖@CES 2026</a></td></tr>
-            <tr><td style="padding:6px 8px;border-top:1px solid #f5ead8">智能猫砂盆（多猫）</td><td style="padding:6px 8px;border-top:1px solid #f5ead8"><b>CATLINK Self-Cleaning</b></td><td style="padding:6px 8px;border-top:1px solid #f5ead8">如厕次数/时长/体重/RFID多猫识别</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">CATLINK REST API + RFID项圈</td><td style="padding:6px 8px;border-top:1px solid #f5ead8">$330 · 双AI摄像头 · 零误识别</td></tr>
-          </table>
-        </div>
-        <div class="step-text"><b>生态选型推荐：小佩（PETKIT）全屋方案</b>——喂食器+饮水机+猫砂盆统一API（pypetkitapi开源库已可用），零订阅费，<a href="https://petkit.com/blogs/blog/2026-petkit-best-automatic-litter-boxes-ultimate-buying-guide" style="color:#d97706" target="_blank">Microsoft AI创新奖@CES 2026</a>，国内品牌售后有保障。备选方案：CATLINK（多猫识别更强）或霍曼（性价比更高）。[竞品数据来源：2025-2026年PETKIT官网、PyPI/pypetkitapi]</div>
-      </div>
-
-      <!-- V3 详细方案 -->
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;margin-bottom:12px">
-        <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">🧠 V3 · AI健康中枢方案（长期愿景）</div>
-        <div class="step-text" style="margin-bottom:8px"><b>核心思路：</b>多设备数据融合 + AI异常检测 + 兽医端数据共享，从"记录工具"升级为"智能健康管家"。</div>
-        <div style="font-size:.74rem;color:#4a5568;line-height:1.6;margin-bottom:8px">
-          <b>数据融合架构：</b>活动量（FitBark）+ 进食量（小佩喂食器）+ 饮水量（小佩饮水机）+ 如厕数据（小佩猫砂盆）+ 现有记录（疫苗/驱虫/花费/体重）→ AI健康分析引擎 → 综合健康报告 + 异常预警 + 兽医端数据导出
-        </div>
-        <div style="font-size:.74rem;color:#4a5568;line-height:1.6;margin-bottom:8px">
-          <b>AI能力来源：</b><a href="https://www.gjpet.com/" style="color:#059669" target="_blank">宠智灵AI开放平台</a>（宠物行为识别准确率超92%，情绪识别准确率超88%，支持API/SDK/H5/小程序接入及私有化部署）提供宠物图像识别、行为分析、症状结构化等能力；萤石IoT开放平台提供设备接入+云边协同AI+视频模组方案。
-        </div>
-        <div style="font-size:.74rem;color:#4a5568;line-height:1.6">
-          <b>差异化价值：</b>市面产品（Whistle/FitBark/小佩）均为"单设备单App"，用户手机装满宠App但数据不互通。宠伴做"健康中枢"聚合层，一个入口看全维度数据，AI交叉分析发现单一设备无法察觉的健康异常（如：活动量下降+饮水量增加+如厕频率升高 → 可能肾脏问题预警）。
-        </div>
-      </div>
-
-      <!-- 技术对接参考 -->
-      <div style="font-size:.72rem;color:#6e6e73;line-height:1.5;margin-top:8px">
-        <b>技术对接参考：</b>
-        ①pypetkitapi（pip install pypetkitapi，MIT协议，Python 3.10+，支持喂食器/饮水机/猫砂盆/净化器控制+数据获取）；
-        ②萤石IoT开放平台（MCU+模组对接，WiFi/BLE/视频模组，提供API+SDK+公版APP）；
-        ③宠智灵AI开放平台（<a href="https://www.gjpet.com/" style="color:#059669" target="_blank">gjpet.com</a>，宠物图像识别/行为分析/诊疗建议API，支持云端+本地部署）；
-        ④PetPulse开源项目（GitHub PetPulseCLE/PetPulse，AI智能项圈固件+后端+移动端全栈参考）。
-        [数据来源：PyPI/pypetkitapi 1.26.0、宠智灵官网gjpet.com、萤石官网、GitHub PetPulse]
-      </div>
+      <div class="step-text"><b>核心逻辑：</b>V0 DIY验证"自动采集→App融合"链路（ESPHome→WiFi/MQTT→REST API，参考 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a>）；V1 接入FitBark 2（$49.95·零订阅·REST API），与"本地优先+零成本"理念最契合；V2 小佩全屋统一API（pypetkitapi开源库）；V3 多设备数据融合+<a href="https://www.gjpet.com/" target="_blank">宠智灵AI</a>异常检测，从记录工具升级为健康管家。差异化：市面产品均为"单设备单App"数据孤岛，宠伴做聚合层实现跨设备交叉分析。</div>
+      <div style="font-size:.72rem;color:#6e6e73;line-height:1.5;margin-top:8px"><b>技术参考：</b>pypetkitapi（MIT协议·pip install）· 萤石IoT开放平台 · 宠智灵AI（行为识别>92%准确率）· GitHub PetPulse。 [数据来源：PyPI/pypetkitapi 1.26.0、FitBark官网、PETKIT官网、宠智灵官网]</div>
     </div>
   </details>
 </div></div></div>
@@ -1099,9 +1032,9 @@ details .step-text {
       需求调研·竞品·数据（点击展开）
     </summary>
     <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
-      <div class="step-text"><b>用户需求调研：</b>①调研范围：潜在用户——日均会议≥3场的项目协调人，活跃用户——已使用会议纪要工具（飞书/钉钉/Notion）的PM/TL，流失用户——试用后放弃者（反馈"整理比手写还慢""待办没法追踪"），行业专家——企业OA产品经理（1人）、敏捷教练（1人）；②调研方法：深度访谈<b>10位</b>PM/项目协调人（含4名种子用户），会议场景观察<b>6-8场</b>真实会议（记录会后整理行为），问卷<b>62份</b>（有效<b>51份</b>），竞品工具对比试用（飞书妙记/通义听悟/Fireflies.ai）；③KANO分层：基础型——语音转写、待办提取（不满足则无价值），期望型——状态流转、漏项抽检（满意度线性增长），兴奋型——周报复盘、会议知识图谱（超预期价值点）。</div>
-      <div class="step-text"><b>竞品分析：</b>①直接竞品——飞书妙记（支持语音识别+自动摘要+待办提取，依赖飞书生态，云端处理）、通义听悟（阿里巴巴旗下，支持实时转写+多语言+摘要，云端处理）、<a href="https://otter.ai/blog/otter-ai-caps-transformational-2025-with-100m-arr-milestone-industry-first-ai-meeting-agents-and-global-enterprise-expansion" style="color:#0071e3" target="_blank">Otter.ai（2025年3月突破$100M ARR，25M+用户）</a>；间接竞品——Notion AI、Fireflies.ai（AI会议转录+搜索，支持7种语言）；替代竞品——人工手写纪要+微信群发任务；②核心维度：用户体验（会后0操作自动出待办 vs 竞品需手动整理）、功能完整性（转写→待办→状态→复盘闭环 vs 竞品仅转写+纪要）、技术能力（Whisper本地端侧 vs 竞品云端转写）、商业化（私有化部署零边际成本 vs 竞品按席位订阅）；③差异化：本地Whisper隐私优先（竞品均云端），状态流转+漏项抽检（竞品无此功能），周报复盘闭环（竞品需导出到其他工具）。[竞品数据来源：2025-2026年行业报告及公开产品信息]</div>
-      <div class="step-text"><b>数据分析：</b>①数据源：用户行为埋点（录音→转写→待办提取→确认→状态流转→复盘各环节耗时与完成率）、业务数据（每场会议提取待办数、待办完成率、漏项检出率）、协作者反馈（6-8场演练+4名协作者跟评）；②核心指标：待办完成指数（加权综合指标：完成率×0.4+及时率×0.3+漏项率×0.3），目标>100，实测<b>104→118</b>；转写准确率（Whisper基准>95%）；周报生成率（自动生成周报的会议占比）；③可视化：面向产研——待办完成趋势图（每轮迭代改善<b>+4%→+12%→+18%</b>）+转写准确率监控；面向管理层——会议健康评分仪表盘（待办完成率+漏项率+复盘率综合）。</div>
+      <div class="step-text"><b>用户需求调研：</b>深访<b>10位</b>PM/项目协调人（含4名种子用户）+ 会议场景观察<b>6-8场</b>+ 问卷<b>62份</b>（有效<b>51份</b>）+ 竞品试用对比（飞书妙记/通义听悟/Fireflies.ai）。KANO分层：基础型（语音转写+待办提取）、期望型（状态流转+漏项抽检）、兴奋型（周报复盘+知识图谱）。</div>
+      <div class="step-text"><b>竞品分析：</b><br>• <b>飞书妙记/通义听悟</b>：语音转写+摘要，依赖生态+云端处理，缺少待办状态追踪。<br>• <b>Otter.ai</b>：<a href="https://otter.ai/blog/otter-ai-caps-transformational-2025-with-100m-arr-milestone-industry-first-ai-meeting-agents-and-global-enterprise-expansion" target="_blank">$100M ARR·25M+用户（2025.03）</a>，AI会议转录+搜索。<br>• <b>差异化</b>：本地Whisper隐私优先（竞品均云端）、状态流转+漏项抽检（竞品无）、周报复盘闭环（竞品需导出）。[数据来源：2025-2026年公开产品信息]</div>
+      <div class="step-text"><b>数据分析：</b>核心指标：待办完成指数（完成率×0.4+及时率×0.3+漏项率×0.3），实测<b>104→118</b>；转写准确率>95%。每轮迭代改善<b>+4%→+12%→+18%</b>。</div>
     </div>
   </details>
 </div></div></div>
@@ -1277,7 +1210,11 @@ details .step-text {
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
       <b>需求发现：</b>基于竞品走查和个人手机摄影经验提炼的产品假设（未做正式用户访谈）。假设的痛点链：一次出行拍大量照片，事后筛选耗时且"选了也不确定是不是最好的那张"——选片环节是比修图更靠前的瓶颈。KANO 设计假设：基础型——清晰度筛选（模糊照片自动排除）；期望型——多维度评分（不仅看清晰度，还看构图和色彩）；兴奋型——增强前后可拖拽对比（不是一键美化黑盒）。产品方向假设：用户不是"不会修图"，而是"不知道选哪张来修"。<span style="font-size:.64rem;color:#9ca3af">[产品假设，基于竞品走查+个人体验，待用户验证]</span>
-      <b>竞品分析：</b>直接竞品——<a href="https://remini.ai/" style="color:#0071e3" target="_blank">Remini</a>（<a href="https://www.appbrain.com/app/remini-ai-photo-enhancer/com.bigwinepot.nwdn.international" style="color:#0071e3" target="_blank">全球 5 亿+ 下载量</a>，100M MAU，近 30 天下载约 790 万，主打 AI 一键增强、老照片修复、人脸增强。优势：效果惊艳、操作极简。局限：①无选片能力（只能处理"已经知道要修哪张"的照片）；②增强效果不可控——用户无法对比增强前后的差异，也无法关闭某类增强；③全部云端处理，隐私敏感场景受限）、Google Photos Best Take + AI Enhance（Pixel 8 及以上机型独占，自动从连拍中合成最佳表情，AI Enhance 自动调整光影和色彩。优势：深度整合 Google 生态、端侧 AI 处理、Gemini + Nano Banana 模型驱动。局限：①限定 Pixel 生态和特定机型；②评分标准是黑盒——只告诉用户"这是最佳"但不解释为什么；③增强效果不可对比、不可开关，用户无法理解 AI 做了哪些改动）；间接竞品——Adobe Lightroom（专业修图，AI 自动增强 + 蒙版，但无选片逻辑）、VSCO（AI 滤镜推荐，偏风格化，无评分体系）；替代方案——手动翻相册筛选（零成本，但效率最低）。差异化：①选片+增强连续闭环——竞品要么只做选（Google），要么只做增强（Remini）；②四维评分透明化——每个维度的得分和权重可见，用户理解 AI 的判断依据；③增强可开关可对比——原图/AI增强并排拖拽，效果独立切换，不做黑盒美化。 <span style="font-size:.64rem;color:#9ca3af">[竞品数据来源：Remini 官网 remini.ai、AppBrain 2026 年 6 月公开数据、Google Photos Help 官方文档、Google Blog 2025 年 11 月 Nano Banana 发布公告]</span>
+      <b>竞品分析：</b><br>
+      • <b>Remini</b>：<a href="https://remini.ai/" target="_blank">全球5亿+下载</a>，AI一键增强+老照片修复。优势：效果惊艳；局限：无选片能力、增强不可控、全部云端处理。<br>
+      • <b>Google Photos</b>：Best Take自动合成最佳表情，端侧AI。优势：深度整合Google生态；局限：限定Pixel生态、评分黑盒、增强不可对比。<br>
+      • <b>间接竞品</b>：Adobe Lightroom（专业修图无选片）、VSCO（滤镜推荐无评分体系）；替代方案：手动翻相册。<br>
+      • <b>差异化</b>：①选片+增强连续闭环②四维评分透明化③增强可开关可拖拽对比。 <span style="font-size:.64rem;color:#9ca3af">[竞品数据来源：Remini官网、AppBrain 2026年6月、Google Photos Help]</span>
       <b>数据闭环：</b>核心指标——①选片采纳率（用户接受 AI 推荐最佳照片的比例）；②增强满意度（用户使用增强后不撤销的比例）；③拖拽对比交互率（进入对比视图后完成拖拽操作的比例，衡量"用户是否真的在对比"）。过程指标——照片上传完成率、评分查看深度（是否展开查看四维详情）、增强开关独立切换频率（哪个效果被关闭最多，反馈评分维度权重调整）。
     </div>
   </details>
