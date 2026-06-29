@@ -1397,7 +1397,7 @@
                 if (firstScript && (!firstScript.records || firstScript.records.length === 0)) {
                     const yesterday = new Date();
                     yesterday.setDate(yesterday.getDate() - 1);
-                    const yyyymmdd = yesterday.toISOString().slice(0, 10);
+                    const yyyymmdd = [yesterday.getFullYear(), String(yesterday.getMonth()+1).padStart(2,'0'), String(yesterday.getDate()).padStart(2,'0')].join('-');
                     firstScript.records = [{
                         id: generateId(),
                         date: yyyymmdd,
@@ -1421,7 +1421,7 @@
                     const id = generateId();
                     const yesterday = new Date();
                     yesterday.setDate(yesterday.getDate() - 1);
-                    const yyyymmdd = yesterday.toISOString().slice(0, 10);
+                    const yyyymmdd = [yesterday.getFullYear(), String(yesterday.getMonth()+1).padStart(2,'0'), String(yesterday.getDate()).padStart(2,'0')].join('-');
                     appData.scripts = [{
                         id,
                         name: '我的第一个剧本',
@@ -1601,7 +1601,7 @@
                     '>': '&gt;' })[c]); }
 
             function setDefaultDate() { const d = new Date();
-                document.getElementById('recordDate').value = d.toISOString().slice(0, 10); }
+                document.getElementById('recordDate').value = [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-'); }
 
             function resetForm() {
                 setDefaultDate();
@@ -1956,7 +1956,7 @@
                 let temp = 0;
                 const d = new Date(today);
                 while (true) {
-                    const key = d.toISOString().slice(0, 10);
+                    const key = [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-');
                     if (dateMap.has(key)) { temp++; max = Math.max(max, temp); } else break;
                     d.setDate(d.getDate() - 1);
                 }
@@ -2010,7 +2010,7 @@
                     for (let d = 0; d < 7; d++) {
                         const cellDate = new Date(startDate);
                         cellDate.setDate(cellDate.getDate() + w * 7 + d);
-                        const key = cellDate.toISOString().slice(0, 10);
+                        const key = [cellDate.getFullYear(), String(cellDate.getMonth()+1).padStart(2,'0'), String(cellDate.getDate()).padStart(2,'0')].join('-');
                         const count = dateMap.get(key) || 0;
                         const isFuture = cellDate > today;
                         const isToday = cellDate.getTime() === today.getTime();

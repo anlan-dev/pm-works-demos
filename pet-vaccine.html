@@ -2389,7 +2389,7 @@
         }
 
         // 工具函数
-        function formatDateKey(d) { return d.toISOString().slice(0,10); }
+        function formatDateKey(d) { const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
         function genId() { return Date.now() + '-' + Math.random().toString(36).substr(2,6); }
 
         function applyTheme(theme) {
@@ -3505,7 +3505,7 @@
                 speciesSelect.value = '🐱 猫';
                 breedInput.value = '';
                 weightInput.value = '';
-                birthInput.value = new Date().toISOString().slice(0,10);
+                birthInput.value = formatDateKey(new Date());
                 avatarImg.style.display = 'none';
                 avatarEmoji.style.display = 'block';
                 avatarEmoji.textContent = '🐾';
