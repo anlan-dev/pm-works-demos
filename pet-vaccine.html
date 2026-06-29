@@ -1557,7 +1557,7 @@
                 </div>
                 <div class="chart-wrap">
                     <div style="font-weight:600; color:#4a3728; margin-bottom:6px;">💉 疫苗覆盖率（本年）</div>
-                    <canvas id="vaccineCoverageChart"></canvas>
+                    <canvas id="vaccineDashboardChart"></canvas>
                     <div class="small-note" id="vaccineCoverageNote" style="margin-top:6px;"></div>
                 </div>
                 <div class="chart-wrap">
@@ -2092,10 +2092,14 @@
             return insights;
         }
         function maybeAutoShowWeeklyDigest() {
+            // 无数据时跳过：至少要有 1 只宠物 + 本周有任意记录才生成周报
+            const totalRecords = vaccines.length + deworms.length + weightLogs.length + expenses.length;
+            if (pets.length === 0 || totalRecords === 0) return;
             const wk = getWeekKey(new Date());
             if (weeklyDigestState.autoShownWeek === wk) return;
             const text = generateWeeklyDigestText();
-            document.getElementById('yearReportBox').textContent = text;
+            const yearReportBox = document.getElementById('yearReportBox');
+            if (yearReportBox) yearReportBox.textContent = text;
             weeklyDigestState.autoShownWeek = wk;
             weeklyDigestState.lastSentWeek = wk;
             saveAll();
@@ -2484,8 +2488,8 @@
             const demoPetId = 'demo_pet_001';
             const demoPetId2 = 'demo_pet_002';
             pets = [
-                { id: demoPetId, name: '豆豆', species: '狗', breed: '柯基', weight: '12.5', avatar: '🐕' },
-                { id: demoPetId2, name: '球球', species: '猫', breed: '英短', weight: '4.2', avatar: '🐱' }
+                { id: demoPetId, name: '豆豆', species: '🐶 狗', breed: '柯基', weight: '12.5', avatar: '🐕' },
+                { id: demoPetId2, name: '球球', species: '🐱 猫', breed: '英短', weight: '4.2', avatar: '🐱' }
             ];
             vaccines = [
                 { id: genId(), petId: demoPetId, name: '犬八联', date: '2024-03-15', nextDue: '2025-03-15', brand: '辉瑞', batch: 'V20240315' },
@@ -2494,15 +2498,15 @@
                 { id: genId(), petId: demoPetId2, name: '狂犬疫苗', date: '2024-07-05', nextDue: '2025-07-05', brand: '梅里亚', batch: 'R20240705' }
             ];
             deworms = [
-                { id: genId(), petId: demoPetId, type: '体内驱虫', date: '2025-01-10', nextDue: '2025-04-10', product: '拜宠清' },
-                { id: genId(), petId: demoPetId, type: '体外驱虫', date: '2025-02-15', nextDue: '2025-03-15', product: '福来恩' },
-                { id: genId(), petId: demoPetId2, type: '体内驱虫', date: '2025-02-20', nextDue: '2025-05-20', product: '海乐妙' }
+                { id: genId(), petId: demoPetId, type: '体内', date: '2025-01-10', nextDue: '2025-04-10', product: '拜宠清' },
+                { id: genId(), petId: demoPetId, type: '体外', date: '2025-02-15', nextDue: '2025-03-15', product: '福来恩' },
+                { id: genId(), petId: demoPetId2, type: '体内', date: '2025-02-20', nextDue: '2025-05-20', product: '海乐妙' }
             ];
             expenses = [
-                { id: genId(), petId: demoPetId, category: '疫苗', amount: '280', date: '2024-03-15', note: '犬八联+狂犬' },
-                { id: genId(), petId: demoPetId, category: '驱虫', amount: '120', date: '2025-01-10', note: '拜宠清' },
-                { id: genId(), petId: demoPetId, category: '体检', amount: '350', date: '2024-12-20', note: '年度体检' },
-                { id: genId(), petId: demoPetId2, category: '疫苗', amount: '200', date: '2024-04-10', note: '猫三联' },
+                { id: genId(), petId: demoPetId, category: '医疗', amount: '280', date: '2024-03-15', note: '犬八联+狂犬' },
+                { id: genId(), petId: demoPetId, category: '医疗', amount: '120', date: '2025-01-10', note: '拜宠清' },
+                { id: genId(), petId: demoPetId, category: '医疗', amount: '350', date: '2024-12-20', note: '年度体检' },
+                { id: genId(), petId: demoPetId2, category: '医疗', amount: '200', date: '2024-04-10', note: '猫三联' },
                 { id: genId(), petId: demoPetId2, category: '食品', amount: '180', date: '2025-03-01', note: '猫粮' }
             ];
             weightLogs = [
@@ -3035,7 +3039,7 @@
             });
 
             const cov = vaccineCoverage(year);
-            const ctx2 = document.getElementById('vaccineCoverageChart');
+            const ctx2 = document.getElementById('vaccineDashboardChart');
             if (vaccineCoverageChartInstance) vaccineCoverageChartInstance.destroy();
             const covered = cov.coveredPets;
             const uncovered = Math.max(0, cov.totalPets - covered);
@@ -3377,13 +3381,12 @@
             refreshPetSelects();
             renderPetList();
             renderVaccineList();
-            renderExpenseList();
+            renderExpensePage();
             renderDewormList();
-            renderWeightLog();
+            renderWeightList();
             renderReminderPetFilter();
             renderUnifiedTodo();
             renderDashboard();
-            renderAIReport();
             renderPetTimeline();
             document.getElementById('welcome-screen') && (document.getElementById('welcome-screen').style.display = 'none');
             // 切换到首页
@@ -3566,7 +3569,7 @@
         }
 
         function parseVaccineInfo(ocrText) {
-            const vaccinePatterns = [{ regex: /猫三联/, name: '猫三联' },{ regex: /狂犬/, name: '狂犬疫苗' },{ regex: /犬六联/, name: '犬六联' }];
+            const vaccinePatterns = [{ regex: /猫三联/, name: '猫三联' },{ regex: /狂犬/, name: '狂犬疫苗' },{ regex: /犬六联/, name: '犬六联' },{ regex: /犬八联/, name: '犬八联' }];
             let vaccineName = '';
             for (const p of vaccinePatterns) if(p.regex.test(ocrText)) { vaccineName = p.name; break; }
             const datePatterns = [/(\d{4})[年\-\.](\d{1,2})[月\-\.](\d{1,2})/, /(\d{4})-(\d{1,2})-(\d{1,2})/, /(\d{4})\/(\d{1,2})\/(\d{1,2})/];
@@ -3799,8 +3802,7 @@
                 document.getElementById('dewormDate').value = formatDateKey(new Date());
                 document.getElementById('dewormNextDue').value = calcDewormNextDue(document.getElementById('dewormDate').value);
             });
-            document.getElementById('cancelAddDeworm').addEventListener('click', ()=> document.getElementById('addDewormForm').style.display='none');
-            document.getElementById('cancelAddDeworm').addEventListener('click', ()=> { editingDewormId = ''; document.getElementById('saveDewormBtn').textContent = '保存'; });
+            document.getElementById('cancelAddDeworm').addEventListener('click', ()=> { editingDewormId = ''; document.getElementById('saveDewormBtn').textContent = '保存'; document.getElementById('addDewormForm').style.display='none'; });
             document.getElementById('dewormDate').addEventListener('change', e => {
                 if(!document.getElementById('dewormNextDue').value) {
                     document.getElementById('dewormNextDue').value = calcDewormNextDue(e.target.value);
@@ -3887,6 +3889,7 @@
                 document.getElementById('addExpenseForm').style.display='none';
                 document.getElementById('expenseAmount').value = '';
                 document.getElementById('expenseNote').value = '';
+                document.getElementById('expenseCategory').value = '食品';
             });
             document.getElementById('expenseListContainer').addEventListener('click', e => {
                 if(e.target.dataset.deleteExpense) {
@@ -4524,7 +4527,7 @@
 
             let report = `📋 ${pet.name} 健康周报\n`;
             report += `生成时间：${now.toLocaleDateString('zh-CN')}\n`;
-            report += `宠物品种：${pet.species || '未设置'} | 年龄：${pet.birthDate ? Math.floor((now - new Date(pet.birthDate)) / (365.25 * 24 * 60 * 60 * 1000)) + ' 岁' : '未设置'}\n\n`;
+            report += `宠物品种：${pet.species || '未设置'} | 年龄：${pet.birth ? Math.floor((now - new Date(pet.birth)) / (365.25 * 24 * 60 * 60 * 1000)) + ' 岁' : '未设置'}\n\n`;
 
             report += `💉 疫苗状态\n`;
             if (vaccines.length === 0) {
