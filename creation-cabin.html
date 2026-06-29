@@ -969,13 +969,13 @@
                     <div class="add-ref-form" style="display:flex; gap:8px; flex-wrap:wrap;"><input type="text" id="refTitle" placeholder="书名*"><input type="text" id="refAuthor" placeholder="作者"><input type="text" id="refYear" placeholder="年份"><input type="text" id="refPages" placeholder="页数"><input type="text" id="refLink" placeholder="链接"><textarea id="refNote" placeholder="备注" rows="1"></textarea><button class="btn-primary" id="addReferenceBtn">添加</button></div>
                 </div>
             </details>
-            <details class="title-lottery-section foldable-panel" open>
-                <summary class="section-title" style="margin-bottom:0;">🌠 星光·标题签 <span id="titleStatsDisplay"></span></summary>
+            <div class="title-lottery-section foldable-panel" style="border-radius:24px;padding:18px;margin-bottom:20px;background:var(--form-bg);border:1px solid var(--card-border);box-shadow:0 4px 14px rgba(0,0,0,0.04);">
+                <div class="section-title" style="list-style:none;cursor:default;font-size:1.08rem;font-weight:550;margin-bottom:14px;color:var(--text-primary);display:flex;align-items:center;gap:10px;user-select:none;">🌠 星光·标题签 <span id="titleStatsDisplay"></span></div>
                 <div class="foldable-inner">
                     <div style="margin-bottom:10px;"><button type="button" class="btn-sm" id="openTitleManagerBtn">管理标题库</button></div>
-                    <div class="lottery-display"><div class="lottery-sub">✨ 星轨指引 ✨</div><div class="lottery-title-big" id="lotteryResultDisplay">抽签</div></div><div class="lottery-actions"><button class="btn-primary" id="drawLotteryBtn">🎲 随机抽取</button><button class="btn" id="copyLotteryTitleBtn">📋 复制</button></div><div class="lottery-custom-row"><input type="text" id="newCustomTitleInput" placeholder="自定义标题"><button class="btn-primary" id="addCustomTitleBtn">➕ 添加至灵感库</button></div>
+                    <div class="lottery-display"><div class="lottery-sub">✨ 星轨指引 ✨</div><div class="lottery-title-big" id="lotteryResultDisplay">抽签</div></div><div class="lottery-actions"><button class="btn-primary" id="drawLotteryBtn" onclick="event.stopPropagation();(function(){try{var t=window.getAllTitles?window.getAllTitles():[];var r=t.length?t[Math.floor(Math.random()*t.length)]:'星辰之约';var d=document.getElementById('lotteryResultDisplay');if(d)d.textContent=r;var s=document.createElement('div');s.className='toast-message';s.textContent='✨ 星轨指引';document.body.appendChild(s);setTimeout(function(){s.remove()},2000)}catch(e){}})()">🎲 随机抽取</button><button class="btn" id="copyLotteryTitleBtn">📋 复制</button></div><div class="lottery-custom-row"><input type="text" id="newCustomTitleInput" placeholder="自定义标题"><button class="btn-primary" id="addCustomTitleBtn">➕ 添加至灵感库</button></div>
                 </div>
-            </details>
+            </div>
             <div class="record-form-card">
                 <div class="form-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                     <span>✍️ 添加创作记录</span>
@@ -1220,13 +1220,18 @@
     function resetEncouragements(){ appData.encouragements=[...DEFAULT_ENCOURAGEMENTS]; saveData(); renderEncouragementManager(); updateGreetingText(); showToast('已重置默认鼓励语'); }
     function addEncouragement(text){ if(text && !appData.encouragements.includes(text)){ appData.encouragements.push(text); saveData(); renderEncouragementManager(); updateGreetingText(); showToast(`添加“${text}”`); return true; } return false; }
     function getAllTitles(){ return [...BUILTIN_TITLES, ...appData.customTitles]; }
+    window.getAllTitles = getAllTitles; // 暴露给onclick备用
     function randomIndexBelow(n){
         if (n <= 0) return 0;
-        const buf = new Uint32Array(1);
-        const lim = Math.floor(0x100000000 / n) * n;
-        let x;
-        do { crypto.getRandomValues(buf); x = buf[0]; } while (x >= lim);
-        return x % n;
+        try {
+            const buf = new Uint32Array(1);
+            const lim = Math.floor(0x100000000 / n) * n || n;
+            let x;
+            do { crypto.getRandomValues(buf); x = buf[0]; } while (x >= lim && lim > 0);
+            return x % n;
+        } catch(e) {
+            return Math.floor(Math.random() * n);
+        }
     }
     function drawRandomTitle(){ let all=getAllTitles(); return all.length ? all[randomIndexBelow(all.length)] : '星辰之约'; }
     function renderLotteryResult(){ document.getElementById('lotteryResultDisplay').textContent=drawRandomTitle(); }
@@ -1597,7 +1602,7 @@
         document.getElementById('importFileInput')?.addEventListener('change',e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ try{ let imported=JSON.parse(ev.target.result); appData=imported; saveData(); loadData(); refreshUI(); showToast('导入成功'); }catch(e){ showToast('文件格式错误'); } }; reader.readAsText(file); } });
         document.getElementById('monthlyReviewBtn')?.addEventListener('click',()=>{ let modal=document.getElementById('reviewModal'); let select=document.getElementById('monthSelect'); select.innerHTML=['1月','2月','3月'].map(m=>`<option>${m}</option>`).join(''); document.getElementById('reviewStatsContainer').innerText='创作统计占位'; modal.style.visibility='visible'; });
         document.getElementById('closeReviewBtn')?.addEventListener('click',()=>document.getElementById('reviewModal').style.visibility='hidden');
-        document.getElementById('drawLotteryBtn')?.addEventListener('click',()=>{ renderLotteryResult(); showToast('✨ 星轨指引'); });
+        document.getElementById('drawLotteryBtn')?.addEventListener('click',(e)=>{ e.stopPropagation(); try { renderLotteryResult(); showToast('✨ 星轨指引'); } catch(err) { showToast('抽签失败，请重试'); } });
         document.getElementById('copyLotteryTitleBtn')?.addEventListener('click',()=>{ let title=document.getElementById('lotteryResultDisplay').innerText; navigator.clipboard?.writeText(title).then(()=>showToast('已复制标题')).catch(()=>showToast('复制失败')); });
         document.getElementById('addCustomTitleBtn')?.addEventListener('click',()=>{ let inp=document.getElementById('newCustomTitleInput'); if(inp.value.trim()) addCustomTitle(inp.value.trim()); inp.value=''; });
         document.getElementById('openTitleManagerBtn')?.addEventListener('click',()=>{ renderTitleManagerList(); document.getElementById('titleManagerModal').style.visibility='visible'; });
