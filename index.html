@@ -441,6 +441,40 @@ details .step-text {
     display: none;
   }
 }
+/* ===== Constraint Table ===== */
+.constraint-table{width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);margin:10px 0;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;background:#fff}
+.constraint-table th{background:#f8fafc;font-weight:600;font-size:clamp(.64rem,.74vw,.7rem);color:#475569;padding:7px 10px;text-align:left;border-bottom:1px solid #e2e8f0}
+.constraint-table td{padding:7px 10px;border-top:1px solid #f1f5f9;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b;vertical-align:top;line-height:1.5}
+.constraint-table td:first-child{font-weight:600;color:#0f172a;white-space:nowrap;font-size:clamp(.64rem,.74vw,.7rem)}
+.constraint-table tr:first-child td{border-top:none}
+@media(max-width:640px){.constraint-table{font-size:.64rem}.constraint-table td,.constraint-table th{padding:5px 7px}.constraint-table td:first-child{white-space:normal}}
+
+/* ===== Tradeoff (取舍声明) ===== */
+.tradeoff{background:rgba(217,119,6,.05);border-left:3px solid rgba(217,119,6,.4);border-radius:0 10px 10px 0;padding:clamp(8px,1vw,12px) clamp(12px,1.4vw,16px);margin:10px 0;font-size:clamp(.76rem,.86vw,.8rem);color:#78350f;font-weight:500;line-height:1.5}
+.tradeoff .t-label{font-weight:700;color:#d97706;margin-right:4px}
+.tradeoff .t-sacrifice{color:#92400e;text-decoration:line-through;text-decoration-color:rgba(146,64,14,.3);text-underline-offset:3px}
+.tradeoff .t-reason{color:#451a03;font-weight:550}
+
+/* ===== Scene Table (场景映射) ===== */
+.scene-table{width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);margin:10px 0;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;background:#fff}
+.scene-table th{background:#f8fafc;font-weight:600;font-size:clamp(.64rem,.74vw,.7rem);color:#475569;padding:7px 10px;text-align:left;border-bottom:1px solid #e2e8f0;white-space:nowrap}
+.scene-table td{padding:7px 10px;border-top:1px solid #f1f5f9;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b;vertical-align:top;line-height:1.5}
+.scene-table tr:first-child td{border-top:none}
+@media(max-width:640px){.scene-table{font-size:.64rem}.scene-table td,.scene-table th{padding:5px 7px}.scene-table th{white-space:normal}}
+
+/* ===== AI Native 工作流板块 ===== */
+.ai-native .an-flow{display:flex;flex-wrap:wrap;gap:clamp(8px,1vw,12px);justify-content:center;align-items:flex-start;margin:10px 0}
+.ai-native .an-node{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:clamp(10px,1.4vw,16px);text-align:center;min-width:140px;flex:1;transition:all .2s;font-size:clamp(.72rem,.82vw,.78rem);color:#2d3a4b}
+.ai-native .an-node:hover{border-color:rgba(79,70,229,.25);box-shadow:0 4px 12px rgba(79,70,229,.08);transform:translateY(-2px)}
+.ai-native .an-node .an-icon{font-size:clamp(1.4rem,2vw,1.8rem);margin-bottom:6px}
+.ai-native .an-node .an-title{font-weight:600;color:#0f172a;margin-bottom:4px;font-size:clamp(.78rem,.9vw,.84rem)}
+.ai-native .an-node .an-desc{font-size:clamp(.64rem,.74vw,.7rem);color:#64748b;line-height:1.4}
+.ai-native .an-skill{background:#f8fafc;border:1px solid rgba(0,0,0,.05);border-radius:10px;padding:clamp(10px,1.2vw,14px);margin:8px 0}
+.ai-native .an-skill .an-skill-title{font-weight:600;font-size:clamp(.78rem,.88vw,.82rem);color:#3730a3;margin-bottom:8px}
+.ai-native .an-skill .an-skill-row{display:flex;align-items:flex-start;gap:6px;margin:4px 0;font-size:clamp(.72rem,.82vw,.78rem);color:#2d3a4b;line-height:1.5}
+.ai-native .an-skill .an-skill-row>span:last-child{flex:1;min-width:0}
+.ai-native .an-skill .an-bullet{flex-shrink:0;width:20px;height:20px;border-radius:6px;background:#e0e7ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(.58rem,.66vw,.62rem)}
+@media(max-width:640px){.ai-native .an-flow{flex-direction:column}.ai-native .an-node{min-width:0}}
 </style>
 </head>
 <body id="top">
@@ -462,6 +496,7 @@ details .step-text {
     <a href="#more" class="top-nav-link"><span class="nav-icon">📦</span>更多项目</a>
     <a href="#hardware" class="top-nav-link"><span class="nav-icon">🔧</span>硬件</a>
     <a href="#method" class="top-nav-link"><span class="nav-icon">🔄</span>方法论</a>
+    <a href="#ai-native" class="top-nav-link"><span class="nav-icon">🤖</span>AI Native</a>
     <a href="#frontier" class="top-nav-link"><span class="nav-icon">🔬</span>前沿</a>
   </div>
 </nav>
@@ -485,6 +520,7 @@ details .step-text {
     <li style="padding-left:20px"><a href="#pm-tools" class="toc-link" style="font-size:.68rem;color:#6e6e73"><span class="toc-icon">📚</span>PM工具链</a></li>
     <li><a href="#hardware" class="toc-link"><span class="toc-icon">🔧</span>智能硬件</a></li>
     <li><a href="#method" class="toc-link"><span class="toc-icon">🔄</span>方法论</a></li>
+    <li><a href="#ai-native" class="toc-link"><span class="toc-icon">🤖</span>AI Native</a></li>
     <li><a href="#frontier" class="toc-link"><span class="toc-icon">🔬</span>前沿观察</a></li>
   </ul>
 </nav>
@@ -498,7 +534,7 @@ details .step-text {
     <a href="#intern">🏋️ 实习</a><a href="#pet">🐾 宠伴</a>
     <a href="#quality">🔍 个人</a><a href="#more">📦 更多</a>
     <a href="#hardware">🔧 硬件</a>
-    <a href="#method">🔄 方法</a><a href="#frontier">🔬 前沿</a>
+    <a href="#method">🔄 方法</a><a href="#ai-native">🤖 AI</a><a href="#frontier">🔬 前沿</a>
   </div>
 </nav>
 
@@ -531,6 +567,7 @@ details .step-text {
   <div class="drawer-divider"></div>
   <a href="#hardware" class="drawer-link"><span class="nav-icon">🔧</span> 智能硬件原型</a>
   <a href="#method" class="drawer-link"><span class="nav-icon">🔄</span> 方法论</a>
+  <a href="#ai-native" class="drawer-link"><span class="nav-icon">🤖</span> AI Native 工作流</a>
   <a href="#frontier" class="drawer-link"><span class="nav-icon">🔬</span> 前沿观察</a>
 </nav>
 
@@ -578,7 +615,7 @@ details .step-text {
 <section style="background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(20px,3vw,32px);margin-bottom:clamp(20px,3vw,28px);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.04)">
   <h2 style="font-size:clamp(1.1rem,1.6vw,1.35rem);font-weight:600;letter-spacing:-.02em;margin-bottom:clamp(12px,1.8vw,18px);color:#1d1d1f">📖 关于这个作品集</h2>
   <div style="font-size:clamp(.82rem,.98vw,.88rem);color:#2d3a4b;line-height:1.75">
-    <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，正在寻找AI产品经理机会。这个作品集不是在罗列"我做过什么"——而是记录"我判断过什么，以及我是怎么推动它落地的"。13个项目中，核心项目经过用户测试与轮次迭代验证，探索型Demo基于竞品走查和产品假设构建。</p>
+    <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，正在寻找AI产品经理机会。这个作品集不是在罗列"我做过什么"——而是记录"我判断过什么，以及我是怎么推动它落地的"。每个关键决策都标注了当时的约束条件：预算、技术边界、用户隐私、时间窗口——不是在真空中做选择，而是在约束中求最优解。13个项目中，核心项目经过用户测试与轮次迭代验证，探索型Demo基于竞品走查和产品假设构建。</p>
     <details style="cursor:pointer;margin-top:8px">
       <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.78rem,.92vw,.84rem);font-weight:600;color:#0071e3;padding:8px 0">
         <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.1);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0">▶</span>
@@ -834,8 +871,18 @@ details .step-text {
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构与决策</div>
   <div class="arch-box"><b>定位：</b>轻量健康记录册·隐私优先·零服务器依赖 · <b>主动砍掉：</b>社区、商城（访谈中仅2人提到）· <b>MVP闭环：</b>自动提醒+疫苗记录→反馈驱动加OCR→再加数据看板 · <b>迭代规则：</b>需求被超过50%用户提及才下一个做</div>
+  <div style="overflow-x:auto;margin:10px 0">
+    <table class="constraint-table">
+      <tr><th>约束类型</th><th>约束条件</th><th>我的取舍</th></tr>
+      <tr><td>成本</td><td>零服务器预算（个人项目）</td><td>砍社区/商城 → PWA + localStorage，开发成本降低约60%</td></tr>
+      <tr><td>隐私</td><td>83% 用户拒绝云上传</td><td>Tesseract.js 本地 OCR（牺牲识别精度换数据主权）</td></tr>
+      <tr><td>用户注意力</td><td>"不想下一个新 App"（用户原话）</td><td>PWA 免安装（牺牲原生体验换零门槛）</td></tr>
+      <tr><td>时间</td><td>1 人开发，业余时间</td><td>推迟花费看板/AI 周报到 V2，MVP 先验证核心提醒闭环</td></tr>
+    </table>
+  </div>
   <div class="step-text" style="margin-top:8px"><b>为什么砍掉社区和商城：</b>20人深访中仅2人提到社区需求，而社区/商城会引入内容审核、服务器成本、广告变现压力，与"轻量+隐私"定位直接矛盾。砍掉后产品架构从"App"简化为"PWA"，开发成本降低约60%<span style="font-size:.64rem;color:#86868b">[估算·App→PWA架构简化]</span>，且无需应用商店审核。</div>
   <div class="step-text"><b>为什么选PWA而非原生App：</b>①目标用户是"不想下一个新App"的人（用户原话），PWA无需安装、打开即用，降低使用门槛；②离线可用满足"地铁上记一笔"的场景；③无需应用商店审核，迭代速度更快。</div>
+  <div class="tradeoff"><span class="t-label">取舍：</span>我选择<span class="t-sacrifice">牺牲原生App的推送和交互动效</span>，因为用户说的第一句话是"不想下一个新App"——零门槛比流畅动效更重要。</div>
   <details style="cursor:pointer;margin-top:8px">
     <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
       <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">+</span>
@@ -844,6 +891,27 @@ details .step-text {
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px">
       <div class="step-text"><b>为什么这样定位：</b>调研发现83%用户拒绝云上传，而竞品（宠物家、小爪在家）全部走云端路线。这意味着存在一个被忽略的细分市场——"只想要提醒功能、不想注册、不想上传数据"的轻量用户。与其和竞品在功能丰富度上竞争，不如在"零门槛+零隐私风险"上建立差异化。</div>
       <div class="step-text"><b>为什么用KANO模型：</b>用户需求多样（提醒、OCR、花费、周报、导出），但MVP资源有限。KANO模型能区分"不做就流失"（基础型）和"做了有惊喜"（兴奋型），避免把资源浪费在"做了用户也无感"的功能上。实测验证：优先交付基础型需求后，NPS从+12提升到+38。</div>
+    </div>
+  </details>
+
+  <!-- 场景映射 -->
+  <details style="cursor:pointer;margin-top:10px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:8px;font-size:clamp(.78rem,.88vw,.82rem);font-weight:600;color:#0f172a">
+      <span style="width:24px;height:24px;border-radius:6px;background:rgba(16,185,129,.1);color:#059669;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.68rem;flex-shrink:0">🗺️</span>
+      场景映射（点击展开）
+    </summary>
+    <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
+      <div class="step-text"><b>为什么做场景映射：</b>用户的真实使用场景决定了产品形态——不是在真空中设计功能，而是在具体物理约束中做产品决策。</div>
+      <div style="overflow-x:auto;margin:10px 0">
+        <table class="scene-table">
+          <tr><th>维度</th><th>场景分析</th></tr>
+          <tr><td>物理环境</td><td>家中沙发 / 宠物医院候诊 / 通勤地铁上——需要单手操作，光线条件多变</td></tr>
+          <tr><td>行为状态</td><td>单手操作为主（另一只手牵狗/抱猫/拿接种本），不能长时间盯着屏幕</td></tr>
+          <tr><td>注意力状态</td><td>高度分心——需要 3 秒内完成一次疫苗记录，否则用户会放弃</td></tr>
+          <tr><td>时间约束</td><td>"地铁上记一笔"场景——从打开到完成全程不超过 30 秒</td></tr>
+          <tr><td>网络条件</td><td>宠物医院信号差、地铁隧道无网 → PWA 离线可用是刚需，不是加分项</td></tr>
+        </table>
+      </div>
     </div>
   </details>
   </div></div>
@@ -1024,6 +1092,28 @@ details .step-text {
   </div>
   <div class="result"><div class="rtitle">核心成果</div>待办完成趋势每轮迭代持续改善（+4%→+12%→+18%），验证"转写→待办→复盘"闭环有效性</div>
   <a href="./meeting-ruminant.html" target="_blank" class="demo-link">体验完整 Demo →</a>
+
+  <!-- 场景映射 -->
+  <details style="cursor:pointer;margin-top:12px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:8px;font-size:clamp(.78rem,.88vw,.82rem);font-weight:600;color:#0f172a">
+      <span style="width:24px;height:24px;border-radius:6px;background:rgba(16,185,129,.1);color:#059669;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.68rem;flex-shrink:0">🗺️</span>
+      场景映射（点击展开）
+    </summary>
+    <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
+      <div class="step-text"><b>为什么做场景映射：</b>会议场景的物理约束直接决定了产品技术选型——不是在真空中选 AI 方案，而是在隐私、网络、注意力约束中求最优解。</div>
+      <div style="overflow-x:auto;margin:10px 0">
+        <table class="scene-table">
+          <tr><th>维度</th><th>场景分析</th></tr>
+          <tr><td>物理环境</td><td>会议室 / 咖啡厅 / 出差途中——背景噪音不可控，多人发言需区分说话人</td></tr>
+          <tr><td>行为状态</td><td>用户正在开会讨论，双手可能在记笔记/投屏，不能操作复杂界面</td></tr>
+          <tr><td>注意力状态</td><td>会议中高度专注讨论内容——会后回顾"刚才说了什么"而非实时看转写</td></tr>
+          <tr><td>时间约束</td><td>会后 5 分钟内需要看到结构化待办——否则"会后失忆"已经发生</td></tr>
+          <tr><td>网络条件</td><td>客户会议室可能无 Wi-Fi 权限、出差途中移动网络不稳 → 本地转写是刚需</td></tr>
+          <tr><td>隐私要求</td><td>商业机密讨论（定价/合同/人事）→ 数据不能上传云端，客户合规硬约束</td></tr>
+        </table>
+      </div>
+    </div>
+  </details>
 
   <!-- 需求调研+竞品分析+数据分析 -->
   <details style="cursor:pointer;margin-top:12px">
@@ -1506,6 +1596,77 @@ details .step-text {
     <tr><td class="warn">6</td><td>证据边界</td><td>能写/不能写什么？</td><td>实测数据可讲，不编造未上线效果</td></tr>
   </table>
   </div>
+</div>
+
+<!-- ===== AI Native 工作流 ===== -->
+<h2 class="section-title scroll-margin" id="ai-native">AI Native 工作流 <span style="font-size:clamp(.6rem,.7vw,.64rem);font-weight:400;color:#6e6e73;margin-left:8px">— 我怎么让 AI 做执行，我做判断</span></h2>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从"给人用的工具"到"给 AI 用的工具"——PM 的 AI 协作范式转变。不只是设计 AI 产品，更是自己使用 AI 工作。</p>
+
+<div class="card ai-native">
+  <div class="card-icon">🤖</div>
+  <div class="card-title">AI Native PM 的三层工作流</div>
+  <div class="card-sub">把 AI 使用经验沉淀为可复用的标准化资产——不是"让 AI 做一件事"，而是"让 AI 成为可管理的协作者"</div>
+
+  <!-- 第一层：AI协作工具链 -->
+  <div style="margin-top:14px">
+    <h4 style="font-size:clamp(.82rem,.96vw,.88rem);font-weight:600;color:#0f172a;margin-bottom:8px">第一层：我的 AI 协作工具链</h4>
+    <div class="an-flow">
+      <div class="an-node">
+        <div class="an-icon">🖥️</div>
+        <div class="an-title">Cursor</div>
+        <div class="an-desc">Vibe Coding 原型交付<br><b>13个</b>可交互产品<br>从宠伴PWA到跨境Agent</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:1.2rem;color:#a78bfa;font-weight:700;flex-shrink:0">→</div>
+      <div class="an-node">
+        <div class="an-icon">⚙️</div>
+        <div class="an-title">Dify</div>
+        <div class="an-desc">Workflow 编排<br>PRD Quality Gate<br>三重护栏 + 19项规则</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:1.2rem;color:#a78bfa;font-weight:700;flex-shrink:0">→</div>
+      <div class="an-node">
+        <div class="an-icon">🐙</div>
+        <div class="an-title">GitHub</div>
+        <div class="an-desc">开源 Prompt 资产<br>Prompt Library<br>MIT 协议 / 零依赖</div>
+      </div>
+      <div style="display:flex;align-items:center;font-size:1.2rem;color:#a78bfa;font-weight:700;flex-shrink:0">→</div>
+      <div class="an-node">
+        <div class="an-icon">📋</div>
+        <div class="an-title">Obsidian</div>
+        <div class="an-desc">知识沉淀<br>竞品分析 / 面经整理<br>结构化笔记系统</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第二层：人与AI的交互节点 -->
+  <div style="margin-top:18px">
+    <h4 style="font-size:clamp(.82rem,.96vw,.88rem);font-weight:600;color:#0f172a;margin-bottom:8px">第二层：我如何定义 AI 与人的交互节点</h4>
+    <div class="step-text" style="margin-bottom:8px">核心原则：AI 做执行，人做判断。每个 AI 工作流都必须在关键节点设置人的介入点——否则你不是在管理 AI，你只是在看 AI 表演。</div>
+    <div style="overflow-x:auto;margin:10px 0">
+      <table class="constraint-table" style="border:1px solid rgba(79,70,229,.15)">
+        <tr><th>护栏</th><th>触发时机</th><th>人做什么</th><th>AI 做什么</th></tr>
+        <tr><td>操作确认</td><td>提交 PRD 前</td><td>确认输入完整、补充上下文</td><td>等待，不作判断</td></tr>
+        <tr><td>过程可解释</td><td>AI 审核后</td><td>查看每项判据和原文引用</td><td>逐项输出 0/1 判定 + 原文依据</td></tr>
+        <tr><td>结果可修正</td><td>输出报告后</td><td>手动修改 AI 误判项</td><td>记录修正，下次同类场景可参照</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 第三层：Skill 设计思路 -->
+  <div style="margin-top:18px">
+    <h4 style="font-size:clamp(.82rem,.96vw,.88rem);font-weight:600;color:#0f172a;margin-bottom:8px">第三层：我写给 AI 的 Skill 设计思路</h4>
+    <div class="step-text" style="margin-bottom:8px">好的 Skill = 好的 PRD：输入明确、输出结构化、可独立测试、可组合复用。以 PRD Quality Gate 的 System Prompt 设计为例：</div>
+    <div class="an-skill">
+      <div class="an-skill-title">PRD Quality Gate · Skill 边界定义</div>
+      <div class="an-skill-row"><span class="an-bullet">1</span><span><b>输入：</b>PRD 全文 + 19 项检查规则（每项含名称/描述/判定标准/示例）</span></div>
+      <div class="an-skill-row"><span class="an-bullet">2</span><span><b>处理：</b>逐项 0/1 判定 + 引用原文定位 + 判断依据（用 Temp 0.2 控制一致性）</span></div>
+      <div class="an-skill-row"><span class="an-bullet">3</span><span><b>输出：</b>结构化 JSON（pass/fail + reason + suggestion），不做自由文本</span></div>
+      <div class="an-skill-row"><span class="an-bullet">4</span><span><b>与人交互节点：</b>提交确认（人→AI）→ 审核报告（AI→人）→ 人工可修改误判（人→系统）</span></div>
+      <div class="an-skill-row"><span class="an-bullet">5</span><span><b>AI 不可做的事：</b>替人做通过/不通过的最终决策——AI 只看规则，不替判断</span></div>
+    </div>
+    <div class="step-text" style="margin-top:8px"><b>设计逻辑：</b>市面上大多数 Prompt 库按"写作/营销/编程"等 AI 能力分类，但 PM 的工作不是"写一篇文章"而是"定义需求→设计功能→写 PRD→评审→验收→复盘"。我的 Skill 设计遵循三个原则：①按 PM 工作流节点分类而非按 AI 能力分类；②输入输出必须结构化（JSON），方便 Agent 间流转；③每个 Skill 都定义"AI 不可做的事"——这是 PM 判断力的体现，不是技术问题。</div>
+  </div>
+
+  <div class="quote" style="margin-top:14px">同样的一件事，开发的逻辑是做一个好用的工具给用户；AI Native 的逻辑是写一套 Skill——既然工作流程是固定的、区别在于设计上，那就直接在 Skill 里定好边界以及和人交互的节点，剩下的交给 AI 完成。</div>
 </div>
 
 <!-- ===== 前沿观察 ===== -->

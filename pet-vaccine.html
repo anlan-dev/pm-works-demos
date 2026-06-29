@@ -255,8 +255,9 @@
         .header-toolbar > span { font-size: 0.85rem; color: var(--muted); }
         body[data-theme="ink"] .app-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--header-bg); }
         .container { max-width: 920px; margin: 0 auto; padding: 16px 14px; }
-        .page { display: none; }
-        .page.active { display: block; }
+        .page { display: none; opacity: 0; transform: translateY(8px); }
+        .page.active { display: block; opacity: 1; transform: translateY(0); transition: opacity .22s ease, transform .22s cubic-bezier(.4,0,.2,1); }
+        .page.no-transition { transition: none !important; }
         .tab-bar {
             position: fixed;
             bottom: max(8px, env(safe-area-inset-bottom));
@@ -275,9 +276,11 @@
             box-shadow: var(--shadow);
             z-index: 10;
         }
-        .tab-item { flex: 1; text-align: center; color: var(--muted); font-size: 0.76rem; padding: 6px 0; border-radius: 999px; cursor: pointer; transition: all 0.18s ease; }
+        .tab-item { flex: 1; text-align: center; color: var(--muted); font-size: 0.76rem; padding: 6px 0; border-radius: 999px; cursor: pointer; transition: all 0.18s cubic-bezier(.4,0,.2,1); user-select: none; -webkit-tap-highlight-color: transparent; }
+        .tab-item:active { transform: scale(.94); transition: transform .08s ease; }
         .tab-item.active { color: var(--accent); font-weight: 600; background: var(--tab-active-bg); }
-        .tab-icon { font-size: 1.45rem; display: block; margin-bottom: 2px; }
+        .tab-icon { font-size: 1.45rem; display: block; margin-bottom: 2px; transition: transform .18s ease; }
+        .tab-item.active .tab-icon { transform: scale(1.1); }
         .card {
             background: var(--card-bg);
             border-radius: 14px;
@@ -360,14 +363,26 @@
         .kb-tip { margin-top: 10px; background:var(--panel-bg); border: 1px dashed var(--primary); border-radius: 16px; padding: 10px 12px; color:var(--muted); font-size: 0.85rem; }
 
         /* 浮动快捷 + */
-        .fab { position: fixed; right: 16px; bottom: 88px; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,113,227,0.3); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.38rem; opacity: 0.9; }
-        body[data-theme="ink"] .fab { box-shadow: none; border: 2px solid #111; }
-        .fab:active { transform: scale(0.98); }
-        .fab-menu { position: fixed; right: 16px; bottom: 144px; display: none; flex-direction: column; gap: 8px; z-index: 20; max-width: min(260px, calc(100vw - 32px)); }
-        .fab-action { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 12px; padding: 10px 12px; box-shadow: var(--shadow); cursor: pointer; color:var(--text); white-space: nowrap; }
-        body[data-theme="night"] .fab-action { background: var(--card-bg); }
-        body[data-theme="ink"] .fab-action { box-shadow: none; }
-        .fab-action strong { color:var(--accent); }
+        .fab { position: fixed; right: 16px; bottom: 88px; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,113,227,0.3); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.38rem; opacity: 1; transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease, opacity .25s ease; -webkit-tap-highlight-color:transparent; outline:none }
+        .fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0,113,227,.4) }
+        .fab:active { transform: scale(.93); box-shadow: 0 2px 8px rgba(0,113,227,.25); transition: transform .1s ease, box-shadow .1s ease }
+        .fab.active { transform: rotate(45deg); background: var(--text); color: var(--bg) }
+        body[data-theme="night"] .fab.active { background: #e5e5ea; color: #1c1c1e }
+        body[data-theme="ink"] .fab { box-shadow: none; border: 2px solid #111 }
+        body[data-theme="ink"] .fab.active { border-color: #111; background: #111; color: #fff }
+        .fab-menu { position: fixed; right: 16px; bottom: 146px; display: flex; flex-direction: column; gap: 8px; z-index: 19; max-width: min(260px, calc(100vw - 32px)); pointer-events: none; opacity: 0; transform: translateY(10px) scale(.92); transition: opacity .2s ease, transform .22s cubic-bezier(.34,1.56,.64,1) }
+        .fab-menu.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto }
+        .fab-action { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow); cursor: pointer; color:var(--text); white-space: nowrap; font-weight: 500; font-size: .88rem; display: flex; align-items: center; gap: 6px; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; -webkit-tap-highlight-color:transparent }
+        .fab-action:active { transform: scale(.95); background: var(--accent-light) }
+        body[data-theme="night"] .fab-action { background: var(--card-bg) }
+        body[data-theme="night"] .fab-action:active { background: rgba(255,255,255,.08) }
+        body[data-theme="ink"] .fab-action { box-shadow: none }
+        .fab-action strong { color:var(--accent); font-weight: 700 }
+        .fab-action.accent-action { background: var(--accent-light); border-color: var(--accent-border); font-weight: 600 }
+        .fab-action.accent-action strong { color:var(--accent) }
+        /* FAB 遮罩层 */
+        .fab-backdrop { position: fixed; inset: 0; z-index: 18; background: rgba(0,0,0,.18); opacity: 0; pointer-events: none; transition: opacity .25s ease }
+        .fab-backdrop.active { opacity: 1; pointer-events: auto }
 
         /* 平板端：单栏主流程，避免错误的多列 grid 把卡片拆碎 */
         @media (min-width: 768px) {
@@ -453,8 +468,8 @@
                 justify-content: flex-end;
             }
             .header-cloud-details { max-width: 1160px; margin-top: 14px; }
-            .fab { right: 24px; bottom: 108px; }
-            .fab-menu { right: 24px; bottom: 172px; }
+            .fab { right: 24px; bottom: 108px; width: 54px; height: 54px; }
+            .fab-menu { right: 24px; bottom: 174px; }
             
             /* PC端增强：卡片网格布局 */
             .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -479,7 +494,7 @@
             .tab-item { font-size: 0.68rem; }
             .tab-icon { font-size: 1.25rem; }
             .fab { width: 44px; height: 44px; right: 10px; bottom: 82px; font-size: 1.2rem; }
-            .fab-menu { right: 10px; bottom: 132px; max-width: calc(100vw - 20px); left: auto; }
+            .fab-menu { right: 10px; bottom: 136px; max-width: calc(100vw - 20px); left: auto; }
             .header-toolbar {
                 width: 100%;
                 justify-content: flex-start;
@@ -635,8 +650,8 @@
             .header-mode-panel { gap: 6px; }
             .tab-bar { bottom: max(6px, env(safe-area-inset-bottom)); width: calc(100% - 12px); }
             .tab-item { min-width: 0; padding: 6px 4px; }
-            .fab-menu { gap: 6px; right: 8px; }
-            .fab-action { border-radius: 10px; padding: 7px 9px; font-size: 0.78rem; white-space: nowrap; }
+            .fab-menu { gap: 6px; right: 10px; bottom: 138px; }
+            .fab-action { border-radius: 10px; padding: 7px 10px; font-size: 0.78rem; white-space: nowrap; }
         }
         
         /* 设备特定适配：触控设备 */
@@ -644,8 +659,9 @@
             .btn { min-height: 44px; min-width: 44px; }
             .tab-item { min-height: 48px; }
             .input-group input, .input-group select { min-height: 48px; }
-            .fab { width: 56px; height: 56px; }
+            .fab { width: 56px; height: 56px; font-size: 1.5rem; bottom: 88px; }
             .fab-action { min-height: 44px; }
+            .fab-menu { bottom: 152px; }
         }
         
         /* 设备特定适配：鼠标设备 */
@@ -664,7 +680,8 @@
             .tab-bar { bottom: 4px; padding: 4px; }
             .tab-item { padding: 4px 2px; }
             .tab-icon { font-size: 1.2rem; margin-bottom: 0; }
-            .fab { bottom: 60px; width: 44px; height: 44px; }
+            .fab { bottom: 60px; width: 44px; height: 44px; font-size: 1.15rem; }
+            .fab-menu { bottom: 112px; }
             .container { padding: 8px 16px; }
             .card { padding: 12px 16px; margin-bottom: 12px; }
         }
@@ -1618,7 +1635,9 @@
 </div>
 
 <!-- 右下角浮动快捷 +（新增） -->
+<div class="fab-backdrop" id="fabBackdrop"></div>
 <div id="quickAddMenu" class="fab-menu">
+    <div class="fab-action accent-action" id="quickDemoBtn"><strong>✨</strong> 一键填充演示数据</div>
     <div class="fab-action" id="quickAddVaccine"><strong>💉</strong> 一键添加疫苗</div>
     <div class="fab-action" id="quickAddDeworm"><strong>🪱</strong> 一键记录驱虫</div>
     <div class="fab-action" id="quickAddExpense"><strong>💰</strong> 一键记一笔花费</div>
@@ -3300,6 +3319,79 @@
             document.getElementById('reminderModal').style.display = 'none';
         }
 
+        // 一键填充演示数据
+        function injectDemoData() {
+            if (pets.length > 0 && !confirm('当前已有宠物数据。演示数据会保留现有记录并追加示例，确定继续吗？')) return;
+            const now = new Date();
+            const fmt = d => { const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; };
+            const addDays = (d,n) => { const r = new Date(d); r.setDate(r.getDate()+n); return r; };
+            
+            // 创建演示宠物
+            const demoPets = [
+                { id: 'demo_pet_1', name: '布丁', species: '🐱 猫', breed: '英短蓝猫', weight: '4.2', birth: '2024-03-15', avatar: '' },
+                { id: 'demo_pet_2', name: '可乐', species: '🐶 狗', breed: '柯基', weight: '11.5', birth: '2023-08-20', avatar: '' }
+            ];
+            const existingIds = new Set(pets.map(p => p.id));
+            demoPets.forEach(p => { if (!existingIds.has(p.id)) pets.push(p); });
+            
+            // 创建演示疫苗记录
+            const demoVaccines = [
+                { petId: 'demo_pet_1', name: '猫三联（加强针）', brand: '妙三多', batch: 'BN20260201', date: fmt(addDays(now,-90)), nextDue: fmt(addDays(now,275)) },
+                { petId: 'demo_pet_1', name: '狂犬疫苗', brand: '瑞比克', batch: 'RB20251115', date: fmt(addDays(now,-60)), nextDue: fmt(addDays(now,305)) },
+                { petId: 'demo_pet_2', name: '犬六联', brand: '卫佳捌', batch: 'WJ20260108', date: fmt(addDays(now,-45)), nextDue: fmt(addDays(now,320)) },
+                { petId: 'demo_pet_2', name: '狂犬疫苗', brand: '瑞比克', batch: 'RB20251220', date: fmt(addDays(now,-30)), nextDue: fmt(addDays(now,335)) }
+            ];
+            demoVaccines.forEach(v => { v.id = 'demo_vac_' + Date.now() + Math.random().toString(36).slice(2,6); vaccines.push(v); });
+            
+            // 创建演示驱虫记录
+            const demoDeworms = [
+                { petId: 'demo_pet_1', type: '🐛 体内', product: '海乐妙', date: fmt(addDays(now,-40)), nextDue: fmt(addDays(now,50)) },
+                { petId: 'demo_pet_1', type: '🕷️ 体外', product: '福来恩', date: fmt(addDays(now,-20)), nextDue: fmt(addDays(now,70)) },
+                { petId: 'demo_pet_2', type: '🐛 体内', product: '犬心保', date: fmt(addDays(now,-35)), nextDue: fmt(addDays(now,55)) }
+            ];
+            demoDeworms.forEach(d => { d.id = 'demo_dw_' + Date.now() + Math.random().toString(36).slice(2,6); deworms.push(d); });
+            
+            // 创建演示花费记录
+            const demoExpenses = [
+                { petId: 'demo_pet_1', category: '🏥 医疗', amount: 380, date: fmt(addDays(now,-90)), note: '猫三联+体检' },
+                { petId: 'demo_pet_1', category: '🍖 饮食', amount: 168, date: fmt(addDays(now,-30)), note: '皇家猫粮2kg' },
+                { petId: 'demo_pet_1', category: '🎮 用品', amount: 45, date: fmt(addDays(now,-15)), note: '逗猫棒+猫抓板' },
+                { petId: 'demo_pet_2', category: '🏥 医疗', amount: 520, date: fmt(addDays(now,-45)), note: '犬六联+狂犬' },
+                { petId: 'demo_pet_2', category: '🍖 饮食', amount: 288, date: fmt(addDays(now,-20)), note: '渴望狗粮2kg' },
+                { petId: 'demo_pet_2', category: '🛁 洗护', amount: 120, date: fmt(addDays(now,-7)), note: '宠物店洗澡' },
+            ];
+            demoExpenses.forEach(e => { e.id = 'demo_exp_' + Date.now() + Math.random().toString(36).slice(2,6); expenses.push(e); });
+            
+            // 创建演示体重记录
+            const demoWeights = [
+                { petId: 'demo_pet_1', date: fmt(addDays(now,-90)), weight: 3.8 },
+                { petId: 'demo_pet_1', date: fmt(addDays(now,-45)), weight: 4.0 },
+                { petId: 'demo_pet_1', date: fmt(addDays(now,-1)), weight: 4.2 },
+                { petId: 'demo_pet_2', date: fmt(addDays(now,-90)), weight: 10.8 },
+                { petId: 'demo_pet_2', date: fmt(addDays(now,-45)), weight: 11.2 },
+                { petId: 'demo_pet_2', date: fmt(addDays(now,-1)), weight: 11.5 },
+            ];
+            demoWeights.forEach(w => { w.id = 'demo_wt_' + Date.now() + Math.random().toString(36).slice(2,6); weightLogs.push(w); });
+            
+            saveAll();
+            refreshPetSelects();
+            renderPetList();
+            renderVaccineList();
+            renderExpenseList();
+            renderDewormList();
+            renderWeightLog();
+            renderReminderPetFilter();
+            renderUnifiedTodo();
+            renderDashboard();
+            renderAIReport();
+            renderPetTimeline();
+            document.getElementById('welcome-screen') && (document.getElementById('welcome-screen').style.display = 'none');
+            // 切换到首页
+            const homeTab = document.querySelector('.tab-item[data-page="home"]');
+            if (homeTab) homeTab.click();
+            showToast('✨ 演示数据已就位！两只宠物 + 疫苗/驱虫/花费记录已生成');
+        }
+
         // 导出/导入
         function exportData() {
             const wb = XLSX.utils.book_new();
@@ -3546,8 +3638,9 @@
             document.querySelectorAll('.tab-item').forEach(t => {
                 t.addEventListener('click', () => {
                     const page = t.dataset.page;
-                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                    document.getElementById(`page-${page}`).classList.add('active');
+                    document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('no-transition'); });
+                    const targetPage = document.getElementById(`page-${page}`);
+                    if (targetPage) targetPage.classList.add('active');
                     document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
                     t.classList.add('active');
                     updatePageIndicator(page);
@@ -3556,6 +3649,9 @@
                     if(page === 'ai-report') { renderEnhancedInsights(); renderPetTimeline(); }
                 });
             });
+            // 首次加载禁用过渡动画
+            document.querySelectorAll('.page.active').forEach(p => p.classList.add('no-transition'));
+            setTimeout(() => { document.querySelectorAll('.page.no-transition').forEach(p => p.classList.remove('no-transition')); }, 100);
 
             document.getElementById('gotoExpenseLink').addEventListener('click', ()=> document.querySelector('.tab-item[data-page="expense"]').click());
 
@@ -4117,30 +4213,55 @@
                 setTimeout(()=> URL.revokeObjectURL(a.href), 500);
             });
 
-            // 浮动快捷 +（新增）
+            // 浮动快捷 +（增强版）
             const fab = document.getElementById('quickAddFab');
             const menu = document.getElementById('quickAddMenu');
-            const toggleMenu = () => { menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex'; if(menu.style.display === 'flex') menu.style.flexDirection = 'column'; };
-            fab.addEventListener('click', toggleMenu);
+            const backdrop = document.getElementById('fabBackdrop');
+            let fabOpen = false;
+            const openFab = () => {
+                fabOpen = true;
+                menu.classList.add('open');
+                fab.classList.add('active');
+                if (backdrop) backdrop.classList.add('active');
+            };
+            const closeFab = () => {
+                fabOpen = false;
+                menu.classList.remove('open');
+                fab.classList.remove('active');
+                if (backdrop) backdrop.classList.remove('active');
+            };
+            const toggleFab = () => { fabOpen ? closeFab() : openFab(); };
+            fab.addEventListener('click', (e) => { e.stopPropagation(); toggleFab(); });
+            if (backdrop) backdrop.addEventListener('click', closeFab);
             document.addEventListener('click', (e) => {
-                if (e.target === fab || menu.contains(e.target)) return;
-                menu.style.display = 'none';
+                if (fabOpen && !fab.contains(e.target) && !menu.contains(e.target)) closeFab();
             });
+            // Esc 关闭
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fabOpen) closeFab(); });
+            
             document.getElementById('quickAddVaccine').addEventListener('click', () => {
-                menu.style.display = 'none';
+                closeFab();
                 document.querySelector('.tab-item[data-page="home"]').click();
-                document.getElementById('showAddVaccineForm').click();
+                setTimeout(() => { document.getElementById('showAddVaccineForm').click(); }, 150);
             });
             document.getElementById('quickAddDeworm').addEventListener('click', () => {
-                menu.style.display = 'none';
+                closeFab();
                 document.querySelector('.tab-item[data-page="home"]').click();
-                document.getElementById('showAddDewormForm').click();
-                document.getElementById('showAddDewormForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    const btn = document.getElementById('showAddDewormForm');
+                    btn.click();
+                    btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 200);
             });
             document.getElementById('quickAddExpense').addEventListener('click', () => {
-                menu.style.display = 'none';
+                closeFab();
                 document.querySelector('.tab-item[data-page="expense"]').click();
-                document.getElementById('showAddExpenseForm').click();
+                setTimeout(() => { document.getElementById('showAddExpenseForm').click(); }, 150);
+            });
+            // 一键填充演示数据
+            document.getElementById('quickDemoBtn').addEventListener('click', () => {
+                closeFab();
+                injectDemoData();
             });
 
             window.addEventListener('load', ()=>{

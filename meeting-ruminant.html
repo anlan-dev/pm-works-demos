@@ -35,6 +35,7 @@
         /* ===== 基础变量与主题 ===== */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
         * { box-sizing: border-box; font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; transition: background-color 0.2s ease, border-color 0.2s; }
+        a, button, .btn, .btn-outline, .btn-primary, .tab-item, .fab-meeting, .fab-meeting-action { -webkit-tap-highlight-color: transparent; }
 
         :root {
             --bg-body: #f5f5f7;
@@ -351,6 +352,29 @@
             color: var(--text-primary);
             font-size: 0.78rem;
         }
+
+        /* ===== 浮动快捷 FAB ===== */
+        .fab-meeting { position: fixed; right: 16px; bottom: 24px; width: 52px; height: 52px; border-radius: 50%; background: var(--accent-color); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,113,227,.35); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.5rem; transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease, background .2s ease; -webkit-tap-highlight-color:transparent; outline:none }
+        .fab-meeting:hover { transform: scale(1.08); box-shadow: 0 6px 22px rgba(0,113,227,.45) }
+        .fab-meeting:active { transform: scale(.93); transition: transform .1s ease }
+        .fab-meeting.active { transform: rotate(45deg); background: var(--text-primary); color: var(--bg-body) }
+        .fab-meeting-backdrop { position: fixed; inset: 0; z-index: 18; background: rgba(0,0,0,.18); opacity: 0; pointer-events: none; transition: opacity .25s ease }
+        .fab-meeting-backdrop.active { opacity: 1; pointer-events: auto }
+        .fab-meeting-menu { position: fixed; right: 16px; bottom: 84px; display: flex; flex-direction: column; gap: 8px; z-index: 19; pointer-events: none; opacity: 0; transform: translateY(10px) scale(.92); transition: opacity .2s ease, transform .22s cubic-bezier(.34,1.56,.64,1); max-width: min(280px, calc(100vw - 32px)) }
+        .fab-meeting-menu.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto }
+        .fab-meeting-action { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow, 0 2px 8px rgba(0,0,0,.06)); cursor: pointer; color: var(--text-primary); white-space: nowrap; font-weight: 500; font-size: .88rem; display: flex; align-items: center; gap: 8px; transition: transform .15s ease, background .15s ease; -webkit-tap-highlight-color:transparent }
+        .fab-meeting-action:active { transform: scale(.95); background: var(--accent-light) }
+        .fab-meeting-action strong { color: var(--accent-color); font-weight: 700 }
+        .fab-meeting-action.accent-action { background: var(--accent-light); border-color: var(--accent-border) }
+        .fab-meeting-action.accent-action strong { color: var(--accent-color) }
+        @media (max-width: 640px) {
+            .fab-meeting { right: 12px; bottom: 20px; width: 48px; height: 48px; font-size: 1.3rem }
+            .fab-meeting-menu { right: 12px; bottom: 76px }
+            .fab-meeting-action { padding: 8px 12px; font-size: .82rem; border-radius: 10px }
+        }
+        @media (hover: none) and (pointer: coarse) {
+            .fab-meeting { width: 54px; height: 54px }
+        }
         @media (max-width: 900px) {
             body { padding: 10px; }
             .card { padding: 16px; border-radius: 18px; margin-bottom: 14px; }
@@ -363,6 +387,8 @@
             .row .btn, .api-config .btn { width: 100%; }
             .api-config { padding: 12px; }
             .feedback-label { display:none; }
+            .fab-meeting { right: 10px; bottom: 16px; width: 46px; height: 46px; }
+            .fab-meeting-menu { right: 10px; bottom: 70px; }
             .meeting-top-toolbar {
                 position: sticky;
                 top: 0;
@@ -628,7 +654,7 @@
         /* 移动端优先兜底：卡片与工具条在小屏更自然 */
         @media (max-width: 820px) {
             body { letter-spacing: 0; }
-            .container { max-width: none; padding: 10px; }
+            .container { max-width: none; padding: 10px; padding-bottom: 90px; }
             .card { padding: 14px 12px; border-radius: 14px; }
             .meeting-top-toolbar { gap: 8px; align-items: flex-start; }
             .meeting-top-toolbar h1 { font-size: 1.16rem; line-height: 1.25; }
@@ -639,7 +665,7 @@
             .kpi-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 520px) {
-            .container { padding: 8px; }
+            .container { padding: 8px; padding-bottom: 85px; }
             .meeting-top-toolbar h1 { font-size: 1.05rem; }
             .btn, .btn-outline, .btn-primary { min-height: 40px; font-size: 0.82rem; padding: 8px 10px; }
             .api-config { padding: 10px; border-radius: 12px; }
@@ -700,6 +726,9 @@
     /* Android tap fix */
     html{overflow-x:hidden;-webkit-tap-highlight-color:transparent}img,canvas,pre,code,table,iframe{max-width:100%}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+    @media print {
+        .fab-meeting, .fab-meeting-menu, .fab-meeting-backdrop { display: none !important; }
+    }
     /* Skeleton loading */
     .skeleton { background: linear-gradient(90deg, var(--card-bg) 25%, rgba(255,255,255,0.3) 50%, var(--card-bg) 75%); background-size: 200% 100%; animation: skeleton-pulse 1.5s ease-in-out infinite; border-radius: var(--radius-sm); }
     .skeleton-line { height: 14px; margin-bottom: 8px; }
@@ -932,6 +961,15 @@
     </div>
 </div>
 
+<!-- 浮动快捷 FAB -->
+<div class="fab-meeting-backdrop" id="fabMeetingBackdrop"></div>
+<div class="fab-meeting-menu" id="fabMeetingMenu">
+    <div class="fab-meeting-action accent-action" id="fabDemoMeeting"><strong>🎬</strong> 一键演示会议分析</div>
+    <div class="fab-meeting-action" id="fabQuickRecord"><strong>🎙️</strong> 快速开始录音</div>
+    <div class="fab-meeting-action" id="fabScrollTop"><strong>⬆️</strong> 回到顶部</div>
+</div>
+<button class="fab-meeting" id="fabMeetingBtn" aria-label="快捷操作" title="快捷操作">＋</button>
+
 <div class="feedback-label">
     📬 <a href="mailto:Wangtj0212@outlook.com">提个建议</a> · <span style="opacity:0.7;">你真实怎么开会，我就怎么改</span>
 </div>
@@ -1018,6 +1056,101 @@
         window.addEventListener('pointerdown', revealTopToolbarIfTopTapped, { passive: true });
         window.addEventListener('resize', autoHideTopToolbar, { passive: true });
         autoHideTopToolbar();
+    }
+
+    // ---- 浮动 FAB 交互 ----
+    (function initMeetingFab() {
+        const fabBtn = document.getElementById('fabMeetingBtn');
+        const fabMenu = document.getElementById('fabMeetingMenu');
+        const fabBackdrop = document.getElementById('fabMeetingBackdrop');
+        let fabOpen = false;
+        const openFab = () => {
+            fabOpen = true;
+            fabMenu.classList.add('open');
+            fabBtn.classList.add('active');
+            if (fabBackdrop) fabBackdrop.classList.add('active');
+        };
+        const closeFab = () => {
+            fabOpen = false;
+            fabMenu.classList.remove('open');
+            fabBtn.classList.remove('active');
+            if (fabBackdrop) fabBackdrop.classList.remove('active');
+        };
+        const toggleFab = () => { fabOpen ? closeFab() : openFab(); };
+        fabBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleFab(); });
+        if (fabBackdrop) fabBackdrop.addEventListener('click', closeFab);
+        document.addEventListener('click', (e) => {
+            if (fabOpen && !fabBtn.contains(e.target) && !fabMenu.contains(e.target)) closeFab();
+        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && fabOpen) closeFab(); });
+        // 演示会议
+        document.getElementById('fabDemoMeeting').addEventListener('click', () => { closeFab(); runDemoMeeting(); });
+        // 快速录音
+        document.getElementById('fabQuickRecord').addEventListener('click', () => {
+            closeFab();
+            document.getElementById('startRecordBtn')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => document.getElementById('startRecordBtn')?.click(), 400);
+        });
+        // 回到顶部
+        document.getElementById('fabScrollTop').addEventListener('click', () => {
+            closeFab();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    })();
+
+    // ---- 一键演示会议 ----
+    function runDemoMeeting() {
+        const demoText = `项目周会纪要
+
+日期：2026-06-27
+参会人：产品经理Amy、前端开发Bob、后端开发Carl、测试Diana
+
+一、上周进度回顾
+• 用户注册模块已联调完成，测试通过率92%
+• 数据看板页面UI已交付，移动端适配仍在进行中
+• 支付接口对接遇到银行端延迟，预计推迟3天
+
+二、本周重点议题
+1. 移动端适配方案评审 — Bob建议使用Tailwind CSS重构，预计工时5天；Amy认为时间太长，要求3天内完成
+2. 性能优化 — Carl反馈首页加载时间从2.8s上升到4.1s，需要排查SQL慢查询
+3. 用户反馈汇总 — 近7天收到43条反馈，Top1问题：搜索结果不够精准
+
+三、待办事项
+• Bob：周三前完成移动端重构技术方案文档（P0）
+• Carl：周四前定位并修复SQL慢查询问题（P0）
+• Amy：周五前输出搜索结果优化PRD（P1）
+• Diana：本周完成支付模块回归测试用例编写（P1）
+
+四、风险与阻塞
+• 支付接口延迟可能影响Sprint交付，建议下周一与银行方召开紧急会议
+• 服务器扩容预算需本周五前提交，否则下月无法扩容
+
+五、下次会议：2026-07-02 10:00`;
+        
+        const transcriptEl = document.getElementById('transcriptText');
+        if (transcriptEl) transcriptEl.value = demoText;
+        document.getElementById('meetingCategorySelect') && (document.getElementById('meetingCategorySelect').value = '周会');
+        
+        // 滚动到分析按钮并触发
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        if (analyzeBtn) {
+            analyzeBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => analyzeBtn.click(), 500);
+        }
+        
+        // 简易 toast 提示
+        const toast = document.createElement('div');
+        toast.textContent = '🎬 演示会议纪要已填充，正在AI分析...';
+        toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;padding:10px 20px;border-radius:999px;font-size:.85rem;z-index:9999;pointer-events:none;animation:fadeInOut 2.5s ease forwards';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2600);
+    }
+    // 添加 toast 动画 keyframe
+    if (!document.getElementById('meeting-toast-style')) {
+        const s = document.createElement('style');
+        s.id = 'meeting-toast-style';
+        s.textContent = '@keyframes fadeInOut{0%{opacity:0;transform:translateX(-50%) translateY(-10px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}75%{opacity:1}100%{opacity:0}}';
+        document.head.appendChild(s);
     }
 
     // ---- 全局变量 ----
