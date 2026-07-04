@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<meta name="description" content="《雾灯残页》— 全程AIGC辅助开发的哥特文字冒险游戏 | 王天娇 · AIGC能力展示">
+<title>🎮 雾灯残页 · AIGC 游戏开发</title>
+<style>
+  /* ===== 消费娱乐类：沉浸式暗色叙事风（哥特文字冒险） ===== */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+  :root {
+    --bg: #0f0e0c; --text: #e8ddd0; --muted: #8a7e72;
+    --accent: #c49a6c; --accent-soft: rgba(196,154,108,0.12);
+    --card-bg: #1a1816; --card-border: rgba(196,154,108,0.1);
+    --shadow: 0 4px 16px rgba(0,0,0,.4);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,.5);
+    --danger: #a04040;
+    --btn-radius: 8px; --card-radius: 12px;
+    --font-body: 'Noto Serif SC', Georgia, serif;
+    --font-ui: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  }
+  body[data-theme="dark"] {
+    --bg: #0a0908; --text: #e0d5c8; --muted: #7a6e62;
+    --accent: #b8905e; --card-bg: #151311; --card-border: rgba(184,144,94,0.08);
+    --shadow: 0 4px 20px rgba(0,0,0,.5);
+  }
+  body[data-theme="ink"] {
+    --bg: #f5f0e8; --text: #2f2418; --muted: #5f4b34;
+    --accent: #7d5b2a; --card-bg: #ead9bc; --card-border: rgba(125,91,42,0.15);
+    --shadow: 0 2px 8px rgba(0,0,0,.08);
+    --font-body: 'Noto Serif SC', Georgia, serif;
+  }
+  * { font-family: var(--font-ui); margin: 0; padding: 0; box-sizing: border-box; }
+  body { overflow-x: hidden;  background: var(--bg); color: var(--text); padding: clamp(16px, 3vw, 32px) clamp(12px, 2vw, 24px) 40px; }
+  .container { max-width: 760px; margin: 0 auto; }
+
+  .hero {
+    text-align: center; margin-bottom: 24px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: var(--card-radius); box-shadow: var(--shadow);
+    padding: clamp(20px, 3vw, 30px);
+  }
+  .hero h1 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 700; margin-bottom: 8px; font-family: var(--font-body); color: var(--accent); }
+  .hero .tagline { font-size: clamp(0.8rem, 1.1vw, 0.95rem); color: var(--muted); margin-bottom: 12px; }
+  .hero .subtitle { font-size: clamp(0.72rem, 0.95vw, 0.85rem); color: var(--muted); }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: clamp(8px, 1.5vw, 14px); margin: 20px 0;
+  }
+  .stat-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: var(--card-radius); box-shadow: var(--shadow);
+    padding: clamp(12px, 2vw, 18px); text-align: center;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .stat-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .stat-num { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: clamp(0.68rem, 0.85vw, 0.78rem); color: var(--muted); margin-top: 4px; }
+
+  .section-title {
+    font-size: clamp(1rem, 1.4vw, 1.2rem); font-weight: 600;
+    font-family: var(--font-body);
+    margin: clamp(24px, 3vw, 32px) 0 clamp(12px, 2vw, 16px);
+    padding-left: 12px; border-left: 3px solid var(--accent);
+    color: var(--accent);
+  }
+
+  .story-block {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: var(--card-radius); box-shadow: var(--shadow);
+    padding: clamp(16px, 2.5vw, 24px); margin-bottom: clamp(12px, 2vw, 18px);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .story-block:hover { box-shadow: var(--shadow-hover); border-color: var(--accent); }
+  .story-block h3 { font-size: clamp(0.95rem, 1.2vw, 1.1rem); font-weight: 600; margin-bottom: 10px; }
+  .story-block p { font-size: clamp(0.78rem, 0.95vw, 0.88rem); line-height: 1.7; color: var(--text); margin-bottom: 8px; }
+
+  details { margin-bottom: clamp(10px, 1.5vw, 14px); }
+  details summary {
+    cursor: pointer; font-weight: 600; font-size: clamp(0.82rem, 1vw, 0.9rem);
+    padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 16px);
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: var(--btn-radius); box-shadow: var(--shadow);
+    transition: all .2s; list-style: disclosure-closed;
+  }
+  details summary:hover { box-shadow: var(--shadow-hover); }
+  details .detail-body {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: clamp(14px, 2vw, 18px); box-shadow: var(--shadow-inset);
+    padding: clamp(12px, 2vw, 18px); margin-top: 8px;
+    font-size: clamp(0.76rem, 0.9vw, 0.84rem); line-height: 1.7; color: var(--text);
+  }
+
+  .highlight { color: var(--accent); font-weight: 600; }
+
+  .quote-block {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: clamp(14px, 2vw, 18px); box-shadow: var(--shadow-inset);
+    padding: clamp(14px, 2vw, 18px); margin: 12px 0;
+    font-size: clamp(0.78rem, 0.95vw, 0.85rem); line-height: 1.8; color: var(--text);
+    font-style: italic;
+  }
+  .quote-block::before { content: "“"; font-size: 1.5rem; color: var(--accent); }
+  .quote-block::after { content: "”"; font-size: 1.5rem; color: var(--accent); }
+
+  .file-links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .file-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    text-decoration: none; font-size: clamp(0.72rem, 0.9vw, 0.8rem);
+    padding: 8px 14px; border-radius: var(--btn-radius);
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    color: var(--text); box-shadow: var(--shadow); transition: all .2s;
+  }
+  .file-link:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    text-decoration: none; color: var(--accent); font-size: clamp(0.76rem, 0.9vw, 0.82rem);
+    font-weight: 500; margin-bottom: 20px;
+  }
+
+  .cta-row {
+    text-align: center; margin: clamp(20px, 3vw, 28px) 0;
+    font-size: clamp(0.8rem, 1vw, 0.9rem); color: var(--muted);
+  }
+
+  .footer {
+    text-align: center; margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    font-size: clamp(0.68rem, 0.85vw, 0.78rem); color: var(--muted);
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ===== 响应式断点 ===== */
+  /* 小屏手机 (≤360px) */
+  @media (max-width: 360px) {
+    .container { padding: 0 10px 24px; }
+    .hero { padding: 16px 12px; }
+    .hero h1 { font-size: 1.2rem; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .stat-num { font-size: 1.2rem; }
+    .story-block { padding: 12px; }
+    .story-block h3 { font-size: 0.9rem; }
+    .story-block p { font-size: 0.76rem; }
+    details summary { font-size: 0.78rem; padding: 8px 10px; }
+    details .detail-body { font-size: 0.72rem; padding: 10px; }
+    .quote-block { font-size: 0.72rem; padding: 10px; }
+    .file-links { gap: 6px; }
+    .file-link { font-size: 0.68rem; padding: 6px 10px; }
+  }
+
+  /* 标准手机 (361px-480px) */
+  @media (min-width: 361px) and (max-width: 480px) {
+    .container { padding: 0 14px 28px; }
+    .hero { padding: 18px 14px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-num { font-size: 1.3rem; }
+    .story-block { padding: 14px; }
+    details summary { font-size: 0.82rem; }
+    details .detail-body { font-size: 0.74rem; }
+  }
+
+  /* 平板竖屏 (481px-767px) */
+  @media (min-width: 481px) and (max-width: 767px) {
+    .container { padding: 0 20px 32px; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* 平板横屏+小PC (768px-1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .container { max-width: 720px; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* PC端 (≥1024px) */
+  @media (min-width: 1024px) {
+    .container { max-width: 800px; }
+    .stats-grid { grid-template-columns: repeat(6, 1fr); }
+    .story-block:hover { transform: translateY(-2px); }
+    details summary:hover { transform: translateY(-1px); }
+  }
+
+  /* 横屏小屏适配 */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .hero { padding: 12px 16px; margin-bottom: 12px; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); margin: 10px 0; }
+  }
+
+  /* 减少动画偏好 */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+    /* Android tap fix */
+    html{overflow-x:hidden;-webkit-tap-highlight-color:transparent}img,canvas,pre,code,table,iframe{max-width:100%}a,button,[onclick],summary,select,input,textarea{touch-action:manipulation}
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="./index.html" class="back-link">← 返回作品集</a>
+
+  <div class="hero">
+    <h1>🎮 《雾灯残页》</h1>
+    <p class="tagline">哥特风文字冒险游戏 · Ren'Py 引擎 · 全程 AIGC 辅助开发</p>
+    <p class="subtitle">在五轮回的裂隙里，一份名字的重量压过死亡本身</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num">28</div>
+      <div class="stat-label">分支路径</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">6</div>
+      <div class="stat-label">结局设计</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">5</div>
+      <div class="stat-label">属性 × 暗骰机制</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">AI 生图 Prompt</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">697→17</div>
+      <div class="stat-label">破折号（两轮清洗）</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">4</div>
+      <div class="stat-label">文件同步维护</div>
+    </div>
+  </div>
+
+  <div class="section-title">🧠 AIGC 参与的全链路</div>
+
+  <div class="story-block">
+    <h3>我如何用 AI 从零做出一个游戏</h3>
+    <p>这是一个 <span class="highlight">完全由 AI 辅助开发的独立游戏项目</span>。从世界观设定、28 条分支剧情生成、Ren'Py 引擎代码编写、到两轮 AI 腔文风清洗——<span class="highlight">Cursor + DeepSeek</span> 参与了每一个环节。但最重要的是，我建立了一套<span class="highlight">人机协作的质量控制流程</span>：AI 负责批量生成，我负责判断、筛选、精修。</p>
+  </div>
+
+  <details>
+    <summary>📖 世界观与剧情：AI 生成 28 条分支 + 6 结局</summary>
+    <div class="detail-body">
+      <p>基于初始骨架大纲，使用 DeepSeek 批量生成剧情分支。核心挑战不是"让 AI 写出来"，而是：</p>
+      <p>1. <span class="highlight">确保每条分支的叙事差异</span>：不能让 28 条路径读起来像同一条。我通过精确的 Prompt 约束（不同属性增益、不同叙事语调、不同侧面视角）来制造真正的多样性。</p>
+      <p>2. <span class="highlight">暗骰机制的工程实现</span>：当 meta_awareness ≥ 2 时，每次判定额外暗投 d20。若命中 20，触发叙述者突破第四面墙的隐藏结局（飞升结局）。这个机制的灵感来自桌游 DM 暗骰。</p>
+      <p>3. <span class="highlight">四文件同步维护</span>：每次叙事修改必须同步到 script.rpy（Ren'Py 引擎）、text_runner.py（终端测试）、story_text.txt（纯文本参考）、branch_tree.html（浏览器可视化分支图）。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>🪓 两轮 AI 腔文风清洗：从 697 个破折号到 17 个</summary>
+    <div class="detail-body">
+      <p>AI 生成文本有两个明显的"指纹"：<span class="highlight">过度使用破折号</span>和<span class="highlight">程式化的连接词</span>（首先/其次/然后/最后）。我的处理方式：</p>
+      <p><span class="highlight">第一轮清洗</span>：修复「不是…而是…」句式滥用。统计发现四个文件合计 <strong>57 处</strong>，全部替换为感官画面或具体行动描写。</p>
+      <p><span class="highlight">第二轮清洗</span>：统计破折号——四个文件合计 <strong>697 个</strong>。按 3000 字 1 个的标准，砍到 <strong>17 个</strong>。同时禁止无意义精确数字（"零点二秒"、"两毫米"）和程式化连接词。</p>
+      <div class="quote-block">这个要求让我意识到一个问题：破折号是 AI 生成中文文本时最明显的"指纹"之一。人类写作者很少密集使用破折号，但 AI 倾向于用破折号来插入补充说明、制造戏剧性停顿。</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🎨 AI 生图 Prompt 工程：角色立绘与场景设计</summary>
+    <div class="detail-body">
+      <p>我为游戏建立了完整的 <span class="highlight">AIGC 素材管理体系</span>，包含：</p>
+      <p>1. <span class="highlight">角色立绘 Prompt 库</span>：5 个主要角色（奈尔/米迦/塞西尔/卢西恩/卡修斯），每个角色至少 3 种表情 × 2 种姿势变体的 Prompt 模板。包含核心视觉标签、基础立绘 Prompt、表情变体 Prompt。</p>
+      <p>2. <span class="highlight">通用风格锚定</span>：一套正向/负向 Prompt 模板，确保所有生成素材保持统一的哥特暗黑画风（参考 Darkest Dungeon / Blasphemous / Castlevania 风格）。</p>
+      <p>3. <span class="highlight">工具选型指南</span>：本地部署（ComfyUI + Stability Matrix / SD + ControlNet）vs 在线服务（Midjourney / Leonardo.ai / Tensor.Art）的对比推荐。</p>
+      <p>4. <span class="highlight">工作流程 SOP</span>：基础图 → 表情变体 → 精修处理 → 统一归档，完整记录生成参数便于复现。</p>
+      <p>📂 查看完整 Prompt 库：<a href="./prompts_fog_lamp_ai_art.md" target="_blank">prompts_fog_lamp_ai_art.md</a> · <a href="./aigc_assets_guide.md" target="_blank">AIGC 素材管理指南</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>⚙️ 系统策划：属性、检定与终局分支</summary>
+    <div class="detail-body">
+      <p>系统设计核心约束：<span class="highlight">低数值复杂度，高叙事分歧</span>。5 项属性（警觉/执念/同步/权能/元叙事感知）控制分流，隐藏变量用于暗中引导，每个结局都能回溯到 2-3 个关键行为锚点。</p>
+      <p>关键设计决策：每轮至少提供一次"短期收益 vs 长期代价"选择，9 个结局池覆盖 Dawn / Knowing / Ascending / Rust / Fracture / Ember 六种基调。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>🔗 这对我做 AIGC 内容运营意味着什么</summary>
+    <div class="detail-body">
+      <p>这个游戏和我的 <span class="highlight">AIGC 内容运营能力</span>是同一条思路：</p>
+      <p>1. <span class="highlight">AI 生成 → 人工质检 → 迭代优化</span>：和 Prompt Library 里的「AIGC 内容生产 SOP」完全一致的流程。AI 可以批量产出，但质量控制必须由人来做。</p>
+      <p>2. <span class="highlight">Prompt Engineering 实操</span>：从剧情生成到立绘设计，每一个环节都在实战中验证了 Prompt 设计的好坏——和 Prompt Library 里的「文生图 Prompt 工程」模板互相印证。</p>
+      <p>3. <span class="highlight">多平台分发思维</span>：游戏本身也是一种"内容形式"。从游戏到作品集展示页，是同一条内容的"多平台适配"——和「AI 辅助多平台内容适配」Prompt 同一逻辑。</p>
+    </div>
+  </details>
+
+  <div class="section-title">📂 原始文件</div>
+  <div class="file-links">
+    <a href="./branch_tree.html" target="_blank" class="file-link">🌳 分支树可视化</a>
+    <a href="./story_text.txt" target="_blank" class="file-link">📄 故事原文</a>
+    <a href="./DEVELOPMENT_LOG.md" target="_blank" class="file-link">📋 开发全记录</a>
+    <a href="./game_design_doc.md" target="_blank" class="file-link">⚙️ 系统策划案</a>
+    <a href="./character_profiles.md" target="_blank" class="file-link">👤 角色设定集</a>
+    <a href="./worldbuilding.md" target="_blank" class="file-link">🌍 世界观设定集</a>
+    <a href="./prompts_fog_lamp_ai_art.md" target="_blank" class="file-link">🎨 AI 生图 Prompt 库</a>
+    <a href="./aigc_assets_guide.md" target="_blank" class="file-link">📐 AIGC 素材管理指南</a>
+    <a href="./script.rpy" target="_blank" class="file-link">🐍 script.rpy</a>
+  </div>
+
+  <div class="cta-row">
+    以上文件均在仓库内可直接查看 · 完整开发故事详见 DEVELOPMENT_LOG（76,000+ 字符）
+  </div>
+
+  <div class="footer">
+    © 王天娇 · <a href="./index.html">作品集</a> · <a href="mailto:Wangtj0212@outlook.com">Wangtj0212@outlook.com</a>
+  </div>
+</div>
+</body>
+</html>

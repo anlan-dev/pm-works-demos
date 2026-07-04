@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>HabitFlow · 每日健康打卡 — UI 设计作品</title>
+<!--
+  DESIGN.md: Health Tracker
+  Colors: canvas #faf8f5 / surface #ffffff / primary #e07a5f
+          success #81b29a / accent #f2cc8f / text #3d405b
+  Font: Inter + Noto Sans SC
+  Rounded: 16px(card) / 12px(button) / 999px(pill)
+  Shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)
+  Design Family: Warm Neumorphism + Organic Shapes
+
+  📋 PM 设计决策文档
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  作品: HabitFlow 每日健康打卡
+  目标用户: 20-30岁想养成健康习惯但总是半途而废的年轻人
+  核心问题: 打卡APP留存率低（7日留存<20%），用户缺乏即时正反馈
+
+  决策1: 今日任务而非全部习惯 → 减少选择过载(BJ Fogg行为模型)
+  决策2: 打卡动画 → 即时多巴胺反馈(300ms弹跳+进度环+彩纸)
+  决策3: 连续天数 → 损失厌恶驱动(Kahneman & Tversky)
+  决策4: 暖色调 → 信任与舒适感(陶土橙+鼠尾草绿+米白画布)
+  决策5: 4 tab底部导航 → Fitts's Law黄金数量
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#faf8f5;--surface:#ffffff;--surface2:#f5f1ec;
+  --text:#3d405b;--text2:#6b6d7b;--text3:#9a9caa;
+  --primary:#e07a5f;--primary-soft:#fdf0ec;--primary-deep:#c9643f;
+  --success:#81b29a;--success-soft:#ecf5f0;--success-deep:#6a9a82;
+  --accent:#f2cc8f;--accent-soft:#fdf6e8;--accent-deep:#d4a84a;
+  --blue:#60a5fa;--purple:#a78bfa;
+  --border:#eae6e1;--border-hover:#d8d3cc;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.04);
+  --shadow:0 2px 8px rgba(0,0,0,0.04),0 8px 24px rgba(0,0,0,0.06);
+  --shadow-lg:0 4px 12px rgba(0,0,0,0.04),0 16px 48px rgba(0,0,0,0.08);
+  --r1:12px;--r2:16px;--r3:20px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+html{scroll-behavior:smooth}
+body{background:#F5F5F7;padding:10px;font-family:'Inter','Noto Sans SC',system-ui,sans-serif;color:var(--text);line-height:1.6;min-height:100vh;min-height:100dvh;padding-bottom:calc(72px + var(--safe-b));display:flex;align-items:flex-start;justify-content:center;padding-top:40px}
+
+.app{max-width:430px;margin:0 auto;padding:20px 20px 0;background:var(--bg);border-radius:32px;min-height:calc(100vh - 80px);box-shadow:0 4px 24px rgba(0,0,0,.06)}
+
+/* === Header === */
+.header{display:flex;align-items:center;justify-content:space-between;padding:8px 0 20px;animation:fadeDown .6s ease both}
+.header-greeting{flex:1}
+.header-date{font-size:.72rem;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
+.header-text{font-size:1.35rem;font-weight:800;letter-spacing:-.03em;margin-top:2px;background:linear-gradient(135deg,var(--primary),var(--accent-deep));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-sub{font-size:.8rem;color:var(--text2);margin-top:2px}
+.header-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent-deep));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem;box-shadow:0 4px 16px rgba(224,122,95,0.3);cursor:pointer;transition:transform .2s}
+.header-avatar:hover{transform:scale(1.06)}
+
+/* === Progress Ring === */
+.ring-section{display:flex;justify-content:center;padding:8px 0 28px;opacity:0;transform:translateY(16px)}
+.ring-section.show{opacity:1;transform:translateY(0);transition:all .7s cubic-bezier(.4,0,.2,1)}
+.ring-wrapper{position:relative;width:180px;height:180px}
+.ring-wrapper svg{transform:rotate(-90deg);filter:drop-shadow(0 4px 12px rgba(224,122,95,0.15))}
+.ring-bg{stroke:var(--border);fill:none;stroke-width:10}
+.ring-fill{fill:none;stroke-width:10;stroke-linecap:round;stroke:url(#ringGrad);stroke-dasharray:471;stroke-dashoffset:471;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.ring-pct{font-size:2.5rem;font-weight:900;color:var(--primary);line-height:1;font-variant-numeric:tabular-nums}
+.ring-label{font-size:.75rem;color:var(--text3);font-weight:500;margin-top:4px}
+.ring-sub{font-size:.7rem;color:var(--success);font-weight:600;margin-top:2px}
+
+/* === Stat Chips === */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;opacity:0;transform:translateY(16px)}
+.stat-row.show{opacity:1;transform:translateY(0);transition:all .6s cubic-bezier(.4,0,.2,1)}
+.stat-chip{background:var(--surface);border:1px solid var(--border);border-radius:var(--r1);padding:14px 12px;text-align:center;transition:all .25s;cursor:default}
+.stat-chip:hover{border-color:var(--border-hover);box-shadow:var(--shadow);transform:translateY(-2px)}
+.stat-icon{font-size:1.2rem;margin-bottom:4px}
+.stat-value{font-size:1.1rem;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums}
+.stat-label{font-size:.65rem;color:var(--text3);font-weight:500;margin-top:2px}
+
+/* === Task List === */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-size:.95rem;font-weight:700;letter-spacing:-.01em}
+.section-badge{font-size:.7rem;font-weight:600;color:var(--primary);background:var(--primary-soft);padding:4px 12px;border-radius:999px}
+
+.task-list{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;opacity:0;transform:translateY(16px)}
+.task-list.show{opacity:1;transform:translateY(0);transition:all .6s cubic-bezier(.4,0,.2,1)}
+
+.task-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.task-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow);transform:translateY(-1px)}
+.task-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:0 4px 4px 0}
+.task-card.c-water::before{background:var(--blue)}
+.task-card.c-exercise::before{background:var(--success)}
+.task-card.c-read::before{background:var(--accent)}
+.task-card.c-meditate::before{background:var(--primary)}
+.task-card.c-sleep::before{background:var(--purple)}
+
+.task-check{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;cursor:pointer;position:relative}
+.task-check:hover{border-color:var(--success);background:var(--success-soft)}
+.task-check svg{opacity:0;transform:scale(0);transition:all .3s cubic-bezier(.4,0,.2,1)}
+.task-check.checked{background:var(--success);border-color:var(--success);animation:checkPop .4s cubic-bezier(.175,.885,.32,1.275)}
+.task-check.checked svg{opacity:1;transform:scale(1);color:#fff}
+.task-ripple{position:absolute;width:100%;height:100%;border-radius:50%;background:rgba(129,178,154,0.3);transform:scale(0);animation:ripple .6s ease-out forwards;pointer-events:none}
+
+.task-info{flex:1;min-width:0}
+.task-name{font-size:.9rem;font-weight:600;transition:all .3s}
+.task-meta{font-size:.72rem;color:var(--text3);margin-top:2px;transition:all .3s}
+.task-streak{display:flex;align-items:center;gap:4px;font-size:.72rem;font-weight:600;color:var(--primary);background:var(--primary-soft);padding:4px 10px;border-radius:999px;white-space:nowrap;transition:all .3s}
+.task-streak .fire{animation:firePulse 1.5s ease-in-out infinite}
+
+.task-card.done{opacity:.55;background:var(--surface2)}
+.task-card.done .task-name{text-decoration:line-through;color:var(--text3)}
+.task-card.done .task-streak{background:var(--success-soft);color:var(--success)}
+
+/* === Heatmap === */
+.heatmap-section{margin-bottom:28px;opacity:0;transform:translateY(16px)}
+.heatmap-section.show{opacity:1;transform:translateY(0);transition:all .6s cubic-bezier(.4,0,.2,1)}
+.heatmap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:20px;transition:all .3s}
+.heatmap:hover{box-shadow:var(--shadow)}
+.heatmap-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.heatmap-title{font-size:.9rem;font-weight:700}
+.heatmap-legend{display:flex;align-items:center;gap:4px;font-size:.65rem;color:var(--text3)}
+.heatmap-legend span{width:12px;height:12px;border-radius:3px;display:inline-block}
+.heatmap-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;position:relative}
+.heatmap-cell{aspect-ratio:1;border-radius:5px;background:var(--border);transition:all .25s;cursor:pointer;position:relative}
+.heatmap-cell:hover{transform:scale(1.15);box-shadow:0 2px 8px rgba(0,0,0,0.1);z-index:2}
+.heatmap-cell.l1{background:#fde8e0}
+.heatmap-cell.l2{background:#f5c0ab}
+.heatmap-cell.l3{background:#e8957d}
+.heatmap-cell.l4{background:var(--primary)}
+.heatmap-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--text);color:#fff;font-size:.68rem;font-weight:500;padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.heatmap-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--text)}
+.heatmap-cell:hover .heatmap-tooltip{opacity:1}
+.heatmap-months{display:flex;justify-content:space-between;font-size:.65rem;color:var(--text3);margin-top:10px}
+.heatmap-summary{display:flex;gap:16px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.heatmap-stat{flex:1;text-align:center}
+.heatmap-stat-value{font-size:1.1rem;font-weight:800;color:var(--primary)}
+.heatmap-stat-label{font-size:.65rem;color:var(--text3);margin-top:2px}
+
+/* === Streak Banner === */
+.streak-banner{background:linear-gradient(135deg,var(--primary-soft),var(--accent-soft));border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:28px;display:flex;align-items:center;gap:16px;opacity:0;transform:translateY(16px)}
+.streak-banner.show{opacity:1;transform:translateY(0);transition:all .6s cubic-bezier(.4,0,.2,1)}
+.streak-fire{font-size:2rem;animation:firePulse 1.5s ease-in-out infinite}
+.streak-info{flex:1}
+.streak-value{font-size:1.3rem;font-weight:800;color:var(--primary)}
+.streak-desc{font-size:.75rem;color:var(--text2);margin-top:2px}
+.streak-action{background:var(--primary);color:#fff;border:none;padding:8px 16px;border-radius:999px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.streak-action:hover{background:var(--primary-deep);transform:translateY(-1px);box-shadow:0 4px 16px rgba(224,122,95,0.3)}
+
+/* === Design Notes === */
+.design-notes{margin:32px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:28px;opacity:0;transform:translateY(16px)}
+.design-notes.show{opacity:1;transform:translateY(0);transition:all .6s cubic-bezier(.4,0,.2,1)}
+.design-notes h2{font-size:1.1rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.design-notes h2 .icon{width:32px;height:32px;border-radius:8px;background:var(--primary-soft);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.dn-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dn-card{padding:18px;border-radius:var(--r1);background:var(--surface2);border:1px solid var(--border);transition:all .25s}
+.dn-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-sm)}
+.dn-card h3{font-size:.82rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dn-card h3 .tag{font-size:.58rem;padding:2px 8px;border-radius:999px;font-weight:600;white-space:nowrap}
+.dn-card h3 .tag.theory{background:var(--primary-soft);color:var(--primary)}
+.dn-card h3 .tag.psychology{background:var(--accent-soft);color:var(--accent-deep)}
+.dn-card h3 .tag.metric{background:var(--success-soft);color:var(--success)}
+.dn-card p{font-size:.76rem;color:var(--text2);line-height:1.7}
+
+/* === Tab Bar === */
+.tab-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px) saturate(1.8);-webkit-backdrop-filter:blur(20px) saturate(1.8);box-shadow:0 -1px 0 var(--border);display:flex;justify-content:space-around;padding:6px 0 calc(6px + var(--safe-b))}
+.tab-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;color:var(--text3);font-size:.62rem;font-family:inherit;font-weight:500;transition:all .25s;position:relative}
+.tab-btn.active{color:var(--primary)}
+.tab-btn.active::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:20px;height:3px;background:var(--primary);border-radius:0 0 3px 3px}
+.tab-icon{width:24px;height:24px;transition:transform .2s}
+.tab-btn.active .tab-icon{transform:scale(1.1)}
+.tab-label{letter-spacing:.3px}
+
+/* === Animations === */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes ripple{to{transform:scale(2.5);opacity:0}}
+@keyframes firePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes ringPulse{0%,100%{filter:drop-shadow(0 4px 12px rgba(224,122,95,0.15))}50%{filter:drop-shadow(0 4px 20px rgba(224,122,95,0.3))}}
+@keyframes completeGlow{0%{box-shadow:0 0 0 0 rgba(129,178,154,0.4)}70%{box-shadow:0 0 0 20px rgba(129,178,154,0)}100%{box-shadow:0 0 0 0 rgba(129,178,154,0)}}
+
+.confetti-piece{position:fixed;top:-10px;width:8px;height:8px;z-index:999;pointer-events:none;animation:confettiFall 2.5s ease-in forwards}
+
+@media(max-width:430px){
+  .app{padding:16px 16px 0}
+  .dn-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(3,1fr);gap:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="header">
+    <div class="header-greeting">
+      <div class="header-date">2026年5月30日 · 星期五</div>
+      <div class="header-text">早上好，天娇 ☀️</div>
+      <div class="header-sub">今天也要照顾好自己呀</div>
+    </div>
+    <div class="header-avatar" title="个人中心">TJ</div>
+  </header>
+
+  <div class="ring-section">
+    <div class="ring-wrapper">
+      <svg width="180" height="180" viewBox="0 0 180 180">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e07a5f"/>
+            <stop offset="100%" stop-color="#f2cc8f"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-bg" cx="90" cy="90" r="75"/>
+        <circle class="ring-fill" id="ringFill" cx="90" cy="90" r="75"/>
+      </svg>
+      <div class="ring-center">
+        <div class="ring-pct" id="ringPct">0%</div>
+        <div class="ring-label">今日完成</div>
+        <div class="ring-sub">3/5 已打卡</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-chip" data-delay="100">
+      <div class="stat-icon">🔥</div>
+      <div class="stat-value" data-count="7">0</div>
+      <div class="stat-label">连续打卡</div>
+    </div>
+    <div class="stat-chip" data-delay="200">
+      <div class="stat-icon">📊</div>
+      <div class="stat-value" data-count="82">0</div>
+      <div class="stat-label">本月完成率</div>
+    </div>
+    <div class="stat-chip" data-delay="300">
+      <div class="stat-icon">⭐</div>
+      <div class="stat-value" data-count="156">0</div>
+      <div class="stat-label">累计打卡</div>
+    </div>
+  </div>
+
+  <div class="streak-banner" data-delay="200">
+    <div class="streak-fire">🔥</div>
+    <div class="streak-info">
+      <div class="streak-value">已连续打卡 7 天</div>
+      <div class="streak-desc">再坚持 3 天解锁「铜牌坚持者」徽章</div>
+    </div>
+    <button class="streak-action">查看成就</button>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">今日任务</div>
+    <div class="section-badge" id="taskBadge">3/5 已完成</div>
+  </div>
+  <div class="task-list" data-delay="200">
+    <div class="task-card c-water done">
+      <div class="task-check checked"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="task-info"><div class="task-name">💧 喝8杯水</div><div class="task-meta">每日习惯 · 已完成 08:30</div></div>
+      <div class="task-streak"><span class="fire">🔥</span> 7天</div>
+    </div>
+    <div class="task-card c-exercise done">
+      <div class="task-check checked"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="task-info"><div class="task-name">🏃 运动30分钟</div><div class="task-meta">每周3次 · 已完成 18:45</div></div>
+      <div class="task-streak"><span class="fire">🔥</span> 5天</div>
+    </div>
+    <div class="task-card c-read done">
+      <div class="task-check checked"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="task-info"><div class="task-name">📖 阅读30分钟</div><div class="task-meta">每日习惯 · 已完成 22:10</div></div>
+      <div class="task-streak"><span class="fire">🔥</span> 12天</div>
+    </div>
+    <div class="task-card c-meditate">
+      <div class="task-check" onclick="toggleCheck(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="task-info"><div class="task-name">🧘 冥想10分钟</div><div class="task-meta">每日习惯 · 待完成</div></div>
+    </div>
+    <div class="task-card c-sleep">
+      <div class="task-check" onclick="toggleCheck(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="task-info"><div class="task-name">😴 23:00前入睡</div><div class="task-meta">每日习惯 · 待完成</div></div>
+    </div>
+  </div>
+
+  <div class="heatmap-section" data-delay="200">
+    <div class="heatmap">
+      <div class="heatmap-header">
+        <div class="heatmap-title">本月打卡热力图</div>
+        <div class="heatmap-legend">
+          <span style="background:var(--border)"></span>少
+          <span style="background:#fde8e0"></span>
+          <span style="background:#f5c0ab"></span>
+          <span style="background:#e8957d"></span>
+          <span style="background:var(--primary)"></span>多
+        </div>
+      </div>
+      <div class="heatmap-grid" id="heatmapGrid"></div>
+      <div class="heatmap-months"><span>5月1日</span><span>5月15日</span><span>5月30日</span></div>
+      <div class="heatmap-summary">
+        <div class="heatmap-stat"><div class="heatmap-stat-value">24</div><div class="heatmap-stat-label">打卡天数</div></div>
+        <div class="heatmap-stat"><div class="heatmap-stat-value">80%</div><div class="heatmap-stat-label">完成率</div></div>
+        <div class="heatmap-stat"><div class="heatmap-stat-value">7</div><div class="heatmap-stat-label">最长连续</div></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="design-notes" data-delay="200">
+    <h2><span class="icon">📋</span> 设计决策说明（PM视角）</h2>
+    <div class="dn-grid">
+      <div class="dn-card">
+        <h3><span class="tag theory">理论</span> BJ Fogg 行为模型</h3>
+        <p>首页只展示"今天需要做的5件事"而非全部习惯列表。行为 = 动机 × 能力 × 触发，减少选择过载就是提升"能力"因子。用"3/5已完成"制造<strong>近在咫尺效应</strong>（Goal Gradient Effect）。</p>
+      </div>
+      <div class="dn-card">
+        <h3><span class="tag psychology">心理学</span> 即时多巴胺反馈</h3>
+        <p>打卡后触发三重反馈：①涟漪扩散+勾号弹跳(400ms) ②进度环渐变填充 ③全部完成时全屏彩纸。<strong>300ms</strong>是经过测试的动画甜点——太快无感，太慢影响效率。</p>
+      </div>
+      <div class="dn-card">
+        <h3><span class="tag psychology">心理学</span> 损失厌恶驱动</h3>
+        <p>"已连续7天"比"获得7天成就"更有驱动力——<strong>Kahneman & Tversky</strong>的损失厌恶理论。断签后数字归零，用户产生"不想让7天白费"的心理。热力图参考 GitHub 贡献图，让坚持可视化。</p>
+      </div>
+      <div class="dn-card">
+        <h3><span class="tag theory">色彩</span> 暖色调心理学</h3>
+        <p>画布色 <code>#faf8f5</code> 是米白（像纸张般自然），主色 <code>#e07a5f</code> 是陶土橙（传递"接地/健康"），成功色 <code>#81b29a</code> 是鼠尾草绿（放松而非刺眼）。避免纯红/纯绿——<strong>约8%男性有红绿色盲</strong>。</p>
+      </div>
+      <div class="dn-card">
+        <h3><span class="tag metric">交互</span> Fitts's Law 触控设计</h3>
+        <p>所有触控目标 ≥ 44px（Apple HIG 最小尺寸）。底部 Tab Bar 4个入口符合移动端导航心智模型。<strong>毛玻璃导航栏</strong>使用 <code>backdrop-filter:blur(20px)</code> 保持层次感同时不遮挡内容。</p>
+      </div>
+      <div class="dn-card">
+        <h3><span class="tag metric">数据</span> 可视化坚持的力量</h3>
+        <p>热力图 Hover 显示日期+打卡状态，降低认知成本。底部统计摘要（24天/80%/7连续）提供<strong>即时数据洞察</strong>，无需切换到统计页。渐变进度环比纯色更有层次感和高级感。</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<nav class="tab-bar">
+  <button class="tab-btn active">
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span class="tab-label">今日</span>
+  </button>
+  <button class="tab-btn">
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+    <span class="tab-label">统计</span>
+  </button>
+  <button class="tab-btn">
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <span class="tab-label">发现</span>
+  </button>
+  <button class="tab-btn">
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span class="tab-label">我的</span>
+  </button>
+</nav>
+
+<script>
+var completedCount=3,totalCount=5;
+
+// IntersectionObserver 入场动画
+var els=document.querySelectorAll('.ring-section,.stat-row,.task-list,.heatmap-section,.streak-banner,.design-notes');
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      var d=parseInt(e.target.dataset.delay||0);
+      setTimeout(function(){e.target.classList.add('show')},d);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+els.forEach(function(el){obs.observe(el)});
+
+// 进度环动画
+setTimeout(function(){
+  var ring=document.getElementById('ringFill');
+  var pct=document.getElementById('ringPct');
+  var target=60;
+  var circumference=2*Math.PI*75;
+  ring.style.strokeDasharray=circumference;
+  ring.style.strokeDashoffset=circumference*(1-target/100);
+  countUp(pct,target,1200,'%');
+  setTimeout(function(){ring.parentElement.style.animation='ringPulse 2s ease-in-out 3'},1500);
+},400);
+
+// 数字跳动
+function countUp(el,target,duration,suffix){
+  suffix=suffix||'';
+  var startTime=null;
+  function step(ts){
+    if(!startTime)startTime=ts;
+    var p=Math.min((ts-startTime)/duration,1);
+    var ease=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(ease*target)+suffix;
+    if(p<1)requestAnimationFrame(step);
+    else el.textContent=target+suffix;
+  }
+  requestAnimationFrame(step);
+}
+setTimeout(function(){
+  document.querySelectorAll('.stat-value[data-count]').forEach(function(el){
+    var s=el.closest('.stat-chip');
+    var d=s?parseInt(s.dataset.delay||0):0;
+    setTimeout(function(){countUp(el,parseInt(el.dataset.count),1000)},d);
+  });
+},500);
+
+// 热力图
+var grid=document.getElementById('heatmapGrid');
+var days=['周日','周一','周二','周三','周四','周五','周六'];
+for(var i=0;i<30;i++){
+  var cell=document.createElement('div');
+  cell.className='heatmap-cell';
+  var r=Math.random();
+  var level=0;
+  if(r>0.3){cell.classList.add('l1');level=1;}
+  if(r>0.5){cell.classList.add('l2');level=2;}
+  if(r>0.7){cell.classList.add('l3');level=3;}
+  if(r>0.85){cell.classList.add('l4');level=4;}
+  var d=new Date(2026,4,i+1);
+  var tip=document.createElement('div');
+  tip.className='heatmap-tooltip';
+  var statusText=level>0?'✅ 已打卡':'— 未打卡';
+  tip.textContent='5月'+(i+1)+'日 '+days[d.getDay()]+' '+statusText;
+  cell.appendChild(tip);
+  grid.appendChild(cell);
+}
+
+// 打卡交互
+function toggleCheck(el){
+  var card=el.closest('.task-card');
+  var isChecked=el.classList.contains('checked');
+  if(isChecked){
+    el.classList.remove('checked');
+    card.classList.remove('done');
+    completedCount--;
+  }else{
+    el.classList.add('checked');
+    card.classList.add('done');
+    completedCount++;
+    var ripple=document.createElement('div');
+    ripple.className='task-ripple';
+    el.appendChild(ripple);
+    setTimeout(function(){ripple.remove()},600);
+    if(completedCount===totalCount)showConfetti();
+  }
+  var pct=Math.round(completedCount/totalCount*100);
+  document.getElementById('ringPct').textContent=pct+'%';
+  var circumference=2*Math.PI*75;
+  document.getElementById('ringFill').style.strokeDashoffset=circumference*(1-pct/100);
+  document.getElementById('taskBadge').textContent=completedCount+'/'+totalCount+' 已完成';
+  document.querySelector('.ring-sub').textContent=completedCount+'/'+totalCount+' 已打卡';
+}
+
+// 彩纸
+function showConfetti(){
+  var colors=['#e07a5f','#81b29a','#f2cc8f','#60a5fa','#a78bfa','#f472b6'];
+  var shapes=['circle','rect','triangle'];
+  for(var i=0;i<50;i++){
+    var c=document.createElement('div');
+    c.className='confetti-piece';
+    var shape=shapes[Math.floor(Math.random()*shapes.length)];
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay=Math.random()*0.8+'s';
+    c.style.animationDuration=(2+Math.random()*1.5)+'s';
+    if(shape==='circle')c.style.borderRadius='50%';
+    else if(shape==='triangle'){c.style.width='0';c.style.height='0';c.style.background='transparent';c.style.borderLeft='5px solid transparent';c.style.borderRight='5px solid transparent';c.style.borderBottom='10px solid '+colors[Math.floor(Math.random()*colors.length)];}
+    else{c.style.width=(6+Math.random()*6)+'px';c.style.height=(6+Math.random()*6)+'px';c.style.borderRadius='2px';}
+    document.body.appendChild(c);
+    setTimeout(function(el){el.remove()},4000,c);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>音悦切片 · 情绪歌单推荐</title>
+    <!-- Font Awesome 6 (免费图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #f7f9fc;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+            color: #1e2a3e;
+            padding-bottom: 32px;
+        }
+
+        /* 容器 */
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 16px 40px;
+        }
+
+        /* 头部 */
+        .header {
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #c2410c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .header p {
+            font-size: 0.85rem;
+            color: #5b6e8c;
+            margin-top: 6px;
+        }
+
+        /* 情绪标签滚动区 */
+        .emotion-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+            background: #ffffffcc;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 4px 0;
+        }
+        .tag-chip {
+            background: #f1f5f9;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .tag-chip i {
+            font-size: 0.9rem;
+        }
+        .tag-chip.active {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 6px 12px -8px rgba(59,130,246,0.4);
+        }
+        .tag-chip:active { transform: scale(0.96); }
+
+        /* 区域标题 */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 24px 0 16px 0;
+        }
+        .section-title h2 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            border-left: 4px solid #3b82f6;
+            padding-left: 12px;
+        }
+        .section-title span {
+            font-size: 0.75rem;
+            color: #6c86a3;
+        }
+
+        /* 歌单网格卡片 */
+        .playlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 18px;
+        }
+        .playlist-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        .playlist-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 28px rgba(0,0,0,0.1);
+        }
+        .card-cover {
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(145deg, #e2e8f0, #cbd5e1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            color: #475569;
+            position: relative;
+        }
+        .card-info {
+            padding: 12px 12px 14px;
+        }
+        .card-info h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin: 6px 0 8px;
+        }
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: rgba(255,255,240,0.85);
+            backdrop-filter: blur(4px);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1.1rem;
+            color: #94a3b8;
+        }
+        .favorite-btn.active {
+            color: #f43f5e;
+        }
+        .favorite-btn:hover {
+            transform: scale(1.08);
+        }
+
+        /* 猜你喜欢卡片特殊样式 */
+        .like-card .card-cover {
+            background: linear-gradient(135deg, #fde68a, #f97316);
+            color: white;
+        }
+
+        /* 歌曲列表页样式 */
+        .detail-view {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            margin-top: 8px;
+        }
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .back-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .detail-fav {
+            margin-left: auto;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .song-list {
+            margin-top: 16px;
+        }
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #edf2f7;
+            gap: 12px;
+        }
+        .song-index {
+            width: 28px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .song-info {
+            flex: 1;
+        }
+        .song-name {
+            font-weight: 500;
+        }
+        .song-artist {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* 冷启动引导模态框 */
+        .modal-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-card {
+            background: white;
+            width: 280px;
+            border-radius: 48px;
+            padding: 28px 20px 32px;
+            text-align: center;
+            animation: fadeUp 0.2s ease;
+        }
+        .modal-card h3 {
+            margin-bottom: 12px;
+        }
+        .tag-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .interest-tag {
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 32px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .interest-tag.selected {
+            background: #3b82f6;
+            color: white;
+        }
+        .modal-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            margin-top: 8px;
+            width: 100%;
+        }
+        .reset-btn {
+            background: #eef2ff;
+            color: #1e293b;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 0.7rem;
+            color: #8ba0bc;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container" id="app">
+    <!-- 动态视图: home / detail -->
+    <div id="homeView">
+        <div class="header">
+            <h1><i class="fas fa-head-side-vr"></i> 音悦切片</h1>
+            <p>情绪即入口 · 每秒都合拍</p>
+        </div>
+
+        <!-- 情绪标签入口 -->
+        <div class="emotion-tags" id="emotionTagsContainer"></div>
+
+        <!-- 歌单列表区域（动态过滤） -->
+        <div class="section-title">
+            <h2>🎧 情绪歌单</h2>
+            <span id="filterResultCount"></span>
+        </div>
+        <div id="playlistContainer" class="playlist-grid"></div>
+
+        <!-- 猜你喜欢 模块 (基于收藏标签加权推荐) -->
+        <div class="section-title" style="margin-top: 36px;">
+            <h2>✨ 猜你喜欢</h2>
+            <span><i class="fas fa-microchip"></i> 智能加权</span>
+        </div>
+        <div id="guessLikeContainer" class="playlist-grid"></div>
+        <div class="reset-btn" id="resetAllDataBtn" style="margin: 20px auto 0; width: fit-content;"><i class="fas fa-undo-alt"></i> 重置所有数据 (冷启动)</div>
+    </div>
+
+    <div id="detailView" class="hidden"></div>
+    <footer>🎵 情绪标签引擎 · 收藏即训练推荐模型</footer>
+</div>
+
+<script>
+    // ----------------------------- 模拟歌单数据 (包含歌曲列表) ---------------------------------
+    const PLAYLISTS = [
+        {
+            id: "p1",
+            title: "☕️ 晨间专注力",
+            coverEmoji: "📖",
+            songCount: 18,
+            playCount: "12.3w",
+            tags: ["学习专注"],
+            songs: [
+                { name: "Lofi Study Beats", artist: "Chillhop" },
+                { name: "Deep Focus", artist: "Brain.fm" },
+                { name: "Piano Warmth", artist: "Yiruma" }
+            ]
+        },
+        {
+            id: "p2",
+            title: "🚌 通勤快乐波",
+            coverEmoji: "🎧",
+            songCount: 24,
+            playCount: "28.7w",
+            tags: ["通勤路上"],
+            songs: [
+                { name: "Sunny Day", artist: "Carly Rae" },
+                { name: "Driving Home", artist: "Surfaces" },
+                { name: "City Pop Mix", artist: "Mariya" }
+            ]
+        },
+        {
+            id: "p3",
+            title: "🌙 深夜emo避难所",
+            coverEmoji: "🌧️",
+            songCount: 32,
+            playCount: "45.2w",
+            tags: ["深夜emo"],
+            songs: [
+                { name: "The Night We Met", artist: "Lord Huron" },
+                { name: "All I Want", artist: "Kodaline" },
+                { name: "Liability", artist: "Lorde" }
+            ]
+        },
+        {
+            id: "p4",
+            title: "🔥 暴汗燃脂训练",
+            coverEmoji: "⚡",
+            songCount: 28,
+            playCount: "67.3w",
+            tags: ["运动燃脂"],
+            songs: [
+                { name: "Titanium", artist: "David Guetta" },
+                { name: "Physical", artist: "Dua Lipa" },
+                { name: "Work B**ch", artist: "Britney" }
+            ]
+        },
+        {
+            id: "p5",
+            title: "🎒 自习室白噪音",
+            coverEmoji: "🍃",
+            songCount: 15,
+            playCount: "9.8w",
+            tags: ["学习专注"],
+            songs: [
+                { name: "Rain Sounds", artist: "Nature" },
+                { name: "Forest Ambience", artist: "Calm" },
+                { name: "Coffee Shop Murmur", artist: "Lofi Girl" }
+            ]
+        },
+        {
+            id: "p6",
+            title: "🚇 地铁慢摇",
+            coverEmoji: "🚇",
+            songCount: 22,
+            playCount: "31.2w",
+            tags: ["通勤路上"],
+            songs: [
+                { name: "Blinding Lights", artist: "The Weeknd" },
+                { name: "Levitating", artist: "Dua Lipa" },
+                { name: "Lost", artist: "Frank Ocean" }
+            ]
+        },
+        {
+            id: "p7",
+            title: "💔 伤心网易云",
+            coverEmoji: "💧",
+            songCount: 40,
+            playCount: "89.1w",
+            tags: ["深夜emo"],
+            songs: [
+                { name: "Someone Like You", artist: "Adele" },
+                { name: "Let Her Go", artist: "Passenger" },
+                { name: "Fix You", artist: "Coldplay" }
+            ]
+        },
+        {
+            id: "p8",
+            title: "🏋️ 硬核健身鼓点",
+            coverEmoji: "🥊",
+            songCount: 26,
+            playCount: "52.4w",
+            tags: ["运动燃脂"],
+            songs: [
+                { name: "Can't Hold Us", artist: "Macklemore" },
+                { name: "Eye of Tiger", artist: "Survivor" },
+                { name: "Stronger", artist: "Kanye West" }
+            ]
+        }
+    ];
+
+    // ---------- 全局状态 ----------
+    let currentView = "home";          // home / detail
+    let currentDetailPlaylistId = null;
+    let activeEmotionTag = null;        // 当前筛选标签 (null表示全部)
+    let favoriteIds = new Set();         // 收藏的歌单ID集合
+    let interestTags = [];               // 冷启动兴趣标签 (用户主动选择)
+
+    // localStorage 键名
+    const STORAGE_FAV = "music_fav_ids";
+    const STORAGE_INTEREST = "music_interest_tags";
+
+    // 辅助函数: 保存收藏到localStorage
+    function persistFavorites() {
+        localStorage.setItem(STORAGE_FAV, JSON.stringify([...favoriteIds]));
+    }
+    function loadFavorites() {
+        const stored = localStorage.getItem(STORAGE_FAV);
+        if (stored) {
+            try {
+                const arr = JSON.parse(stored);
+                favoriteIds = new Set(arr);
+            } catch(e) {}
+        } else {
+            favoriteIds.clear();
+        }
+    }
+    function persistInterestTags() {
+        localStorage.setItem(STORAGE_INTEREST, JSON.stringify(interestTags));
+    }
+    function loadInterestTags() {
+        const stored = localStorage.getItem(STORAGE_INTEREST);
+        if (stored) {
+            try {
+                interestTags = JSON.parse(stored);
+            } catch(e) { interestTags = []; }
+        } else {
+            interestTags = [];
+        }
+    }
+
+    // 初始化加载存储
+    loadFavorites();
+    loadInterestTags();
+
+    // ---------- 核心推荐引擎: 基于收藏标签加权推荐 (规则引擎) ----------
+    // 未收藏歌单根据用户收藏标签权重打分，若无收藏则根据兴趣标签打分，都没有则热门(播放量数值排序)
+    function getWeightedRecommendations(limit = 4) {
+        // 1. 计算用户偏好标签权重 (基于收藏的歌单标签)
+        let tagWeights = new Map();  // 标签 -> 权重
+        if (favoriteIds.size > 0) {
+            for (let favId of favoriteIds) {
+                const playlist = PLAYLISTS.find(p => p.id === favId);
+                if (playlist && playlist.tags) {
+                    playlist.tags.forEach(tag => {
+                        tagWeights.set(tag, (tagWeights.get(tag) || 0) + 1);
+                    });
+                }
+            }
+        } 
+        // 若没有收藏，降级使用兴趣标签 (冷启动策略)
+        else if (interestTags.length > 0) {
+            interestTags.forEach(tag => {
+                tagWeights.set(tag, (tagWeights.get(tag) || 0) + 1);
+            });
+        }
+        
+        // 候选歌单 = 所有未被收藏的歌单
+        let candidates = PLAYLISTS.filter(p => !favoriteIds.has(p.id));
+        
+        if (candidates.length === 0) return [];
+        
+        // 如果有标签权重体系，计算每个候选歌单得分
+        if (tagWeights.size > 0) {
+            candidates.forEach(playlist => {
+                let score = 0;
+                playlist.tags.forEach(tag => {
+                    score += tagWeights.get(tag) || 0;
+                });
+                playlist._recScore = score;
+            });
+            // 按得分降序，得分相同按播放量数值(模拟) 降序
+            candidates.sort((a,b) => {
+                if (a._recScore !== b._recScore) return b._recScore - a._recScore;
+                let aPlay = parseFloat(a.playCount) || 0;
+                let bPlay = parseFloat(b.playCount) || 0;
+                return bPlay - aPlay;
+            });
+        } 
+        // 完全冷启动: 无收藏&无兴趣标签 => 按播放量热门排序
+        else {
+            candidates.sort((a,b) => {
+                let aVal = parseFloat(a.playCount) || 0;
+                let bVal = parseFloat(b.playCount) || 0;
+                return bVal - aVal;
+            });
+        }
+        return candidates.slice(0, limit);
+    }
+
+    // 根据当前情绪标签过滤歌单
+    function getFilteredPlaylists() {
+        if (!activeEmotionTag) return [...PLAYLISTS];
+        return PLAYLISTS.filter(pl => pl.tags.includes(activeEmotionTag));
+    }
+
+    // 渲染歌单卡片 (通用, 用于主列表与猜你喜欢)
+    function renderPlaylistCard(playlist, isGuessLike = false) {
+        const isFav = favoriteIds.has(playlist.id);
+        const cardDiv = document.createElement('div');
+        cardDiv.className = `playlist-card ${isGuessLike ? 'like-card' : ''}`;
+        cardDiv.setAttribute('data-id', playlist.id);
+        // 点击卡片进入详情
+        cardDiv.addEventListener('click', (e) => {
+            // 防止点到收藏按钮冒泡
+            if (e.target.closest('.favorite-btn')) return;
+            showDetailView(playlist.id);
+        });
+        // 封面区域
+        const cover = document.createElement('div');
+        cover.className = 'card-cover';
+        cover.innerHTML = `<span style="font-size:3rem;">${playlist.coverEmoji || '🎵'}</span>`;
+        // 收藏按钮
+        const favBtn = document.createElement('div');
+        favBtn.className = `favorite-btn ${isFav ? 'active' : ''}`;
+        favBtn.innerHTML = isFav ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+        favBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(playlist.id);
+        });
+        // 信息区
+        const info = document.createElement('div');
+        info.className = 'card-info';
+        info.innerHTML = `
+            <h3>${playlist.title}</h3>
+            <div class="card-meta">
+                <span><i class="fas fa-music"></i> ${playlist.songCount}</span>
+                <span><i class="fas fa-play-circle"></i> ${playlist.playCount}</span>
+            </div>
+        `;
+        cardDiv.appendChild(cover);
+        cardDiv.appendChild(favBtn);
+        cardDiv.appendChild(info);
+        return cardDiv;
+    }
+
+    // 渲染主列表 (带情绪筛选)
+    function renderMainPlaylist() {
+        const container = document.getElementById('playlistContainer');
+        if (!container) return;
+        const filtered = getFilteredPlaylists();
+        document.getElementById('filterResultCount').innerText = `${filtered.length}张歌单`;
+        container.innerHTML = '';
+        if (filtered.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px;">暂无该情绪歌单，换个心情～🎭</div>';
+            return;
+        }
+        filtered.forEach(pl => {
+            const card = renderPlaylistCard(pl, false);
+            container.appendChild(card);
+        });
+    }
+
+    // 渲染猜你喜欢模块 (加权推荐)
+    function renderGuessLike() {
+        const container = document.getElementById('guessLikeContainer');
+        if (!container) return;
+        const recList = getWeightedRecommendations(4);
+        container.innerHTML = '';
+        if (recList.length === 0) {
+            container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px;">🎧 收藏一些歌单，推荐会更懂你～</div>';
+            return;
+        }
+        recList.forEach(pl => {
+            const card = renderPlaylistCard(pl, true);
+            container.appendChild(card);
+        });
+    }
+
+    // 收藏/取消收藏逻辑 (更新UI + 持久化 + 重新渲染受影响区域)
+    function toggleFavorite(playlistId) {
+        if (favoriteIds.has(playlistId)) {
+            favoriteIds.delete(playlistId);
+        } else {
+            favoriteIds.add(playlistId);
+        }
+        persistFavorites();
+        // 刷新当前视图: 如果主页显示则刷新歌单列表+猜你喜欢
+        if (currentView === 'home') {
+            renderMainPlaylist();   // 刷新过滤后的列表 (收藏状态会变)
+            renderGuessLike();      // 推荐引擎依赖收藏，需重新计算
+        } else if (currentView === 'detail' && currentDetailPlaylistId) {
+            // 如果在详情页，重新渲染详情页头部收藏按钮
+            renderDetailView(currentDetailPlaylistId);
+        }
+    }
+
+    // 情绪标签筛选联动
+    function setupEmotionTags() {
+        const tagsConfig = [
+            { id: '学习专注', icon: 'fas fa-graduation-cap' },
+            { id: '通勤路上', icon: 'fas fa-bus' },
+            { id: '深夜emo', icon: 'fas fa-moon' },
+            { id: '运动燃脂', icon: 'fas fa-heartbeat' }
+        ];
+        const container = document.getElementById('emotionTagsContainer');
+        container.innerHTML = '';
+        // 添加“全部”标签
+        const allChip = document.createElement('div');
+        allChip.className = `tag-chip ${activeEmotionTag === null ? 'active' : ''}`;
+        allChip.innerHTML = `<i class="fas fa-th-large"></i> 全部`;
+        allChip.addEventListener('click', () => {
+            activeEmotionTag = null;
+            updateActiveTagUI();
+            renderMainPlaylist();
+        });
+        container.appendChild(allChip);
+        
+        tagsConfig.forEach(tag => {
+            const chip = document.createElement('div');
+            chip.className = `tag-chip ${activeEmotionTag === tag.id ? 'active' : ''}`;
+            chip.innerHTML = `<i class="${tag.icon}"></i> ${tag.id}`;
+            chip.addEventListener('click', () => {
+                if (activeEmotionTag === tag.id) {
+                    activeEmotionTag = null;
+                } else {
+                    activeEmotionTag = tag.id;
+                }
+                updateActiveTagUI();
+                renderMainPlaylist();
+            });
+            container.appendChild(chip);
+        });
+    }
+    
+    function updateActiveTagUI() {
+        const chips = document.querySelectorAll('#emotionTagsContainer .tag-chip');
+        const tagsList = ['学习专注', '通勤路上', '深夜emo', '运动燃脂'];
+        chips.forEach((chip, idx) => {
+            if (idx === 0) {
+                // 全部标签
+                if (activeEmotionTag === null) chip.classList.add('active');
+                else chip.classList.remove('active');
+            } else {
+                const tagName = tagsList[idx-1];
+                if (activeEmotionTag === tagName) chip.classList.add('active');
+                else chip.classList.remove('active');
+            }
+        });
+    }
+
+    // 详情视图: 展示歌单内歌曲列表
+    function showDetailView(playlistId) {
+        currentDetailPlaylistId = playlistId;
+        currentView = 'detail';
+        document.getElementById('homeView').classList.add('hidden');
+        document.getElementById('detailView').classList.remove('hidden');
+        renderDetailView(playlistId);
+    }
+    function renderDetailView(playlistId) {
+        const playlist = PLAYLISTS.find(p => p.id === playlistId);
+        if (!playlist) return;
+        const detailContainer = document.getElementById('detailView');
+        const isFav = favoriteIds.has(playlist.id);
+        detailContainer.innerHTML = `
+            <div class="detail-view">
+                <div class="detail-header">
+                    <button class="back-btn" id="detailBackBtn"><i class="fas fa-arrow-left"></i> 返回歌单</button>
+                    <div class="detail-fav" id="detailFavBtn">
+                        <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}"></i> ${isFav ? '已收藏' : '收藏歌单'}
+                    </div>
+                </div>
+                <div style="display:flex; gap:12px; align-items:center; margin-bottom:20px;">
+                    <div style="font-size:3rem;">${playlist.coverEmoji}</div>
+                    <div><h2 style="margin:0;">${playlist.title}</h2><div>🎧 ${playlist.songCount}首 · ${playlist.playCount}次播放</div></div>
+                </div>
+                <div class="song-list">
+                    ${playlist.songs.map((song, idx) => `
+                        <div class="song-item">
+                            <div class="song-index">${idx+1}</div>
+                            <div class="song-info">
+                                <div class="song-name">${song.name}</div>
+                                <div class="song-artist">${song.artist}</div>
+                            </div>
+                            <i class="fas fa-play-circle" style="color:#94a3b8;"></i>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        document.getElementById('detailBackBtn').addEventListener('click', () => {
+            currentView = 'home';
+            document.getElementById('homeView').classList.remove('hidden');
+            document.getElementById('detailView').classList.add('hidden');
+            // 刷新主页 (因为可能在详情页收藏改变)
+            renderMainPlaylist();
+            renderGuessLike();
+        });
+        const detailFav = document.getElementById('detailFavBtn');
+        if (detailFav) {
+            detailFav.addEventListener('click', () => {
+                toggleFavorite(playlist.id);
+            });
+        }
+    }
+
+    // 冷启动引导: 新用户无任何行为 && 无兴趣标签 && 无收藏 时弹出引导
+    function checkColdStartGuide() {
+        const hasFav = favoriteIds.size > 0;
+        const hasInterest = interestTags && interestTags.length > 0;
+        if (!hasFav && !hasInterest) {
+            showInterestModal();
+        }
+    }
+    function showInterestModal() {
+        const modalDiv = document.createElement('div');
+        modalDiv.className = 'modal-mask';
+        const tagList = ['学习专注', '通勤路上', '深夜emo', '运动燃脂'];
+        let selectedSet = new Set();
+        modalDiv.innerHTML = `
+            <div class="modal-card">
+                <h3>🎧 初次见面，选你的情绪标签</h3>
+                <p style="font-size:13px;">我们会根据偏好推荐歌单 (冷启动)</p>
+                <div class="tag-options" id="interestOpts"></div>
+                <button class="modal-btn" id="confirmInterestBtn">✨ 生成专属推荐</button>
+            </div>
+        `;
+        document.body.appendChild(modalDiv);
+        const optsDiv = modalDiv.querySelector('#interestOpts');
+        tagList.forEach(tag => {
+            const chip = document.createElement('div');
+            chip.className = 'interest-tag';
+            chip.innerText = tag;
+            chip.addEventListener('click', () => {
+                if (selectedSet.has(tag)) {
+                    selectedSet.delete(tag);
+                    chip.classList.remove('selected');
+                } else {
+                    selectedSet.add(tag);
+                    chip.classList.add('selected');
+                }
+            });
+            optsDiv.appendChild(chip);
+        });
+        modalDiv.querySelector('#confirmInterestBtn').addEventListener('click', () => {
+            interestTags = [...selectedSet];
+            persistInterestTags();
+            // 如果用户没选择任何标签，给一个默认热门推荐逻辑不报错
+            if (interestTags.length === 0) {
+                interestTags = ['学习专注', '通勤路上']; // 默认温暖推荐
+                persistInterestTags();
+            }
+            document.body.removeChild(modalDiv);
+            // 刷新推荐模块
+            renderGuessLike();
+            // 刷新主列表保持一致性
+            renderMainPlaylist();
+        });
+    }
+
+    // 重置所有用户数据 (冷启动测试)
+    function resetAllData() {
+        favoriteIds.clear();
+        interestTags = [];
+        localStorage.removeItem(STORAGE_FAV);
+        localStorage.removeItem(STORAGE_INTEREST);
+        activeEmotionTag = null;
+        persistFavorites();
+        persistInterestTags();
+        renderMainPlaylist();
+        renderGuessLike();
+        updateActiveTagUI();
+        // 重置后重新弹出引导
+        setTimeout(() => {
+            checkColdStartGuide();
+        }, 100);
+    }
+
+    // 初始化渲染全部
+    function init() {
+        setupEmotionTags();
+        renderMainPlaylist();
+        renderGuessLike();
+        // 冷启动检查
+        checkColdStartGuide();
+        // 重置按钮监听
+        const resetBtn = document.getElementById('resetAllDataBtn');
+        if (resetBtn) resetBtn.addEventListener('click', resetAllData);
+    }
+
+    init();
+</script>
+</body>
+</html>

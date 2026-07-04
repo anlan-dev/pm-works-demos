@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雾灯残页 / Mistlamp Fragments</title>
+<link rel="stylesheet" href="mistlamp-style.css">
+</head>
+<body>
+
+<div id="menu-overlay">
+<h1>雾灯残页</h1>
+<div class="sub-title">MISTLAMP FRAGMENTS</div>
+<div class="tagline">灯影落在指节，像一行未干的墨迹。</div>
+<button class="menu-btn primary" onclick="G.newGame()">新 游 戏</button>
+<button class="menu-btn" id="btn-continue" onclick="G.continueGame()" disabled>继续上次进度</button>
+<button class="menu-btn" id="btn-ngplus" onclick="G.newGamePlus()" disabled style="display:none">开启新周目</button>
+<button class="menu-btn" id="btn-del" onclick="G.deleteSave()">删除存档</button>
+<div class="menu-footer">中文静态网页试玩版 · 点击推进叙事</div>
+</div>
+
+<div id="game" class="hidden">
+<div id="header">
+<h1>雾灯残页</h1>
+<div class="sub" id="loop-label">经折第 1 序</div>
+<button id="btn-save-top" onclick="G.manualSave()">存档</button>
+</div>
+<div id="stats-bar"></div>
+<div id="narrative"></div>
+<div id="choices"></div>
+<div id="continue-indicator"><span class="arrow">▾</span>点击继续</div>
+</div>
+
+<div id="ending-panel">
+<div class="ep-inner">
+<div class="ep-divider"></div>
+<div class="ep-title" id="ep-title"></div>
+<div class="ep-type" id="ep-type"></div>
+<div class="ep-summary"><h3>命册终览</h3><div id="ep-stats"></div></div>
+<div class="ep-collection"><h3>结局收集</h3><div class="grid" id="ep-grid"></div><div class="ep-progress" id="ep-progress"></div></div>
+<div class="ep-btns">
+<button class="ep-btn primary" onclick="G.newGamePlus()">开启新周目</button>
+<button class="ep-btn" onclick="G.returnToMenu()">返回主菜单</button>
+<button class="ep-btn" onclick="G.replayEnding()">重读结局</button>
+</div>
+</div>
+</div>
+
+<button id="btn-toggle-clue" onclick="G.toggleClue()">线索</button>
+<div id="clue-panel">
+<h4>线索档案</h4>
+<div id="clue-rows"></div>
+<div class="section-title">同行微记</div>
+<div id="bond-rows"></div>
+</div>
+
+<script>
+const SAVE_KEY="mistlamp_save";
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
+function qs(s){return document.querySelector(s)}
+function ce(t,c){const e=document.createElement(t);if(c)e.className=c;return e}
+
+function buildNewState(){return{player_name:"奈尔",awareness:0,tenacity:0,sync:0,authority:0,meta_awareness:0,loop_count:0,confronted:false,clue_truth:false,clue_cecil:false,clue_shrine:false,clue_elder:false,mika_knows_me:false,mika_bond:0,cecil_bond:0,cassius_bond:0,lucien_bond:0,thread_mercy:0,thread_obsession:0,thread_erosion:0,thread_revelation:0,scripture_mark:0,rush_to_final:false,endings_found:[],run_finished:false,completed_runs:0,ng_plus_count:0,know_mika:false,know_cecil:false,know_cassius:false,know_lucien:false,_loop6_sided:null}}
+
+const TIERS={awareness:["未启","闻隙","见纹","透骨","越界"],tenacity:["薄甲","硬撑","抗裂","负重","断而不坠"],sync:["离拍","并肩","同频","合脉","共振"],authority:["轻声","定调","压场","裁断","封令"],meta_awareness:["未觉","疑梦","识环","见页","穿页"]};
+const REL=["陌路","试探","靠近","并肩","共命"];
+function sT(k,v){return(TIERS[k]||["未启","初启","渐深","强势","越界"])[clamp(Math.floor(v),0,4)]}
+function rT(v){return REL[clamp(Math.floor(v),0,4)]}
+
+function rollCheck(n,v,dc){const d=rand(1,20),t=d+v;let r,s;if(d===20){r="critical_success";s=true}else if(d===1){r="critical_failure";s=false}else{s=t>=dc;r=s?"success":"failure"}return{dice:d,stat:v,total:t,success:s,result:r}}
+function metaRoll(){return rand(1,20)}
+
+const FATE={critical_success:"命运的丝线一下拉紧，像有人在耳边轻轻弹拨琴弦。",critical_failure:"命运的丝线当场崩断，碎响贴着后颈划过。",success:"命运的丝线缓缓收束，耳侧像掠过一根低钝的弦响。",failure:"命运的丝线松开半寸，风从偏斜的缝里灌进来。"};
+const DVIS={critical_success:"✦ 大成功",critical_failure:"✧ 大失败",success:"○ 成功",failure:"× 失败"};
+const ALL_ENDINGS=["DAWN","CANDLELIGHT","THRONE","ASCENSION","CYCLE","AUTHOR","PILGRIM","JUDGEMENT","COVENANT"];
+const END_NAMES={DAWN:"黎明",CANDLELIGHT:"烛光",THRONE:"王座",ASCENSION:"升华",CYCLE:"轮回",AUTHOR:"执笔",PILGRIM:"朝圣",JUDGEMENT:"审判",COVENANT:"盟约"};
+const END_TYPES={DAWN:"Connection",CANDLELIGHT:"Martyrdom",THRONE:"Dominion",ASCENSION:"Transcendence",CYCLE:"Endurance",AUTHOR:"Meta",PILGRIM:"Pilgrimage",JUDGEMENT:"Revelation",COVENANT:"Mercy"};
+const END_ICONS={DAWN:"☀",CANDLELIGHT:"🕯",THRONE:"♛",ASCENSION:"✦",CYCLE:"↻",AUTHOR:"✎",PILGRIM:"☚",JUDGEMENT:"⚖",COVENANT:"⚭"};
+
+// ============================================================
+// 游戏核心 — 点击推进式叙事引擎
+// ============================================================
+const G={
+state:null,
+_q:[],          // 消息队列
+_clickResolve:null,  // 等待点击的 resolve
+_skipHeld:false,
+
+init(){
+const s=this.load();
+if(s){qs("#btn-continue").disabled=false;
+if(s.endings_found&&s.endings_found.length>0){qs("#btn-ngplus").style.display="block";qs("#btn-ngplus").disabled=false}}
+// 全局点击/键盘监听
+qs("#narrative").addEventListener("click",e=>this._onAdvance(e));
+document.addEventListener("keydown",e=>{
+if(e.code==="Space"||e.code==="Enter"){e.preventDefault();this._onAdvance()}
+});
+},
+
+// --- 存档 ---
+save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify({v:1,state:this.state}))}catch(e){}},
+load(){try{const d=JSON.parse(localStorage.getItem(SAVE_KEY));if(d&&d.state)return d.state}catch(e){}return null},
+manualSave(){this.save();this._showLine("—— 进度已保存 ——","system")},
+deleteSave(){localStorage.removeItem(SAVE_KEY);qs("#btn-continue").disabled=true;qs("#btn-ngplus").style.display="none"},
+
+// --- 菜单 ---
+newGame(){this.state=buildNewState();this.save();this.startRun()},
+continueGame(){const s=this.load();if(!s)return;this.state=s;this.startRun()},
+newGamePlus(){
+const old=this.load();if(!old&&!this.state)return;
+const src=this.state||old;const s=buildNewState();
+s.endings_found=[...(src.endings_found||[])];
+s.completed_runs=(src.completed_runs||0);
+s.ng_plus_count=(src.ng_plus_count||0)+1;
+s.meta_awareness=Math.min(2,Math.floor(s.endings_found.length/2));
+this.state=s;this.save();this.startRun()
+},
+returnToMenu(){
+qs("#ending-panel").style.display="none";
+qs("#game").classList.add("hidden");
+qs("#menu-overlay").style.display="flex";
+this.init()
+},
+
+startRun(){
+qs("#menu-overlay").style.display="none";
+qs("#ending-panel").style.display="none";
+qs("#game").classList.remove("hidden");
+qs("#narrative").innerHTML="";qs("#choices").innerHTML="";
+this._q=[];this._clickResolve=null;
+this.narr("灯影先落在你指节，像一行尚未干透的批注。");
+this.narr("第七次门响之前，名字、誓言和代价都会被重写。");
+if(this.state.ng_plus_count>0)this.narr(`当前为第 ${this.state.ng_plus_count+1} 轮旅程。你已见结局数：${this.state.endings_found.length}。`);
+this.narr("","system");this.updateStats();this.updateCluePanel();
+if(this.state.run_finished){this.narr("该存档上一轮已完成。请开启新周目或返回主菜单。","system");this.showEndingButtons();return}
+this.runStory()
+},
+
+// ============================================================
+// 显示系统 — 队列 + 点击推进
+// ============================================================
+
+// 推入队列（同步）
+narr(t,c="narrator"){if(!t)return;this._q.push({t:"narr",text:t,cls:c})},
+say(sp,t){this._q.push({t:"say",speaker:sp,text:t})},
+divider(){this._q.push({t:"divider"})},
+diceResult(n,r){this._q.push({t:"dice",name:n,roll:r})},
+
+// 渲染一条消息到 DOM
+_showLine(msg){
+const box=qs("#narrative");let el;
+switch(msg.t){
+case"narr":el=ce("div",`line ${msg.cls}`);el.textContent=msg.text;break;
+case"say":el=ce("div","line speaker");el.innerHTML=`<span class="name">「${msg.speaker}」</span> ${msg.text}`;break;
+case"divider":el=ce("div","line divider");el.textContent="· · ·";break;
+case"dice":el=ce("div","line dice");el.innerHTML=`<div>【命运检定·${msg.name}】</div><div><span class="dice-num">d20(${msg.roll.dice})</span> + ${msg.roll.stat} = ${msg.roll.total}</div><div style="margin-top:4px;font-size:1.1em;color:${msg.roll.result.includes('success')?'#7a9e7e':'#9e7a7a'}">${DVIS[msg.roll.result]}</div><div class="dice-result">${FATE[msg.roll.result]}</div>`;break;
+}
+if(el){box.appendChild(el);this._scrollTo(el)}
+},
+
+// 平滑滚动到某元素
+_scrollTo(el){
+requestAnimationFrame(()=>el.scrollIntoView({behavior:"smooth",block:"end"}))
+},
+
+// 显示/隐藏继续指示器
+_showIndicator(){qs("#continue-indicator").classList.add("show")},
+_hideIndicator(){qs("#continue-indicator").classList.remove("show")},
+
+// 点击推进
+_onAdvance(){
+if(this._clickResolve){this._clickResolve();this._clickResolve=null}
+},
+
+// 等待一次点击
+_waitClick(){
+return new Promise(resolve=>{
+this._showIndicator();
+this._clickResolve=resolve;
+})
+},
+
+// 消耗队列：逐条显示，每条等待点击
+// skip=true 时全部瞬间显示
+async drain(skip=false){
+while(this._q.length>0){
+const msg=this._q.shift();
+this._showLine(msg);
+if(!skip&&this._q.length>0){
+await this._waitClick()
+}
+}
+this._hideIndicator()
+},
+
+// 同步显示一条（用于开场等不需要等待的场景）
+_showImmediate(text,cls="narrator"){
+if(!text)return;
+const el=ce("div",`line ${cls}`);el.textContent=text;
+qs("#narrative").appendChild(el);this._scrollTo(el)
+},
+
+// ============================================================
+// 选择系统
+// ============================================================
+showChoices(prompt,options,cb){
+this.waitingChoice=true;this._hideIndicator();
+const box=qs("#choices");box.innerHTML="";
+if(prompt){const p=ce("div","line system");p.style.textAlign="center";p.textContent=`— ${prompt} —`;box.appendChild(p)}
+const pick=(n)=>{if(n>=1&&n<=options.length){this.waitingChoice=false;box.innerHTML="";document.removeEventListener("keydown",_kb);cb(n)}};
+const _kb=(e)=>{const n=parseInt(e.key);if(!isNaN(n))pick(n)};
+document.addEventListener("keydown",_kb);
+options.forEach((o,i)=>{
+const b=ce("button","choice-btn");b.textContent=`[${i+1}] ${o}`;
+b.onclick=()=>pick(i+1);
+box.appendChild(b)
+});
+},
+
+chooseAsync(prompt,options,handler){
+return new Promise(resolve=>{
+this.showChoices(prompt,options,c=>{handler(c);this.updateStats();this.save();resolve()})
+})
+},
+
+// ============================================================
+// 属性 & 线索 UI
+// ============================================================
+updateStats(){
+const s=this.state;const bar=qs("#stats-bar");
+bar.innerHTML=["awareness","tenacity","sync","authority","meta_awareness"].map(k=>`<span class="stat-item"><span class="label"></span><span class="label-text">${{awareness:"觉察",tenacity:"坚韧",sync:"同步",authority:"权能",meta_awareness:"元认知"}[k]}</span><span class="val">${sT(k,s[k])}</span></span>`).join("");
+qs("#loop-label").textContent=`经折第 ${s.loop_count+1} 序`;
+this.updateCluePanel()
+},
+updateCluePanel(){
+const s=this.state;
+const clues=[["暗影徽记",s.clue_cecil],["缄卷裂真",s.clue_truth],["七灯残阶",s.clue_shrine],["蜡誓遗册",s.clue_elder]];
+qs("#clue-rows").innerHTML=clues.map(([n,f])=>`<div class="clue-row"><span><span class="dot ${f?'on':'off'}">${f?'◆':'◇'}</span> ${n}</span><span>${f?'已亮':'未亮'}</span></div>`).join("");
+const bonds=[["mika","米迦",s.mika_bond,s.know_mika],["cecil","塞西尔",s.cecil_bond,s.know_cecil],["cassius","卡修斯",s.cassius_bond,s.know_cassius],["lucien","卢西恩",s.lucien_bond,s.know_lucien]];
+qs("#bond-rows").innerHTML=bonds.map(([k,n,v,known])=>`<div class="clue-row"><span>${known?n:'？？？'}</span><span>${rT(v)}</span></div>`).join("")
+},
+toggleClue(){const p=qs("#clue-panel");p.style.display=p.style.display==="none"||!p.style.display?"block":"none"},
+
+showEndingButtons(){
+const box=qs("#choices");box.innerHTML="";
+[{t:"返回主菜单",a:()=>G.returnToMenu()},{t:"开启新周目",a:()=>G.newGamePlus()}].forEach(({t,a})=>{
+const b=ce("button","choice-btn");b.textContent=t;b.onclick=a;box.appendChild(b)})
+},
+
+// ============================================================
+// 结局后面板
+// ============================================================
+showEndingPanel(endName){
+const s=this.state;
+qs("#ep-title").textContent=`${END_ICONS[endName]||""} ${END_NAMES[endName]||endName}`;
+qs("#ep-type").textContent=END_TYPES[endName]||"";
+qs("#ep-stats").innerHTML=[
+["觉察",sT("awareness",s.awareness)],["坚韧",sT("tenacity",s.tenacity)],["同步",sT("sync",s.sync)],["权能",sT("authority",s.authority)],["元认知",sT("meta_awareness",s.meta_awareness)],
+["米迦羁绊",s.know_mika?rT(s.mika_bond):"？？？"],["塞西尔羁绊",s.know_cecil?rT(s.cecil_bond):"？？？"],["卡修斯羁绊",s.know_cassius?rT(s.cassius_bond):"？？？"],["卢西恩羁绊",s.know_lucien?rT(s.lucien_bond):"？？？"],
+["经折数",s.loop_count+" 序"],["已完成轮次",s.completed_runs+" 次"]
+].map(([k,v])=>`<div class="row"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("");
+const found=s.endings_found||[];
+qs("#ep-grid").innerHTML=ALL_ENDINGS.map(e=>{const f=found.includes(e);return`<div class="cell ${f?'found':'locked'}"><span class="icon">${f?END_ICONS[e]:"◇"}</span>${END_NAMES[e]}</div>`}).join("");
+qs("#ep-progress").textContent=`已解锁 ${found.length} / ${ALL_ENDINGS.length}`;
+qs("#ending-panel").style.display="block"
+},
+replayEnding(){qs("#ending-panel").style.display="none";qs("#game").classList.remove("hidden")},
+
+// ============================================================
+// 结局系统
+// ============================================================
+async resolveEnding(name,title,type){
+this.divider();await this.drain();
+const t=ce("div","line ending-title");t.textContent=title;qs("#narrative").appendChild(t);this._scrollTo(t);
+const s=ce("div","line ending-sub");s.textContent=`类型: ${type}`;qs("#narrative").appendChild(s);
+if(!this.state.endings_found.includes(name))this.state.endings_found.push(name);
+this.state.run_finished=true;this.state.completed_runs++;this.save();
+await new Promise(r=>setTimeout(r,1200));
+this.showEndingPanel(name)
+},
+
+// --- 提前分流 ---
+async earlyResolutionCheck(stage){
+const meta=metaRoll();const s=this.state;
+const core=s.awareness+s.tenacity+s.sync+s.authority+s.meta_awareness;
+const hidden=s.thread_mercy+s.thread_obsession+s.thread_erosion+s.thread_revelation+s.scripture_mark;
+if(meta<20-stage)return false;
+const ERE=["门缝里漏进一线的亮，大约有人在低声校对还没落款的句子。","你后脑像被薄纸划过，回声忽然贴骨——却数不清那是第几声。","夜里有人把窗纸按平，你连自己的心跳都显得太响。","风在某个转角改口，像把下一章提前塞给你半页。","冷光先落在你的指腹上，大约有人在等你摁下去才肯承认。","你忽然闻见旧墨发潮的气味，大约在说你早该翻开那一折。","雾里响起极细的裂声——大约页角自己抬起，大约在催你落款。"];
+this.narr(ERE[clamp(s.loop_count-1,0,6)]);
+this.narr("你们还没走到最后一扇门，灯却先亮了——这一轮提前收束。");
+await this.drain();
+if(s.thread_revelation>=Math.max(1,stage-2)&&s.meta_awareness>=1&&meta>=18&&s.cassius_bond>=1){await this.endingAuthor();return true}
+if(stage<=5&&s.scripture_mark>=1&&meta>=12&&s.mika_bond>=1){await this.endingPilgrim();return true}
+if(stage>=6&&s.scripture_mark>=3&&s.thread_revelation>=4&&s.clue_elder&&s.cassius_bond>=2&&meta>=15){await this.endingJudgement();return true}
+if(stage>=6&&s.thread_mercy>=4&&s.sync>=2&&s.lucien_bond>=2&&s.cecil_bond>=1&&meta>=14){await this.endingCovenant();return true}
+if(s.thread_obsession>=(Math.floor(stage/2)+1)&&(s.authority+s.meta_awareness)>=2){await this.endingThrone();return true}
+if(s.thread_mercy>=(Math.floor(stage/2)+1)&&(s.sync+s.mika_bond+s.lucien_bond)>=3&&core>=stage+2){await this.endingCandlelight();return true}
+if(s.thread_erosion>=(Math.floor(stage/2)+1)&&core<=stage+6){await this.endingCycle();return true}
+if(core+hidden>=(8+stage*2)){if(s.mika_knows_me&&s.mika_bond>=2){await this.endingAscension();return true}else if(s.mika_bond>=1){await this.endingDawn();return true}else{await this.endingCycle();return true}}
+return false
+},
+
+// --- 九大结局 ---
+async endingDawn(){this.narr("石柱裂开了。尘灰如晚雪一般纷纷扬扬地落下来。");this.narr("米迦站在你对面。发梢挂着白粉，眼睛却一寸一寸地回暖。");this.say("米迦","收队。");this.narr("你报上名字。奈尔。声音落在石阶上，回声晚了半拍才跟上来。");this.narr("晨光沿着台阶慢慢地爬下来。冷白，干净，像一页刚盖上印鉴的判书。");this.narr("有关那扇门的记录被誊成了三份。铁柜每逢潮夜会轻轻胀响——大约有人在里面翻页。");this.narr("你知道那扇门没有消失。它只是暂时将声音压低了。它在等——等下一次有人敢说出自己的名字。");await this.drain();await this.resolveEnding("DAWN","结局一 / 黎明","Connection")},
+async endingCandlelight(){this.narr("你倒下时，碎石从高处泻落，砸在你的肩背上——那冰冷的、沉甸甸的撞击令你想起矿井深处坍塌的声响。");this.narr("米迦扑到你身边。喉咙里只挤出一声断音——那声音短促而破碎，仿佛一根弦在最不该断的地方断裂了。");this.say("塞西尔","我去开路。你们别回头。");this.narr("你的名字成了队伍里一处旧伤。碰一下便疼。疼过了人便会站直。");this.narr("你所换来的那条生路太亮了，亮到你再也无法走进去。活人的一生从此多了一盏长明的灯——却照不到你所站立的位置。");await this.drain();await this.resolveEnding("CANDLELIGHT","结局二 / 烛光","Martyrdom")},
+async endingThrone(){this.narr("裂口在你面前张开。风里有灰，有锈，还有尚未散尽的血味——那三种气味搅在一起，形成一种属于终结的味道。");this.narr("石柱闭合了。黑暗向上升起——那升起的姿态缓慢而庄严，仿佛一把空了太久的椅子终于等到了它的主人。");this.narr("第一夜，门外还有脚步声。");this.narr("第二夜，脚步声只剩回声。");this.narr("到了第七夜，连回声都学会了闭嘴。");this.narr("王座给予你重量。也慢慢地剥掉你在人间的名字。");this.narr("只有风还记得你曾经叫奈尔。");await this.drain();await this.resolveEnding("THRONE","结局三 / 王座","Dominion")},
+async endingAscension(){this.narr("你伸出手，米迦握住了。那握力坚定而温热——温热得令你几乎忘记了你们正站在一座正在崩塌的神殿的正中央。");this.narr("天幕缓缓裂开。四个人站到了一个新的路口——脚下是风，远处是光，身后是所有你们曾经走过的路。");this.narr("你们跨过那道光时，影子被拉得很长。长到仿佛是另一段尚未被书写的命运。");this.narr("代价不在伤口上。在舌根——昨夜说过的那些句子会渐渐褪色，只剩掌心那点温度不肯散去。");await this.drain();await this.resolveEnding("ASCENSION","结局四 / 升华","Transcendence")},
+async endingCycle(){this.narr("轮回继续。这两个字的重量你大约已承受了无数次。");this.narr("你又站回了村口。太阳的角度分毫不差，木牌的边缘还是那道旧裂——一切都精确得令人发疯。");this.narr("公告牌天天换新纸。段落却总在同一行折返——仿佛有一只看不见的手在反复抄写着同一份判决书。");this.narr("轮回不吵不闹。它只是将每一个活人慢慢地磨成一个熟练的参与者。");this.narr("最深的残酷藏在那熟练之中——你预知每一步都会疼，却仍必须将脚落下去。");await this.drain();await this.resolveEnding("CYCLE","结局五 / 轮回","Endurance")},
+async endingAuthor(){this.narr("门影先起了皱。你的手背跟着裂开——皮纹翻成密排的小字，墨味与潮气一股脑地涌了上来。");this.say("米迦","页边在收口。");this.say("你","别翻页。");this.narr("你终于摸到了叙事的边缘。却发现自己也活成了他人手中的一句注脚。");await this.drain();await this.resolveEnding("AUTHOR","结局六 / 执笔","Meta")},
+async endingPilgrim(){this.narr("你先跨过了门槛。脚底一冷——那冰冷的触感仿佛踩进了刚退潮的石滩。");this.narr("背后有人在喊你。第一声很近。第二声已经隔了半条街——那距离的拉开是命运的。");this.narr("这条路没有回执。只有方向。");this.narr("你带着问题往前走。等后来的人给终点起名。");this.narr("你换到了前路。却换不到一次可归。");this.narr("脚下每一粒砂都认得你。远处每一盏灯都不肯留你的名字。");await this.drain();await this.resolveEnding("PILGRIM","结局七 / 朝圣","Pilgrimage")},
+async endingJudgement(){this.narr("门开到半掌宽。白光先烫了你的眼皮，再烫了你的喉咙。");this.narr("你听见七次轻响。像七枚铁钉依次落进石板的凹槽里。");this.say("米迦","奈尔，挑一盏。手别抖。");this.narr("你将名字刻进了灯台下的石砖。");this.narr("从此以后你便活在了石头里——人来人往，你的名字被越摸越浅，却从来没有人将它擦掉过。");await this.drain();await this.resolveEnding("JUDGEMENT","结局八 / 审判","Revelation")},
+async endingCovenant(){this.narr("你将门推开了。也将剑放下了。米迦先跨了过去，塞西尔与卡修斯跟在后面。没有人催你。");this.narr("天快亮的时候，你们在殿外分了面包和冷茶。风很冷。喉咙却慢慢地暖了起来。");this.say("米迦","活着真贵。可还是值。");this.narr("你们都笑了。笑得很轻。轻得几乎怕惊动天亮。");await this.drain();await this.resolveEnding("COVENANT","结局九 / 盟约","Mercy")},
+
+async finalResolution(){
+const s=this.state;
+this.narr("你们走到最后一扇门前。石壁内部传来低低的轰鸣。");
+const roll=rollCheck("坚韧与并肩",s.tenacity+s.sync,12);const meta=metaRoll();
+this.diceResult("坚韧与并肩",roll);await this.drain();
+if(s.meta_awareness>=2&&meta===20&&s.thread_revelation>=2&&s.cassius_bond>=1){await this.endingAuthor();return}
+if(s.loop_count<=5&&s.scripture_mark>=1&&meta>=12&&s.mika_bond>=1){await this.endingPilgrim();return}
+if(s.loop_count>=7&&s.scripture_mark>=3&&s.thread_revelation>=4&&s.clue_elder&&s.cassius_bond>=2&&meta>=12){await this.endingJudgement();return}
+if(s.loop_count>=7&&s.thread_mercy>=4&&s.lucien_bond>=2&&s.cecil_bond>=1&&roll.success){await this.endingCovenant();return}
+if(s.thread_obsession>=4&&meta>=15){await this.endingThrone();return}
+if(s.thread_mercy>=3&&(s.lucien_bond+s.cecil_bond)>=1&&roll.success&&meta>=10){await this.endingCandlelight();return}
+if(s.thread_erosion>=3&&!roll.success){await this.endingCycle();return}
+if(roll.result==="critical_success"){if(s.mika_knows_me)await this.endingAscension();else await this.endingDawn();return}
+if(roll.result==="critical_failure"){if(s.authority>=2&&s.tenacity>=2)await this.endingThrone();else await this.endingCycle();return}
+if(roll.success){await this.chooseAsync("最后抉择",["并肩离开（把手留给活人）","留下断后（把背影留给风）"],async c=>{if(c===2)await this.endingCandlelight();else await this.endingDawn()});return}
+if(s.tenacity>=2){await this.chooseAsync("最后抉择",["留下断后（把背影留给风）","再入轮回（把问题留到下次）"],async c=>{if(c===1)await this.endingCandlelight();else await this.endingCycle()})}else await this.endingCycle()
+},
+
+// ============================================================
+// 七个轮回 — 每段叙事后 drain() 等待点击
+// ============================================================
+async runStory(){
+const loops=[this.loop1,this.loop2,this.loop3,this.loop4,this.loop5,this.loop6,this.loop7];
+const start=clamp(this.state.loop_count,0,loops.length);
+for(let i=start;i<loops.length;i++){
+if(this.state.rush_to_final)break;this.updateStats();
+await loops[i].call(this);this.save();
+if(await this.earlyResolutionCheck(this.state.loop_count))return}
+this.updateStats();await this.finalResolution()
+},
+
+async loop1(){
+const s=this.state;
+this.narr("你站在村口——倘若「站」这个字还算恰当的话；你感到自己更像一具被人竖在此处的木桩。");
+this.narr("风从石缝间钻出来，裹挟着旧漆粉末的涩味，那气味磨过你的虎口，留下一阵几近灼烫的刺痛。");
+this.narr("袖口内侧那道旧裂口已经开始发痒了——每逢天冷便先于记忆苏醒，大约有什么东西在那层皮肤底下翻身。");
+this.narr("你用指腹蹭了它一下。疼是真的，这一轮的疼与上一轮一样真。");
+this.narr("告示的纸角被风掀起来，墨迹受了潮，署名洇成一团灰影。");
+this.narr("你扫了一眼日期——记不清了；每轮都是这张纸，只是墨的新旧略有不同。");
+this.narr("舌根深处有铁腥味顶上来。你咬住它，等它自行退去。");
+this.narr("路牌底下正在闹。半袋药盐撒了一地，盐粒嵌进石缝，踩上去便发出一阵细碎的、令人齿根发酸的声响。");
+this.narr("有个人从人群边上挤了进来。棕发被风掀乱，黏在额角的汗痕上。");
+this.narr("绿眼睛先扫了你一遍——从肩到手，从手到腰侧——那种扫法不大像在端详一个人，更近于估量一具尚堪使用的旧甲。");
+this.narr("圆脸，轮廓带着少年时代未及褪净的钝角，嘴角往左侧牵扯，笑起来大约是在替自己壮胆。");
+this.narr("腰间别着一把锈剑，刃口灰暗如死去的铁，护手处却被掌心的汗与油磨得发出钝光。");
+this.narr("他将那两个人的手腕各拍开半寸。骂了一句什么，声音不高，绷紧的空气却因此松了一截。");
+this.narr("他扭过头来看你，眨了一下眼。笑意还没落定便飞快地收了回去，大约是怕被什么人看见。");
+s.know_mika=true;
+this.say("米迦","我是米迦。诶，旅人？头回见。你身上要是还有余钱，我能替你省下三趟冤枉路。");
+await this.drain();
+
+await this.chooseAsync("LOOP ONE · 村口",["点头搭话，让气氛先热起来","盯着锈剑看，往旧事里探","警告他黄昏别独自穿巷","把水壶递过去，先给一口温度","先问报酬与口粮","在路牌背面刻一道记号"],c=>{
+if(c===1){this.say("你","唔，算是。");this.say("米迦","那我就不客气了。");s.sync++}
+else if(c===2){this.say("你","你这把剑——啧，像从棺材边上捞出来的。");s.awareness++;s.meta_awareness++}
+else if(c===3){this.say("你","黄昏会有刺客来找你。");s.authority++;s.confronted=true}
+else if(c===4){this.say("你","先喝口水。");this.say("米迦","你这人——怪好啊。");s.sync++;s.mika_bond++}
+else if(c===5){s.tenacity++}
+else{s.thread_revelation++;s.thread_erosion++}
+});
+await this.drain();
+
+this.narr("黄昏时分旧殿方向敲了两遍巡铃。铃声之间隔着你已经数惯了的距离。");
+this.narr("脚步声压着铃尾落下来。很轻。轻得大约是在替什么人将呼吸按进泥土里。");
+this.narr("有人从暮色里走了出来。窄脸，轮廓仿佛被一柄极其锋利的刀削过一遍。");
+this.narr("唇线微抿，含着一句大约尚未到说出口之时机的判词。");
+this.narr("紫瞳里的光凉而利落，像井水表面将凝未凝的薄冰——你在那层冰上看得见自己的倒影，却看不透那底下到底沉着多深的黑暗。");
+this.narr("背上斜挎一把长弓，弓弦距掌两指，刚好够一根弦将整个场面拽停。");
+this.narr("袍角沾了夜露，湿痕沿着布纹向上攀爬。");
+this.narr("内侧有一道针脚，细得几乎不可辨认，逆光方才浮出一线旧徽的轮廓——大约是什么人将身份缝进了褶皱深处。");
+s.know_cecil=true;
+if(s.confronted){this.say("塞西尔","嗯……他说得对。塞西尔……原本来杀你的。");s.clue_cecil=true;s.authority++}
+else{this.say("米迦","这位看着像会射箭的。跟我一把，先活过今夜再说。");s.clue_cecil=true}
+await this.drain();
+s.loop_count++
+},
+
+async loop2(){
+const s=this.state;
+this.narr("你又醒了。这三字你大约已对自己说过无数次，而每一次它的重量都不曾减轻分毫。");
+this.narr("石板缝里渗着水，鞋底一拖便黏住昨夜未及散尽的凉意，那凉意从脚踝向上攀爬。");
+this.narr("路牌下米迦已呆立良久。他绕着剑柄转圈，靴跟在泥地上碾出一个浅坑。");
+this.narr("你往井边偏了偏头——井水凉得发苦，塞西尔更早半步蹲在井沿边擦弦，眼底那点凉光稳得像一把尺子。");
+if(s.thread_revelation>=1)this.narr("指腹下意识往路牌背面摸过去——那道细痕还在。身体比记忆先认出自己。");
+this.narr("往北街再借半步，帘口苦橙与皂角的气味缠在一处。");
+this.narr("你循着气味辨着声响，方才看见担架边有人正在收针入盒，动作慢，几乎是在将每一根针都数过一遍之后才肯放手。");
+this.narr("他脸上浮着一抹过劳红。那种红是长期俯身于创口之上、血液向眼底涌过头之后才会留下的痕迹。");
+this.narr("灰绿底色的眼睛先落在你的腕脉上，再升至眉间与口唇——慢，很近，近得你闻见他袖口里苦橙药酒的余味。");
+s.know_lucien=true;
+this.say("卢西恩","借过。脉案还没落款呢——有话先到荫里说。");
+await this.drain();
+
+await this.chooseAsync("LOOP TWO · 路牌下",["跟着我","你身边有刺客","拿锈剑开一句玩笑","去街角和塞西尔聊","提黑水河的梦","让塞西尔在巷口试射一箭"],c=>{
+if(c===1)s.tenacity++;else if(c===2){s.awareness++;s.clue_truth=true}else if(c===3){s.sync++;s.tenacity++}
+else if(c===4){s.sync+=2;s.cecil_bond++;s.clue_cecil=true}else if(c===5){s.awareness++;s.mika_bond++;s.mika_knows_me=true}
+else{s.thread_mercy++;s.thread_obsession++}
+});
+await this.drain();
+
+const roll=rollCheck("坚韧",s.tenacity,12);
+this.diceResult("坚韧",roll);
+if(roll.result==="critical_success")s.mika_bond+=2;else if(roll.success)s.mika_bond++;
+this.say("你","他留下。");
+await this.drain();
+s.loop_count++
+},
+
+async loop3(){
+const s=this.state;
+this.narr("第三次醒来时，头颅里仿佛压着一整片潮水。那潮声从你脑颅的内壁上一浪接一浪地拍打着。");
+this.narr("潮声还在耳蜗里打转，你便朝镇口望去。那儿果然又多了一个旅人。");
+this.narr("卷册紧贴着肋侧，走一步拍一下，大约是在替什么人数着漏掉的那一拍心音。");
+this.narr("他摘下手套。纸页与药草的苦香先替他报上了来路——那气味干燥、冷冽，带着一种近乎偏执的秩序感。");
+this.narr("红发在背光处发暗，像铜矿在水里沉过一夜方才捞出来的色泽。");
+this.narr("蓝眼睛亮得近乎苛刻。那亮度经年累月磨砺而成，令人不敢直视。");
+s.know_cassius=true;
+this.say("卡修斯","卡修斯。游历学团。");
+await this.drain();
+
+await this.chooseAsync("LOOP THREE · 午后镇口",["对米迦说，跟我来","带他去旧神殿","聊他炉火砖缝里那点私藏","去看卡修斯带来的法术书","提河对面的梦","把轮回真相说到明面"],c=>{
+if(c===1)s.sync++;else if(c===2){s.awareness++;s.clue_shrine=true}else if(c===3){s.tenacity++;s.mika_bond++}
+else if(c===4){s.cassius_bond++;s.clue_elder=true}else if(c===5){s.awareness++;s.mika_knows_me=true;s.mika_bond++}
+else{s.authority++;s.tenacity++;s.mika_knows_me=true}
+});
+await this.drain();
+
+const roll=rollCheck("同步",s.sync,12);
+this.diceResult("同步",roll);
+if(roll.result==="critical_success"){s.mika_bond+=2;s.mika_knows_me=true}else if(roll.success)s.mika_bond++;
+this.say("你","奈尔。");this.say("米迦","记住了。下次别把我落在门后。");
+await this.drain();
+s.loop_count++
+},
+
+async loop4(){
+const s=this.state;
+this.narr("第四次醒来时，舌根泛着淡淡的血腥味——那味道你已经能够精确地辨认，某种从内部渗出来的、更为古老的锈。");
+this.narr("你抬起手，看见自己的影子变薄了。阳光从指缝间穿过去，地上铺着一层几近熄灭的银尘。");
+this.narr("石阶下摆开了两盏小灯。一盏照着听证的抄本，一盏照着一条尚未拆线的胳膊。");
+this.narr("苦橙药酒的气味先漫了上来。那气味将廊下的争吵压薄了半分——只是暂时搁置。");
+this.say("卢西恩","血先止住，再往高处抬争辩。");
+await this.drain();
+
+await this.chooseAsync("LOOP FOUR · 神殿前",["问米迦，记得我吗","去神殿看戒指","谈公告牌上的字","找塞西尔和旧书","认下执印遗裔之名","把救人这件事摊开讲"],c=>{
+if(c===1){s.tenacity++;s.mika_knows_me=true}else if(c===2){s.awareness++;s.clue_shrine=true}else if(c===3){s.meta_awareness++;s.authority++}
+else if(c===4){s.cecil_bond++;s.lucien_bond++;s.clue_elder=true}else if(c===5){s.authority++;s.mika_knows_me=true}
+else{s.sync++;s.tenacity++;s.mika_bond++;s.mika_knows_me=true}
+});
+await this.drain();
+
+const roll=rollCheck("坚韧与并肩",s.tenacity+s.sync,12);
+this.diceResult("坚韧与并肩",roll);
+if(roll.result==="critical_success")s.mika_bond+=2;else if(roll.success)s.mika_bond++;
+if(s.thread_erosion>=2)this.say("米迦","……你连这都记得。你到底是第几次？");s.thread_revelation++;
+await this.drain();
+s.loop_count++
+},
+
+async loop5(){
+const s=this.state;
+this.narr("第五次醒来，风声先到。那风从你记忆的裂缝里渗出来——它携带着一种你已经太过熟悉的气味。");
+this.narr("廊柱拐角的酒橱半阖着。勺背碰上昨夜黏底的裸麦糊，气味里混着醋渍鱼碎的潮腥。");
+this.narr("市镇广场的风里，告示的木纹缝中楔着陈年的灰絮。炭笔下的新划痕压着旧墨迹，层层叠叠却始终不曾注销。");
+this.narr("像名册翻到了新的一页，前一行的欠条却仍黏在那里，撕不掉，也还不清。");
+await this.drain();
+
+await this.chooseAsync("LOOP FIVE · 门前",["问米迦记不记得那些梦","去找最后一扇门","和米迦谈条件","先找卡修斯","带所有人进神殿","直接带线索去旧庭要塞","把门槛上的灰抹在掌心","今夜就推门，不再多等","再观一轮风向，延后推门"],c=>{
+if(c===1){s.mika_knows_me=true;s.mika_bond++}else if(c===2){s.awareness++;s.clue_truth=true;s.clue_shrine=true}else if(c===3){s.tenacity++;s.mika_bond++;s.mika_knows_me=true}
+else if(c===4){s.cassius_bond++;s.authority++}else if(c===5){s.sync++;s.tenacity++}else if(c===6){s.authority++;s.awareness++;s.clue_truth=true}
+else if(c===7){s.thread_obsession++;s.thread_revelation++}else if(c===8){s.authority++;s.thread_obsession++;s.scripture_mark++;s.rush_to_final=true}
+else{s.tenacity++;s.meta_awareness++;s.thread_mercy++;s.rush_to_final=false}
+});
+await this.drain();
+
+this.narr("神殿最深处那扇门微微开了一线。门缝里涌出一股冷风，掠过皮肤时激起一层细小的颗粒。");
+this.narr("米迦还在说笑。说到一半忽然停了，将肩让出来给你站定——那中断来得突兀而自然。");
+this.narr("塞西尔的弦声退到了半步之外。那退让大约是为了替你挡住看客们的目光。");
+this.say("米迦","……你放弃了那一个。");
+s.lucien_bond++;s.thread_mercy++;s.thread_obsession++;
+await this.drain();
+s.loop_count++
+},
+
+async loop6(){
+const s=this.state;
+this.narr("第六次醒来时，钟楼尚未敲响。而你已经知道了——在钟声到来以前，总有一段令人窒息的寂静。");
+this.narr("舌根的铁锈味比前五回都浓。浓得仿佛你的身体终于懒得再替你藏匿这笔旧账了。");
+this.narr("影子落在地上，只剩薄薄一层灰。你试着攥拳——指节穿过了自己的轮廓。");
+this.narr("凉意先于疼痛报到。大约有什么东西比你更早知道这一轮撑不久了。");
+this.say("塞西尔","坐标必须先拿到手。人还活着才能争对错。");
+this.say("卡修斯","字也会开膛。没有准备好的人，读进去的是下一道伤。");
+await this.drain();
+
+await this.chooseAsync("LOOP SIX · 门前检定前",["让卢西恩再查一次伤口","把七灯教义读给米迦听","逼问卡修斯裂谷坐标","折断那枚钥匙","再等最后一轮","立刻开门"],c=>{
+if(c===1){s.thread_mercy++;s.tenacity++;s.lucien_bond++}else if(c===2){s.scripture_mark++;s.sync++;s.meta_awareness++}
+else if(c===3){s.awareness++;s.authority++;s.thread_obsession++}else if(c===4){s.thread_erosion++;s.thread_revelation++}
+else if(c===5){s.thread_mercy++;s.mika_bond++;s.rush_to_final=false}else{s.authority++;s.scripture_mark++;s.rush_to_final=true}
+});
+await this.drain();
+
+if(s.mika_bond>=2){this.say("米迦","……如果你真的记得前面的事，那你告诉我——我们这一次能赢吗。");s.mika_knows_me=true;await this.drain()}
+
+const roll=rollCheck("坚韧与并肩",s.tenacity+s.sync,12);
+this.diceResult("坚韧与并肩",roll);
+await this.drain();
+s.loop_count++
+},
+
+async loop7(){
+const s=this.state;
+this.narr("第七次。天亮大约在门外迟了一拍——或者根本没有迟，只是你的感知已经被七轮的磨损削到了连晨昏都辨不清的地步。");
+this.narr("街口静得不合章程。连风都学会了压低嗓子——那是一种有意识的、近乎仪式性的缄默。");
+this.narr("幔旌沿高耸的石壁垂曳而下，风里剥出一阵裂帛的细碎之响——大约有什么东西在门后以残页的形式私语着。");
+this.narr("你忽然明白，某些门并非通向彼岸，只是通向你的代价。");
+await this.drain();
+
+await this.chooseAsync("LOOP SEVEN · 收束",["为米迦系紧护腕","把自己的名字写进封蜡","让卡修斯朗读禁章","沉默推门"],c=>{
+if(c===1){s.thread_mercy++;s.sync++;s.mika_bond++}else if(c===2){s.thread_revelation++;s.scripture_mark++;s.authority++}
+else if(c===3){s.meta_awareness++;s.thread_erosion++;s.scripture_mark++}else{s.tenacity++;s.awareness++}
+});
+await this.drain();
+s.loop_count++
+}
+};
+
+G.init();
+</script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
+  <title>🍼 BJD 娃娘手帐</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <meta name="theme-color" content="#ffe6eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="theme-pink">
+  <div class="app-header">
+    <div class="header-main">
+      <button type="button" id="headerBackBtn" style="display: none" aria-label="返回">← 返回</button>
+      <h1 id="headerTitle">🍼 娃娘手帐</h1>
+    </div>
+    <div class="theme-picker" role="group" aria-label="主题">
+      <div class="theme-dot" style="background: #f8d5d5" data-theme="pink" title="粉嫩"></div>
+      <div class="theme-dot" style="background: #bdd4e8" data-theme="blue" title="浅蓝"></div>
+      <div class="theme-dot" style="background: #d9c5f0" data-theme="purple" title="浅紫"></div>
+      <div class="theme-dot" style="background: #bdd9cc" data-theme="green" title="浅绿"></div>
+      <div class="theme-dot" style="background: #f0dbc0" data-theme="cream" title="米白"></div>
+    </div>
+  </div>
+
+  <div id="mainShell">
+    <div class="container">
+      <!-- 娃娃 -->
+      <div id="page-inventory" class="page active">
+        <div class="card">
+          <div class="card-header">
+            <span>🧸 我的娃娃们</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-end">
+              <button type="button" class="btn btn-sm" id="batchOperateBtn">📦 批量</button>
+              <button type="button" class="btn btn-sm btn-primary" id="showBackupModalBtn">📁 备份</button>
+              <span id="backupNudge" class="backup-nudge small-note" hidden></span>
+              <button type="button" class="btn btn-sm btn-primary" id="showAddDollForm">➕ 添加</button>
+            </div>
+          </div>
+          <div class="filter-bar">
+            <input type="search" id="searchInput" placeholder="🔍 名字/官名/娃社" style="flex: 2" />
+            <select id="filterSize"></select>
+            <select id="filterArtist"></select>
+            <select id="filterTag"></select>
+            <button type="button" class="btn btn-sm" id="resetFilter">重置</button>
+          </div>
+          <div id="addDollForm" style="display: none">
+            <div class="input-group">
+              <input id="dollName" placeholder="名字*" />
+              <input id="dollSculpt" placeholder="官名" />
+              <input id="dollBrand" placeholder="娃社" />
+              <select id="dollSize">
+                <option>12分</option>
+                <option>8分</option>
+                <option>6分</option>
+                <option>4分</option>
+                <option>3分</option>
+                <option>叔/大女</option>
+              </select>
+              <input id="dollArtist" placeholder="壮士" />
+              <input type="date" id="dollArrival" />
+              <input id="dollPurchasePrice" inputmode="decimal" placeholder="娃价(可选)" />
+              <input id="dollShipping" inputmode="decimal" placeholder="运费(可选)" />
+            </div>
+            <div class="avatar-select-row">
+              <div class="image-preview" id="addAvatarPreview">🧸</div>
+              <button type="button" class="btn btn-sm" id="addSelectAvatarBtn">📷 上传头像</button>
+              <input type="file" id="addAvatarInput" accept="image/*" style="display: none" />
+            </div>
+            <div>
+              <button type="button" class="btn btn-primary" id="saveDollBtn">保存</button>
+              <button type="button" class="btn" id="cancelAddDoll">取消</button>
+            </div>
+            <hr />
+          </div>
+          <div id="dollListContainer" class="doll-grid"></div>
+          <div id="dollStats" class="small-note"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">📊 快速概览</div>
+          <div id="homeQuickStats" class="small-note"></div>
+        </div>
+      </div>
+
+      <!-- 账本 -->
+      <div id="page-ledger" class="page">
+        <div class="card">
+          <div class="card-header"><span>💰 养娃账</span></div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px">
+            <button type="button" class="btn btn-sm btn-primary" id="ledgerAddMakeupBtn">+ 妆面支出</button>
+            <button type="button" class="btn btn-sm" id="ledgerAddWardrobeBtn">+ 衣橱支出</button>
+          </div>
+          <p class="small-note" style="margin-bottom: 10px">统计来自：妆面价格、衣橱记录、以及娃娃档案里的娃价/运费。缺日期的记录会归入「未填日期」。</p>
+          <div id="ledgerEmptyGuide" class="hint-text" style="display: none; margin-bottom: 12px"></div>
+          <div id="ledgerGrandTotal" class="ledger-total"></div>
+          <div class="ledger-seg" role="tablist">
+            <button type="button" class="seg-btn active" data-ledger-seg="doll" role="tab" aria-selected="true">按娃</button>
+            <button type="button" class="seg-btn" data-ledger-seg="month" role="tab" aria-selected="false">按月份</button>
+          </div>
+          <div id="ledgerByDollPanel"></div>
+          <div id="ledgerByMonthPanel" style="display: none"></div>
+          <details class="ledger-group" style="margin-top: 14px">
+            <summary>🧥 管理衣橱记录</summary>
+            <p class="small-note" style="margin: 8px 0">编辑或删除衣橱条目后，上方汇总会自动更新。</p>
+            <div id="wardrobeManageList"></div>
+          </details>
+        </div>
+      </div>
+
+      <!-- 妆面 -->
+      <div id="page-makeup" class="page">
+        <div class="card" id="maintenanceHintsCard" style="display: none">
+          <div class="card-header">🪞 保养参考</div>
+          <p class="small-note" style="margin-bottom: 8px">在「编辑娃娃」里可填「保养周期(天)」。以下按最近一次有日期的妆面，加上周期估算「建议送妆日」。</p>
+          <div id="maintenanceHintsList"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span>💄 妆面历史</span>
+            <button type="button" class="btn btn-sm btn-primary" id="addMakeupBtn">+ 记录妆面</button>
+          </div>
+          <div id="makeupList"></div>
+        </div>
+      </div>
+
+      <!-- 日程 -->
+      <div id="page-calendar" class="page">
+        <div class="card">
+          <div class="card-header">
+            <span>📅 日程提醒</span>
+            <button type="button" class="btn btn-sm btn-primary" id="addReminderBtn">+ 添加</button>
+          </div>
+          <div id="reminderList"></div>
+        </div>
+      </div>
+
+      <!-- 更多 -->
+      <div id="page-more" class="page">
+        <div class="card">
+          <div class="card-header">📚 更多功能</div>
+          <p class="small-note" style="margin-bottom: 12px">相册与灵感日记放在二级入口，避免打扰日常记账与妆期。</p>
+          <div class="more-grid">
+            <button type="button" class="more-tile" id="openGalleryBtn">
+              <h3>📸 娃娃相册</h3>
+              <p>多图管理与上传（占用本地存储，建议定期备份）</p>
+            </button>
+            <button type="button" class="more-tile" id="openInspoBtn">
+              <h3>🎨 灵感日记</h3>
+              <p>种草与脑洞随手记</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-bar" id="mainTabBar" role="tablist" aria-label="主导航">
+      <div class="tab-item active" data-page="inventory" role="tab" aria-selected="true">
+        <span class="tab-icon">🧸</span><span>娃娃</span>
+      </div>
+      <div class="tab-item" data-page="ledger" role="tab" aria-selected="false">
+        <span class="tab-icon">💰</span><span>账本</span>
+      </div>
+      <div class="tab-item" data-page="makeup" role="tab" aria-selected="false">
+        <span class="tab-icon">💄</span><span>妆面</span>
+      </div>
+      <div class="tab-item" data-page="calendar" role="tab" aria-selected="false">
+        <span class="tab-icon">📅</span><span>日程</span>
+      </div>
+      <div class="tab-item" data-page="more" role="tab" aria-selected="false">
+        <span class="tab-icon">✨</span><span>更多</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 二级：相册 / 灵感 -->
+  <div id="secondaryShell" class="secondary-shell" style="display: none">
+    <div class="container">
+      <div id="page-gallery" class="sub-page">
+        <div class="card">
+          <div class="card-header">📸 娃娃相册</div>
+          <div id="galleryDollSelect"></div>
+          <div id="galleryPhotos" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px"></div>
+          <button type="button" id="addPhotoBtn" class="btn btn-sm">➕ 新增照片</button>
+          <input type="file" id="photoUploadInput" accept="image/*" multiple style="display: none" />
+        </div>
+      </div>
+      <div id="page-inspo" class="sub-page">
+        <div class="card">
+          <div class="card-header">
+            <span>🎨 灵感日记</span>
+            <button type="button" class="btn btn-sm btn-primary" id="showAddInspoForm">➕ 记一笔</button>
+          </div>
+          <div id="addInspoForm" style="display: none">
+            <div class="input-group">
+              <input id="inspoTitle" placeholder="标题*" />
+              <textarea id="inspoDesc" placeholder="描述"></textarea>
+              <input id="inspoSource" placeholder="来源" />
+              <select id="inspoDollId">
+                <option value="">关联娃娃</option>
+              </select>
+            </div>
+            <div>
+              <button type="button" class="btn btn-sm" id="inspoSelectImageBtn">📷 配图</button>
+              <input type="file" id="inspoImageInput" accept="image/*" style="display: none" />
+            </div>
+            <div style="margin-top: 8px">
+              <button type="button" class="btn btn-primary" id="saveInspoBtn">保存</button>
+              <button type="button" class="btn" id="cancelAddInspo">取消</button>
+            </div>
+            <hr />
+          </div>
+          <div id="inspoListContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 备份 -->
+  <div id="backupModal" class="modal-overlay" style="display: none">
+    <div class="modal">
+      <h3>📦 数据备份与迁移</h3>
+      <div class="backup-help">
+        <p><strong>合并模式</strong>：保留本机已有数据；备份里同 ID 的记录会<strong>覆盖</strong>本机对应项，其余追加。</p>
+        <p><strong>覆盖模式</strong>：先<strong>清空</strong>本机全部数据，再写入备份文件。适合整包恢复或换机。</p>
+        <p>导出为 JSON 文本，体积可能较大（含图片时会非常明显）。建议定期导出到安全位置。</p>
+      </div>
+      <div class="backup-options">
+        <div class="backup-option" id="exportBackupBtn">
+          <h4>📤 导出备份</h4>
+          <p>下载 JSON 文件到设备</p>
+        </div>
+        <div class="backup-option" id="exportCopyBtn">
+          <h4>📋 复制到剪贴板</h4>
+          <p>适合数据量较小时快速粘贴保存（失败时请改用文件导出）</p>
+        </div>
+        <div class="backup-option" id="importBackupTrigger">
+          <h4>📥 导入备份</h4>
+          <p>从 JSON 文件恢复；请先选择合并或覆盖模式</p>
+        </div>
+      </div>
+      <div id="importArea" style="display: none; margin-top: 16px">
+        <div class="import-mode">
+          <label><input type="radio" name="importMode" value="merge" checked /> 合并（保留本机，按 ID 覆盖冲突项）</label>
+          <label><input type="radio" name="importMode" value="overwrite" /> 覆盖（清空本机后导入）</label>
+        </div>
+        <input type="file" id="importFileInput" accept=".json,application/json" style="display: none" />
+        <button type="button" class="btn btn-primary" id="confirmImportBtn" style="width: 100%">选择文件并导入</button>
+        <button type="button" class="btn" id="cancelImportBtn" style="width: 100%; margin-top: 8px">取消</button>
+      </div>
+      <button type="button" class="btn" id="closeBackupModal" style="margin-top: 16px; width: 100%">关闭</button>
+    </div>
+  </div>
+
+  <!-- 编辑娃娃 -->
+  <div id="editDollModal" class="modal-overlay" style="display: none">
+    <div class="modal">
+      <h3>✏️ 编辑娃娃</h3>
+      <input type="hidden" id="editDollId" />
+      <div class="input-group">
+        <input id="editName" placeholder="名字" />
+        <input id="editSculpt" placeholder="官名" />
+        <input id="editBrand" placeholder="娃社" />
+        <select id="editSize">
+          <option>12分</option>
+          <option>8分</option>
+          <option>6分</option>
+          <option>4分</option>
+          <option>3分</option>
+          <option>叔/大女</option>
+        </select>
+        <input id="editArtist" placeholder="壮士" />
+        <input type="date" id="editArrival" />
+        <input id="editPurchasePrice" inputmode="decimal" placeholder="娃价(可选)" />
+        <input id="editShipping" inputmode="decimal" placeholder="运费(可选)" />
+        <input id="editMaintenanceDays" inputmode="numeric" placeholder="保养周期天数(可选)" />
+      </div>
+      <div>
+        <label>标签（逗号分隔）</label>
+        <input id="editTags" placeholder="有妆,白肌" />
+      </div>
+      <div class="avatar-select-row">
+        <div class="image-preview" id="editAvatarPreview"></div>
+        <button type="button" class="btn btn-sm" id="editAvatarBtn">更换头像</button>
+        <input type="file" id="editAvatarInput" accept="image/*" style="display: none" />
+      </div>
+      <div style="margin-top: 12px">
+        <button type="button" id="saveEditDollBtn" class="btn btn-primary">保存</button>
+        <button type="button" id="cancelEditBtn" class="btn">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 批量 -->
+  <div id="batchModal" class="modal-overlay" style="display: none">
+    <div class="modal">
+      <h3>批量操作</h3>
+      <div id="batchSelectList"></div>
+      <button type="button" id="batchDeleteBtn" class="btn btn-primary">删除选中</button>
+      <button type="button" class="btn" id="closeBatchBtn">关闭</button>
+    </div>
+  </div>
+
+  <!-- 衣橱 -->
+  <div id="wardrobeModal" class="modal-overlay" style="display: none">
+    <div class="modal">
+      <h3 id="wardrobeModalTitle">添加配件</h3>
+      <input type="hidden" id="editWardrobeId" value="" />
+      <div class="input-group">
+        <input id="wardrobeName" placeholder="名称*" />
+        <select id="wardrobeType">
+          <option>衣服</option>
+          <option>假发</option>
+          <option>眼珠</option>
+          <option>鞋子</option>
+        </select>
+        <input id="wardrobePrice" inputmode="decimal" placeholder="价格" />
+        <input type="date" id="wardrobePurchaseDate" />
+        <input id="wardrobeBrand" placeholder="品牌" />
+        <select id="wardrobeDollId">
+          <option value="">关联娃娃</option>
+        </select>
+      </div>
+      <p class="small-note">「购入日期」用于按月汇总；不填则归入「未填日期」。</p>
+      <button type="button" id="saveWardrobeBtn" class="btn btn-primary">保存</button>
+      <button type="button" class="btn" id="closeWardrobeBtn">取消</button>
+    </div>
+  </div>
+
+  <!-- 妆面 -->
+  <div id="makeupModal" class="modal-overlay" style="display: none">
+    <div class="modal">
+      <h3 id="makeupModalTitle">妆面记录</h3>
+      <input type="hidden" id="editMakeupId" value="" />
+      <div class="input-group">
+        <select id="makeupDollId"></select>
+        <input id="makeupArtist" placeholder="妆师" />
+        <input id="makeupName" placeholder="妆名" />
+        <input type="date" id="makeupDate" />
+        <input id="makeupPrice" inputmode="decimal" placeholder="价格" />
+      </div>
+      <button type="button" id="saveMakeupBtn" class="btn btn-primary">保存</button>
+      <button type="button" class="btn" id="closeMakeupBtn">取消</button>
+    </div>
+  </div>
+
+  <!-- 提醒 -->
+  <div id="reminderModal" class="modal-overlay" style="display: none">
+    <div class="modal">
+      <h3 id="reminderModalTitle">添加提醒</h3>
+      <input type="hidden" id="editReminderId" value="" />
+      <div class="input-group">
+        <input id="reminderTitle" placeholder="标题*" />
+        <select id="reminderDollId">
+          <option value="">关联娃娃</option>
+        </select>
+        <input type="date" id="reminderDate" />
+        <select id="reminderType">
+          <option>接娃到家</option>
+          <option>送妆提醒</option>
+          <option>娃聚</option>
+        </select>
+      </div>
+      <button type="button" id="saveReminderBtn" class="btn btn-primary">保存</button>
+      <button type="button" class="btn" id="closeReminderBtn">取消</button>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/ledger.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

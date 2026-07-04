@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>NEON·Cyberpunk 数据看板 — UI 设计作品</title>
+<!--
+  DESIGN.md: NEON Cyberpunk Dashboard
+  Family: Cyberpunk / Neon
+  Colors: canvas=#0a0a0f / surface=#12121a / primary=#ff00ff / accent=#00ffff
+          success=#00ff88 / warning=#ffaa00 / text=#e0e0ff / text2=#7a7a9a
+  Font: 'Inter', 'Noto Sans SC', 'JetBrains Mono'
+  Rounded: 4px(sharp) / 8px(card) / 12px(panel)
+  Effect: text-shadow neon-glow, box-shadow neon-border, grid-line canvas
+
+  📋 PM 设计决策文档
+  作品: NEON · Cyberpunk 数据看板
+  目标用户: 游戏公司运营/数据分析师，追求酷炫和数据可读性
+  决策1: 深色+霓虹 → 赛博朋克美学品牌调性
+  决策2: 网格背景+斜线 → 工业/科技感
+  决策3: 等宽字体数字 → 数据精度感
+  决策4: 红蓝对比色 → 高信息层级区分度
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050508;font-family:'Inter','Noto Sans SC',sans-serif;color:#e0e0ff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10px;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,0,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,255,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ff00ff,transparent);opacity:.5;z-index:1}
+
+.dashboard{position:relative;z-index:1;max-width:520px;width:100%}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:0 4px}
+.dash-brand{font-size:1.1rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;background:linear-gradient(90deg,#ff00ff,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.dash-time{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#7a7a9a;letter-spacing:.05em}
+
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.stat-card{background:rgba(18,18,26,0.8);border:1px solid rgba(255,0,255,0.15);border-radius:8px;padding:16px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.stat-card:nth-child(1)::before{background:#ff00ff}
+.stat-card:nth-child(2)::before{background:#00ffff}
+.stat-card:nth-child(3)::before{background:#00ff88}
+.stat-label{font-size:.65rem;color:#7a7a9a;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.stat-value{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;letter-spacing:-.03em}
+.stat-value.pink{color:#ff00ff;text-shadow:0 0 20px rgba(255,0,255,0.3)}
+.stat-value.cyan{color:#00ffff;text-shadow:0 0 20px rgba(0,255,255,0.3)}
+.stat-value.green{color:#00ff88;text-shadow:0 0 20px rgba(0,255,136,0.3)}
+.stat-change{font-size:.65rem;margin-top:4px;display:flex;align-items:center;gap:4px}
+.stat-change.up{color:#00ff88}
+.stat-change.down{color:#ff4444}
+
+.chart-area{background:rgba(18,18,26,0.8);border:1px solid rgba(255,0,255,0.12);border-radius:8px;padding:20px;margin-bottom:10px}
+.chart-title{font-size:.8rem;font-weight:600;color:#7a7a9a;margin-bottom:16px;display:flex;justify-content:space-between}
+.chart-title span{font-family:'JetBrains Mono',monospace;color:#ff00ff;font-size:.7rem}
+.chart-bars{display:flex;align-items:flex-end;gap:6px;height:120px}
+.chart-bar{flex:1;border-radius:4px 4px 0 0;min-height:4px;position:relative;transition:all .4s}
+.chart-bar:hover{opacity:.8;transform:scaleY(1.05);transform-origin:bottom}
+.chart-bar.pink{background:linear-gradient(180deg,#ff00ff,transparent);box-shadow:0 0 12px rgba(255,0,255,0.2)}
+.chart-bar.cyan{background:linear-gradient(180deg,#00ffff,transparent);box-shadow:0 0 12px rgba(0,255,255,0.2)}
+.chart-bar.green{background:linear-gradient(180deg,#00ff88,transparent);box-shadow:0 0 12px rgba(0,255,136,0.2)}
+.chart-bar-label{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:.55rem;color:#7a7a9a;white-space:nowrap}
+.chart-bar-value{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.6rem;color:rgba(255,255,255,0.6)}
+.chart-legend{display:flex;gap:16px;margin-top:28px}
+.chart-legend span{font-size:.7rem;color:#7a7a9a;display:flex;align-items:center;gap:6px}
+.chart-legend span::before{content:'';width:8px;height:8px;border-radius:2px;display:inline-block}
+
+.data-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.data-panel{background:rgba(18,18,26,0.8);border:1px solid rgba(255,0,255,0.1);border-radius:8px;padding:16px}
+.data-panel h3{font-size:.7rem;color:#7a7a9a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.data-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:.78rem}
+.data-item:last-child{border:none}
+.data-item .key{color:#7a7a9a}
+.data-item .val{font-family:'JetBrains Mono',monospace;color:#e0e0ff;font-weight:500}
+
+.system-metrics{background:rgba(18,18,26,0.8);border:1px solid rgba(255,0,255,0.1);border-radius:8px;padding:16px;margin-bottom:10px}
+.metric-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.metric-row:last-child{margin-bottom:0}
+.metric-name{font-size:.75rem;color:#7a7a9a;min-width:60px}
+.metric-track{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06);overflow:hidden}
+.metric-fill{height:100%;border-radius:4px;transition:width 1s}
+.metric-fill.pink{background:linear-gradient(90deg,#ff00ff,#ff66ff)}
+.metric-fill.cyan{background:linear-gradient(90deg,#00ffff,#66ffff)}
+.metric-fill.green{background:linear-gradient(90deg,#00ff88,#66ffaa)}
+.metric-fill.orange{background:linear-gradient(90deg,#ffaa00,#ffcc44)}
+.metric-val{font-family:'JetBrains Mono',monospace;font-size:.75rem;min-width:40px;text-align:right}
+
+.dash-footer{text-align:center;padding:16px 0 4px;font-size:.65rem;color:#7a7a9a;letter-spacing:.1em}
+.dash-footer span{color:#ff00ff}
+
+.design-notes{background:rgba(18,18,26,0.8);border:1px solid rgba(255,0,255,0.1);border-radius:8px;padding:20px;margin-top:20px}
+.design-notes h2{font-size:.9rem;font-weight:700;margin-bottom:14px;color:#e0e0ff}
+.dn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dn-card{padding:12px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04)}
+.dn-card h3{font-size:.72rem;font-weight:700;margin-bottom:4px}
+.dn-card h3 .t{font-size:.5rem;padding:2px 6px;border-radius:4px;font-weight:600;display:inline-block;margin-right:6px}
+.dn-card h3 .t.pink{background:rgba(255,0,255,0.1);color:#ff00ff}
+.dn-card h3 .t.cyan{background:rgba(0,255,255,0.1);color:#00ffff}
+.dn-card p{font-size:.7rem;color:#7a7a9a;line-height:1.6}
+@media(max-width:430px){.stat-grid{grid-template-columns:1fr 1fr}.data-row{grid-template-columns:1fr}.dn-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="dashboard">
+  <div class="dash-header scroll-reveal">
+    <div class="dash-brand">// NEON.MONITOR</div>
+    <div class="dash-time">SYS::ONLINE  |  22:47:13</div>
+  </div>
+
+  <div class="stat-grid scroll-reveal" data-delay="100">
+    <div class="stat-card"><div class="stat-label">活跃用户</div><div class="stat-value pink" data-count="2847">0</div><div class="stat-change up">▲ +12.4%</div></div>
+    <div class="stat-card"><div class="stat-label">QPS</div><div class="stat-value cyan" data-count="1250">0</div><div class="stat-change up">▲ +8.2%</div></div>
+    <div class="stat-card"><div class="stat-label">转化率</div><div class="stat-value green" data-count="3.6">0</div><div class="stat-change up">▲ +0.4%</div></div>
+  </div>
+
+  <div class="chart-area scroll-reveal" data-delay="150">
+    <div class="chart-title">实时流量 <span>PAST 24H</span></div>
+    <div class="chart-bars" id="chartBars"></div>
+    <div class="chart-legend"><span style="color:#ff00ff">● 今日</span><span style="color:#00ffff">● 昨日</span><span style="color:#00ff88">● 预测</span></div>
+  </div>
+
+  <div class="data-row scroll-reveal" data-delay="200">
+    <div class="data-panel"><h3>🔝 TOP 渠道</h3><div class="data-item"><span class="key">有机搜索</span><span class="val">8,420</span></div><div class="data-item"><span class="key">社交媒体</span><span class="val">6,310</span></div><div class="data-item"><span class="key">付费广告</span><span class="val">3,280</span></div><div class="data-item"><span class="key">直接访问</span><span class="val">2,940</span></div></div>
+    <div class="data-panel"><h3>🌍 地域分布</h3><div class="data-item"><span class="key">亚太区</span><span class="val">42%</span></div><div class="data-item"><span class="key">北美区</span><span class="val">28%</span></div><div class="data-item"><span class="key">欧洲区</span><span class="val">18%</span></div><div class="data-item"><span class="key">其他</span><span class="val">12%</span></div></div>
+  </div>
+
+  <div class="system-metrics scroll-reveal" data-delay="250">
+    <h3 style="font-size:.7rem;color:#7a7a9a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">⚡ 系统负载</h3>
+    <div class="metric-row"><span class="metric-name">CPU</span><div class="metric-track"><div class="metric-fill pink" style="width:67%"></div></div><span class="metric-val" style="color:#ff00ff">67%</span></div>
+    <div class="metric-row"><span class="metric-name">内存</span><div class="metric-track"><div class="metric-fill cyan" style="width:82%"></div></div><span class="metric-val" style="color:#00ffff">82%</span></div>
+    <div class="metric-row"><span class="metric-name">磁盘</span><div class="metric-track"><div class="metric-fill green" style="width:43%"></div></div><span class="metric-val" style="color:#00ff88">43%</span></div>
+    <div class="metric-row"><span class="metric-name">网络</span><div class="metric-track"><div class="metric-fill orange" style="width:56%"></div></div><span class="metric-val" style="color:#ffaa00">56%</span></div>
+  </div>
+
+  <div class="dash-footer">[ SYSTEM: OPERATIONAL ] — <span>●</span> ALL SYSTEMS NOMINAL</div>
+</div>
+
+<div class="design-notes scroll-reveal" data-delay="200" style="max-width:520px;margin:24px auto 0">
+  <h2>📋 设计决策说明</h2>
+  <div class="dn-grid">
+    <div class="dn-card"><h3><span class="t pink">Cyberpunk</span>霓虹美学</h3><p>深色背景 #0a0a0f + 霓虹粉 #ff00ff + 荧光青 #00ffff。参考《攻壳机动队》和《银翼杀手》的视觉语言。<strong>高对比色</strong>在暗背景上产生"发光"错觉（text-shadow + box-shadow 叠加）。</p></div>
+    <div class="dn-card"><h3><span class="t cyan">网格背景</span>工业感</h3><p>background-image 生成 40px 网格，透明度仅 3%，低调但有"监视器"质感。顶部横线模拟 CRT 屏幕的扫描线效果。<strong>斜线光效</strong>增加动感。</p></div>
+    <div class="dn-card"><h3><span class="t green">数据层级</span>视觉优先</h3><p>数字使用 JetBrains Mono 等宽字体，强调数据精度。顶部 3 个 KPI 卡片用不同霓虹色区分指标。<strong>F 型阅读流</strong>：主 KPI → 图表 → 详细数据。</p></div>
+    <div class="dn-card"><h3><span class="t pink">微动效</span>沉浸反馈</h3><p>柱状图 hover 缩放、KPI 数字跳动动画、系统负载条渐变填充。微动效让静态看板有<strong>"活着"的感觉</strong>——适合游戏/科技公司的数据产品。</p></div>
+  </div>
+</div>
+
+<style>
+.scroll-reveal{opacity:0;transform:translateY(18px);transition:all .7s cubic-bezier(.4,0,.2,1)}
+.scroll-reveal.visible{opacity:1;transform:translateY(0)}
+.scroll-reveal[data-delay="100"]{transition-delay:.1s}
+.scroll-reveal[data-delay="150"]{transition-delay:.15s}
+.scroll-reveal[data-delay="200"]{transition-delay:.2s}
+.scroll-reveal[data-delay="250"]{transition-delay:.25s}
+</style>
+<script>
+(function(){
+  // Chart bars
+  var barData=[35,55,42,68,51,78,62,45,32,58,72,48,63,55,80,67,42,38,65,52,74,60,44,70];
+  var c=['pink','cyan','green'];
+  var container=document.getElementById('chartBars');
+  if(container) barData.forEach(function(v,i){var h=v*1.4;container.innerHTML+='<div class="chart-bar '+c[i%3]+'" style="height:'+h+'px"><div class="chart-bar-value">'+v+'</div></div>'});
+
+  // CountUp
+  function countUp(el,target,dur,suffix){
+    suffix=suffix||'';var st=null;
+    function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.floor(e*target)+suffix;if(p<1)requestAnimationFrame(step);else el.textContent=target+suffix}
+    requestAnimationFrame(step);
+  }
+  setTimeout(function(){document.querySelectorAll('.stat-value[data-count]').forEach(function(el){var t=parseFloat(el.dataset.count);if(t%1===0)countUp(el,t,1000);else{el.textContent=t.toFixed(1)+'%'}})});
+
+  // Scroll reveal
+  var o=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target)}})},{threshold:.1});
+  document.querySelectorAll('.scroll-reveal').forEach(function(e){o.observe(e)});
+})();
+</script>
+</body>
+</html>

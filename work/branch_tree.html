@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, viewport-fit=cover">
+  <title>《雾灯残页》游戏结构示意图</title>
+  <style>
+    :root {
+      --bg: #120f0c;
+      --frame: #2b2016;
+      --paper: #ead9bc;
+      --paper-edge: #c3a87d;
+      --ink: #2f2418;
+      --ink-soft: #5f4b34;
+      --axis-fate: #7d5b2a;
+      --axis-self: #5e3e68;
+      --axis-unknown: #2f5b70;
+      --chip: #f2e5cd;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: clamp(16px, 3vw, 40px);
+      font-family: "Georgia", "Times New Roman", "Microsoft YaHei", serif;
+      color: #eadcc6;
+      background:
+        radial-gradient(900px 500px at 10% -10%, rgba(233, 197, 137, 0.10), transparent 60%),
+        radial-gradient(900px 650px at 90% 120%, rgba(102, 74, 38, 0.24), transparent 64%),
+        linear-gradient(165deg, #0f0d0a, var(--bg));
+    }
+    /* Mobile base fixes */
+    html {
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-text-size-adjust: 100%;
+    }
+    img, canvas, pre, code, table { max-width: 100%; }
+    a, button, summary, select { touch-action: manipulation; }
+
+
+    .container { max-width: min(1320px, 96vw); margin: 0 auto; }
+
+    .title { text-align: center; margin-bottom: 20px; }
+    .title h1 {
+      margin: 0;
+      font-size: clamp(28px, 3.2vw, 40px);
+      letter-spacing: 1px;
+    }
+    .title p { margin: 6px 0 0; color: #cfb892; font-size: 14px; }
+
+    .legend {
+      border: 1px solid rgba(195, 168, 125, 0.45);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+      background: rgba(43, 32, 22, 0.76);
+    }
+    .chip {
+      background: var(--chip);
+      color: var(--ink);
+      border: 1px solid rgba(110, 83, 49, 0.3);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+    .chip b { color: var(--ink-soft); }
+
+    .board {
+      border: 1px solid rgba(195, 168, 125, 0.42);
+      border-radius: 14px; overflow-x: auto;
+      background: rgba(43, 32, 22, 0.84);
+      padding: clamp(14px, 2vw, 22px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
+    }
+
+    /* ===== LAYOUT: mobile-first, single-column ===== */
+    .layout { display: grid; grid-template-columns: 1fr; gap: clamp(14px, 2vw, 24px); }
+    .row { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .row-2 { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .lens-preview-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .ending-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+
+    /* Card: parchment with readability */
+    .card {
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(255,240,210,0.6) 0%, transparent 60%),
+        linear-gradient(180deg, #f5e9d4, var(--paper));
+      background-color: var(--paper);
+      color: var(--ink);
+      border: 1px solid var(--paper-edge);
+      border-radius: 12px;
+      padding: clamp(14px, 1.6vw, 18px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 4px 10px rgba(0,0,0,0.2);
+      max-width: 100%;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    .card h3 {
+      margin: 0 0 8px; font-size: clamp(15px, 1.8vw, 17px);
+      color: var(--ink-soft);
+      border-bottom: 1px solid rgba(111,80,44,0.28); padding-bottom: 5px;
+    }
+    .card p, .card li { font-size: clamp(13px, 1.1vw, 14px); line-height: 1.68; margin: 0; max-width: 100%; }
+    .card ul, .card ol { margin: 0; padding-left: clamp(16px, 2vw, 20px); }
+    .card code {
+      word-break: break-all; white-space: normal;
+      font-size: 0.92em; background: rgba(62,45,25,0.08);
+      padding: 1px 5px; border-radius: 4px;
+    }
+
+    /* Timeline: on mobile → JS accordion; on desktop → 4-col grid */
+    .timeline {
+      display: grid; grid-template-columns: 1fr; gap: 10px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px;
+    }
+    .timeline-accordion { display: block; }
+    .timeline .node {
+      border: 1px dashed rgba(111,80,44,0.4); border-radius: 9px;
+      padding: 8px; background: rgba(255,249,238,0.42);
+    }
+    .timeline .node h4 { margin: 0 0 5px; font-size: 14px; color: var(--ink-soft); }
+
+    /* Accordion items */
+    .tl-acc-item {
+      border: 1px dashed rgba(111,80,44,0.4); border-radius: 9px;
+      margin-bottom: 8px; background: rgba(255,249,238,0.5);
+    }
+    .tl-acc-item summary {
+      cursor: pointer; padding: 12px 14px; font-size: 14px; font-weight: 700;
+      color: var(--ink-soft); list-style: none; outline: none;
+      min-height: 44px; display: flex; align-items: center;
+    }
+    .tl-acc-item summary::-webkit-details-marker { display: none; }
+    .tl-acc-item summary::before { content: "\25B8 "; color: var(--ink-soft); font-size: 12px; margin-right: 4px; }
+    .tl-acc-item[open] summary::before { content: "\25BE "; }
+    .tl-acc-item .tl-body { padding: 0 14px 12px; font-size: 13px; line-height: 1.58; color: var(--ink); }
+
+    /* Flow elements */
+    .branch-map { display: grid; gap: 8px; }
+    .branch-row {
+      border: 1px dashed rgba(94,73,50,0.35); border-radius: 9px;
+      background: rgba(255,249,238,0.35); padding: 10px;
+    }
+    .branch-row h4 { margin: 0 0 4px; font-size: 14px; color: var(--ink-soft); }
+    .flow-intro { margin: 2px 0 8px; color: var(--ink-soft); font-size: 13px; }
+    .flow-path {
+      border: 1px dashed rgba(94,73,50,0.35); border-radius: 10px;
+      background: rgba(255,249,238,0.42); padding: 8px 10px; margin-bottom: 8px;
+    }
+    .flow-path summary {
+      cursor: pointer; font-size: 13px; color: var(--ink-soft);
+      font-weight: 700; list-style: none; outline: none;
+      min-height: 44px; display: flex; align-items: center;
+    }
+    .flow-path summary::-webkit-details-marker { display: none; }
+    .flow-path summary::before { content: "\25B8 "; color: var(--ink-soft); }
+    .flow-path[open] summary::before { content: "\25BE "; }
+    .flow-strip { margin-top: 7px; display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .flow-node {
+      border-radius: 9px; border: 1px solid rgba(94,73,50,0.35);
+      padding: 10px; font-size: 13px; line-height: 1.52;
+      background: rgba(255,252,245,0.74); word-break: break-word;
+    }
+    .flow-node b { display: block; color: var(--ink-soft); margin-bottom: 2px; }
+    .flow-node.choice { background: rgba(245,235,214,0.9); }
+    .flow-node.plot { background: rgba(237,227,205,0.86); }
+    .flow-node.value { background: rgba(230,217,198,0.84); }
+    .flow-node.ending { background: rgba(220,207,190,0.84); }
+    span.clue-narr { opacity: 0.85; font-size: 0.92em; white-space: normal; word-break: break-word; }
+
+    /* Toolbar & filters */
+    .lens-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 2px 0 10px; }
+    .lens-btn, .filter-btn {
+      border: 1px solid rgba(94,73,50,0.35); background: rgba(255,250,241,0.7);
+      color: var(--ink); border-radius: 999px; padding: 6px 12px;
+      font-size: 13px; cursor: pointer; min-height: 36px; touch-action: manipulation;
+    }
+    .lens-btn.is-active, .filter-btn.is-active { color: #fff; background: var(--ink-soft); border-color: var(--ink-soft); }
+    .lens-status, .filter-count {
+      margin-left: auto; font-size: 12px; color: var(--ink-soft);
+      border: 1px solid rgba(94,73,50,0.3); background: rgba(255,250,241,0.7);
+      border-radius: 999px; padding: 5px 10px; line-height: 1.3;
+    }
+    .lens-preview {
+      border: 1px dashed rgba(94,73,50,0.35); border-radius: 9px;
+      padding: 10px; background: rgba(255,249,238,0.4);
+    }
+    .lens-preview h4 { margin: 0 0 4px; font-size: 14px; color: var(--ink-soft); }
+    .lens-preview p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--ink); }
+
+    /* Ending display */
+    .ending-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 10px; align-items: center; }
+    .ending-group {
+      border: 1px dashed rgba(94,73,50,0.32); border-radius: 10px;
+      padding: 10px; background: rgba(255,249,238,0.3); display: grid; gap: 8px;
+    }
+    .ending-group h4 {
+      margin: 0; font-size: 14px; color: var(--ink-soft);
+      border-bottom: 1px solid rgba(94,73,50,0.22); padding-bottom: 4px;
+    }
+    .ending {
+      border-radius: 10px; border: 1px solid rgba(94,73,50,0.35);
+      background: rgba(255,250,241,0.5); padding: 10px 12px;
+      font-size: 13px; line-height: 1.55; color: var(--ink);
+      word-break: break-word; overflow-wrap: anywhere; max-width: 100%;
+    }
+    .ending-text details {
+      border: 1px dashed rgba(94,73,50,0.35); border-radius: 10px;
+      background: rgba(255,249,238,0.42); padding: 8px 10px; margin-bottom: 8px;
+    }
+    .ending-text summary {
+      cursor: pointer; font-size: 14px; color: var(--ink-soft);
+      font-weight: 700; list-style: none; min-height: 36px; display: flex; align-items: center;
+    }
+    .ending-text summary::-webkit-details-marker { display: none; }
+    .ending-text summary::before { content: "\25B8 "; font-size: 12px; }
+    .ending-text details[open] summary::before { content: "\25BE "; }
+    .ending-text p { margin: 6px 0 0; font-size: 13px; line-height: 1.62; max-width: 100%; word-break: break-word; }
+
+    /* Axis badges */
+    .axis { display: inline-block; margin-top: 4px; border-radius: 999px; padding: 3px 10px; color: #fff; font-size: 12px; }
+    .axis-fate { background: var(--axis-fate); }
+    .axis-self { background: var(--axis-self); }
+    .axis-unknown { background: var(--axis-unknown); }
+
+    /* Tree diagram */
+    .tree-wrap { overflow-x: auto; padding: 4px 4px 10px; margin: 0 -4px; -webkit-overflow-scrolling: touch; max-width: 100%; }
+    .tree-diagram { list-style: none; margin: 0; padding: 0; min-width: 0; }
+    .tree-diagram ul {
+      list-style: none; margin: 6px 0 8px 8px; padding: 0 0 0 12px;
+      border-left: 2px solid rgba(125,91,42,0.45);
+    }
+    .tree-diagram li {
+      position: relative; margin: 0; padding: 8px 0 8px 6px;
+      font-size: clamp(12px, 1vw, 13px); line-height: 1.55; color: var(--ink);
+      word-break: break-word; max-width: 100%;
+    }
+    .tree-diagram li::before {
+      content: ""; position: absolute; left: -14px; top: 0.85em;
+      width: 10px; height: 0; border-top: 1px solid rgba(125,91,42,0.38);
+    }
+    .t-node {
+      display: inline-block; padding: 5px 10px; border-radius: 8px;
+      border: 1px solid rgba(94,73,50,0.4); font-weight: 700;
+      font-size: 12px; color: var(--ink-soft);
+      background: rgba(255,252,245,0.92); box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      max-width: 100%; word-break: break-word;
+    }
+    .t-root { background: linear-gradient(180deg, #fff9ef, #efe2cb); border-color: rgba(125,91,42,0.55); font-size: 14px; }
+    .t-loop { background: rgba(237,227,205,0.95); }
+    .t-merge { background: rgba(220,200,175,0.9); border-style: dashed; }
+
+    /* Tree endings */
+    .t-endings { display: grid; grid-template-columns: 1fr; gap: 6px; margin-top: 6px; }
+    .t-end-group {
+      border: 1px dashed rgba(94,73,50,0.35); border-radius: 8px;
+      padding: 8px 10px; background: rgba(255,249,238,0.55);
+      font-size: 12px; line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer { margin-top: 12px; text-align: right; color: #bca37f; font-size: 12px; }
+
+    /* Hide/show helpers */
+    .is-hidden { display: none !important; }
+
+    /* ===== TABLET: >700px ===== */
+    @media (min-width: 701px) {
+      .row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lens-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ending-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .t-endings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .timeline-accordion { display: none; }
+      .timeline { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); overflow-x: auto; }
+      .flow-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .card p, .card li { font-size: 14px; }
+    }
+
+    /* ===== DESKTOP: >1080px ===== */
+    @media (min-width: 1080px) {
+      .container { max-width: min(1200px, 96vw); }
+      .layout { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+      .layout > article:first-child,
+      .layout > article:nth-child(n + 4),
+      .layout > .row,
+      .layout > .row-2 { grid-column: 1 / -1; }
+      .row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .ending-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .t-endings { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .tree-wrap { overflow-x: visible; margin: 0; padding: 8px 0 12px; }
+      .tree-diagram ul { margin-left: 10px; padding-left: 14px; }
+      .tree-diagram li { font-size: 13px; }
+      .t-node { font-size: 13px; }
+      .board { overflow-x: hidden; }
+    }
+
+    /* ===== LARGE SCREEN flow-strip arrows ===== */
+    @media (min-width: 1500px) {
+      .flow-strip {
+        grid-template-columns: minmax(130px, 1.1fr) 34px minmax(150px, 1.45fr) 34px minmax(110px, 0.95fr) 34px minmax(150px, 1.45fr);
+        gap: 6px; align-items: center;
+      }
+      .flow-node { min-height: 54px; }
+      .flow-arrow { display: block; text-align: center; font-size: 18px; color: var(--ink-soft); user-select: none; }
+    }
+
+    /* ===== OPTIONS WIDE PANEL ===== */
+    @media (min-width: 992px) {
+      .loop-options-wide { overflow-x: visible; padding: 12px 12px; }
+      .loop-opt-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); width: 100%; min-width: 0; align-items: stretch; }
+      .loop-opt-cell { width: auto; min-width: 0; min-height: 0; font-size: 12px; padding: 10px 12px; }
+    }
+
+    /* Universal containment */
+    *, *::before, *::after { max-width: 100%; box-sizing: border-box; }
+    article, .card, .ending, .flow-node, .branch-row, .lens-preview, .node, .tl-acc-item, .ending-group {
+      overflow-wrap: anywhere; word-break: break-word;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="title">
+      <h1>《雾灯残页》游戏结构示意图</h1>
+      <p>Loop Flow · 树状分支总览 · Philosophical Bias Axes · Ending Map</p>
+    </header>
+
+    <section class="legend">
+      <span class="chip"><b>命运轴</b>：接受既定／改写条文／或被反噬缠着——都有价码，没有白捡的顺境。</span>
+      <span class="chip"><b>个体轴</b>：保全自保、或以磨损换照应、一路溶解到记不清边界，三条里选一条就得认一条疼。</span>
+      <span class="chip"><b>未知轴</b>：拥抱不可测、借势利用未知、抑或拒绝承认——都不是道德判决，只是立场。</span>
+      <span class="chip">无绝对好坏，只有偏向与代价</span>
+      <span class="chip">每个结局都必须给收益 + 延迟后果</span>
+    </section>
+
+    <section class="card" style="margin-bottom:16px;">
+      <h3>《story_text》三律 · 叙事方法论备忘（与 <code>game/script.rpy</code> / Ren’Py 开场一致）</h3>
+      <ul style="margin:0;">
+        <li><b>信息的真与假</b>：告示口传与经卷常掐架；与其说哪份是「铁板钉钉」，不如说玩家在哪种疼里肯采信哪一声。</li>
+        <li><b>死亡的边界</b>：肉身停摆未必剧终；名字淡掉、记性被掏空，有时候比一下就疼死更难翻篇。</li>
+        <li><b>力量的代价</b>：权柄和活命多半拿平静、信任、敢说真话的胆子去换——潮退去沙滩上总得少一样东西。</li>
+        <li><b>世界观锚</b>：舞台埃尔西昂灰原三角（镇–旧殿–裂谷），势力条目与<strong>晦历年份</strong>详见《世界观设定集》十二则；主轴周目与九结局中英文对照另见 <code>故事概览.md</code>，《角色设定集》含五人执笔与五人×史据矩阵。</li>
+        <li><b>线索叙事名</b>（与终端 <code>show_stats</code>、<code>story_text.txt</code> 附录一致；脚本仍为 <code>clue_*</code>）：<strong>暗影徽记</strong> · <strong>缄卷裂真</strong> · <strong>七灯残阶</strong> · <strong>蜡誓遗册</strong>。</li>
+        <li><b>羁绊显示规则</b>（与终端 <code>show_stats</code> 同源）：四羁绊（<code>mika_bond</code> / <code>cecil_bond</code> / <code>cassius_bond</code> / <code>lucien_bond</code>）在主角未识认该角色（<code>know_* = False</code>）前，界面显示为<strong>「？？？羁绊」</strong>；识认后（首次见面对话完成）替换为<strong>「（角色名）羁绊」</strong>。识认触发点：米迦 Loop1 村口 · 塞西尔 Loop1 黄昏 · 卢西恩 Loop2 北街 · 卡修斯 Loop3 镇口。</li>
+      </ul>
+    </section>
+
+    <section class="board">
+      <div class="layout">
+        <article class="card plot-tree-card">
+          <h3>剧情设计 · 树状分支总览（Loop1–7 选项宽表 · 与 story_text 同源）</h3>
+          <p class="flow-intro">主脊为周目顺序。下列每一轮在标题下附<strong>选项宽表</strong>：与 <code>story_text.txt</code> 完全一致；<strong>桌面端</strong>以网格自动换行排版，<strong>窄屏</strong>仍为横排一字展开并可横向滚动。侧向斜线仍为 <code>early_resolution_check</code>；底部为终局与三轴结局族。</p>
+          <div class="tree-wrap">
+            <ul class="tree-diagram">
+              <li>
+                <span class="t-node t-root">开场（三律 + 叙事方法论备忘）</span>
+                <ul>
+                  <li>
+                    <span class="t-node t-loop">Loop1 · 村口（6 选项）</span>
+                    <div class="loop-options-wide">
+                      <div class="loop-opt-caption">本轮可走几条路 · 宽表</div>
+                      <div class="loop-opt-row">
+                        <div class="loop-opt-cell"><span class="loop-opt-num">①</span>点头搭话，让气氛先热起来</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">②</span>盯着锈剑看，往旧事里探</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">③</span>把黄昏刺杀直接摊开</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">④</span>把水壶递过去，先给一口温度</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑤</span>先问报酬与口粮，把日子的账簿摊开</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑥</span>在路牌背面刻下一道记号（木屑沾指，掌纹发冷）</div>
+                      </div>
+                    </div>
+                    <span class="t-note">势力窗：晦历487 盐道重税 · 晦历489 北境补给失踪 | 黄昏塞西尔并线</span>
+                  </li>
+                  <li>
+                    <span class="t-node t-loop">Loop2 · 路牌下（6 选项）</span>
+                    <div class="loop-options-wide">
+                      <div class="loop-opt-caption">这一轮的开口方向 · 宽表</div>
+                      <div class="loop-opt-row">
+                        <div class="loop-opt-cell"><span class="loop-opt-num">①</span>跟着我</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">②</span>你身边有刺客</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">③</span>拿锈剑开一句玩笑</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">④</span>去街角和塞西尔聊</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑤</span>提黑水河的梦</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑥</span>让塞西尔在巷口试射一箭（黄铜门环先闷响一记，胸口那口气才松下半寸）</div>
+                      </div>
+                    </div>
+                    <span class="t-note">检定：坚韧 → 神殿门前收束 | 势力窗：晦历490 前庭古语误译 · 晦历489 北境补给追查</span>
+                  </li>
+                  <li>
+                    <span class="t-node t-loop">Loop3 · 午后镇口（7 选项）</span>
+                    <div class="loop-options-wide">
+                      <div class="loop-opt-caption">这一轮的行动口 · 宽表</div>
+                      <div class="loop-opt-row">
+                        <div class="loop-opt-cell"><span class="loop-opt-num">①</span>对米迦说，跟我来</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">②</span>带他去旧神殿</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">③</span>聊他炉火砖缝里那点私藏和旧事</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">④</span>去看卡修斯带来的法术书</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑤</span>提河对面的梦</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑥</span>把轮回真相说到明面</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑦</span>让卡修斯读你掌心旧裂纹（呼吸短停，指骨发凉）</div>
+                      </div>
+                    </div>
+                    <span class="t-note">检定：同步 | 势力窗：晦历492 雾港拍卖 · 晦历494 灰原兵变</span>
+                  </li>
+                  <li>
+                    <span class="t-node t-loop">Loop4 · 神殿前（7 选项 · 镜头污染 L1+）</span>
+                    <div class="loop-options-wide">
+                      <div class="loop-opt-caption">这一轮可选的切口 · 宽表</div>
+                      <div class="loop-opt-row">
+                        <div class="loop-opt-cell"><span class="loop-opt-num">①</span>问米迦，记得我吗</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">②</span>去神殿看戒指</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">③</span>谈公告牌上的字</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">④</span>找塞西尔和旧书</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑤</span>认下执印遗裔之名</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑥</span>把救人这件事摊开讲</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑦</span>替米迦包扎旧伤（布条吸血，心口回暖）</div>
+                      </div>
+                    </div>
+                    <span class="t-note">检定：坚韧与并肩；当夜相位：卢西恩药酒压争执；势力窗：晦历493 医誓争议、晦历496 七城契约停摆</span>
+                  </li>
+                  <li>
+                    <span class="t-node t-merge">任意轮末 · early_resolution（暗骰+显性+丝线）</span>
+                    <span class="t-note">可斜插 AUTHOR / JUDGEMENT / COVENANT / THRONE / CANDLELIGHT / CYCLE / ASCENSION / DAWN 等池中其一，条件见下方「结局」与脚本判定。玩家可见对白不报暗骰数字，只播成章索引对应氛围句（与 text_runner / script.rpy 同源）。</span>
+                  </li>
+                  <li>
+                    <span class="t-node t-loop">Loop5 · 门前（9 选项）</span>
+                    <div class="loop-options-wide">
+                      <div class="loop-opt-caption">第五轮门前的抉择口 · 宽表</div>
+                      <div class="loop-opt-row">
+                        <div class="loop-opt-cell"><span class="loop-opt-num">①</span>问米迦记不记得那些梦</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">②</span>去找最后一扇门</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">③</span>和米迦谈条件</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">④</span>先找卡修斯</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑤</span>带所有人进神殿</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑥</span>直接带线索去旧庭要塞</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑦</span>把门槛上的灰抹在掌心（回声贴掌背呢，腕底脉门自己发沉）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑧</span>今夜就推门，不再多等（经句压进喉间，决断提前）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑨</span>再观一轮风向，延后推门（先听风，再动手）</div>
+                      </div>
+                    </div>
+                    <span class="t-note">今夜推门可直接 → Final；否则 → Loop6。势力窗：晦历495 裂谷封锁 · 晦历497 夜审名单泄露</span>
+                  </li>
+                  <li>
+                    <span class="t-node t-loop">Loop6 · 门前检定前（6 选项）</span>
+                    <div class="loop-options-wide">
+                      <div class="loop-opt-caption">这一轮的推进口 · 宽表</div>
+                      <div class="loop-opt-row">
+                        <div class="loop-opt-cell"><span class="loop-opt-num">①</span>让卢西恩再查一次伤口（药酒苦橙味，时间感反向）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">②</span>把七灯教义读给米迦听（教义一句句落地，你跟米迦的呼吸才慢慢对上）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">③</span>逼问卡修斯裂谷坐标（他应声时像在交付一把会烫伤手的钥匙）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">④</span>于圣所列像座前的誓石边，折断旧钥匙（断裂声里，同时有退让与抬头）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑤</span>再等最后一轮（把门边的余地留给还没说完的话）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">⑥</span>立刻开门（夜还深，门先回应你）</div>
+                      </div>
+                    </div>
+                    <span class="t-note">检定：<strong>坚韧与并肩</strong>（tenacity+sync）| 立刻开门可 → Final | 势力窗：晦历498 雾灯停火 · 晦历499 钟楼无风自鸣</span>
+                  </li>
+                  <li>
+                    <span class="t-node t-loop">Loop7 · 收束（4 选项）</span>
+                    <div class="loop-options-wide">
+                      <div class="loop-opt-caption">这一轮的收束口 · 宽表</div>
+                      <div class="loop-opt-row">
+                        <div class="loop-opt-cell"><span class="loop-opt-num">①</span>为米迦系紧护腕（布条勒紧时，他把额头抵过来一瞬）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">②</span>把自己的名字写进封蜡（蜡油先咬住指腹发烫，疼了半拍，才把名字按实）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">③</span>让卡修斯朗读禁章（字音刮过墙皮，灰线就扑簌掉点渣）</div>
+                        <div class="loop-opt-cell"><span class="loop-opt-num">④</span>沉默推门（门轴替你开口）</div>
+                      </div>
+                    </div>
+                    <span class="t-note">势力窗：晦历500 边境临时军法 · 与《世界观》年表第12条对齐</span>
+                  </li>
+                  <li>
+                    <span class="t-node t-final">Final Resolution</span>
+                    <span class="t-note">门前再检定 <strong>坚韧与并肩</strong> + <code>meta_roll()</code> + 九大结局分流逻辑（与 <code>script.rpy</code> / <code>text_runner.py</code> 同源）。</span>
+                    <div class="t-endings">
+                      <div class="t-end-group">
+                        <strong>命运轴（秩序 / 控制）</strong>
+                        THRONE · CYCLE 系——王座、轮回永续、结构性反噬。
+                      </div>
+                      <div class="t-end-group">
+                        <strong>个体轴（关系 / 存续）</strong>
+                        DAWN · CANDLELIGHT · COVENANT · ASCENSION 系——日常、牺牲分摊、飞升与锚点损耗。
+                      </div>
+                      <div class="t-end-group">
+                        <strong>未知轴（认知 / 越界）</strong>
+                        AUTHOR · PILGRIM · JUDGEMENT 系——元叙事、提前朝圣、自白与审判镜。
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>主流程（当前实现）</h3>
+          <div class="timeline">
+            <div class="node">
+              <h4>Loop 1-2</h4>
+              <p>关系与基础隐线入场，可低概率提前收束。</p>
+            </div>
+            <div class="node">
+              <h4>Loop 3-4</h4>
+              <p>卡修斯并线，真相压强上升，中段分流增多。</p>
+            </div>
+            <div class="node">
+              <h4>Loop 5-6</h4>
+              <p>推门节奏与经句线决定终局窗口。</p>
+            </div>
+            <div class="node">
+              <h4>Loop 7 + Final</h4>
+              <p>高轮次开启审判/盟约分支，进入终局结算。</p>
+            </div>
+          </div>
+          <ul style="margin-top:8px;">
+            <li>流程：Start → Loop1 → Loop2 → Loop3 → Loop4 → Loop5 → Loop6 → Loop7 → Final Resolution</li>
+            <li>每轮末执行 <code>early_resolution_check(stage)</code>，命中可提前终局</li>
+            <li>Loop5/Loop6 保留“立即推门 / 延后推门”，直接影响终局池</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>势力事件周目排程（已接入）</h3>
+          <ul>
+            <li>Loop1（叙事节奏）：村口主菜单前以体感与争盐冲突为主；盐税告示与北境闲话、三路角色地理预告在长版里接 <strong>Loop2 醒来首段旁白</strong>（与 <code>game/script.rpy</code>／<code>text_runner.loop_two</code> 同源）</li>
+            <li>Loop2：晦历490（P1）前庭古语误译事故 + 晦历489（P2）补给案后续追查</li>
+            <li>Loop3：晦历492（P1）雾港遗物拍卖夜 + 晦历494（P2）灰原护路兵变</li>
+            <li>Loop4：晦历493（P2）医誓文本归属争议 + 晦历496（P2）七城契约重签失败</li>
+            <li>Loop5：晦历495（P1）裂谷前哨封锁令 + 晦历497（P1）看守团夜审名单泄露</li>
+            <li>Loop6：晦历498（P1）雾灯会停火提案 + 晦历499（P1）钟楼无风自鸣事件</li>
+            <li>Loop7：晦历500（P1）边境临时军法</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>交互分支连线图（节点 + 箭头）</h3>
+          <p class="flow-intro">点击每轮标题可折叠。选项文案与 <code>story_text.txt</code> 对齐（含 Loop4「找塞西尔和旧书」「把救人这件事摊开讲」及括号内代价提示）。凡条目含 <code>clue_*</code>，均在右侧缀<strong>括号叙事名</strong>（与终端 <code>show_stats</code> 同源）。常规桌面宽度下四段节点<strong>自上而下</strong>阅读；至极宽屏（约 ≥1500px）可切换为横向一行与箭头。阅读顺序：选项节点 → 剧情节点 → 数值节点 → 结局池。</p>
+
+          <details class="flow-path" open>
+            <summary>Loop1 起步分流</summary>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>把黄昏刺杀直接摊开</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>当场跟塞西尔对峙上了，火气提前冒出来</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>authority↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>THRONE</code> / <code>JUDGEMENT</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>递水壶 / 点头搭话</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>米迦这头先认了人——协作起早，后面路好走些罢了</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>sync↑ mika_bond↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>CANDLELIGHT</code> / <code>COVENANT</code> / <code>ASCENSION</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>收束</b>黄昏 · 塞西尔入队（各分枝共通）</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>刺客线落地，暗影徽记入档</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>clue_cecil=True</code><span class="clue-narr">（暗影徽记）</span></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>后续</b>Loop2 · 井沿神殿</div>
+            </div>
+          </details>
+
+          <details class="flow-path">
+            <summary>Loop2 关系锁定</summary>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>提黑水河的梦</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>米迦记忆缝隙被点亮</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>mika_knows_me=True</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b>终局大成功时优先 <code>ASCENSION</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>塞西尔巷口试射</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>止战弓法生效，风险被压低</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>thread_mercy↑ thread_obsession↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>COVENANT</code> 与 <code>THRONE</code> 双向拉扯</div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>你身边有刺客</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>证词摊开时刀刃还朝内；缄卷线与暗影徽记同夜亮起，难分先后</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>clue_truth=True</code><span class="clue-narr">（缄卷裂真）</span><code>clue_cecil=True</code><span class="clue-narr">（暗影徽记）</span></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>去街角和塞西尔聊</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>凶险讲清了，弓手才把「尚有可能」四字听进去</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>sync↑ cecil_bond↑ clue_cecil=True</code><span class="clue-narr">（暗影徽记）</span></div>
+            </div>
+          </details>
+
+          <details class="flow-path">
+            <summary>Loop3 真相加压</summary>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>把轮回真相说到明面</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>米迦信任震荡，队长位显化</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>authority↑ tenacity↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>THRONE</code> / <code>DAWN</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>卡修斯读掌纹</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>裂纹被确认，启示压强上升</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>thread_revelation↑ thread_erosion↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>AUTHOR</code> / <code>CYCLE</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>带他去旧神殿</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>潮气先入眼，神殿窗缝裂开</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>clue_shrine=True</code><span class="clue-narr">（七灯残阶）</span></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>去看卡修斯带来的法术书</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>学团抄写本翻到应验条目一侧；长老誓蜡线浮起</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>cassius_bond↑ clue_elder=True</code><span class="clue-narr">（蜡誓遗册）</span></div>
+            </div>
+          </details>
+
+          <details class="flow-path">
+            <summary>Loop4 身份冲突</summary>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>找塞西尔和旧书</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>医誓台侧、卢西恩与旧书线索并线</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>cecil_bond↑ lucien_bond↑ clue_elder=True</code><span class="clue-narr">（蜡誓遗册）</span></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>COVENANT</code> / <code>JUDGEMENT</code> 医学‑启示向</div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>把救人这件事摊开讲</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>关系强收束，米迦承重</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>sync↑ tenacity↑ mika_bond↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>DAWN</code> / <code>ASCENSION</code> / <code>CANDLELIGHT</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>认下执印遗裔之名</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>关系强震，决断权集中</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>authority↑ mika_knows_me=True</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>THRONE</code> / <code>ASCENSION</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>替米迦包扎旧伤（布条吸血，心口回暖）</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>卢西恩医线触发，队伍回温</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>thread_mercy↑ sync↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>COVENANT</code> / <code>CANDLELIGHT</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>去神殿看戒指</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>锈蚀戒指摊开，刻痕硌掌心</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>clue_shrine=True</code><span class="clue-narr">（七灯残阶）</span></div>
+            </div>
+          </details>
+
+          <details class="flow-path">
+            <summary>Loop5 推门窗口</summary>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>今夜就推门</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>直接跳终局结算，成本前置</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>scripture_mark↑ obsession↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>PILGRIM</code> / <code>THRONE</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>再观一轮风向</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>延迟推进，换深层情报</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>meta_awareness↑ mercy↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b>开放 Loop6 / Loop7 高阶分支</div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>去找最后一扇门</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>门后那股冷风先扑面；缄册烙印与神殿那枚拓印一块儿加深——债叠债罢了</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>clue_truth=True</code><span class="clue-narr">（缄卷裂真）</span><code>clue_shrine=True</code><span class="clue-narr">（七灯残阶）</span></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>直接带线索去旧庭要塞</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>路改棱堡，卷筒与刀背带齐；押上去的还有脚底那串脚步</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>clue_truth=True</code><span class="clue-narr">（缄卷裂真）</span></div>
+            </div>
+          </details>
+
+          <details class="flow-path">
+            <summary>Loop6 高压预审</summary>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>读七灯教义 / 立刻开门</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>经句线抬升，神殿反馈增强</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>scripture_mark↑ authority↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>JUDGEMENT</code> / <code>AUTHOR</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>卢西恩查伤 / 再等一轮</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>生存线加厚，关系线回弹</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>thread_mercy↑ tenacity↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>COVENANT</code> / <code>DAWN</code></div>
+            </div>
+          </details>
+
+          <details class="flow-path">
+            <summary>Loop7 最终收束</summary>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>封蜡 / 朗读禁章</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>名字入卷，未知层通道开启</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>revelation↑ scripture_mark↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>JUDGEMENT</code> / <code>AUTHOR</code></div>
+            </div>
+            <div class="flow-strip">
+              <div class="flow-node choice"><b>选项</b>系紧护腕 / 沉默推门</div><div class="flow-arrow">➜</div>
+              <div class="flow-node plot"><b>剧情</b>关系与肉身承受优先</div><div class="flow-arrow">➜</div>
+              <div class="flow-node value"><b>数值</b><code>sync↑ mercy↑ tenacity↑</code></div><div class="flow-arrow">➜</div>
+              <div class="flow-node ending"><b>结局池</b><code>COVENANT</code> / <code>CANDLELIGHT</code> / <code>DAWN</code></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="card">
+          <h3>污染强度预览层（L0 / L1 / L2）</h3>
+          <div class="lens-toolbar" role="toolbar" aria-label="切换镜头污染强度">
+            <button class="lens-btn is-active" type="button" data-level="L0">L0 基线</button>
+            <button class="lens-btn" type="button" data-level="L1">L1 偏向</button>
+            <button class="lens-btn" type="button" data-level="L2">L2 重污染</button>
+            <span class="lens-status" id="lens-status">当前强度 L0</span>
+          </div>
+          <div class="lens-preview-grid">
+            <div class="lens-preview">
+              <h4>Loop4 门前镜头</h4>
+              <p class="lens-text"
+                 data-l0="你们站在旧殿门前。风掠过石缝，带着湿冷的灰味。"
+                 data-l1="你们站在旧殿门前。塞西尔先让出角度，你听见弓弦轻轻一颤。"
+                 data-l2="你们在旧殿门前停步很久了。这回镜头几乎只听塞西尔一个人的间距口令：怎么走、在哪儿喘，都被掐在同一条标尺上，闷得慌。">你们站在旧殿门前。风掠过石缝，带着湿冷的灰味。</p>
+            </div>
+            <div class="lens-preview">
+              <h4>Loop5 推门前镜头</h4>
+              <p class="lens-text"
+                 data-l0="你抬眼看向最后一扇门。门缝里吐出的风冷得发苦。"
+                 data-l1="你抬眼看向最后一扇门。米迦故意笑了一下，鞋底却先往你这边蹭近半寸。"
+                 data-l2="门上还是那道窄缝；米迦粗声喘着——风里苦意就跟着他的喉头一上一下晃，整张画面都压得紧。">你抬眼看向最后一扇门。门缝里吐出的风冷得发苦。</p>
+            </div>
+            <div class="lens-preview">
+              <h4>Loop6 审前镜头</h4>
+              <p class="lens-text"
+                 data-l0="门前的雾更厚了。你说话时，尾音会被湿气吞掉一截。"
+                 data-l1="门前的雾更厚了。卡修斯盯着钟楼方向，低声复述三组参数。"
+                 data-l2="雾里潮得发腻。卡修斯念参数，铁皮与袖口潮味缠着回声，压得短——一句句像在逼你复述条款似的。">门前的雾更厚了。你说话时，尾音会被湿气吞掉一截。</p>
+            </div>
+            <div class="lens-preview">
+              <h4>Final 门石镜头</h4>
+              <p class="lens-text"
+                 data-l0="你把掌心贴上门石。冷意先到，随后才是那阵迟来的轰鸣。"
+                 data-l1="你把掌心贴上门石。卢西恩指尖还停在你腕侧，确认脉没有乱跳。"
+                 data-l2="手背还贴着门石。卢西恩那套查房节律抢到前头——脉息呼吸比雷鸣还先钻进耳朵，你听也不是、堵也不是。">你把掌心贴上门石。冷意先到，随后才是那阵迟来的轰鸣。</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>命册节律 · 口授七夜（原「周内七日对话」）</h3>
+          <ul>
+            <li>每周固定 7 次口授、每向 1 次分支；当周秘仪名依次为余烬权／缄影契／镜篆兆／裂契谶／回响钤／沉钟诰／阈扉仪（程序内 <code>WEEK_LECTORY_ARCANUM</code>），叙事氛围仍循余烬→暗线→镜纹→裂痕→回声→沉钟→门槛之阶</li>
+            <li>每日根据当日角色切换专属选项与回应词库：米迦、塞西尔、卡修斯、卢西恩（见 <code>VOICE_LIBRARY</code>）</li>
+            <li>选项肢统一带 <strong>角色名｜</strong> 前缀（全角竖线），避免按日换人时玩家不知在回应谁；宽度由 <code>ROLE_DIALOGUE_CONSTRAINTS.option_len</code> 与 <code>constrained_voice_block()</code> 约束</li>
+            <li>第一周：<code>run_week_dialogues(..., 1)</code> 前仍以体感与村口冲突为主；盐税告示与卢西恩／塞西尔／卡修斯三路<strong>长篇指名预告</strong>改在<strong>本章 Loop2 旁白首段</strong>读出，再衔接七日。<code>run_week_dialogues(..., 1)</code> 内仅以一句短接引扣回按日节奏。</li>
+            <li><strong>know_* 门闸</strong>：<strong>第一周</strong>米迦村口＋首周口授、黄昏<strong>塞西尔</strong>；<strong>第二周口授前</strong>北街针线侧<strong>卢西恩</strong>观感入档；<strong>第三周</strong>镇口<strong>卡修斯</strong>——三至四周内线四人声纹齐备。口授题名与队内反应皆受 <code>know_*</code> 约束；未识时 <code>resolve_oral_voice</code>／<code>ORAL_STANDIN_PROMPTS</code> 代班</li>
+            <li><strong>日内小事件</strong>：每向前输出 <strong>「第 N 天」</strong>后插入 <code>DAILY_MICRO_EVENT_RULES</code> 旁白（七章×七日），再进入当日 focal。<strong>文案与存档识认对齐</strong>：在每条含多档旁白的日中，<strong>在满足「条目所需角色 ⊆ 玩家已 <code>know_*</code>」的前提下，优先选用「所需角色」条目最多的一条</strong>；未识认者可闻声见影得其习，<strong>不立姓名、不写与你比肩相认的私交</strong>，仅谣传埋线，避免信息越过玩家当时掌握。</li>
+            <li><strong>Ren'Py</strong>：发布版在每轮主菜单前由 <code>zzz_oral_bridge.rpy</code> 运行时导入项目根的 <code>text_runner.py</code> 调用 <code>run_week_dialogues</code>；与终端口授条目逐字同源（缺模块时单行提示跳过）。分发请保留 <code>text_runner.py</code> 或与之一致的内嵌拷贝。</li>
+            <li>达到最早触发日后执行周内暗骰；命中后主事件可提前进入，未命中则继续铺线</li>
+            <li>周末结算按 soft / probe / press 倾向回写状态与关系，影响后续分支池与终局倾向</li>
+          </ul>
+        </article>
+
+        <div class="row-2">
+          <article class="card">
+            <h3>分支原则（哲学偏向版）</h3>
+            <ul>
+              <li>不提供“最好/最坏”结局，只提供立场偏向</li>
+              <li>每条结局必须同时给出即时收益与延迟后果</li>
+              <li>提前收束会把代价前置，承担时间因此更早</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>判定骨架</h3>
+            <ul>
+              <li>主检定：<code>roll_check("坚韧与并肩", tenacity + sync, 12)</code></li>
+              <li>暗骰：<code>meta_roll()</code>（逻辑层用数值；提前结局与裂缝 UI 的玩家可见文案不宣读点值）</li>
+              <li>周内暗骰：<code>hidden_week_gate(state, loop_no, day, mood)</code>（决定主事件触发日）</li>
+              <li>隐线：<code>thread_mercy / obsession / erosion / revelation / scripture_mark</code></li>
+              <li>关键状态：<code>mika_knows_me</code> / <code>authority</code> / <code>tenacity</code></li>
+              <li>对话约束层：<code>ROLE_DIALOGUE_CONSTRAINTS + constrained_voice_block()</code>（禁用词/句长阈值实时约束）</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="row">
+          <article class="card">
+            <h3>命运轴（Fate）</h3>
+            <ul>
+              <li>接受既定结构，换稳定但失深层真相</li>
+              <li>改写既定结构，换主动权与秩序风险</li>
+              <li>被结构反噬，换短期生存与长期回环</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>个体轴（Self）</h3>
+            <ul>
+              <li>保全边界，关系可能减弱</li>
+              <li>交换边界，关系增强但自我磨损</li>
+              <li>边界溶解，进入元层但失现实锚点</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>未知轴（Unknown）</h3>
+            <ul>
+              <li>拥抱未知，扩大可达结局池</li>
+              <li>利用未知，提升效率但代价前置</li>
+              <li>拒绝未知，降低波动但冻结问题</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="row-2">
+          <article class="card">
+            <h3>角色结构（当前版本）</h3>
+            <ul>
+              <li>奈尔：银发红眼，轮回记忆持有者</li>
+              <li>米迦：棕发绿眼，情感与行动锚点</li>
+              <li>塞西尔：黑发紫眼，温和克制的弓手锋芒</li>
+              <li>卡修斯：旅法抄写者，红发常与墨迹同速，代价与落款都说在前面</li>
+              <li>卢西恩：淡金发、灰蓝眼，小队医师，负责“损耗托底与代价缓冲”</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>卢西恩介入节点（新增）</h3>
+            <ul>
+              <li>Loop5：廊下持灯，强化“终局前恢复窗口”的叙事锚点</li>
+              <li>Loop6 选项：<code>让卢西恩再查一次伤口</code>，引导 <code>thread_mercy + tenacity</code></li>
+              <li>COVENANT：作为战后托底角色，承接“共同行动但长期负担上移”的后果</li>
+              <li>设计定位：承担“代价处理器”与“队伍连续性保险”职责</li>
+            </ul>
+          </article>
+        </div>
+
+        <article class="card">
+          <h3>Ending Map / 结局偏向图（九结局）</h3>
+          <div class="ending-filter" role="toolbar" aria-label="按哲学轴筛选结局">
+            <button class="filter-btn is-active" type="button" data-filter="all">全部</button>
+            <button class="filter-btn" type="button" data-filter="fate">命运轴</button>
+            <button class="filter-btn" type="button" data-filter="self">个体轴</button>
+            <button class="filter-btn" type="button" data-filter="unknown">未知轴</button>
+            <span class="filter-count" id="filter-count">全部 9 / 9</span>
+          </div>
+          <div class="ending-grid" id="ending-grid">
+            <div class="ending-group" data-group="fate">
+              <h4>命运轴（冷峻）</h4>
+              <div class="ending" data-axis="fate">
+              <strong>DAWN</strong><br>
+              条件：大成功 + <code>mika_knows_me = False</code> + <code>mika_bond >= 1</code><br>
+              偏向：保住同行与秩序表层，换取可继续的明日<br>
+              代价：深层真相让渡，未知保持沉默<br>
+              <span class="axis axis-fate">命运轴主导</span>
+              </div>
+              <div class="ending" data-axis="fate">
+              <strong>THRONE</strong><br>
+              条件：大失败 + 高<code>authority</code> + 高<code>tenacity</code><br>
+              偏向：夺取控制权，用秩序压制不确定性<br>
+              代价：关系网重损，个体逐步孤立<br>
+              <span class="axis axis-fate">命运轴主导</span>
+              </div>
+              <div class="ending" data-axis="fate">
+              <strong>CYCLE</strong><br>
+              条件：默认失败回环 / 侵蚀线命中<br>
+              偏向：维持存在连续，拒绝一次性崩解<br>
+              代价：系统问题持续累积，代价递延放大<br>
+              <span class="axis axis-fate">命运轴主导</span>
+              </div>
+            </div>
+
+            <div class="ending-group" data-group="self">
+              <h4>个体轴（肉身）</h4>
+              <div class="ending" data-axis="self">
+              <strong>CANDLELIGHT</strong><br>
+              条件：牺牲取向分流命中 + <code>lucien_bond + cecil_bond >= 1</code><br>
+              偏向：优先保他者存续，主动承担燃烧成本<br>
+              代价：自我磨损累积，长期恢复窗口缩窄<br>
+              <span class="axis axis-self">个体轴主导</span>
+              </div>
+              <div class="ending" data-axis="self">
+              <strong>ASCENSION</strong><br>
+              条件：大成功 + <code>mika_knows_me = True</code> + <code>mika_bond >= 2</code><br>
+              偏向：共鸣式前进，关系与认知同步增长<br>
+              代价：现实锚点削弱，回归常态难度上升<br>
+              <span class="axis axis-self">个体轴主导</span>
+              </div>
+              <div class="ending" data-axis="self">
+              <strong>COVENANT</strong><br>
+              条件：高轮次 + 高仁慈 + 主检定通过 + <code>lucien_bond >= 2</code> + <code>cecil_bond >= 1</code><br>
+              偏向：共同行动与克制推进，维持队伍连续性<br>
+              代价：变革速度下降，长期负担上移（由卢西恩托底）<br>
+              <span class="axis axis-self">个体轴主导</span>
+              </div>
+            </div>
+
+            <div class="ending-group" data-group="unknown">
+              <h4>未知轴（神谕）</h4>
+              <div class="ending" data-axis="unknown">
+              <strong>PILGRIM</strong><br>
+              条件：早推门 + 经句标记 + 暗骰门槛命中 + <code>mika_bond >= 1</code><br>
+              偏向：提前行动，以个体先行换答案窗口<br>
+              代价：队伍连接断裂，答案保持未完成态<br>
+              <span class="axis axis-unknown">未知轴主导</span>
+              </div>
+              <div class="ending" data-axis="unknown">
+              <strong>JUDGEMENT</strong><br>
+              条件：高轮次 + 高启示 + 经句标记 + <code>cassius_bond >= 2</code> + <code>clue_elder = True</code><br>
+              偏向：承认自我并接受审判，主动进入高压真相层<br>
+              代价：旧秩序不可逆损伤，个人被结构留名<br>
+              <span class="axis axis-unknown">未知轴主导</span>
+              </div>
+              <div class="ending" data-axis="unknown">
+              <strong>AUTHOR</strong><br>
+              条件：<code>meta_awareness >= 2</code> + 暗骰 <code>20</code> + <code>cassius_bond >= 1</code><br>
+              偏向：突破叙事边界，触碰未知源头<br>
+              代价：个体边界与现实边界同时稀释<br>
+              <span class="axis axis-unknown">未知轴主导</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card ending-text">
+          <h3>结局文本同步查看（可展开）</h3>
+          <div class="ending-filter" role="toolbar" aria-label="切换结局文本显示模式">
+            <button class="filter-btn ending-mode-btn is-active" type="button" data-mode="summary">摘要版</button>
+            <button class="filter-btn ending-mode-btn" type="button" data-mode="full">脚本全文版</button>
+            <span class="filter-count" id="ending-mode-status">当前：摘要版</span>
+          </div>
+          <details>
+            <summary>黎明 / DAWN（命运轴）</summary>
+            <p class="ending-copy summary-copy">石柱裂开了缝，风里墨味发干。你报名字——米迦念顺了些，倒也像是把一记迟晴天硬按回人间的样子。随后在边境镇上落脚，日子过得琐琐碎碎；更深那层就先搁着吧。</p>
+            <p class="ending-copy full-copy is-hidden">石柱裂开，像一份被执行完毕的裁决。米迦站在你面前，头发上全是碎石粉尘，眼神却慢慢沉回人间。风声被压成很薄的一层，像判令尾页上干透的墨。米迦说，收队。又说，像一场晚到的晴天，我到现在才把你名字念顺。你报上名字，奈尔。米迦回答，记住了，后面并肩。黎明落在台阶上，冷白而平整，像盖章后的纸面。后来你们在边境小镇住下，日子被拆成可核对的细目：租金、面包、巡夜铃。深层真相被装订成卷，收入档柜，暂不审理。</p>
+          </details>
+          <details>
+            <summary>王座 / THRONE（命运轴）</summary>
+            <p class="ending-copy summary-copy">你挤着人跨过裂口坐上黑王座——权贴在背上发凉，肩胛像烙了编号似的。次序拿稳了；至于还有没有人认真喊你……那是往后才慢慢算账的事。</p>
+            <p class="ending-copy full-copy is-hidden">你没有放手。裂口在你面前张开，像一道不可上诉的法令。你说，我还你。米迦被你推到裂缝另一边，他喊你的名字，却被石门裁成一段哑音。塞西尔朝你伸手，指间勾着一支黑羽箭，弓弦绷得像要割开风。石柱闭合了。黑暗往上升，像一张迟来太久的王座。你坐了上去。权力的寒光贴住肩背，像编号烙进骨里。从今往后，再也没有谁能把你从这里拖下来了。王座回应了你。它给你重量，也把你的影子钉在石上。你赢得了命运的控制权，也失去了被谁真正呼唤的资格。从此你化进秩序的夜间运转，名字逐寸褪去。</p>
+          </details>
+          <details>
+            <summary>轮回 / CYCLE（命运轴）</summary>
+            <p class="ending-copy summary-copy">村口风又打脸；告示换新纸罢了，落款折痕却仍卡在老地方。照旧点头照旧抬脚，流程像签字画押，撤不回呢。</p>
+            <p class="ending-copy full-copy is-hidden">轮回没有结束。你又一次站在村口。太阳还是那个太阳。米迦看向你，低声说，奇怪，我总觉得我们在这口风里站过很多次。风吹过公告牌，木板轻轻晃了一下。你点了点头。你知道自己还会陪他再走一遍。循环像钟表里那根细针，安静，固执，带着金属冷味。公告牌每天换上新纸，内容却总在同一段落处折返。你照旧点头，照旧抬脚，像按一份无法撤销的流程签下今天。</p>
+          </details>
+          <details>
+            <summary>烛光 / CANDLELIGHT（个体轴）</summary>
+            <p class="ending-copy summary-copy">你在崩塌里倒下，热气从肋骨间一点点被挤走。米迦的回应像旧誓反复发作，塞西尔转身去截断那条线。后来你的名字成了队伍里一处会痛的旧伤，每次触到都逼人站直。</p>
+            <p class="ending-copy full-copy is-hidden">你倒下了。石柱崩开时，碎屑像雪一样压下来，你先感觉到肋骨里的热气被一点点挤出去。你说，我没事。米迦回你，你每回都这么说。塞西尔把箭提起来：我去截断那条线。你留在掩体后。你听见自己的心跳越来越慢，像指腹下滑走的一缕脉搏。你闭上眼睛。有人在远处念你的名字，像抄写员读完一行旧文。纸页翻过去了。后来他们还会提起你，在火光最弱的时候，在每一次不得不做选择的时候。你的名字变成一处旧伤。每次触到，都会痛，也都会让人站直。</p>
+          </details>
+          <details>
+            <summary>飞升 / ASCENSION（个体轴）</summary>
+            <p class="ending-copy summary-copy">你握米迦那只手——光爬上指缝，石壁神殿一层层退去。新路是踏上了，可要记住的句子却一天比一天薄：只剩手心那点热还认得。</p>
+            <p class="ending-copy full-copy is-hidden">你伸手。米迦握住了。两道光从你们指间缠起来。石壁褪去，神殿褪去，连轮回也开始往回退。米迦看着你：你还在这。你回答，一直都在。塞西尔站在你身后，黑发被高处落下的光吹开。卡修斯站在石阶另一侧，红发被风掀起，蓝眼睛像冷天里的浅海。天开了。四个人都站在新的路上，脚下有风，远处有光。路从这里开始。你们的呼吸在风里逐渐同频，像两道贴近又不重叠的脉。代价落在肉身记忆上：你会忘记昨夜说过的话，却记得掌心的温度。</p>
+          </details>
+          <details>
+            <summary>誓约分摊 / COVENANT（个体轴）</summary>
+            <p class="ending-copy summary-copy">你推门也放剑，队伍一起跨过去。卢西恩合上药箱，铜扣一响像句号落地。没有人被宣布胜利，你们只是约定用肉身长期偿付同一份账。</p>
+            <p class="ending-copy full-copy is-hidden">你把门推开，又把剑放下。米迦第一个跨过去，塞西尔和卡修斯跟在后面。没有人催你。卢西恩在廊下合上药箱，铜扣轻轻一响，像句号落地。你想起旧抄本上的句子：柔软的手也能托住铁与土，只是代价更慢地生效。天快亮时，你们在神殿外分面包和冷茶。风很冷，喉咙却是暖的。卢西恩按次序检查每个人的脉搏、伤口和呼吸，把负担一点点拆开。没有谁被宣布胜利。你们只是约定用肉身长期偿付同一份账。</p>
+          </details>
+          <details>
+            <summary>朝圣者 / PILGRIM（未知轴）</summary>
+            <p class="ending-copy summary-copy">你跨过门槛，呼喊声很快被风拉远。石路没有拐点，灯芯越走越短。你带着问题往前，等后来的人给终点起名。</p>
+            <p class="ending-copy full-copy is-hidden">你先跨过门槛，脚底一冷，像踩进刚退潮的石滩。背后有人喊你，第一声很近，第二声已经隔了半条街。你差点回头，牙关里都是尘土味。旧经在脑子里翻页，寻见的人会走散，留下的人会改名。石路长得看不见拐点，尽头那盏灯一会儿抬头一会儿低下，像风里快睡着的眼。你把手揣进袖口继续走，碎砂磨着靴底，沙沙声像有人在后面数拍子。每走一步，灯芯短一点，夜色里就多出一条看不懂的批注。这条路没有回执，只有方向。你带着问题往前，等后来的人给终点起名。</p>
+          </details>
+          <details>
+            <summary>审判 / JUDGEMENT（未知轴）</summary>
+            <p class="ending-copy summary-copy">门只开到半掌，七盏灯随后依次亮起——判词先在你掌心里淌开，才去照旁人。你真带走了一部分；骨血名声却粘在门板深处抠不下来。</p>
+            <p class="ending-copy full-copy is-hidden">门开到半掌宽，白光先烫眼皮，再烫喉咙。你听见七次轻响，像七枚钉子依次落进石板，七盏灯随即全亮。米迦低声催你，奈尔，挑一盏，手别抖。你伸手时掌纹发热，旧灰起光，潮湿墙面被火线一行行擦亮。你忽然懂了，判词先写在自己身上，随后才轮到别人。灯焰一个接一个暗下，神殿只剩风。门板吞下你的名字，刻痕发烫，指腹按上去有细小刺痛。你带走真相，也把一段骨血留在门里。以后每个后来者走到这里，先读你的自白，再听见自己的审判。</p>
+          </details>
+          <details>
+            <summary>作者 / AUTHOR（未知轴）</summary>
+            <p class="ending-copy summary-copy">耳骨边有低声呼唤，门影和手背先裂成字。米迦示警页边收口，三人从黑底踏出。故事停在这一行，你在句子背面看见新墨继续爬行。</p>
+            <p class="ending-copy full-copy is-hidden">你听见有人喊你。声音贴着耳骨，像一根细针在铜盘上慢慢画圈。真见鬼。神殿里的风都停了，嗓音却越靠越近。门影先起皱，你的手背跟着裂开，皮纹翻成密排小字，墨味和潮气一股脑涌上来。米迦抬眼，绿瞳像冷掉的灯芯，他低声说，页边在收口。塞西尔指尖一抖，紫色碎光沿空气排成注脚。卡修斯没开口，蓝眼沉得发硬，像盐水泡久的玻璃珠。你想骂一句轻松点的话，喉咙里只剩铁锈味。你说，别翻页。窗口暗下去，黑底卷起，他们一步步走出画框，鞋跟敲在夜色里，像远处钟摆掠过石廊。故事停在这一行，脚步声还往外延。你站在句子背面，看见新墨沿着旧字继续爬行。</p>
+          </details>
+        </article>
+
+        <article class="card">
+          <h3>隐藏数值分支速查（开发）</h3>
+          <ul>
+            <li><code>thread_mercy</code> / <code>thread_obsession</code> / <code>thread_erosion</code> / <code>thread_revelation</code> / <code>scripture_mark</code></li>
+            <li>Loop1“刻记号” -> <code>revelation +1</code>, <code>erosion +1</code></li>
+            <li>Loop2“试射一箭” -> <code>mercy +1</code>, <code>obsession +1</code></li>
+            <li>Loop3“读掌纹” -> <code>revelation +1</code>, <code>erosion +1</code></li>
+            <li>Loop4“包扎旧伤” -> <code>mercy +1</code>，并给关系缓冲</li>
+            <li>Loop5-7 经句相关选项可抬升 <code>scripture_mark</code> 与启示倾向</li>
+            <li>每轮尾调用 <code>early_resolution_check(stage)</code>：门槛命中即即时分流</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <p class="footer">同步基线：<code>game/script.rpy</code> · <code>text_runner.py</code> · <code>story_text.txt</code> · 《故事概览》《世界观设定集》《角色设定集》《系统策划案》</p>
+  </div>
+  <script>
+    (function () {
+      var buttons = document.querySelectorAll('.filter-btn[data-filter]');
+      var cards = document.querySelectorAll('#ending-grid .ending');
+      var groups = document.querySelectorAll('#ending-grid .ending-group');
+      var counter = document.getElementById('filter-count');
+      var lensButtons = document.querySelectorAll('.lens-btn');
+      var lensTexts = document.querySelectorAll('.lens-text');
+      var lensStatus = document.getElementById('lens-status');
+      var endingModeButtons = document.querySelectorAll('.ending-mode-btn');
+      var summaryCopies = document.querySelectorAll('.summary-copy');
+      var fullCopies = document.querySelectorAll('.full-copy');
+      var endingModeStatus = document.getElementById('ending-mode-status');
+
+      function applyFilter(axis) {
+        var visibleCount = 0;
+        cards.forEach(function (card) {
+          var matches = axis === 'all' || card.dataset.axis === axis;
+          card.classList.toggle('is-hidden', !matches);
+          if (matches) visibleCount += 1;
+        });
+
+        groups.forEach(function (group) {
+          var visibleInGroup = group.querySelectorAll('.ending:not(.is-hidden)').length;
+          group.classList.toggle('is-hidden', visibleInGroup === 0);
+        });
+
+        if (counter) {
+          var labelMap = {
+            all: '全部',
+            fate: '命运轴',
+            self: '个体轴',
+            unknown: '未知轴'
+          };
+          counter.textContent = labelMap[axis] + ' ' + visibleCount + ' / ' + cards.length;
+        }
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          buttons.forEach(function (b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          applyFilter(btn.dataset.filter);
+        });
+      });
+
+      function applyLensLevel(level) {
+        lensTexts.forEach(function (el) {
+          var key = level.toLowerCase();
+          var next = el.getAttribute('data-' + key);
+          if (next) el.textContent = next;
+        });
+        if (lensStatus) lensStatus.textContent = '当前强度 ' + level;
+      }
+
+      lensButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          lensButtons.forEach(function (b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          applyLensLevel(btn.dataset.level);
+        });
+      });
+
+      function applyEndingMode(mode) {
+        var showFull = mode === 'full';
+        summaryCopies.forEach(function (el) { el.classList.toggle('is-hidden', showFull); });
+        fullCopies.forEach(function (el) { el.classList.toggle('is-hidden', !showFull); });
+        if (endingModeStatus) endingModeStatus.textContent = '当前：' + (showFull ? '脚本全文版' : '摘要版');
+      }
+
+      endingModeButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          endingModeButtons.forEach(function (b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          applyEndingMode(btn.dataset.mode);
+        });
+      });
+
+      applyLensLevel('L0');
+      applyEndingMode('summary');
+
+      (function timelineAccordions(){
+        function buildAccordions(){
+          var isMobile = window.innerWidth <= 700;
+          var timelines = document.querySelectorAll('.timeline');
+          timelines.forEach(function(tl){
+            var card = tl.closest('article') || tl.parentNode;
+            var existingAcc = card.querySelector('.timeline-accordion');
+            if (isMobile) {
+              if (!existingAcc) {
+                var nodes = tl.querySelectorAll('.node');
+                if (!nodes.length) return;
+                var acc = document.createElement('div');
+                acc.className = 'timeline-accordion';
+                nodes.forEach(function(nd){
+                  var title = (nd.querySelector('h4')||{}).textContent || 'Details';
+                  var body = nd.innerHTML.replace(/<h4>.*?<\/h4>/,'');
+                  acc.innerHTML += '<details class="tl-acc-item"><summary>'+title+'</summary><div class="tl-body">'+body+'</div></details>';
+                });
+                card.appendChild(acc);
+              }
+            } else {
+              if (existingAcc) existingAcc.remove();
+            }
+          });
+        }
+        buildAccordions();
+        var resizeTimer;
+        window.addEventListener('resize', function(){
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(buildAccordions, 250);
+        });
+      })();
+    })();
+  </script>
+</body>
+</html>

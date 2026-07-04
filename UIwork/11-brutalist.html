@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>BRUTAL·暴烈品牌 — Brutalist 设计作品</title>
+<!--
+  DESIGN.md: BRUTAL Brand Showcase
+  Family: Brutalism (粗野主义)
+  Colors: canvas=#ffffff / text=#000000 / accent=#ff0000 / surface2=#f0f0f0
+  Font: 'Inter' 800/900 weight only, system sans-serif fallback
+  Border: 3px solid black (heavy), no border-radius
+  Effect: bold outline, high contrast, raw typography, intentional ugliness
+
+  📋 PM 设计决策文档
+  作品: BRUTAL · 暴烈品牌展示
+  目标用户: 先锋品牌/艺术机构/潮牌，需要被记住
+  决策1: 纯黑白 + 红色 → 最极端的对比
+  决策2: 无圆角 + 粗边框 → 不妥协的态度
+  决策3: 超大字号 → 排版即图形
+  决策4: 故意粗糙 → 反精致 = 记忆点
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F5F5F7;font-family:'Inter','Helvetica Neue',sans-serif;color:#000;min-height:100vh;padding:10px}
+.container{max-width:1000px;margin:0 auto;padding:40px 32px;background:#fff;border-radius:12px;min-height:calc(100vh - 20px);box-shadow:0 2px 12px rgba(0,0,0,.05)}
+
+.hero{border:4px solid #000;padding:48px 40px;margin-bottom:12px;position:relative}
+.hero::before{content:'●';position:absolute;top:16px;right:20px;font-size:1rem;color:#ff0000}
+.badge{display:inline-block;border:2px solid #000;padding:4px 14px;font-size:.65rem;font-weight:800;letter-spacing:.1em;margin-bottom:24px;text-transform:uppercase}
+.hero h1{font-size:clamp(3rem,8vw,6rem);font-weight:900;line-height:.9;letter-spacing:-.06em;text-transform:uppercase;margin-bottom:8px}
+.hero h1 em{font-style:normal;color:#ff0000;display:block}
+.hero p{font-size:1rem;font-weight:400;max-width:440px;line-height:1.6;margin-top:20px;color:#555}
+
+.stripe{height:12px;background:#000;margin-bottom:12px;display:flex;gap:0}
+.stripe span{flex:1}.stripe span:nth-child(2){background:#ff0000}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.stat{border:3px solid #000;padding:24px 16px;text-align:center}
+.stat-num{font-size:2.5rem;font-weight:900;letter-spacing:-.04em;line-height:1}
+.stat-label{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin-top:8px;color:#555}
+
+.content{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.content-main{border:3px solid #000;padding:32px;position:relative}
+.content-main::after{content:'→';position:absolute;bottom:12px;right:16px;font-size:1.5rem;font-weight:900}
+.content-main h2{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.15em;margin-bottom:16px}
+.content-main .big{font-size:3rem;font-weight:900;letter-spacing:-.04em;line-height:.9;margin-bottom:16px}
+.content-main p{font-size:.82rem;line-height:1.7;color:#555}
+.content-side{display:flex;flex-direction:column;gap:8px}
+.content-side .box{flex:1;border:3px solid #000;padding:20px;display:flex;flex-direction:column;justify-content:center}
+.content-side .box h3{font-size:1.2rem;font-weight:900;letter-spacing:-.03em;margin-bottom:6px}
+.content-side .box h3.red{color:#ff0000}
+.content-side .box p{font-size:.72rem;color:#555;line-height:1.6}
+
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.feature{border:3px solid #000;padding:24px 20px;text-align:center}
+.feature-num{font-size:2.8rem;font-weight:900;letter-spacing:-.05em;line-height:1;margin-bottom:4px}
+.feature-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+
+.cta{border:4px solid #000;padding:40px;text-align:center;margin-bottom:12px;background:#000}
+.cta h2{font-size:2rem;font-weight:900;letter-spacing:-.04em;color:#fff;text-transform:uppercase;margin-bottom:4px}
+.cta h2 em{color:#ff0000;font-style:normal}
+.cta p{color:rgba(255,255,255,0.5);font-size:.8rem;margin-bottom:20px}
+.cta-btn{display:inline-block;border:2px solid #fff;color:#fff;padding:12px 36px;font-size:.85rem;font-weight:800;letter-spacing:.1em;text-decoration:none;text-transform:uppercase;transition:all .2s}
+.cta-btn:hover{background:#fff;color:#000}
+.cta .note{font-size:.6rem;color:rgba(255,255,255,0.3);margin-top:12px;letter-spacing:.05em}
+
+.footer{border:3px solid #000;padding:20px 24px;display:flex;justify-content:space-between;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;align-items:center}
+.footer span{color:#ff0000;font-weight:900}
+
+.design-notes{border:3px solid #000;padding:28px;margin-top:12px}
+.design-notes h2{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
+.dn-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dn-card{border:2px solid #000;padding:16px}
+.dn-card h3{font-size:.72rem;font-weight:800;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.dn-card h3 .t{display:inline-block;background:#000;color:#fff;padding:2px 8px;font-size:.55rem;margin-right:6px}
+.dn-card p{font-size:.7rem;color:#555;line-height:1.6}
+@media(max-width:768px){.stats{grid-template-columns:1fr 1fr}.content{grid-template-columns:1fr}.features{grid-template-columns:1fr}.dn-grid{grid-template-columns:1fr}.hero{padding:28px 20px}.hero h1{font-size:2.5rem}}
+@media(max-width:430px){.container{padding:0 12px}.hero{padding:24px 16px}.hero h1{font-size:2rem}.stats{grid-template-columns:1fr}.feature{padding:16px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero scroll-reveal">
+    <div class="badge">EST. 2026</div>
+    <h1>BRUTAL<em>STUDIO</em></h1>
+    <p>我们不追求漂亮。我们追求被记住。粗野主义不是一种风格，是一种态度。</p>
+  </div>
+
+  <div class="stripe scroll-reveal"><span></span><span></span><span></span><span></span></div>
+
+  <div class="stats scroll-reveal" data-delay="100">
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">年份</div></div>
+    <div class="stat"><div class="stat-num">280</div><div class="stat-label">项目</div></div>
+    <div class="stat"><div class="stat-num">48</div><div class="stat-label">奖项</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">可能性</div></div>
+  </div>
+
+  <div class="content scroll-reveal" data-delay="150">
+    <div class="content-main">
+      <h2>我们的信念</h2>
+      <div class="big">反精致<br>即正义</div>
+      <p>好的设计不需要讨好所有人。粗野主义拥抱材料的真实性，拒绝装饰的虚伪。每一根粗线、每一个直角，都是对「漂亮但平庸」的宣战。</p>
+    </div>
+    <div class="content-side">
+      <div class="box"><h3>01.</h3><h3 class="red">类型即形式</h3><p>不依赖插图或图标，用排版的力量直接传达信息。</p></div>
+      <div class="box"><h3>02.</h3><h3 class="red">大胆即克制</h3><p>超大字号不仅是为了醒目，更是用极致的减法让内容一目了然。</p></div>
+    </div>
+  </div>
+
+  <div class="features scroll-reveal" data-delay="200">
+    <div class="feature"><div class="feature-num" style="color:#ff0000">3</div><div class="feature-label">色板</div></div>
+    <div class="feature"><div class="feature-num" style="color:#000">0</div><div class="feature-label">圆角</div></div>
+    <div class="feature"><div class="feature-num" style="color:#ff0000">∞</div><div class="feature-label">可能性</div></div>
+  </div>
+
+  <div class="cta scroll-reveal" data-delay="200">
+    <h2>准备好被<em>记住</em>了吗？</h2>
+    <p>加入 280+ 个敢于不妥协的品牌</p>
+    <a href="#" class="cta-btn">开始合作</a>
+    <div class="note">/ 不接急单 · 只做好作品 /</div>
+  </div>
+
+  <div class="footer scroll-reveal">
+    <span>BRUTAL STUDIO</span>
+    <span>●</span>
+    <span>TOKYO · SHANGHAI</span>
+  </div>
+</div>
+
+<div class="design-notes scroll-reveal" data-delay="250" style="max-width:936px;margin:12px auto 0">
+  <h2>📋 设计决策说明</h2>
+  <div class="dn-grid">
+    <div class="dn-card"><h3><span class="t">Brutalism</span> 粗野主义</h3><p>受80年代瑞士粗野印刷和 David Carson 启发。风格特征：粗边框（3-4px）、零圆角、超大字号（6vw+）、<strong>高对比黑白</strong>。不精致就是最大的精致。</p></div>
+    <div class="dn-card"><h3><span class="t">色彩</span> 三色法则</h3><p>仅使用白 #fff、黑 #000、红 #ff0000。<strong>限制产生创造力</strong>——每种颜色都有明确语义：黑色=结构，白色=呼吸，红色=关键时刻。</p></div>
+    <div class="dn-card"><h3><span class="t">排版</span> 字体即图形</h3><p>只使用 Inter 的 800/900 字重。标题 6vw 是正文的 7 倍大小。<strong>极端的比例对比</strong>创造视觉张力。字母间距 -0.06em 让大字更紧凑有力。</p></div>
+    <div class="dn-card"><h3><span class="t">Figma</span> 反可用性</h3><p>Brutalist 设计故意打破一些可用性规则（如低对比度标签、紧密排版），但这不是缺陷——<strong>反常规 = 记忆锚点</strong>。适合品牌曝光页，不适合功能型产品。</p></div>
+  </div>
+</div>
+
+<style>
+.scroll-reveal{opacity:0;transform:translateY(16px);transition:all .6s cubic-bezier(.4,0,.2,1)}
+.scroll-reveal.visible{opacity:1;transform:translateY(0)}
+.scroll-reveal[data-delay="100"]{transition-delay:.1s}
+.scroll-reveal[data-delay="150"]{transition-delay:.15s}
+.scroll-reveal[data-delay="200"]{transition-delay:.2s}
+.scroll-reveal[data-delay="250"]{transition-delay:.25s}
+</style>
+<script>
+(function(){
+  var o=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target)}})},{threshold:.1});
+  document.querySelectorAll('.scroll-reveal').forEach(function(e){o.observe(e)});
+})();
+</script>
+</body>
+</html>
