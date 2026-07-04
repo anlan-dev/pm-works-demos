@@ -10,9 +10,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   background:#f5f5f7; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  color:#1d1d1f; line-height:1.47059; scroll-behavior:smooth;
+  color:#1d1d1f; line-height:1.47059;
   -webkit-font-smoothing:antialiased; overflow-x:hidden; letter-spacing:-0.022em;
 }
+html{scroll-behavior:smooth}
 .container{max-width:880px;width:100%;margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,4vw,32px) clamp(36px,5vw,64px);overflow-x:hidden}
 /* 平板横屏：左右内边距保持对称，避免右侧留白过大 */
 @media(min-width:821px) and (max-width:1120px){.container{padding-left:clamp(32px,5vw,48px);padding-right:clamp(32px,5vw,48px)}}
@@ -52,7 +53,7 @@ body{
 .mobile-nav-inner{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
 .mobile-nav a{text-decoration:none;font-size:.64rem;font-weight:500;color:#3a5670;background:#f5f7fa;padding:7px 10px;border-radius:12px;white-space:nowrap;display:flex;align-items:center;gap:4px;border:.5px solid #e4eaf2;min-height:36px;transition:all .2s}
 .mobile-nav a:active{background:#e0ecf7;color:#0c3a56;transform:scale(.96)}
-@media(max-width:820px){.mobile-nav{display:block}.mobile-nav-inner{max-height:160px;overflow-y:auto}/* body padding-bottom 由抽屉菜单统一管理，避免双重定义 */}
+@media(max-width:820px){.mobile-nav-inner{max-height:160px;overflow-y:auto}/* body padding-bottom 由抽屉菜单统一管理，避免双重定义 */}
 
 /* ===== Hero ===== */
 .hero{text-align:center;margin-bottom:clamp(20px,3vw,28px)}
@@ -475,6 +476,30 @@ details .step-text {
 .ai-native .an-skill .an-skill-row>span:last-child{flex:1;min-width:0}
 .ai-native .an-skill .an-bullet{flex-shrink:0;width:20px;height:20px;border-radius:6px;background:#e0e7ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(.58rem,.66vw,.62rem)}
 @media(max-width:640px){.ai-native .an-flow{flex-direction:column}.ai-native .an-node{min-width:0}}
+
+/* ===== Fast Track / Quick Nav ===== */
+.fast-track{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.5vw,16px);margin-bottom:clamp(20px,3vw,28px)}
+.ft-card{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:clamp(14px,2vw,20px);border-radius:14px;text-decoration:none;transition:all .2s;border:1px solid transparent;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.ft-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.ft-primary{background:rgba(0,113,227,.04);border-color:rgba(0,113,227,.15)}
+.ft-primary:hover{background:rgba(0,113,227,.08)}
+.ft-success{background:rgba(5,150,105,.04);border-color:rgba(5,150,105,.15)}
+.ft-success:hover{background:rgba(5,150,105,.08)}
+.ft-accent{background:rgba(79,70,229,.04);border-color:rgba(79,70,229,.15)}
+.ft-accent:hover{background:rgba(79,70,229,.08)}
+.ft-icon{font-size:clamp(1.4rem,2vw,1.8rem);line-height:1}
+.ft-label{font-size:clamp(.8rem,.9vw,.88rem);font-weight:600;color:#0f172a}
+.ft-primary .ft-label{color:#0071e3}
+.ft-success .ft-label{color:#059669}
+.ft-accent .ft-label{color:#4338ca}
+.ft-hook{font-size:clamp(.68rem,.78vw,.74rem);color:#64748b;line-height:1.4}
+@media(max-width:640px){.fast-track{grid-template-columns:1fr;gap:8px}.ft-card{padding:12px 14px}}
+
+/* ===== Verify Tier Badge ===== */
+.vt{display:inline-flex;align-items:center;font-size:clamp(.58rem,.68vw,.64rem);font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;margin-left:6px;vertical-align:middle}
+.vt-v{background:rgba(5,150,105,.1);color:#059669;border:1px solid rgba(5,150,105,.2)}
+.vt-s{background:rgba(217,119,6,.08);color:#b45309;border:1px solid rgba(217,119,6,.15)}
+.vt-h{background:rgba(100,130,160,.08);color:#64748b;border:1px solid rgba(100,130,160,.15)}
 </style>
 </head>
 <body id="top">
@@ -590,9 +615,9 @@ details .step-text {
   </div>
   <div class="edu">香港理工大学 · 语言学硕士（QS全球前50）<br>陕西师范大学 · 汉语言文学学士（211）</div>
   <div class="tags">
-    <span class="tag accent">Agent架构</span><span class="tag accent">Prompt Engineering</span>
-    <span class="tag accent">用户研究</span><span class="tag accent">数据分析</span>
-    <span class="tag accent">竞品分析</span><span class="tag accent">PRD写作</span>
+    <span class="tag accent">语用学×产品洞察</span><span class="tag accent">Agent架构</span>
+    <span class="tag accent">Prompt Engineering</span><span class="tag accent">用户研究</span>
+    <span class="tag accent">数据分析</span><span class="tag accent">竞品分析</span>
   </div>
   <div class="tags" style="margin-top:4px">
     <span class="tag">Dify</span><span class="tag">LangChain</span><span class="tag">MCP</span><span class="tag">RAG</span><span class="tag">本地化部署</span>
@@ -611,23 +636,42 @@ details .step-text {
   </div>
 </header>
 
+<!-- ===== 快速通道 · 3分钟阅读路径 ===== -->
+<div class="fast-track">
+  <a href="#comp" class="ft-card ft-primary">
+    <span class="ft-icon">🧠</span>
+    <span class="ft-label">AI PM核心能力</span>
+    <span class="ft-hook">能力矩阵 · 需求发现(语用学) · 竞品分析 · 数据分析(漏斗→归因→决策)</span>
+  </a>
+  <a href="#pet" class="ft-card ft-success">
+    <span class="ft-icon">🐾</span>
+    <span class="ft-label">核心案例 · 宠伴</span>
+    <span class="ft-hook">20人深访·86份问卷·NPS +12→+38 · 隐私优先+零服务器</span>
+  </a>
+  <a href="#quality-gate" class="ft-card ft-accent">
+    <span class="ft-icon">🔍</span>
+    <span class="ft-label">技术决策 · PRD Quality Gate</span>
+    <span class="ft-hook">System Prompt vs RAG · Temp调优 · 四维拆解→补规则→复测闭环</span>
+  </a>
+</div>
+
 <!-- ===== 作品集描述 ===== -->
 <section style="background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(20px,3vw,32px);margin-bottom:clamp(20px,3vw,28px);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.04)">
   <h2 style="font-size:clamp(1.1rem,1.6vw,1.35rem);font-weight:600;letter-spacing:-.02em;margin-bottom:clamp(12px,1.8vw,18px);color:#1d1d1f">📖 关于这个作品集</h2>
   <div style="font-size:clamp(.82rem,.98vw,.88rem);color:#2d3a4b;line-height:1.75">
     <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，正在寻找AI产品经理机会。这个作品集不是在罗列"我做过什么"——而是记录"我判断过什么，以及我是怎么推动它落地的"。每个关键决策都标注了当时的约束条件：预算、技术边界、用户隐私、时间窗口——不是在真空中做选择，而是在约束中求最优解。13个项目中，核心项目经过用户测试与轮次迭代验证，探索型Demo基于竞品走查和产品假设构建。</p>
+    <p style="margin-bottom:12px;font-size:clamp(.76rem,.88vw,.8rem);color:#0071e3;font-weight:520">📌 推荐阅读路径：能力总览 → 核心案例（宠伴）→ 技术决策（PRD Quality Gate）→ 方法论。如果你只有3分钟，看这三块就够了。</p>
     <details style="cursor:pointer;margin-top:8px">
       <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.78rem,.92vw,.84rem);font-weight:600;color:#0071e3;padding:8px 0">
         <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.1);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0">▶</span>
         展开阅读完整作品集介绍
       </summary>
       <div style="margin-top:12px">
-        <p style="margin-bottom:12px"><strong>为什么是AI产品经理？</strong>语言学训练给了我从访谈中提取真实需求的框架——区分"用户说的"和"用户实际需要
-的"。13个AI产品项目让我从写Prompt、搭Agent、选协议（MCP vs LangChain）、做端侧AI（Tesseract.js本地OCR、Whisper本地转写）、碰硬件原型（ESP32）的完整链条中，建
-立了对AI能力边界的直觉。我定义的"AI产品设计"不只是选模型或写提示词，而是判断AI该介入哪个工作流节点、用什么技术方案、失败时怎么降级——这个判断力只有在亲手交付
+        <p style="margin-bottom:12px"><strong>为什么是AI产品经理？</strong>语言学训练是我的底层操作系统：语用学让我在深访中识别言外之意（用户的"还行"可能意味着"我不舒服但说不清哪里不舒服"），话语分析让我在需求评审中识别谁在回避什么问题，语料库方法让我把200+条应用商店评论转化为可量化的产品决策。这不是"文科生表达能力好"——这是用语言学框架做产品判断的PM。13个AI产品项目让我从写Prompt、搭Agent、选协议（MCP vs LangChain）、做端侧AI（Tesseract.js本地OCR、Whisper本地转写）、碰硬件原型（ESP32）的完整链条中，建立
+了对AI能力边界的直觉。我定义的"AI产品设计"不只是选模型或写提示词，而是判断AI该介入哪个工作流节点、用什么技术方案、失败时怎么降级——这个判断力只有在亲手交付
 过产品的过程中才能建立。</p>
         <p style="margin-bottom:12px"><strong>作品集的核心逻辑：</strong>从宠伴（本地优先+隐私优先的宠物健康台账）到GlobalFUN（MCP服务总线+6-Agent跨境电商协作系统），到PixelPick（Canvas像素分析替代大模型评分的影像精选工具），我展示了AI产品设计的四个维度——<b>需求层</b>（用户调研→需求分层→竞品分析→KANO优先级）、<b>能力层</b>（AI能力边界判断→Prompt设计→Agent架构→协议选型）、<b>体验层</b>（交互设计→信息架构→响应式适配→暗房风格视觉系统）、<b>验证层</b>（数据闭环设计→NPS追踪→埋点体系→内部测试轮次验证）。每个项目都有完整的"为什么做这个判断/判断依据是什么/怎么推动落地/结果验证了什么"叙事线——这里没有功能列表，只有决策记录。</p>
-        <p style="margin-bottom:12px"><strong>技术实践的三个层次：</strong>①<b>端侧AI判断力</b>——宠伴选Tesseract.js本地OCR（83%用户拒云上传<span style="font-size:.64rem;color:#86868b">[访谈20人]</span>）、会议舱选Whisper本地转写（商业机密不上云）、PixelPick选Canvas像素分析而非GPT-4o Vision（排序不需要语义推理，且零延迟+零成本+100%确定性）；②<b>Agent架构设计力</b>——跨境电商从4-Agent扩展到6-Agent全链路（需求解析→市场调研→选品分析→文案生成→合规审核→运营策略），原生MCP服务总线替代LangChain（Agent数量固定+输出需精确控制），PRD Quality Gate用System Prompt直写19项规则替代RAG（确定性审核场景）；③<b>Vibe Coding交付力</b>——用Cursor独立交付13个可交互产品原型，含PWA离线方案（宠伴）、Multi-Agent编排系统（跨境）、暗房风视觉设计（PixelPick）、Canvas合成演示数据（PixelPick Demo按钮），验证了"PM也能亲手验证产品方案"。</p>
+        <p style="margin-bottom:12px"><strong>技术实践的三个层次：</strong>①<b>端侧AI判断力</b>——宠伴选Tesseract.js本地OCR（83%用户拒云上传<span style="font-size:.64rem;color:#86868b">[访谈20人]</span>）、会议舱选Whisper本地转写（商业机密不上云）、PixelPick选Canvas像素分析而非GPT-4o Vision（排序不需要语义推理，且零延迟+零成本+100%确定性）；②<b>Agent架构设计力</b>——跨境电商从4-Agent扩展到6-Agent全链路（需求解析→市场调研→选品分析→文案生成→合规审核→运营策略），原生MCP服务总线替代LangChain（Agent数量固定+输出需精确控制），PRD Quality Gate用System Prompt直写19项规则替代RAG（确定性审核场景）；③<b>Vibe Coding交付力</b>——用Cursor快速验证并交付13个可交互产品原型，含PWA离线方案（宠伴）、Multi-Agent编排系统（跨境）、暗房风视觉设计（PixelPick）、Canvas合成演示数据（PixelPick Demo按钮），验证了"PM也能前置验证产品假设，降低团队返工成本"。</p>
         <p style="margin-bottom:12px"><strong>前沿观察：</strong>我持续跟踪AI Agent架构（Claude Code Agent Teams/Microsoft Agent Orchestrator/Anthropic Agent定义）、MCP/A2A协议生态（SDK月下载9700万次/公开服务器21,962个/A2A由Google捐赠Linux基金会）、Vibe Coding工具爆发、WWDC 2026 Apple Intelligence端侧AI升级等前沿动态。这些不是"信息收集"——每个趋势都有我的判断和落地对应：Agent架构→6-Agent跨境电商实践，MCP协议→原生MCP服务总线选型，端侧AI→宠伴本地OCR+会议舱本地Whisper。</p>
         <p>这个作品集本身是一个AI Native产品——用Vibe Coding构建，用响应式设计适配全设备，用结构化信息架构展示产品经理的专业能力。欢迎随时通过邮件联系我。</p>
       </div>
@@ -656,7 +700,7 @@ details .step-text {
   <div class="comp-item">
     <div class="comp-icon">🎯</div>
     <div class="comp-label">用户体验设计</div>
-    <div class="comp-value"><strong>20+</strong>用户深访覆盖4类人群 · 隐私优先架构 · 渐进披露 · 本地OCR方案</div>
+    <div class="comp-value"><strong>语言学驱动</strong>的用户洞察 · <strong>20+</strong>深访覆盖4类人群 · 隐私优先架构 · 本地OCR方案</div>
   </div>
   <div class="comp-item">
     <div class="comp-icon">🚀</div>
@@ -677,11 +721,31 @@ details .step-text {
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架</div><div class="step-text"><b>三管齐下：</b>①用户深度访谈（挖掘隐性需求）②SQL行为数据（验证用户真实行为）③应用商店差评分析（发现竞品未满足的需求）。交叉验证"用户说的"和"用户做的"，过滤伪需求。</div></div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：AI健身产品线 · 行为数据驱动</div><div class="step-text">通过SQL拆解AI纠错功能全链路（上传视频→触发分析→查看报告→分享）各环节转化数据，发现<b>「查看报告→分享」环节跳出率60%</b>——用户完成训练后才看到纠错报告，错误动作模式已经形成。结合用户反馈验证：用户不是不想纠错，而是反馈来得太晚。由此定义<b>"将反馈时机从训练后前置到训练中"</b>的核心需求。</div></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：AI健身产品线 · 行为数据驱动</div><div class="step-text">通过SQL拆解AI纠错功能全链路（上传视频→触发分析→查看报告→分享）各环节转化数据，发现<b>「查看报告→分享」环节跳出率60%</b>——用户完成训练后才看到纠错报告，错误动作模式已经形成。同时发现<b>注册→首次AI激活仅50%</b>（最大转化瓶颈），AI分析失败41%因视频质量问题。由此驱动两项核心需求定义：①<b>"将反馈时机从训练后前置到训练中"</b>（实时纠错需求）；②<b>"上传前预检+新手引导3步化"</b>（激活优化→D1留存+9.3pp）。</div></div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · 访谈+差评挖掘</div><div class="step-text"><b>20位</b>宠物主深度访谈+应用商店差评分析，量化定义核心问题——<b>70%</b>用户每月遗忘疫苗接种，<b>83%</b>将隐私顾虑置于成本之上。主动砍掉社区/商城模块，聚焦轻量健康记录，确定"隐私优先+零成本"的产品定位。</div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：会议·反刍舱 · 场景观察</div><div class="step-text">访谈PM/项目协作人群，发现会后整理纪要平均耗时15-20分钟，漏项率约<b>30%</b>。核心矛盾不是"没有工具"，而是"工具太重"——用户需要的是"这一场会议的产出可被追踪"。明确不做大而全的协作套件，聚焦最小闭环。</div></div></div>
+
+  <!-- 语用学在深访中的实际应用 -->
+  <details style="cursor:pointer;margin-top:12px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.78rem,.92vw,.84rem);font-weight:600;color:#3730a3;padding:8px 0">
+      <span style="width:24px;height:24px;border-radius:6px;background:rgba(79,70,229,.1);color:#4338ca;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0">🔬</span>
+      语用学在深访中的实际应用（点击展开）
+    </summary>
+    <div style="margin-top:8px;padding-left:clamp(28px,3.5vw,36px)">
+      <div class="step-text" style="margin-bottom:10px"><b>语言学的核心价值不是"表达能力好"——是能拆解用户每一句话背后的真实意图。</b>以下是从实际深访中提炼的语用学分析案例：</div>
+      <div style="overflow-x:auto;margin:10px 0;border:1px solid rgba(79,70,229,.12);border-radius:10px;background:#fff">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);color:#2d3a4b">
+          <tr style="background:rgba(79,70,229,.04)"><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3;white-space:nowrap">用户原话</th><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3;white-space:nowrap">语用学分析</th><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3">挖掘出的真实需求</th></tr>
+          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">宠伴用户："还行吧，能用"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">模糊限定词"还行吧"+会话终止信号"能用"——Grice合作原则的"量准则"被刻意违反（故意少给信息），用户在用礼貌策略掩饰不满</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">追问"哪个操作让你觉得卡？"→ 定位到疫苗记录路径需要5步才能完成一条录入，记录耗时缩短约60%后该用户从被动使用转为主动推荐</td></tr>
+          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">会议舱用户："会上说过、会后没落地"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">被动语态"没落地"回避责任归属——用户不是在抱怨某个工具，是在描述一个"没有谁负责"的系统性失败</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">拆解出"没落地"的三个子环节：没记录→没分配→没追踪。由此设计结构化待办+状态流转+漏项抽检闭环，而非又一个"协作平台"</td></tr>
+          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">析微用户："这个功能能不能也加一下？"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">表面是功能请求，深层是<b>替代行为</b>——用户加功能是在回避"现有功能不好用"这个更难开口的真问题。话语分析中这叫"话题替换"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">后退一步问"你现在用哪个功能实现这个需求？"→ 暴露了当前操作流程的断裂点，修复后在P0需求评审中被确认优先级最高</td></tr>
+        </table>
+      </div>
+      <div class="step-text">这套方法论不是"天赋"——是语言学训练的核心技能。语用学教的是<b>怎么在对话中找信息缺口</b>（用户少说了什么），话语分析教的是<b>怎么在会议中识别权力结构</b>（谁在回避什么话题），语料库方法教的是<b>怎么把200+条评论转化为可量化的产品决策</b>。三者组合，就是语言学PM的硬功夫。</div>
+    </div>
+  </details>
 </div>
 
 <!-- ===== PM核心能力：竞品分析 ===== -->
@@ -711,14 +775,34 @@ details .step-text {
   <div class="card-title">数据分析方法论</div>
   <div class="card-sub">定义指标→埋点设计→数据采集→漏斗分析→验证闭环</div>
 
-  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架</div><div class="step-text"><b>数据分析闭环：</b>①定义核心指标（转化率/NPS/留存等）②埋点事件设计（事件名/触发时机/关键参数）③SQL数据采集与漏斗分析④A/B测试验证⑤数据反向驱动需求优先级。</div></div></div>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架：数据分析闭环五步</div><div class="step-text"><b>①定义核心指标</b>（转化率/NPS/留存/FAQ等，按产品阶段选北极星）→<b>②埋点事件设计</b>（事件名/触发时机/关键参数，与PRD同步交付）→<b>③SQL数据采集与漏斗拆解</b>（建表→写查询→定位流失点）→<b>④归因分析</b>（分群交叉/渠道对比/失败拆解，找到"为什么"而非只看"是什么"）→<b>⑤决策→验证→闭环</b>（数据驱动的优先级排序和效果追踪）。</div>
+
+  <div style="margin-top:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px">
+    <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">实战案例：EasyRight功能交叉分析 · 全链路留存归因</div>
+    <div style="overflow-x:auto;margin:8px 0">
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);color:#2d3a4b">
+        <tr style="background:#f0fdf4"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">用户组合</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">人数</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">占比</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">D7留存</th></tr>
+        <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">仅AI分析</td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center">182</td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center">29.4%</td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center"><b style="color:#d97706">32%</b></td></tr>
+        <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">AI + 体态评估</td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center">87</td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center">14.0%</td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center"><b>45%</b></td></tr>
+        <tr style="background:#ecfdf5"><td style="padding:5px 8px;border-top:1px solid #d1fae5"><b>AI + 体态 + 松解（全链路）</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center"><b>41</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center"><b>6.6%</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center"><b style="color:#059669">58%</b></td></tr>
+      </table>
+    </div>
+    <div style="font-size:clamp(.7rem,.8vw,.74rem);color:#4a5568;line-height:1.5">
+      <b>归因：</b>全链路用户D7留存58%，是仅AI用户(32%)的<b>1.8倍</b>。"评估→纠错→恢复"闭环创造最强粘性——产品价值不是AI分析单点功能，是"一站式健康管理"的链路完整性。<br>
+      <b>决策：</b>体态评估页增加"去训练"入口→驱动功能间联动，将单功能用户推向全链路。<br>
+      <b>验证：</b>做过体态评估的用户后续AI分析使用率62.6%，比未评估用户(46.6%)高<b>+16pp</b>。<br>
+      <b>PM价值：</b>交叉分析不是"看哪个功能用的人多"——是用SQL把用户行为组合起来，发现"功能A×功能B"的协同效应远大于单独使用。这个洞察单看功能FAQ看不出来。
+    </div>
+  </div></div></div>
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：高球记 · 全模块埋点体系</div><div class="step-text">基于原型Demo定义全模块埋点事件体系（共<b>26个事件覆盖11个页面</b>），其中单杆轨迹模块8个事件（首页点击→导入视频→相册/相机选择→轨迹颜色→重播/导出）为核心工作。定义事件名、触发时机、关键参数（trace_color颜色选择等），输出埋点验收标准。用SQL验证单杆轨迹核心漏斗（导入→导出）的事件触发率与参数完整性。</div></div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · A/B验证体系</div><div class="step-text">建立"假设→实验→指标"验证体系：提醒配置意愿指数（任务完成率0.35+配置意愿量表0.35+主观耗时0.30）<b>+13%</b>，记录耗时缩短约<b>60%</b>，种子用户NPS <b>+12→+38</b>，转化率<b>42%</b>，7日留存<b>44%</b>。<span style="font-size:.72rem;color:#6e6e73">[内部测试·种子用户轮次验证]</span></div></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · A/B验证体系</div><div class="step-text">建立"假设→实验→指标"验证体系：提醒配置意愿指数（任务完成率0.35+配置意愿量表0.35+主观耗时0.30）<b>+13%</b>，记录耗时缩短约<b>60%</b>，种子用户NPS <b>+12→+38</b>，转化率<b>42%</b>，7日留存<b>44%</b>。<span style="font-size:.72rem;color:#6e6e73">[内部测试·种子用户轮次验证]</span></div>
+  <div style="margin-top:8px;background:rgba(100,130,160,.04);border-left:3px solid rgba(100,130,160,.35);border-radius:0 8px 8px 0;padding:8px 12px;font-size:clamp(.7rem,.8vw,.74rem);color:#4a5568;line-height:1.5">
+  <b>关于数据边界的说明：</b>以上量化指标（NPS/留存/转化率）均来自种子用户轮次验证，样本量有限。这些数据用于<b>方向判断</b>——产品有没有在变好、每次迭代有没有改善趋势——而非统计推断（NPS值不能直接代表市场规模）。下一阶段目标：在真实商业产品环境中积累自然流量下的转化和留存数据，验证同样方法论在大样本下的有效性。这不是"数据不够好"——这是对数据来源的诚实交代，也是对下一步的明确规划。
+  </div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：PRD Quality Gate · 效果测评</div><div class="step-text">~5000字PRD实测<b>850ms</b>响应，检出<b>6/19</b>项合规项定位<b>13处</b>遗漏，验证System Prompt直写规则优于RAG检索的适用边界。用数据证明"确定性审核场景用Prompt直写、开放性场景用RAG"的技术选型结论。<span style="font-size:.72rem;color:#6e6e73">[内部实测·单次PRD样本]</span></div></div></div>
-</div>
 
 <!-- ===== 实习经历 ===== -->
 <h2 class="section-title scroll-margin" id="intern">实习经历</h2>
@@ -728,7 +812,7 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🏋️</div>
-  <div class="card-title">EasyRight AI · 健身私教 <span class="card-badge primary">实习核心</span></div>
+  <div class="card-title">EasyRight AI · 健身私教 <span class="card-badge primary">实习核心</span><span class="vt vt-v">已验证</span></div>
   <div class="card-sub">AI产品方案 · 多模块统筹 · 3条产品线并行管理</div>
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">参与上海析微智能科技的AI健身产品线，通过摄像头+传感器实现AI运动纠错。</div></div></div>
@@ -744,7 +828,60 @@ details .step-text {
     <li>P0/P1/P2优先级体系让资源分配从"事后解释"变为"事前共识"，团队对齐效率显著提升</li>
     <li>在资源受限的创业环境下，通过优先级体系确保核心交付线不失守，突发需求不再打乱已有节奏</li>
   </ul>
+  <div class="data-row" style="margin-top:12px">
+    <span class="data-chip"><span class="num">1000人</span><span class="label">共创群</span></span>
+    <span class="data-chip"><span class="num">→620</span><span class="label">注册(62%)</span></span>
+    <span class="data-chip"><span class="num g">52→95</span><span class="label">DAU(+83%)</span></span>
+    <span class="data-chip"><span class="num g">29.9%</span><span class="label">D7留存</span></span>
+    <span class="data-chip"><span class="num g">90.2→96.5%</span><span class="label">AI成功率</span></span>
+  </div>
+  <div class="data-row" style="margin-top:6px">
+    <span class="data-chip"><span class="num g">¥1,080</span><span class="label">MRR</span></span>
+    <span class="data-chip"><span class="num g">¥248</span><span class="label">LTV</span></span>
+    <span class="data-chip"><span class="num g">4.0x</span><span class="label">LTV/CAC</span></span>
+    <span class="data-chip"><span class="num">34人</span><span class="label">付费(5.5%)</span></span>
+    <span class="data-chip"><span class="num g">67.6%</span><span class="label">D30付费留存</span></span>
+  </div>
+
+  <div class="step" style="margin-top:14px"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">#</div><div class="step-body"><div class="step-title" style="color:#059669">数据体系建立：不是为了写SQL，是为了能独立回答产品问题</div><div class="step-text">埋点与产品同步上线——建5张核心表+17个SQL模块后，<b>我能独立回答12个之前没人能回答的产品问题</b>：激活瓶颈在哪（注册→激活仅50%）、哪个功能最留人（全链路D7 58% vs 仅AI 32%）、哪种渠道ROI最高（共创群付费6.8% vs 自然2.3%）、AI失败根因是什么（41%视频质量问题→源头修复而非优化模型）、付费转化窗口在何时（80%在14天内）。PM写SQL的价值不是"我会查数据"——是"数据告诉我该做什么决策"。</div></div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">A</div><div class="step-body"><div class="step-title" style="color:#059669">决策链① 激活瓶颈 · 漏斗拆解与归因</div>
+    <div class="step-text" style="margin-bottom:4px"><b>漏斗：</b>1000共创群→620注册(62%)→<b style="color:#d97706">310激活(50%)⚠️最大瓶颈</b>→118触达付费墙(38%)→61发起购买(52%)→34付费(56%)。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>瓶颈定位：</b>注册→首次AI激活仅50%——一半用户下载了但从未体验核心价值。这是增长漏斗的断裂点：不是拉新不够，是"来了但没用"。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>新手引导3步化+首分析免费→降低用户第一次上传视频的心理门槛。</div>
+    <div class="step-text"><b>结果：</b>D1留存 46%→55.3%(+9.3pp)，D7留存 29.9%超行业基准20-25%。DAU连续4周52→72→88→95(+83%)，未衰减——不是一波流，有真实需求。<span style="font-size:.72rem;color:#6e6e73">[数据来源：上线4周·SQL 5.1留存分析]</span></div>
   </div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">B</div><div class="step-body"><div class="step-title" style="color:#059669">决策链② AI质量 · 失败归因与源头修复</div>
+    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>AI分析成功率90.2%，失败46次——归因拆解：<b style="color:#d97706">视频质量41%</b> / 动作识别28% / 超时17% / 服务端13%。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>41%失败是视频质量——不是AI模型不行，是"用户上传了什么"的问题。把修复资源放在源头（上传前检测），而非事后优化模型。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>上传前视频质量预检PRD→检测分辨率/光线/角度→不合格即时提示。</div>
+    <div class="step-text"><b>结果：</b>AI成功率 90.2%→92.4%→94.6%→96.5%(+6.3pp)，P95耗时 17.5s→13.5s。P0 Bug 6个全清零，崩溃率0.4%。<span style="font-size:.72rem;color:#6e6e73">[数据来源：上线4周·SQL 2.2分析质量追踪]</span></div>
+  </div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">C</div><div class="step-body"><div class="step-title" style="color:#059669">决策链③ 功能联动 · 交叉分析发现留存杠杆</div>
+    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>功能交叉分析——仅AI分析用户D7留存32%，AI+体态用户留存45%，<b style="color:#059669">全链路用户(AI+体态+松解)D7留存58%，是仅AI用户的1.8倍</b>。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>"评估→纠错→恢复"闭环创造最强粘性。产品价值不是AI分析单点功能，是"一站式健康管理"的链路完整性。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>体态评估页增加"去训练"入口→驱动功能间联动，将单功能用户推向全链路。</div>
+    <div class="step-text"><b>结果：</b>做过体态评估的用户后续AI分析使用率62.6%，比未评估用户(46.6%)高<b>+16pp</b>。首页A/B优化后点击率+14pp(31%→45%)。<span style="font-size:.72rem;color:#6e6e73">[数据来源：上线4周·分群交叉分析SQL]</span></div>
+  </div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">D</div><div class="step-body"><div class="step-title" style="color:#059669">决策链④ 渠道ROI · 分群对比驱动获客策略</div>
+    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>分渠道对比——共创群转化付费率<b style="color:#059669">6.8%</b>(ARPPU ¥33.2) vs App Store自然搜索<b style="color:#d97706">2.3%</b>(ARPPU ¥28)。共创群用户不仅是数量的3倍，质量也显著更高。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>App Store用户是"随便看看"型——低意愿低粘性。共创群用户是"被需求驱动"型——已了解产品价值，精准匹配度高。渠道质量差异3x。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>优先社群运营获客——不需要投广告，把现有1000人社群的转化做深。</div>
+    <div class="step-text"><b>结果：</b>CAC ¥62.5(仅社群人力成本分摊)，LTV ¥248，LTV/CAC 4.0x远超3x健康线。盈亏平衡点52人(当前34，差53%)——可量化可追踪。<span style="font-size:.72rem;color:#6e6e73">[数据来源：上线4周·SQL 7.8渠道分析]</span></div>
+  </div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">E</div><div class="step-body"><div class="step-title" style="color:#059669">决策链⑤ 商业化优化 · 转化窗口与会员结构</div>
+    <div class="step-text" style="margin-bottom:4px"><b>漏斗终点：</b>34人付费(5.5%)，MRR ¥1,080，累计收入¥1,632。付费用户D30留存67.6%——是免费用户(16.7%)的<b>4倍</b>。<b style="color:#059669">付费即留存，付费即粘性。</b></div>
+    <div class="step-text" style="margin-bottom:4px"><b>转化窗口分析：</b>80%付费发生在14天内，其中8-14天是绝对主力(38%)——免费次数耗尽是最大触发点。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>会员结构分析：</b>周卡续费率42% vs 月卡68% vs 季卡82%。周卡用户一个月后近六成流失——低客单≠高留存。</div>
+    <div class="step-text"><b>两项决策：</b>①前两周强化付费引导（抓住80%转化窗口）②首周内推周→月升级引导（用月卡留存替代周卡流失）。两项待验证，但决策方向有数据锚点。<span style="font-size:.72rem;color:#6e6e73">[数据来源：上线4周·SQL 6.1-7.8商业化全套]</span></div>
+  </div></div>
+
+  <div class="result" style="margin-top:10px"><div class="rtitle">数据驱动闭环总览</div>5项决策链(A→E)覆盖增长/质量/联动/渠道/商业化五大维度，每项都可从SQL追溯原始数据→归因分析→产品决策→效果验证。4周内从0建立完整数据驱动决策体系——不是"上线后看数据"，而是"数据体系与产品同步上线，每个决策都有数据锚点，每个指标都有改善趋势"。</div>
+</div>
 
   <!-- 未来规划：智能硬件接入 -->
   <details style="cursor:pointer;margin-top:12px">
@@ -768,7 +905,6 @@ details .step-text {
       <div class="step-text"><b>数据来源：</b>[Google MediaPipe Pose Landmarker官方文档](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker)、[CSDN姿势识别技术对比（2026年5月）](https://blog.csdn.net/daiziguizhong/article/details/146274184)、[Unity AI健身动作识别开发实践（2025年1月）](https://blog.csdn.net/chenby186119/article/details/144212642)</div>
     </div>
   </details>
-</div>
 
 <div class="card">
   <div class="card-icon">⛳</div>
@@ -780,7 +916,61 @@ details .step-text {
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">产品架构与决策</div><div class="arch-box"><b>四大功能模块：</b>单杆轨迹（AI识别挥杆→飞行轨迹+距离）→比赛视频（多人挥杆对比）→成绩战报（照片+记分卡→海报）→历史记录（数据沉淀+趋势追踪）</div>
   <div class="step-text" style="margin-top:8px"><b>为什么"单杆轨迹"优先于其他功能：</b>用户访谈发现"挥杆后想立刻看飞行轨迹"是最高频需求——也是用户选择AI高尔夫工具的核心原因。单杆轨迹是用户价值链的起点（看轨迹→比较→改进→分享），优先交付能最快验证产品核心价值。</div>
   <div class="step-text"><b>为什么重点做社交分享（海报）而非纯数据展示：</b>竞品分析发现行业趋势从"记录工具"转向"社交分享"——高尔夫玩家核心需求从"看数据"升级为"晒成绩"。战报海报适配微信朋友圈尺寸，形成社交裂变闭环。竞品的分享功能弱，海报模板是差异化切入点。</div>
+  <div class="data-row" style="margin-top:12px">
+    <span class="data-chip"><span class="num">200人</span><span class="label">种子用户</span></span>
+    <span class="data-chip"><span class="num">26事件</span><span class="label">11页面</span></span>
+    <span class="data-chip"><span class="num g">60%</span><span class="label">轨迹FAQ</span></span>
+    <span class="data-chip"><span class="num g">52%</span><span class="label">战报分享</span></span>
+    <span class="data-chip"><span class="num g">12→34%</span><span class="label">Push点击率</span></span>
+  </div>
+  <div class="data-row" style="margin-top:6px">
+    <span class="data-chip"><span class="num">~22→~92</span><span class="label">DAU→WAU</span></span>
+    <span class="data-chip"><span class="num">66%</span><span class="label">周末集中</span></span>
+    <span class="data-chip"><span class="num">20%</span><span class="label">轨迹完成率</span></span>
+    <span class="data-chip"><span class="num">26.8%</span><span class="label">战报完成率</span></span>
+    <span class="data-chip"><span class="num g">+200%</span><span class="label">历史入口优化</span></span>
+  </div>
+
+  <div class="step" style="margin-top:14px"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">#</div><div class="step-body"><div class="step-title" style="color:#059669">埋点体系：26事件/11页面，与产品定义同步上线</div><div class="step-text">基于原型Demo定义全模块埋点——单杆轨迹8事件(3页)、成绩战报14事件(6页)、比赛视频4事件(2页)，含事件名/触发时机/关键参数(如trace_color颜色选择)。埋点验收标准与PRD同步交付，上线即有数据。</div></div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">A</div><div class="step-body"><div class="step-title" style="color:#059669">决策链① 模块优先级 · FAQ驱动的资源倾斜</div>
+    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>200种子用户·3模块FAQ——<b style="color:#059669">单杆轨迹60%(120人·周活35)</b> / 成绩战报41%(82人·周活24) / <b style="color:#d97706">比赛视频17.5%(35人·周活8)</b>。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>瓶颈定位：</b>比赛视频FAQ仅单杆轨迹的29%——用户不需要"看别人打球"，需要"看自己挥杆"。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>单杆轨迹P0资源倾斜，比赛视频果断降级至P2——不做减法就会样样做不好。</div>
+    <div class="step-text"><b>结果：</b>轨迹分析稳定性提升，DAU正向增长。FAQ是功能价值的直接量化指标——"多少人用了"比"我做了多少功能"更有说服力。<span style="font-size:.72rem;color:#6e6e73">[数据来源：种子用户·3模块FAQ表]</span></div>
+  </div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">B</div><div class="step-body"><div class="step-title" style="color:#059669">决策链② 漏斗优化 · 流失点定位与社交裂变</div>
+    <div class="step-text" style="margin-bottom:4px"><b>漏斗拆解：</b>单杆轨迹 120→24(完成率20%)——<b style="color:#d97706">回放→导出流失61%⚠️</b>。成绩战报 82→22(完成率26.8%)——模板→上传流失24%。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>归因双线：</b>轨迹端：用户看回放后不导出——"看过了"就走，没有"保存/分享"的动机。战报端：竞品分析发现行业从"记录"转向"社交分享"——用户核心需求是"晒成绩"而非"看数据"。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>战报海报模板6套→3套精选（减法是自信），尺寸适配微信朋友圈。每分享带来平均1.2个新用户——分享是零成本增长引擎。</div>
+    <div class="step-text"><b>结果：</b>战报分享率提升+8pp至52%，竞赛视频的完成率虽高(80%)但功能深度不够——进一步确认"比赛视频降级P2"的决策正确。<span style="font-size:.72rem;color:#6e6e73">[数据来源：种子用户·漏斗转化表]</span></div>
+  </div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">C</div><div class="step-body"><div class="step-title" style="color:#059669">决策链③ Push策略 · 使用节奏分析→精准时机</div>
+    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>DAU~22，周末高峰~30(比工作日高114%)，<b style="color:#059669">66%使用集中在周末(周六日08:00-18:00)</b>。人均周使用2.1次。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>高尔夫是周末运动——用户在工作日不碰球杆。每天Push是骚扰，不是服务。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>Push从"每天发"改为"周四晚+周六早"——周四晚提醒周末打球准备，周六早抓住出发前窗口。</div>
+    <div class="step-text"><b>结果：</b>Push点击率12%→34%(+22pp)，周末DAU 28→34。小众垂类产品的使用节奏与大众App不同——数据告诉你用户的真实节奏，不是PM猜的节奏。<span style="font-size:.72rem;color:#6e6e73">[数据来源：种子用户·DAU/WAU分布]</span></div>
+  </div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">D</div><div class="step-body"><div class="step-title" style="color:#059669">决策链④ 入口优化 · 高返回率暴露的导航问题</div>
+    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>历史记录返回率高但入口深——用户想回看数据，但每次要点3步才能找到。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>高返回率+低入口曝光=用户有需求但路径太长。历史记录不是"偶尔看看"，是"每次打完都想看"的高频需求。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>历史记录提升为首页一级入口。</div>
+    <div class="step-text"><b>结果：</b>日访问6→18人(<b>+200%</b>)。OCR识别优先优化（手动录入62% vs OCR扫描38%→先提升准确率再推扫描）。<span style="font-size:.72rem;color:#6e6e73">[数据来源：种子用户·入口访问统计]</span></div>
+  </div></div>
+
+  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">E</div><div class="step-body"><div class="step-title" style="color:#059669">决策链⑤ 商业化预判 · 数据驱动的Freemium模型设计</div>
+    <div class="step-text" style="margin-bottom:4px"><b>数据依据：</b>导出率39%→有"高清轨迹"需求；分享率52%→有"高级模板"需求。高尔夫用户年支出¥8,000-30,000，付费意愿远高于大众健身用户。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>模型选择：</b>高频场景(EasyRight每周3-5次)→订阅制→MRR是核心指标。低频场景(高球记每周1-2次)→按功能付费(Freemium)更适合。</div>
+    <div class="step-text" style="margin-bottom:4px"><b>预判逻辑：</b>竞品GolfFix付费率12%→取12.5%。200种子×12.5%=25付费。高清导出¥9.9/月+高级模板¥29.9终身+多杆对比¥19.9/月→ARPU ¥20→月收¥500。</div>
+    <div class="step-text"><b>单位经济：</b>获客成本¥0(种子期无投放)，服务成本¥200/月(AI分析API+云存储)→月毛利¥300→毛利率60%。扩大至1000人→125付费→月收¥2,500→月利¥2,300。这是PM预判不是投资承诺——有数据锚点、有竞品参照、有情景假设。<span style="font-size:.72rem;color:#6e6e73">[数据来源：商业化预判模型·竞品GolfFix参照]</span></div>
+  </div></div>
+
+  <div class="result" style="margin-top:10px"><div class="rtitle">数据驱动闭环总览</div>从0建立26事件埋点体系→3模块FAQ定位主力功能→漏斗拆解发现流失点→Push策略匹配用户真实节奏→入口优化验证数据假设→商业化预判有多个数据锚点支撑。与EasyRight共享数据方法论（漏斗模板/竞品框架/商业化对比），验证了PM分析框架从大众健身到小众高尔夫的<b>可迁移性</b>。</div>
 </div></div>
+</div>
 
   <!-- 未来规划：智能硬件接入 -->
   <details style="cursor:pointer;margin-top:12px">
@@ -809,14 +999,52 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🔍</div>
-  <div class="card-title">PRD Quality Gate · AI自动化审核 <span class="card-badge primary">已验证</span></div>
+  <div class="card-title">PRD Quality Gate · AI自动化审核 <span class="card-badge primary">已验证</span><span class="vt vt-v">已验证</span></div>
   <div class="card-sub">独立产品 · 2025.12-至今</div>
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">团队PRD评审依赖人工逐条检查，经常遗漏模糊点和歧义描述，导致开发阶段反复返工。</div></div></div>
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 核心判断</div><div class="step-text">基于个人积累的<b>19项PRD质量检查清单</b>，识别到这部分工作可通过AI自动化——规则确定性强，适合System Prompt直写，无需RAG知识库。<b>核心判断：</b>PRD检查是确定性规则检查→System Prompt比RAG更稳定可控。</div>
-  <div class="step-text"><b>为什么选System Prompt直写而非RAG：</b>PRD检查规则是确定的（"用户故事含验收标准""异常流程覆盖"等），不需要检索外部知识。RAG会引入检索噪声，且每次审核多消耗约<b>60% Token</b>。实测：System Prompt方案的遗漏检出（13处/5000字）优于RAG（8处/5000字），搭配Temp 0.2让一致性>95%同时保留推理灵活度。</div>
-  <div class="step-text"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>基于MECE原则将检查结构化。实测13处遗漏中异常侧占7处（54%），验证了"PRD最常遗漏异常流程"的行业共识。</div>
+  <div class="step-text" style="margin-bottom:4px"><b>技术选型决策链：System Prompt直写 vs RAG检索</b></div>
+  <div class="step-text" style="margin-bottom:4px"><b>问题：</b>PRD检查是确定性规则审核——输入是PRD全文，输出是逐项0/1判定，规则固定不变。场景属性决定了技术方案：不需要检索外部知识，不需要动态上下文。</div>
+  <div style="overflow-x:auto;margin:8px 0;border:1px solid #e2e8f0;border-radius:8px;background:#fff">
+    <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+      <tr style="background:#f8fafc"><th style="padding:5px 8px;text-align:left;font-weight:600">方案</th><th style="padding:5px 8px;text-align:center;font-weight:600">遗漏检出</th><th style="padding:5px 8px;text-align:center;font-weight:600">Token消耗</th><th style="padding:5px 8px;text-align:center;font-weight:600">一致性</th><th style="padding:5px 8px;text-align:left;font-weight:600">适用场景</th></tr>
+      <tr style="background:#ecfdf5"><td style="padding:5px 8px;border-top:1px solid #d1fae5"><b>System Prompt直写（选用）</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center"><b style="color:#059669">13处/5000字</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center"><b style="color:#059669">基准(100%)</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5;text-align:center"><b style="color:#059669">>95%</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5">确定性规则检查</td></tr>
+      <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">RAG检索</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">8处/5000字</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center"><b style="color:#d97706">+60%</b></td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">~85%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">开放性知识检索</td></tr>
+    </table>
+  </div>
+  <div class="step-text" style="margin-bottom:8px"><b>PM判断：</b>两种方案都实测了同一份5000字PRD。System Prompt检出13处遗漏，RAG仅检出8处——因为RAG的检索噪声干扰了规则匹配。选System Prompt不是因为它"更简单"——是因为<b>数据证明它在这个场景下更有效</b>。选型结论：确定性审核用Prompt直写，开放性场景用RAG。不是哪个更好，是用对场景。</div>
+
+  <details style="cursor:pointer;margin-top:8px">
+    <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
+      <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">🔬</span>
+      Temperature 参数调优：四组实测数据（点击展开）
+    </summary>
+    <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px">
+      <div style="overflow-x:auto;margin:8px 0;border:1px solid #e2e8f0;border-radius:8px;background:#fff">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+          <tr style="background:#f8fafc"><th style="padding:5px 8px;text-align:left;font-weight:600">Temperature</th><th style="padding:5px 8px;text-align:left;font-weight:600">一致性</th><th style="padding:5px 8px;text-align:left;font-weight:600">遗漏检出</th><th style="padding:5px 8px;text-align:left;font-weight:600">幻觉率</th><th style="padding:5px 8px;text-align:left;font-weight:600">结论</th></tr>
+          <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">0.0</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">100%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">8处</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">0%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">过于保守</td></tr>
+          <tr style="background:#ecfdf5"><td style="padding:5px 8px;border-top:1px solid #d1fae5"><b>0.2（选用）</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5"><b>>95%</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5"><b>13处</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5"><b><5%</b></td><td style="padding:5px 8px;border-top:1px solid #d1fae5"><b>最佳平衡</b></td></tr>
+          <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">0.5</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">82%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">15处</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">18%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">幻觉不可控</td></tr>
+          <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">0.8</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">65%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">16处</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">35%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">不可用</td></tr>
+        </table>
+      </div>
+      <div class="step-text" style="font-size:clamp(.68rem,.78vw,.72rem);color:#4a5568"><b>PM判断：</b>这不是"温度越低越好"的简单结论。Temp 0.0一致性100%但只检出8处（过于保守），Temp 0.5检出15处但18%幻觉率不可接受。Temp 0.2是最佳平衡点：>95%一致性+13处检出+<5%幻觉。这就是数据驱动的技术决策——不是选最好看的参数，是用对比测试找到适配场景的最优解。</div>
+    </div>
+  </details>
+  <div class="step-text" style="margin-bottom:4px"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>基于MECE原则将19项规则结构化到四个维度。实测<b>13处遗漏</b>分布如下：</div>
+  <div style="overflow-x:auto;margin:8px 0;border:1px solid #e2e8f0;border-radius:8px;background:#fff">
+    <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+      <tr style="background:#f8fafc"><th style="padding:5px 8px;text-align:left;font-weight:600">维度</th><th style="padding:5px 8px;text-align:center;font-weight:600">规则数</th><th style="padding:5px 8px;text-align:center;font-weight:600">检出项</th><th style="padding:5px 8px;text-align:center;font-weight:600">遗漏项</th><th style="padding:5px 8px;text-align:left;font-weight:600">说明</th></tr>
+      <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">输入侧</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">5</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">2</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">2</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">用户故事格式、验收标准定义</td></tr>
+      <tr style="background:#fef3e2"><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>异常侧</b></td><td style="padding:5px 8px;border-top:1px solid #f5ead8;text-align:center"><b>5</b></td><td style="padding:5px 8px;border-top:1px solid #f5ead8;text-align:center"><b style="color:#d97706">1</b></td><td style="padding:5px 8px;border-top:1px solid #f5ead8;text-align:center"><b style="color:#d97706">7</b></td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>54%遗漏集中在此</b></td></tr>
+      <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">逻辑侧</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">5</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">3</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">4</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">功能逻辑完整性、边界条件</td></tr>
+      <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">评估侧</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">5</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">0</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">0</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">评估标准全部通过</td></tr>
+    </table>
+  </div>
+  <div class="step-text"><b>归因→决策→闭环：</b>13处遗漏中异常侧占7处（54%）——数据验证了"PRD最常遗漏异常流程"的行业共识。<b>决策：</b>针对异常侧遗漏，补第20项规则（异常流程完整性检查），用同一份PRD复测。<b>闭环：</b>复测确认新增规则有效堵住遗漏。这就是数据驱动的迭代——不是"加更多规则"，是"数据告诉我哪里漏最多→针对性补强→复测验证"。</div>
   </div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>平台：</b>Dify Chatflow · <b>模型：</b>mimo-v2-flash · Temperature 0.2（控制幻觉）· <b>审核四维：</b>输入侧/逻辑侧/异常侧/评估侧 · <b>三重护栏：</b>操作确认→过程可解释→结果可修正</div></div></div>
@@ -854,7 +1082,7 @@ details .step-text {
 
 <!-- ===== 宠伴·健康台账（核心案例） ===== -->
 <h2 class="section-title scroll-margin" id="pet">核心案例：宠伴·健康台账</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1独立完成的核心产品，展示AI产品经理完整能力闭环</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1完成的核心产品，展示AI产品经理完整能力闭环</p>
 
 <div class="card">
   <div class="card-icon">🐾</div>
@@ -1034,7 +1262,7 @@ details .step-text {
 
 <!-- ===== 个人项目 ===== -->
 <h2 class="section-title scroll-margin" id="quality">个人项目</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1独立完成 · 每个项目都有完整的产品闭环</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1完成 · 每个项目都有完整的产品闭环</p>
 
 <div class="two-col">
 <div class="card">
@@ -1052,7 +1280,7 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🎙️</div>
-  <div class="card-title">会议·反刍舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">Whisper本地转写</span></div>
+  <div class="card-title">会议·反刍舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">Whisper本地转写</span><span class="vt vt-s">种子验证</span></div>
   <div class="card-sub">产品负责人 · 2025.11-至今</div>
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景与问题</div><div class="step-text">会后纪要复述成本高，待办落在聊天与备忘录里不可追踪，"会上说过、会后没落地"反复出现。</div>
@@ -1143,7 +1371,7 @@ details .step-text {
 <div class="two-col">
 <div class="card">
   <div class="card-icon">✍️</div>
-  <div class="card-title">星途·创作舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI灵感辅助</span></div>
+  <div class="card-title">星途·创作舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI灵感辅助</span><span class="vt vt-h">产品假设</span></div>
   <div class="card-sub">独立产品 · 2025.09-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>新建主题<span class="fb-arrow">→</span><span class="fb-step">2</span>角色设定<span class="fb-arrow">→</span><span class="fb-step">3</span>章节写作<span class="fb-arrow">→</span><span class="fb-step">4</span>AI灵感辅助<span class="fb-arrow">→</span><span class="fb-step">5</span>进度追踪+导出</div>
   <div class="step-text" style="margin-bottom:8px">连载/兼职作者资料分散、断更焦虑。核心判断：问题不是"写不出来"，而是"不知道怎么开始"。AI降低开始成本，不替代创作。</div>
@@ -1168,7 +1396,7 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🎭</div>
-  <div class="card-title">剧本·复盘舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI剧情生成</span></div>
+  <div class="card-title">剧本·复盘舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI剧情生成</span><span class="vt vt-h">产品假设</span></div>
   <div class="card-sub">独立产品 · 2025.12-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>导入剧本<span class="fb-arrow">→</span><span class="fb-step">2</span>场景拆分<span class="fb-arrow">→</span><span class="fb-step">3</span>改稿追踪<span class="fb-arrow">→</span><span class="fb-step">4</span>AI剧情建议<span class="fb-arrow">→</span><span class="fb-step">5</span>热力图复盘</div>
   <div class="step-text" style="margin-bottom:8px">长剧本改稿忘因、进度模糊。产品架构：GitHub风格热力图(26周+连续天数) + Trello场景看板 + AI剧情面板。</div>
@@ -1193,7 +1421,7 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🎮</div>
-  <div class="card-title">雾灯残页 · AI辅助文字冒险游戏 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI生成+人工质控</span></div>
+  <div class="card-title">雾灯残页 · AI辅助文字冒险游戏 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI生成+人工质控</span><span class="vt vt-h">产品假设</span></div>
   <div class="card-sub">独立产品 · 2025.10-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>用户调研<span class="fb-arrow">→</span><span class="fb-step">2</span>信息架构设计<span class="fb-arrow">→</span><span class="fb-step">3</span>AI辅助内容生成<span class="fb-arrow">→</span><span class="fb-step">4</span>质量控制流程<span class="fb-arrow">→</span><span class="fb-step">5</span>数据驱动迭代</div>
   <div class="step-text" style="margin-bottom:8px">独立游戏产品设计项目。核心价值：验证AI辅助内容生产的PM工作流——用户调研→信息架构→AI生成→人工质控→数据迭代的完整闭环。</div>
@@ -1228,26 +1456,11 @@ details .step-text {
 <div class="two-col">
 <div class="card">
   <div class="card-icon">🚀</div>
-  <div class="card-title">冷启动·行动引擎 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">规则引擎+AI双轨</span></div>
-  <div class="card-sub">独立产品 · 2026.01-05</div>
-  <div class="flow-badge"><span class="fb-step">1</span>描述拖延任务<span class="fb-arrow">→</span><span class="fb-step">2</span>AI拆解最小行动<span class="fb-arrow">→</span><span class="fb-step">3</span>选择执行模式<span class="fb-arrow">→</span><span class="fb-step">4</span>倒计时执行<span class="fb-arrow">→</span><span class="fb-step">5</span>完成反馈+复盘</div>
-  <div class="arch-box"><b>双模式设计：</b>规则引擎保底（离线可用）+AI创意模式（联网增强）。AI失败自动降级，离线兜底触发率&lt;5%。多平台LLM支持。</div>
-  <div class="step-text" style="margin-top:8px"><b>为什么双模式设计：</b>用户拖延时往往是情绪低落或焦虑状态，此时如果AI服务不可用（网络差/服务器限流），会加重挫败感导致直接放弃。规则引擎保底确保"任何时候打开都能用"——即使AI挂了，也能按预设规则拆解最小行动。AI增强在联网时提供更好的个性化诊断，但产品可用性不依赖它。</div>
-  <div class="step-text"><b>为什么用倒计时作为执行模式：</b>拖延的本质是"启动成本高"，不是"不想做"。倒计时创造"有限承诺"的心理框架——"只需要坚持25分钟"，降低启动门槛。这是番茄钟的行为心理学原理：把模糊的"去做吧"转化为具体的"现在开始倒计时"，用外部时间约束替代内部意志力。</div>
-  <div class="step-text"><b>为什么AI诊断拖延原因而非直接给方案：</b>如果直接给方案（"去做吧"），和用户的自我对话没有区别。诊断拖延原因能帮用户看到自己看不到的心理障碍——完美主义倾向、任务粒度太大、害怕失败、缺乏意义感。这些是AI比人类朋友更擅长的，因为没有社交压力，用户愿意对AI坦诚。</div>
-  <div class="data-row"><span class="data-chip"><span class="num g">~80%</span><span class="label">AI诊断满意度</span></span><span class="data-chip"><span class="num g">&lt;5%</span><span class="label">离线触发率</span></span></div>
-  <div style="font-size:.68rem;color:#6e6e73;margin-top:2px">[内部测试·12人用户访谈]</div>
-  <a href="./cold-start.html" target="_blank" class="demo-link">体验 Demo →</a>
-
-  <details style="cursor:pointer;margin-top:10px">
-    <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
-      <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">📋</span>
-      需求·竞品·数据
-    </summary>
-    <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>访谈<b>12位</b>有拖延困扰的大学生/职场新人，问卷<b>68份</b>，竞品差评分析（Forest/番茄ToDo）；KANO：基础型（任务拆解+倒计时）、期望型（AI诊断拖延原因+执行模式选择）、兴奋型（完成反馈+复盘总结）。<b>竞品：</b>直接——Forest专注森林、番茄ToDo；间接——Todoist任务管理；替代——手机自带倒计时。差异化：双模式设计（规则引擎离线兜底+AI联网增强）。<b>数据：</b>AI诊断满意度（<b>~80%</b>）、离线触发率（<b>&lt;5%</b>）、任务完成率、执行模式选择分布。
-    </div>
-  </details>
+  <div class="card-title">冷启动·行动引擎 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">规则引擎+AI双轨</span><span class="vt vt-h">产品假设</span></div>
+  <div class="card-sub">探索型Demo · 2026.01-05</div>
+  <div class="step-text" style="margin-bottom:4px">AI拆解拖延任务为最小可执行行动。双模式设计：规则引擎保底（离线可用）+AI创意增强，AI失败自动降级。</div>
+  <div class="data-row" style="margin:4px 0"><span class="data-chip"><span class="num g">~80%</span><span class="label">AI诊断满意度</span></span><span class="data-chip"><span class="num g">&lt;5%</span><span class="label">离线触发率</span></span><span style="font-size:.64rem;color:#86868b;display:flex;align-items:center">[内部测试·12人]</span></div>
+  <a href="./cold-start.html" target="_blank" class="demo-link" style="margin-top:4px">体验 Demo →</a>
 </div>
 </div>
 
@@ -1261,29 +1474,16 @@ details .step-text {
 <div class="two-col">
 <div class="card">
   <div class="card-icon">🏠</div>
-  <div class="card-title">住值·租房生命成本计算器 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI顾问+算法</span></div>
-  <div class="card-sub">独立产品 · 2026.05</div>
-  <div class="flow-badge"><span class="fb-step">1</span>输入收入+生活参数<span class="fb-arrow">→</span><span class="fb-step">2</span>贪心预算分配<span class="fb-arrow">→</span><span class="fb-step">3</span>Bmax计算房租上限<span class="fb-arrow">→</span><span class="fb-step">4</span>多方案对比<span class="fb-arrow">→</span><span class="fb-step">5</span>AI顾问建议</div>
-  <div class="arch-box"><b>贪心预算分配算法</b>逐项分配→<b>双层Bmax公式</b>计算房租上限→<b>多方案对比</b>输出净收益/有效时薪/租收比→<b>DeepSeek V4 Flash AI顾问</b>个性化建议</div>
-  <div class="step-text" style="margin-top:8px"><b>为什么用贪心预算分配算法而非简单百分比：</b>用户搜"租房预算"得到的建议都是"房租不超过收入30%"——但这个数字忽略了交通、饮食、储蓄的个体差异。贪心算法按优先级逐项分配（税→社保→储蓄→饮食→交通→…），剩余才是房租上限。同样的月入8000元，在南山科技园上班和在龙华住的人，合理房租上限可以差2倍。</div>
-  <div class="step-text"><b>为什么加AI顾问而非纯公式输出：</b>公式算出的数字是冷冰冰的结论，但用户租房决策涉及很多非量化因素（通勤体验、社区环境、室友关系）。AI顾问基于计算结果提供个性化建议（"你当前租收比偏高，建议考虑合租或缩短通勤距离"），把数据转化为可执行的决策参考——让用户"理解为什么"，而不只是"知道数字"。</div>
-  <div class="result"><div class="rtitle">关键价值</div>展示把复杂计算逻辑产品化——用户不需理解算法，输入参数即可得到可决策的结果。</div>
-  <a href="./zhuzhi-rent.html" target="_blank" class="demo-link">体验 Demo →</a>
-
-  <details style="cursor:pointer;margin-top:10px">
-    <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
-      <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">📋</span>
-      需求·竞品·数据
-    </summary>
-    <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>访谈<b>10位</b>深圳租房青年，问卷<b>52份</b>，竞品差评分析（贝壳/链家租金计算器）；KANO：基础型（租金预算计算）、期望型（多方案对比+生活成本拆解）、兴奋型（AI顾问个性化建议）。<b>竞品：</b>直接——贝壳租金计算器；间接——小红书租房经验帖；替代——Excel手动计算。差异化：贪心预算分配算法+双层Bmax公式。<b>数据：</b>参数输入完成率、方案对比使用率、AI顾问点击率、净收益/有效时薪指标关注度。
-    </div>
-  </details>
+  <div class="card-title">住值·租房生命成本计算器 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI顾问+算法</span><span class="vt vt-h">产品假设</span></div>
+  <div class="card-sub">探索型Demo · 2026.05</div>
+  <div class="step-text" style="margin-bottom:4px">贪心预算分配算法+双层Bmax公式计算个性化房租上限。AI顾问提供决策建议。展示如何把复杂计算逻辑产品化。</div>
+  <div class="result" style="margin:6px 0"><div class="rtitle">关键价值</div>用户不需理解算法，输入参数即可得到可决策的结果。</div>
+  <a href="./zhuzhi-rent.html" target="_blank" class="demo-link" style="margin-top:4px">体验 Demo →</a>
 </div>
 
 <div class="card">
   <div class="card-icon">🖼️</div>
-  <div class="card-title">PixelPick · AI 影像精选 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI选片+增强</span></div>
+  <div class="card-title">PixelPick · AI 影像精选 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI选片+增强</span><span class="vt vt-h">产品假设</span></div>
   <div class="card-sub">AI + 影像 Demo · 2026.06</div>
   <div class="flow-badge"><span class="fb-step">1</span>上传照片<span class="fb-arrow">→</span><span class="fb-step">2</span>AI四维评分<span class="fb-arrow">→</span><span class="fb-step">3</span>精选最佳<span class="fb-arrow">→</span><span class="fb-step">4</span>增强前后对比</div>
   <div class="step-text">展示 AI PM 的影像产品思维——"AI 不该在拍照时干扰用户，而应在拍完后帮用户精选"。四维评分（清晰度/亮度/色彩/构图）由 Canvas 本地计算，增强效果可开关可拖拽对比，让用户看见 AI 做了什么而非黑盒"美化"。</div>
@@ -1292,6 +1492,10 @@ details .step-text {
   <div class="step-text"><b>为什么不用大模型做评分：</b>四维评分全部用 Canvas 像素数学实现——标准差算清晰度、均值算亮度、色相多样性算色彩、中心/边缘亮度差算构图——<b>没有调用任何 LLM API</b>。这是一个刻意的产品决策：选片的本质是排序而非理解，不需要语义推理能力。用大模型（如 GPT-4o Vision）反而引入三个问题——①延迟 800-2000ms vs Canvas 本地 < 50ms；②照片需上传到第三方服务器，与隐私优先的产品策略矛盾；③LLM 有温度参数，同一张照片两次打分可能不同，破坏用户信任。把 AI 用在不需要 AI 的地方不是能力展示，是反模式。</div>
   <div class="result"><div class="rtitle">探索价值</div>验证影像工具类产品的核心 PM 命题——硬件决定能捕捉多少原始信息，软件决定能利用多少，AI 决定能从已有信息里重建多少。PixelPick 展示的是"AI 介入影像工作流的哪个节点"以及"如何让 AI 决策透明化"这两个 PM 关键判断。</div>
   <a href="./pixelpick.html" target="_blank" class="demo-link">体验 Demo →</a>
+
+  <div class="step-text" style="margin-top:8px;background:rgba(5,150,105,.04);border-left:3px solid rgba(5,150,105,.3);border-radius:0 10px 10px 0;padding:8px 12px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568">
+  <b>影像PM视角：</b>PixelPick验证的是"AI在影像工作流中的介入节点"这个核心PM命题——不是在拍照时干扰用户，而是在拍完后帮用户做决策（选哪张、怎么修）。这和运动相机"拍完自动出片"的产品逻辑是同一条价值链的不同节点。
+  </div>
 
   <details style="cursor:pointer;margin-top:10px">
     <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
@@ -1383,14 +1587,22 @@ details .step-text {
 <div class="two-col">
 <div class="card">
   <div class="card-icon">🌐</div>
-  <div class="card-title">GlobalFUN · 跨境电商AI拼团</div>
+  <div class="card-title">GlobalFUN · 跨境电商AI拼团 <span class="vt vt-s">种子验证</span></div>
   <div class="card-sub">行业垂直探索 · 2026.01-05</div>
   <div class="flow-badge"><span class="fb-step">1</span>需求输入<span class="fb-arrow">→</span><span class="fb-step">2</span>市场调研<span class="fb-arrow">→</span><span class="fb-step">3</span>选品推荐<span class="fb-arrow">→</span><span class="fb-step">4</span>文案生成<span class="fb-arrow">→</span><span class="fb-step">5</span>合规审核<span class="fb-arrow">→</span><span class="fb-step">6</span>运营上架</div>
   <div class="arch-box"><b>MCP服务总线+6-Agent协作：</b>需求解析Agent+市场调研Agent+选品分析Agent+文案生成Agent+合规审核Agent+运营策略Agent→Orchestrator路由→结构化卡片推送。覆盖跨境电商全链路闭环，不做传统问答Chatbot。</div>
   <div class="step-text" style="margin-top:8px"><b>为什么选MCP服务总线而非传统API网关：</b>跨境电商涉及多语言/多市场/多环节，传统API网关是"请求-响应"模式，不支持Agent间上下文传递。MCP协议原生支持"工具描述+上下文传递"，让每个Agent能获取前序Agent的结构化输出，而非从头理解用户意图——6个Agent接力处理，中间结果零损耗传递。</div>
   <div class="step-text"><b>为什么从4-Agent扩展到6-Agent：</b>初版4-Agent（需求/调研/选品/运营）缺少"文案生成"和"合规审核"。用户反馈"选品推荐了但文案要自己写、合规要自己查"——这两个环节恰好是跨境电商最耗时且最容易出错的。拆分独立Agent后，每个Agent的System Prompt更聚焦（500-800 tokens），输出质量可控。如果合成单Agent，Prompt超4000 tokens会导致注意力分散。</div>
   <div class="step-text"><b>为什么做结构化卡片推送而非传统Chatbot：</b>访谈发现用户"不知道该问什么"——跨境新人不知道该问关税、物流还是合规。传统Chatbot需要用户主动提问，而结构化卡片是Agent主动推送（"这是您选品的关税风险评估""以下是3套多语言文案方案"），把"搜索"变"推荐"，降低使用门槛。</div>
-  <div class="result"><div class="rtitle">探索价值</div>从4-Agent扩展到6-Agent全链路协作，覆盖需求→调研→选品→文案→合规→运营完整跨境电商闭环。验证MCP服务总线下多Agent并行协作与流水线编排的交互可行性，探索Agent数量扩展带来的能力边界与工程挑战。</div>
+  <div class="data-row" style="margin-top:10px">
+    <span class="data-chip"><span class="num g">98.2%</span><span class="label">意图识别</span></span>
+    <span class="data-chip"><span class="num g">180ms</span><span class="label">MCP延迟</span></span>
+    <span class="data-chip"><span class="num g">-40%</span><span class="label">Token消耗</span></span>
+    <span class="data-chip"><span class="num">87%</span><span class="label">数据源命中</span></span>
+    <span class="data-chip"><span class="num">72%</span><span class="label">文案采纳率</span></span>
+    <span class="data-chip"><span class="num">94%</span><span class="label">合规拦截</span></span>
+  </div>
+  <div class="result"><div class="rtitle">探索价值</div>从4-Agent扩展到6-Agent全链路协作，覆盖需求→调研→选品→文案→合规→运营完整跨境电商闭环。6个过程指标追踪：意图识别98.2%(100次测试)、MCP延迟180ms(50次)、数据源命中率87%、比价→下单转化率36%、多语言文案采纳率72%、合规拦截准确率94%。验证MCP服务总线下多Agent并行协作与流水线编排的交互可行性，探索Agent数量扩展带来的能力边界与工程挑战。</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
     <a href="./cross-border-ai.html" target="_blank" class="demo-link">体验 Demo →</a>
     <a href="https://github.com/anlan-dev/cross-border-ai" target="_blank" class="demo-link" style="background:rgba(36,59,83,.06);color:#243b53">📦 GitHub 仓库 →</a>
@@ -1515,25 +1727,11 @@ details .step-text {
   <div class="card-icon">📚</div>
   <div class="card-title">Prompt Library · AIGC提示词库</div>
   <div class="card-sub">开源工具 · 2025.11-至今</div>
-  <div class="flow-badge"><span class="fb-step">1</span>识别PM工作流节点<span class="fb-arrow">→</span><span class="fb-step">2</span>标准化Prompt模板<span class="fb-arrow">→</span><span class="fb-step">3</span>分类入库<span class="fb-arrow">→</span><span class="fb-step">4</span>实际验证迭代<span class="fb-arrow">→</span><span class="fb-step">5</span>GitHub开源</div>
-  <div class="step-text" style="margin-bottom:8px">按PM实际工作流分类，而非按AI能力分类。把AI使用经验沉淀为可复用的标准化资产。</div>
-  <div class="step-text" style="margin-bottom:6px"><b>为什么按PM工作流分类而非按AI能力分类：</b>市面上的Prompt库大多按"写作/营销/编程"等AI能力分类，但PM的工作不是"写一篇文章"或"编一段代码"，而是"定义需求→设计功能→写PRD→评审→验收→复盘"。按工作流分类让PM能在正确的工作节点找到正确的Prompt，而不是在一堆"写作类"Prompt里大海捞针。</div>
-  <div class="step-text" style="margin-bottom:6px"><b>为什么开源：</b>Prompt是经验资产，不是代码专利。PM社区对AI工具的使用经验高度碎片化——每个人都在自己摸索。GitHub开源让其他PM可以直接复用、提Issue反馈、贡献自己的Prompt，形成社区效应。MIT协议意味着零使用门槛。</div>
-  <ul class="ft-list">
-    <li>12个标准化Prompt，覆盖6步PM工作流</li><li>8个分类（写作/营销/编程/AIGC等）</li>
-    <li>19项PRD质量检查清单系统化</li><li>GitHub开源（MIT，零依赖）</li>
+  <div class="step-text" style="margin-bottom:4px">按PM工作流分类的标准化Prompt模板库，12个模板覆盖6步工作流。GitHub开源（MIT协议）。</div>
+  <ul class="ft-list" style="margin:4px 0">
+    <li>12个标准化Prompt · 8个分类 · 19项PRD检查清单系统化</li>
   </ul>
-  <a href="./prompt-library.html" target="_blank" class="demo-link">体验 Demo →</a>
-
-  <details style="cursor:pointer;margin-top:10px">
-    <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
-      <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">📋</span>
-      需求·竞品·数据
-    </summary>
-    <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>访谈<b>10位</b>PM/AIGC从业者，GitHub开源社区反馈分析（Issues/Stars），竞品Prompt平台体验对比；KANO：基础型（标准化Prompt模板）、期望型（按PM工作流分类）、兴奋型（19项PRD质量检查清单+GitHub开源）。<b>竞品：</b>直接——PromptBase、AIPRM；间接——ChatGPT官方Prompt指南；替代——个人Notion Prompt笔记。差异化：按PM工作流而非AI能力分类。<b>数据：</b>GitHub Stars/Forks数、Prompt使用频率分布、工作流覆盖度（6步/12个）、社区贡献PR数。
-    </div>
-  </details>
+  <a href="./prompt-library.html" target="_blank" class="demo-link" style="margin-top:4px">体验 Demo →</a>
 </div>
 </div>
 
@@ -1753,11 +1951,11 @@ details .step-text {
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(14px,2.5vw,24px);margin-top:16px">
     <div style="flex:1;min-width:160px;max-width:220px">
       <p style="font-size:clamp(.95rem,1.3vw,1.1rem);font-weight:600">🔍 需求洞察</p>
-      <p style="font-size:clamp(.74rem,.88vw,.82rem);color:#4a5568">语言学训练+80+用户深访，擅长从访谈中提取真实需求，用KANO模型区分优先级</p>
+      <p style="font-size:clamp(.74rem,.88vw,.82rem);color:#4a5568">语言学框架下的用户洞察：语用学拆解言外之意 + 问卷交叉验证 + KANO模型区分优先级，覆盖宠伴/健身/会议/跨境等多场景用户</p>
     </div>
     <div style="flex:1;min-width:160px;max-width:220px">
       <p style="font-size:clamp(.95rem,1.3vw,1.1rem);font-weight:600">🛠️ 判断力驱动落地</p>
-      <p style="font-size:clamp(.74rem,.88vw,.82rem);color:#4a5568">每个项目从判断AI能力边界出发，再推动从PRD到原型的完整闭环，不依赖开发排期</p>
+      <p style="font-size:clamp(.74rem,.88vw,.82rem);color:#4a5568">每个项目从判断AI能力边界出发，用Vibe Coding快速验证方案，再用PRD推动团队交付——决策前置，返工后置</p>
     </div>
     <div style="flex:1;min-width:160px;max-width:220px">
       <p style="font-size:clamp(.95rem,1.3vw,1.1rem);font-weight:600">🤖 AI判断力</p>
@@ -1871,7 +2069,7 @@ function toggleSpeed(){
     banner.style.display='flex';
     document.body.classList.add('speed-active');
     document.querySelectorAll('details').forEach(d=>d.open=true);
-    document.body.style.scrollBehavior='auto';
+    document.documentElement.style.scrollBehavior='auto';
   }else{
     btn.textContent='⚡ 快速浏览模式';
     btn.style.background='#fff';
@@ -1880,7 +2078,7 @@ function toggleSpeed(){
     banner.style.display='none';
     document.body.classList.remove('speed-active');
     document.querySelectorAll('details').forEach(d=>d.open=false);
-    document.body.style.scrollBehavior='smooth';
+    document.documentElement.style.scrollBehavior='smooth';
   }
 }
 
