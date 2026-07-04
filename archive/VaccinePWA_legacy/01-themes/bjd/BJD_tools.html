@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>🍼 BJD 娃娘手帐 · 备份迁移版</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f8d5d5">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            font-family: system-ui, -apple-system, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        /* 默认主题：粉嫩 */
+        :root {
+            --bg-body: #fff7f9;
+            --header-bg: #ffe6eb;
+            --border-color: #fbc4d5;
+            --card-bg: #fffbfc;
+            --card-border: #ffe2e9;
+            --shadow-color: rgba(240, 150, 170, 0.1);
+            --primary-btn-bg: #e598a8;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #fcd5df;
+            --secondary-btn-color: #632c3c;
+            --accent-text: #a14a5c;
+            --meta-text: #a16e7c;
+            --tab-active-bg: #ffe0e6;
+            --tab-active-color: #c94f6b;
+            --tab-inactive-color: #b1858f;
+            --doll-card-bg: #fff1f5;
+            --doll-card-border: #fecfdb;
+            --inspo-bg: #fef2f5;
+            --inspo-border-left: #e598a8;
+            --warning-bg: #fff0d9;
+            --warning-text: #a1582b;
+            --modal-bg: white;
+            --input-border: #f0c4d1;
+        }
+
+        /* 浅蓝主题 */
+        body.theme-blue {
+            --bg-body: #f0f8ff;
+            --header-bg: #d9eaff;
+            --border-color: #bdd4e8;
+            --card-bg: #f5faff;
+            --card-border: #e3f0fc;
+            --shadow-color: rgba(100, 150, 200, 0.1);
+            --primary-btn-bg: #7aa9c4;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #cde5f5;
+            --secondary-btn-color: #2c5778;
+            --accent-text: #2c5778;
+            --meta-text: #5f8aa8;
+            --tab-active-bg: #d4e8f8;
+            --tab-active-color: #2c6b9e;
+            --tab-inactive-color: #6f95b5;
+            --doll-card-bg: #eef4fc;
+            --doll-card-border: #cfe2f2;
+            --inspo-bg: #eef4fc;
+            --inspo-border-left: #7aa9c4;
+            --warning-bg: #fef5e0;
+            --warning-text: #b47c2e;
+            --modal-bg: #ffffff;
+            --input-border: #c5d9ed;
+        }
+
+        /* 浅紫主题 */
+        body.theme-purple {
+            --bg-body: #faf5ff;
+            --header-bg: #f0e6ff;
+            --border-color: #d9c5f0;
+            --card-bg: #fdfaff;
+            --card-border: #f0e6ff;
+            --shadow-color: rgba(150, 100, 200, 0.1);
+            --primary-btn-bg: #b088d9;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #e6d5ff;
+            --secondary-btn-color: #4a2c6e;
+            --accent-text: #6b3fa0;
+            --meta-text: #8e6ab0;
+            --tab-active-bg: #e9dcff;
+            --tab-active-color: #7b4bbd;
+            --tab-inactive-color: #9b7bc2;
+            --doll-card-bg: #f7f0ff;
+            --doll-card-border: #e8d9fc;
+            --inspo-bg: #f7f0ff;
+            --inspo-border-left: #b088d9;
+            --warning-bg: #fef5e0;
+            --warning-text: #b47c2e;
+            --modal-bg: #ffffff;
+            --input-border: #ddcef0;
+        }
+
+        /* 浅绿主题 */
+        body.theme-green {
+            --bg-body: #f2faf5;
+            --header-bg: #e0f5e9;
+            --border-color: #bdd9cc;
+            --card-bg: #f7fff9;
+            --card-border: #e2f3ea;
+            --shadow-color: rgba(80, 150, 120, 0.1);
+            --primary-btn-bg: #7fbf9f;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #cce8db;
+            --secondary-btn-color: #2d5a45;
+            --accent-text: #2d6a4f;
+            --meta-text: #6f9e86;
+            --tab-active-bg: #d4f0e2;
+            --tab-active-color: #2f8b5e;
+            --tab-inactive-color: #7aab91;
+            --doll-card-bg: #edf7f1;
+            --doll-card-border: #d4eadf;
+            --inspo-bg: #edf7f1;
+            --inspo-border-left: #7fbf9f;
+            --warning-bg: #fef5e0;
+            --warning-text: #b47c2e;
+            --modal-bg: #ffffff;
+            --input-border: #c9dfd3;
+        }
+
+        /* 米白主题 */
+        body.theme-cream {
+            --bg-body: #fffcf5;
+            --header-bg: #fef3e0;
+            --border-color: #f0dbc0;
+            --card-bg: #fffffa;
+            --card-border: #faf0e0;
+            --shadow-color: rgba(180, 140, 100, 0.08);
+            --primary-btn-bg: #d9b48b;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #f9e8cf;
+            --secondary-btn-color: #6b4c2c;
+            --accent-text: #9b6e42;
+            --meta-text: #b6926c;
+            --tab-active-bg: #fcf0df;
+            --tab-active-color: #c2823a;
+            --tab-inactive-color: #c7a87b;
+            --doll-card-bg: #fff8ef;
+            --doll-card-border: #f5e5d0;
+            --inspo-bg: #fff8ef;
+            --inspo-border-left: #d9b48b;
+            --warning-bg: #fef5e0;
+            --warning-text: #b47c2e;
+            --modal-bg: #ffffff;
+            --input-border: #eeddc8;
+        }
+
+        body {
+            background: var(--bg-body);
+            padding-bottom: 70px;
+            min-height: 100vh;
+            transition: background 0.2s, color 0.2s;
+        }
+        .app-header {
+            background: var(--header-bg);
+            padding: 20px 16px 12px;
+            border-bottom: 2px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .app-header h1 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--accent-text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .theme-picker {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,240,0.5);
+            padding: 6px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+        .theme-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
+        }
+        .theme-dot:hover { transform: scale(1.1); }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px 12px;
+        }
+        .page { display: none; }
+        .page.active { display: block; }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 600px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 8px 12px;
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -2px 10px var(--shadow-color);
+            background: var(--card-bg);
+        }
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            color: var(--tab-inactive-color);
+            font-size: 0.75rem;
+            padding: 4px 0;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .tab-item.active {
+            color: var(--tab-active-color);
+            font-weight: 600;
+            background: var(--tab-active-bg);
+        }
+        .tab-icon { font-size: 1.6rem; display: block; margin-bottom: 2px; }
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 18px 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 6px 14px var(--shadow-color);
+            border: 1px solid var(--card-border);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: var(--accent-text);
+            font-weight: 500;
+            font-size: 1.1rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .btn {
+            background: var(--secondary-btn-bg);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            color: var(--secondary-btn-color);
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+        .btn-primary {
+            background: var(--primary-btn-bg);
+            border-color: var(--border-color);
+            color: var(--primary-btn-color);
+        }
+        .btn-sm { padding: 4px 12px; font-size: 0.8rem; }
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0 8px;
+        }
+        .input-group input, .input-group select, .input-group textarea, .input-group datalist {
+            flex: 1 0 140px;
+            background: white;
+            border: 1px solid var(--input-border);
+            border-radius: 40px;
+            padding: 10px 14px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        textarea { border-radius: 20px !important; }
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .filter-bar select {
+            flex: 1;
+            background: white;
+            border: 1px solid var(--input-border);
+            border-radius: 30px;
+            padding: 8px 12px;
+            color: var(--secondary-btn-color);
+        }
+        .doll-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .doll-card {
+            background: var(--doll-card-bg);
+            border-radius: 20px;
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid var(--doll-card-border);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .doll-card:active { filter: brightness(0.96); }
+        .doll-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 2px solid white;
+            object-fit: cover;
+            overflow: hidden;
+        }
+        .doll-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .doll-name { font-weight: 600; color: var(--accent-text); }
+        .doll-meta { font-size: 0.7rem; color: var(--meta-text); }
+        .delete-btn { margin-top: 6px; color: var(--meta-text); font-size: 0.7rem; cursor: pointer; }
+        .inspo-item {
+            background: var(--inspo-bg);
+            border-radius: 18px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--inspo-border-left);
+        }
+        .inspo-img {
+            max-width: 100%;
+            max-height: 180px;
+            border-radius: 16px;
+            margin: 8px 0;
+            object-fit: cover;
+        }
+        .empty-state {
+            text-align: center;
+            color: var(--meta-text);
+            padding: 30px;
+        }
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; right:0; bottom:0;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: var(--modal-bg);
+            border-radius: 32px;
+            padding: 24px 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .storage-warning {
+            background: var(--warning-bg);
+            border-radius: 20px;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            color: var(--warning-text);
+            margin-top: 6px;
+        }
+        hr { border: none; border-top: 1px dashed var(--border-color); margin: 16px 0; }
+        .small-note { color: var(--meta-text); font-size: 0.7rem; margin-top: 6px; }
+        .image-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--input-border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            overflow: hidden;
+        }
+        .image-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-select-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .backup-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .backup-option {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 12px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .backup-option:hover { background: var(--tab-active-bg); }
+        .backup-option h4 { color: var(--accent-text); margin-bottom: 4px; }
+        .backup-option p { font-size: 0.75rem; color: var(--meta-text); }
+        .import-mode {
+            display: flex;
+            gap: 16px;
+            margin: 12px 0;
+            justify-content: center;
+        }
+        .import-mode label { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--accent-text); }
+    </style>
+</head>
+<body class="theme-pink">
+    <div class="app-header">
+        <h1>🍼 娃娘手帐 <span style="font-size:1.2rem;">·备份版</span></h1>
+        <div class="theme-picker">
+            <div class="theme-dot" style="background: #f8d5d5;" data-theme="pink" title="粉嫩"></div>
+            <div class="theme-dot" style="background: #bdd4e8;" data-theme="blue" title="浅蓝"></div>
+            <div class="theme-dot" style="background: #d9c5f0;" data-theme="purple" title="浅紫"></div>
+            <div class="theme-dot" style="background: #bdd9cc;" data-theme="green" title="浅绿"></div>
+            <div class="theme-dot" style="background: #f0dbc0;" data-theme="cream" title="米白"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 页面1：智能收纳管家 -->
+        <div id="page-inventory" class="page active">
+            <div class="card">
+                <div class="card-header">
+                    <span>🧸 我的娃娃们</span>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-sm" id="showBackupModalBtn">📁 备份/迁移</button>
+                        <button class="btn btn-sm btn-primary" id="showAddDollForm">➕ 添加</button>
+                    </div>
+                </div>
+                <div class="filter-bar">
+                    <select id="filterSize">
+                        <option value="">全部尺寸</option>
+                        <option value="12分">12分</option><option value="8分">8分</option><option value="6分">6分</option>
+                        <option value="4分">4分</option><option value="3分">3分</option><option value="叔/大女">叔/大女</option>
+                    </select>
+                    <select id="filterArtist">
+                        <option value="">全部壮士</option>
+                    </select>
+                    <button class="btn btn-sm" id="resetFilter">重置</button>
+                </div>
+                <!-- 添加娃娃表单 -->
+                <div id="addDollForm" style="display:none;">
+                    <div class="input-group">
+                        <input type="text" id="dollName" placeholder="娃娃名字 *">
+                        <input type="text" id="dollSculpt" placeholder="官名/型号">
+                        <input list="brandOptions" id="dollBrand" placeholder="娃社 (可选)" autocomplete="off">
+                        <datalist id="brandOptions">
+                            <option>napi</option><option>soom</option><option>luts</option>
+                            <option>volks</option><option>ipledoll</option><option>ringdoll</option>
+                            <option>dollshe</option><option>cp</option>
+                        </datalist>
+                        <select id="dollSize">
+                            <option value="12分">12分</option><option value="8分">8分</option><option value="6分">6分</option>
+                            <option value="4分">4分</option><option value="3分">3分</option><option value="叔/大女">叔/大女</option>
+                        </select>
+                        <input type="text" id="dollArtist" placeholder="壮士/妆师">
+                        <input type="date" id="dollArrival" value="2026-01-01">
+                    </div>
+                    <div class="avatar-select-row">
+                        <div class="image-preview" id="addAvatarPreview">🧸</div>
+                        <button type="button" class="btn btn-sm" id="addSelectAvatarBtn">📷 上传头像</button>
+                        <span id="addAvatarName" style="font-size:0.7rem; color:var(--meta-text);"></span>
+                        <input type="file" id="addAvatarInput" accept="image/*" capture="environment" style="display:none;">
+                    </div>
+                    <div style="display:flex; gap:8px; margin-top:8px;">
+                        <button class="btn btn-primary" id="saveDollBtn">保存</button>
+                        <button class="btn" id="cancelAddDoll">取消</button>
+                    </div>
+                    <hr>
+                </div>
+                <div id="dollListContainer" class="doll-grid"></div>
+                <div id="dollStats" style="color:var(--meta-text); margin-top:12px;"></div>
+            </div>
+        </div>
+
+        <!-- 页面2：相册 -->
+        <div id="page-gallery" class="page">
+            <div class="card">
+                <div class="card-header"><span>📸 娃娃相册</span></div>
+                <div id="galleryContainer" class="doll-grid"></div>
+                <div class="small-note">点击娃娃可查看详情（未来可扩展多图）</div>
+            </div>
+        </div>
+
+        <!-- 页面3：灵感日记 -->
+        <div id="page-inspo" class="page">
+            <div class="card">
+                <div class="card-header">
+                    <span>🎨 灵感日记</span>
+                    <button class="btn btn-sm btn-primary" id="showAddInspoForm">➕ 记一笔</button>
+                </div>
+                <div id="addInspoForm" style="display:none;">
+                    <div class="input-group">
+                        <input type="text" id="inspoTitle" placeholder="标题 *">
+                        <textarea id="inspoDesc" placeholder="描述或备注" rows="2"></textarea>
+                        <input type="text" id="inspoSource" placeholder="来源/作者">
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <button type="button" class="btn btn-sm" id="inspoSelectImage">📷 选择图片</button>
+                            <span id="imageFileName" style="color:var(--meta-text); font-size:0.8rem;"></span>
+                            <input type="file" id="inspoImageInput" accept="image/*" capture="environment" style="display:none;">
+                        </div>
+                        <div class="storage-warning" id="storageWarning"></div>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-primary" id="saveInspoBtn">保存灵感</button>
+                        <button class="btn" id="cancelAddInspo">取消</button>
+                    </div>
+                    <hr>
+                </div>
+                <div id="inspoListContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <div class="tab-item active" data-page="inventory"><span class="tab-icon">🧸</span><span>收纳</span></div>
+        <div class="tab-item" data-page="gallery"><span class="tab-icon">📸</span><span>相册</span></div>
+        <div class="tab-item" data-page="inspo"><span class="tab-icon">🎨</span><span>灵感</span></div>
+    </div>
+
+    <!-- 备份/迁移模态框 -->
+    <div id="backupModal" class="modal-overlay" style="display:none;">
+        <div class="modal">
+            <h3 style="color:var(--accent-text); margin-bottom:16px;">📦 数据备份与迁移</h3>
+            <div class="backup-options">
+                <div class="backup-option" id="exportBackupBtn">
+                    <h4>📤 导出备份</h4>
+                    <p>将所有娃娃和灵感数据导出为 JSON 文件，保存到本地。</p>
+                </div>
+                <div class="backup-option" id="importBackupTrigger">
+                    <h4>📥 导入备份</h4>
+                    <p>从 JSON 文件恢复数据，可选择合并或覆盖。</p>
+                </div>
+            </div>
+            <div id="importArea" style="display:none; margin-top:16px;">
+                <div class="import-mode">
+                    <label><input type="radio" name="importMode" value="merge" checked> 合并模式（保留现有，添加/替换）</label>
+                    <label><input type="radio" name="importMode" value="overwrite"> 覆盖模式（清空现有，完全替换）</label>
+                </div>
+                <input type="file" id="importFileInput" accept=".json" style="display:none;">
+                <button class="btn btn-primary" id="confirmImportBtn" style="width:100%; margin-top:8px;">选择文件并导入</button>
+                <button class="btn" id="cancelImportBtn" style="width:100%; margin-top:8px;">取消</button>
+            </div>
+            <button class="btn" id="closeBackupModal" style="margin-top:16px; width:100%;">关闭</button>
+        </div>
+    </div>
+
+    <!-- 编辑娃娃模态框 -->
+    <div id="editModal" class="modal-overlay" style="display:none;">
+        <div class="modal">
+            <h3 style="color:var(--accent-text); margin-bottom:16px;">✏️ 编辑娃娃</h3>
+            <input type="hidden" id="editDollId">
+            <div class="input-group">
+                <input type="text" id="editDollName" placeholder="名字">
+                <input type="text" id="editDollSculpt" placeholder="官名">
+                <input list="editBrandOptions" id="editDollBrand" placeholder="娃社">
+                <datalist id="editBrandOptions">
+                    <option>napi</option><option>soom</option><option>luts</option>
+                    <option>volks</option><option>ipledoll</option><option>ringdoll</option>
+                    <option>dollshe</option><option>cp</option>
+                </datalist>
+                <select id="editDollSize">
+                    <option value="12分">12分</option><option value="8分">8分</option><option value="6分">6分</option>
+                    <option value="4分">4分</option><option value="3分">3分</option><option value="叔/大女">叔/大女</option>
+                </select>
+                <input type="text" id="editDollArtist" placeholder="壮士">
+                <input type="date" id="editDollArrival">
+            </div>
+            <div class="avatar-select-row">
+                <div class="image-preview" id="editAvatarPreview">🧸</div>
+                <button type="button" class="btn btn-sm" id="editSelectAvatarBtn">📷 更换头像</button>
+                <span id="editAvatarName" style="font-size:0.7rem; color:var(--meta-text);"></span>
+                <input type="file" id="editAvatarInput" accept="image/*" style="display:none;">
+            </div>
+            <div style="display:flex; gap:8px; margin-top:16px;">
+                <button class="btn btn-primary" id="saveEditDoll">保存</button>
+                <button class="btn" id="cancelEdit">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function(){
+            "use strict";
+
+            // ---------- 主题切换 ----------
+            function setTheme(theme) {
+                document.body.classList.remove('theme-pink', 'theme-blue', 'theme-purple', 'theme-green', 'theme-cream');
+                if (theme === 'pink') document.body.classList.add('theme-pink');
+                else if (theme === 'blue') document.body.classList.add('theme-blue');
+                else if (theme === 'purple') document.body.classList.add('theme-purple');
+                else if (theme === 'green') document.body.classList.add('theme-green');
+                else if (theme === 'cream') document.body.classList.add('theme-cream');
+                localStorage.setItem('bjd_theme', theme);
+            }
+            const savedTheme = localStorage.getItem('bjd_theme') || 'pink';
+            setTheme(savedTheme);
+            document.querySelectorAll('.theme-dot').forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const theme = dot.dataset.theme;
+                    if (theme) setTheme(theme);
+                });
+            });
+
+            // ---------- 数据 ----------
+            let dolls = [];
+            let inspirations = [];
+            const STORAGE_DOLLS = 'bjd_dolls_v3';
+            const STORAGE_INSPOS = 'bjd_inspos_v2';
+
+            let currentSizeFilter = '';
+            let currentArtistFilter = '';
+
+            let pendingAvatarBase64 = null;
+            let pendingEditAvatarBase64 = null;
+            let pendingInspoImageBase64 = null;
+
+            function compressImage(file, maxSize = 200, quality = 0.7) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            let width = img.width;
+                            let height = img.height;
+                            if (width > height && width > maxSize) {
+                                height = (height * maxSize) / width;
+                                width = maxSize;
+                            } else if (height > maxSize) {
+                                width = (width * maxSize) / height;
+                                height = maxSize;
+                            }
+                            const canvas = document.createElement('canvas');
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+                            let type = 'image/jpeg';
+                            if (file.type === 'image/png') type = 'image/png';
+                            const base64 = canvas.toDataURL(type, quality);
+                            resolve(base64);
+                        };
+                        img.onerror = reject;
+                        img.src = e.target.result;
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function initData() {
+                const storedDolls = localStorage.getItem(STORAGE_DOLLS);
+                if(storedDolls) {
+                    try { dolls = JSON.parse(storedDolls); } catch(e){}
+                }
+                if(!dolls || !dolls.length) {
+                    dolls = [
+                        { id: 'd1', name: '小荔枝', sculpt: 'MYou-眠娜', brand: 'napi', size: '4分', artist: '荔枝壮士', arrival: '2025-03-12', avatarImage: '', avatarEmoji: '🍓' },
+                        { id: 'd2', name: '团团', sculpt: 'Luts-13S', brand: 'luts', size: '3分', artist: '云间月', arrival: '2025-08-20', avatarImage: '', avatarEmoji: '🐼' }
+                    ];
+                    saveDolls();
+                } else {
+                    dolls = dolls.map(d => ({
+                        ...d,
+                        brand: d.brand || '',
+                        avatarImage: d.avatarImage || '',
+                        avatarEmoji: d.avatarEmoji || '🧸'
+                    }));
+                    saveDolls();
+                }
+
+                const storedInspos = localStorage.getItem(STORAGE_INSPOS);
+                if(storedInspos) {
+                    try { inspirations = JSON.parse(storedInspos); } catch(e){}
+                }
+                if(!inspirations || !inspirations.length) {
+                    inspirations = [
+                        { id: 'i1', title: '粉雾海妆面', description: '眼下腮红+小雀斑', source: '@花卷', imageBase64: '', createdAt: new Date().toISOString() }
+                    ];
+                    saveInspos();
+                }
+                updateArtistFilterOptions();
+            }
+
+            function saveDolls() { 
+                localStorage.setItem(STORAGE_DOLLS, JSON.stringify(dolls)); 
+                updateArtistFilterOptions();
+                checkStorageUsage();
+            }
+            function saveInspos() { 
+                localStorage.setItem(STORAGE_INSPOS, JSON.stringify(inspirations)); 
+                checkStorageUsage();
+            }
+
+            function genId() { return Date.now() + '-' + Math.random().toString(36).substr(2,6); }
+            function escapeHtml(s) { return String(s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]); }
+
+            function updateArtistFilterOptions() {
+                const artists = [...new Set(dolls.map(d => d.artist).filter(a => a))];
+                const select = document.getElementById('filterArtist');
+                const currentVal = select.value;
+                select.innerHTML = '<option value="">全部壮士</option>';
+                artists.sort().forEach(a => { select.innerHTML += `<option value="${escapeHtml(a)}">${escapeHtml(a)}</option>`; });
+                if(currentVal && artists.includes(currentVal)) select.value = currentVal;
+            }
+
+            function getFilteredDolls() {
+                return dolls.filter(d => {
+                    if(currentSizeFilter && d.size !== currentSizeFilter) return false;
+                    if(currentArtistFilter && d.artist !== currentArtistFilter) return false;
+                    return true;
+                });
+            }
+
+            function renderInventory() {
+                const filtered = getFilteredDolls();
+                const container = document.getElementById('dollListContainer');
+                if(!filtered.length) {
+                    container.innerHTML = '<div class="empty-state" style="grid-column:span 2;">🧸 没有符合条件的娃娃</div>';
+                } else {
+                    let html = '';
+                    filtered.forEach(d => {
+                        const avatarHtml = d.avatarImage ? `<img src="${d.avatarImage}" alt="avatar">` : (d.avatarEmoji || '🧸');
+                        html += `<div class="doll-card" data-doll-id="${d.id}">`;
+                        html += `<div class="doll-avatar">${avatarHtml}</div>`;
+                        html += `<div class="doll-name">${escapeHtml(d.name)}</div>`;
+                        html += `<div class="doll-meta">${escapeHtml(d.sculpt||'')} · ${d.size||''}</div>`;
+                        if(d.brand) html += `<div class="doll-meta">🏷️ ${escapeHtml(d.brand)}</div>`;
+                        html += `<div class="doll-meta">🎨 ${escapeHtml(d.artist||'未知')}</div>`;
+                        html += `<div class="doll-meta">📅 ${d.arrival||''}</div>`;
+                        html += `<div class="delete-btn" data-delete-doll="${d.id}">🗑️ 删除</div>`;
+                        html += `</div>`;
+                    });
+                    container.innerHTML = html;
+                }
+                const total = dolls.length;
+                const sizeCount = {};
+                dolls.forEach(d => { if(d.size) sizeCount[d.size] = (sizeCount[d.size]||0)+1; });
+                const sizeStr = Object.entries(sizeCount).map(([k,v])=> `${k}:${v}`).join(' · ');
+                document.getElementById('dollStats').innerHTML = `共 ${total} 只 · ${sizeStr}`;
+            }
+
+            function renderGallery() {
+                const container = document.getElementById('galleryContainer');
+                if(!dolls.length) {
+                    container.innerHTML = '<div class="empty-state" style="grid-column:span 2;">📸 添加娃娃后显示</div>';
+                    return;
+                }
+                let html = '';
+                dolls.forEach(d => {
+                    const avatarHtml = d.avatarImage ? `<img src="${d.avatarImage}" alt="avatar">` : (d.avatarEmoji || '🧸');
+                    html += `<div class="doll-card" data-view-doll="${d.id}">`;
+                    html += `<div class="doll-avatar">${avatarHtml}</div>`;
+                    html += `<div class="doll-name">${escapeHtml(d.name)}</div>`;
+                    html += `<div class="doll-meta">点击查看详情</div>`;
+                    html += `</div>`;
+                });
+                container.innerHTML = html;
+            }
+
+            function renderInspoList() {
+                const container = document.getElementById('inspoListContainer');
+                if(!inspirations.length) {
+                    container.innerHTML = '<div class="empty-state">🎨 还没有灵感</div>';
+                    return;
+                }
+                let html = '';
+                inspirations.sort((a,b)=> (a.createdAt < b.createdAt ? 1 : -1));
+                inspirations.forEach(item => {
+                    html += `<div class="inspo-item">`;
+                    html += `<div style="display:flex; justify-content:space-between;"><span class="inspo-title">${escapeHtml(item.title)}</span><span style="cursor:pointer;" data-delete-inspo="${item.id}">✕</span></div>`;
+                    if(item.imageBase64) {
+                        html += `<img src="${item.imageBase64}" class="inspo-img" alt="灵感图片">`;
+                    }
+                    html += `<div class="inspo-desc">${escapeHtml(item.description||'')}</div>`;
+                    html += `<div class="inspo-meta"><span>📌 ${escapeHtml(item.source||'未知')}</span><span>${new Date(item.createdAt).toLocaleDateString()}</span></div>`;
+                    html += `</div>`;
+                });
+                container.innerHTML = html;
+            }
+
+            function checkStorageUsage() {
+                let total = 0;
+                for(let key in localStorage) {
+                    if(localStorage.hasOwnProperty(key)) total += localStorage[key].length * 2;
+                }
+                const usedMB = (total / 1024 / 1024).toFixed(2);
+                const warning = document.getElementById('storageWarning');
+                if(warning) warning.innerText = `📦 已用空间约 ${usedMB} MB，建议控制在 4MB 以内 (localStorage 有限)`;
+            }
+
+            function openEditModal(doll) {
+                document.getElementById('editDollId').value = doll.id;
+                document.getElementById('editDollName').value = doll.name || '';
+                document.getElementById('editDollSculpt').value = doll.sculpt || '';
+                document.getElementById('editDollBrand').value = doll.brand || '';
+                document.getElementById('editDollSize').value = doll.size || '4分';
+                document.getElementById('editDollArtist').value = doll.artist || '';
+                document.getElementById('editDollArrival').value = doll.arrival || '';
+                const previewDiv = document.getElementById('editAvatarPreview');
+                if(doll.avatarImage) {
+                    previewDiv.innerHTML = `<img src="${doll.avatarImage}" alt="avatar">`;
+                } else {
+                    previewDiv.innerHTML = doll.avatarEmoji || '🧸';
+                }
+                pendingEditAvatarBase64 = null;
+                document.getElementById('editAvatarName').innerText = '';
+                document.getElementById('editModal').style.display = 'flex';
+            }
+
+            // ---------- 备份与迁移功能 ----------
+            function exportBackup() {
+                const backupData = {
+                    version: "1.0",
+                    exportTime: new Date().toISOString(),
+                    dolls: dolls,
+                    inspirations: inspirations
+                };
+                const jsonStr = JSON.stringify(backupData, null, 2);
+                const blob = new Blob([jsonStr], {type: "application/json"});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `bjd_backup_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            function importBackup(file, mode) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        // 验证数据结构
+                        if (!data.dolls || !Array.isArray(data.dolls) || !data.inspirations || !Array.isArray(data.inspirations)) {
+                            throw new Error("备份文件格式错误：缺少 dolls 或 inspirations 数组");
+                        }
+                        if (mode === 'overwrite') {
+                            dolls = data.dolls.map(d => ({ ...d, avatarImage: d.avatarImage || '', avatarEmoji: d.avatarEmoji || '🧸' }));
+                            inspirations = data.inspirations;
+                        } else { // merge 模式：根据 id 合并，相同 id 则替换
+                            const existingDollIds = new Set(dolls.map(d => d.id));
+                            for (let newDoll of data.dolls) {
+                                const idx = dolls.findIndex(d => d.id === newDoll.id);
+                                if (idx !== -1) {
+                                    dolls[idx] = { ...newDoll, avatarImage: newDoll.avatarImage || '', avatarEmoji: newDoll.avatarEmoji || '🧸' };
+                                } else {
+                                    dolls.push({ ...newDoll, avatarImage: newDoll.avatarImage || '', avatarEmoji: newDoll.avatarEmoji || '🧸' });
+                                }
+                            }
+                            const existingInspoIds = new Set(inspirations.map(i => i.id));
+                            for (let newInspo of data.inspirations) {
+                                const idx = inspirations.findIndex(i => i.id === newInspo.id);
+                                if (idx !== -1) {
+                                    inspirations[idx] = newInspo;
+                                } else {
+                                    inspirations.push(newInspo);
+                                }
+                            }
+                        }
+                        saveDolls();
+                        saveInspos();
+                        renderAll();
+                        alert(`导入成功！当前共有 ${dolls.length} 只娃娃，${inspirations.length} 条灵感。`);
+                        document.getElementById('backupModal').style.display = 'none';
+                    } catch(err) {
+                        alert("导入失败：" + err.message);
+                    }
+                };
+                reader.onerror = () => alert("读取文件失败");
+                reader.readAsText(file);
+            }
+
+            // 备份模态框控制
+            const backupModal = document.getElementById('backupModal');
+            const showBackupBtn = document.getElementById('showBackupModalBtn');
+            const closeBackupModal = document.getElementById('closeBackupModal');
+            const exportBtn = document.getElementById('exportBackupBtn');
+            const importTrigger = document.getElementById('importBackupTrigger');
+            const importArea = document.getElementById('importArea');
+            const importFileInput = document.getElementById('importFileInput');
+            const confirmImportBtn = document.getElementById('confirmImportBtn');
+            const cancelImportBtn = document.getElementById('cancelImportBtn');
+
+            showBackupBtn.addEventListener('click', () => {
+                backupModal.style.display = 'flex';
+                importArea.style.display = 'none'; // 隐藏导入区域
+            });
+            closeBackupModal.addEventListener('click', () => backupModal.style.display = 'none');
+            exportBtn.addEventListener('click', () => {
+                exportBackup();
+                backupModal.style.display = 'none';
+            });
+            importTrigger.addEventListener('click', () => {
+                importArea.style.display = 'block';
+            });
+            cancelImportBtn.addEventListener('click', () => {
+                importArea.style.display = 'none';
+            });
+            confirmImportBtn.addEventListener('click', () => {
+                const mode = document.querySelector('input[name="importMode"]:checked').value;
+                importFileInput.click();
+                importFileInput.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) importBackup(file, mode);
+                    importFileInput.value = '';
+                };
+            });
+
+            // ---------- 事件绑定 ----------
+            function bindEvents() {
+                document.querySelectorAll('.tab-item').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const pageId = tab.dataset.page;
+                        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                        document.getElementById(`page-${pageId}`).classList.add('active');
+                        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        if(pageId === 'inventory') renderInventory();
+                        if(pageId === 'gallery') renderGallery();
+                        if(pageId === 'inspo') renderInspoList();
+                    });
+                });
+
+                document.getElementById('filterSize').addEventListener('change', e => { currentSizeFilter = e.target.value; renderInventory(); });
+                document.getElementById('filterArtist').addEventListener('change', e => { currentArtistFilter = e.target.value; renderInventory(); });
+                document.getElementById('resetFilter').addEventListener('click', ()=>{
+                    currentSizeFilter = ''; currentArtistFilter = '';
+                    document.getElementById('filterSize').value = '';
+                    document.getElementById('filterArtist').value = '';
+                    renderInventory();
+                });
+
+                document.getElementById('showAddDollForm').addEventListener('click', ()=> {
+                    document.getElementById('addDollForm').style.display = 'block';
+                    document.getElementById('dollName').value = '';
+                    document.getElementById('dollSculpt').value = '';
+                    document.getElementById('dollBrand').value = '';
+                    document.getElementById('dollSize').value = '4分';
+                    document.getElementById('dollArtist').value = '';
+                    document.getElementById('dollArrival').value = new Date().toISOString().slice(0,10);
+                    document.getElementById('addAvatarPreview').innerHTML = '🧸';
+                    pendingAvatarBase64 = null;
+                    document.getElementById('addAvatarName').innerText = '';
+                    document.getElementById('addAvatarInput').value = '';
+                });
+                document.getElementById('cancelAddDoll').addEventListener('click', ()=> document.getElementById('addDollForm').style.display='none');
+
+                document.getElementById('addSelectAvatarBtn').addEventListener('click', ()=> document.getElementById('addAvatarInput').click());
+                document.getElementById('addAvatarInput').addEventListener('change', async (e) => {
+                    const file = e.target.files[0];
+                    if(!file) return;
+                    if(file.size > 3 * 1024 * 1024) { alert('头像请小于3MB'); return; }
+                    try {
+                        const base64 = await compressImage(file, 200, 0.7);
+                        pendingAvatarBase64 = base64;
+                        document.getElementById('addAvatarPreview').innerHTML = `<img src="${base64}" alt="preview">`;
+                        document.getElementById('addAvatarName').innerText = file.name;
+                    } catch(err) { alert('图片处理失败'); }
+                });
+
+                document.getElementById('saveDollBtn').addEventListener('click', ()=>{
+                    const name = document.getElementById('dollName').value.trim();
+                    if(!name) { alert('请输入名字'); return; }
+                    const newDoll = {
+                        id: genId(),
+                        name,
+                        sculpt: document.getElementById('dollSculpt').value.trim(),
+                        brand: document.getElementById('dollBrand').value.trim(),
+                        size: document.getElementById('dollSize').value,
+                        artist: document.getElementById('dollArtist').value.trim(),
+                        arrival: document.getElementById('dollArrival').value,
+                        avatarImage: pendingAvatarBase64 || '',
+                        avatarEmoji: pendingAvatarBase64 ? '' : '🧸'
+                    };
+                    dolls.push(newDoll);
+                    saveDolls();
+                    renderInventory();
+                    document.getElementById('addDollForm').style.display='none';
+                });
+
+                document.getElementById('dollListContainer').addEventListener('click', e => {
+                    if(e.target.dataset.deleteDoll) {
+                        if(confirm('删除这只娃娃？')) {
+                            dolls = dolls.filter(d => d.id !== e.target.dataset.deleteDoll);
+                            saveDolls(); renderInventory(); renderGallery();
+                        }
+                        return;
+                    }
+                    const card = e.target.closest('.doll-card');
+                    if(card && card.dataset.dollId) {
+                        const doll = dolls.find(d => d.id === card.dataset.dollId);
+                        if(doll) openEditModal(doll);
+                    }
+                });
+
+                document.getElementById('editSelectAvatarBtn').addEventListener('click', ()=> document.getElementById('editAvatarInput').click());
+                document.getElementById('editAvatarInput').addEventListener('change', async (e) => {
+                    const file = e.target.files[0];
+                    if(!file) return;
+                    if(file.size > 3 * 1024 * 1024) { alert('头像请小于3MB'); return; }
+                    try {
+                        const base64 = await compressImage(file, 200, 0.7);
+                        pendingEditAvatarBase64 = base64;
+                        document.getElementById('editAvatarPreview').innerHTML = `<img src="${base64}" alt="preview">`;
+                        document.getElementById('editAvatarName').innerText = file.name;
+                    } catch(err) { alert('图片处理失败'); }
+                });
+
+                document.getElementById('saveEditDoll').addEventListener('click', ()=>{
+                    const id = document.getElementById('editDollId').value;
+                    const doll = dolls.find(d => d.id === id);
+                    if(doll) {
+                        doll.name = document.getElementById('editDollName').value.trim();
+                        doll.sculpt = document.getElementById('editDollSculpt').value.trim();
+                        doll.brand = document.getElementById('editDollBrand').value.trim();
+                        doll.size = document.getElementById('editDollSize').value;
+                        doll.artist = document.getElementById('editDollArtist').value.trim();
+                        doll.arrival = document.getElementById('editDollArrival').value;
+                        if(pendingEditAvatarBase64) {
+                            doll.avatarImage = pendingEditAvatarBase64;
+                            doll.avatarEmoji = '';
+                        } else if (!doll.avatarImage && !pendingEditAvatarBase64) {
+                            if(!doll.avatarEmoji) doll.avatarEmoji = '🧸';
+                        }
+                        saveDolls();
+                        renderInventory(); renderGallery();
+                    }
+                    document.getElementById('editModal').style.display = 'none';
+                    pendingEditAvatarBase64 = null;
+                });
+                document.getElementById('cancelEdit').addEventListener('click', ()=> document.getElementById('editModal').style.display='none');
+
+                document.getElementById('galleryContainer').addEventListener('click', e => {
+                    const card = e.target.closest('[data-view-doll]');
+                    if(card) alert('📸 可扩展为娃娃独立相册，目前仅展示头像');
+                });
+
+                document.getElementById('inspoSelectImage').addEventListener('click', ()=> document.getElementById('inspoImageInput').click());
+                document.getElementById('inspoImageInput').addEventListener('change', async (e) => {
+                    const file = e.target.files[0];
+                    if(!file) return;
+                    if(file.size > 3 * 1024 * 1024) { alert('图片请小于3MB'); return; }
+                    try {
+                        const base64 = await compressImage(file, 800, 0.7);
+                        pendingInspoImageBase64 = base64;
+                        document.getElementById('imageFileName').innerText = file.name;
+                    } catch(err) { alert('图片处理失败'); }
+                });
+
+                document.getElementById('showAddInspoForm').addEventListener('click', ()=>{
+                    document.getElementById('addInspoForm').style.display = 'block';
+                    document.getElementById('inspoTitle').value = '';
+                    document.getElementById('inspoDesc').value = '';
+                    document.getElementById('inspoSource').value = '';
+                    pendingInspoImageBase64 = null;
+                    document.getElementById('imageFileName').innerText = '';
+                    document.getElementById('inspoImageInput').value = '';
+                });
+                document.getElementById('cancelAddInspo').addEventListener('click', ()=>{
+                    document.getElementById('addInspoForm').style.display = 'none';
+                    pendingInspoImageBase64 = null;
+                    document.getElementById('imageFileName').innerText = '';
+                });
+                document.getElementById('saveInspoBtn').addEventListener('click', ()=>{
+                    const title = document.getElementById('inspoTitle').value.trim();
+                    if(!title) { alert('请输入标题'); return; }
+                    const newInspo = {
+                        id: genId(),
+                        title,
+                        description: document.getElementById('inspoDesc').value.trim(),
+                        source: document.getElementById('inspoSource').value.trim(),
+                        imageBase64: pendingInspoImageBase64 || '',
+                        createdAt: new Date().toISOString()
+                    };
+                    inspirations.push(newInspo);
+                    saveInspos();
+                    renderInspoList();
+                    document.getElementById('addInspoForm').style.display = 'none';
+                    pendingInspoImageBase64 = null;
+                    document.getElementById('inspoImageInput').value = '';
+                });
+
+                document.getElementById('inspoListContainer').addEventListener('click', e => {
+                    if(e.target.dataset.deleteInspo) {
+                        inspirations = inspirations.filter(i => i.id !== e.target.dataset.deleteInspo);
+                        saveInspos(); renderInspoList();
+                    }
+                });
+
+                checkStorageUsage();
+            }
+
+            function renderAll() {
+                renderInventory();
+                renderGallery();
+                renderInspoList();
+            }
+
+            initData();
+            renderAll();
+            bindEvents();
+        })();
+    </script>
+</body>
+</html>

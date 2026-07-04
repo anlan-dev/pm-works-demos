@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>UI 设计作品集 · 王天娇</title>
+<meta name="description" content="产品经理视角的UI设计作品集——每个像素都有商业逻辑">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050507;--bg2:#0c0c10;--card:#111115;--card-hover:#16161c;
+  --text:#f0f0f5;--text2:#8b8b9e;--text3:#5a5a6e;
+  --accent:#a78bfa;--accent2:#60a5fa;--accent3:#34d399;
+  --border:#1e1e28;--border-hover:#2a2a3a;
+  --glow:rgba(167,139,250,0.12);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans SC',system-ui,sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+/* Noise texture overlay */
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px) saturate(1.8);-webkit-backdrop-filter:blur(20px) saturate(1.8);background:rgba(5,5,7,0.7);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:1.1rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:32px}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+
+/* ===== HERO ===== */
+.hero{padding:160px 0 100px;text-align:center;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(167,139,250,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:999px;border:1px solid var(--border);background:var(--card);font-size:.8rem;color:var(--text2);margin-bottom:28px;animation:fadeUp .8s ease both}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:clamp(2.4rem,6vw,4rem);font-weight:900;letter-spacing:-.05em;line-height:1.1;margin-bottom:20px;animation:fadeUp .8s ease .1s both}
+.hero h1 .line2{display:block;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 200%;animation:gradientShift 6s ease infinite}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{font-size:1.15rem;color:var(--text2);max-width:520px;margin:0 auto 36px;line-height:1.8;animation:fadeUp .8s ease .2s both}
+.hero-stats{display:flex;justify-content:center;gap:48px;animation:fadeUp .8s ease .3s both}
+.hero-stat{text-align:center}
+.hero-stat .num{font-size:2rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,var(--text),var(--text2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-stat .label{font-size:.75rem;color:var(--text3);margin-top:4px;text-transform:uppercase;letter-spacing:.1em}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SECTION ===== */
+.section{padding:80px 0}
+.section-header{margin-bottom:48px}
+.section-eyebrow{font-size:.75rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.15em;margin-bottom:12px}
+.section-title{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
+.section-desc{font-size:1rem;color:var(--text2);max-width:480px}
+
+/* ===== PROJECT CARDS ===== */
+.projects{display:flex;flex-direction:column;gap:32px}
+.project-card{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .4s cubic-bezier(.4,0,.2,1);position:relative}
+.project-card:hover{border-color:var(--border-hover);box-shadow:0 24px 80px rgba(0,0,0,0.4),0 0 0 1px var(--border-hover)}
+.project-card:hover .pc-preview{transform:scale(1.02)}
+
+.pc-preview{position:relative;overflow:hidden;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.pc-preview-inner{width:100%;height:100%;min-height:360px;position:relative}
+.pc-preview-inner iframe{width:200%;height:200%;transform:scale(0.5);transform-origin:top left;border:none;pointer-events:none;position:absolute;top:0;left:0}
+.pc-preview-overlay{position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,var(--card) 100%);pointer-events:none}
+.project-card:nth-child(2) .pc-preview-overlay{background:linear-gradient(270deg,transparent 60%,var(--card) 100%)}
+.project-card:nth-child(2){direction:rtl}
+.project-card:nth-child(2)>.pc-info{direction:ltr}
+
+.pc-info{padding:48px 40px;display:flex;flex-direction:column;justify-content:center}
+.pc-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;font-size:.7rem;font-weight:600;margin-bottom:16px;width:fit-content;letter-spacing:.05em}
+.pc-tag.purple{background:rgba(167,139,250,0.12);color:var(--accent)}
+.pc-tag.orange{background:rgba(249,115,22,0.12);color:#f97316}
+.pc-tag.blue{background:rgba(96,165,250,0.12);color:var(--accent2)}
+
+.pc-title{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;margin-bottom:10px;line-height:1.2}
+.pc-subtitle{font-size:.9rem;color:var(--text2);line-height:1.7;margin-bottom:24px}
+.pc-features{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.pc-feat{font-size:.72rem;padding:5px 12px;border-radius:8px;background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--border)}
+.pc-metrics{display:flex;gap:24px;margin-bottom:28px;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.pc-metric{text-align:center}
+.pc-metric .val{font-size:1.2rem;font-weight:800;color:var(--text)}
+.pc-metric .lbl{font-size:.65rem;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:.08em}
+.pc-link{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--accent);text-decoration:none;transition:gap .3s}
+.pc-link:hover{gap:12px}
+.pc-link svg{transition:transform .3s}
+.pc-link:hover svg{transform:translateX(4px)}
+.pc-links{display:flex;align-items:center;flex-wrap:wrap;margin-top:12px}
+.pc-links .pc-link{font-size:.8rem;padding:8px 14px;background:rgba(0,113,227,.06);border-radius:8px}
+.pc-links .pc-link:hover{background:rgba(0,113,227,.12)}
+
+/* ===== DESIGN PRINCIPLES ===== */
+.principles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.principle{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;transition:all .3s}
+.principle:hover{border-color:var(--border-hover);transform:translateY(-4px)}
+.principle-icon{font-size:1.8rem;margin-bottom:16px;display:block}
+.principle h3{font-size:.95rem;font-weight:700;margin-bottom:8px}
+.principle p{font-size:.8rem;color:var(--text2);line-height:1.7}
+
+/* ===== PROCESS ===== */
+.process-steps{display:flex;gap:0;position:relative}
+.process-steps::before{content:'';position:absolute;top:40px;left:60px;right:60px;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent3));opacity:.2}
+.process-step{flex:1;text-align:center;padding:0 20px;position:relative}
+.ps-num{width:48px;height:48px;border-radius:50%;background:var(--card);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;margin:0 auto 20px;position:relative;z-index:1;color:var(--accent)}
+.ps-title{font-size:.9rem;font-weight:700;margin-bottom:6px}
+.ps-desc{font-size:.78rem;color:var(--text2);line-height:1.6}
+
+/* ===== FOOTER ===== */
+.footer{padding:60px 0;text-align:center;border-top:1px solid var(--border)}
+.footer-brand{font-size:1.2rem;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.footer p{font-size:.85rem;color:var(--text3)}
+.footer-links{display:flex;justify-content:center;gap:24px;margin-top:20px}
+.footer-links a{color:var(--text2);text-decoration:none;font-size:.8rem;transition:color .2s}
+.footer-links a:hover{color:var(--accent)}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(32px);transition:all .8s cubic-bezier(.4,0,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .project-card{grid-template-columns:1fr !important;direction:ltr !important}
+  .pc-preview-overlay{background:linear-gradient(180deg,transparent 60%,var(--card) 100%) !important}
+  .pc-info{padding:32px 24px}
+  .principles-grid{grid-template-columns:1fr 1fr}
+  .process-steps{flex-direction:column;gap:24px}
+  .process-steps::before{display:none}
+  .hero-stats{gap:24px}
+  .nav-links{display:none}
+  .ref-grid{grid-template-columns:1fr 1fr}
+  .ref-category-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .ref-grid{grid-template-columns:1fr}
+}
+
+/* ===== INSPIRATION / DESIGN REFERENCES ===== */
+.ref-header{text-align:center;max-width:600px;margin:0 auto 48px}
+.ref-header p{font-size:1rem;color:var(--text2);line-height:1.8}
+.ref-categories{display:flex;flex-direction:column;gap:40px}
+.ref-category{}
+.ref-cat-title{font-size:.78rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.ref-cat-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.ref-category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ref-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 20px;transition:all .3s;text-decoration:none;display:flex;flex-direction:column}
+.ref-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.3);background:var(--card-hover)}
+.ref-card-icon{font-size:1.6rem;margin-bottom:12px}
+.ref-card-name{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:4px;transition:color .2s}
+.ref-card:hover .ref-card-name{color:var(--accent)}
+.ref-card-desc{font-size:.78rem;color:var(--text2);line-height:1.6;margin-bottom:10px;flex:1}
+.ref-card-tags{display:flex;flex-wrap:wrap;gap:6px}
+.ref-card-tag{font-size:.62rem;padding:3px 10px;border-radius:999px;font-weight:500;letter-spacing:.03em}
+.ref-card-tag.blue{background:rgba(96,165,250,0.1);color:var(--accent2)}
+.ref-card-tag.purple{background:rgba(167,139,250,0.1);color:var(--accent)}
+.ref-card-tag.green{background:rgba(52,211,153,0.1);color:var(--accent3)}
+.ref-card-tag.orange{background:rgba(249,115,22,0.1);color:#f97316}
+.ref-card-tag.pink{background:rgba(244,114,182,0.1);color:#f472b6}
+
+.ref-personal{text-align:center;padding:48px 0 0}
+.ref-personal p{font-size:.85rem;color:var(--text2);line-height:1.8}
+.ref-personal .highlight{color:var(--accent);font-weight:600}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="nav-inner">
+  <div class="nav-logo">TJ · Portfolio</div>
+  <div class="nav-links">
+    <a href="#projects">作品</a>
+    <a href="#principles">理念</a>
+    <a href="#design-system">UI Kit</a>
+    <a href="#process">流程</a>
+    <a href="#inspiration">灵感</a>
+  </div>
+</div>
+</nav>
+
+<div class="container">
+
+  <section class="hero">
+    <div class="hero-badge"><span class="dot"></span> 2026 · AI产品经理 · UI Designer</div>
+    <h1>
+      用产品思维
+      <span class="line2">驱动每一个像素</span>
+    </h1>
+    <p>每个设计决策都有商业逻辑支撑——从用户心理学到转化漏斗，从信息架构到微交互。香港理工大学语言学硕士，求职方向AI产品经理实习生。</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">11</div><div class="label">UI作品</div></div>
+      <div class="hero-stat"><div class="num">8</div><div class="label">AI产品Demo</div></div>
+      <div class="hero-stat"><div class="num">20+</div><div class="label">用户深访</div></div>
+      <div class="hero-stat"><div class="num">5万</div><div class="label">字PRD</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Selected Work</div>
+      <h2 class="section-title">精选作品</h2>
+      <p class="section-desc">每个作品不仅展示界面，更说清「为什么这样设计」。</p>
+    </div>
+
+    <div class="projects">
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner"><iframe src="01-finance-dashboard.html" loading="lazy"></iframe></div><div class="pc-preview-overlay"></div></div>
+        <div class="pc-info">
+          <span class="pc-tag purple">DATA DASHBOARD</span>
+          <h3 class="pc-title">MoneyFlow<br>个人财务仪表盘</h3>
+          <p class="pc-subtitle">面向都市白领的记账APP，用Z型阅读流和Progressive Disclosure策略，让用户3秒内获得财务全貌。</p>
+          <div class="pc-features">
+            <span class="pc-feat">环形图</span><span class="pc-feat">趋势折线</span><span class="pc-feat">FAB记账</span><span class="pc-feat">6色分类</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">3s</div><div class="lbl">核心信息获取</div></div>
+            <div class="pc-metric"><div class="val">40%</div><div class="lbl">滚动减少</div></div>
+            <div class="pc-metric"><div class="val">7±2</div><div class="lbl">Miller's Law</div></div>
+          </div>
+          <a class="pc-link" href="01-finance-dashboard.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner"><iframe src="02-health-tracker.html" loading="lazy"></iframe></div><div class="pc-preview-overlay"></div></div>
+        <div class="pc-info">
+          <span class="pc-tag orange">MOBILE APP</span>
+          <h3 class="pc-title">HabitFlow<br>每日健康打卡</h3>
+          <p class="pc-subtitle">用BJ Fogg行为模型和损失厌恶心理学，解决打卡APP 7日留存低于20%的问题。</p>
+          <div class="pc-features">
+            <span class="pc-feat">进度环</span><span class="pc-feat">打卡动画</span><span class="pc-feat">热力图</span><span class="pc-feat">Tab导航</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">300ms</div><div class="lbl">动画甜点</div></div>
+            <div class="pc-metric"><div class="val">2x</div><div class="lbl">损失厌恶系数</div></div>
+            <div class="pc-metric"><div class="val">44px</div><div class="lbl">最小触控</div></div>
+          </div>
+          <a class="pc-link" href="02-health-tracker.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner"><iframe src="03-saas-pricing.html" loading="lazy"></iframe></div><div class="pc-preview-overlay"></div></div>
+        <div class="pc-info">
+          <span class="pc-tag blue">B2B PRICING</span>
+          <h3 class="pc-title">CloudSync<br>SaaS 定价页</h3>
+          <p class="pc-subtitle">用锚定效应和Von Restorff效应优化三栏定价，年付默认选中+功能对比表+社会证明全链路转化。</p>
+          <div class="pc-features">
+            <span class="pc-feat">锚定效应</span><span class="pc-feat">年付切换</span><span class="pc-feat">对比表</span><span class="pc-feat">FAQ</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">+27%</div><div class="lbl">3选项转化提升</div></div>
+            <div class="pc-metric"><div class="val">+35%</div><div class="lbl">年付率提升</div></div>
+            <div class="pc-metric"><div class="val">14天</div><div class="lbl">免费试用</div></div>
+          </div>
+          <a class="pc-link" href="03-saas-pricing.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner"><iframe src="04-pet-vaccine.html" loading="lazy"></iframe></div><div class="pc-preview-overlay"></div></div>
+        <div class="pc-info">
+          <span class="pc-tag purple">核心案例 · MOBILE APP</span>
+          <h3 class="pc-title">宠伴·健康台账<br>从0到1核心产品</h3>
+          <p class="pc-subtitle">多宠家庭疫苗、驱虫、体检提醒分散在相册与群聊，易遗漏。通过20位宠物主深度访谈，70%每月遗忘疫苗，83%隐私顾虑优先。本地OCR+PWA零服务器成本，隐私优先架构。</p>
+          <div class="pc-features">
+            <span class="pc-feat">隐私优先</span><span class="pc-feat">本地OCR</span><span class="pc-feat">PWA离线</span><span class="pc-feat">按宠隔离</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">+38</div><div class="lbl">NPS净推荐值</div></div>
+            <div class="pc-metric"><div class="val">44%</div><div class="lbl">7日留存</div></div>
+            <div class="pc-metric"><div class="val">42%</div><div class="lbl">转化率</div></div>
+          </div>
+          <a class="pc-link" href="04-pet-vaccine.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner"><iframe src="05-cross-border-ai.html" loading="lazy"></iframe></div><div class="pc-preview-overlay"></div></div>
+        <div class="pc-info">
+          <span class="pc-tag orange">E-COMMERCE</span>
+          <h3 class="pc-title">GlobalFUN<br>跨境电商AI拼团</h3>
+          <p class="pc-subtitle">MCP服务总线+6-Agent协作架构，覆盖需求→调研→选品→文案→合规→运营全链路闭环。验证多Agent并行协作与流水线编排的交互可行性。</p>
+          <div class="pc-features">
+            <span class="pc-feat">MCP协议</span><span class="pc-feat">6-Agent协作</span><span class="pc-feat">结构化推送</span><span class="pc-feat">多语言</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">6个</div><div class="lbl">Agent协同</div></div>
+            <div class="pc-metric"><div class="val">98.2%</div><div class="lbl">意图识别率</div></div>
+            <div class="pc-metric"><div class="val">180ms</div><div class="lbl">MCP延迟</div></div>
+          </div>
+          <div class="pc-links">
+            <a class="pc-link" href="05-cross-border-ai.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a class="pc-link" href="https://github.com/anlan-dev/cross-border-ai" target="_blank" style="margin-left:8px">📦 GitHub <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner"><iframe src="06-creation-cabin.html" loading="lazy"></iframe></div><div class="pc-preview-overlay"></div></div>
+        <div class="pc-info">
+          <span class="pc-tag blue">AI创作 · PRODUCTIVITY</span>
+          <h3 class="pc-title">星途·创作舱<br>AI创作工作台</h3>
+          <p class="pc-subtitle">项目视角管理多部作品，4套主题（浅灰/深色/薄荷/墨水屏），角色数据库+大纲折叠+灵感收集器。健康分+进度环激励机制，对抗"开始成本"。</p>
+          <div class="pc-features">
+            <span class="pc-feat">项目视角</span><span class="pc-feat">AI灵感辅助</span><span class="pc-feat">健康分</span><span class="pc-feat">4套主题</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">AI</div><div class="lbl">灵感辅助</div></div>
+            <div class="pc-metric"><div class="val">健康分</div><div class="lbl">进度激励</div></div>
+            <div class="pc-metric"><div class="val">项目</div><div class="lbl">视角管理</div></div>
+          </div>
+          <a class="pc-link" href="06-creation-cabin.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner"><iframe src="07-prompt-library.html" loading="lazy"></iframe></div><div class="pc-preview-overlay"></div></div>
+        <div class="pc-info">
+          <span class="pc-tag purple">PM工具 · DEVELOPER TOOL</span>
+          <h3 class="pc-title">Prompt Library<br>AIGC提示词库</h3>
+          <p class="pc-subtitle">按PM工作流而非AI能力分类：需求分析→竞品分析→PRD撰写→评审沟通→数据分析→复盘输出。19项PRD质量检查清单，已GitHub开源。</p>
+          <div class="pc-features">
+            <span class="pc-feat">PM工作流</span><span class="pc-feat">6步12个</span><span class="pc-feat">PRD质检</span><span class="pc-feat">GitHub开源</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">6步</div><div class="lbl">工作流覆盖</div></div>
+            <div class="pc-metric"><div class="val">19项</div><div class="lbl">PRD质检清单</div></div>
+            <div class="pc-metric"><div class="val">开源</div><div class="lbl">GitHub</div></div>
+          </div>
+          <a class="pc-link" href="07-prompt-library.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner" style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.6);font-size:.9rem;font-weight:500">🎵 Glassmorphism</div></div></div>
+        <div class="pc-info">
+          <span class="pc-tag" style="background:rgba(233,69,96,0.12);color:#e94560">GLASSMORPHISM</span>
+          <h3 class="pc-title">Lofi<br>玻璃态音乐播放器</h3>
+          <p class="pc-subtitle">Z世代氛围感音乐APP，用backdrop-filter毛玻璃效果营造沉浸体验。韵律波动画+深紫渐变背景+最小控件原则。</p>
+          <div class="pc-features">
+            <span class="pc-feat">毛玻璃</span><span class="pc-feat">韵律波</span><span class="pc-feat">沉浸深色</span><span class="pc-feat">极简控件</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">24px</div><div class="lbl">模糊半径</div></div>
+            <div class="pc-metric"><div class="val">8条</div><div class="lbl">频谱条</div></div>
+            <div class="pc-metric"><div class="val">3</div><div class="lbl">操作按钮</div></div>
+          </div>
+          <a class="pc-link" href="08-glassmorphism.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner" style="background:#0a0a0f"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,0,255,0.6);font-size:.9rem;font-weight:700;font-family:'JetBrains Mono',monospace">// NEON</div></div></div>
+        <div class="pc-info">
+          <span class="pc-tag" style="background:rgba(255,0,255,0.12);color:#ff00ff">CYBERPUNK</span>
+          <h3 class="pc-title">NEON<br>赛博朋克数据看板</h3>
+          <p class="pc-subtitle">霓虹美学的数据监控面板。深空底色+网格线+荧光色，适合游戏/科技公司数据产品。</p>
+          <div class="pc-features">
+            <span class="pc-feat">霓虹美学</span><span class="pc-feat">网格背景</span><span class="pc-feat">数字跳动</span><span class="pc-feat">系统负载</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">3色</div><div class="lbl">霓虹色板</div></div>
+            <div class="pc-metric"><div class="val">24h</div><div class="lbl">实时流量</div></div>
+            <div class="pc-metric"><div class="val">4项</div><div class="lbl">系统监控</div></div>
+          </div>
+          <a class="pc-link" href="09-cyberpunk.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner" style="background:#f5f3ef"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:#2d2a24;font-size:.9rem;font-weight:500;font-family:'Noto Serif SC',serif">粋</div></div></div>
+        <div class="pc-info">
+          <span class="pc-tag" style="background:rgba(192,57,43,0.08);color:#c0392b">JAPANESE MINIMAL</span>
+          <h3 class="pc-title">粋·SUI<br>日式极简任务管理</h3>
+          <p class="pc-subtitle">受侘寂美学启发的任务管理。米白画布+衬线字体+朱红强调色，少即是多的设计哲学。</p>
+          <div class="pc-features">
+            <span class="pc-feat">侘寂美学</span><span class="pc-feat">大量留白</span><span class="pc-feat">衬线字体</span><span class="pc-feat">单色强调</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">3色</div><div class="lbl">完整色板</div></div>
+            <div class="pc-metric"><div class="val">8px</div><div class="lbl">网格单元</div></div>
+            <div class="pc-metric"><div class="val">0</div><div class="lbl">装饰元素</div></div>
+          </div>
+          <a class="pc-link" href="10-japanese-minimal.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner" style="background:#fff"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:#000;font-size:1.4rem;font-weight:900;letter-spacing:-.04em">BRUTAL</div></div></div>
+        <div class="pc-info">
+          <span class="pc-tag" style="background:#000;color:#fff">BRUTALISM</span>
+          <h3 class="pc-title">BRUTAL STUDIO<br>粗野主义品牌展示</h3>
+          <p class="pc-subtitle">反精致设计宣言。纯黑白+红色、零圆角、超大字重——不追求漂亮，追求被记住。</p>
+          <div class="pc-features">
+            <span class="pc-feat">零圆角</span><span class="pc-feat">超大字重</span><span class="pc-feat">三色板</span><span class="pc-feat">粗边框</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">3色</div><div class="lbl">极致限制</div></div>
+            <div class="pc-metric"><div class="val">4px</div><div class="lbl">粗边框</div></div>
+            <div class="pc-metric"><div class="val">6vw</div><div class="lbl">最大字号</div></div>
+          </div>
+          <a class="pc-link" href="11-brutalist.html">查看完整作品 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-preview"><div class="pc-preview-inner" style="background:linear-gradient(135deg,#0c0b09,#1a1610)"><div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:8px"><span style="font-size:2rem">🏮</span><span style="color:#b8905e;font-size:1rem;font-weight:700;letter-spacing:.1em">雾灯残页</span><span style="color:#7a7060;font-size:.7rem">Mistlamp Fragments</span></div></div></div>
+        <div class="pc-info">
+          <span class="pc-tag purple">GAME · AIGC</span>
+          <h3 class="pc-title">雾灯残页<br>AI辅助文字冒险游戏</h3>
+          <p class="pc-subtitle">哥特文字冒险游戏UI设计。暗色主题+金色强调，信息架构：28条分支路径×6结局×5属性暗骰机制。验证AI辅助内容生产的PM工作流。</p>
+          <div class="pc-features">
+            <span class="pc-feat">哥特暗色</span><span class="pc-feat">信息架构</span><span class="pc-feat">分支叙事</span><span class="pc-feat">响应式</span>
+          </div>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="val">28条</div><div class="lbl">分支路径</div></div>
+            <div class="pc-metric"><div class="val">6结局</div><div class="lbl">多结局</div></div>
+            <div class="pc-metric"><div class="val">15款</div><div class="lbl">竞品分析</div></div>
+          </div>
+          <a class="pc-link" href="../work/mistlamp.html">🎮 试玩游戏 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="principles">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Design Philosophy</div>
+      <h2 class="section-title">设计理念</h2>
+      <p class="section-desc">贯穿所有作品的四个核心原则。</p>
+    </div>
+    <div class="principles-grid">
+      <div class="principle reveal"><span class="principle-icon">🎯</span><h3>用户优先</h3><p>每个设计决策都从「用户需要什么」出发，而非「技术能做什么」。</p></div>
+      <div class="principle reveal"><span class="principle-icon">📊</span><h3>数据驱动</h3><p>用A/B测试和行为数据验证设计假设，不依赖主观审美判断。</p></div>
+      <div class="principle reveal"><span class="principle-icon">🧠</span><h3>心理学应用</h3><p>锚定效应、损失厌恶、Fitts's Law——每个交互都有理论支撑。</p></div>
+      <div class="principle reveal"><span class="principle-icon">⚡</span><h3>效率优先</h3><p>减少认知负荷和操作步骤，让用户用最少的思考完成任务。</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="design-system">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Design System</div>
+      <h2 class="section-title">UI Kit · 设计系统</h2>
+      <p class="section-desc">Token层→组件层→模式层，用系统化思维提升设计效率。Cursor+Claude+FigmaMCP，产品经理直接出高保真Demo。</p>
+    </div>
+    <div class="principles-grid">
+      <div class="principle reveal"><span class="principle-icon">🎨</span><h3>Token层</h3><p>CSS变量系统：色彩（--bg, --accent, --text）、字体（clamp响应式）、间距（8px基准）、圆角、阴影。一处修改，全局生效。</p></div>
+      <div class="principle reveal"><span class="principle-icon">🧩</span><h3>组件层</h3><p>可复用UI组件：按钮（6种状态）、卡片（3种布局）、表单（输入/选择/开关）、导航（顶栏/侧边/底部）、弹窗、Toast。</p></div>
+      <div class="principle reveal"><span class="principle-icon">📐</span><h3>模式层</h3><p>页面模式库：列表页、详情页、表单页、仪表盘、设置页。标准化布局+组件组合，快速搭建新页面。</p></div>
+      <div class="principle reveal"><span class="principle-icon">🤖</span><h3>AI工作流</h3><p>Cursor+Claude+FigmaMCP：写PRD→AI生成初版→人工验收→迭代。产品经理直接出高保真Demo，不依赖设计师。</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">My Process</div>
+      <h2 class="section-title">设计流程</h2>
+      <p class="section-desc">从问题发现到产品上线的完整方法论。</p>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step"><div class="ps-num">01</div><div class="ps-title">发现</div><div class="ps-desc">用户访谈<br>数据分析<br>竞品研究</div></div>
+      <div class="process-step"><div class="ps-num">02</div><div class="ps-title">定义</div><div class="ps-desc">用户画像<br>需求优先级<br>成功指标</div></div>
+      <div class="process-step"><div class="ps-num">03</div><div class="ps-title">设计</div><div class="ps-desc">信息架构<br>交互原型<br>视觉系统</div></div>
+      <div class="process-step"><div class="ps-num">04</div><div class="ps-title">验证</div><div class="ps-desc">可用性测试<br>A/B实验<br>数据迭代</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="inspiration">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Design Inspiration</div>
+      <h2 class="section-title">灵感来源</h2>
+      <div class="ref-header">
+        <p class="section-desc" style="margin:0 auto">好的设计不是凭空想象出来的。以下是我日常汲取灵感的优质平台，分类整理供你参考。</p>
+      </div>
+    </div>
+
+    <div class="ref-categories reveal">
+      <div class="ref-category">
+        <div class="ref-cat-title">🎨 设计灵感平台</div>
+        <div class="ref-category-grid">
+          <a class="ref-card" href="https://dribbble.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">🏀</span>
+            <div class="ref-card-name">Dribbble</div>
+            <div class="ref-card-desc">全球最大的设计师社区，百万级 UI 作品。格式「Shots」短平快，适合日常快速刷灵感。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag pink">Shots</span><span class="ref-card-tag orange">社区</span><span class="ref-card-tag blue">趋势</span></div>
+          </a>
+          <a class="ref-card" href="https://www.behance.net/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">🎯</span>
+            <div class="ref-card-name">Behance</div>
+            <div class="ref-card-desc">Adobe 旗下创意平台，作品以完整 Case Study 为主，适合深挖设计思考过程。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag purple">Case Study</span><span class="ref-card-tag blue">完整项目</span></div>
+          </a>
+          <a class="ref-card" href="https://www.awwwards.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">🏆</span>
+            <div class="ref-card-name">Awwwards</div>
+            <div class="ref-card-desc">全球顶尖网站评选平台，评审维度覆盖设计、可用性、创意和内容四大维度。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag green">评选</span><span class="ref-card-tag purple">标杆</span><span class="ref-card-tag orange">趋势</span></div>
+          </a>
+          <a class="ref-card" href="https://thefwa.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">✨</span>
+            <div class="ref-card-name">The FWA</div>
+            <div class="ref-card-desc">专注实验性和创新性网页设计，WebGL、3D 交互、沉浸式体验的先锋阵地。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag pink">WebGL</span><span class="ref-card-tag blue">3D</span><span class="ref-card-tag purple">实验</span></div>
+          </a>
+          <a class="ref-card" href="https://godly.website/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">🌟</span>
+            <div class="ref-card-name">Godly</div>
+            <div class="ref-card-desc">精选现代网页设计画廊，注重动效、布局和实验性。界面干净直接，布灵感优选。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag orange">画廊</span><span class="ref-card-tag green">精选</span><span class="ref-card-tag blue">动效</span></div>
+          </a>
+          <a class="ref-card" href="https://www.cssdesignawards.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">🌐</span>
+            <div class="ref-card-name">CSS Design Awards</div>
+            <div class="ref-card-desc">全球 CSS 设计评奖平台，侧重 UI/UX 工艺和前端实现，适合开发视角的设计参考。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag blue">CSS</span><span class="ref-card-tag purple">前端</span><span class="ref-card-tag orange">工艺</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="ref-category">
+        <div class="ref-cat-title">📱 产品设计案例库</div>
+        <div class="ref-category-grid">
+          <a class="ref-card" href="https://mobbin.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">📱</span>
+            <div class="ref-card-name">Mobbin</div>
+            <div class="ref-card-desc">海量真实 APP 截图库，可按应用、流程、组件搜索。做竞品分析时的首选工具。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag blue">APP截图</span><span class="ref-card-tag purple">竞品分析</span><span class="ref-card-tag orange">海量</span></div>
+          </a>
+          <a class="ref-card" href="https://screenlane.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">📲</span>
+            <div class="ref-card-name">Screenlane</div>
+            <div class="ref-card-desc">专注移动端 UI 截图，按组件类型（表单/导航/列表）分类，适合找特定模式参考。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag green">移动端</span><span class="ref-card-tag purple">组件</span><span class="ref-card-tag blue">模式</span></div>
+          </a>
+          <a class="ref-card" href="https://uisources.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">🔍</span>
+            <div class="ref-card-name">UI Sources</div>
+            <div class="ref-card-desc">专注交互模式库，按用户流程（注册/搜索/结账）组织，适合做 UX Flow 参考。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag pink">交互模式</span><span class="ref-card-tag blue">流程</span></div>
+          </a>
+          <a class="ref-card" href="https://collectui.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">📂</span>
+            <div class="ref-card-name">Collect UI</div>
+            <div class="ref-card-desc">Dribbble 优质作品聚合器，按颜色、组件、行业分类，节省在 Dribbble 中搜索的时间。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag orange">聚合</span><span class="ref-card-tag purple">分类</span><span class="ref-card-tag green">效率</span></div>
+          </a>
+          <a class="ref-card" href="https://saaspages.design/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">🏢</span>
+            <div class="ref-card-name">SaaS Pages</div>
+            <div class="ref-card-desc">专注 SaaS 定价页和落地页设计，适合做 B2B 产品的 Landing Page 参考。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag blue">SaaS</span><span class="ref-card-tag purple">定价页</span><span class="ref-card-tag orange">Landing</span></div>
+          </a>
+          <a class="ref-card" href="https://land-book.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">🌍</span>
+            <div class="ref-card-name">Land Book</div>
+            <div class="ref-card-desc">精选落地页和图库网站集合，按颜色、风格、类型筛选，适合找网页设计灵感。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag green">落地页</span><span class="ref-card-tag blue">筛选</span><span class="ref-card-tag pink">网页</span></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="ref-category">
+        <div class="ref-cat-title">🏛️ 品牌官网标杆</div>
+        <div class="ref-category-grid">
+          <a class="ref-card" href="https://variant.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">◆</span>
+            <div class="ref-card-name">Variant</div>
+            <div class="ref-card-desc">设计工具领域的标杆网站。无限滚动展示设计方案，像和创意总监一起工作。设计极简但有冲击力。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag purple">极简</span><span class="ref-card-tag blue">创意</span><span class="ref-card-tag orange">启动页</span></div>
+          </a>
+          <a class="ref-card" href="https://linear.app/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">◈</span>
+            <div class="ref-card-name">Linear</div>
+            <div class="ref-card-desc">现代 SaaS 品牌设计的标杆。极简主义、系统化排版、流畅动效——每个像素都是克制的。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag blue">SaaS</span><span class="ref-card-tag purple">极简</span><span class="ref-card-tag green">品牌</span></div>
+          </a>
+          <a class="ref-card" href="https://stripe.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">◉</span>
+            <div class="ref-card-name">Stripe</div>
+            <div class="ref-card-desc">B2B 品牌设计的巅峰。信息层级清晰、大量留白、渐变色运用自然又不张扬。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag pink">B2B</span><span class="ref-card-tag blue">排版</span><span class="ref-card-tag purple">留白</span></div>
+          </a>
+          <a class="ref-card" href="https://www.apple.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon"></span>
+            <div class="ref-card-name">Apple</div>
+            <div class="ref-card-desc">HIG（人机界面指南）的实践来源。大图+文案的内容节奏是产品页设计的标准范式。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag purple">HIG</span><span class="ref-card-tag orange">内容节奏</span><span class="ref-card-tag blue">产品页</span></div>
+          </a>
+          <a class="ref-card" href="https://vercel.com/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">▲</span>
+            <div class="ref-card-name">Vercel</div>
+            <div class="ref-card-desc">开发者工具品牌化的优秀案例。深色主题+几何元素+极简排版，重视动效细节。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag green">深色主题</span><span class="ref-card-tag blue">开发者</span><span class="ref-card-tag purple">动效</span></div>
+          </a>
+          <a class="ref-card" href="https://www.notion.so/" target="_blank" rel="noopener">
+            <span class="ref-card-icon">📄</span>
+            <div class="ref-card-name">Notion</div>
+            <div class="ref-card-desc">内容型产品设计的参照。大字重对比+大量留白+插画系统的搭配方式，平衡趣味与专业。</div>
+            <div class="ref-card-tags"><span class="ref-card-tag orange">内容</span><span class="ref-card-tag pink">插画</span><span class="ref-card-tag green">排版</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-personal reveal">
+      <p>💡 收藏你喜欢的网站，建立自己的设计灵感库。<br>好的设计不是模仿，是在大量输入后<strong>形成自己的判断力</strong>。<br><span class="highlight">每个像素都有它的道理</span> —— 但在那之前，先看够一百万个像素。</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-brand">王天娇</div>
+    <p>Product Manager · UI Designer</p>
+    <p style="margin-top:4px;font-size:.78rem;color:var(--text3)">每个像素都有它的道理</p>
+    <div class="footer-links">
+      <a href="https://anlan-dev.github.io/pm-works-demos/">PM 作品集（需求取舍·指标口径）</a>
+      <a href="https://github.com/anlan-dev">GitHub</a>
+      <a href="mailto:wangtj0212@gmail.com">Email</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
+</script>
+</body>
+</html>

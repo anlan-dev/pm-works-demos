@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🌌 星途·创作舱 · 大纲/角色/多格式工坊</title>
+    <!-- Markdown 解析库 (marked) 用于大纲预览优化 - 增加备用加载机制 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Android Emoji', 'EmojiOne Color', sans-serif; }
+        :root {
+            --bg-body: #fef7e8; --bg-app: #fffcf5; --border-light: #f0e5d2; --header-bg: #fff9ef; --sidebar-bg: #fdf6ea;
+            --sidebar-border: #e8dcc8; --card-bg: #ffffff; --card-border: #eadfc9; --accent-border: #c9a87b;
+            --text-primary: #3a2c1f; --text-secondary: #5c4a34; --text-muted: #8b765a; --btn-bg: #ffffffd9;
+            --btn-border: #e0cfb8; --form-bg: #fef7ec; --record-bg: white; --shadow: 0 4px 12px rgba(0,0,0,0.04);
+            --tag-bg: #f0e5d6; --tag-text: #5a3e2a; --modal-overlay: rgba(0,0,0,0.2); --toast-bg: #3a2c1fe6;
+            --role-bg: #fff9f0; --role-border: #e9dbc9;
+        }
+        body.theme-lightgray {
+            --bg-body: #eef2f5; --bg-app: #f8fafd; --border-light: #dfe5ec; --header-bg: #f4f7fb; --sidebar-bg: #f1f4f8;
+            --sidebar-border: #e0e6ed; --card-bg: #ffffff; --card-border: #e2e8f0; --accent-border: #7f8c8d;
+            --text-primary: #2c3e50; --text-secondary: #4a627a; --text-muted: #7f8c9a; --btn-bg: #ffffff;
+            --btn-border: #cfdde6; --form-bg: #f0f4f9; --record-bg: #ffffff; --tag-bg: #e6edf4; --tag-text: #2c5a7a;
+            --toast-bg: #2c3e50e6; --role-bg: #f0f6fc; --role-border: #e2eaf1;
+        }
+        body.theme-dark {
+            --bg-body: #1a1a1c; --bg-app: #262629; --border-light: #3a3a40; --header-bg: #2e2e32; --sidebar-bg: #242427;
+            --sidebar-border: #3e3e44; --card-bg: #2f2f33; --card-border: #44444a; --accent-border: #7a8b9e;
+            --text-primary: #ececec; --text-secondary: #cdcdd2; --text-muted: #a0a0a8; --btn-bg: #3a3a40;
+            --btn-border: #5a5a62; --form-bg: #313136; --record-bg: #2b2b2f; --tag-bg: #4a4d55; --tag-text: #e0e0e0;
+            --toast-bg: #ececece6; --role-bg: #2e2e34; --role-border: #43434b;
+        }
+        body.theme-mint {
+            --bg-body: #e3f0ea; --bg-app: #f0f9f4; --border-light: #cde0d6; --header-bg: #eaf5ee; --sidebar-bg: #e3efe8;
+            --sidebar-border: #c5dbd0; --card-bg: #ffffffdb; --card-border: #bcd0c4; --accent-border: #6e9b89;
+            --text-primary: #1e3a2f; --text-secondary: #2c4e3f; --text-muted: #4f6e5e; --btn-bg: #f6fffa;
+            --btn-border: #a8c3b7; --form-bg: #def0e5; --record-bg: #ffffff; --tag-bg: #c3dfd1; --tag-text: #1b4b3b;
+            --toast-bg: #1e3a2fe6; --role-bg: #e4f3ec; --role-border: #c6dfd3;
+        }
+        body { background: var(--bg-body); min-height: 100vh; padding: 24px 20px; display: flex; justify-content: center; transition: background 0.2s; }
+        .app { max-width: 1500px; width: 100%; background: var(--bg-app); border-radius: 32px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-light); }
+        .app-header { padding: 20px 28px; border-bottom: 1px solid var(--border-light); background: var(--header-bg); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+        h1 { font-weight: 500; font-size: 1.9rem; color: var(--text-primary); display: flex; align-items: center; gap: 12px; }
+        h1 small { font-size: 0.9rem; background: var(--tag-bg); color: var(--tag-text); padding: 4px 12px; border-radius: 40px; margin-left: 8px; }
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .theme-switcher { display: flex; gap: 8px; }
+        .theme-btn { width: 40px; height: 36px; border-radius: 30px; border: 2px solid transparent; background: var(--btn-bg); color: var(--text-primary); font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border: 1px solid var(--btn-border); }
+        .theme-btn.active { border: 2px solid var(--accent-border); transform: scale(1.05); }
+        .storage-badge { background: var(--sidebar-bg); padding: 6px 16px; border-radius: 60px; font-size: 0.9rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-light); }
+        .storage-badge button { background: none; border: 1px solid var(--btn-border); padding: 4px 12px; border-radius: 30px; font-size: 0.8rem; cursor: pointer; color: var(--text-primary); }
+        .main-layout { display: flex; flex: 1; min-height: 650px; }
+        .script-sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border); padding: 22px 16px; display: flex; flex-direction: column; }
+        .sidebar-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; color: var(--text-secondary); }
+        .btn-icon { background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 30px; width: 38px; height: 38px; font-size: 22px; cursor: pointer; color: var(--text-primary); display: inline-flex; align-items: center; justify-content: center; }
+        .manage-tags-btn { margin-top: 8px; width: 100%; padding: 12px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 40px; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 450; }
+        .auto-backup-toggle { margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-secondary); }
+        .script-list { list-style: none; margin-top: 6px; flex: 1; overflow-y: auto; }
+        .script-item { padding: 14px 16px; margin-bottom: 8px; background: var(--card-bg); border-radius: 18px; border: 1px solid var(--card-border); cursor: pointer; transition: 0.15s; box-shadow: var(--shadow); }
+        .script-item.active { border: 2px solid var(--accent-border); background: var(--record-bg); }
+        .script-name { font-weight: 550; color: var(--text-primary); }
+        .script-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+        .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 2px; }
+        .tag { background: var(--tag-bg); color: var(--tag-text); padding: 2px 10px; border-radius: 30px; font-size: 0.7rem; }
+        .script-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
+        .content-panel { flex: 1; padding: 24px 28px; background: var(--bg-app); overflow-y: auto; }
+        .current-script-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; }
+        .current-script-title { font-size: 1.8rem; font-weight: 450; color: var(--text-primary); }
+        .edit-name-btn { background: none; border: 1px dashed var(--accent-border); padding: 6px 16px; border-radius: 30px; cursor: pointer; color: var(--text-secondary); }
+        .record-form-card { background: var(--form-bg); border-radius: 24px; padding: 22px 24px; margin-bottom: 28px; border: 1px solid var(--card-border); }
+        .form-title { font-weight: 500; margin-bottom: 16px; color: var(--text-secondary); display: flex; align-items: center; }
+        .form-grid { display: flex; flex-direction: column; gap: 16px; }
+        .form-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+        .form-row label { width: 100px; font-weight: 450; color: var(--text-secondary); }
+        .form-control { flex: 1; padding: 10px 14px; border: 1px solid var(--btn-border); border-radius: 20px; background: var(--record-bg); color: var(--text-primary); font-size: 0.95rem; }
+        .btn { background: var(--btn-bg); border: 1px solid var(--btn-border); padding: 10px 22px; border-radius: 40px; cursor: pointer; color: var(--text-primary); transition: 0.15s; font-size: 0.95rem; }
+        .btn-primary { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg-app); }
+        .btn-sm { padding: 4px 12px; font-size: 0.8rem; background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 30px; cursor: pointer; }
+        .btn-link { background: none; border: none; color: var(--accent-border); text-decoration: underline; cursor: pointer; }
+        .role-world-section, .outline-section { background: var(--role-bg); border-radius: 24px; padding: 20px 24px; margin-bottom: 28px; border: 1px solid var(--role-border); }
+        .section-title { font-size: 1.2rem; font-weight: 550; margin-bottom: 14px; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .character-grid { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0 12px; }
+        .character-card { background: var(--card-bg); border-radius: 20px; padding: 12px 16px; width: calc(33% - 12px); min-width: 180px; border: 1px solid var(--card-border); }
+        .character-name { font-weight: 700; font-size: 1rem; color: var(--accent-border); }
+        .character-desc { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; word-break: break-word; }
+        .char-actions { margin-top: 8px; display: flex; gap: 8px; justify-content: flex-end; }
+        .world-setting-area { margin-top: 18px; padding-top: 12px; border-top: 1px dashed var(--border-light); }
+        .world-textarea { width: 100%; min-height: 100px; background: var(--record-bg); border: 1px solid var(--btn-border); border-radius: 20px; padding: 12px; color: var(--text-primary); margin-top: 8px; }
+        .outline-edit-area { margin-top: 6px; }
+        .outline-textarea { width: 100%; min-height: 220px; background: var(--record-bg); border: 1px solid var(--btn-border); border-radius: 20px; padding: 14px; font-family: monospace; font-size: 0.9rem; line-height: 1.5; color: var(--text-primary); margin: 12px 0; }
+        .file-upload-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 12px 0 8px; }
+        .outline-file-info { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--form-bg); padding: 8px 16px; border-radius: 40px; }
+        .file-link { cursor: pointer; color: var(--accent-border); text-decoration: underline; text-underline-offset: 2px; }
+        .add-char-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-top: 16px; background: var(--form-bg); padding: 12px 16px; border-radius: 28px; }
+        .add-char-form input, .add-char-form textarea { flex: 1; min-width: 140px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--modal-overlay); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 1000; visibility: hidden; }
+        .modal-card { background: var(--bg-app); border-radius: 32px; padding: 28px 30px; width: 500px; max-width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid var(--border-light); position: relative; }
+        .modal-card h3 { color: var(--text-primary); margin-bottom: 20px; }
+        .close-modal-icon { position: absolute; top: 20px; right: 24px; font-size: 24px; cursor: pointer; color: var(--text-muted); background: none; border: none; padding: 0; line-height: 1; }
+        .close-modal-icon:hover { color: var(--text-primary); }
+        .tag-selector { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0 10px; max-height: 180px; overflow-y: auto; padding: 4px; }
+        .tag-chip { background: var(--tag-bg); color: var(--tag-text); padding: 6px 16px; border-radius: 40px; font-size: 0.9rem; cursor: pointer; border: 1.5px solid transparent; transition: 0.1s; user-select: none; }
+        .tag-chip.selected { background: var(--accent-border); color: white; border-color: var(--text-primary); }
+        .record-card { background: var(--record-bg); border-radius: 24px; padding: 18px; margin-bottom: 16px; border: 1px solid var(--card-border); }
+        .preview-content { margin-top: 12px; background: var(--form-bg); border: 1px dashed var(--btn-border); border-radius: 18px; padding: 14px; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; max-height: 200px; overflow: auto; }
+        .empty-message { text-align: center; color: var(--text-muted); padding: 40px 20px; font-style: italic; }
+        .toast-message { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--toast-bg); color: var(--bg-app); padding: 10px 24px; border-radius: 60px; z-index: 2000; backdrop-filter: blur(8px); pointer-events: none; font-weight: 500; white-space: nowrap; }
+        body.theme-dark .toast-message { color: #ececec; background: #3a3a40e6; }
+        .file-info-tip { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+        .dev-credit {
+            position: fixed; bottom: 12px; right: 16px; font-size: 0.65rem; color: var(--text-muted);
+            background: var(--bg-app); padding: 4px 10px; border-radius: 40px; opacity: 0.55; z-index: 999;
+            pointer-events: none; backdrop-filter: blur(4px); font-family: monospace; transition: opacity 0.2s;
+            text-align: right; line-height: 1.3;
+        }
+        .dev-credit:hover { opacity: 0.9; pointer-events: auto; cursor: default; }
+        .dev-credit .demo-note { font-size: 0.55rem; opacity: 0.7; margin-top: 2px; }
+        .outline-toolbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+        .outline-toolbar .btn-sm { font-size: 0.75rem; }
+        .markdown-preview { background: var(--card-bg); border-radius: 20px; padding: 16px; margin-top: 12px; max-height: 300px; overflow: auto; border: 1px solid var(--card-border); }
+        @media (max-width: 640px) { .dev-credit { font-size: 0.6rem; bottom: 8px; right: 8px; } }
+    </style>
+</head>
+<body>
+<div class="app">
+    <header class="app-header">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <h1>🌌 星途·创作舱 <small>大纲·角色·多格式</small></h1>
+            <div class="theme-switcher">
+                <button class="theme-btn" data-theme="default" title="暖白">暖</button>
+                <button class="theme-btn" data-theme="lightgray" title="浅灰">灰</button>
+                <button class="theme-btn" data-theme="mint" title="薄荷">清</button>
+                <button class="theme-btn" data-theme="dark" title="深空">夜</button>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="btn" id="monthlyReviewBtn">📊 星际回顾</button>
+            <div class="storage-badge"><span>💾 本地星核</span><button id="exportDataBtn">⬇️ 导出</button><button id="importDataBtn">⬆️ 导入</button><input type="file" id="importFileInput" accept=".json" style="display:none"></div>
+        </div>
+    </header>
+    <div class="main-layout">
+        <div class="script-sidebar">
+            <div class="sidebar-title"><span>📚 我的星舰项目</span><button class="btn-icon" id="addScriptBtn">➕</button></div>
+            <ul class="script-list" id="scriptListContainer"></ul>
+            <button class="manage-tags-btn" id="openTagManagerBtn">🏷️ 管理标签库</button>
+            <div class="auto-backup-toggle"><input type="checkbox" id="autoBackupCheckbox"> <label for="autoBackupCheckbox">退出/刷新时自动备份到下载</label></div>
+        </div>
+        <div class="content-panel">
+            <div class="current-script-header"><div class="current-script-title" id="currentScriptNameDisplay">选择或创建星舰项目</div><button class="edit-name-btn" id="renameScriptBtn" style="display:none;">✏️ 编辑信息</button></div>
+            
+            <div class="outline-section" id="outlineSection">
+                <div class="section-title">🚀 星航大纲 · 细纲子节 <span style="font-size:0.8rem;">(支持 txt/md/doc/pdf 等文件作为附件)</span></div>
+                <div class="outline-edit-area">
+                    <div class="outline-toolbar">
+                        <button class="btn-sm" id="insertHeadingBtn" title="插入二级标题">📌 二级标题</button>
+                        <button class="btn-sm" id="insertListBtn" title="插入无序列表项">• 列表项</button>
+                        <button class="btn-sm" id="insertBoldBtn" title="加粗选中文字">𝐁 加粗</button>
+                        <button class="btn-sm" id="insertDividerBtn" title="插入分隔线">⎯ 分隔线</button>
+                        <button class="btn-sm" id="insertCodeBlockBtn" title="插入代码块或引用">{ } 代码块</button>
+                        <span style="flex:1;"></span>
+                        <button class="btn-sm" id="toggleMdPreviewBtn" title="切换Markdown实时预览">👁️ 预览</button>
+                    </div>
+                    <textarea id="outlineTextArea" class="outline-textarea" placeholder="✍️ 先写总体目标/分卷 · 再细化段落情节点与时间线 · 排布章纲 · 下笔前理清本章要写什么…… 支持Markdown"></textarea>
+                    <div id="outlineMdPreview" class="markdown-preview" style="display:none;"></div>
+                    <div class="file-upload-row">
+                        <button class="btn" id="uploadOutlineBtn">📂 上传大纲文件（txt/md/doc/docx/pdf）</button>
+                        <div id="outlineFileInfo" class="outline-file-info" style="display:none;">
+                            <span>📎 <span id="outlineFileName" class="file-link"></span></span>
+                            <button class="btn-sm" id="openOutlineFileBtn">📂 打开文件（下载后用默认程序）</button>
+                            <button class="btn-sm" id="clearOutlineFileBtn">清除文件</button>
+                        </div>
+                        <span style="font-size:0.8rem; color:var(--text-muted);">上传文件后，文本类可填充到上方编辑器，其他格式仅保存为附件。</span>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                        <button class="btn btn-primary" id="saveOutlineBtn">💾 保存大纲</button>
+                        <button class="btn-sm" id="previewOutlineBtn">📄 弹窗预览</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="role-world-section" id="roleWorldPanel">
+                <div class="section-title">🎭 角色设定 · 世界观</div>
+                <div id="charactersListContainer" class="character-grid"></div>
+                <div class="add-char-form">
+                    <input type="text" id="newCharName" class="form-control" placeholder="角色名 (如: 林深)" style="flex:1;">
+                    <textarea id="newCharDesc" class="form-control" placeholder="一句话简介 / 性格 / 背景" rows="1" style="flex:2; min-width:180px;"></textarea>
+                    <button class="btn btn-primary" id="addCharacterBtn">➕ 添加角色</button>
+                </div>
+                <div class="world-setting-area">
+                    <div style="font-weight:500;">🌍 世界观 / 故事背景</div>
+                    <textarea id="worldSettingText" class="world-textarea" placeholder="时代背景、势力划分、特殊设定、核心冲突……"></textarea>
+                    <div style="display:flex; justify-content:flex-end; margin-top:8px;"><button class="btn-sm" id="saveWorldBtn">💾 保存世界观</button></div>
+                </div>
+            </div>
+
+            <div class="record-form-card">
+                <div class="form-title"><span id="formModeLabel">✍️ 添加创作记录</span><button class="btn-sm btn-link" id="cancelEditBtn" style="display:none;">取消</button><span style="flex:1;"></span><span id="autoSaveIndicator">⏺️ 已自动保存</span></div>
+                <div class="form-grid">
+                    <div class="form-row"><label>📅 日期</label><input type="date" id="recordDate" class="form-control"></div>
+                    <div class="form-row"><label>📌 章节/片段</label><input type="text" id="recordTitle" class="form-control" placeholder="例如：第三章 重逢、灵感碎片"></div>
+                    <div class="form-row"><label>📄 草稿文件</label><div style="flex:1;"><div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;"><button type="button" class="btn" id="uploadTriggerBtn">📎 选择文件</button><span id="fileNameDisplay" style="cursor:pointer;" title="双击打开">未选择文件</span><button type="button" class="btn-sm btn-link" id="clearFileBtn">清除</button></div><div class="file-info-tip">支持 Word (.doc/.docx)、PDF、TXT、MD 等。双击文件名即可下载并用系统默认程序打开。</div></div></div>
+                    <div class="form-row"><label>💭 创作笔记</label><textarea id="recordReflection" class="form-control" placeholder="灵感来源、修改思路、人物小传..."></textarea></div>
+                    <div class="form-row" style="justify-content: flex-end;"><button class="btn btn-primary" id="saveRecordBtn">💾 保存章节/笔记</button></div>
+                </div>
+                <input type="hidden" id="editingRecordId"><input type="hidden" id="currentFileContent"><input type="hidden" id="currentFileName"><input type="hidden" id="currentFileType">
+            </div>
+            <div class="records-feed"><div style="display:flex; justify-content:space-between;"><h3 style="color:var(--text-secondary);">📖 创作历程 / 章节列表</h3><span id="recordCount">0 条记录</span></div><div id="recordsContainer"></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="dev-credit">
+    <div>✍️ 星途创作助手 · 反馈 📧 ilikeitnow@qq.com</div>
+    <div class="demo-note">⚠️ 当前为测试预览版，功能仍在完善中</div>
+</div>
+
+<!-- 模态框 -->
+<div class="modal-overlay" id="scriptModal"><div class="modal-card"><h3 id="modalTitle">新建星舰项目</h3><label>项目名称</label><input type="text" id="modalScriptName" class="form-control" placeholder="输入名称" style="margin:8px 0 16px;"><label>标签 (可多选)</label><div class="tag-selector" id="tagSelectorContainer"></div><div class="add-tag-section"><input type="text" id="newTagInput" class="form-control" placeholder="输入新标签" maxlength="15"><button class="btn" id="addNewTagBtn">➕ 添加</button></div><div class="modal-actions"><button class="btn" id="modalCancelBtn">取消</button><button class="btn btn-primary" id="modalSaveBtn">保存</button></div></div></div>
+<div class="modal-overlay" id="reviewModal"><div class="modal-card" style="width:600px;"><h3>📆 星际月度回顾</h3><div class="month-selector"><select id="monthSelect" class="form-control"></select><button class="btn btn-primary" id="refreshReviewBtn">查看</button></div><div id="reviewStatsContainer"><div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0;"><div style="background:var(--form-bg); border-radius:20px; padding:16px; text-align:center;"><div style="font-size:2rem;" id="totalRecordsStat">0</div><div>总章节数</div></div><div style="background:var(--form-bg); border-radius:20px; padding:16px; text-align:center;"><div style="font-size:2rem;" id="activeScriptsStat">0</div><div>活跃项目</div></div></div><div><strong>🏷️ 标签分布</strong></div><div id="tagStatsContainer"></div><div><strong>💡 高频创作词</strong></div><div id="keywordStatsContainer"></div></div><div class="modal-actions"><button class="btn" id="closeReviewBtn">关闭</button></div></div></div>
+<div class="modal-overlay" id="tagManagerModal"><div class="modal-card"><button class="close-modal-icon" id="closeTagManagerIcon" aria-label="关闭">✖</button><h3>🏷️ 管理标签库</h3><div id="tagManagerList" style="max-height: 300px; overflow-y:auto;"></div><div class="add-tag-section" style="margin-top:16px;"><input type="text" id="managerNewTagInput" class="form-control" placeholder="新标签名称" maxlength="15"><button class="btn btn-primary" id="managerAddTagBtn">添加</button></div><div class="modal-actions"><button class="btn" id="closeTagManagerBtn">关闭</button></div></div></div>
+<div class="modal-overlay" id="characterModal"><div class="modal-card"><h3 id="charModalTitle">编辑角色</h3><label>角色名</label><input type="text" id="charEditName" class="form-control"><label>描述/设定</label><textarea id="charEditDesc" class="form-control" rows="3"></textarea><div class="modal-actions"><button class="btn" id="charModalCancel">取消</button><button class="btn btn-primary" id="charModalSave">保存</button></div></div></div>
+<div class="modal-overlay" id="outlinePreviewModal"><div class="modal-card" style="width:700px;"><h3>📜 大纲预览 (Markdown)</h3><div id="outlinePreviewContent" style="background:var(--form-bg); border-radius:20px; padding:16px; max-height:60vh; overflow:auto;"></div><div class="modal-actions"><button class="btn" id="closePreviewBtn">关闭</button></div></div></div>
+
+<script>
+(function(){
+    // 确保 marked 安全加载，避免因CDN问题导致整个页面按钮失效
+    const safeMarked = (() => {
+        if (typeof marked !== 'undefined' && typeof marked.parse === 'function') return marked;
+        if (typeof marked !== 'undefined' && typeof marked === 'function') return { parse: (txt) => marked(txt) };
+        return { parse: (txt) => `<pre>${escapeHtml(txt)}</pre><small>⚠️ Markdown库未加载，显示原文</small>` };
+    })();
+    function safeMarkdownParse(text) {
+        try { return safeMarked.parse(text || ''); } catch(e) { return `<pre>${escapeHtml(text || '')}</pre><small>解析出错，显示原文</small>`; }
+    }
+    
+    const DEFAULT_TAGS = ['原创','同人','奇幻','科幻','都市','古风','悬疑','言情','冒险','星际'];
+    let globalTags = [];
+    let appData = { scripts: [], activeScriptId: null, customTags: [] };
+    const STORAGE_KEY = 'star_trail_novel_v2_fixed';
+    const AUTO_BACKUP_KEY = 'autoBackupEnabled';
+    const MAX_FILE_SIZE = 15 * 1024 * 1024;
+    let currentEditingCharId = null;
+    function showToast(msg,d=2000){ let t=document.querySelector('.toast-message'); if(t)t.remove(); t=document.createElement('div'); t.className='toast-message'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>{t.style.opacity='0'; setTimeout(()=>t?.remove(),300);},d);}
+    function generateId(){ return 'id_'+Date.now()+'_'+Math.random().toString(36).substr(2,9); }
+    function base64DecodeUnicode(str){ try{ return decodeURIComponent(escape(atob(str))); }catch(e){ return str; } }
+    function escapeHtml(s){ return String(s).replace(/[&<>]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]); }
+    
+    function loadData(){
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if(stored){ try{ appData = JSON.parse(stored); }catch(e){} }
+        if(!appData.scripts || appData.scripts.length===0){
+            const sampleId = generateId();
+            appData.scripts = [{
+                id: sampleId, name:'星海·启程', createdAt: new Date().toISOString(), records:[{
+                    id:generateId(), date:new Date(Date.now()-86400000).toISOString().slice(0,10), title:'序章：星轨交汇', reflection:'从主角相遇开始构思，加入宿命感。', fileName:'', fileContent:'', fileType:''
+                }], tags:['原创','科幻'], characters:[{ id:generateId(), name:'林深', description:'飞船工程师，理性内敛' },{ id:generateId(), name:'艾莉', description:'神秘旅者，掌握星图秘密' }], worldSetting:'公元2845年，星际联邦与流亡者并存，暗物质驱动技术改变宇宙航行。',
+                outline: { text: '【故事主线】\n林深意外获得古代星图碎片，与神秘旅者艾莉结伴，揭开“星海回响”的宇宙秘密，对抗暗影议会。\n\n【分卷细纲】\n◆ 第一卷：残响启程\n  - 第一章 废弃观测站：发现星图\n  - 第二章 不速之客：艾莉登场\n  - 第三章 星轨追逐：逃离联邦追兵\n◆ 第二卷：暗流觉醒\n  - 第四章 星图预言\n  - 第五章 旧日盟友\n\n【伏笔】\n林深的身世与星图有深层关联。', fileName: '', fileContent: '', fileType: '' }
+            }];
+            appData.activeScriptId = sampleId;
+        }
+        if(!appData.customTags) appData.customTags = [...DEFAULT_TAGS];
+        globalTags = [...new Set([...DEFAULT_TAGS, ...appData.customTags])];
+        if(!appData.activeScriptId || !appData.scripts.find(s=>s.id===appData.activeScriptId)) appData.activeScriptId = appData.scripts[0]?.id;
+        appData.scripts.forEach(script => {
+            if(!script.characters) script.characters = [];
+            if(script.worldSetting===undefined) script.worldSetting = '';
+            if(!script.records) script.records = [];
+            if(!script.outline) script.outline = { text: '', fileName: '', fileContent: '', fileType: '' };
+            else if(typeof script.outline === 'string') script.outline = { text: script.outline, fileName: '', fileContent: '', fileType: '' };
+        });
+        showToast(`✨ 欢迎使用星途·创作舱`, 2000);
+    }
+    
+    function saveData(quiet=false){
+        appData.customTags = globalTags.filter(t => !DEFAULT_TAGS.includes(t));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+        if(!quiet){ document.getElementById('autoSaveIndicator').textContent='💾 已保存'; setTimeout(()=>document.getElementById('autoSaveIndicator').textContent='⏺️ 已自动保存',1500); }
+        isFormDirty=false;
+    }
+    
+    function downloadBackup(showMsg=true){
+        const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(appData,null,2)],{type:'application/json'})); a.download=`star_trail_backup_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.json`; document.body.appendChild(a); a.click(); document.body.removeChild(a); if(showMsg) showToast('📦 备份已保存到下载文件夹',1500);
+    }
+    
+    function handleBeforeUnload(){
+        saveData(true);
+        if(localStorage.getItem(AUTO_BACKUP_KEY) === 'true') downloadBackup(false);
+    }
+    window.addEventListener('beforeunload', (e) => { if(isFormDirty){ e.preventDefault(); e.returnValue='有未保存的更改'; } handleBeforeUnload(); });
+    
+    function getActiveScript(){ return appData.scripts.find(s=>s.id===appData.activeScriptId); }
+    function setDefaultDate(){ document.getElementById('recordDate').value = new Date().toISOString().slice(0,10); }
+    function resetForm(){ setDefaultDate(); document.getElementById('recordTitle').value=''; document.getElementById('recordReflection').value=''; resetFileDisplay(); document.getElementById('editingRecordId').value=''; document.getElementById('formModeLabel').textContent='✍️ 添加创作记录'; document.getElementById('cancelEditBtn').style.display='none'; isFormDirty=false; }
+    function resetFileDisplay(){ document.getElementById('fileNameDisplay').textContent='未选择文件'; document.getElementById('currentFileContent').value=''; document.getElementById('currentFileName').value=''; document.getElementById('currentFileType').value=''; }
+    
+    function renderTagSelector(selectedTags = []) {
+        const container = document.getElementById('tagSelectorContainer');
+        if(!container) return;
+        let html = '';
+        globalTags.forEach(tag => {
+            const selected = selectedTags.includes(tag) ? 'selected' : '';
+            html += `<span class="tag-chip ${selected}" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</span>`;
+        });
+        container.innerHTML = html;
+        container.querySelectorAll('.tag-chip').forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                e.stopPropagation();
+                chip.classList.toggle('selected');
+            });
+        });
+    }
+    
+    function updateMdPreview(){
+        const text = document.getElementById('outlineTextArea').value;
+        const previewDiv = document.getElementById('outlineMdPreview');
+        if(previewDiv && previewDiv.style.display !== 'none'){
+            previewDiv.innerHTML = safeMarkdownParse(text);
+        }
+    }
+    
+    function renderOutline(){
+        const script = getActiveScript();
+        if(!script) return;
+        const outline = script.outline || { text: '', fileName: '', fileContent: '', fileType: '' };
+        document.getElementById('outlineTextArea').value = outline.text || '';
+        if(outline.fileName && outline.fileContent){
+            document.getElementById('outlineFileInfo').style.display = 'flex';
+            document.getElementById('outlineFileName').innerText = outline.fileName;
+            document.getElementById('outlineFileName').dataset.url = encodeURIComponent(outline.fileContent);
+            document.getElementById('outlineFileName').dataset.name = outline.fileName;
+            document.getElementById('outlineFileName').dataset.type = outline.fileType;
+        } else { document.getElementById('outlineFileInfo').style.display = 'none'; }
+        updateMdPreview();
+    }
+    function saveOutline(){
+        const script = getActiveScript(); if(!script) return;
+        const text = document.getElementById('outlineTextArea').value;
+        const existing = script.outline || {};
+        script.outline = { text, fileName: existing.fileName || '', fileContent: existing.fileContent || '', fileType: existing.fileType || '' };
+        saveData(false); showToast('📌 大纲已保存', 1200);
+    }
+    function downloadFile(dataUrl, fileName){
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showToast(`📂 开始下载“${fileName}”，请用本地软件打开`, 2500);
+    }
+    function handleOutlineFileUpload(file){
+        if(!file) return;
+        if (file.size > MAX_FILE_SIZE) { alert(`文件过大 (${(file.size/1024/1024).toFixed(2)}MB)，请选择小于15MB的文件。`); return; }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            const isText = file.type === 'text/plain' || file.name.endsWith('.txt') || file.name.endsWith('.md');
+            let textContent = '';
+            if(isText){
+                const base64 = content.split(',')[1];
+                textContent = base64DecodeUnicode(base64);
+                document.getElementById('outlineTextArea').value = textContent;
+                updateMdPreview();
+                showToast(`文本大纲已自动填充到编辑器`, 1500);
+            } else {
+                showToast(`非文本文件（${file.name}）已保存为附件`, 2000);
+            }
+            const script = getActiveScript();
+            if(script){
+                if(!script.outline) script.outline = { text: '' };
+                script.outline.text = isText ? textContent : (script.outline.text || '');
+                script.outline.fileName = file.name;
+                script.outline.fileContent = content;
+                script.outline.fileType = file.type || 'application/octet-stream';
+                saveData(false); renderOutline();
+                showToast(`✅ 大纲文件 ${file.name} 已关联`, 1500);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+    function clearOutlineFile(){
+        const script = getActiveScript();
+        if(script && script.outline){
+            script.outline.fileName = ''; script.outline.fileContent = ''; script.outline.fileType = '';
+            saveData(false); renderOutline(); showToast('已清除大纲文件', 1000);
+        }
+    }
+    function openOutlineFile(){
+        const script = getActiveScript();
+        const outline = script?.outline;
+        if(outline && outline.fileContent && outline.fileName){
+            downloadFile(outline.fileContent, outline.fileName);
+        } else { showToast('没有关联的大纲文件', 1000); }
+    }
+    function previewOutline(){
+        const script = getActiveScript();
+        const outline = script?.outline || { text: '' };
+        const previewDiv = document.getElementById('outlinePreviewContent');
+        if(previewDiv) previewDiv.innerHTML = safeMarkdownParse(outline.text || '暂无大纲内容');
+        document.getElementById('outlinePreviewModal').style.visibility = 'visible';
+    }
+    
+    function renderCharactersAndWorld(){
+        const script=getActiveScript(); if(!script) return;
+        const chars = script.characters || [];
+        const container = document.getElementById('charactersListContainer');
+        if(chars.length===0){ container.innerHTML='<div class="empty-message">✨ 暂无角色，添加第一位主角吧</div>'; }
+        else{
+            let html='';
+            chars.forEach(c=>{
+                html+=`<div class="character-card" data-char-id="${c.id}"><div class="character-name">📖 ${escapeHtml(c.name)}</div><div class="character-desc">${escapeHtml(c.description||'暂无描述')}</div><div class="char-actions"><button class="btn-sm edit-char-btn" data-id="${c.id}">✏️</button><button class="btn-sm delete-char-btn" data-id="${c.id}">🗑️</button></div></div>`;
+            });
+            container.innerHTML=html;
+        }
+        document.getElementById('worldSettingText').value = script.worldSetting || '';
+    }
+    function refreshUI(){ renderSidebar(); renderRecords(); renderCharactersAndWorld(); renderOutline(); }
+    function renderSidebar(){
+        let html=''; appData.scripts.forEach(s=>{ const activeClass=s.id===appData.activeScriptId?'active':''; const tagsHtml=(s.tags?.length)?`<div class="tag-list">${s.tags.slice(0,2).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}${s.tags.length>2?`<span class="tag">+${s.tags.length-2}</span>`:''}</div>`:''; html+=`<li class="script-item ${activeClass}" data-script-id="${s.id}"><div><div class="script-name">${escapeHtml(s.name)}</div><div class="script-meta">📖 ${s.records?.length||0} 章 · 🎭 ${s.characters?.length||0} 人</div>${tagsHtml}</div><div class="script-actions"><button class="edit-script-btn btn-sm">✏️</button><button class="delete-script-btn btn-sm">🗑️</button></div></li>`; });
+        document.getElementById('scriptListContainer').innerHTML = html || '<li class="empty-message">暂无项目</li>';
+    }
+    function renderRecords(){
+        const script=getActiveScript(); if(!script){ document.getElementById('recordsContainer').innerHTML='<div class="empty-message">选择项目</div>'; document.getElementById('recordCount').textContent='0条'; document.getElementById('currentScriptNameDisplay').textContent='无'; document.getElementById('renameScriptBtn').style.display='none'; return; }
+        document.getElementById('currentScriptNameDisplay').textContent=script.name; document.getElementById('renameScriptBtn').style.display='inline-block';
+        const records=script.records||[]; document.getElementById('recordCount').textContent=`${records.length} 条创作记录`;
+        if(records.length===0){ document.getElementById('recordsContainer').innerHTML='<div class="empty-message">✨ 写下第一个章节吧</div>'; return; }
+        let cards=''; [...records].sort((a,b)=>(b.date>a.date?1:-1)).forEach(rec=>{
+            let fileSection=''; if(rec.fileName && rec.fileContent){
+                fileSection=`<div><span>📎 <span class="file-link" data-url="${encodeURIComponent(rec.fileContent)}" data-name="${escapeHtml(rec.fileName)}" data-type="${rec.fileType||''}">${escapeHtml(rec.fileName)}</span> <button class="open-file-btn btn-sm btn-link" data-url="${encodeURIComponent(rec.fileContent)}" data-name="${escapeHtml(rec.fileName)}" data-type="${rec.fileType||''}">📂 打开文件（下载）</button></div>`;
+                const isText = (rec.fileType?.startsWith('text/') || rec.fileName?.endsWith('.txt') || rec.fileName?.endsWith('.md'));
+                if(isText){
+                    let textPreview = '';
+                    if(rec.fileContent && rec.fileContent.startsWith('data:')){
+                        try { textPreview = base64DecodeUnicode(rec.fileContent.split(',')[1]||''); } catch(e){ textPreview = '[无法解码]'; }
+                    }
+                    fileSection += `<button class="toggle-preview-btn btn-sm btn-link" data-id="${rec.id}">👁️ 预览内容</button><div id="preview-${rec.id}" class="preview-content" style="display:none;">${escapeHtml(textPreview)}</div>`;
+                }
+            }
+            const reflection=rec.reflection?`<div class="reflection-box"><div>💭 笔记</div><div>${escapeHtml(rec.reflection).replace(/\n/g,'<br>')}</div></div>`:'';
+            cards+=`<div class="record-card" data-record-id="${rec.id}"><div>📅 ${rec.date}</div><div style="font-size:1.2rem;">${escapeHtml(rec.title||'无标题')}</div>${fileSection}${reflection}<div style="margin-top:12px;"><button class="edit-record-btn btn-sm">✏️</button><button class="delete-record-btn btn-sm">🗑️</button></div></div>`;
+        });
+        document.getElementById('recordsContainer').innerHTML=cards;
+        document.querySelectorAll('.open-file-btn, .file-link').forEach(el=>el.addEventListener('click',(e)=>{ e.stopPropagation(); const url=decodeURIComponent(el.dataset.url); downloadFile(url,el.dataset.name); }));
+        document.querySelectorAll('.toggle-preview-btn').forEach(btn=>btn.addEventListener('click',()=>{ const p=document.getElementById(`preview-${btn.dataset.id}`); if(p) p.style.display=p.style.display==='none'?'block':'none'; }));
+    }
+    
+    let isFormDirty=false, editingScriptId=null;
+    function bindEvents(){
+        document.querySelectorAll('.theme-btn').forEach(btn => { btn.addEventListener('click', () => { document.body.className = `theme-${btn.dataset.theme}`; document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }); });
+        document.getElementById('addScriptBtn').addEventListener('click',()=>openScriptModal(null));
+        document.getElementById('renameScriptBtn').addEventListener('click',()=>{ const s=getActiveScript(); if(s) openScriptModal(s); });
+        document.getElementById('modalCancelBtn').addEventListener('click',()=>document.getElementById('scriptModal').style.visibility='hidden');
+        document.getElementById('modalSaveBtn').addEventListener('click',()=>{
+            const name = document.getElementById('modalScriptName').value.trim();
+            if(!name) { alert('名称不能为空'); return; }
+            const selectedTags = Array.from(document.querySelectorAll('#tagSelectorContainer .tag-chip.selected')).map(c=>c.dataset.tag);
+            if(editingScriptId){
+                const script = appData.scripts.find(s=>s.id===editingScriptId);
+                if(script) { script.name = name; script.tags = selectedTags; }
+            } else {
+                const newScript = { id: generateId(), name, createdAt: new Date().toISOString(), records: [], tags: selectedTags, characters: [], worldSetting: '', outline: { text:'', fileName:'', fileContent:'', fileType:'' } };
+                appData.scripts.push(newScript);
+                appData.activeScriptId = newScript.id;
+            }
+            saveData(false);
+            document.getElementById('scriptModal').style.visibility='hidden';
+            refreshUI();
+            resetForm();
+            showToast('✅ 项目已保存');
+        });
+        document.getElementById('scriptListContainer').addEventListener('click', (e) => {
+            const li = e.target.closest('.script-item');
+            if(li) { appData.activeScriptId = li.dataset.scriptId; refreshUI(); resetForm(); }
+            if(e.target.classList.contains('edit-script-btn')) {
+                const id = e.target.closest('.script-item').dataset.scriptId;
+                const script = appData.scripts.find(s=>s.id===id);
+                if(script) openScriptModal(script);
+            }
+            if(e.target.classList.contains('delete-script-btn')) {
+                const id = e.target.closest('.script-item').dataset.scriptId;
+                if(confirm('确定删除此项目？')) {
+                    appData.scripts = appData.scripts.filter(s=>s.id!==id);
+                    if(appData.activeScriptId === id) appData.activeScriptId = appData.scripts[0]?.id;
+                    saveData(false); refreshUI();
+                }
+            }
+        });
+        function openScriptModal(script){
+            editingScriptId = script?.id || null;
+            document.getElementById('modalTitle').textContent = script ? '编辑项目' : '新建星舰项目';
+            document.getElementById('modalScriptName').value = script?.name || '';
+            renderTagSelector(script?.tags || []);
+            document.getElementById('scriptModal').style.visibility = 'visible';
+        }
+        
+        document.getElementById('insertHeadingBtn').addEventListener('click', ()=> insertText('## '));
+        document.getElementById('insertListBtn').addEventListener('click', ()=> insertText('- '));
+        document.getElementById('insertBoldBtn').addEventListener('click', ()=> insertText('****', 2));
+        document.getElementById('insertDividerBtn').addEventListener('click', ()=> insertText('\n---\n'));
+        document.getElementById('insertCodeBlockBtn').addEventListener('click', ()=> insertText('```\n\n```', 4));
+        function insertText(text, cursorOffset = 0) {
+            const ta = document.getElementById('outlineTextArea');
+            const start = ta.selectionStart, end = ta.selectionEnd;
+            ta.value = ta.value.slice(0, start) + text + ta.value.slice(end);
+            ta.selectionStart = ta.selectionEnd = start + (cursorOffset || text.length);
+            ta.focus();
+            updateMdPreview();
+        }
+        document.getElementById('toggleMdPreviewBtn').addEventListener('click', ()=>{
+            const preview = document.getElementById('outlineMdPreview');
+            const ta = document.getElementById('outlineTextArea');
+            if(preview.style.display === 'none'){
+                preview.style.display = 'block';
+                ta.style.display = 'none';
+                updateMdPreview();
+            } else {
+                preview.style.display = 'none';
+                ta.style.display = 'block';
+            }
+        });
+        document.getElementById('outlineTextArea').addEventListener('input', updateMdPreview);
+        document.getElementById('saveOutlineBtn').addEventListener('click', saveOutline);
+        document.getElementById('uploadOutlineBtn').addEventListener('click', ()=>{
+            const input = document.createElement('input'); input.type='file'; input.accept='.txt,.md,.doc,.docx,.pdf';
+            input.onchange = e => { const f = e.target.files[0]; if(f) handleOutlineFileUpload(f); };
+            input.click();
+        });
+        document.getElementById('openOutlineFileBtn').addEventListener('click', openOutlineFile);
+        document.getElementById('clearOutlineFileBtn').addEventListener('click', clearOutlineFile);
+        document.getElementById('previewOutlineBtn').addEventListener('click', previewOutline);
+        document.getElementById('closePreviewBtn').addEventListener('click', ()=> document.getElementById('outlinePreviewModal').style.visibility='hidden');
+        
+        document.getElementById('addCharacterBtn').addEventListener('click', ()=>{
+            const name = document.getElementById('newCharName').value.trim();
+            const desc = document.getElementById('newCharDesc').value.trim();
+            if(!name) return showToast('请输入角色名');
+            const script = getActiveScript(); if(!script) return;
+            script.characters.push({ id: generateId(), name, description: desc });
+            saveData(false); renderCharactersAndWorld();
+            document.getElementById('newCharName').value = ''; document.getElementById('newCharDesc').value = '';
+            showToast('角色已添加');
+        });
+        document.getElementById('charactersListContainer').addEventListener('click', (e)=>{
+            const card = e.target.closest('.character-card'); if(!card) return;
+            const charId = card.dataset.charId;
+            const script = getActiveScript(); const char = script.characters.find(c=>c.id===charId);
+            if(e.target.classList.contains('delete-char-btn')){
+                script.characters = script.characters.filter(c=>c.id!==charId);
+                saveData(false); renderCharactersAndWorld();
+            }
+            if(e.target.classList.contains('edit-char-btn')){
+                currentEditingCharId = charId;
+                document.getElementById('charEditName').value = char.name;
+                document.getElementById('charEditDesc').value = char.description;
+                document.getElementById('characterModal').style.visibility = 'visible';
+            }
+        });
+        document.getElementById('charModalSave').addEventListener('click', ()=>{
+            const script = getActiveScript(); const char = script.characters.find(c=>c.id===currentEditingCharId);
+            if(char){
+                char.name = document.getElementById('charEditName').value;
+                char.description = document.getElementById('charEditDesc').value;
+                saveData(false); renderCharactersAndWorld();
+            }
+            document.getElementById('characterModal').style.visibility = 'hidden';
+        });
+        document.getElementById('charModalCancel').addEventListener('click', ()=> document.getElementById('characterModal').style.visibility='hidden');
+        document.getElementById('saveWorldBtn').addEventListener('click', ()=>{
+            const script = getActiveScript(); if(script){ script.worldSetting = document.getElementById('worldSettingText').value; saveData(false); showToast('世界观已保存'); }
+        });
+        
+        document.getElementById('uploadTriggerBtn').addEventListener('click', ()=>{
+            const input = document.createElement('input'); input.type='file';
+            input.onchange = e => {
+                const f = e.target.files[0]; if(!f) return;
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    document.getElementById('currentFileContent').value = ev.target.result;
+                    document.getElementById('currentFileName').value = f.name;
+                    document.getElementById('currentFileType').value = f.type;
+                    document.getElementById('fileNameDisplay').textContent = f.name;
+                };
+                reader.readAsDataURL(f);
+            };
+            input.click();
+        });
+        document.getElementById('clearFileBtn').addEventListener('click', resetFileDisplay);
+        document.getElementById('saveRecordBtn').addEventListener('click', ()=>{
+            const script = getActiveScript(); if(!script) return;
+            const record = {
+                id: document.getElementById('editingRecordId').value || generateId(),
+                date: document.getElementById('recordDate').value,
+                title: document.getElementById('recordTitle').value,
+                reflection: document.getElementById('recordReflection').value,
+                fileName: document.getElementById('currentFileName').value,
+                fileContent: document.getElementById('currentFileContent').value,
+                fileType: document.getElementById('currentFileType').value
+            };
+            if(!record.date) return alert('请填写日期');
+            const idx = script.records.findIndex(r=>r.id===record.id);
+            if(idx>=0) script.records[idx] = record; else script.records.push(record);
+            saveData(false); renderRecords(); resetForm(); showToast('记录已保存');
+        });
+        document.getElementById('cancelEditBtn').addEventListener('click', resetForm);
+        document.getElementById('recordsContainer').addEventListener('click', (e)=>{
+            const card = e.target.closest('.record-card'); if(!card) return;
+            const recordId = card.dataset.recordId;
+            const script = getActiveScript(); const rec = script.records.find(r=>r.id===recordId);
+            if(e.target.classList.contains('delete-record-btn')){
+                script.records = script.records.filter(r=>r.id!==recordId);
+                saveData(false); renderRecords();
+            }
+            if(e.target.classList.contains('edit-record-btn')){
+                document.getElementById('editingRecordId').value = rec.id;
+                document.getElementById('recordDate').value = rec.date;
+                document.getElementById('recordTitle').value = rec.title || '';
+                document.getElementById('recordReflection').value = rec.reflection || '';
+                document.getElementById('currentFileContent').value = rec.fileContent || '';
+                document.getElementById('currentFileName').value = rec.fileName || '';
+                document.getElementById('fileNameDisplay').textContent = rec.fileName || '未选择';
+                document.getElementById('formModeLabel').textContent = '✏️ 编辑记录';
+                document.getElementById('cancelEditBtn').style.display = 'inline-block';
+            }
+            if(e.target.classList.contains('open-file-btn') || e.target.classList.contains('file-link')){
+                const url = decodeURIComponent(e.target.dataset.url);
+                downloadFile(url, e.target.dataset.name);
+            }
+        });
+        
+        document.getElementById('openTagManagerBtn').addEventListener('click', ()=>{ renderTagManagerList(); document.getElementById('tagManagerModal').style.visibility = 'visible'; });
+        document.getElementById('closeTagManagerBtn').addEventListener('click', ()=> document.getElementById('tagManagerModal').style.visibility='hidden');
+        document.getElementById('closeTagManagerIcon').addEventListener('click', ()=> document.getElementById('tagManagerModal').style.visibility='hidden');
+        document.getElementById('managerAddTagBtn').addEventListener('click', ()=>{
+            const tag = document.getElementById('managerNewTagInput').value.trim();
+            if(tag && !globalTags.includes(tag)) { globalTags.push(tag); saveData(false); renderTagManagerList(); document.getElementById('managerNewTagInput').value=''; }
+        });
+        function renderTagManagerList(){
+            let html = '';
+            globalTags.forEach(t => { html += `<div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>${escapeHtml(t)}</span> <button class="btn-sm remove-manager-tag" data-tag="${t}">删除</button></div>`; });
+            document.getElementById('tagManagerList').innerHTML = html;
+            document.querySelectorAll('.remove-manager-tag').forEach(b=>b.addEventListener('click', (e)=>{
+                const tag = e.target.dataset.tag;
+                if(DEFAULT_TAGS.includes(tag)) return alert('默认标签不可删除');
+                globalTags = globalTags.filter(t=>t!==tag);
+                saveData(false); renderTagManagerList();
+            }));
+        }
+        document.getElementById('addNewTagBtn').addEventListener('click', ()=>{
+            const tag = document.getElementById('newTagInput').value.trim();
+            if(tag && !globalTags.includes(tag)) { globalTags.push(tag); renderTagSelector(); document.getElementById('newTagInput').value=''; }
+        });
+        
+        document.getElementById('exportDataBtn').addEventListener('click', ()=> downloadBackup(true));
+        document.getElementById('importDataBtn').addEventListener('click', ()=> document.getElementById('importFileInput').click());
+        document.getElementById('importFileInput').addEventListener('change', (e)=>{
+            const file = e.target.files[0]; if(!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => { try { appData = JSON.parse(ev.target.result); localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); location.reload(); } catch(ex){ alert('无效的备份文件'); } };
+            reader.readAsText(file);
+        });
+        
+        document.getElementById('monthlyReviewBtn').addEventListener('click', ()=>{
+            const stats = { records:0, scripts:appData.scripts.length };
+            appData.scripts.forEach(s=> stats.records += s.records.length);
+            document.getElementById('totalRecordsStat').textContent = stats.records;
+            document.getElementById('activeScriptsStat').textContent = stats.scripts;
+            document.getElementById('reviewModal').style.visibility = 'visible';
+        });
+        document.getElementById('closeReviewBtn').addEventListener('click', ()=> document.getElementById('reviewModal').style.visibility='hidden');
+        
+        const autoChk = document.getElementById('autoBackupCheckbox');
+        if(autoChk) autoChk.checked = localStorage.getItem(AUTO_BACKUP_KEY) === 'true';
+        if(autoChk) autoChk.addEventListener('change', e => localStorage.setItem(AUTO_BACKUP_KEY, e.target.checked));
+    }
+    
+    function init(){ 
+        loadData(); 
+        setDefaultDate(); 
+        try { refreshUI(); } catch(e) { console.warn(e); showToast('界面初始化部分错误，但核心功能可用', 2000); }
+        bindEvents(); 
+        setInterval(()=>saveData(true),1800000); 
+    }
+    init();
+})();
+</script>
+</body>
+</html>

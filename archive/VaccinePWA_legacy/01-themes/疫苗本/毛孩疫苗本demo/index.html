@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>🐾 毛孩子の疫苗本</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#c1a28b">
+    
+    <!-- Tesseract.js 核心库 -->
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+    <!-- SheetJS 用于导出 Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        body { background: #f9f7f3; padding-bottom: 70px; min-height: 100vh; }
+        .app-header { background: #e6d5c9; padding: 20px 16px 12px; border-bottom: 2px solid #d9b8a4; text-align: center; color: #4a3728; }
+        .container { max-width: 600px; margin: 0 auto; padding: 16px 12px; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 600px; margin: 0 auto; background: rgba(255,245,240,0.95); backdrop-filter: blur(8px); display: flex; justify-content: space-around; padding: 8px 8px 12px; border-top: 1px solid #ddcdc2; z-index: 10; }
+        .tab-item { flex: 1; text-align: center; color: #7b5e4b; font-size: 0.75rem; padding: 4px 0; border-radius: 30px; cursor: pointer; }
+        .tab-item.active { color: #a0452b; font-weight: 600; background: #f3ded7; }
+        .tab-icon { font-size: 1.6rem; display: block; margin-bottom: 2px; }
+        .card { background: #fffbf8; border-radius: 24px; padding: 18px 16px; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #efe2d9; }
+        .btn { background: #e6d5c9; border: 1px solid #d4bfb0; padding: 8px 16px; border-radius: 40px; color: #3e2c20; cursor: pointer; font-size: 0.9rem; }
+        .btn-primary { background: #c1a28b; border-color: #a78772; color: white; }
+        .btn-link { background: transparent; border: none; color: #7b5e4b; text-decoration: underline; padding: 4px 8px; }
+        .input-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+        .input-group input, .input-group select { flex: 1 0 140px; background: white; border: 1px solid #ddcdc2; border-radius: 30px; padding: 10px 14px; }
+        .month-selector { display: flex; align-items: center; justify-content: center; margin: 12px 0; }
+        .month-selector input { background: white; border: 1px solid #ddcdc2; border-radius: 30px; padding: 10px 16px; font-size: 1rem; width: 100%; max-width: 220px; }
+        .vaccine-item, .expense-item { background: #fef6f2; border-radius: 16px; padding: 12px; margin-bottom: 8px; border-left: 6px solid #c1a28b; }
+        .reminder-badge { background: #f5d3cb; color: #b13e2b; padding: 2px 10px; border-radius: 30px; font-size: 0.8rem; }
+        .example-hint { background: #f3ede8; border-radius: 16px; padding: 12px; color: #6b4f3e; font-size: 0.85rem; margin-bottom: 12px; border: 1px dashed #c1a28b; }
+        .modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.2); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal { background: white; border-radius: 32px; padding: 24px; width: 90%; max-width: 400px; max-height: 85vh; overflow-y: auto; }
+        .fake-link { color: #7b5e4b; text-decoration: underline dotted; cursor: pointer; }
+        .empty-state { text-align: center; padding: 40px 20px; color: #ab988b; }
+        .big-add-btn { background: #f3ede8; border: 2px dashed #c1a28b; border-radius: 30px; padding: 20px; margin: 20px 0; cursor: pointer; text-align: center; color: #a0452b; font-weight: 600; }
+        .expense-summary { background: #f0e5de; border-radius: 20px; padding: 16px; margin-bottom: 16px; }
+        .small-note { font-size: 0.75rem; color: #8f7768; margin: 4px 0; }
+
+        /* 宠物头像 */
+        .avatar-upload { display: flex; flex-direction: column; align-items: center; margin-bottom: 12px; }
+        .avatar-preview { width: 80px; height: 80px; border-radius: 50%; background: #f3e7de; border: 2px solid #d9b8a4; display: flex; align-items: center; justify-content: center; font-size: 36px; overflow: hidden; cursor: pointer; margin-bottom: 6px; }
+        .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .pet-avatar-small { width: 40px; height: 40px; border-radius: 50%; background: #f3e7de; border: 1px solid #d9b8a4; display: inline-flex; align-items: center; justify-content: center; font-size: 20px; overflow: hidden; margin-right: 6px; vertical-align: middle; }
+        .pet-avatar-small img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 提醒项悬停 */
+        .reminder-item:hover { background: #fde2d9 !important; transition: 0.2s; }
+
+        /* OCR 样式 */
+        .preprocess-controls { margin-top: 15px; padding: 12px; background: #faf5f2; border-radius: 16px; }
+        .slider-container { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .slider-container input { flex: 1; }
+        .preview-area { margin-top: 15px; text-align: center; }
+        .preview-area canvas { max-width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #efe2d9; }
+        .progress-bar { width: 100%; height: 6px; background: #eee; border-radius: 3px; margin: 12px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: #c1a28b; width: 0%; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+
+<div class="app-header">
+    <h1>🐱🐶 毛孩子の疫苗本</h1>
+    <p>宠物 · 疫苗 · 花费 · 全掌控</p>
+</div>
+
+<div class="container">
+    <!-- ========== 主页：疫苗记录 ========= -->
+    <div id="page-home" class="page active">
+        <div class="example-hint">
+            💡 <strong>使用举例：</strong> 点击「➕ 添加疫苗」→ 下拉选“猫三联”→ 接种日期自动算到期日。右上角按钮可导出/导入数据。
+        </div>
+
+        <!-- 宠物信息卡片 -->
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between;">
+                <span>🐶 我的宠物</span>
+                <button class="btn btn-sm btn-primary" id="showAddPetBtn">➕ 添加宠物</button>
+            </div>
+            <div id="petListContainer"></div>
+            <div style="margin-top:12px;">
+                <span class="fake-link" id="gotoExpenseLink">💸 查看花费明细 →</span>
+            </div>
+        </div>
+
+        <!-- 疫苗记录卡片 -->
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <span>📋 疫苗记录</span>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn btn-sm btn-link fake-link" id="exportDataBtn">📤 导出Excel</button>
+                    <button class="btn btn-sm btn-link fake-link" id="importDataBtn">📂 导入备份</button>
+                    <button class="btn btn-sm btn-primary" id="showAddVaccineForm">➕ 添加疫苗</button>
+                </div>
+            </div>
+            <!-- 月份选择器 -->
+            <div class="month-selector">
+                <input type="month" id="monthPicker" value="">
+            </div>
+            <!-- 添加疫苗表单 (隐藏) -->
+            <div id="addVaccineForm" style="display:none;">
+                <div class="input-group">
+                    <select id="vaccineSelect">
+                        <option value="">-- 选择常见疫苗 --</option>
+                        <option value="猫三联" data-cycle="365">🐱 猫三联 (1年)</option>
+                        <option value="狂犬疫苗" data-cycle="365">🐕 狂犬 (1年)</option>
+                        <option value="犬六联" data-cycle="1095">🐶 犬六联 (3年)</option>
+                        <option value="__custom__">✏️ 自定义...</option>
+                    </select>
+                    <input type="text" id="customVaccineName" placeholder="输入疫苗名" style="display:none;">
+                    <input type="date" id="vaccineDate" value="">
+                    <input type="date" id="vaccineNextDue" value="">
+                    <select id="petSelect"></select>
+                </div>
+                <div class="small-note">*选择疫苗后到期日自动计算，也可手动修改</div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" id="saveVaccineBtn">保存</button>
+                    <button class="btn" id="cancelAddVaccine">取消</button>
+                </div>
+                <hr>
+            </div>
+            <div id="vaccineListContainer"></div>
+        </div>
+
+        <!-- 提醒设置（优化版） -->
+        <div class="card">
+            <div class="card-header">⏰ 到期提醒设置</div>
+            <div class="input-group">
+                <label>提前 <input type="number" id="remindDays" min="0" max="30" value="3" style="width:70px;"> 天提醒</label>
+                <button class="btn btn-sm" id="testReminderBtn">测试弹窗</button>
+            </div>
+            <div class="input-group">
+                <label>每日定时 <input type="time" id="dailyRemindTime" value="09:00"></label>
+                <button class="btn btn-sm" id="setDailyReminderBtn">开启每日提醒</button>
+            </div>
+            <div class="input-group">
+                <label>筛选宠物：</label>
+                <div id="reminderPetFilter" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+            </div>
+            <div class="small-note">*点击提醒项可快速跳转到对应日期</div>
+        </div>
+    </div>
+
+    <!-- ========== 花费明细页面 ========= -->
+    <div id="page-expense" class="page">
+        <div class="card">
+            <div class="card-header">
+                <span>💰 养宠花费明细</span>
+                <button class="btn btn-sm btn-primary" id="showAddExpenseForm">➕ 记一笔</button>
+            </div>
+            <div id="addExpenseForm" style="display:none;">
+                <div class="input-group">
+                    <select id="expenseCategory">
+                        <option value="食品">🍖 食品</option>
+                        <option value="医疗">💊 医疗</option>
+                        <option value="美容">✂️ 美容</option>
+                        <option value="玩具">🧸 玩具</option>
+                        <option value="其他">📦 其他</option>
+                    </select>
+                    <input type="number" id="expenseAmount" placeholder="金额 (元)" min="0" step="0.01">
+                    <input type="date" id="expenseDate" value="">
+                    <input type="text" id="expenseNote" placeholder="备注 (可选)">
+                    <select id="expensePetSelect"></select>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" id="saveExpenseBtn">保存</button>
+                    <button class="btn" id="cancelAddExpense">取消</button>
+                </div>
+                <hr>
+            </div>
+            <div id="expenseSummary" class="expense-summary">加载中...</div>
+            <div id="expenseListContainer"></div>
+        </div>
+    </div>
+
+    <!-- ========== OCR 真实识别页面 ========= -->
+    <div id="page-ocr" class="page">
+        <div class="card">
+            <div class="card-header">📷 智能识别 (真实OCR)</div>
+            <p>上传疫苗本照片，AI将自动识别并生成记录</p>
+            <div class="ocr-demo" style="background:#f0e5de; border-radius:20px; padding:16px; text-align:center; margin-top:12px;">
+                <input type="file" id="ocrImageInput" accept="image/*" capture="environment" style="display:none;">
+                <button class="btn btn-primary" id="triggerOCR">📸 拍照/选图</button>
+                <div id="ocrResult" style="margin-top:16px; text-align:left;"></div>
+                
+                <div class="preprocess-controls" id="preprocessPanel" style="display:none;">
+                    <div class="slider-container">
+                        <span>对比度:</span>
+                        <input type="range" id="contrastSlider" min="0.5" max="2.5" step="0.1" value="1.5">
+                        <span id="contrastValue">1.5</span>
+                    </div>
+                    <div class="slider-container">
+                        <span>阈值:</span>
+                        <input type="range" id="thresholdSlider" min="60" max="200" step="1" value="128">
+                        <span id="thresholdValue">128</span>
+                    </div>
+                    <div class="preview-area">
+                        <canvas id="previewCanvas" width="300" height="200"></canvas>
+                    </div>
+                    <div class="small-note" style="margin-top:8px;">💡 调整参数让文字更清晰，然后点击下方按钮识别</div>
+                    <button class="btn btn-primary" id="startRecognition" style="margin-top:10px;">🔍 开始识别</button>
+                </div>
+                
+                <div id="ocrProgress" style="display:none; margin-top:12px;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="small-note" style="text-align:center;">正在识别中...</div>
+                </div>
+            </div>
+            <div class="small-note" style="margin-top:8px;">*真实OCR引擎，数据完全在本地处理，不上传服务器</div>
+        </div>
+    </div>
+</div>
+
+<!-- 底部导航栏 -->
+<div class="tab-bar">
+    <div class="tab-item active" data-page="home"><span class="tab-icon">🏠</span><span>疫苗</span></div>
+    <div class="tab-item" data-page="expense"><span class="tab-icon">💰</span><span>花费</span></div>
+    <div class="tab-item" data-page="ocr"><span class="tab-icon">📷</span><span>OCR</span></div>
+</div>
+
+<!-- 添加/编辑宠物模态框 -->
+<div id="petModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3 style="color:#a0452b;" id="petModalTitle">➕ 添加宠物</h3>
+        <input type="hidden" id="editPetId">
+        <!-- 头像上传 -->
+        <div class="avatar-upload">
+            <div class="avatar-preview" id="avatarPreview">
+                <span id="avatarEmoji">🐾</span>
+                <img id="avatarImg" src="" style="display:none;">
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" capture="environment" style="display:none;">
+            <button class="btn btn-sm btn-link" id="uploadAvatarBtn">📷 上传头像</button>
+            <button class="btn btn-sm btn-link" id="clearAvatarBtn" style="display:none;">清除头像</button>
+        </div>
+        <div class="input-group">
+            <input type="text" id="petName" placeholder="名字 *" maxlength="20">
+            <select id="petSpecies"><option value="🐱 猫">🐱 猫咪</option><option value="🐶 狗">🐶 狗狗</option></select>
+            <input type="text" id="petBreed" placeholder="品种 (如: 布偶)">
+            <input type="number" id="petWeight" placeholder="体重 (kg)" step="0.1" min="0">
+            <input type="date" id="petBirth" value="">
+        </div>
+        <div style="display:flex; gap:8px;">
+            <button class="btn btn-primary" id="savePetBtn">保存</button>
+            <button class="btn" id="cancelPetModal">取消</button>
+        </div>
+    </div>
+</div>
+
+<!-- 到期提醒弹窗（优化版） -->
+<div id="reminderModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+        <h3>⚠️ 疫苗到期提醒</h3>
+        <div id="reminderContent" style="margin:16px 0;">...</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary" id="closeReminder">知道了</button>
+            <button class="btn" id="snoozeReminder">⏰ 1小时后再提醒</button>
+            <button class="btn" id="dismissTodayReminder">📅 今日不再提醒</button>
+        </div>
+    </div>
+</div>
+
+<!-- 导入备份文件 input (隐藏) -->
+<input type="file" id="importFileInput" accept=".json,application/json" style="display:none;">
+
+<script>
+    (function(){
+        "use strict";
+
+        // ---------- 数据 ----------
+        let pets = [];
+        let vaccines = [];
+        let expenses = [];
+
+        const STORAGE_PETS = 'pets_v7';
+        const STORAGE_VACCINES = 'vaccines_v7';
+        const STORAGE_EXPENSES = 'expenses_v7';
+
+        const VACCINE_CYCLES = { '猫三联':365, '狂犬疫苗':365, '犬六联':1095, '犬八联':1095 };
+
+        let currentMonth = new Date().toISOString().slice(0,7);
+        let currentOcrImage = null;
+        let pendingAvatarBase64 = null;
+
+        // 提醒系统变量
+        let reminderTimer = null;
+        let snoozeUntil = null;
+        let dismissedToday = false;
+        let selectedPetFilter = [];
+        let dailyReminderEnabled = false;
+
+        // 工具函数
+        function formatDateKey(d) { return d.toISOString().slice(0,10); }
+        function genId() { return Date.now() + '-' + Math.random().toString(36).substr(2,6); }
+        function saveAll() { 
+            localStorage.setItem(STORAGE_PETS, JSON.stringify(pets));
+            localStorage.setItem(STORAGE_VACCINES, JSON.stringify(vaccines));
+            localStorage.setItem(STORAGE_EXPENSES, JSON.stringify(expenses));
+        }
+
+        function loadData() {
+            const sp = localStorage.getItem(STORAGE_PETS); 
+            if(sp) {
+                pets = JSON.parse(sp);
+                pets.forEach(p => { p.avatar = p.avatar || ''; p.breed = p.breed || ''; p.weight = p.weight || ''; });
+            } else pets = [];
+            const sv = localStorage.getItem(STORAGE_VACCINES); if(sv) vaccines = JSON.parse(sv); else vaccines = [];
+            const se = localStorage.getItem(STORAGE_EXPENSES); if(se) expenses = JSON.parse(se); else expenses = [];
+        }
+
+        function refreshPetSelects() {
+            const vaccineSelect = document.getElementById('petSelect');
+            const expenseSelect = document.getElementById('expensePetSelect');
+            const options = pets.map(p => `<option value="${p.id}">${p.name} (${p.species})</option>`).join('');
+            vaccineSelect.innerHTML = options || '<option value="">请先添加宠物</option>';
+            expenseSelect.innerHTML = options || '<option value="">请先添加宠物</option>';
+        }
+
+        // 渲染宠物筛选复选框
+        function renderReminderPetFilter() {
+            const container = document.getElementById('reminderPetFilter');
+            if (!pets.length) {
+                container.innerHTML = '<span style="color:#ab988b;">暂无宠物</span>';
+                return;
+            }
+            let html = '';
+            pets.forEach(p => {
+                const checked = selectedPetFilter.length === 0 || selectedPetFilter.includes(p.id);
+                html += `<label style="display:flex; align-items:center; gap:4px; background:#f3e7de; padding:4px 12px; border-radius:20px;">
+                    <input type="checkbox" value="${p.id}" ${checked ? 'checked' : ''} data-pet-filter> ${p.name}
+                </label>`;
+            });
+            container.innerHTML = html;
+            container.querySelectorAll('[data-pet-filter]').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    selectedPetFilter = Array.from(container.querySelectorAll('[data-pet-filter]:checked')).map(cb => cb.value);
+                });
+            });
+        }
+
+        function renderPetList() {
+            const container = document.getElementById('petListContainer');
+            if(!pets.length) {
+                container.innerHTML = `<div class="big-add-btn" id="emptyAddPetBtn">➕ 添加第一个宠物</div>`;
+                document.getElementById('emptyAddPetBtn')?.addEventListener('click', ()=> openPetModal());
+                return;
+            }
+            let html = '';
+            pets.forEach(p => {
+                const avatarHtml = p.avatar 
+                    ? `<img src="${p.avatar}">` 
+                    : `<span>${p.species === '🐱 猫' ? '🐱' : '🐶'}</span>`;
+                const info = [p.breed, p.weight ? p.weight+'kg' : ''].filter(Boolean).join(' · ');
+                html += `<div style="display:flex; align-items:center; margin-bottom:8px; background:#fef6f2; padding:8px 12px; border-radius:40px;" data-pet-id="${p.id}">`;
+                html += `<div class="pet-avatar-small" style="cursor:pointer;" data-edit-pet="${p.id}">${avatarHtml}</div>`;
+                html += `<div style="flex:1;"><strong>${p.name}</strong> ${p.species}<br><span style="font-size:0.75rem; color:#7b5e4b;">${info || '暂无更多信息'}</span></div>`;
+                html += `<button class="btn-sm btn" style="background:transparent; border-color:#e0cfc5;" data-delete-pet="${p.id}">🗑️</button>`;
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+            container.querySelectorAll('[data-edit-pet]').forEach(el => {
+                el.addEventListener('click', e => {
+                    const id = e.currentTarget.dataset.editPet;
+                    const pet = pets.find(p => p.id === id);
+                    if(pet) openPetModal(pet);
+                });
+            });
+            container.querySelectorAll('[data-delete-pet]').forEach(el => {
+                el.addEventListener('click', e => {
+                    const id = e.currentTarget.dataset.deletePet;
+                    if(confirm('确定删除这只宠物吗？相关疫苗和花费记录也会被清理。')) {
+                        pets = pets.filter(p => p.id !== id);
+                        vaccines = vaccines.filter(v => v.petId !== id);
+                        expenses = expenses.filter(e => e.petId !== id);
+                        saveAll();
+                        renderPetList();
+                        refreshPetSelects();
+                        renderVaccineList();
+                        renderExpensePage();
+                        renderReminderPetFilter();
+                    }
+                });
+            });
+            renderReminderPetFilter();
+        }
+
+        function renderVaccineList() {
+            const container = document.getElementById('vaccineListContainer');
+            const filtered = vaccines.filter(v => v.date && v.date.startsWith(currentMonth));
+            if(!filtered.length) {
+                container.innerHTML = '<div class="empty-state">📭 这个月没有接种记录</div>';
+                return;
+            }
+            filtered.sort((a,b) => a.date.localeCompare(b.date));
+            let html = '';
+            filtered.forEach(v => {
+                const pet = pets.find(p => p.id === v.petId) || { name: '未知' };
+                html += `<div class="vaccine-item">`;
+                html += `<div style="display:flex; justify-content:space-between;"><span><strong>${v.name}</strong> · ${pet.name}</span><span>📅 ${v.date}</span></div>`;
+                html += `<div style="font-size:0.8rem; color:#7b5e4b;">⏳ 到期: ${v.nextDue || '未设置'}</div>`;
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderExpensePage() {
+            const summaryDiv = document.getElementById('expenseSummary');
+            const listDiv = document.getElementById('expenseListContainer');
+            const total = expenses.reduce((sum, e) => sum + (parseFloat(e.amount)||0), 0);
+            summaryDiv.innerHTML = `💰 总花费: <strong>¥${total.toFixed(2)}</strong>  ·  共 ${expenses.length} 笔`;
+            if(!expenses.length) {
+                listDiv.innerHTML = '<div class="empty-state">💸 还没有花费记录，点上方按钮记一笔</div>';
+                return;
+            }
+            let html = '';
+            expenses.sort((a,b)=> (a.date < b.date ? 1 : -1));
+            expenses.forEach(e => {
+                const pet = pets.find(p => p.id === e.petId) || { name: '未指定' };
+                html += `<div class="expense-item"><div style="display:flex; justify-content:space-between;"><span><strong>${e.category}</strong> · ${pet.name}</span><span>¥${parseFloat(e.amount).toFixed(2)}</span></div>`;
+                html += `<div style="font-size:0.8rem; color:#7b5e4b;">📅 ${e.date} ${e.note ? '· '+e.note : ''}</div>`;
+                html += `<div style="text-align:right;"><span style="cursor:pointer; color:#a0452b;" data-delete-expense="${e.id}">删除</span></div></div>`;
+            });
+            listDiv.innerHTML = html;
+        }
+
+        function calcNextDue(vaccineName, dateStr) {
+            if(!vaccineName || !dateStr) return '';
+            const cycle = VACCINE_CYCLES[vaccineName];
+            if(!cycle) return '';
+            const d = new Date(dateStr);
+            d.setDate(d.getDate() + cycle);
+            return formatDateKey(d);
+        }
+
+        // ---------- 优化版提醒系统 ----------
+        function getPreciseTimeRemaining(dueDateStr) {
+            const now = new Date();
+            const due = new Date(dueDateStr);
+            due.setHours(0,0,0,0);
+            const diffMs = due - now;
+            const diffDays = Math.floor(diffMs / (1000*60*60*24));
+            const diffHours = Math.floor((diffMs % (1000*60*60*24)) / (1000*60*60));
+            if (diffDays > 0) return `${diffDays}天${diffHours}小时`;
+            if (diffDays === 0) return `${diffHours}小时`;
+            return `已超期 ${Math.abs(diffDays)}天`;
+        }
+
+        function checkReminders(showEvenIfEmpty = false) {
+            const now = new Date();
+            if (snoozeUntil && now < snoozeUntil) return;
+            snoozeUntil = null;
+            if (dismissedToday && !showEvenIfEmpty) {
+                const todayStr = formatDateKey(now);
+                if (localStorage.getItem('dismissedReminderDate') === todayStr) return;
+            }
+
+            const days = parseInt(document.getElementById('remindDays').value) || 3;
+            const today = new Date(); today.setHours(0,0,0,0);
+            
+            let upcoming = vaccines.filter(v => {
+                if (!v.nextDue) return false;
+                const due = new Date(v.nextDue); due.setHours(0,0,0,0);
+                const diff = (due - today) / (1000*60*60*24);
+                return diff >= 0 && diff <= days;
+            });
+
+            if (selectedPetFilter.length > 0) {
+                upcoming = upcoming.filter(v => selectedPetFilter.includes(v.petId));
+            }
+
+            if (upcoming.length > 0 || showEvenIfEmpty) {
+                let msg = '';
+                if (upcoming.length === 0) {
+                    msg = '✨ 未来 ' + days + ' 天内没有疫苗到期，太棒了！';
+                } else {
+                    upcoming.sort((a,b) => (a.nextDue > b.nextDue ? 1 : -1));
+                    upcoming.forEach(v => {
+                        const pet = pets.find(p => p.id === v.petId);
+                        const timeLeft = getPreciseTimeRemaining(v.nextDue);
+                        msg += `<div class="reminder-item" style="margin-bottom:12px; padding:8px; background:#fff3ed; border-radius:12px; cursor:pointer;" data-vaccine-id="${v.id}" data-pet-id="${v.petId}" data-nextdue="${v.nextDue}">`;
+                        msg += `<strong>${pet?.name || '未知'}</strong> · ${v.name}<br>`;
+                        msg += `📅 到期: ${v.nextDue}  (⏳ ${timeLeft})`;
+                        msg += `</div>`;
+                    });
+                }
+                document.getElementById('reminderContent').innerHTML = msg;
+                document.querySelectorAll('.reminder-item').forEach(el => {
+                    el.addEventListener('click', () => {
+                        const nextDue = el.dataset.nextdue;
+                        if (nextDue) {
+                            currentMonth = nextDue.slice(0,7);
+                            document.getElementById('monthPicker').value = currentMonth;
+                            renderVaccineList();
+                        }
+                        document.querySelector('.tab-item[data-page="home"]').click();
+                        document.getElementById('reminderModal').style.display = 'none';
+                    });
+                });
+                document.getElementById('reminderModal').style.display = 'flex';
+            }
+        }
+
+        function setupDailyReminder() {
+            const timeInput = document.getElementById('dailyRemindTime').value;
+            if (!timeInput) return;
+            const [hours, minutes] = timeInput.split(':').map(Number);
+            if (reminderTimer) clearTimeout(reminderTimer);
+            const now = new Date();
+            const triggerTime = new Date();
+            triggerTime.setHours(hours, minutes, 0, 0);
+            if (triggerTime <= now) triggerTime.setDate(triggerTime.getDate() + 1);
+            const delay = triggerTime - now;
+            reminderTimer = setTimeout(() => {
+                checkReminders();
+                setupDailyReminder();
+            }, delay);
+            dailyReminderEnabled = true;
+            alert(`每日提醒已开启，将在每天 ${timeInput} 检查疫苗到期情况。`);
+        }
+
+        function snoozeReminder() {
+            snoozeUntil = new Date(Date.now() + 60 * 60 * 1000);
+            document.getElementById('reminderModal').style.display = 'none';
+        }
+
+        function dismissTodayReminder() {
+            dismissedToday = true;
+            localStorage.setItem('dismissedReminderDate', formatDateKey(new Date()));
+            document.getElementById('reminderModal').style.display = 'none';
+        }
+
+        // 导出/导入
+        function exportData() {
+            const wb = XLSX.utils.book_new();
+            const petData = pets.map(p => ({ '名字': p.name, '物种': p.species, '品种': p.breed || '', '体重(kg)': p.weight || '', '生日': p.birth || '' }));
+            const petSheet = XLSX.utils.json_to_sheet(petData);
+            XLSX.utils.book_append_sheet(wb, petSheet, '宠物列表');
+            const vaccineData = vaccines.map(v => {
+                const pet = pets.find(p => p.id === v.petId);
+                return { '宠物名': pet?.name || '未知', '疫苗名称': v.name, '接种日期': v.date, '到期日期': v.nextDue || '' };
+            });
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(vaccineData), '疫苗记录');
+            const expenseData = expenses.map(e => {
+                const pet = pets.find(p => p.id === e.petId);
+                return { '宠物名': pet?.name || '未指定', '类别': e.category, '金额(元)': e.amount, '日期': e.date, '备注': e.note || '' };
+            });
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(expenseData), '花费明细');
+            XLSX.writeFile(wb, `毛孩疫苗本_${formatDateKey(new Date())}.xlsx`);
+        }
+
+        function importBackup(file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!data.pets || !data.vaccines || !data.expenses) throw new Error('无效的备份文件');
+                    if (confirm('导入备份将替换当前所有数据，确定继续吗？')) {
+                        pets = data.pets;
+                        vaccines = data.vaccines;
+                        expenses = data.expenses;
+                        pets.forEach(p => { p.avatar = p.avatar || ''; p.breed = p.breed || ''; p.weight = p.weight || ''; });
+                        saveAll();
+                        refreshPetSelects();
+                        renderPetList();
+                        renderVaccineList();
+                        renderExpensePage();
+                        renderReminderPetFilter();
+                        alert('数据导入成功！');
+                    }
+                } catch(err) { alert('文件解析失败，请确认是有效的备份文件。'); }
+            };
+            reader.readAsText(file);
+        }
+
+        // 打开宠物模态框
+        function openPetModal(pet = null) {
+            const modal = document.getElementById('petModal');
+            const title = document.getElementById('petModalTitle');
+            const idInput = document.getElementById('editPetId');
+            const nameInput = document.getElementById('petName');
+            const speciesSelect = document.getElementById('petSpecies');
+            const breedInput = document.getElementById('petBreed');
+            const weightInput = document.getElementById('petWeight');
+            const birthInput = document.getElementById('petBirth');
+            const avatarImg = document.getElementById('avatarImg');
+            const avatarEmoji = document.getElementById('avatarEmoji');
+            const clearBtn = document.getElementById('clearAvatarBtn');
+            
+            pendingAvatarBase64 = pet?.avatar || null;
+            
+            if (pet) {
+                title.textContent = '✏️ 编辑宠物';
+                idInput.value = pet.id;
+                nameInput.value = pet.name || '';
+                speciesSelect.value = pet.species || '🐱 猫';
+                breedInput.value = pet.breed || '';
+                weightInput.value = pet.weight || '';
+                birthInput.value = pet.birth || '';
+                if (pet.avatar) {
+                    avatarImg.src = pet.avatar;
+                    avatarImg.style.display = 'block';
+                    avatarEmoji.style.display = 'none';
+                    clearBtn.style.display = 'inline-block';
+                } else {
+                    avatarImg.style.display = 'none';
+                    avatarEmoji.style.display = 'block';
+                    avatarEmoji.textContent = pet.species === '🐱 猫' ? '🐱' : '🐶';
+                    clearBtn.style.display = 'none';
+                }
+            } else {
+                title.textContent = '➕ 添加宠物';
+                idInput.value = '';
+                nameInput.value = '';
+                speciesSelect.value = '🐱 猫';
+                breedInput.value = '';
+                weightInput.value = '';
+                birthInput.value = new Date().toISOString().slice(0,10);
+                avatarImg.style.display = 'none';
+                avatarEmoji.style.display = 'block';
+                avatarEmoji.textContent = '🐾';
+                clearBtn.style.display = 'none';
+                pendingAvatarBase64 = null;
+            }
+            modal.style.display = 'flex';
+        }
+
+        // OCR 相关函数
+        function updatePreview(imageFile, contrast = 1.5, threshold = 128) {
+            const canvas = document.getElementById('previewCanvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = URL.createObjectURL(imageFile);
+            img.onload = () => {
+                const maxW = 300, maxH = 200;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * (maxW / w); w = maxW; }
+                if (h > maxH) { w = w * (maxH / h); h = maxH; }
+                canvas.width = w; canvas.height = h;
+                ctx.drawImage(img, 0, 0, w, h);
+                const imageData = ctx.getImageData(0, 0, w, h);
+                const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    let gray = 0.34 * data[i] + 0.5 * data[i+1] + 0.16 * data[i+2];
+                    gray = (gray - 128) * contrast + 128;
+                    gray = Math.max(0, Math.min(255, gray));
+                    const binary = gray > threshold ? 255 : 0;
+                    data[i] = data[i+1] = data[i+2] = binary;
+                }
+                ctx.putImageData(imageData, 0, 0);
+            };
+        }
+
+        async function performOCR(imageFile, contrast, threshold) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = URL.createObjectURL(imageFile);
+            await new Promise(r => img.onload = r);
+            canvas.width = img.width; canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+                let gray = 0.34 * data[i] + 0.5 * data[i+1] + 0.16 * data[i+2];
+                gray = (gray - 128) * contrast + 128;
+                gray = Math.max(0, Math.min(255, gray));
+                const binary = gray > threshold ? 255 : 0;
+                data[i] = data[i+1] = data[i+2] = binary;
+            }
+            ctx.putImageData(imageData, 0, 0);
+            const { data: { text } } = await Tesseract.recognize(
+                canvas, 'chi_sim+eng',
+                { tessedit_pageseg_mode: Tesseract.PSM.SINGLE_BLOCK, tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789年月日.-猫犬狂六联四三联疫苗' },
+                { logger: m => { if (m.status === 'recognizing text') { const fill = document.getElementById('progressFill'); if (fill) fill.style.width = `${Math.round(m.progress * 100)}%`; } } }
+            );
+            return text;
+        }
+
+        function parseVaccineInfo(ocrText) {
+            const vaccinePatterns = [{ regex: /猫三联/, name: '猫三联' },{ regex: /狂犬/, name: '狂犬疫苗' },{ regex: /犬六联/, name: '犬六联' }];
+            let vaccineName = '';
+            for (const p of vaccinePatterns) if(p.regex.test(ocrText)) { vaccineName = p.name; break; }
+            const datePatterns = [/(\d{4})[年\-\.](\d{1,2})[月\-\.](\d{1,2})/, /(\d{4})-(\d{1,2})-(\d{1,2})/, /(\d{4})\/(\d{1,2})\/(\d{1,2})/];
+            let vaccineDate = '';
+            for (const p of datePatterns) { const m = ocrText.match(p); if(m) { vaccineDate = `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`; break; } }
+            return { vaccineName, vaccineDate, rawText: ocrText };
+        }
+
+        // 事件绑定
+        function bindEvents() {
+            // 底部导航
+            document.querySelectorAll('.tab-item').forEach(t => {
+                t.addEventListener('click', () => {
+                    const page = t.dataset.page;
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById(`page-${page}`).classList.add('active');
+                    document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
+                    t.classList.add('active');
+                    if(page === 'expense') renderExpensePage();
+                });
+            });
+
+            document.getElementById('gotoExpenseLink').addEventListener('click', ()=> document.querySelector('.tab-item[data-page="expense"]').click());
+
+            // 宠物模态框
+            document.getElementById('showAddPetBtn').addEventListener('click', ()=> openPetModal());
+            document.getElementById('cancelPetModal').addEventListener('click', ()=> document.getElementById('petModal').style.display='none');
+            
+            const avatarInput = document.getElementById('avatarInput');
+            const avatarImg = document.getElementById('avatarImg');
+            const avatarEmoji = document.getElementById('avatarEmoji');
+            const clearBtn = document.getElementById('clearAvatarBtn');
+            document.getElementById('uploadAvatarBtn').addEventListener('click', ()=> avatarInput.click());
+            avatarInput.addEventListener('change', e => {
+                const file = e.target.files[0];
+                if(!file) return;
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    pendingAvatarBase64 = ev.target.result;
+                    avatarImg.src = ev.target.result;
+                    avatarImg.style.display = 'block';
+                    avatarEmoji.style.display = 'none';
+                    clearBtn.style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+                avatarInput.value = '';
+            });
+            clearBtn.addEventListener('click', ()=> {
+                pendingAvatarBase64 = null;
+                avatarImg.style.display = 'none';
+                avatarEmoji.style.display = 'block';
+                const species = document.getElementById('petSpecies').value;
+                avatarEmoji.textContent = species === '🐱 猫' ? '🐱' : '🐶';
+                clearBtn.style.display = 'none';
+            });
+
+            document.getElementById('savePetBtn').addEventListener('click', ()=>{
+                const id = document.getElementById('editPetId').value;
+                const name = document.getElementById('petName').value.trim();
+                if(!name) { alert('请输入宠物名字'); return; }
+                const species = document.getElementById('petSpecies').value;
+                const breed = document.getElementById('petBreed').value.trim();
+                const weight = document.getElementById('petWeight').value;
+                const birth = document.getElementById('petBirth').value;
+                const petData = { id: id || genId(), name, species, breed, weight, birth, avatar: pendingAvatarBase64 || '' };
+                if (id) { const index = pets.findIndex(p => p.id === id); if(index !== -1) pets[index] = petData; }
+                else pets.push(petData);
+                saveAll();
+                refreshPetSelects();
+                renderPetList();
+                renderReminderPetFilter();
+                document.getElementById('petModal').style.display = 'none';
+            });
+
+            // 月份
+            const monthPicker = document.getElementById('monthPicker');
+            monthPicker.value = currentMonth;
+            monthPicker.addEventListener('change', e => { currentMonth = e.target.value; renderVaccineList(); });
+
+            // 疫苗表单
+            document.getElementById('showAddVaccineForm').addEventListener('click', ()=>{
+                if(!pets.length) { alert('请先添加宠物'); return; }
+                document.getElementById('addVaccineForm').style.display='block';
+                document.getElementById('vaccineDate').value = formatDateKey(new Date());
+                document.getElementById('vaccineNextDue').value = '';
+                document.getElementById('vaccineSelect').value = '';
+                document.getElementById('customVaccineName').style.display='none';
+            });
+            document.getElementById('cancelAddVaccine').addEventListener('click', ()=> document.getElementById('addVaccineForm').style.display='none');
+            document.getElementById('vaccineSelect').addEventListener('change', e => {
+                const val = e.target.value;
+                const custom = document.getElementById('customVaccineName');
+                const due = document.getElementById('vaccineNextDue');
+                const date = document.getElementById('vaccineDate').value;
+                if(val === '__custom__') { custom.style.display='block'; due.value = ''; }
+                else { custom.style.display='none'; if(val && date) due.value = calcNextDue(val, date); }
+            });
+            document.getElementById('vaccineDate').addEventListener('change', e => {
+                const sel = document.getElementById('vaccineSelect').value;
+                if(sel && sel!=='__custom__') document.getElementById('vaccineNextDue').value = calcNextDue(sel, e.target.value);
+            });
+            document.getElementById('saveVaccineBtn').addEventListener('click', ()=>{
+                let name = document.getElementById('vaccineSelect').value;
+                if(name === '__custom__') name = document.getElementById('customVaccineName').value.trim();
+                if(!name) { alert('请输入疫苗名称'); return; }
+                const petId = document.getElementById('petSelect').value;
+                if(!petId) { alert('请选择宠物'); return; }
+                vaccines.push({ id: genId(), petId, name, date: document.getElementById('vaccineDate').value, nextDue: document.getElementById('vaccineNextDue').value });
+                saveAll();
+                const newDate = document.getElementById('vaccineDate').value;
+                if(newDate && newDate.startsWith(currentMonth)) renderVaccineList();
+                document.getElementById('addVaccineForm').style.display='none';
+            });
+
+            // 花费
+            document.getElementById('showAddExpenseForm').addEventListener('click', ()=>{
+                if(!pets.length) { alert('请先添加宠物'); return; }
+                document.getElementById('addExpenseForm').style.display='block';
+                document.getElementById('expenseDate').value = formatDateKey(new Date());
+            });
+            document.getElementById('cancelAddExpense').addEventListener('click', ()=> document.getElementById('addExpenseForm').style.display='none');
+            document.getElementById('saveExpenseBtn').addEventListener('click', ()=>{
+                const petId = document.getElementById('expensePetSelect').value;
+                const amount = parseFloat(document.getElementById('expenseAmount').value);
+                if(!petId || isNaN(amount) || amount<=0) { alert('请选择宠物并输入有效金额'); return; }
+                expenses.push({ id: genId(), petId, category: document.getElementById('expenseCategory').value, amount, date: document.getElementById('expenseDate').value, note: document.getElementById('expenseNote').value.trim() });
+                saveAll();
+                renderExpensePage();
+                document.getElementById('addExpenseForm').style.display='none';
+                document.getElementById('expenseAmount').value = '';
+                document.getElementById('expenseNote').value = '';
+            });
+            document.getElementById('expenseListContainer').addEventListener('click', e => {
+                if(e.target.dataset.deleteExpense) {
+                    expenses = expenses.filter(ex => ex.id !== e.target.dataset.deleteExpense);
+                    saveAll(); renderExpensePage();
+                }
+            });
+
+            // 提醒
+            document.getElementById('testReminderBtn').addEventListener('click', () => { dismissedToday = false; snoozeUntil = null; checkReminders(true); });
+            document.getElementById('closeReminder').addEventListener('click', ()=> document.getElementById('reminderModal').style.display='none');
+            document.getElementById('snoozeReminder').addEventListener('click', snoozeReminder);
+            document.getElementById('dismissTodayReminder').addEventListener('click', dismissTodayReminder);
+            document.getElementById('setDailyReminderBtn').addEventListener('click', setupDailyReminder);
+
+            // 导入导出
+            document.getElementById('exportDataBtn').addEventListener('click', exportData);
+            document.getElementById('importDataBtn').addEventListener('click', ()=> document.getElementById('importFileInput').click());
+            document.getElementById('importFileInput').addEventListener('change', e => { const file = e.target.files[0]; if(file) importBackup(file); e.target.value = ''; });
+
+            // OCR
+            const fileInput = document.getElementById('ocrImageInput');
+            const triggerBtn = document.getElementById('triggerOCR');
+            const preprocessPanel = document.getElementById('preprocessPanel');
+            const contrastSlider = document.getElementById('contrastSlider');
+            const thresholdSlider = document.getElementById('thresholdSlider');
+            const contrastVal = document.getElementById('contrastValue');
+            const thresholdVal = document.getElementById('thresholdValue');
+            const startBtn = document.getElementById('startRecognition');
+            const progressDiv = document.getElementById('ocrProgress');
+            const resultDiv = document.getElementById('ocrResult');
+            triggerBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', e => {
+                const file = e.target.files[0];
+                if (!file) return;
+                currentOcrImage = file;
+                preprocessPanel.style.display = 'block';
+                resultDiv.innerHTML = '';
+                progressDiv.style.display = 'none';
+                updatePreview(file, contrastSlider.value, thresholdSlider.value);
+                contrastSlider.oninput = () => { contrastVal.textContent = contrastSlider.value; updatePreview(file, contrastSlider.value, thresholdSlider.value); };
+                thresholdSlider.oninput = () => { thresholdVal.textContent = thresholdSlider.value; updatePreview(file, contrastSlider.value, thresholdSlider.value); };
+            });
+            startBtn.addEventListener('click', async () => {
+                if (!currentOcrImage) return;
+                progressDiv.style.display = 'block';
+                resultDiv.innerHTML = '';
+                document.getElementById('progressFill').style.width = '0%';
+                try {
+                    const text = await performOCR(currentOcrImage, parseFloat(contrastSlider.value), parseInt(thresholdSlider.value));
+                    const { vaccineName, vaccineDate, rawText } = parseVaccineInfo(text);
+                    if (vaccineName || vaccineDate) {
+                        const nextDue = vaccineDate && vaccineName ? calcNextDue(vaccineName, vaccineDate) : '';
+                        resultDiv.innerHTML = `<strong>✅ 识别成功！</strong><br>${vaccineName?`疫苗: ${vaccineName}<br>`:''}${vaccineDate?`接种日期: ${vaccineDate}<br>`:''}${nextDue?`到期日期: ${nextDue}<br>`:''}<button class="btn btn-sm btn-primary" id="applyOcrData" style="margin-top:8px;">应用并添加记录</button>`;
+                        document.getElementById('applyOcrData').onclick = () => {
+                            document.querySelector('.tab-item[data-page="home"]').click();
+                            document.getElementById('showAddVaccineForm').click();
+                            if (vaccineName) { document.getElementById('vaccineSelect').value = vaccineName; document.getElementById('vaccineSelect').dispatchEvent(new Event('change')); }
+                            if (vaccineDate) document.getElementById('vaccineDate').value = vaccineDate;
+                            const petMatch = pets.find(p => rawText.includes(p.name));
+                            if (petMatch) document.getElementById('petSelect').value = petMatch.id;
+                        };
+                    } else {
+                        resultDiv.innerHTML = `<strong>⚠️ 未能识别</strong><br><small>${rawText.substring(0,150)}...</small><br><button class="btn btn-sm" id="manualFill">手动填写</button>`;
+                        document.getElementById('manualFill').onclick = () => { document.querySelector('.tab-item[data-page="home"]').click(); document.getElementById('showAddVaccineForm').click(); };
+                    }
+                } catch (err) {
+                    resultDiv.innerHTML = `<strong>❌ 识别失败</strong><br>${err.message}<br><button class="btn btn-sm" id="retryOcr">重试</button>`;
+                    document.getElementById('retryOcr').onclick = () => fileInput.click();
+                } finally {
+                    progressDiv.style.display = 'none';
+                    preprocessPanel.style.display = 'none';
+                    fileInput.value = '';
+                }
+            });
+
+            window.addEventListener('load', ()=>{
+                renderReminderPetFilter();
+                setTimeout(checkReminders, 500);
+            });
+        }
+
+        function init() {
+            loadData();
+            refreshPetSelects();
+            renderPetList();
+            renderVaccineList();
+            renderExpensePage();
+            bindEvents();
+        }
+        init();
+    })();
+</script>
+</body>
+</html>

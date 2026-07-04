@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>灵境培育师 - 放置养成模拟器 | 数值反馈设计Demo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1a472a 0%, #0e2a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Poppins', 'SF Pro Text', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* 主游戏面板 */
+        .game-container {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(255, 248, 225, 0.95);
+            border-radius: 64px 64px 48px 48px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+            backdrop-filter: blur(0px);
+            transition: all 0.2s ease;
+        }
+
+        /* 宠物/植物展示区 */
+        .pet-zone {
+            background: #fef7e0;
+            padding: 20px 20px 16px;
+            text-align: center;
+            border-bottom: 3px solid #ffcf9a;
+            box-shadow: inset 0 -5px 0 #e6d5b8;
+        }
+
+        .avatar {
+            font-size: 90px;
+            filter: drop-shadow(6px 8px 12px rgba(0,0,0,0.2));
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+        .avatar:active {
+            transform: scale(0.96);
+        }
+        .title-badge {
+            background: #2c5a2e;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 60px;
+            color: #ffefc0;
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-top: 8px;
+            box-shadow: inset 0 1px 0 #5b8c4e, 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            background: #e9dfc7;
+            padding: 12px 18px;
+            border-radius: 48px;
+            margin: 12px 8px 0;
+            font-weight: bold;
+        }
+
+        .stat-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 16px 16px 12px;
+        }
+        .stat-card {
+            background: #fff6e8;
+            flex: 1;
+            border-radius: 32px;
+            padding: 12px 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05), inset 0 1px 0 white;
+            border: 1px solid #ffdfb0;
+        }
+        .stat-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #a7692a;
+            letter-spacing: 0.5px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #3b2a1f;
+            line-height: 1.2;
+        }
+        .stat-sub {
+            font-size: 12px;
+            color: #b97f44;
+        }
+
+        /* 按钮与操作区 */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin: 8px 20px 20px;
+        }
+        .btn {
+            flex: 1;
+            border: none;
+            padding: 14px 0;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            background: #f5bc70;
+            color: #2d2b1f;
+            box-shadow: 0 5px 0 #b4622a;
+            transition: 0.07s linear;
+            cursor: pointer;
+            font-family: inherit;
+            letter-spacing: 1px;
+        }
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #b4622a;
+        }
+        .btn-upgrade {
+            background: #ffa559;
+            color: #2c2416;
+            box-shadow: 0 5px 0 #c16f2e;
+        }
+        .cost {
+            font-size: 0.75rem;
+            display: block;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        /* 成就&称号区域 */
+        .achievement-area {
+            background: #ecdca8;
+            margin: 12px 16px 20px;
+            border-radius: 36px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            border: 1px solid #ffefb0;
+        }
+        .title-name {
+            background: #4a3624;
+            color: #ffefb0;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .next-achievement {
+            font-size: 0.7rem;
+            color: #5f4a2e;
+            font-weight: 500;
+        }
+
+        /* 离线弹窗 (模态) */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+            backdrop-filter: blur(3px);
+        }
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background: #fff7e8;
+            max-width: 300px;
+            width: 80%;
+            padding: 24px 20px;
+            border-radius: 56px;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+            border: 1px solid #ffda99;
+        }
+        .modal-content h3 {
+            margin: 0 0 12px;
+            color: #4a6b2f;
+        }
+        .offline-reward {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e0852a;
+            margin: 12px 0;
+        }
+        .close-modal {
+            background: #e0a82b;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        footer {
+            font-size: 10px;
+            text-align: center;
+            padding: 16px;
+            color: #876b42;
+            background: #fff0db;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+        }
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2a2418e6;
+            color: #ffefb0;
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            z-index: 100;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+        }
+        @media (max-width: 480px) {
+            .stat-value { font-size: 20px; }
+            .avatar { font-size: 70px; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container" id="gameRoot">
+    <!-- 养成核心区 -->
+    <div class="pet-zone">
+        <div class="avatar" id="petAvatar">🌱</div>
+        <div class="title-badge" id="petTitle">灵境幼苗</div>
+        <div class="level-info">
+            <span>✨ Lv.<span id="currentLevel">1</span></span>
+            <span>⚡ 产出: <span id="goldPerSec">5</span>/s</span>
+        </div>
+    </div>
+
+    <!-- 数值面板 -->
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-label">🍃 金币</div>
+            <div class="stat-value" id="goldAmount">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">🌟 灵境经验</div>
+            <div class="stat-value" id="expAmount">0</div>
+            <div class="stat-sub">获得金币时同步增长</div>
+        </div>
+    </div>
+
+    <!-- 交互核心 -->
+    <div class="action-buttons">
+        <button class="btn" id="clickBtn">🌸 轻抚培育<br><span style="font-size:0.7rem;">+10💰</span></button>
+        <button class="btn btn-upgrade" id="upgradeBtn">🌿 灵境突破<br><span class="cost" id="upgradeCost">消耗 60</span></button>
+    </div>
+
+    <!-- 成就 & 外观系统 -->
+    <div class="achievement-area">
+        <span>🏆 称号 · </span>
+        <span class="title-name" id="currentTitle">萌芽守护者</span>
+        <span class="next-achievement" id="nextAchieveHint">🌟 Lv.5 解锁新外观</span>
+    </div>
+    <footer>✨ 放置挂机 | 离线收益自动结算 ✨</footer>
+</div>
+
+<!-- 离线收益弹窗 -->
+<div id="offlineModal" class="modal">
+    <div class="modal-content">
+        <h3>🌸 灵境归来 🌸</h3>
+        <p>在你离开的这段时间，自然之力为你积攒了：</p>
+        <div class="offline-reward">
+            🪙 +<span id="offlineGold">0</span><br>
+            ✨ +<span id="offlineExp">0</span>
+        </div>
+        <button class="close-modal" id="closeModalBtn">收下馈赠</button>
+    </div>
+</div>
+
+<script>
+    // ------------------- 数值配置 & 平衡曲线 -------------------
+    // 基础产出公式: 每秒金币 = 5 + (等级-1)*2   (等级1 -> 5/秒，线性成长)
+    function getGoldPerSecondByLevel(level) {
+        return 5 + (level - 1) * 2;
+    }
+    
+    // 升级成本曲线: 前几级友好，后期成本快速提升 (制造稀缺与目标感)
+    // 成本公式: base 60 * (等级^1.25)  -> 等级1升2: 60，等级5升6: 60*5^1.25≈60*6.9≈414，等级10升11≈ 60*17.8≈1068
+    function getUpgradeCost(level) {
+        return Math.floor(60 * Math.pow(level, 1.25));
+    }
+    
+    // 成就系统: 基于等级解锁不同外观/称号 (每5级一个里程碑)
+    const ACHIEVEMENTS = [
+        { minLevel: 1, title: "萌芽守护者", avatar: "🌱", visual: "🌱 嫩芽" },
+        { minLevel: 5, title: "翠叶导师", avatar: "🍃", visual: "🍃 青翠叶片" },
+        { minLevel: 10, title: "繁花领主", avatar: "🌸", visual: "🌸 灵境之花" },
+        { minLevel: 15, title: "辉光古树", avatar: "🌳", visual: "🌳 远古灵木" },
+        { minLevel: 20, title: "星辰之灵", avatar: "🌟", visual: "🌟 星尘化身" }
+    ];
+    
+    // 获取当前等级对应的成就配置 (最高取最后一个)
+    function getCurrentAchievement(level) {
+        let achieve = ACHIEVEMENTS[0];
+        for (let i = ACHIEVEMENTS.length-1; i >= 0; i--) {
+            if (level >= ACHIEVEMENTS[i].minLevel) {
+                achieve = ACHIEVEMENTS[i];
+                break;
+            }
+        }
+        return achieve;
+    }
+    
+    // 下一个成就提示
+    function getNextAchievementHint(level) {
+        for (let i = 0; i < ACHIEVEMENTS.length; i++) {
+            if (level < ACHIEVEMENTS[i].minLevel) {
+                return `✨ Lv.${ACHIEVEMENTS[i].minLevel} 解锁「${ACHIEVEMENTS[i].title}」`;
+            }
+        }
+        return "🏁 已抵达传说之境";
+    }
+    
+    // ---------- 游戏核心状态 ----------
+    let gameState = {
+        gold: 0,            // 当前金币
+        level: 1,          // 当前等级
+        exp: 0             // 灵境经验值 (通过获得金币同步增加)
+    };
+    
+    let lastSaveTimestamp = Date.now();    // 上次保存时间戳(用于离线结算)
+    let intervalId = null;                 // setInterval句柄
+    let uiElements = {};                   // 缓存DOM
+    
+    // 辅助刷新UI组件 (包括等级、金币、经验、产出速率、升级成本、成就外观等)
+    function refreshUI() {
+        const { gold, level, exp } = gameState;
+        const gps = getGoldPerSecondByLevel(level);
+        const upgradeCost = getUpgradeCost(level);
+        const achievement = getCurrentAchievement(level);
+        
+        // 更新基础数值显示
+        uiElements.goldAmount.innerText = Math.floor(gold);   // 展示整数
+        uiElements.expAmount.innerText = Math.floor(exp);
+        uiElements.currentLevel.innerText = level;
+        uiElements.goldPerSec.innerText = gps;
+        uiElements.upgradeCost.innerText = `消耗 ${upgradeCost}`;
+        
+        // 成就外观 / 称号
+        uiElements.petAvatar.innerText = achievement.avatar;
+        uiElements.petTitle.innerText = achievement.visual;
+        uiElements.currentTitle.innerText = achievement.title;
+        uiElements.nextAchieveHint.innerText = getNextAchievementHint(level);
+        
+        // 升级按钮动态禁用检查 (金币是否足够升级)
+        const canUpgrade = gold >= upgradeCost;
+        uiElements.upgradeBtn.disabled = !canUpgrade;
+        
+        // 可选: 当升级按钮禁用样式优化
+        if (!canUpgrade) {
+            uiElements.upgradeBtn.style.opacity = "0.7";
+        } else {
+            uiElements.upgradeBtn.style.opacity = "1";
+        }
+    }
+    
+    // 保存游戏数据至localStorage (包含金币,等级,经验,时间戳)
+    function persistGameData() {
+        const now = Date.now();
+        const saveData = {
+            gold: gameState.gold,
+            level: gameState.level,
+            exp: gameState.exp,
+            lastTimestamp: now
+        };
+        localStorage.setItem("IdleCultivator", JSON.stringify(saveData));
+        lastSaveTimestamp = now;  // 内存同步最新保存时间戳
+    }
+    
+    // 增加金币 & 同步增加经验 (数值反馈核心)
+    function addGoldAndExp(amountGold) {
+        if (amountGold <= 0) return;
+        // 增加金币
+        gameState.gold += amountGold;
+        // 经验值同步增加 (1金币=1经验，让用户感知双成长)
+        gameState.exp += amountGold;
+        // 界面刷新
+        refreshUI();
+        // 数据变动后持久化存储 (保证离线时间精确)
+        persistGameData();
+    }
+    
+    // 升级逻辑 (消耗金币提升等级，提升每秒产出)
+    function upgradeLevel() {
+        const currentLv = gameState.level;
+        const cost = getUpgradeCost(currentLv);
+        if (gameState.gold >= cost) {
+            // 扣除金币
+            gameState.gold -= cost;
+            gameState.level += 1;
+            // 升级后经验不变, 但产出速率提升在refresh体现
+            refreshUI();
+            // 持久化存储
+            persistGameData();
+            
+            // 升级成就感小提示: 通过短暂toast通知 (非侵入)
+            showFloatingToast(`✨ 突破 Lv.${gameState.level} ！产出提升 ✨`);
+            
+            // 检查成就解锁 (若是新外观会有额外趣味反馈)
+            const newAchieve = getCurrentAchievement(gameState.level);
+            const oldAchieve = getCurrentAchievement(currentLv);
+            if (newAchieve.title !== oldAchieve.title) {
+                showFloatingToast(`🎉 获得新称号「${newAchieve.title}」外观进化！`);
+            }
+        } else {
+            showFloatingToast(`💰 金币不足，还需 ${Math.floor(cost - gameState.gold)} 金币`);
+        }
+    }
+    
+    // 浮动小提示 (不打断体验)
+    let toastTimeout = null;
+    function showFloatingToast(msg) {
+        let toast = document.querySelector('.toast-message');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'toast-message';
+            document.body.appendChild(toast);
+        }
+        toast.innerText = msg;
+        toast.style.opacity = '1';
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.style.opacity = '0';
+        }, 1800);
+    }
+    
+    // 挂机自动产出 (每秒触发)
+    function onTickProduction() {
+        const gps = getGoldPerSecondByLevel(gameState.level);
+        if (gps > 0) {
+            addGoldAndExp(gps);
+        }
+        // 刷新UI已经包含在addGoldAndExp中
+    }
+    
+    // 启动挂机循环
+    function startIdleLoop() {
+        if (intervalId) clearInterval(intervalId);
+        intervalId = setInterval(() => {
+            onTickProduction();
+        }, 1000);
+    }
+    
+    // 离线收益计算与弹窗展示 (核心设计亮点)
+    function applyOfflineRewardAndPopup(savedData, currentTimestamp) {
+        const lastTime = savedData.lastTimestamp;
+        if (!lastTime) return { goldGain: 0, expGain: 0 };
+        
+        let deltaSeconds = (currentTimestamp - lastTime) / 1000;
+        if (deltaSeconds <= 0) return { goldGain: 0, expGain: 0 };
+        // 限制最大离线时间7天，避免溢出
+        deltaSeconds = Math.min(deltaSeconds, 7 * 24 * 3600);
+        
+        const levelAtOffline = savedData.level;
+        const gps = getGoldPerSecondByLevel(levelAtOffline);
+        const gainedGold = gps * deltaSeconds;
+        const gainedExp = gps * deltaSeconds;   // 经验与离线金币获得同步
+        
+        // 离线收益累加到当前游戏状态
+        if (gainedGold > 0) {
+            gameState.gold += gainedGold;
+            gameState.exp += gainedExp;
+        }
+        
+        // 展示弹窗 (给用户“我赚到了”的正反馈)
+        if (gainedGold > 0.01 || gainedExp > 0.01) {
+            const modal = document.getElementById('offlineModal');
+            const offlineGoldSpan = document.getElementById('offlineGold');
+            const offlineExpSpan = document.getElementById('offlineExp');
+            offlineGoldSpan.innerText = Math.floor(gainedGold);
+            offlineExpSpan.innerText = Math.floor(gainedExp);
+            modal.classList.add('active');
+        }
+        
+        return { goldGain: gainedGold, expGain: gainedExp };
+    }
+    
+    // 加载存档 & 处理离线收益 (页面启动时执行)
+    function loadGameAndOffline() {
+        const raw = localStorage.getItem("IdleCultivator");
+        const nowTimestamp = Date.now();
+        
+        // 如果没有存档，初始化默认数值 (初始给少量金币帮助起步，但数值平衡初体验)
+        if (!raw) {
+            gameState = {
+                gold: 80,       // 起始80金币让用户立刻可点1次升级体验快速正反馈
+                level: 1,
+                exp: 0
+            };
+            lastSaveTimestamp = nowTimestamp;
+            persistGameData();  // 存入初始存档，并记录时间戳
+            refreshUI();
+            return;
+        }
+        
+        try {
+            const saved = JSON.parse(raw);
+            // 恢复数据
+            gameState.gold = saved.gold ?? 0;
+            gameState.level = saved.level ?? 1;
+            gameState.exp = saved.exp ?? 0;
+            const savedTimestamp = saved.lastTimestamp ?? nowTimestamp;
+            
+            // 离线收益计算 (弹窗逻辑)
+            const { goldGain, expGain } = applyOfflineRewardAndPopup(saved, nowTimestamp);
+            // 如果有离线收益，额外刷新UI并确保数据已经合并到gameState中
+            if (goldGain > 0) {
+                // 增加经验已经在applyOfflineRewardAndPopup里完成，但需要确保数值一致性
+                // 再次确保UI刷新，并更新持久化(覆盖旧时间戳)
+                refreshUI();
+                persistGameData();   // 将更新后的状态+最新时间戳存储
+            } else {
+                // 即使无离线收益，也需要把读到的存档同步时间戳并保存新时间
+                lastSaveTimestamp = savedTimestamp;
+                refreshUI();
+                persistGameData();   // 更新存储时间戳为当前时间，避免重复计算离线
+            }
+        } catch (e) {
+            console.warn("解析存档失败", e);
+            gameState = { gold: 80, level: 1, exp: 0 };
+            persistGameData();
+            refreshUI();
+        }
+    }
+    
+    // 手动点击收获 (每次点击获得基础10金币 + 10经验)
+    function onManualClick() {
+        addGoldAndExp(10);
+        // 点击增加手感特效
+        const avatarDiv = document.getElementById('petAvatar');
+        avatarDiv.style.transform = 'scale(0.92)';
+        setTimeout(() => { if(avatarDiv) avatarDiv.style.transform = ''; }, 100);
+        // 随机浮字小反馈
+        showFloatingToast('+10 🪙');
+    }
+    
+    // 全局保存数据增强 (监听页面关闭前额外保存，但已有每次变动自动保存，无需额外，不过加强beforeunload)
+    function beforeUnloadHandler() {
+        persistGameData();
+    }
+    
+    // 成就检查的额外装饰(升级时已经在升级方法中调用showtoast, 再强化)
+    // 另，每次刷新UI会实时更新外观，无需额外触发
+    
+    // 初始化UI绑定与事件
+    function bindEvents() {
+        uiElements.clickBtn.addEventListener('click', () => onManualClick());
+        uiElements.upgradeBtn.addEventListener('click', () => upgradeLevel());
+        const modal = document.getElementById('offlineModal');
+        const closeBtn = document.getElementById('closeModalBtn');
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            // 关闭弹窗后再次刷新UI确保数值准确
+            refreshUI();
+            persistGameData();
+        });
+        // 点击遮罩也可以关闭
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                refreshUI();
+            }
+        });
+    }
+    
+    // 页面启动入口
+    function init() {
+        // 收集dom元素
+        uiElements = {
+            goldAmount: document.getElementById('goldAmount'),
+            expAmount: document.getElementById('expAmount'),
+            currentLevel: document.getElementById('currentLevel'),
+            goldPerSec: document.getElementById('goldPerSec'),
+            upgradeCost: document.getElementById('upgradeCost'),
+            petAvatar: document.getElementById('petAvatar'),
+            petTitle: document.getElementById('petTitle'),
+            currentTitle: document.getElementById('currentTitle'),
+            nextAchieveHint: document.getElementById('nextAchieveHint'),
+            clickBtn: document.getElementById('clickBtn'),
+            upgradeBtn: document.getElementById('upgradeBtn')
+        };
+        
+        // 1. 加载存档并计算离线收益 (弹窗在此过程中展示)
+        loadGameAndOffline();
+        
+        // 2. 绑定UI交互
+        bindEvents();
+        
+        // 3. 启动挂机setInterval
+        startIdleLoop();
+        
+        // 4. 页面关闭/刷新前 保存最终状态 (确保最后时间戳)
+        window.addEventListener('beforeunload', beforeUnloadHandler);
+        
+        // 5. 页面可见性变化时无需额外动作，但为了保险，可以定期保存 (额外每分钟保存一次)
+        setInterval(() => {
+            persistGameData();
+        }, 30000); // 每30秒额外保存，保障离线时间戳更新
+        
+        // 初始化后强制刷新UI数值 (再次确保)
+        refreshUI();
+        // 首次展示一个欢迎语toast，但避免干扰
+        setTimeout(() => {
+            showFloatingToast("✨ 轻抚灵植，等待丰收 ✨");
+        }, 500);
+    }
+    
+    // 启动所有
+    init();
+</script>
+</body>
+</html>

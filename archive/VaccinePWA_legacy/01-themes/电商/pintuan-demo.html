@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🍊 鲜果拼团 · 秒杀活动页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        #app {
+            width: 100%;
+            max-width: 375px;
+            background: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            position: relative;
+            padding-bottom: 20px;
+        }
+        /* 状态栏/模拟登录切换 */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .login-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .login-badge {
+            background: #e6f7ff;
+            color: #0077cc;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .toggle-login {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toggle-login:active {
+            background: #f0f0f0;
+        }
+        /* 商品主图卡片 */
+        .product-card {
+            padding: 16px;
+        }
+        .product-media {
+            background: linear-gradient(145deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .product-media span {
+            font-size: 48px;
+            background: rgba(255,255,255,0.3);
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .product-tags {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #ff4d4f;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .price-section {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .group-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ff4d4f;
+        }
+        .group-price small {
+            font-size: 16px;
+            font-weight: 400;
+        }
+        .original-price {
+            font-size: 15px;
+            color: #999;
+            text-decoration: line-through;
+        }
+        .single-buy {
+            background: #f7f7f7;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+            margin-left: 4px;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        .hot-badge {
+            color: #ff6b00;
+            background: #fff1e0;
+            padding: 2px 8px;
+            border-radius: 30px;
+        }
+        .stock-warning {
+            color: #ff4d4f;
+            font-weight: 500;
+        }
+        /* 拼团进度条区域 */
+        .progress-area {
+            background: #fafafa;
+            margin: 8px 16px;
+            padding: 16px;
+            border-radius: 20px;
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .progress-title {
+            font-weight: 600;
+            color: #333;
+        }
+        .progress-reward {
+            color: #ff4d4f;
+            font-weight: 700;
+            background: #fff0f0;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+        .progress-bar-bg {
+            height: 10px;
+            background: #e9e9e9;
+            border-radius: 10px;
+            margin: 12px 0 8px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 10px;
+            background: linear-gradient(90deg, #ff9a3e, #ff4d4f);
+            border-radius: 10px;
+            width: 66%; /* 2/3 ≈ 66% */
+            transition: width 0.3s;
+        }
+        .progress-avatars {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+        }
+        .avatar {
+            width: 28px;
+            height: 28px;
+            background: #c4e0ff;
+            border-radius: 28px;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .invite-hint {
+            margin-left: 8px;
+            color: #0077cc;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            cursor: pointer;
+        }
+        /* 倒计时组件 */
+        .countdown-section {
+            margin: 0 16px 16px;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+        .countdown-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+        .timer-block {
+            display: flex;
+            gap: 4px;
+            align-items: baseline;
+        }
+        .time-box {
+            background: #2e2e2e;
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffd966;
+        }
+        .time-sep {
+            font-size: 18px;
+            color: #aaa;
+        }
+        .marquee-tip {
+            font-size: 12px;
+            background: #ff4d4f;
+            padding: 4px 8px;
+            border-radius: 30px;
+            white-space: nowrap;
+        }
+        /* 主按钮区域 */
+        .action-area {
+            padding: 8px 16px;
+        }
+        .primary-btn {
+            width: 100%;
+            background: linear-gradient(145deg, #ff6a3d, #ff3b3b);
+            border: none;
+            border-radius: 60px;
+            padding: 18px 0;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 8px 16px rgba(255, 59, 59, 0.25);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            margin-bottom: 12px;
+        }
+        .primary-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 8px rgba(255, 59, 59, 0.2);
+        }
+        .share-row {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 8px;
+        }
+        .share-btn {
+            background: #f5f5f5;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+        .share-btn:active {
+            background: #ebebeb;
+        }
+        /* 分享浮层 (遮罩) */
+        .share-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            transition: visibility 0.2s, opacity 0.2s;
+            opacity: 0;
+        }
+        .share-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .share-panel {
+            background: white;
+            width: 100%;
+            max-width: 375px;
+            border-radius: 24px 24px 0 0;
+            padding: 24px 20px 30px;
+            transform: translateY(100%);
+            transition: transform 0.25s ease;
+        }
+        .share-overlay.show .share-panel {
+            transform: translateY(0);
+        }
+        .share-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .channel-list {
+            display: flex;
+            justify-content: space-around;
+        }
+        .channel-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 16px;
+        }
+        .channel-item:active {
+            background: #f5f5f5;
+        }
+        .channel-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            background: #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        .close-panel {
+            margin-top: 24px;
+            text-align: center;
+            color: #888;
+            padding: 12px;
+            cursor: pointer;
+        }
+        /* 数据看板 */
+        .dashboard {
+            margin: 24px 16px 8px;
+            padding: 18px 16px;
+            background: #f8f9fc;
+            border-radius: 24px;
+            border: 1px solid #edf2f7;
+        }
+        .dash-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .reset-btn {
+            background: none;
+            border: 1px solid #cbd5e1;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #475569;
+            cursor: pointer;
+        }
+        .funnel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .funnel-card {
+            background: white;
+            padding: 12px 8px;
+            border-radius: 18px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            text-align: center;
+        }
+        .funnel-label {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+        .funnel-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .funnel-rate {
+            font-size: 12px;
+            color: #22a65e;
+            margin-top: 4px;
+        }
+        .ab-remark {
+            background: #eef2ff;
+            padding: 10px 12px;
+            border-radius: 16px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #1e3a8a;
+            border-left: 4px solid #3b82f6;
+        }
+        /* 模拟支付模态框简单实现 */
+        .modal-mask {
+            position: fixed;
+            top:0;left:0;right:0;bottom:0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            visibility: hidden;
+        }
+        .modal-mask.show {
+            visibility: visible;
+        }
+        .pay-modal {
+            background: white;
+            width: 300px;
+            border-radius: 28px;
+            padding: 24px 20px;
+            text-align: center;
+        }
+        .pay-modal h3 {
+            margin-bottom: 12px;
+        }
+        .pay-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .pay-btn {
+            flex:1;
+            padding: 12px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .confirm-pay {
+            background: #ff4d4f;
+            color: white;
+        }
+        .toast-tip {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.75);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .toast-tip.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!-- 登录状态切换栏 (模拟) -->
+    <div class="status-bar">
+        <div class="login-tag">
+            <span class="login-badge" id="loginStateLabel">👤 未登录</span>
+            <span style="font-size:13px; color:#888;" id="loginHint">登录享团长价</span>
+        </div>
+        <button class="toggle-login" id="toggleLoginBtn">切换登录</button>
+    </div>
+
+    <!-- 商品卡片 -->
+    <div class="product-card">
+        <div class="product-media">
+            <span>🍑</span>
+            <div class="product-tags">🔥 爆款秒杀</div>
+        </div>
+        <div class="price-section">
+            <span class="group-price">¥39.9<small> 拼团价</small></span>
+            <span class="original-price">¥129</span>
+            <span class="single-buy">单买 ¥89</span>
+        </div>
+        <div class="stats-row">
+            <span>👥 <span id="participantCount">328</span>人参与</span>
+            <span class="hot-badge">⚡ 附近327人正在拼</span>
+            <span class="stock-warning">仅剩 <span id="remainStock">28</span> 件</span>
+        </div>
+    </div>
+
+    <!-- 拼团进度条 · 利益驱动版 -->
+    <div class="progress-area">
+        <div class="progress-header">
+            <span class="progress-title">👭 拼团进度</span>
+            <span class="progress-reward" id="progressRewardText">再邀1人立减5元</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill" style="width: 66%;"></div>
+        </div>
+        <div class="progress-avatars">
+            <span style="font-size:14px; color:#555;">已参团:</span>
+            <div class="avatar" style="background:#ffe0b3;">😊</div>
+            <div class="avatar" style="background:#c5e0b4;">🍀</div>
+            <span style="margin-left:4px; font-weight:500;">2人</span>
+            <span class="invite-hint" id="inviteHintBtn">📨 邀请好友 ></span>
+        </div>
+        <div style="font-size:13px; color:#ff7a00; margin-top:8px;" id="dynamicBenefit">
+            🎁 再邀请1人，团长得5元红包，团员得券
+        </div>
+    </div>
+
+    <!-- 倒计时组件 -->
+    <div class="countdown-section">
+        <div class="countdown-label">
+            <span>⏳ 距结束</span>
+        </div>
+        <div class="timer-block" id="countdownTimer">
+            <span class="time-box" id="hour">02</span><span class="time-sep">:</span>
+            <span class="time-box" id="minute">28</span><span class="time-sep">:</span>
+            <span class="time-box" id="second">45</span>
+        </div>
+        <span class="marquee-tip" id="marqueeTip">最后疯抢·团长免单剩3</span>
+    </div>
+
+    <!-- 主按钮区域 -->
+    <div class="action-area">
+        <button class="primary-btn" id="mainActionBtn">登录后立即参团</button>
+        <div class="share-row">
+            <button class="share-btn" id="shareTriggerBtn">📤 分享给好友</button>
+            <button class="share-btn" id="copyLinkBtn">🔗 复制链接</button>
+        </div>
+    </div>
+
+    <!-- 简单的数据看板 (漏斗) -->
+    <div class="dashboard">
+        <div class="dash-title">
+            <span>📊 转化漏斗 (模拟)</span>
+            <button class="reset-btn" id="resetFunnelBtn">重置数据</button>
+        </div>
+        <div class="funnel-grid">
+            <div class="funnel-card">
+                <div class="funnel-label">👀 浏览</div>
+                <div class="funnel-value" id="funnelView">0</div>
+            </div>
+            <div class="funnel-card">
+                <div class="funnel-label">🖱️ 点击拼团</div>
+                <div class="funnel-value" id="funnelGroup">0</div>
+                <div class="funnel-rate" id="groupRate">0%</div>
+            </div>
+            <div class="funnel-card">
+                <div class="funnel-label">📢 发起分享</div>
+                <div class="funnel-value" id="funnelShare">0</div>
+                <div class="funnel-rate" id="shareRate">0%</div>
+            </div>
+            <div class="funnel-card">
+                <div class="funnel-label">✅ 支付成功</div>
+                <div class="funnel-value" id="funnelPay">0</div>
+                <div class="funnel-rate" id="payRate">0%</div>
+            </div>
+        </div>
+        <div class="ab-remark">
+            💡 A/B亮点：进度条用“再邀1人立减5元”替换“还差1人”，分享率预估提升116%<br>
+            📌 按钮随登录状态变化 · 点击分享记录漏斗
+        </div>
+    </div>
+
+    <!-- 分享浮层 -->
+    <div class="share-overlay" id="shareOverlay">
+        <div class="share-panel">
+            <div class="share-title">📲 分享给好友，加速成团</div>
+            <div class="channel-list">
+                <div class="channel-item" data-channel="wechat">
+                    <div class="channel-icon" style="background:#e1f5e8;">💬</div>
+                    <span>微信好友</span>
+                </div>
+                <div class="channel-item" data-channel="moments">
+                    <div class="channel-icon" style="background:#e1edff;">🌐</div>
+                    <span>朋友圈</span>
+                </div>
+                <div class="channel-item" data-channel="copy">
+                    <div class="channel-icon" style="background:#f0f0f0;">🔗</div>
+                    <span>复制链接</span>
+                </div>
+            </div>
+            <div class="close-panel" id="closeSharePanel">取消</div>
+        </div>
+    </div>
+
+    <!-- 模拟支付弹窗 -->
+    <div class="modal-mask" id="payModal">
+        <div class="pay-modal">
+            <h3>🧾 确认支付</h3>
+            <p style="color:#555;">拼团价 ¥39.9 · 还差1人成团</p>
+            <p style="font-size:14px; background:#fff4e5; padding:6px; border-radius:30px;">支付后邀请好友，团长再减5元</p>
+            <div class="pay-actions">
+                <button class="pay-btn" style="background:#eee;" id="cancelPayBtn">取消</button>
+                <button class="pay-btn confirm-pay" id="confirmPayBtn">确认支付</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 轻提示 -->
+    <div class="toast-tip" id="toast">✨ 已记录</div>
+</div>
+
+<script>
+    (function(){
+        'use strict';
+
+        // ---------- 全局状态 ----------
+        let isLoggedIn = false;             // 登录状态
+        let funnel = {
+            view: 0,
+            clickGroup: 0,
+            clickShare: 0,
+            successPay: 0
+        };
+
+        // 拼团进度模拟 (总需3人，目前2人)
+        let currentParticipants = 2;
+        const TOTAL_NEED = 3;
+
+        // 倒计时截止时间 (当前时间+2小时28分45秒，模拟)
+        let deadline = new Date();
+        deadline.setHours(deadline.getHours() + 2);
+        deadline.setMinutes(deadline.getMinutes() + 28);
+        deadline.setSeconds(deadline.getSeconds() + 45);
+
+        // DOM 元素
+        const loginStateLabel = document.getElementById('loginStateLabel');
+        const loginHint = document.getElementById('loginHint');
+        const toggleLoginBtn = document.getElementById('toggleLoginBtn');
+        const mainActionBtn = document.getElementById('mainActionBtn');
+        const shareTriggerBtn = document.getElementById('shareTriggerBtn');
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        const inviteHintBtn = document.getElementById('inviteHintBtn');
+        const shareOverlay = document.getElementById('shareOverlay');
+        const closeSharePanel = document.getElementById('closeSharePanel');
+        const channelItems = document.querySelectorAll('.channel-item');
+        const payModal = document.getElementById('payModal');
+        const cancelPayBtn = document.getElementById('cancelPayBtn');
+        const confirmPayBtn = document.getElementById('confirmPayBtn');
+        const toast = document.getElementById('toast');
+
+        // 漏斗显示
+        const funnelViewEl = document.getElementById('funnelView');
+        const funnelGroupEl = document.getElementById('funnelGroup');
+        const funnelShareEl = document.getElementById('funnelShare');
+        const funnelPayEl = document.getElementById('funnelPay');
+        const groupRateEl = document.getElementById('groupRate');
+        const shareRateEl = document.getElementById('shareRate');
+        const payRateEl = document.getElementById('payRate');
+        const resetFunnelBtn = document.getElementById('resetFunnelBtn');
+
+        // 动态元素
+        const participantCountSpan = document.getElementById('participantCount');
+        const remainStockSpan = document.getElementById('remainStock');
+        const progressFill = document.getElementById('progressFill');
+        const progressRewardText = document.getElementById('progressRewardText');
+        const dynamicBenefit = document.getElementById('dynamicBenefit');
+
+        // 倒计时元素
+        const hourEl = document.getElementById('hour');
+        const minuteEl = document.getElementById('minute');
+        const secondEl = document.getElementById('second');
+        const marqueeTip = document.getElementById('marqueeTip');
+
+        // ---------- 初始化 localStorage 漏斗 ----------
+        function loadFunnelFromStorage() {
+            const saved = localStorage.getItem('group_funnel');
+            if(saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if(parsed.view !== undefined) funnel = parsed;
+                } catch(e){}
+            }
+            // 每次页面加载 view+1 (模拟浏览)
+            funnel.view += 1;
+            saveFunnelToStorage();
+        }
+        function saveFunnelToStorage() {
+            localStorage.setItem('group_funnel', JSON.stringify(funnel));
+        }
+        function updateFunnelUI() {
+            funnelViewEl.textContent = funnel.view;
+            funnelGroupEl.textContent = funnel.clickGroup;
+            funnelShareEl.textContent = funnel.clickShare;
+            funnelPayEl.textContent = funnel.successPay;
+
+            const viewBase = funnel.view || 1;
+            const groupRate = ((funnel.clickGroup / viewBase)*100).toFixed(1);
+            const shareRate = ((funnel.clickShare / viewBase)*100).toFixed(1);
+            const payRate = ((funnel.successPay / viewBase)*100).toFixed(1);
+            groupRateEl.textContent = groupRate + '%';
+            shareRateEl.textContent = shareRate + '%';
+            payRateEl.textContent = payRate + '%';
+        }
+
+        // 重置漏斗
+        function resetFunnel() {
+            funnel = { view: 1, clickGroup: 0, clickShare: 0, successPay: 0 };
+            saveFunnelToStorage();
+            updateFunnelUI();
+            showToast('漏斗数据已重置');
+        }
+
+        // 轻提示
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1500);
+        }
+
+        // 记录点击拼团 (开团/参团)
+        function recordGroupClick() {
+            funnel.clickGroup += 1;
+            saveFunnelToStorage();
+            updateFunnelUI();
+        }
+
+        // 记录分享点击
+        function recordShareClick() {
+            funnel.clickShare += 1;
+            saveFunnelToStorage();
+            updateFunnelUI();
+        }
+
+        // 记录支付成功
+        function recordPaySuccess() {
+            funnel.successPay += 1;
+            saveFunnelToStorage();
+            updateFunnelUI();
+            // 同时增加参与人数 (模拟成团进度)
+            if(currentParticipants < TOTAL_NEED) {
+                currentParticipants++;
+                updateProgressUI();
+            }
+            // 如果满团，可以额外提示
+            if(currentParticipants >= TOTAL_NEED) {
+                showToast('🎉 拼团成功！');
+            }
+        }
+
+        // 更新进度条UI及文案
+        function updateProgressUI() {
+            const percent = (currentParticipants / TOTAL_NEED) * 100;
+            progressFill.style.width = percent + '%';
+            const left = TOTAL_NEED - currentParticipants;
+            if(left <= 0) {
+                progressRewardText.textContent = '🎊 已成团！团长免单资格已发放';
+                dynamicBenefit.innerHTML = '✅ 拼团成功，奖励已到账';
+            } else {
+                progressRewardText.textContent = `再邀${left}人立减5元`;
+                dynamicBenefit.innerHTML = `🎁 再邀请${left}人，团长得5元红包，团员得券`;
+            }
+            // 更新头像区域文案 (简单)
+        }
+
+        // 更新登录相关UI
+        function updateLoginUI() {
+            if(isLoggedIn) {
+                loginStateLabel.textContent = '👤 已登录 · 团长';
+                loginHint.textContent = '享团长专属价';
+                // 根据进度决定按钮文案 (若未成团)
+                const left = TOTAL_NEED - currentParticipants;
+                if(left > 0) {
+                    mainActionBtn.textContent = '⚡ 立即开团 · 享团长价';
+                } else {
+                    mainActionBtn.textContent = '🔄 我也要买 · 发起新团';
+                }
+            } else {
+                loginStateLabel.textContent = '👤 未登录';
+                loginHint.textContent = '登录享团长价';
+                mainActionBtn.textContent = '登录后立即参团';
+            }
+        }
+
+        // 切换登录
+        function toggleLogin() {
+            isLoggedIn = !isLoggedIn;
+            updateLoginUI();
+            showToast(isLoggedIn ? '已切换至登录状态' : '已退出登录');
+        }
+
+        // 处理主按钮点击
+        function handleMainAction() {
+            if(!isLoggedIn) {
+                showToast('请先登录～ 点击右上角切换');
+                return;
+            }
+            // 记录点击拼团 (开团/参团)
+            recordGroupClick();
+            // 弹出模拟支付弹窗
+            payModal.classList.add('show');
+        }
+
+        // 显示分享浮层
+        function openSharePanel() {
+            shareOverlay.classList.add('show');
+        }
+        function closeSharePanelFunc() {
+            shareOverlay.classList.remove('show');
+        }
+
+        // 处理分享渠道点击 (记录分享漏斗)
+        function handleChannelClick(channel) {
+            recordShareClick();  // 核心: 分享点击计数
+            closeSharePanelFunc();
+            showToast(`模拟分享到 ${channel}`);
+            // 额外: 也可以增加进度联动，但省略
+        }
+
+        // 倒计时更新
+        function updateCountdown() {
+            const now = new Date();
+            const diff = deadline - now;
+            if(diff <= 0) {
+                hourEl.textContent = '00';
+                minuteEl.textContent = '00';
+                secondEl.textContent = '00';
+                marqueeTip.textContent = '⏰ 活动已结束';
+                return;
+            }
+            const hours = Math.floor(diff / (1000*60*60));
+            const minutes = Math.floor((diff % (3600000)) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            hourEl.textContent = hours.toString().padStart(2,'0');
+            minuteEl.textContent = minutes.toString().padStart(2,'0');
+            secondEl.textContent = seconds.toString().padStart(2,'0');
+
+            // 最后10分钟改变跑马灯
+            if(diff < 10 * 60 * 1000) {
+                marqueeTip.textContent = '🔥 最后疯抢！团长免单仅剩2个';
+            }
+        }
+
+        // 模拟动态数据 (参与人数/库存)
+        function mockDynamicData() {
+            participantCountSpan.textContent = Math.floor(320 + Math.random() * 30);
+            let stock = parseInt(remainStockSpan.textContent);
+            if(stock > 5) stock = Math.max(5, stock - Math.floor(Math.random()*3));
+            remainStockSpan.textContent = stock;
+        }
+
+        // 额外: 复制链接按钮
+        function copyLinkAction() {
+            recordShareClick();   // 也算分享行为
+            showToast('🔗 链接已复制，快去分享吧');
+        }
+
+        // ---------- 事件绑定 ----------
+        toggleLoginBtn.addEventListener('click', toggleLogin);
+        mainActionBtn.addEventListener('click', handleMainAction);
+        shareTriggerBtn.addEventListener('click', ()=>{
+            openSharePanel();
+            // 打开浮层不算分享点击，按产品逻辑点击分享按钮即记录？也可以，但规范：点击“分享给好友”按钮记录分享漏斗
+            recordShareClick();
+        });
+        inviteHintBtn.addEventListener('click', ()=>{
+            openSharePanel();
+            recordShareClick();
+        });
+        copyLinkBtn.addEventListener('click', copyLinkAction);
+
+        closeSharePanel.addEventListener('click', closeSharePanelFunc);
+        shareOverlay.addEventListener('click', (e) => {
+            if(e.target === shareOverlay) closeSharePanelFunc();
+        });
+        channelItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const channel = item.dataset.channel || '好友';
+                handleChannelClick(channel === 'wechat' ? '微信' : (channel==='moments'?'朋友圈':'复制链接'));
+            });
+        });
+
+        // 支付模态
+        cancelPayBtn.addEventListener('click', ()=>{
+            payModal.classList.remove('show');
+        });
+        confirmPayBtn.addEventListener('click', ()=>{
+            payModal.classList.remove('show');
+            recordPaySuccess();
+            showToast('✅ 支付成功！快去邀请好友');
+            // 如果进度满，可微调
+        });
+        payModal.addEventListener('click', (e) => {
+            if(e.target === payModal) payModal.classList.remove('show');
+        });
+
+        resetFunnelBtn.addEventListener('click', resetFunnel);
+
+        // 模拟登录初始UI
+        // 加载漏斗
+        loadFunnelFromStorage();
+        updateFunnelUI();
+        updateLoginUI();
+        updateProgressUI();
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        setInterval(mockDynamicData, 8000); // 每8秒微调数据
+
+        // 初始化库存显示
+        remainStockSpan.textContent = '28';
+        participantCountSpan.textContent = '328';
+
+        // 如果未登录下点击主按钮，不记录group，只提示
+        // 但为了体验，在handleMainAction已处理
+
+        // 额外: 演示利益驱动进度条变化（点击邀请/支付后进度变化）
+        // 一切就绪
+        window.demo = { resetFunnel };
+    })();
+</script>
+</body>
+</html>

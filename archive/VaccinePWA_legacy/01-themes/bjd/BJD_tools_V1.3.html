@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<!-- 建议优先使用同目录 index.html：养娃账/妆期闭环、5 Tab 布局、分离的 css/js、PWA 完整。本页为单文件旧版，仅作兼容。 -->
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>🍼 BJD 娃娘手帐</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#f8d5d5">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            font-family: system-ui, -apple-system, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        /* ========== 基础主题变量（粉嫩默认） ========== */
+        :root {
+            --bg-body: #fff7f9;
+            --header-bg: #ffe6eb;
+            --border-color: #fbc4d5;
+            --card-bg: #fffbfc;
+            --card-border: #ffe2e9;
+            --shadow-color: rgba(240, 150, 170, 0.1);
+            --primary-btn-bg: #e598a8;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #fcd5df;
+            --secondary-btn-color: #632c3c;
+            --accent-text: #a14a5c;
+            --meta-text: #a16e7c;
+            --tab-active-bg: #ffe0e6;
+            --tab-active-color: #c94f6b;
+            --tab-inactive-color: #b1858f;
+            --doll-card-bg: #fff1f5;
+            --doll-card-border: #fecfdb;
+            --inspo-bg: #fef2f5;
+            --inspo-border-left: #e598a8;
+            --warning-bg: #fff0d9;
+            --warning-text: #a1582b;
+            --modal-bg: white;
+            --input-border: #f0c4d1;
+        }
+
+        /* 浅蓝主题 */
+        body.theme-blue {
+            --bg-body: #f0f8ff;
+            --header-bg: #d9eaff;
+            --border-color: #bdd4e8;
+            --card-bg: #f5faff;
+            --card-border: #e3f0fc;
+            --shadow-color: rgba(100, 150, 200, 0.1);
+            --primary-btn-bg: #7aa9c4;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #cde5f5;
+            --secondary-btn-color: #2c5778;
+            --accent-text: #2c5778;
+            --meta-text: #5f8aa8;
+            --tab-active-bg: #d4e8f8;
+            --tab-active-color: #2c6b9e;
+            --tab-inactive-color: #6f95b5;
+            --doll-card-bg: #eef4fc;
+            --doll-card-border: #cfe2f2;
+            --inspo-bg: #eef4fc;
+            --inspo-border-left: #7aa9c4;
+            --warning-bg: #fef5e0;
+            --warning-text: #b47c2e;
+        }
+
+        /* 浅紫主题 */
+        body.theme-purple {
+            --bg-body: #faf5ff;
+            --header-bg: #f0e6ff;
+            --border-color: #d9c5f0;
+            --card-bg: #fdfaff;
+            --card-border: #f0e6ff;
+            --shadow-color: rgba(150, 100, 200, 0.1);
+            --primary-btn-bg: #b088d9;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #e6d5ff;
+            --secondary-btn-color: #4a2c6e;
+            --accent-text: #6b3fa0;
+            --meta-text: #8e6ab0;
+            --tab-active-bg: #e9dcff;
+            --tab-active-color: #7b4bbd;
+            --tab-inactive-color: #9b7bc2;
+            --doll-card-bg: #f7f0ff;
+            --doll-card-border: #e8d9fc;
+            --inspo-bg: #f7f0ff;
+            --inspo-border-left: #b088d9;
+        }
+
+        /* 浅绿主题 */
+        body.theme-green {
+            --bg-body: #f2faf5;
+            --header-bg: #e0f5e9;
+            --border-color: #bdd9cc;
+            --card-bg: #f7fff9;
+            --card-border: #e2f3ea;
+            --shadow-color: rgba(80, 150, 120, 0.1);
+            --primary-btn-bg: #7fbf9f;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #cce8db;
+            --secondary-btn-color: #2d5a45;
+            --accent-text: #2d6a4f;
+            --meta-text: #6f9e86;
+            --tab-active-bg: #d4f0e2;
+            --tab-active-color: #2f8b5e;
+            --tab-inactive-color: #7aab91;
+            --doll-card-bg: #edf7f1;
+            --doll-card-border: #d4eadf;
+            --inspo-bg: #edf7f1;
+            --inspo-border-left: #7fbf9f;
+        }
+
+        /* 米白主题 */
+        body.theme-cream {
+            --bg-body: #fffcf5;
+            --header-bg: #fef3e0;
+            --border-color: #f0dbc0;
+            --card-bg: #fffffa;
+            --card-border: #faf0e0;
+            --shadow-color: rgba(180, 140, 100, 0.08);
+            --primary-btn-bg: #d9b48b;
+            --primary-btn-color: white;
+            --secondary-btn-bg: #f9e8cf;
+            --secondary-btn-color: #6b4c2c;
+            --accent-text: #9b6e42;
+            --meta-text: #b6926c;
+            --tab-active-bg: #fcf0df;
+            --tab-active-color: #c2823a;
+            --tab-inactive-color: #c7a87b;
+            --doll-card-bg: #fff8ef;
+            --doll-card-border: #f5e5d0;
+            --inspo-bg: #fff8ef;
+            --inspo-border-left: #d9b48b;
+        }
+
+        body {
+            background: var(--bg-body);
+            padding-bottom: 70px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .app-header {
+            background: var(--header-bg);
+            padding: 16px 20px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .app-header h1 {
+            font-size: 1.5rem;
+            color: var(--accent-text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .theme-picker {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,240,0.5);
+            padding: 6px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+        .theme-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
+        }
+        .theme-dot:hover { transform: scale(1.1); }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px 12px;
+        }
+        .page { display: none; }
+        .page.active { display: block; }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 600px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 6px 0 10px;
+            z-index: 100;
+        }
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            color: var(--tab-inactive-color);
+            font-size: 0.7rem;
+            padding: 4px 0;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .tab-item.active {
+            color: var(--tab-active-color);
+            font-weight: 600;
+            background: var(--tab-active-bg);
+        }
+        .tab-icon { font-size: 1.5rem; display: block; margin-bottom: 2px; }
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 6px 14px var(--shadow-color);
+            border: 1px solid var(--card-border);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: var(--accent-text);
+            font-weight: 500;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .btn {
+            background: var(--secondary-btn-bg);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: var(--secondary-btn-color);
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+        .btn-primary {
+            background: var(--primary-btn-bg);
+            color: var(--primary-btn-color);
+        }
+        .btn-sm { padding: 4px 12px; font-size: 0.75rem; }
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .input-group input, .input-group select, .input-group textarea {
+            flex: 1 0 140px;
+            background: white;
+            border: 1px solid var(--input-border);
+            border-radius: 40px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .doll-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .doll-card {
+            background: var(--doll-card-bg);
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--doll-card-border);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .doll-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            overflow: hidden;
+        }
+        .doll-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .doll-name { font-weight: 600; color: var(--accent-text); }
+        .doll-meta { font-size: 0.7rem; color: var(--meta-text); }
+        .delete-btn { margin-top: 6px; color: var(--meta-text); font-size: 0.7rem; cursor: pointer; }
+        .inspo-item {
+            background: var(--inspo-bg);
+            border-radius: 18px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--inspo-border-left);
+        }
+        .inspo-img { max-width: 100px; border-radius: 12px; margin-top: 6px; }
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; right:0; bottom:0;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: var(--modal-bg);
+            border-radius: 32px;
+            padding: 24px 20px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .image-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--input-border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            overflow: hidden;
+        }
+        .avatar-select-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+        .photo-item { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; margin: 4px; cursor: pointer; border: 2px solid transparent; }
+        .small-note { font-size: 0.7rem; color: var(--meta-text); margin-top: 6px; }
+        .backup-options { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+        .backup-option { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 12px; cursor: pointer; transition: 0.1s; }
+        .backup-option:hover { background: var(--tab-active-bg); }
+        .import-mode { display: flex; gap: 16px; margin: 12px 0; justify-content: center; }
+        hr { margin: 12px 0; border-color: var(--border-color); }
+        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 8px 16px; border-radius: 40px; font-size: 0.8rem; z-index: 1100; }
+        .legacy-banner {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border-color);
+            line-height: 1.5;
+        }
+        .legacy-banner a { color: var(--accent-text); font-weight: 600; }
+    </style>
+</head>
+<body class="theme-pink">
+<div class="legacy-banner" role="status">这是旧版单文件，功能与修bug以 <strong>index.html</strong> 为准。请 <a href="index.html">打开新版手帐</a>（同目录）。</div>
+<div class="app-header">
+    <h1>🍼 娃娘手帐</h1>
+    <div class="theme-picker">
+        <div class="theme-dot" style="background: #f8d5d5;" data-theme="pink" title="粉嫩"></div>
+        <div class="theme-dot" style="background: #bdd4e8;" data-theme="blue" title="浅蓝"></div>
+        <div class="theme-dot" style="background: #d9c5f0;" data-theme="purple" title="浅紫"></div>
+        <div class="theme-dot" style="background: #bdd9cc;" data-theme="green" title="浅绿"></div>
+        <div class="theme-dot" style="background: #f0dbc0;" data-theme="cream" title="米白"></div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- 娃娃管理页面 -->
+    <div id="page-inventory" class="page active">
+        <div class="card">
+            <div class="card-header"><span>🧸 我的娃娃们</span><div><button class="btn btn-sm" id="batchOperateBtn">📦 批量</button><button class="btn btn-sm btn-primary" id="showBackupModalBtn">📁 备份/迁移</button><button class="btn btn-sm btn-primary" id="showAddDollForm">➕ 添加</button></div></div>
+            <div class="filter-bar"><input type="text" id="searchInput" placeholder="🔍 名字/官名/娃社" style="flex:2;"><select id="filterSize"></select><select id="filterArtist"></select><select id="filterTag"></select><button class="btn btn-sm" id="resetFilter">重置</button></div>
+            <div id="addDollForm" style="display:none;">
+                <div class="input-group"><input id="dollName" placeholder="名字*"><input id="dollSculpt" placeholder="官名"><input id="dollBrand" placeholder="娃社"><select id="dollSize"><option>12分</option><option>8分</option><option>6分</option><option>4分</option><option>3分</option><option>叔/大女</option></select><input id="dollArtist" placeholder="壮士"><input type="date" id="dollArrival"></div>
+                <div class="avatar-select-row"><div class="image-preview" id="addAvatarPreview">🧸</div><button type="button" class="btn btn-sm" id="addSelectAvatarBtn">📷 上传头像</button><input type="file" id="addAvatarInput" accept="image/*" style="display:none;"></div>
+                <div><button class="btn btn-primary" id="saveDollBtn">保存</button><button class="btn" id="cancelAddDoll">取消</button></div><hr>
+            </div>
+            <div id="dollListContainer" class="doll-grid"></div>
+            <div id="dollStats" class="small-note"></div>
+        </div>
+        <div class="card"><div class="card-header">📊 开销概览</div><div id="totalExpenseSpan" class="small-note"></div></div>
+    </div>
+
+    <!-- 相册多图 -->
+    <div id="page-gallery" class="page"><div class="card"><div class="card-header">📸 娃娃多图相册</div><div id="galleryDollSelect"></div><div id="galleryPhotos" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;"></div><button id="addPhotoBtn" class="btn btn-sm">➕ 新增照片</button><input type="file" id="photoUploadInput" accept="image/*" multiple style="display:none;"></div></div>
+
+    <!-- 灵感日记 -->
+    <div id="page-inspo" class="page"><div class="card"><div class="card-header"><span>🎨 灵感日记</span><button class="btn btn-sm btn-primary" id="showAddInspoForm">➕ 记一笔</button></div><div id="addInspoForm" style="display:none;"><input id="inspoTitle" placeholder="标题*"><textarea id="inspoDesc" placeholder="描述"></textarea><input id="inspoSource" placeholder="来源"><select id="inspoDollId"><option value="">关联娃娃</option></select><button id="inspoSelectImageBtn" class="btn btn-sm">📷 配图</button><input type="file" id="inspoImageInput" accept="image/*" style="display:none;"><div><button class="btn btn-primary" id="saveInspoBtn">保存</button><button class="btn" id="cancelAddInspo">取消</button></div><hr></div><div id="inspoListContainer"></div></div></div>
+
+    <!-- 衣橱 -->
+    <div id="page-wardrobe" class="page"><div class="card"><div class="card-header"><span>👗 衣橱/配件</span><button class="btn btn-sm btn-primary" id="addWardrobeBtn">+ 添加</button></div><div id="wardrobeList" class="doll-grid"></div></div></div>
+
+    <!-- 妆面历史 -->
+    <div id="page-makeup" class="page"><div class="card"><div class="card-header"><span>💄 妆面历史</span><button class="btn btn-sm btn-primary" id="addMakeupBtn">+ 记录妆面</button></div><div id="makeupList"></div></div></div>
+
+    <!-- 日历提醒 -->
+    <div id="page-calendar" class="page"><div class="card"><div class="card-header"><span>📅 重要日程提醒</span><button class="btn btn-sm btn-primary" id="addReminderBtn">+ 添加提醒</button></div><div id="reminderList"></div></div></div>
+</div>
+
+<div class="tab-bar">
+    <div class="tab-item active" data-page="inventory"><span class="tab-icon">🧸</span><span>娃娃</span></div>
+    <div class="tab-item" data-page="gallery"><span class="tab-icon">📸</span><span>相册</span></div>
+    <div class="tab-item" data-page="inspo"><span class="tab-icon">🎨</span><span>灵感</span></div>
+    <div class="tab-item" data-page="wardrobe"><span class="tab-icon">👗</span><span>衣橱</span></div>
+    <div class="tab-item" data-page="makeup"><span class="tab-icon">💄</span><span>妆面</span></div>
+    <div class="tab-item" data-page="calendar"><span class="tab-icon">📅</span><span>提醒</span></div>
+</div>
+
+<!-- 全局模态框：备份迁移 -->
+<div id="backupModal" class="modal-overlay" style="display:none;"><div class="modal"><h3 style="color:var(--accent-text);">📦 数据备份与迁移</h3><div class="backup-options"><div class="backup-option" id="exportBackupBtn"><h4>📤 导出备份</h4><p>将所有娃娃、灵感、衣橱、妆面、提醒数据导出为JSON文件</p></div><div class="backup-option" id="importBackupTrigger"><h4>📥 导入备份</h4><p>从JSON文件恢复数据，可选择合并或覆盖。</p></div></div><div id="importArea" style="display:none; margin-top:16px;"><div class="import-mode"><label><input type="radio" name="importMode" value="merge" checked> 合并模式（保留现有，添加/替换）</label><label><input type="radio" name="importMode" value="overwrite"> 覆盖模式（清空现有）</label></div><input type="file" id="importFileInput" accept=".json" style="display:none;"><button class="btn btn-primary" id="confirmImportBtn" style="width:100%;">选择文件并导入</button><button class="btn" id="cancelImportBtn" style="width:100%; margin-top:8px;">取消</button></div><button class="btn" id="closeBackupModal" style="margin-top:16px; width:100%;">关闭</button></div></div>
+
+<!-- 编辑娃娃模态框 (增强) -->
+<div id="editDollModal" class="modal-overlay" style="display:none;"><div class="modal"><h3>✏️ 编辑娃娃</h3><input type="hidden" id="editDollId"><div class="input-group"><input id="editName" placeholder="名字"><input id="editSculpt" placeholder="官名"><input id="editBrand" placeholder="娃社"><select id="editSize"><option>12分</option><option>8分</option><option>6分</option><option>4分</option><option>3分</option><option>叔/大女</option></select><input id="editArtist" placeholder="壮士"><input type="date" id="editArrival"></div><div><label>标签(逗号分隔)</label><input id="editTags" placeholder="有妆,白肌"></div><div class="avatar-select-row"><div class="image-preview" id="editAvatarPreview"></div><button id="editAvatarBtn" class="btn btn-sm">更换头像</button><input type="file" id="editAvatarInput" accept="image/*" style="display:none;"></div><div><button id="saveEditDollBtn" class="btn btn-primary">保存</button><button id="cancelEditBtn" class="btn">取消</button></div></div></div>
+
+<!-- 批量模态框 -->
+<div id="batchModal" class="modal-overlay" style="display:none;"><div class="modal"><h3>批量操作</h3><div id="batchSelectList"></div><button id="batchDeleteBtn" class="btn btn-primary">删除选中</button><button class="btn" id="closeBatchBtn">关闭</button></div></div>
+
+<!-- 衣橱/妆面/提醒简单模态框 -->
+<div id="wardrobeModal" class="modal-overlay" style="display:none;"><div class="modal"><h3>添加配件</h3><input id="wardrobeName" placeholder="名称*"><select id="wardrobeType"><option>衣服</option><option>假发</option><option>眼珠</option><option>鞋子</option></select><input id="wardrobePrice" placeholder="价格"><input id="wardrobeBrand" placeholder="品牌"><select id="wardrobeDollId"><option value="">关联娃娃</option></select><button id="saveWardrobeBtn" class="btn btn-primary">保存</button><button class="btn" id="closeWardrobeBtn">取消</button></div></div>
+<div id="makeupModal" class="modal-overlay" style="display:none;"><div class="modal"><h3>妆面记录</h3><select id="makeupDollId"></select><input id="makeupArtist" placeholder="妆师"><input id="makeupName" placeholder="妆名"><input type="date" id="makeupDate"><input id="makeupPrice" placeholder="价格"><button id="saveMakeupBtn" class="btn btn-primary">保存</button><button id="closeMakeupBtn" class="btn">取消</button></div></div>
+<div id="reminderModal" class="modal-overlay" style="display:none;"><div class="modal"><h3>添加提醒</h3><input id="reminderTitle" placeholder="标题*"><select id="reminderDollId"><option value="">关联娃娃</option></select><input type="date" id="reminderDate"><select id="reminderType"><option>接娃到家</option><option>送妆提醒</option><option>娃聚</option></select><button id="saveReminderBtn" class="btn btn-primary">保存</button><button id="closeReminderBtn" class="btn">取消</button></div></div>
+
+<script>
+    (function(){
+        // ---------- IndexedDB 核心 ----------
+        const DB_NAME = 'BJD_Vault_Complete', DB_VERSION = 4;
+        let db = null;
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, DB_VERSION);
+                req.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if(!db.objectStoreNames.contains('dolls')) db.createObjectStore('dolls', { keyPath: 'id' });
+                    if(!db.objectStoreNames.contains('inspirations')) db.createObjectStore('inspirations', { keyPath: 'id' });
+                    if(!db.objectStoreNames.contains('wardrobe')) db.createObjectStore('wardrobe', { keyPath: 'id' });
+                    if(!db.objectStoreNames.contains('makeupHistory')) db.createObjectStore('makeupHistory', { keyPath: 'id' });
+                    if(!db.objectStoreNames.contains('reminders')) db.createObjectStore('reminders', { keyPath: 'id' });
+                };
+                req.onsuccess = (e) => { db = e.target.result; resolve(db); };
+                req.onerror = reject;
+            });
+        }
+        async function getStore(storeName, mode='readonly') { if(!db) await openDB(); return db.transaction(storeName, mode).objectStore(storeName); }
+        async function getAll(storeName) { const store = await getStore(storeName); return new Promise((res,rej)=>{ const req=store.getAll(); req.onsuccess=()=>res(req.result); req.onerror=rej; }); }
+        async function putItem(storeName, item) { const store = await getStore(storeName, 'readwrite'); return new Promise((res,rej)=>{ const req=store.put(item); req.onsuccess=res; req.onerror=rej; }); }
+        async function deleteItem(storeName, id) { const store = await getStore(storeName, 'readwrite'); return new Promise((res,rej)=>{ const req=store.delete(id); req.onsuccess=res; req.onerror=rej; }); }
+        async function clearStore(storeName) { const store = await getStore(storeName, 'readwrite'); return store.clear(); }
+
+        let dolls = [], inspirations = [], wardrobes = [], makeups = [], reminders = [];
+        let sizeFilter='', artistFilter='', tagFilter='', searchKeyword='';
+        
+        async function loadAll() {
+            dolls = await getAll('dolls') || [];
+            inspirations = await getAll('inspirations') || [];
+            wardrobes = await getAll('wardrobe') || [];
+            makeups = await getAll('makeupHistory') || [];
+            reminders = await getAll('reminders') || [];
+            if(dolls.length===0) {
+                const demo = { id: 'd1', name: '小荔枝', sculpt: 'MYou-眠娜', brand: 'napi', size: '4分', artist: '荔枝壮士', arrival: '2025-03-12', avatarImage: '', avatarEmoji: '🍓', tags: '有妆', photos: [] };
+                await putItem('dolls', demo);
+                dolls.push(demo);
+            }
+            renderAll();
+        }
+        async function saveAllAndRender() {
+            for(let d of dolls) await putItem('dolls', d);
+            for(let i of inspirations) await putItem('inspirations', i);
+            for(let w of wardrobes) await putItem('wardrobe', w);
+            for(let m of makeups) await putItem('makeupHistory', m);
+            for(let r of reminders) await putItem('reminders', r);
+            renderAll();
+        }
+        function showToast(msg) { let t=document.createElement('div'); t.className='toast'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
+        
+        // 压缩图片 (复用原版高质量)
+        function compressImage(file, maxSize=400, quality=0.7) {
+            return new Promise((res,rej)=>{
+                const reader=new FileReader();
+                reader.onload=e=>{ const img=new Image(); img.onload=()=>{ let w=img.width, h=img.height; if(w>maxSize){ h*=maxSize/w; w=maxSize; } const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); res(c.toDataURL('image/jpeg',quality)); }; img.onerror=rej; img.src=e.target.result; };
+                reader.onerror=rej; reader.readAsDataURL(file);
+            });
+        }
+        
+        // 渲染娃娃列表
+        function getFilteredDolls() {
+            return dolls.filter(d => {
+                if(sizeFilter && d.size!==sizeFilter) return false;
+                if(artistFilter && d.artist!==artistFilter) return false;
+                if(tagFilter && !(d.tags||'').includes(tagFilter)) return false;
+                if(searchKeyword && !`${d.name} ${d.sculpt||''} ${d.brand||''}`.toLowerCase().includes(searchKeyword.toLowerCase())) return false;
+                return true;
+            });
+        }
+        function renderInventory() {
+            const filtered = getFilteredDolls();
+            const container = document.getElementById('dollListContainer');
+            container.innerHTML = filtered.map(d => `<div class="doll-card" data-doll-id="${d.id}"><div class="doll-avatar">${d.avatarImage?`<img src="${d.avatarImage}">`:(d.avatarEmoji||'🧸')}</div><div class="doll-name">${escapeHtml(d.name)}</div><div class="doll-meta">${d.sculpt||''} · ${d.size}</div><div class="doll-meta">🎨 ${d.artist||'?'}</div><div class="delete-btn" data-delete="${d.id}">🗑️ 删除</div></div>`).join('');
+            document.getElementById('dollStats').innerHTML = `共 ${dolls.length} 只 · 总花费估算: ¥${dolls.reduce((s,d)=>s+(Number(d.totalCost)||0),0)}`;
+            updateFilterOptions();
+        }
+        function updateFilterOptions() {
+            const sizeSel = document.getElementById('filterSize'); sizeSel.innerHTML='<option value="">全部尺寸</option>'+[...new Set(dolls.map(d=>d.size))].map(s=>`<option>${s}</option>`).join('');
+            const artistSel = document.getElementById('filterArtist'); artistSel.innerHTML='<option value="">全部壮士</option>'+[...new Set(dolls.map(d=>d.artist).filter(a=>a))].map(a=>`<option>${escapeHtml(a)}</option>`).join('');
+            const tagSel = document.getElementById('filterTag'); tagSel.innerHTML='<option value="">全部标签</option>'+[...new Set(dolls.flatMap(d=>(d.tags||'').split(',').filter(t=>t)))].map(t=>`<option>${t}</option>`).join('');
+        }
+        function renderGallery() { 
+            const selDiv = document.getElementById('galleryDollSelect'); 
+            selDiv.innerHTML = `<select id="galleryDollSelectInner">${dolls.map(d=>`<option value="${d.id}">${escapeHtml(d.name)}</option>`).join('')}</select>`;
+            const inner = document.getElementById('galleryDollSelectInner');
+            if(inner) inner.onchange = (e) => { currentGalleryDoll = dolls.find(d=>d.id===e.target.value); showGalleryPhotos(); };
+            if(dolls[0]) { currentGalleryDoll = dolls[0]; showGalleryPhotos(); }
+        }
+        let currentGalleryDoll = null;
+        function showGalleryPhotos() {
+            const container = document.getElementById('galleryPhotos');
+            if(!currentGalleryDoll) return;
+            const photos = currentGalleryDoll.photos || [];
+            container.innerHTML = photos.map((p,idx)=>`<img src="${p}" class="photo-item" data-idx="${idx}">`).join('');
+            document.getElementById('addPhotoBtn').onclick = () => document.getElementById('photoUploadInput').click();
+            document.getElementById('photoUploadInput').onchange = async (e) => {
+                for(let file of e.target.files) {
+                    const base64 = await compressImage(file, 800, 0.7);
+                    if(!currentGalleryDoll.photos) currentGalleryDoll.photos=[];
+                    currentGalleryDoll.photos.push(base64);
+                    await putItem('dolls', currentGalleryDoll);
+                }
+                showGalleryPhotos(); saveAllAndRender();
+            };
+        }
+        function renderInspo() {
+            const container = document.getElementById('inspoListContainer');
+            container.innerHTML = inspirations.map(i => `<div class="inspo-item"><div><b>${escapeHtml(i.title)}</b> ${i.dollId?`[关联: ${dolls.find(d=>d.id===i.dollId)?.name||''}]`:''}</div><div>${i.description||''}</div>${i.imageBase64?`<img src="${i.imageBase64}" class="inspo-img">`:''}<div class="small-note">${i.source||''} ${new Date(i.createdAt).toLocaleDateString()}</div><button data-del-inspo="${i.id}" class="btn btn-sm">删除</button></div>`).join('');
+            const dollSelect = document.getElementById('inspoDollId');
+            dollSelect.innerHTML = '<option value="">无关联</option>'+dolls.map(d=>`<option value="${d.id}">${escapeHtml(d.name)}</option>`).join('');
+        }
+        function renderWardrobe() { document.getElementById('wardrobeList').innerHTML = wardrobes.map(w => `<div class="doll-card"><div>${escapeHtml(w.name)} (${w.type})</div><div>¥${w.price||0}</div><button data-del-ward="${w.id}" class="btn btn-sm">删除</button></div>`).join(''); }
+        function renderMakeup() { document.getElementById('makeupList').innerHTML = makeups.map(m => `<div class="card"><b>${escapeHtml(m.name)}</b> 妆师:${m.artist} 娃娃:${dolls.find(d=>d.id===m.dollId)?.name||''}</div>`).join(''); const sel=document.getElementById('makeupDollId'); if(sel) sel.innerHTML=dolls.map(d=>`<option value="${d.id}">${escapeHtml(d.name)}</option>`).join(''); }
+        function renderReminders() { document.getElementById('reminderList').innerHTML = reminders.map(r => `<div class="card"><b>${escapeHtml(r.title)}</b> ${r.type} ${r.date}<button data-del-rem="${r.id}" class="btn btn-sm">删除</button></div>`).join(''); const sel=document.getElementById('reminderDollId'); if(sel) sel.innerHTML='<option value="">无</option>'+dolls.map(d=>`<option value="${d.id}">${escapeHtml(d.name)}</option>`).join(''); }
+        
+        // 备份导出导入 (支持所有表，合并/覆盖模式)
+        async function exportFullBackup() {
+            const data = { dolls, inspirations, wardrobes, makeups, reminders };
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([JSON.stringify(data)]));
+            a.download = `bjd_full_backup_${Date.now()}.json`;
+            a.click();
+        }
+        async function importBackup(file, mode) {
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if(mode === 'overwrite') {
+                        await clearStore('dolls'); await clearStore('inspirations'); await clearStore('wardrobe'); await clearStore('makeupHistory'); await clearStore('reminders');
+                        if(data.dolls) for(let d of data.dolls) await putItem('dolls', d);
+                        if(data.inspirations) for(let i of data.inspirations) await putItem('inspirations', i);
+                        if(data.wardrobes) for(let w of data.wardrobes) await putItem('wardrobe', w);
+                        if(data.makeups) for(let m of data.makeups) await putItem('makeupHistory', m);
+                        if(data.reminders) for(let r of data.reminders) await putItem('reminders', r);
+                    } else {
+                        // 合并模式 id去重
+                        for(let newD of (data.dolls||[])) { const idx = dolls.findIndex(d=>d.id===newD.id); if(idx!==-1) dolls[idx]=newD; else dolls.push(newD); }
+                        for(let newI of (data.inspirations||[])) { const idx = inspirations.findIndex(i=>i.id===newI.id); if(idx!==-1) inspirations[idx]=newI; else inspirations.push(newI); }
+                        for(let newW of (data.wardrobes||[])) { const idx = wardrobes.findIndex(w=>w.id===newW.id); if(idx!==-1) wardrobes[idx]=newW; else wardrobes.push(newW); }
+                        for(let newM of (data.makeups||[])) { const idx = makeups.findIndex(m=>m.id===newM.id); if(idx!==-1) makeups[idx]=newM; else makeups.push(newM); }
+                        for(let newR of (data.reminders||[])) { const idx = reminders.findIndex(r=>r.id===newR.id); if(idx!==-1) reminders[idx]=newR; else reminders.push(newR); }
+                        await saveAllAndRender();
+                    }
+                    await loadAll();
+                    showToast('导入成功');
+                    document.getElementById('backupModal').style.display='none';
+                } catch(err) { alert("导入失败："+err.message); }
+            };
+            reader.readAsText(file);
+        }
+
+        // 主题切换
+        function setTheme(theme) {
+            document.body.classList.remove('theme-pink', 'theme-blue', 'theme-purple', 'theme-green', 'theme-cream');
+            if (theme === 'pink') document.body.classList.add('theme-pink');
+            else if (theme === 'blue') document.body.classList.add('theme-blue');
+            else if (theme === 'purple') document.body.classList.add('theme-purple');
+            else if (theme === 'green') document.body.classList.add('theme-green');
+            else if (theme === 'cream') document.body.classList.add('theme-cream');
+            localStorage.setItem('bjd_theme', theme);
+        }
+        const savedTheme = localStorage.getItem('bjd_theme') || 'pink';
+        setTheme(savedTheme);
+        document.querySelectorAll('.theme-dot').forEach(dot => dot.addEventListener('click', (e) => { setTheme(dot.dataset.theme); }));
+
+        // 事件绑定
+        function bindEvents() {
+            document.querySelectorAll('.tab-item').forEach(tab=>{ tab.onclick=()=>{ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(`page-${tab.dataset.page}`).classList.add('active'); document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active')); tab.classList.add('active'); renderAll(); }; });
+            document.getElementById('filterSize').onchange=e=>{sizeFilter=e.target.value; renderInventory();};
+            document.getElementById('filterArtist').onchange=e=>{artistFilter=e.target.value; renderInventory();};
+            document.getElementById('filterTag').onchange=e=>{tagFilter=e.target.value; renderInventory();};
+            document.getElementById('searchInput').oninput=e=>{searchKeyword=e.target.value; renderInventory();};
+            document.getElementById('resetFilter').onclick=()=>{sizeFilter='';artistFilter='';tagFilter='';searchKeyword=''; document.getElementById('filterSize').value='';document.getElementById('filterArtist').value='';document.getElementById('filterTag').value='';document.getElementById('searchInput').value=''; renderInventory();};
+            document.getElementById('showAddDollForm').onclick=()=>document.getElementById('addDollForm').style.display='block';
+            document.getElementById('cancelAddDoll').onclick=()=>document.getElementById('addDollForm').style.display='none';
+            let pendingAvatar=null;
+            document.getElementById('addSelectAvatarBtn').onclick=()=>document.getElementById('addAvatarInput').click();
+            document.getElementById('addAvatarInput').onchange=async(e)=>{ const f=e.target.files[0]; if(f) pendingAvatar=await compressImage(f,200); document.getElementById('addAvatarPreview').innerHTML=`<img src="${pendingAvatar}">`; };
+            document.getElementById('saveDollBtn').onclick=async()=>{ const name=document.getElementById('dollName').value; if(!name) return; const newDoll={ id:Date.now()+''+Math.random(), name, sculpt:document.getElementById('dollSculpt').value, brand:document.getElementById('dollBrand').value, size:document.getElementById('dollSize').value, artist:document.getElementById('dollArtist').value, arrival:document.getElementById('dollArrival').value, avatarImage:pendingAvatar||'', tags:'', photos:[] }; dolls.push(newDoll); await saveAllAndRender(); document.getElementById('addDollForm').style.display='none'; pendingAvatar=null; };
+            
+            // 编辑娃娃
+            document.getElementById('dollListContainer').addEventListener('click', async(e)=>{
+                if(e.target.dataset.delete){ if(confirm('删除？')){ dolls=dolls.filter(d=>d.id!==e.target.dataset.delete); await saveAllAndRender(); } return; }
+                const card=e.target.closest('[data-doll-id]'); if(card){ const doll=dolls.find(d=>d.id===card.dataset.dollId); if(doll) openEditModal(doll); }
+            });
+            window.openEditModal = function(doll) {
+                document.getElementById('editDollId').value=doll.id; document.getElementById('editName').value=doll.name; document.getElementById('editSculpt').value=doll.sculpt||''; document.getElementById('editBrand').value=doll.brand||''; document.getElementById('editSize').value=doll.size; document.getElementById('editArtist').value=doll.artist||''; document.getElementById('editArrival').value=doll.arrival||''; document.getElementById('editTags').value=doll.tags||''; const previewDiv=document.getElementById('editAvatarPreview'); previewDiv.innerHTML=doll.avatarImage?`<img src="${doll.avatarImage}">`:(doll.avatarEmoji||'🧸'); window.editPendingAvatar=null; document.getElementById('editDollModal').style.display='flex';
+            };
+            document.getElementById('editAvatarBtn').onclick=()=>document.getElementById('editAvatarInput').click();
+            document.getElementById('editAvatarInput').onchange=async(e)=>{ const f=e.target.files[0]; if(f) window.editPendingAvatar=await compressImage(f,200); document.getElementById('editAvatarPreview').innerHTML=`<img src="${window.editPendingAvatar}">`; };
+            document.getElementById('saveEditDollBtn').onclick=async()=>{ const id=document.getElementById('editDollId').value; const doll=dolls.find(d=>d.id===id); if(doll){ doll.name=document.getElementById('editName').value; doll.sculpt=document.getElementById('editSculpt').value; doll.brand=document.getElementById('editBrand').value; doll.size=document.getElementById('editSize').value; doll.artist=document.getElementById('editArtist').value; doll.arrival=document.getElementById('editArrival').value; doll.tags=document.getElementById('editTags').value; if(window.editPendingAvatar) { doll.avatarImage=window.editPendingAvatar; doll.avatarEmoji=''; } await saveAllAndRender(); } document.getElementById('editDollModal').style.display='none'; };
+            document.getElementById('cancelEditBtn').onclick=()=>document.getElementById('editDollModal').style.display='none';
+
+            // 批量备份等
+            document.getElementById('batchOperateBtn').onclick=()=>{ const listDiv=document.getElementById('batchSelectList'); listDiv.innerHTML=dolls.map(d=>`<label><input type="checkbox" value="${d.id}"> ${escapeHtml(d.name)}</label><br>`).join(''); document.getElementById('batchModal').style.display='flex'; };
+            document.getElementById('closeBatchBtn').onclick=()=>document.getElementById('batchModal').style.display='none';
+            document.getElementById('batchDeleteBtn').onclick=async()=>{ const checks=document.querySelectorAll('#batchSelectList input:checked'); for(let c of checks){ dolls=dolls.filter(d=>d.id!==c.value); await deleteItem('dolls',c.value); } await saveAllAndRender(); document.getElementById('batchModal').style.display='none'; };
+            
+            // 备份模态框
+            const backupModal=document.getElementById('backupModal'); document.getElementById('showBackupModalBtn').onclick=()=>backupModal.style.display='flex'; document.getElementById('closeBackupModal').onclick=()=>backupModal.style.display='none'; document.getElementById('exportBackupBtn').onclick=()=>{ exportFullBackup(); backupModal.style.display='none'; }; document.getElementById('importBackupTrigger').onclick=()=>document.getElementById('importArea').style.display='block'; document.getElementById('cancelImportBtn').onclick=()=>document.getElementById('importArea').style.display='none'; document.getElementById('confirmImportBtn').onclick=()=>{ const mode=document.querySelector('input[name="importMode"]:checked').value; const fileInput=document.getElementById('importFileInput'); fileInput.click(); fileInput.onchange=(e)=>{ if(e.target.files[0]) importBackup(e.target.files[0], mode); fileInput.value=''; }; };
+            
+            // 衣橱、妆面、提醒简易保存
+            document.getElementById('addWardrobeBtn').onclick=()=>document.getElementById('wardrobeModal').style.display='flex'; document.getElementById('closeWardrobeBtn').onclick=()=>document.getElementById('wardrobeModal').style.display='none'; document.getElementById('saveWardrobeBtn').onclick=async()=>{ wardrobes.push({ id:Date.now()+''+Math.random(), name:document.getElementById('wardrobeName').value, type:document.getElementById('wardrobeType').value, price:document.getElementById('wardrobePrice').value, brand:document.getElementById('wardrobeBrand').value, dollId:document.getElementById('wardrobeDollId').value }); await saveAllAndRender(); document.getElementById('wardrobeModal').style.display='none'; };
+            document.getElementById('addMakeupBtn').onclick=()=>document.getElementById('makeupModal').style.display='flex'; document.getElementById('closeMakeupBtn').onclick=()=>document.getElementById('makeupModal').style.display='none'; document.getElementById('saveMakeupBtn').onclick=async()=>{ makeups.push({ id:Date.now()+''+Math.random(), dollId:document.getElementById('makeupDollId').value, artist:document.getElementById('makeupArtist').value, name:document.getElementById('makeupName').value, date:document.getElementById('makeupDate').value, price:document.getElementById('makeupPrice').value }); await saveAllAndRender(); document.getElementById('makeupModal').style.display='none'; };
+            document.getElementById('addReminderBtn').onclick=()=>document.getElementById('reminderModal').style.display='flex'; document.getElementById('closeReminderBtn').onclick=()=>document.getElementById('reminderModal').style.display='none'; document.getElementById('saveReminderBtn').onclick=async()=>{ reminders.push({ id:Date.now()+''+Math.random(), title:document.getElementById('reminderTitle').value, dollId:document.getElementById('reminderDollId').value, date:document.getElementById('reminderDate').value, type:document.getElementById('reminderType').value }); await saveAllAndRender(); document.getElementById('reminderModal').style.display='none'; };
+            
+            let pendingInspoImg=null; document.getElementById('inspoSelectImageBtn').onclick=()=>document.getElementById('inspoImageInput').click(); document.getElementById('inspoImageInput').onchange=async(e)=>{ if(e.target.files[0]) pendingInspoImg=await compressImage(e.target.files[0],600); }; document.getElementById('saveInspoBtn').onclick=async()=>{ const title=document.getElementById('inspoTitle').value; if(!title) return; inspirations.push({ id:Date.now()+''+Math.random(), title, description:document.getElementById('inspoDesc').value, source:document.getElementById('inspoSource').value, dollId:document.getElementById('inspoDollId').value, imageBase64:pendingInspoImg||'', createdAt:new Date().toISOString() }); await saveAllAndRender(); document.getElementById('addInspoForm').style.display='none'; pendingInspoImg=null; }; document.getElementById('showAddInspoForm').onclick=()=>document.getElementById('addInspoForm').style.display='block'; document.getElementById('cancelAddInspo').onclick=()=>document.getElementById('addInspoForm').style.display='none';
+            document.getElementById('inspoListContainer').addEventListener('click', async(e)=>{ if(e.target.dataset.delInspo){ inspirations=inspirations.filter(i=>i.id!==e.target.dataset.delInspo); await saveAllAndRender(); } });
+            document.getElementById('wardrobeList').addEventListener('click', async(e)=>{ if(e.target.dataset.delWard){ wardrobes=wardrobes.filter(w=>w.id!==e.target.dataset.delWard); await saveAllAndRender(); } });
+            document.getElementById('reminderList').addEventListener('click', async(e)=>{ if(e.target.dataset.delRem){ reminders=reminders.filter(r=>r.id!==e.target.dataset.delRem); await saveAllAndRender(); } });
+        }
+        function renderAll() { renderInventory(); renderGallery(); renderInspo(); renderWardrobe(); renderMakeup(); renderReminders(); }
+        function escapeHtml(str) { return String(str||'').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]); }
+        (async()=>{ await openDB(); await loadAll(); bindEvents(); if(Notification.permission !== 'granted') Notification.requestPermission(); })();
+    })();
+</script>
+</body>
+</html>

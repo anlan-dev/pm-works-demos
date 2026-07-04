@@ -1,0 +1,17 @@
+{
+  "name": "宠伴·健康台账",
+  "short_name": "宠伴台账",
+  "start_url": "./pet-vaccine.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f9f7f3",
+  "theme_color": "#c1a28b",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+
