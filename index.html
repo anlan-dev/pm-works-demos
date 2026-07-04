@@ -15,7 +15,7 @@ body{
   -webkit-font-smoothing:antialiased; overflow-x:hidden; letter-spacing:-0.022em;
 }
 html{scroll-behavior:smooth}
-.container{max-width:880px;width:100%;margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,4vw,32px) clamp(36px,5vw,64px);overflow-x:hidden}
+ .container{max-width:880px;width:100%;margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,4vw,32px) clamp(36px,5vw,64px);overflow-x:hidden}
 /* 平板横屏：左右内边距保持对称，避免右侧留白过大 */
 @media(min-width:821px) and (max-width:1120px){.container{padding-left:clamp(32px,5vw,48px);padding-right:clamp(32px,5vw,48px)}}
 
@@ -1989,7 +1989,7 @@ details .step-text {
         obs.unobserve(e.target);
       }
     });
-  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  },{threshold:0.05,rootMargin:'40px 0px 40px 0px'});
   targets.forEach((t,i)=>{
     const isCard=t.classList.contains('card');
     const delay=isCard?Math.min(i%3,2)*80:0;
