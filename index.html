@@ -168,10 +168,8 @@ a{color:#0071e3;text-decoration:none}
 @media(max-width:640px){.flow-badge{font-size:.56rem;padding:2px 6px}.flow-badge .fb-step{width:16px;height:16px;font-size:.5rem}}
 
 /* ===== Scroll Animations ===== */
-/* Scroll reveal animation — never hides content, only adds entrance effect */
-.anim-ready .card,.anim-ready .section-title,.anim-ready .divider,.anim-ready .comp-matrix{opacity:1;transform:translateY(0)}
-.anim-ready .card.in-view,.anim-ready .section-title.in-view,.anim-ready .divider.in-view,.anim-ready .comp-matrix.in-view{animation:cardFadeIn .45s cubic-bezier(.4,0,.2,1) both}
-@keyframes cardFadeIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.anim-ready .card,.anim-ready .section-title,.anim-ready .divider,.anim-ready .comp-matrix{opacity:0;transform:translateY(24px);transition:opacity .45s cubic-bezier(.4,0,.2,1),transform .45s cubic-bezier(.4,0,.2,1)}
+.anim-ready .card.in-view,.anim-ready .section-title.in-view,.anim-ready .divider.in-view,.anim-ready .comp-matrix.in-view{opacity:1;transform:translateY(0)}
 .anim-ready .hero{opacity:1;transform:none}
 .anim-ready .hero .role-badge,.anim-ready .hero h1,.anim-ready .hero .contact,.anim-ready .hero .edu,.anim-ready .hero .tags{opacity:0;animation:heroReveal .4s cubic-bezier(.4,0,.2,1) forwards}
 .anim-ready .hero h1{animation-delay:.05s}
