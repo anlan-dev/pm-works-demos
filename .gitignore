@@ -26,6 +26,8 @@ yarn-error.log*
 # 备份文件（不进入版本控制）
 *.bak
 *.bak_*
+*.backup
+*.backup.html
 
 # 操作系统文件
 .DS_Store
