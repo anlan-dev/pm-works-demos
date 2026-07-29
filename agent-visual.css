@@ -1,0 +1,294 @@
+/* ================================================================
+   GlobalFUN Agent v2.0 Visual Enhancements
+   — 决策链卡片 + 思考态脉冲动画 + 部分成功降级提示
+   ================================================================ */
+
+/* ── Decision Chain Card ──────────────────────────────── */
+
+.decision-chain-card {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 16px;
+  padding: 20px 24px;
+  color: #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  animation: decisionSlideIn 0.5s ease;
+}
+
+.decision-chain-card::before {
+  content: "PM DECISION CHAIN";
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(56, 189, 248, 0.4);
+  text-transform: uppercase;
+}
+
+.decision-chain-card .dc-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.decision-chain-card .dc-title::before {
+  content: "🧠";
+  font-size: 18px;
+}
+
+.decision-chain-card .dc-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.decision-chain-card .dc-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.06);
+  border-left: 3px solid rgba(56, 189, 248, 0.3);
+  transition: all 0.3s ease;
+}
+
+.decision-chain-card .dc-step:hover {
+  background: rgba(56, 189, 248, 0.12);
+  border-left-color: #38bdf8;
+  transform: translateX(4px);
+}
+
+.decision-chain-card .dc-step-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+  min-width: 56px;
+  text-transform: uppercase;
+}
+
+.decision-chain-card .dc-step-detail {
+  font-size: 13px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+@keyframes decisionSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Agent Thinking Pulse (并行思考态) ────────────────── */
+
+.agent-thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  font-size: 12px;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.agent-thinking .pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3b82f6;
+  animation: thinkingPulse 1.2s ease-in-out infinite;
+}
+
+.agent-thinking .pulse-dot:nth-child(2) { animation-delay: 0.15s; }
+.agent-thinking .pulse-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes thinkingPulse {
+  0%, 100% { transform: scale(0.6); opacity: 0.4; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+/* ── Agent Parallel Execution Bar ─────────────────────── */
+
+.agent-parallel-bar {
+  display: flex;
+  gap: 4px;
+  align-items: flex-end;
+  height: 40px;
+  padding: 8px 0;
+}
+
+.agent-parallel-bar .agent-bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  transition: height 0.4s ease;
+  min-width: 24px;
+}
+
+.agent-parallel-bar .agent-bar.market {
+  background: linear-gradient(to top, #3b82f6, #60a5fa);
+}
+.agent-parallel-bar .agent-bar.product {
+  background: linear-gradient(to top, #8b5cf6, #a78bfa);
+}
+.agent-parallel-bar .agent-bar.compliance {
+  background: linear-gradient(to top, #10b981, #34d399);
+}
+
+.agent-parallel-bar .agent-bar.running {
+  animation: barPulse 1s ease-in-out infinite;
+}
+
+@keyframes barPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* ── Partial Success Degradation Hint ─────────────────── */
+
+.agent-status-partial {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  font-size: 13px;
+  color: #d97706;
+  font-weight: 500;
+}
+
+.agent-status-partial .partial-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.agent-status-partial .partial-count {
+  font-weight: 700;
+  color: #92400e;
+}
+
+.agent-status-partial .partial-detail {
+  color: #92400e;
+  font-size: 12px;
+}
+
+/* ── Agent Latency Badge ──────────────────────────────── */
+
+.agent-latency-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.agent-latency-badge.fast {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+.agent-latency-badge.medium {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+.agent-latency-badge.slow {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+/* ── Decision Confidence Gauge ────────────────────────── */
+
+.decision-gauge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.decision-gauge .gauge-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.decision-gauge .gauge-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #3b82f6, #38bdf8);
+  transition: width 0.6s ease;
+}
+
+.decision-gauge .gauge-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #3b82f6;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* ── Error Recovery Toast ─────────────────────────────── */
+
+.agent-error-recovery {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  font-size: 12px;
+  color: #dc2626;
+  animation: errorFadeIn 0.3s ease;
+}
+
+.agent-error-recovery .retry-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+@keyframes errorFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ── Agent Stream Terminal Line ───────────────────────── */
+
+.stream-line {
+  padding: 2px 0;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.stream-line .agent-prefix {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.stream-line .tool-name {
+  color: #a78bfa;
+}
+
+.stream-line .data-hint {
+  color: #94a3b8;
+  font-style: italic;
+}
