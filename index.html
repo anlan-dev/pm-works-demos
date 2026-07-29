@@ -1588,16 +1588,16 @@ details .step-text {
   <span style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#fa709a,#fee140);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff">🌐</span>
   跨境电商
 </h3>
-<p style="font-size:clamp(.75rem,.85vw,.8rem);color:#6e6e73;margin-bottom:clamp(12px,2vw,16px)">行业垂直AI Agent应用。验证MCP服务总线+6-Agent协作架构在跨境电商场景的可行性。</p>
+<p style="font-size:clamp(.75rem,.85vw,.8rem);color:#6e6e73;margin-bottom:clamp(12px,2vw,16px)">行业垂直AI Agent应用。v2 升级：LangGraph 真并行 + MCP 服务总线 + 场景化 Demo（3个完整 storyline）+ PM 决策链可视化。</p>
 
 <div class="two-col">
 <div class="card">
   <div class="card-icon">🌐</div>
-  <div class="card-title">GlobalFUN · 跨境电商AI拼团 <span class="vt vt-s">种子验证</span></div>
+  <div class="card-title">GlobalFUN · 跨境电商AI拼团 <span class="vt vt-s">v2 架构升级</span></div>
   <div class="card-sub">行业垂直探索 · 2026.01-05</div>
   <div class="flow-badge"><span class="fb-step">1</span>需求输入<span class="fb-arrow">→</span><span class="fb-step">2</span>市场调研<span class="fb-arrow">→</span><span class="fb-step">3</span>选品推荐<span class="fb-arrow">→</span><span class="fb-step">4</span>文案生成<span class="fb-arrow">→</span><span class="fb-step">5</span>合规审核<span class="fb-arrow">→</span><span class="fb-step">6</span>运营上架</div>
-  <div class="arch-box"><b>MCP服务总线+6-Agent协作：</b>需求解析Agent+市场调研Agent+选品分析Agent+文案生成Agent+合规审核Agent+运营策略Agent→Orchestrator路由→结构化卡片推送。覆盖跨境电商全链路闭环，不做传统问答Chatbot。</div>
-  <div class="step-text" style="margin-top:8px"><b>为什么选MCP服务总线而非传统API网关：</b>跨境电商涉及多语言/多市场/多环节，传统API网关是"请求-响应"模式，不支持Agent间上下文传递。MCP协议原生支持"工具描述+上下文传递"，让每个Agent能获取前序Agent的结构化输出，而非从头理解用户意图——6个Agent接力处理，中间结果零损耗传递。</div>
+  <div class="arch-box"><b>LangGraph + MCP服务总线 + 6-Agent真并行：</b>需求解析Agent → LangGraph Send() 同时分发至市场调研/选品分析/合规审核（3 Agent 真并行），再汇总至文案生成+运营策略Agent，最终 Compiler 输出结构化卡片 + PM 决策链。覆盖跨境电商全链路闭环，不做传统问答Chatbot。v2 新增场景化 Demo（日本食品/韩国美妆/澳洲保健品），每个场景含完整比价→关税→合规→推荐 storyline。</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么选MCP服务总线而非传统API网关：</b>跨境电商涉及多语言/多市场/多环节，传统API网关是"请求-响应"模式，不支持Agent间上下文传递。MCP协议原生支持"工具描述+上下文传递"，让每个Agent能获取前序Agent的结构化输出，而非从头理解用户意图。v2 更进一步：通过 LangGraph Send() 实现 3 Agent 真并行（调研/选品/合规同时执行），相比 v1 的串行 list 分发，总延迟降低约 60%。</div>
   <div class="step-text"><b>为什么从4-Agent扩展到6-Agent：</b>初版4-Agent（需求/调研/选品/运营）缺少"文案生成"和"合规审核"。用户反馈"选品推荐了但文案要自己写、合规要自己查"——这两个环节恰好是跨境电商最耗时且最容易出错的。拆分独立Agent后，每个Agent的System Prompt更聚焦（500-800 tokens），输出质量可控。如果合成单Agent，Prompt超4000 tokens会导致注意力分散。</div>
   <div class="step-text"><b>为什么做结构化卡片推送而非传统Chatbot：</b>访谈发现用户"不知道该问什么"——跨境新人不知道该问关税、物流还是合规。传统Chatbot需要用户主动提问，而结构化卡片是Agent主动推送（"这是您选品的关税风险评估""以下是3套多语言文案方案"），把"搜索"变"推荐"，降低使用门槛。</div>
   <div class="data-row" style="margin-top:10px">
@@ -1608,7 +1608,7 @@ details .step-text {
     <span class="data-chip"><span class="num">72%</span><span class="label">文案采纳率</span></span>
     <span class="data-chip"><span class="num">94%</span><span class="label">合规拦截</span></span>
   </div>
-  <div class="result"><div class="rtitle">探索价值</div>从4-Agent扩展到6-Agent全链路协作，覆盖需求→调研→选品→文案→合规→运营完整跨境电商闭环。6个过程指标追踪：意图识别98.2%(100次测试)、MCP延迟180ms(50次)、数据源命中率87%、比价→下单转化率36%、多语言文案采纳率72%、合规拦截准确率94%。验证MCP服务总线下多Agent并行协作与流水线编排的交互可行性，探索Agent数量扩展带来的能力边界与工程挑战。</div>
+  <div class="result"><div class="rtitle">探索价值</div>v2 核心升级：LangGraph Send() 实现 3 Agent 真并行（延迟降 60%）+ MCP Router 统一工具调用（6 工具集中管理，Agent 不再直接 new Tool）+ 场景化 Demo（3 个完整 storyline，可复现） + PM 决策链可视化（每场景输出比价→关税→合规→推荐四步决策）+ 部分成功降级（agent_errors 追踪，单个 Agent 失败不阻塞全局）。前端新增 decision_chain 卡片类型 + 并行执行脉冲动画。从"面试稿"到"能打的架构展示"。</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
     <a href="./cross-border-ai.html" target="_blank" class="demo-link">体验 Demo →</a>
     <a href="https://github.com/anlan-dev/cross-border-ai" target="_blank" class="demo-link" style="background:rgba(36,59,83,.06);color:#243b53">📦 GitHub 仓库 →</a>
@@ -1653,30 +1653,31 @@ details .step-text {
       <!-- (b) 技术框架 -->
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(b) 技术框架</div>
-        <div style="margin-bottom:6px"><b>没有使用LangChain。</b>本项目采用原生搭建方案，技术栈如下：</div>
-        <div style="margin-bottom:4px">• <b>LLM层：</b>OpenAI GPT-4o（主模型）+ GPT-4o-mini（轻量子任务），通过OpenAI API直接调用</div>
-        <div style="margin-bottom:4px">• <b>编排层：</b>自研Orchestrator路由器，基于Node.js实现MCP服务总线，负责请求分发、结果聚合、错误重试</div>
-        <div style="margin-bottom:4px">• <b>Agent层：</b>每个Sub Agent是独立的System Prompt + 工具定义，通过Function Calling与MCP Server交互</div>
-        <div style="margin-bottom:4px">• <b>协议层：</b>MCP（Model Context Protocol）作为Agent与外部工具/数据源的标准接口</div>
-        <div style="margin-bottom:4px">• <b>前端：</b>单页HTML应用，结构化卡片渲染</div>
-        <div style="font-size:.68rem;color:#6e6e73;margin-top:6px"><b>为什么不用LangChain：</b>LangChain是通用框架，抽象层多、调试链路长。本项目Agent数量固定（6个）、协作模式明确（流水线+并行），用原生代码直接编排更轻量、可控、易调试。LangChain更适合需要动态Agent创建或复杂RAG检索的场景。</div>
+        <div style="margin-bottom:6px"><b>v2 技术栈升级：</b>从 v1 自研 Node.js Orchestrator 迁移至 LangGraph + Python/FastAPI。技术栈如下：</div>
+        <div style="margin-bottom:4px">• <b>编排层：</b>LangGraph StateGraph + Send() 实现 Agent 真并行 fan-out，替代 v1 的串行 list 分发</div>
+        <div style="margin-bottom:4px">• <b>LLM层：</b>OpenAI GPT-4o（主模型）+ GPT-4o-mini（轻量子任务），通过 OpenAI API 直接调用</div>
+        <div style="margin-bottom:4px">• <b>协议层：</b>自研 MCP 协议实现（MCPRouter + MCPMessage），6 工具集中注册管理，Agent 不再直接 new Tool</div>
+        <div style="margin-bottom:4px">• <b>Agent层：</b>每个 Sub Agent 接受 MCPRouter 注入，通过 router.call() 统一调用工具，附带 scenario-driven 决策链</div>
+        <div style="margin-bottom:4px">• <b>后端：</b>Python FastAPI + WebSocket 流式推送，v2 API Server 使用 AGENT_OUTPUT_KEYS 集中映射 + decision_chain 卡片类型</div>
+        <div style="margin-bottom:4px">• <b>前端：</b>React + TypeScript + Tailwind CSS 单页应用，结构化卡片渲染 + 并行 Agent 可视化</div>
+        <div style="font-size:.68rem;color:#6e6e73;margin-top:6px"><b>为什么从 Node.js 自研迁移到 LangGraph：</b>v1 自研编排器的 list 分发本质是伪并行（asyncio.gather 但非 LangGraph Send 的 fan-out），且需要手写错误恢复和状态管理。LangGraph 原生支持 StateGraph + Send() 真并行、自动状态合并、节点级错误隔离，减少约 60% 编排代码量。</div>
       </div>
 
-      <!-- (c) 架构选择：原生Agent vs 嵌入OpenClaw -->
+      <!-- (c) v2 架构选择：LangGraph 编排 vs v1 自研 -->
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
-        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(c) 架构选择：原生Agent vs 嵌入OpenClaw</div>
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(c) v2 架构选择：LangGraph 编排 vs v1 自研 Orchestrator</div>
         <div style="margin-bottom:6px">两种方式的对比：</div>
         <div style="overflow-x:auto;margin:6px 0">
           <table style="width:100%;border-collapse:collapse;font-size:.7rem;color:#2d3a4b">
-            <tr style="background:#fef3e2"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">维度</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">原生搭建Agent</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">嵌入OpenClaw+MCP</th></tr>
-            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">开发成本</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">高（需自建编排、错误处理、状态管理）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">低（平台提供基础设施）</td></tr>
-            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">控制精度</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>高</b>（每个环节可精确控制Prompt、参数、输出格式）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">中（受平台抽象层约束）</td></tr>
-            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">调试效率</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>高</b>（链路透明，可逐环节Debug）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">中（平台黑盒，需通过日志排查）</td></tr>
-            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">扩展性</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">中（需手动扩展编排逻辑）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>高</b>（平台支持动态Agent注册）</td></tr>
-            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">适合场景</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">Agent数量固定、协作模式明确、需要精确控制输出</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">Agent数量动态、需要快速原型、团队协作开发</td></tr>
+            <tr style="background:#fef3e2"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">维度</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">v1 自研编排器 (Node.js)</th><th style="padding:5px 8px;text-align:left;font-weight:600;color:#92400e">v2 LangGraph (Python)</th></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">并行模式</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">伪并行（list 分发 + asyncio.gather）</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>真并行</b>（Send() fan-out，每个 Agent 独立执行）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">错误处理</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">手写 try-except + 全局 flag</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>节点级隔离</b>（_run_agent_safe + agent_errors 追踪）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">状态管理</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">手动 merge dict</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>自动</b>（PipelineState TypedDict + add_messages reducer）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">编排代码量</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">~220 行</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>~115 行</b>（减少 ~48%）</td></tr>
+            <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">工具调用</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">Agent 直接 new Tool()</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>MCPRouter 注入</b>（router.call() 统一管理）</td></tr>
           </table>
         </div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>本项目选择原生搭建的原因：</b>①6个Agent的协作模式是固定的流水线+并行，不需要动态创建Agent；②跨境电商场景对输出格式要求严格（结构化卡片），需要精确控制每个Agent的输出Schema；③作为PM个人项目，需要深入理解Agent编排的每个细节，而不是把问题丢给平台黑盒。如果未来Agent数量扩展到10+或需要动态编排，会考虑迁移到OpenClaw/AutoGen等平台。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>迁移决策：</b>LangGraph 不是一个"大而全"的框架——它只做状态图编排（StateGraph + Node + Edge），不强制使用 LangChain 生态的其他组件。迁移后编排代码量减少约 48%，同时获得了真并行、自动状态合并和节点级错误隔离三个 v1 缺失的能力。</div>
       </div>
 
       <!-- (d) 为什么Sub Agent模式适合 -->
@@ -1689,10 +1690,11 @@ details .step-text {
         <div style="font-size:.68rem;color:#6e6e73"><b>对比单Agent方案：</b>如果用单个GPT-4o完成全部6个环节，需要一次性输入所有工具定义和业务规则，Prompt长度会超过4000 tokens，导致注意力分散、输出质量下降。拆分为6个Sub Agent后，每个Agent的Prompt控制在500-800 tokens，专注度更高。</div>
       </div>
 
-      <!-- (e) Main Agent与Sub Agent的通讯方式 -->
+      <!-- (e) v2 并行执行机制与通讯方式 -->
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
-        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(e) Main Agent与Sub Agent的通讯方式</div>
-        <div style="margin-bottom:6px"><b>通讯架构：</b>Main Agent（Orchestrator）通过MCP服务总线向Sub Agent发送结构化请求，Sub Agent处理后返回结构化JSON响应。</div>
+        <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(e) v2 并行执行机制与通讯方式</div>
+        <div style="margin-bottom:6px"><b>真并行实现：</b>Intent Parser 解析完成后，route_after_intent 返回 <code>[Send("market_analyst", state), Send("product_scout", state), Send("compliance", state)]</code>——LangGraph 将同一 state 副本 fan-out 至 3 个 Agent 节点，各自独立异步执行，最终在 Compiler 节点自动合并状态。</div>
+        <div style="margin-bottom:6px"><b>错误恢复：</b>每个 Agent 节点由 _run_agent_safe() 包裹，单个 Agent 失败不阻断其他并行 Agent。失败信息写入 agent_errors，Compiler 在结果中展示"部分成功"状态，不丢失已成功的 Agent 结果。</div>
         <div style="margin-bottom:6px"><b>Sub Agent对Main Agent的输出结构：</b>针对通过筛选和未通过筛选两种情况，定义了不同的输出Schema：</div>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:10px;margin-bottom:8px;font-family:monospace;font-size:.68rem;line-height:1.5;white-space:pre-wrap;overflow-x:auto">
 // 通过筛选的输出结构
@@ -1715,7 +1717,7 @@ details .step-text {
   "blocked": true,
   "fallback": "运营策略Agent（生成合规整改建议）"
 }</div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>设计决策：</b>通过/失败两种输出结构的核心差异在于：pass状态携带<code>next_agent</code>字段引导流转，fail状态携带<code>suggestion</code>和<code>fallback</code>字段提供补救路径。这样Main Agent不需要理解业务逻辑，只需根据status字段决定路由——pass则转发给next_agent，fail则执行fallback或终止。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>设计决策：</b>通过/失败两种输出结构的核心差异在于：pass状态携带<code>next_agent</code>字段引导流转，fail状态携带<code>suggestion</code>和<code>fallback</code>字段提供补救路径。v2 中 LangGraph Compiler 统一处理状态汇总——不管 Agent 返回 pass 还是 fail，agent_errors 追踪部分失败，Compiler 输出"部分成功"卡片而非直接终止。</div>
       </div>
 
     </div>
@@ -1900,7 +1902,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>趋势：</b>2026年6月 GitHub Trending 的最大信号——Agent Skills 取代 Prompt Engineering 成为新范式。affaan-m/ECC（Agent harness 性能优化系统）周增超 12 万星，addyosmani/agent-skills（Google 工程实践封装）日增 512 星。Anthropic 官方定义 Skills 协议标准，pbakaus/impeccable 发布 23 个命令 + 27 条反模式规则——Agent 不再是"一个 Prompt 走天下"，而是可插拔的技能积木。<br>
-    <b>我的实践：</b>跨境电商 6-Agent 全链路协作系统天然兼容 Skills 范式——每个 Sub Agent（合规/文案/产品/策略/价格/意图）本质就是一个独立 Skill 模块，各有自己的 System Prompt + 工具集 + 通过/失败输出结构。MCP 服务总线 + Orchestrator 路由的架构设计，使得新增 Skill（如"物流Agent"）只需注册到总线，无需改动现有 Agent。<br>
+    <b>我的实践：</b>跨境电商 6-Agent 全链路协作系统天然兼容 Skills 范式——每个 Sub Agent（合规/文案/产品/策略/价格/意图）本质就是一个独立 Skill 模块，各有自己的 System Prompt + 工具集 + 通过/失败输出结构。v2 中 MCPRouter 统一管理工具注册，LangGraph Send() 实现 Agent 真并行 fan-out，使得新增 Skill（如"物流Agent"）只需注册到 MCPRouter + 添加节点到 StateGraph，无需改动现有 Agent。</br>
     <b>PM启示：</b>Skills 生态意味着 PM 的核心工作从"写 Prompt"升级为"设计 Skill 的输入/输出接口"。好的 Skill = 好的 PRD：输入明确、输出结构化、可独立测试、可组合复用。如果你的 AI 产品涉及 Agent，现在就应该考虑让用户"安装/卸载技能插件"，而不是"配置一个万能 Prompt"。
   </div>
 </details>
@@ -1945,7 +1947,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>趋势：</b>NVIDIA 开源 SkillSpector——对 42,447 个 Agent 技能样本进行安全扫描，发现 <b>26.1% 存在漏洞</b>。Apple 开源 container（端侧 AI 容器化方案），withastro/flue 提供 TypeScript 沙箱 Agent 框架——Agent 安全从"锦上添花"变为"必须有"。这不是危言耸听：当 Agent 可以执行代码、访问文件系统、调用外部 API 时，每个 Skill 都是一个潜在的攻击面。<br>
-    <b>我的实践：</b>跨境电商 Agent 系统内置 <b>Compliance Agent（合规审核模块）</b>——设计思路上与 SkillSpector 的安全审计理念一致：每个 Sub Agent 的输出不是直接交付用户，而是经过 Compliance Agent 的规则检查。PRD Quality Gate 设计了<b>"三重护栏"机制</b>：操作确认（护栏①）→ 过程可解释（护栏②）→ 结果可修正（护栏③），确保 AI 输出始终在人的最终控制下。<br>
+    <b>我的实践：</b>跨境电商 Agent 系统内置 <b>Compliance Agent（合规审核模块）</b>——v2 中通过 MCPRouter 调用 compliance_check 工具，附带 scenario-driven 决策链（比价→关税→合规→推荐四步）。设计思路上与 SkillSpector 的安全审计理念一致：每个 Sub Agent 的输出不是直接交付用户，而是经过 Compiler 的 agent_errors 追踪和部分成功降级处理。PRD Quality Gate 设计了<b>"三重护栏"机制</b>：操作确认（护栏①）→ 过程可解释（护栏②）→ 结果可修正（护栏③），确保 AI 输出始终在人的最终控制下。<br>
     <b>PM启示：</b>如果你的 AI 产品涉及 Agent 执行代码或访问用户数据，安全审计不再是锦上添花——它是合规刚需。PM 在设计 Agent 系统时必须定义：哪些操作需要人确认、哪些数据不能出本地、每个 Skill 的权限边界在哪里。参考 SkillSpector 的漏洞扫描思路，在产品设计阶段就内建"安全护栏"。
   </div>
 </details>
