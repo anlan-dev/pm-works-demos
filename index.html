@@ -653,7 +653,7 @@ details .step-text {
   <a href="#pet" class="ft-card ft-success">
     <span class="ft-icon">🐾</span>
     <span class="ft-label">核心案例 · 宠伴</span>
-    <span class="ft-hook">约12人次深度参与·86份问卷·NPS +12→+38 · 隐私优先+零服务器</span>
+    <span class="ft-hook">约12人次深度参与·86份问卷·NPS +12→+38 · 软硬件协同·隐私优先IoT</span>
   </a>
   <a href="#quality-gate" class="ft-card ft-accent">
     <span class="ft-icon">🔍</span>
@@ -702,7 +702,7 @@ details .step-text {
   <div class="comp-item">
     <div class="comp-icon">⚙️</div>
     <div class="comp-label">技术理解力</div>
-    <div class="comp-value">Prompt/RAG/Agent · MCP协议 · 端侧AI · <strong>Tesseract.js</strong>本地OCR</div>
+    <div class="comp-value">Prompt/RAG/Agent · MCP协议 · 端侧AI · 传感器选型与IoT通信<span style="font-size:.58rem;color:#86868b">（ESP32/MQTT/HX711）</span> · <strong>Tesseract.js</strong>本地OCR</div>
   </div>
   <div class="comp-item">
     <div class="comp-icon">🎯</div>
@@ -1088,7 +1088,7 @@ details .step-text {
 
 <!-- ===== 宠伴·健康台账（核心案例） ===== -->
 <h2 class="section-title scroll-margin" id="pet">核心案例：宠伴·健康台账</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1完成的核心产品，展示AI产品经理完整能力闭环</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从0到1完成的软硬件协同产品，展示AI产品经理从软件到IoT硬件的完整能力闭环</p>
 
 <div class="card">
   <div class="card-icon">🐾</div>
@@ -1112,6 +1112,7 @@ details .step-text {
       <tr><td>隐私</td><td>83% 用户拒绝云上传</td><td>Tesseract.js 本地 OCR（牺牲识别精度换数据主权）</td></tr>
       <tr><td>用户注意力</td><td>"不想下一个新 App"（用户原话）</td><td>PWA 免安装（牺牲原生体验换零门槛）</td></tr>
       <tr><td>时间</td><td>1 人开发，业余时间</td><td>推迟花费看板/AI 周报到 V2，MVP 先验证核心提醒闭环</td></tr>
+      <tr><td>硬件BOM</td><td>¥74 单设备预算（ESP32+HX711+DHT22）</td><td>称重优先于摄像头（进食量是就医第一信号，无隐私争议）</td></tr>
     </table>
   </div>
   <div class="step-text" style="margin-top:8px"><b>为什么砍掉社区和商城：</b>20人深访中仅2人提到社区需求，而社区/商城会引入内容审核、服务器成本、广告变现压力，与"轻量+隐私"定位直接矛盾。砍掉后产品架构从"App"简化为"PWA"，开发成本降低约60%<span style="font-size:.64rem;color:#86868b">[估算·App→PWA架构简化]</span>，且无需应用商店审核。</div>
@@ -1125,6 +1126,7 @@ details .step-text {
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px">
       <div class="step-text"><b>为什么这样定位：</b>调研发现83%用户拒绝云上传，而竞品（宠物家、小爪在家）全部走云端路线。这意味着存在一个被忽略的细分市场——"只想要提醒功能、不想注册、不想上传数据"的轻量用户。与其和竞品在功能丰富度上竞争，不如在"零门槛+零隐私风险"上建立差异化。</div>
       <div class="step-text"><b>为什么用KANO模型：</b>用户需求多样（提醒、OCR、花费、周报、导出），但MVP资源有限。KANO模型能区分"不做就流失"（基础型）和"做了有惊喜"（兴奋型），避免把资源浪费在"做了用户也无感"的功能上。实测验证：优先交付基础型需求后，NPS从+12提升到+38。</div>
+      <div class="step-text"><b>为什么从软件扩展到硬件：</b>纯软件形态下，建档→首条记录转化率42%，7日留存44%触达天花板——用户"平时想不起来打开"。智能食盆（ESP32+HX711称重传感器，BOM ¥74）自动上报进食数据，从"记录工具"升级为"监测系统"。选ESP32而非树莓派（成本¥18 vs ¥200+，深睡续航30天 vs 仅数小时）；选称重传感器而非摄像头（克级数据无隐私争议，不触发83%用户云端顾虑）。通信走MQTT局域网闭环，零云端流量，延续隐私优先定位。</div>
     </div>
   </details>
 
@@ -1156,10 +1158,12 @@ details .step-text {
     <li>自动算有效期+按月聚合花费视图（用户反馈驱动）</li>
     <li>AI健康周报（基于疫苗/驱虫/花费数据生成智能报告）</li>
     <li>PWA可安装+离线可用+JSON导出备份</li>
+    <li>智能食盆：ESP32称重传感器自动上报进食克数，MQTT局域网传输</li>
+    <li>实时健康看板：进食量/饮水/温度趋势图（Chart.js），异常预警推送</li>
   </ul></div></div>
 
   <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">用户流程</div><div class="flow-box">
-    <span class="flow-step">打开即建档</span><span class="flow-arrow">→</span><span class="flow-step">设疫苗提醒(按宠隔离)</span><span class="flow-arrow">→</span><span class="flow-step">拍照→本地OCR→确认入账</span><span class="flow-arrow">→</span><span class="flow-step">看板查看健康+花费</span>
+    <span class="flow-step">打开即建档</span><span class="flow-arrow">→</span><span class="flow-step">设疫苗提醒(按宠隔离)</span><span class="flow-arrow">→</span><span class="flow-step">拍照→本地OCR→确认入账</span><span class="flow-arrow">→</span><span class="flow-step">看板查看健康+花费</span><span class="flow-arrow">→</span><span class="flow-step">食盆自动上报进食数据+预警</span>
   </div></div></div>
 
   <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">验证结果</div>
@@ -1170,8 +1174,8 @@ details .step-text {
     <span class="data-chip"><span class="num">50条</span><span class="label">需求池工单</span></span>
     <span class="data-chip"><span class="num g">+12→+38</span><span class="label">NPS</span></span>
   </div>
-  <div class="result"><div class="rtitle">核心成果</div>种子用户NPS从+12提升至+38，转化率42%，7日留存44%。<span style="font-size:.72rem;color:#6e6e73">[内部测试·种子用户轮次验证]</span> PWA零服务器成本完成idea→验证→迭代闭环。需求池50条工单（40已闭环+7进行中+3待评审）。</div>
-  <div class="step-text" style="margin-top:6px;background:rgba(0,113,227,.04);border-left:3px solid rgba(0,113,227,.3);border-radius:0 10px 10px 0;padding:10px 14px;font-size:clamp(.78rem,.88vw,.82rem);color:#4a5568"><b>AI 决策总结：</b>本地 OCR 选 Tesseract.js（83% 用户拒云上传）→ 隐私优先的端侧 AI；AI 周报基于疫苗/驱虫/花费三类结构化数据生成 → 确定性数据场景用规则+模板而非大模型自由生成；PWA 离线可用 → AI 功能不依赖服务端，低网络环境可用。三个 AI 决策均以用户隐私为第一优先级，数据可解释。</div>
+  <div class="result"><div class="rtitle">核心成果</div>种子用户NPS从+12提升至+38，转化率42%，7日留存44%。<span style="font-size:.72rem;color:#6e6e73">[内部测试·种子用户轮次验证]</span> PWA零服务器成本完成idea→验证→迭代闭环。需求池50条工单（40已闭环+7进行中+3待评审）。智能食盆硬件方案BOM ¥74，ESP32深睡模式续航30天，MQTT局域网传输零云端流量。</div>
+  <div class="step-text" style="margin-top:6px;background:rgba(0,113,227,.04);border-left:3px solid rgba(0,113,227,.3);border-radius:0 10px 10px 0;padding:10px 14px;font-size:clamp(.78rem,.88vw,.82rem);color:#4a5568"><b>AI 决策总结：</b>本地 OCR 选 Tesseract.js（83% 用户拒云上传）→ 隐私优先的端侧 AI；AI 周报基于疫苗/驱虫/花费三类结构化数据生成 → 确定性数据场景用规则+模板而非大模型自由生成；PWA 离线可用 → AI 功能不依赖服务端，低网络环境可用；IoT层：ESP32称重传感器选型 → 进食克数硬数据优于摄像头行为识别（无隐私争议，准确率更高）；MQTT→WebSocket局域网通道 → 传感器数据不出用户家，延续隐私优先架构。四个AI/硬件决策均以用户隐私为第一优先级，数据可解释。</div>
 
   <!-- 数据分析体系 -->
   <details style="cursor:pointer;margin-top:12px">

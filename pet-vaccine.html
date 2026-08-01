@@ -1224,7 +1224,7 @@
 
 <div id="main-app">
 <!-- 页面编号指示器 -->
-<div id="pageIndicator" style="position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:100;background:rgba(0,0,0,.55);color:#fff;font-size:.72rem;font-weight:600;padding:4px 14px;border-radius:999px;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);letter-spacing:.02em;user-select:none;transition:all .2s" title="疫苗档案 — 点击查看流程导览" onclick="document.getElementById('flowNavModal').style.display='flex'">1/5</div>
+<div id="pageIndicator" style="position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:100;background:rgba(0,0,0,.55);color:#fff;font-size:.72rem;font-weight:600;padding:4px 14px;border-radius:999px;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);letter-spacing:.02em;user-select:none;transition:all .2s" title="疫苗档案 — 点击查看流程导览" onclick="document.getElementById('flowNavModal').style.display='flex'">1/6</div>
 
 <!-- 流程导览弹窗 -->
 <div id="flowNavModal" class="modal-overlay" style="display:none;">
@@ -1234,31 +1234,37 @@
       <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=home]').click();document.getElementById('flowNavModal').style.display='none'">
         <span style="font-size:1.1rem">🏠</span>
         <span style="flex:1;font-weight:600;font-size:.85rem">疫苗档案</span>
-        <span style="font-size:.7rem;color:var(--muted)">1/5</span>
+        <span style="font-size:.7rem;color:var(--muted)">1/6</span>
         <span style="font-size:.7rem;color:var(--primary)">→</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=expense]').click();document.getElementById('flowNavModal').style.display='none'">
         <span style="font-size:1.1rem">💰</span>
         <span style="flex:1;font-weight:600;font-size:.85rem">花费记录</span>
-        <span style="font-size:.7rem;color:var(--muted)">2/5</span>
+        <span style="font-size:.7rem;color:var(--muted)">2/6</span>
         <span style="font-size:.7rem;color:var(--primary)">→</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=ocr]').click();document.getElementById('flowNavModal').style.display='none'">
         <span style="font-size:1.1rem">📷</span>
         <span style="flex:1;font-weight:600;font-size:.85rem">OCR识别</span>
-        <span style="font-size:.7rem;color:var(--muted)">3/5</span>
+        <span style="font-size:.7rem;color:var(--muted)">3/6</span>
         <span style="font-size:.7rem;color:var(--primary)">→</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=dashboard]').click();document.getElementById('flowNavModal').style.display='none'">
         <span style="font-size:1.1rem">📊</span>
         <span style="flex:1;font-weight:600;font-size:.85rem">数据看板</span>
-        <span style="font-size:.7rem;color:var(--muted)">4/5</span>
+        <span style="font-size:.7rem;color:var(--muted)">4/6</span>
         <span style="font-size:.7rem;color:var(--primary)">→</span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=ai-report]').click();document.getElementById('flowNavModal').style.display='none'">
         <span style="font-size:1.1rem">🤖</span>
         <span style="flex:1;font-weight:600;font-size:.85rem">AI报告</span>
-        <span style="font-size:.7rem;color:var(--muted)">5/5</span>
+        <span style="font-size:.7rem;color:var(--muted)">5/6</span>
+        <span style="font-size:.7rem;color:var(--primary)">→</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--card-border);border-radius:10px;cursor:pointer;transition:all .15s" onclick="document.querySelector('.tab-item[data-page=hardware]').click();document.getElementById('flowNavModal').style.display='none'">
+        <span style="font-size:1.1rem">🍽️</span>
+        <span style="flex:1;font-weight:600;font-size:.85rem">智能食盆设备</span>
+        <span style="font-size:.64rem;background:rgba(0,113,227,.08);color:#0071e3;padding:2px 6px;border-radius:999px">V2</span>
         <span style="font-size:.7rem;color:var(--primary)">→</span>
       </div>
     </div>
@@ -1625,6 +1631,81 @@
     </div>
 </div>
 
+<!-- 设备页（V2·智能硬件预览） -->
+<div id="page-hardware" class="page">
+    <div class="card" style="margin-top:16px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+            <span style="font-size:1.5rem">🍽️</span>
+            <h2 style="margin:0;font-size:1.1rem;font-weight:600;color:var(--title)">智能食盆 · 设备预览</h2>
+            <span style="font-size:.64rem;background:rgba(0,113,227,.1);color:#0071e3;padding:2px 8px;border-radius:999px;font-weight:600">原型阶段</span>
+        </div>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:16px">ESP32 + HX711 称重传感器 + DHT22 温湿度 — 自动上报进食数据，无需手动记录</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px">
+            <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+                <div style="font-size:1.3rem;font-weight:700;color:#0071e3">¥74</div>
+                <div style="font-size:.68rem;color:var(--muted)">BOM 成本</div>
+            </div>
+            <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+                <div style="font-size:1.3rem;font-weight:700;color:#34c759">~30天</div>
+                <div style="font-size:.68rem;color:var(--muted)">深睡续航</div>
+            </div>
+            <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+                <div style="font-size:1.3rem;font-weight:700;color:#ff9500">±3g</div>
+                <div style="font-size:.68rem;color:var(--muted)">称重精度</div>
+            </div>
+            <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+                <div style="font-size:1.3rem;font-weight:700;color:#0071e3">MQTT</div>
+                <div style="font-size:.68rem;color:var(--muted)">局域网通信</div>
+            </div>
+        </div>
+        <div style="font-size:.64rem;color:var(--muted);text-align:center;border-top:1px solid var(--card-border);padding-top:10px">🔒 所有传感器数据通过局域网MQTT传输，零云端流量，延续隐私优先定位</div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 10px;font-size:.95rem;color:var(--title)">📡 数据采集项</h3>
+        <table style="width:100%;font-size:.78rem;color:var(--text);border-collapse:collapse">
+            <tr style="border-bottom:1px solid var(--card-border)"><td style="padding:8px 0">🍖 每餐进食克数</td><td style="color:var(--muted);text-align:right">称重差值法，实时上报</td></tr>
+            <tr style="border-bottom:1px solid var(--card-border)"><td style="padding:8px 0">💧 每日饮水频次/量</td><td style="color:var(--muted);text-align:right">水盆称重变化</td></tr>
+            <tr style="border-bottom:1px solid var(--card-border)"><td style="padding:8px 0">🌡️ 环境温度</td><td style="color:var(--muted);text-align:right">DHT22，±0.5°C</td></tr>
+            <tr style="border-bottom:1px solid var(--card-border)"><td style="padding:8px 0">💧 环境湿度</td><td style="color:var(--muted);text-align:right">DHT22，±2%</td></tr>
+            <tr><td style="padding:8px 0">🔋 设备电量</td><td style="color:var(--muted);text-align:right">mV上报，<15%推送提醒</td></tr>
+        </table>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 10px;font-size:.95rem;color:var(--title)">⚠️ 健康预警规则</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff3cd;border-radius:8px;font-size:.76rem">
+                <span style="background:#ff9500;color:#fff;border-radius:4px;padding:2px 6px;font-size:.62rem;font-weight:600">提醒</span>
+                <span>连续3小时称重无变化 → 推送"3小时没吃东西了"</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#ffe5e5;border-radius:8px;font-size:.76rem">
+                <span style="background:#ff3b30;color:#fff;border-radius:4px;padding:2px 6px;font-size:.62rem;font-weight:600">警告</span>
+                <span>环境温度 > 32°C → 推送"犬类中暑高风险"</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff3cd;border-radius:8px;font-size:.76rem">
+                <span style="background:#ff9500;color:#fff;border-radius:4px;padding:2px 6px;font-size:.62rem;font-weight:600">提醒</span>
+                <span>日摄入量 < 前7日均值×0.7 → "今天吃得比平时少30%"</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#ffe5e5;border-radius:8px;font-size:.76rem">
+                <span style="background:#ff3b30;color:#fff;border-radius:4px;padding:2px 6px;font-size:.62rem;font-weight:600">警告</span>
+                <span>饮水量 24h < 50ml → 推送+建议就医</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;margin-bottom:80px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <span style="font-size:1rem">🏗️</span>
+            <h3 style="margin:0;font-size:.95rem;color:var(--title)">通信架构</h3>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);background:var(--bg);padding:12px;border-radius:8px;line-height:1.8">
+            ESP32(传感器) ──MQTT──▶ Mosquitto(本地Broker) ──WebSocket──▶ 浏览器PWA<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 全程局域网，零云端流量 ──┘
+        </div>
+    </div>
+</div>
+
 <!-- 底部导航栏 -->
 <div class="tab-bar">
     <div class="tab-item active" data-page="home"><span class="tab-icon">🏠</span><span>疫苗</span></div>
@@ -1632,6 +1713,7 @@
     <div class="tab-item" data-page="ocr"><span class="tab-icon">📷</span><span>OCR</span></div>
     <div class="tab-item" data-page="dashboard"><span class="tab-icon">📊</span><span>看板</span></div>
     <div class="tab-item" data-page="ai-report"><span class="tab-icon">🤖</span><span>AI报告</span></div>
+    <div class="tab-item" data-page="hardware"><span class="tab-icon">🍽️</span><span>设备</span></div>
 </div>
 
 <!-- 右下角浮动快捷 +（新增） -->
@@ -3626,8 +3708,8 @@
             });
 
             // 页面编号映射
-            const pageOrder = ['home','expense','ocr','dashboard','ai-report'];
-            const pageLabels = ['疫苗档案','花费记录','OCR识别','数据看板','AI报告'];
+            const pageOrder = ['home','expense','ocr','dashboard','ai-report','hardware'];
+            const pageLabels = ['疫苗档案','花费记录','OCR识别','数据看板','AI报告','智能食盆设备'];
             function updatePageIndicator(page) {
                 const idx = pageOrder.indexOf(page);
                 const el = document.getElementById('pageIndicator');
