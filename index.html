@@ -1881,63 +1881,63 @@ details .step-text {
 
 <!-- ===== 前沿观察 ===== -->
 <h2 class="section-title scroll-margin" id="frontier">前沿观察与行业思考</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">聚焦四大 AI 产品趋势——每个方向都有我的实践对应 &nbsp;<span style="color:#86868b;font-size:clamp(.68rem,.78vw,.72rem)">（数据截至 2026-06-28 · 来源：GitHub Trending、CSDN、AI Tool Radar）</span></p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">聚焦四大 AI 产品趋势——每个方向都有我的实践对应 &nbsp;<span style="color:#86868b;font-size:clamp(.68rem,.78vw,.72rem)">（数据截至 2026-07-27 · 来源：GitHub Trending、官方公告、WAIC 2026、行业研报）</span></p>
 
-<!-- ===== 2026年6月趋势洞察 ===== -->
+<!-- ===== 2026年7月趋势洞察 ===== -->
 <div class="card" style="cursor:default">
   <div class="card-icon">📊</div>
-  <div class="card-title">2026年6月 · AI 产品趋势洞察</div>
-  <div class="card-sub">核心信号：AI 开发重心从"调模型"转向"建系统"——Skills 生态、Token 压缩、本地优先、Agent 安全成为本月四大风口</div>
+  <div class="card-title">2026年7月 · AI 产品趋势洞察</div>
+  <div class="card-sub">核心信号：AI从"回答你"变成"替你做"——Work产品大战、MCP v2成人礼、端侧AI合规化、Agent安全对抗升级</div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px">
-    <div class="step"><strong>🧩 Skills 生态</strong><br>Agent 能力模块化<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">ECC 周增 12万星</span></div>
-    <div class="step"><strong>💰 Token 经济学</strong><br>压缩 60-95% token<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">headroom 等热爆</span></div>
-    <div class="step"><strong>🏠 本地优先</strong><br>数据主权成为刚需<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">odysseus 周增 3.7万</span></div>
-    <div class="step"><strong>🛡️ Agent 安全</strong><br>26.1% 技能含漏洞<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">NVIDIA SkillSpector</span></div>
+    <div class="step"><strong>⚡ Work产品大战</strong><br>Agent从对话走向执行<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">四巨头同时发力</span></div>
+    <div class="step"><strong>🔌 MCP v2 成人礼</strong><br>治理移交Linux Foundation<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">9700万月下载量</span></div>
+    <div class="step"><strong>📱 端侧AI合规化</strong><br>7款手机AI完成备案<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">WAIC 2026核心信号</span></div>
+    <div class="step"><strong>🛡️ Agent安全对抗</strong><br>strix 31.6k星标<br><span style="color:#6e6e73;font-size:clamp(.64rem,.74vw,.68rem)">AI攻击vs AI防御</span></div>
   </div>
 </div>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
-    <span class="card-icon" style="margin:0">🧩</span>
+    <span class="card-icon" style="margin:0">⚡</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">Agent Skills：AI 应用进入"乐高式"组装时代</div>
-      <div class="card-sub" style="margin-bottom:0">Skills 生态正在成为新的 App Store——本月 GitHub 最大风口</div>
+      <div class="card-title" style="font-size:1.05rem">Work产品大战：AI Agent从"回答你"变成"替你做"</div>
+      <div class="card-sub" style="margin-bottom:0">ChatGPT Work、Claude Cowork、WorkBuddy几乎同时发布——这不是巧合，是范式转移</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>趋势：</b>2026年6月 GitHub Trending 的最大信号——Agent Skills 取代 Prompt Engineering 成为新范式。affaan-m/ECC（Agent harness 性能优化系统）周增超 12 万星，addyosmani/agent-skills（Google 工程实践封装）日增 512 星。Anthropic 官方定义 Skills 协议标准，pbakaus/impeccable 发布 23 个命令 + 27 条反模式规则——Agent 不再是"一个 Prompt 走天下"，而是可插拔的技能积木。<br>
-    <b>我的实践：</b>跨境电商 6-Agent 全链路协作系统天然兼容 Skills 范式——每个 Sub Agent（合规/文案/产品/策略/价格/意图）本质就是一个独立 Skill 模块，各有自己的 System Prompt + 工具集 + 通过/失败输出结构。v2 中 MCPRouter 统一管理工具注册，LangGraph Send() 实现 Agent 真并行 fan-out，使得新增 Skill（如"物流Agent"）只需注册到 MCPRouter + 添加节点到 StateGraph，无需改动现有 Agent。</br>
-    <b>PM启示：</b>Skills 生态意味着 PM 的核心工作从"写 Prompt"升级为"设计 Skill 的输入/输出接口"。好的 Skill = 好的 PRD：输入明确、输出结构化、可独立测试、可组合复用。如果你的 AI 产品涉及 Agent，现在就应该考虑让用户"安装/卸载技能插件"，而不是"配置一个万能 Prompt"。
+    <b>趋势：</b>7月9日 OpenAI 发布 ChatGPT Work（云端持久Agent，连接Gmail/Calendar/Slack，基于MCP插件架构），Claude Cowork 扩展至移动端（非编程使用占91.3%），国内WorkBuddy/QoderWork/TRAE Work同步发力。四家巨头对"企业Agent平台"的定义完全不同——OpenAI赌治理服务、Meta赌分发渠道、微软赌数据引力、NVIDIA赌安全运行时。赛道还在被定义。<br>
+    <b>我的实践：</b>跨境电商 6-Agent 系统天然契合"Work"范式——每个 Sub Agent 不是给出建议而是直接产出结果（合规报告、定价策略、产品文案）。PRD Quality Gate 的三重护栏（确认→可解释→可修正）直接对应 Work 产品的安全设计需求。会议舱的"会后待办自动提取+追踪"本质上也是 Work Agent：用户不需要手动整理纪要，Agent替你把"这一场会的产出"变成可追踪的待办。<br>
+    <b>PM启示：</b>AI产品正在经历三年来最重要的范式转移——从"对话式AI"到"执行式AI"。PM的核心工作从"设计对话流程"升级为"设计Agent的任务边界和失败降级"——Agent做错了怎么办？哪些操作必须人确认？这是2026下半年AI PM面试的核心话题。
   </div>
 </details>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
-    <span class="card-icon" style="margin:0">💰</span>
+    <span class="card-icon" style="margin:0">🔌</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">Token 经济学：省钱比换模型更重要</div>
-      <div class="card-sub" style="margin-bottom:0">LLM 调用成本是 AI 产品的隐形定价锚——本月多个压缩项目爆火</div>
+      <div class="card-title" style="font-size:1.05rem">MCP v2 成人礼：从单机协议到企业级基础设施</div>
+      <div class="card-sub" style="margin-bottom:0">MCP治理移交Linux Foundation，月下载9700万次——Agent基础设施层正式收敛</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>趋势：</b>chopratejas/headroom 实现 60-95% token 节省，DeusData/codebase-memory-mcp（Rust 引擎）减少 99.2% token 消耗，LMCache 加速 LLM KV 缓存——GitHub 上"省钱"类项目正在批量涌现。这不是简单的"用更便宜的模型"，而是在不牺牲质量的前提下，通过智能压缩和缓存降低调用成本。行业共识：<b>Token 成本控制是 AI 产品商业化的前提</b>。<br>
-    <b>我的实践：</b>跨境电商 Agent 通过**意图路由压缩**减少无效调用——先由 Intent Parser 判断请求类型，再路由到对应 Sub Agent，而非每次全链路跑 6 个 Agent（降低约 40% token 消耗）。PRD Quality Gate 选 System Prompt 直写而非 RAG——不仅因为规则确定性强，更因为每次 RAG 检索会引入额外的 token 成本（知识库检索 + 上下文拼接），且检索噪声可能反向损害判定准确率。实测：System Prompt 方案 Token 消耗比 RAG 方案低约 60%。<br>
-    <b>PM启示：</b>PM 在 AI 产品设计中必须有"Token 成本意识"——不是工程师独自操心的事。在产品设计阶段就应该问：这里能否用意图路由减少无效调用？能否用缓存避免重复推理？Chunk Strategy 和 Prompt 长度是否经过成本核算？用户不会为"能用"买单，但会为"既好用又省钱"买单。
+    <b>趋势：</b>7月28日 MCP 史上最大修订正式生效——协议层改为无状态（不再需要initialize握手，任何服务器都能处理任何请求），MCP Apps 成为正式扩展（Agent可以弹出表单、仪表板、审批界面），治理从Anthropic实验项目移交给Linux Foundation AAIF（OpenAI/Google/Microsoft/AWS等加入）。同时，四家巨头在一个月内发布了企业Agent平台——OpenAI Presence（治理即产品）、Meta Business Agent（分发即产品）、Microsoft Agent Platform（数据引力即产品）、NVIDIA Project Arc（安全即产品）。<br>
+    <b>我的实践：</b>跨境电商系统基于 MCPRouter 统一管理工具注册，LangGraph Send() 实现 Agent 真并行——这套架构完全契合 MCP v2 的无状态设计理念。如果升级到 v2，现有 Sub Agent 可以水平扩展到多实例，每个请求自包含，不再受限于单服务器Session。PRD Quality Gate 的"规则直写 System Prompt 而非 RAG"在 MCP Apps 时代会更强大——未来可以让 Agent 弹出审批界面供PM确认，而非仅返回文本。<br>
+    <b>PM启示：</b>MCP从"Anthropic实验项目"变成"行业标准"意味着：基于MCP做产品不再绑定单一厂商。MCP Apps = "Agent的UI层"——这是产品经理最应该理解的2026技术概念。面试时说"MCP是AI Agent的USB-C接口，v2之后企业才敢在关键业务上部署Agent"——很少有PM候选人能聊到协议层面。
   </div>
 </details>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
-    <span class="card-icon" style="margin:0">🏠</span>
+    <span class="card-icon" style="margin:0">📱</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">本地优先：端侧 AI ≠ 性能妥协，是产品策略</div>
-      <div class="card-sub" style="margin-bottom:0">数据主权从"口头说说"变成"用脚投票"——本地部署项目本月集体爆发</div>
+      <div class="card-title" style="font-size:1.05rem">端侧AI合规化：从概念验证到规模化量产</div>
+      <div class="card-sub" style="margin-bottom:0">WAIC 2026核心信号——7款手机端侧AI完成国家备案，端侧推理成本降至1/10</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>趋势：</b>odysseus（一键本地 AI 工作台）周增 3.7 万星，shimmy（纯 Rust 推理引擎，无需 Python/CUDA，支持 Vulkan/D3D12/Metal）日增持续攀升，Rapid-MLX 专为 Apple Silicon 优化（3300+ 测试、prompt 缓存）——数据不出本地正在成为开发者的默认选择。同时 whichllm（硬件匹配 LLM 推荐工具）的出现说明：用户连"我的设备能跑什么模型"都需要独立工具了。<br>
-    <b>我的实践：</b>会议舱选 <b>Whisper 本地转写</b>而非云端 API——会议内容涉及内部讨论，数据不出本地是默认要求。宠伴选 <b>Tesseract.js 本地 OCR</b>识别接种凭证——用户调研显示 83% 宠主拒绝云端上传<span style="font-size:.64rem;color:#86868b">[深度参与约12人次]</span>。这两个决策的核心逻辑一致：隐私优先不是"做不到云端所以凑合"，而是主动选择——端侧 AI 在延迟（零网络往返）、隐私（数据 100% 本地）、可用性（离线可用）三方面都有不可替代的优势。<br>
-    <b>PM启示：</b>B 端场景（金融/政务/医疗）,"数据不出本地"已经是强卖点而非加分项。PM 应优先评估"这个功能能否端侧完成"——如果能，就不该要求用户上传数据。Vibe Coding 工具（Cursor/Claude Code）让文科 PM 也能从零搭建可交互原型，但核心的 AI 策略（本地 vs 云端、隐私 vs 成本）才是 PM 不可替代的决策能力。
+    <b>趋势：</b>7月 WAIC 2026释放明确信号——Apple/华为/OPPO/vivo/小米/三星/努比亚7款手机端侧AI完成国家网信办备案，端侧AI纳入正式监管框架。努比亚发布全球首款AI智能体手机（跨应用自主执行多步骤任务）。瑞芯微展示双芯片架构（RK3588+AI协处理器），Gemma4首Token延迟仅169ms。TI TinyEngine NPU嵌入MCU级别，延迟降90倍、能耗降120倍——纽扣电池就能跑AI。端侧推理芯片成本降至原先1/10，全球边缘AI推理市场规模首次超越云端训练市场。<br>
+    <b>我的实践：</b>契合两个方向。①宠伴智能食盆：ESP32作为MCU级AI设备——TI TinyEngine的MCU AI趋势直接验证了这个硬件选型的未来扩展性（未来可以在食盆端侧跑轻量异常检测模型，不需要WiFi也能本地判断"宠物是否进食异常"）。②Insta360 ACE的AI修图架构（端侧NPU跑基础编辑+云端跑重度处理）完全吻合WAIC 2026的"端侧为主、云端为辅"行业共识。宠伴83%用户拒绝云上传的用户调研结论——在端侧AI合规化的趋势下，从"小众偏好"变成了"行业标准的前瞻判断"。<br>
+    <b>PM启示：</b>2026下半年，懂"端侧AI选型+产品场景匹配"的PM是最稀缺的物种。端侧AI不是"把模型塞进设备"——是产品决策：什么数据必须在本地处理（隐私）？什么推理可以容忍200ms延迟（场景）？什么任务必须上云用最强模型（质量）？能回答这三个问题的PM，价值远超"只会写Prompt的PM"。
   </div>
 </details>
 
@@ -1945,14 +1945,14 @@ details .step-text {
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
     <span class="card-icon" style="margin:0">🛡️</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">Agent 安全：26.1% 技能含漏洞，安全审计从可选项变必选项</div>
-      <div class="card-sub" style="margin-bottom:0">Agent 能执行代码了——但安全谁来保证？NVIDIA 和 Apple 本月给出了答案</div>
+      <div class="card-title" style="font-size:1.05rem">Agent安全对抗：从"加个审核按钮"到"AI攻击 vs AI防御"</div>
+      <div class="card-sub" style="margin-bottom:0">strix 31.6k星标掀起AI渗透测试浪潮——安全不再是附加功能，是架构级设计约束</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>趋势：</b>NVIDIA 开源 SkillSpector——对 42,447 个 Agent 技能样本进行安全扫描，发现 <b>26.1% 存在漏洞</b>。Apple 开源 container（端侧 AI 容器化方案），withastro/flue 提供 TypeScript 沙箱 Agent 框架——Agent 安全从"锦上添花"变为"必须有"。这不是危言耸听：当 Agent 可以执行代码、访问文件系统、调用外部 API 时，每个 Skill 都是一个潜在的攻击面。<br>
-    <b>我的实践：</b>跨境电商 Agent 系统内置 <b>Compliance Agent（合规审核模块）</b>——v2 中通过 MCPRouter 调用 compliance_check 工具，附带 scenario-driven 决策链（比价→关税→合规→推荐四步）。设计思路上与 SkillSpector 的安全审计理念一致：每个 Sub Agent 的输出不是直接交付用户，而是经过 Compiler 的 agent_errors 追踪和部分成功降级处理。PRD Quality Gate 设计了<b>"三重护栏"机制</b>：操作确认（护栏①）→ 过程可解释（护栏②）→ 结果可修正（护栏③），确保 AI 输出始终在人的最终控制下。<br>
-    <b>PM启示：</b>如果你的 AI 产品涉及 Agent 执行代码或访问用户数据，安全审计不再是锦上添花——它是合规刚需。PM 在设计 Agent 系统时必须定义：哪些操作需要人确认、哪些数据不能出本地、每个 Skill 的权限边界在哪里。参考 SkillSpector 的漏洞扫描思路，在产品设计阶段就内建"安全护栏"。
+    <b>趋势：</b>usestrix/strix（开源AI渗透测试工具，让AI Agent自动攻击你的应用找漏洞）7月狂揽31.6k星标，标志着AI安全从"人工渗透测试"进入"AI自动攻击→AI自动防御"的对抗时代。Palo Alto Networks披露OpenClaw技能市场持续存在恶意技能——17%的早期技能携带恶意载荷，包括信息窃取、广告联盟注入、抢跑交易。腾讯发布AI-Infra-Guard开源红队平台。一个新的安全闭环正在形成：AI攻击工具（strix）→ AI防御工具（SkillSpector/Infra-Guard）→ 监管备案（网信办端侧AI备案）。<br>
+    <b>我的实践：</b>跨境电商Agent系统内置Compliance Agent（合规审核模块）和Compiler的agent_errors追踪——这和strix的渗透测试思路是同构的：不是等攻击发生再防御，而是在架构层设计"每个Agent输出必须经过Compiler验证"。PRD Quality Gate的"三重护栏"（操作确认→过程可解释→结果可修正）直接对应Agent安全的三层防线。宠伴智能食盆的"MQTT局域网传输 vs 云端上传"决策——在OpenClaw恶意技能泛滥的背景下，这个隐私架构选择的价值被进一步放大：数据不出局域网 = 攻击面最小化 = 从根本上消解了"传感器数据被Agent偷走"的风险。<br>
+    <b>PM启示：</b>如果2025年PM的面试加分项是"懂Prompt Engineering"，2026年下半年的新加分项是"懂Agent安全设计"。面试黄金话术："传统App的安全模型是'权限系统'——App要访问通讯录，用户点击'允许'。AI Agent的安全模型必须是'意图验证'——Agent声称要'整理邮箱'，但实际也访问了密码文件，系统需要在执行前拦截这种意图偏差。"
   </div>
 </details>
 
