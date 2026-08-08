@@ -69,3 +69,11 @@ _exout.txt
 设计过程与版本归档/
 dev-logs/
 设计参考/
+
+# 工程文档与备份（远程仓库仅用于面试官查看 Demo，非备份库）
+design-systems/
+templates/
+scripts/
+server/
+fix-aigc.ps1
+*.backup.html
