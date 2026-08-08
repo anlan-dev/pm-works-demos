@@ -1986,20 +1986,38 @@ function toggleSpeed(){
 
 
 <script>
-// 版权徽标（悬浮、不占文档流）
+// 版权徽标（悬浮、不占文档流、自动避让底部固定元素）
 (function(){
   if (document.getElementById('pf-badge')) return;
   var b = document.createElement('div');
   b.id = 'pf-badge';
-  b.style.cssText = 'position:fixed;bottom:10px;right:10px;z-index:2147483647;font-size:11px;line-height:1;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;opacity:.5;transition:opacity .2s;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);user-select:none;';
+  b.style.cssText = 'position:fixed;right:10px;z-index:2147483647;font-size:11px;line-height:1;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;opacity:.5;transition:opacity .2s;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);user-select:none;';
   b.textContent = '© 2026 王天娇';
   b.title = '王天娇产品经理作品集';
-  b.addEventListener('click', function(){ window.open('https://anlan-dev.github.io/pm-works-demos/', '_blank', 'noopener'); });
-  b.addEventListener('mouseenter', function(){ b.style.opacity = '1'; });
-  b.addEventListener('mouseleave', function(){ b.style.opacity = '.5'; });
+  b.addEventListener('click', function(){ window.open('https://anlan-dev.github.io/pm-works-demos/','_blank','noopener'); });
+  b.addEventListener('mouseenter', function(){ b.style.opacity='1'; });
+  b.addEventListener('mouseleave', function(){ b.style.opacity='.5'; });
   document.body.appendChild(b);
+  function place(){
+    var maxH = 10;
+    var all = document.body.getElementsByTagName('*');
+    for (var i=0;i<all.length;i++){
+      var el = all[i];
+      if (el === b) continue;
+      var cs = window.getComputedStyle(el);
+      if (cs.position !== 'fixed') continue;
+      var bt = parseFloat(cs.bottom);
+      if (isNaN(bt) || bt > 2) continue;
+      if (el.offsetHeight > maxH) maxH = el.offsetHeight;
+    }
+    b.style.bottom = (maxH + 8) + 'px';
+  }
+  place();
+  window.addEventListener('resize', place);
+  window.addEventListener('load', place);
 })();
 </script>
+
 
 </body>
 </html>
