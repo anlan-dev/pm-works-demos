@@ -747,7 +747,7 @@ details .step-text {
           <tr style="background:rgba(79,70,229,.04)"><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3;white-space:nowrap">用户原话</th><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3;white-space:nowrap">语用学分析</th><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3">挖掘出的真实需求</th></tr>
           <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">宠伴用户："还行吧，能用"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">模糊限定词"还行吧"+会话终止信号"能用"——Grice合作原则的"量准则"被刻意违反（故意少给信息），用户在用礼貌策略掩饰不满</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">追问"哪个操作让你觉得卡？"→ 定位到疫苗记录路径需要5步才能完成一条录入，记录耗时缩短约60%后该用户从被动使用转为主动推荐</td></tr>
           <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">会议舱用户："会上说过、会后没落地"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">被动语态"没落地"回避责任归属——用户不是在抱怨某个工具，是在描述一个"没有谁负责"的系统性失败</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">拆解出"没落地"的三个子环节：没记录→没分配→没追踪。由此设计结构化待办+状态流转+漏项抽检闭环，而非又一个"协作平台"</td></tr>
-          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">析微用户："这个功能能不能也加一下？"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">表面是功能请求，深层是<b>替代行为</b>——用户加功能是在回避"现有功能不好用"这个更难开口的真问题。话语分析中这叫"话题替换"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">后退一步问"你现在用哪个功能实现这个需求？"→ 暴露了当前操作流程的断裂点，修复后在P0需求评审中被确认优先级最高</td></tr>
+          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">健身产品用户："这个功能能不能也加一下？"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">表面是功能请求，深层是<b>替代行为</b>——用户加功能是在回避"现有功能不好用"这个更难开口的真问题。话语分析中这叫"话题替换"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">后退一步问"你现在用哪个功能实现这个需求？"→ 暴露了当前操作流程的断裂点，修复后在P0需求评审中被确认优先级最高</td></tr>
         </table>
       </div>
       <div class="step-text">这套方法论不是"天赋"——是语言学训练的核心技能。语用学教的是<b>怎么在对话中找信息缺口</b>（用户少说了什么），话语分析教的是<b>怎么在会议中识别权力结构</b>（谁在回避什么话题），语料库方法教的是<b>怎么把200+条评论转化为可量化的产品决策</b>。三者组合，就是语言学PM的硬功夫。</div>
@@ -785,7 +785,7 @@ details .step-text {
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架：数据分析闭环五步</div><div class="step-text"><b>①定义核心指标</b>（转化率/NPS/留存/FAQ等，按产品阶段选北极星）→<b>②埋点事件设计</b>（事件名/触发时机/关键参数，与PRD同步交付）→<b>③SQL数据采集与漏斗拆解</b>（建表→写查询→定位流失点）→<b>④归因分析</b>（分群交叉/渠道对比/失败拆解，找到"为什么"而非只看"是什么"）→<b>⑤决策→验证→闭环</b>（数据驱动的优先级排序和效果追踪）。</div>
 
   <div style="margin-top:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px">
-    <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">实战案例：EasyRight功能交叉分析 · 全链路留存归因</div>
+    <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">实战案例：AI健身产品功能交叉分析 · 全链路留存归因</div>
     <div style="overflow-x:auto;margin:8px 0">
       <table style="width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);color:#2d3a4b">
         <tr style="background:#f0fdf4"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">用户组合</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">人数</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">占比</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">D7留存</th></tr>
@@ -802,7 +802,7 @@ details .step-text {
     </div>
   </div></div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：高球记 · 全模块埋点体系</div><div class="step-text">基于原型Demo定义全模块埋点事件体系（共<b>26个事件覆盖11个页面</b>），其中单杆轨迹模块8个事件（首页点击→导入视频→相册/相机选择→轨迹颜色→重播/导出）为核心工作。定义事件名、触发时机、关键参数（trace_color颜色选择等），输出埋点验收标准。用SQL验证单杆轨迹核心漏斗（导入→导出）的事件触发率与参数完整性。</div></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：高尔夫产品 · 全模块埋点体系</div><div class="step-text">基于原型Demo定义全模块埋点事件体系（共<b>26个事件覆盖11个页面</b>），其中单杆轨迹模块8个事件（首页点击→导入视频→相册/相机选择→轨迹颜色→重播/导出）为核心工作。定义事件名、触发时机、关键参数（trace_color颜色选择等），输出埋点验收标准。用SQL验证单杆轨迹核心漏斗（导入→导出）的事件触发率与参数完整性。</div></div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · A/B验证体系</div><div class="step-text">建立"假设→实验→指标"验证体系：提醒配置意愿指数（任务完成率0.35+配置意愿量表0.35+主观耗时0.30）<b>+13%</b>，记录耗时缩短约<b>60%</b>，种子用户NPS <b>+12→+38</b>，转化率<b>42%</b>，7日留存<b>44%</b>。<span style="font-size:.72rem;color:#6e6e73">[内部测试·种子用户轮次验证]</span></div>
   <div style="margin-top:8px;background:rgba(100,130,160,.04);border-left:3px solid rgba(100,130,160,.35);border-radius:0 8px 8px 0;padding:8px 12px;font-size:clamp(.7rem,.8vw,.74rem);color:#4a5568;line-height:1.5">
@@ -814,190 +814,10 @@ details .step-text {
 
 <!-- ===== 实习经历 ===== -->
 <h2 class="section-title scroll-margin" id="intern">实习经历</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">上海析微智能科技 · AI产品经理 · 2026.04-06 · 3条产品线并行管理</p>
-<p style="font-size:clamp(.68rem,.78vw,.72rem);color:#9ca3af;margin-bottom:18px;font-style:italic">展示范围为实习期个人判断的产品部分。</p>
-
-
 <div class="card">
   <div class="card-icon">🏋️</div>
-  <div class="card-title">EasyRight AI · 健身私教 <span class="card-badge primary">实习核心</span><span class="vt vt-v">已验证</span></div>
-  <div class="card-sub">AI产品方案 · 多模块统筹 · 3条产品线并行管理</div>
-
-  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">参与上海析微智能科技的AI健身产品线，通过摄像头+传感器实现AI运动纠错。</div></div></div>
-
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">产品架构与决策</div><div class="arch-box"><b>4模块并行推进：</b>体态评估(P0) | 松解工具(P1) | 视频上传(P0) | Golf(P1) · <b>优先级体系：</b>P0/P1/P2 + 每周站会</div>
-  <div class="step-text" style="margin-top:8px"><b>为什么做：</b>创业公司多条产品线共享同一套生物力学底层技术，需要快速验证多赛道市场可行性，不能All-in单一产品线。</div>
-  <div class="step-text"><b>怎么做：</b>4模块并行推进（体态评估P0/松解工具P1/视频上传P0/Golf P1），建立P0/P1/P2优先级体系+每周站会跟踪。首页合并功能相似模块（体态评估+松解工具→"训练"），保留独立模块（视频/Golf）。</div>
-  <div class="step-text"><b>为谁做：</b>C端健身用户（运动纠错需求）、高尔夫玩家（挥杆分析需求）、B端健身房（Agent硬件需求），三类用户群市场需求独立。</div>
-  <div class="step-text"><b>交付成果：</b></div>
-  <ul class="ft-list">
-    <li>并行管理3条产品线（健身/高尔夫/视频分析），P0交付率100%（8项P0+22项P1）</li>
-    <li>首页功能合并方案（体态评估+松解工具→"训练"）内部走查一轮过关，沟通成本大幅降低</li>
-    <li>P0/P1/P2优先级体系让资源分配从"事后解释"变为"事前共识"，团队对齐效率显著提升</li>
-    <li>在资源受限的创业环境下，通过优先级体系确保核心交付线不失守，突发需求不再打乱已有节奏</li>
-  </ul>
-  <div class="data-row" style="margin-top:12px">
-    <span class="data-chip"><span class="num">1000人</span><span class="label">共创群</span></span>
-    <span class="data-chip"><span class="num">→620</span><span class="label">注册(62%)</span></span>
-    <span class="data-chip"><span class="num g">52→95</span><span class="label">DAU(+83%)</span></span>
-    <span class="data-chip"><span class="num g">29.9%</span><span class="label">D7留存</span></span>
-    <span class="data-chip"><span class="num g">90.2→96.5%</span><span class="label">AI成功率</span></span>
-  </div>
-  <div class="data-row" style="margin-top:6px">
-    <span class="data-chip"><span class="num g">¥1,080</span><span class="label">MRR</span></span>
-    <span class="data-chip"><span class="num g">¥248</span><span class="label">LTV</span></span>
-    <span class="data-chip"><span class="num g">4.0x</span><span class="label">LTV/CAC</span></span>
-    <span class="data-chip"><span class="num">34人</span><span class="label">付费(5.5%)</span></span>
-    <span class="data-chip"><span class="num g">67.6%</span><span class="label">D30付费留存</span></span>
-  </div></div></div>
-
-  <div class="step" style="margin-top:14px"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">#</div><div class="step-body"><div class="step-title" style="color:#059669">数据体系建立：不是为了写SQL，是为了能独立回答产品问题</div><div class="step-text">埋点与产品同步上线——建5张核心表+17个SQL模块后，<b>我能独立回答12个之前没人能回答的产品问题</b>：激活瓶颈在哪（注册→激活仅50%）、哪个功能最留人（全链路D7 58% vs 仅AI 32%）、哪种渠道ROI最高（共创群付费6.8% vs 自然2.3%）、AI失败根因是什么（41%视频质量问题→源头修复而非优化模型）、付费转化窗口在何时（80%在14天内）。PM写SQL的价值不是"我会查数据"——是"数据告诉我该做什么决策"。</div></div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">A</div><div class="step-body"><div class="step-title" style="color:#059669">决策链① 激活瓶颈 · 漏斗拆解与归因</div>
-    <div class="step-text" style="margin-bottom:4px"><b>漏斗：</b>1000共创群→620注册(62%)→<b style="color:#d97706">310激活(50%)⚠️最大瓶颈</b>→118触达付费墙(38%)→61发起购买(52%)→34付费(56%)。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>瓶颈定位：</b>注册→首次AI激活仅50%——一半用户下载了但从未体验核心价值。这是增长漏斗的断裂点：不是拉新不够，是"来了但没用"。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>新手引导3步化+首分析免费→降低用户第一次上传视频的心理门槛。</div>
-    <div class="step-text"><b>结果：</b>D1留存 46%→55.3%(+9.3pp)，D7留存 29.9%超行业基准20-25%。DAU连续4周52→72→88→95(+83%)，未衰减——不是一波流，有真实需求。<span style="font-size:.72rem;color:#6e6e73">[内部测试·埋点数据]</span></div>
-  </div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">B</div><div class="step-body"><div class="step-title" style="color:#059669">决策链② AI质量 · 失败归因与源头修复</div>
-    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>AI分析成功率90.2%，失败46次——归因拆解：<b style="color:#d97706">视频质量41%</b> / 动作识别28% / 超时17% / 服务端13%。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>41%失败是视频质量——不是AI模型不行，是"用户上传了什么"的问题。把修复资源放在源头（上传前检测），而非事后优化模型。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>上传前视频质量预检PRD→检测分辨率/光线/角度→不合格即时提示。</div>
-    <div class="step-text"><b>结果：</b>AI成功率 90.2%→92.4%→94.6%→96.5%(+6.3pp)，P95耗时 17.5s→13.5s。P0 Bug 6个全清零，崩溃率0.4%。<span style="font-size:.72rem;color:#6e6e73">[内部测试·埋点数据]</span></div>
-  </div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">C</div><div class="step-body"><div class="step-title" style="color:#059669">决策链③ 功能联动 · 交叉分析发现留存杠杆</div>
-    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>功能交叉分析——仅AI分析用户D7留存32%，AI+体态用户留存45%，<b style="color:#059669">全链路用户(AI+体态+松解)D7留存58%，是仅AI用户的1.8倍</b>。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>"评估→纠错→恢复"闭环创造最强粘性。产品价值不是AI分析单点功能，是"一站式健康管理"的链路完整性。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>体态评估页增加"去训练"入口→驱动功能间联动，将单功能用户推向全链路。</div>
-    <div class="step-text"><b>结果：</b>做过体态评估的用户后续AI分析使用率62.6%，比未评估用户(46.6%)高<b>+16pp</b>。首页A/B优化后点击率+14pp(31%→45%)。<span style="font-size:.72rem;color:#6e6e73">[内部测试·埋点数据]</span></div>
-  </div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">D</div><div class="step-body"><div class="step-title" style="color:#059669">决策链④ 渠道ROI · 分群对比驱动获客策略</div>
-    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>分渠道对比——共创群转化付费率<b style="color:#059669">6.8%</b>(ARPPU ¥33.2) vs App Store自然搜索<b style="color:#d97706">2.3%</b>(ARPPU ¥28)。共创群用户不仅是数量的3倍，质量也显著更高。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>App Store用户是"随便看看"型——低意愿低粘性。共创群用户是"被需求驱动"型——已了解产品价值，精准匹配度高。渠道质量差异3x。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>优先社群运营获客——不需要投广告，把现有1000人社群的转化做深。</div>
-    <div class="step-text"><b>结果：</b>CAC ¥62.5(仅社群人力成本分摊)，LTV ¥248，LTV/CAC 4.0x远超3x健康线。盈亏平衡点52人(当前34，差53%)——可量化可追踪。<span style="font-size:.72rem;color:#6e6e73">[内部测试·埋点数据]</span></div>
-  </div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">E</div><div class="step-body"><div class="step-title" style="color:#059669">决策链⑤ 商业化优化 · 转化窗口与会员结构</div>
-    <div class="step-text" style="margin-bottom:4px"><b>漏斗终点：</b>34人付费(5.5%)，MRR ¥1,080，累计收入¥1,632。付费用户D30留存67.6%——是免费用户(16.7%)的<b>4倍</b>。<b style="color:#059669">付费即留存，付费即粘性。</b></div>
-    <div class="step-text" style="margin-bottom:4px"><b>转化窗口分析：</b>80%付费发生在14天内，其中8-14天是绝对主力(38%)——免费次数耗尽是最大触发点。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>会员结构分析：</b>周卡续费率42% vs 月卡68% vs 季卡82%。周卡用户一个月后近六成流失——低客单≠高留存。</div>
-    <div class="step-text"><b>两项决策：</b>①前两周强化付费引导（抓住80%转化窗口）②首周内推周→月升级引导（用月卡留存替代周卡流失）。两项待验证，但决策方向有数据锚点。<span style="font-size:.72rem;color:#6e6e73">[内部测试·埋点数据]</span></div>
-  </div></div>
-
-  <div class="result" style="margin-top:10px"><div class="rtitle">数据驱动闭环总览</div>5项决策链(A→E)覆盖增长/质量/联动/渠道/商业化五大维度，每项都可从SQL追溯原始数据→归因分析→产品决策→效果验证。4周内从0建立完整数据驱动决策体系——不是"上线后看数据"，而是"数据体系与产品同步上线，每个决策都有数据锚点，每个指标都有改善趋势"。</div>
-
-  <!-- 未来规划：智能硬件接入 -->
-  <details style="cursor:pointer;margin-top:12px">
-    <summary style="list-style:none;display:flex;align-items:center;gap:8px;font-size:clamp(.78rem,.88vw,.82rem);font-weight:600;color:#0f172a">
-      <span style="width:24px;height:24px;border-radius:6px;background:rgba(16,185,129,.1);color:#059669;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.68rem;flex-shrink:0">🔧</span>
-      未来规划·摄像头AI姿态识别接入设想（点击展开）
-    </summary>
-    <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
-      <div class="step-text"><b>规划背景：</b>该产品线当前依赖硬件传感器（IMU）捕捉动作数据，用户需额外购买设备。接入手机摄像头AI姿态识别后，可实现"零硬件成本"的实时动作纠错——用户只需打开手机摄像头即可开始训练，大幅降低使用门槛，扩大潜在用户基数。</div>
-      <div class="step-text"><b>技术方案对比：</b></div>
-      <div style="overflow-x:auto;margin:10px 0">
-        <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
-          <tr style="background:#ecfdf5"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">技术方案</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">关键点数</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">运行环境</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">实时性</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">适用场景</th></tr>
-          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>MediaPipe Pose</b>（推荐）</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">33个（含3D坐标）</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">Android/iOS/Web/桌面</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">30fps+</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">健身/瑜伽/康复/AR</td></tr>
-          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>MoveNet</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">17个</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">边缘设备/Web</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">30fps+</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">轻量级实时场景</td></tr>
-          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>YOLO11</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">COCO关键点</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">GPU/边缘/WebGPU</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">高帧率</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">多任务+AR/VR</td></tr>
-        </table>
-      </div>
-      <div class="step-text"><b>推荐方案：MediaPipe Pose Landmarker</b>——Google开源，33个关键点含3D坐标，支持实时摄像头输入，跨平台（Android/iOS/Web），检测准确率高（支持复杂动作如瑜伽）。与现有IMU传感器数据融合后，形成"视觉+惯性"双通道校验，纠错精度可进一步提升。</div>
-      <div class="step-text"><b>实现路径：</b>手机摄像头 → MediaPipe Pose → 33个关键点坐标 → 动作识别逻辑（如深蹲膝盖角度<90°、俯卧撑手臂弯曲等） → 实时反馈（动作计数/姿态评分/语音提示）。零硬件成本，用户无需额外购买设备，技术栈开源成熟。</div>
-      <div class="step-text"><b>数据来源：</b>[Google MediaPipe Pose Landmarker官方文档](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker)、[CSDN姿势识别技术对比（2026年5月）](https://blog.csdn.net/daiziguizhong/article/details/146274184)、[Unity AI健身动作识别开发实践（2025年1月）](https://blog.csdn.net/chenby186119/article/details/144212642)</div>
-    </div>
-  </details>
-</div>
-
-<div class="card">
-  <div class="card-icon">⛳</div>
-  <div class="card-title">AI高尔夫产品线 · 视频分析</div>
-  <div class="card-sub">核心功能设计 · PRD迭代 · Bug推动</div>
-
-  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">参与上海析微智能科技的AI高尔夫视频分析产品，通过AI识别挥杆动作并生成飞行轨迹与距离数据。</div></div></div>
-
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">产品架构与决策</div><div class="arch-box"><b>四大功能模块：</b>单杆轨迹（AI识别挥杆→飞行轨迹+距离）→比赛视频（多人挥杆对比）→成绩战报（照片+记分卡→海报）→历史记录（数据沉淀+趋势追踪）</div>
-  <div class="step-text" style="margin-top:8px"><b>为什么"单杆轨迹"优先于其他功能：</b>用户访谈发现"挥杆后想立刻看飞行轨迹"是最高频需求——也是用户选择AI高尔夫工具的核心原因。单杆轨迹是用户价值链的起点（看轨迹→比较→改进→分享），优先交付能最快验证产品核心价值。</div>
-  <div class="step-text"><b>为什么重点做社交分享（海报）而非纯数据展示：</b>竞品分析发现行业趋势从"记录工具"转向"社交分享"——高尔夫玩家核心需求从"看数据"升级为"晒成绩"。战报海报适配微信朋友圈尺寸，形成社交裂变闭环。竞品的分享功能弱，海报模板是差异化切入点。</div>
-  <div class="data-row" style="margin-top:12px">
-    <span class="data-chip"><span class="num">200人</span><span class="label">种子用户</span></span>
-    <span class="data-chip"><span class="num">26事件</span><span class="label">11页面</span></span>
-    <span class="data-chip"><span class="num g">60%</span><span class="label">轨迹FAQ</span></span>
-    <span class="data-chip"><span class="num g">52%</span><span class="label">战报分享</span></span>
-    <span class="data-chip"><span class="num g">12→34%</span><span class="label">Push点击率</span></span>
-  </div>
-  <div class="data-row" style="margin-top:6px">
-    <span class="data-chip"><span class="num">~22→~92</span><span class="label">DAU→WAU</span></span>
-    <span class="data-chip"><span class="num">66%</span><span class="label">周末集中</span></span>
-    <span class="data-chip"><span class="num">20%</span><span class="label">轨迹完成率</span></span>
-    <span class="data-chip"><span class="num">26.8%</span><span class="label">战报完成率</span></span>
-    <span class="data-chip"><span class="num g">+200%</span><span class="label">历史入口优化</span></span>
-  </div></div></div>
-
-  <div class="step" style="margin-top:14px"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">#</div><div class="step-body"><div class="step-title" style="color:#059669">埋点体系：26事件/11页面，与产品定义同步上线</div><div class="step-text">基于原型Demo定义全模块埋点——单杆轨迹8事件(3页)、成绩战报14事件(6页)、比赛视频4事件(2页)，含事件名/触发时机/关键参数(如trace_color颜色选择)。埋点验收标准与PRD同步交付，上线即有数据。</div></div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">A</div><div class="step-body"><div class="step-title" style="color:#059669">决策链① 模块优先级 · FAQ驱动的资源倾斜</div>
-    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>200种子用户·3模块FAQ——<b style="color:#059669">单杆轨迹60%(120人·周活35)</b> / 成绩战报41%(82人·周活24) / <b style="color:#d97706">比赛视频17.5%(35人·周活8)</b>。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>瓶颈定位：</b>比赛视频FAQ仅单杆轨迹的29%——用户不需要"看别人打球"，需要"看自己挥杆"。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>单杆轨迹P0资源倾斜，比赛视频果断降级至P2——不做减法就会样样做不好。</div>
-    <div class="step-text"><b>结果：</b>轨迹分析稳定性提升，DAU正向增长。FAQ是功能价值的直接量化指标——"多少人用了"比"我做了多少功能"更有说服力。<span style="font-size:.72rem;color:#6e6e73">[数据来源：种子用户·3模块FAQ表]</span></div>
-  </div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">B</div><div class="step-body"><div class="step-title" style="color:#059669">决策链② 漏斗优化 · 流失点定位与社交裂变</div>
-    <div class="step-text" style="margin-bottom:4px"><b>漏斗拆解：</b>单杆轨迹 120→24(完成率20%)——<b style="color:#d97706">回放→导出流失61%⚠️</b>。成绩战报 82→22(完成率26.8%)——模板→上传流失24%。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>归因双线：</b>轨迹端：用户看回放后不导出——"看过了"就走，没有"保存/分享"的动机。战报端：竞品分析发现行业从"记录"转向"社交分享"——用户核心需求是"晒成绩"而非"看数据"。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>战报海报模板6套→3套精选（减法是自信），尺寸适配微信朋友圈。每分享带来平均1.2个新用户——分享是零成本增长引擎。</div>
-    <div class="step-text"><b>结果：</b>战报分享率提升+8pp至52%，竞赛视频的完成率虽高(80%)但功能深度不够——进一步确认"比赛视频降级P2"的决策正确。<span style="font-size:.72rem;color:#6e6e73">[数据来源：种子用户·漏斗转化表]</span></div>
-  </div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">C</div><div class="step-body"><div class="step-title" style="color:#059669">决策链③ Push策略 · 使用节奏分析→精准时机</div>
-    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>DAU~22，周末高峰~30(比工作日高114%)，<b style="color:#059669">66%使用集中在周末(周六日08:00-18:00)</b>。人均周使用2.1次。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>高尔夫是周末运动——用户在工作日不碰球杆。每天Push是骚扰，不是服务。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>Push从"每天发"改为"周四晚+周六早"——周四晚提醒周末打球准备，周六早抓住出发前窗口。</div>
-    <div class="step-text"><b>结果：</b>Push点击率12%→34%(+22pp)，周末DAU 28→34。小众垂类产品的使用节奏与大众App不同——数据告诉你用户的真实节奏，不是PM猜的节奏。<span style="font-size:.72rem;color:#6e6e73">[数据来源：种子用户·DAU/WAU分布]</span></div>
-  </div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">D</div><div class="step-body"><div class="step-title" style="color:#059669">决策链④ 入口优化 · 高返回率暴露的导航问题</div>
-    <div class="step-text" style="margin-bottom:4px"><b>数据：</b>历史记录返回率高但入口深——用户想回看数据，但每次要点3步才能找到。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>归因：</b>高返回率+低入口曝光=用户有需求但路径太长。历史记录不是"偶尔看看"，是"每次打完都想看"的高频需求。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>决策：</b>历史记录提升为首页一级入口。</div>
-    <div class="step-text"><b>结果：</b>日访问6→18人(<b>+200%</b>)。OCR识别优先优化（手动录入62% vs OCR扫描38%→先提升准确率再推扫描）。<span style="font-size:.72rem;color:#6e6e73">[数据来源：种子用户·入口访问统计]</span></div>
-  </div></div>
-
-  <div class="step"><div class="step-num" style="background:rgba(5,150,105,.1);color:#059669">E</div><div class="step-body"><div class="step-title" style="color:#059669">决策链⑤ 商业化预判 · 数据驱动的Freemium模型设计</div>
-    <div class="step-text" style="margin-bottom:4px"><b>数据依据：</b>导出率39%→有"高清轨迹"需求；分享率52%→有"高级模板"需求。高尔夫用户年支出¥8,000-30,000，付费意愿远高于大众健身用户。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>模型选择：</b>高频场景(EasyRight每周3-5次)→订阅制→MRR是核心指标。低频场景(高球记每周1-2次)→按功能付费(Freemium)更适合。</div>
-    <div class="step-text" style="margin-bottom:4px"><b>预判逻辑：</b>竞品GolfFix付费率12%→取12.5%。200种子×12.5%=25付费。高清导出¥9.9/月+高级模板¥29.9终身+多杆对比¥19.9/月→ARPU ¥20→月收¥500。</div>
-    <div class="step-text"><b>单位经济：</b>获客成本¥0(种子期无投放)，服务成本¥200/月(AI分析API+云存储)→月毛利¥300→毛利率60%。扩大至1000人→125付费→月收¥2,500→月利¥2,300。这是PM预判不是投资承诺——有数据锚点、有竞品参照、有情景假设。<span style="font-size:.72rem;color:#6e6e73">[数据来源：商业化预判模型·竞品GolfFix参照]</span></div>
-  </div></div>
-
-  <div class="result" style="margin-top:10px"><div class="rtitle">数据驱动闭环总览</div>从0建立26事件埋点体系→3模块FAQ定位主力功能→漏斗拆解发现流失点→Push策略匹配用户真实节奏→入口优化验证数据假设→商业化预判有多个数据锚点支撑。与EasyRight共享数据方法论（漏斗模板/竞品框架/商业化对比），验证了PM分析框架从大众健身到小众高尔夫的<b>可迁移性</b>。</div>
-
-  <!-- 未来规划：智能硬件接入 -->
-  <details style="cursor:pointer;margin-top:12px">
-    <summary style="list-style:none;display:flex;align-items:center;gap:8px;font-size:clamp(.78rem,.88vw,.82rem);font-weight:600;color:#0f172a">
-      <span style="width:24px;height:24px;border-radius:6px;background:rgba(16,185,129,.1);color:#059669;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.68rem;flex-shrink:0">🔧</span>
-      未来规划·智能硬件接入设想（点击展开）
-    </summary>
-    <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
-      <div class="step-text"><b>规划背景：</b>高球记当前依赖手机摄像头拍摄+AI视频分析，存在拍摄角度受限、数据维度单一（仅视觉）等瓶颈。接入挥杆传感器后，可获取挥杆速度/节奏/杆面角/击球距离等物理数据，与现有视频轨迹形成"视觉+物理"双通道分析，大幅提升数据丰富度和训练指导精度。</div>
-      <div style="overflow-x:auto;margin:10px 0">
-        <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
-          <tr style="background:#ecfdf5"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">设备</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">品牌</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">核心数据</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">对接方式</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#065f46">参考价格</th></tr>
-          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5">杆尾挥杆传感器</td><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>Blast Motion GEN3</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">挥杆速度/节奏/效率评分/视频叠加</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">BLE + Blast API</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">$120 · 首月免费会员</td></tr>
-          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5">全杆传感器套装</td><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>Arccos Gen4</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">16支杆自动追踪/AI球童/击球距离</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">BLE + REST API + Webhook</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">$180 · $100/年订阅</td></tr>
-          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5">便携发射监测仪</td><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>Garmin Approach R10</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">球速/发射角/旋转/carry距离/3D模拟</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">BLE + Garmin Connect API</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">$600 · 无订阅费</td></tr>
-          <tr><td style="padding:6px 8px;border-top:1px solid #d1fae5">杆头传感器套装</td><td style="padding:6px 8px;border-top:1px solid #d1fae5"><b>Garmin CT10</b></td><td style="padding:6px 8px;border-top:1px solid #d1fae5">14支杆自动识别/击球统计/GPS联动</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">BLE + Garmin Connect API</td><td style="padding:6px 8px;border-top:1px solid #d1fae5">$400 · 无订阅费</td></tr>
-        </table>
-      </div>
-      <div class="step-text"><b>推荐方案：Blast Motion（挥杆数据）+ Arccos（击球数据）双传感器组合</b>——挥杆效率×实际击球距离可发现"高挥速低距离"的发力问题；不同杆型数据对比可智能推荐最佳杆型；历史趋势分析追踪进步曲线。数据融合后与现有视频轨迹形成互补，打造"看得到+量得出"的全维度训练体系。[数据来源：2025-2026年Golf Digest行业报告、GolferHive/SouthOfScotlandGolf评测]</div>
-    </div>
-  </details>
+  <div class="card-title">上海析微智能科技 · AI产品经理 · 2026.04-06</div>
+  <div class="card-sub">AI健身 / 高尔夫 / 视频分析三条产品线 · 负责产品方案与数据驱动迭代</div>
 </div>
 
 <!-- ===== PRD Quality Gate ===== -->
@@ -1265,6 +1085,17 @@ details .step-text {
         </table>
       </div>
       <div class="step-text"><b>核心逻辑：</b>V0 DIY验证"自动采集→App融合"链路（ESPHome→WiFi/MQTT→REST API，参考 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a>）；V1 接入FitBark 2（$49.95·零订阅·REST API），与"本地优先+零成本"理念最契合；V2 小佩全屋统一API（pypetkitapi开源库）；V3 多设备数据融合+<a href="https://www.gjpet.com/" target="_blank">宠智灵AI</a>异常检测，从记录工具升级为健康管家。差异化：市面产品均为"单设备单App"数据孤岛，宠伴做聚合层实现跨设备交叉分析。</div>
+      <div class="step-text" style="margin-top:10px"><b>扩展规划① · 摄像头AI行为识别（对齐V3 AI健康中枢）：</b>称重只能回答"吃了多少"，回答不了"状态如何"。接入家庭摄像头后，可自动捕捉活动量、进食行为、异常静止——补全称重之外的动态健康维度。技术选型对比：</div>
+      <div style="overflow-x:auto;margin:10px 0">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
+          <tr style="background:#f0f7ff"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">技术方案</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">关键点</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">运行环境</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">实时性</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">适用场景</th></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #dbeafe"><b>MediaPipe Pose</b>（推荐）</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">33个（含3D坐标）</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">Android/iOS/Web/桌面</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">30fps+</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">宠物姿态/进食/异常行为识别</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #dbeafe"><b>MoveNet</b></td><td style="padding:6px 8px;border-top:1px solid #dbeafe">17个</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">边缘设备/Web</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">30fps+</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">轻量实时场景</td></tr>
+          <tr><td style="padding:6px 8px;border-top:1px solid #dbeafe"><b>YOLO11</b></td><td style="padding:6px 8px;border-top:1px solid #dbeafe">COCO关键点</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">GPU/边缘/WebGPU</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">高帧率</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">多任务+异常检测</td></tr>
+        </table>
+      </div>
+      <div class="step-text"><b>扩展规划② · 多传感器融合设计：</b>称重（进食量/饮水量·硬数据）+ 温湿度（环境风险）+ 摄像头视觉（行为异常）三通道交叉验证。单一传感器噪声大——宠物踩踏/打翻食盆会产生假称重信号，单纯看一条曲线容易误报。融合后按"信号可信度"加权：当"称重下降"与"视觉确认未进食"同时出现时，告警置信度才达到推送阈值。这套"多通道互为印证"的设计，延续了我在AI运动产品中验证过的"视觉+惯性双通道校验"思路——单一数据源易误判，交叉验证才可靠。</div>
+      <div class="step-text"><b>扩展规划③ · 端侧AI可行性：</b>2026年端侧推理成本降至1/10，TI TinyEngine等MCU级NPU将延迟降90倍、能耗降120倍——ESP32未来可直接在端侧运行轻量异常检测模型，无WiFi也能本地判断"进食是否异常"，隐私与功耗双赢，与宠伴"隐私优先"定位完全一致。</div>
       <div style="font-size:.72rem;color:#6e6e73;line-height:1.5;margin-top:8px"><b>技术参考：</b>pypetkitapi（MIT协议·pip install）· 萤石IoT开放平台 · 宠智灵AI（行为识别>92%准确率）· GitHub PetPulse。 [数据来源：PyPI/pypetkitapi 1.26.0、FitBark官网、PETKIT官网、宠智灵官网]</div>
     </div>
   </details>
