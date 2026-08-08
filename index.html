@@ -508,6 +508,7 @@ details .step-text {
 .vt-s{background:rgba(217,119,6,.08);color:#b45309;border:1px solid rgba(217,119,6,.15)}
 .vt-h{background:rgba(100,130,160,.08);color:#64748b;border:1px solid rgba(100,130,160,.15)}
 </style>
+  <meta name="copyright" content="© 2026 王天娇 · 个人作品，著作权归作者所有，未经授权禁止转载、商用或二次分发">
 </head>
 <body id="top">
 
@@ -1982,6 +1983,23 @@ function toggleSpeed(){
 </script>
 
 </div>
+
+
+<script>
+// 版权徽标（悬浮、不占文档流）
+(function(){
+  if (document.getElementById('pf-badge')) return;
+  var b = document.createElement('div');
+  b.id = 'pf-badge';
+  b.style.cssText = 'position:fixed;bottom:10px;right:10px;z-index:2147483647;font-size:11px;line-height:1;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;opacity:.5;transition:opacity .2s;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);user-select:none;';
+  b.textContent = '© 2026 王天娇';
+  b.title = '王天娇产品经理作品集';
+  b.addEventListener('click', function(){ window.open('https://anlan-dev.github.io/pm-works-demos/', '_blank', 'noopener'); });
+  b.addEventListener('mouseenter', function(){ b.style.opacity = '1'; });
+  b.addEventListener('mouseleave', function(){ b.style.opacity = '.5'; });
+  document.body.appendChild(b);
+})();
+</script>
 
 </body>
 </html>
