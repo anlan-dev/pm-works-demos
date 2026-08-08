@@ -15,13 +15,11 @@
 | **AI 效果评估** | A/B 测试 + 指标体系搭建 + 数据驱动迭代 | 宠伴、会议舱 |
 | **AI 体验设计** | AI 交互范式探索 + 信任体系构建 + 降级兜底策略 | 跨境电商、创作舱 |
 
-快速入口：[demo-hub.html](https://anlan-dev.github.io/pm-works-demos/demo-hub.html)（按功能分组导航，支持一页打开全部 Demo）
+快速入口：[🚀 在线演示主页](https://anlan-dev.github.io/pm-works-demos/)（index.html 作品集页）· [demo-hub.html](https://anlan-dev.github.io/pm-works-demos/demo-hub.html)（按功能分组导航，一页打开全部 Demo）
 
 **UI 设计作品集**：见 [UIwork/index.html](https://anlan-dev.github.io/UI-work/)（11 个设计风格探索，覆盖标准浅色 / 扁平 / Glassmorphism / Cyberpunk / 侘寂 / Brutalism 等 6 种风格）。
 
-**设计过程与版本归档（PRD / 用户与实验数据…）**：与 Demo 同步维护，见 [`设计过程与版本归档/README.md`](./设计过程与版本归档/README.md)；**流程图（SVG/Mermaid）**见 [`设计过程与版本归档/flows/README.md`](./设计过程与版本归档/flows/README.md)；**原型清单与 Figma/Axure 映射**见 [`设计过程与版本归档/prototypes/README.md`](./设计过程与版本归档/prototypes/README.md)。  
-**原始材料样例（访谈纪要 / 宠伴可用性任务表 / Q4 需求池 CSV / 版本节点）**：路径见 [`设计过程与版本归档/摘录_用户与实验数据一览表.md`](./设计过程与版本归档/摘录_用户与实验数据一览表.md) 第 4 节。  
-**设计规范文档**：见 [`设计参考/`](./设计参考/) 目录，包含色彩与字体系统、交互逻辑与动效、组件与布局系统、APP 界面截图清单等专业设计参考。
+**PRD / 用户研究 / 实验数据 / 设计规范等工程文档仅本地维护，不随 Demo 公开。**
 
 ---
 
@@ -183,20 +181,15 @@
 
 ## 📚 设计规范与文档
 
-- **设计规范文档**：见 [`设计参考/`](./设计参考/) 目录
-  - 色彩与字体系统
-  - 交互逻辑与动效
-  - 组件与布局系统
-  - APP 界面截图清单
-- **PRD 与迭代记录**：见 [`设计过程与版本归档/`](./设计过程与版本归档/) 目录
-- **AIGC 能力矩阵**：见 [`设计过程与版本归档/docs/AIGC能力矩阵.md`](./设计过程与版本归档/docs/AIGC能力矩阵.md)
+- 每个 Demo 页面底部均含「🔒 本地演示」隐私声明，所有数据仅存于浏览器本地，不上传任何服务器
+- 各项目完整 PRD、用户研究、实验数据与设计规范仅本地维护，不随 Demo 公开
 
 ---
 
 ## 📬 联系
 
 - **📧** Wangtj0212@outlook.com
-- **🔗 在线作品集**：https://anlan-bot.github.io/pm-works-demos/
+- **🔗 在线演示主页**：https://anlan-dev.github.io/pm-works-demos/
 
 ---
 
