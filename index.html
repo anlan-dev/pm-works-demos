@@ -667,7 +667,7 @@ details .step-text {
 <section style="background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(20px,3vw,32px);margin-bottom:clamp(20px,3vw,28px);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.04)">
   <h2 style="font-size:clamp(1.1rem,1.6vw,1.35rem);font-weight:600;letter-spacing:-.02em;margin-bottom:clamp(12px,1.8vw,18px);color:#1d1d1f">📖 关于这个作品集</h2>
   <div style="font-size:clamp(.82rem,.98vw,.88rem);color:#2d3a4b;line-height:1.75">
-    <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，正在寻找AI产品经理机会。这个作品集不是在罗列"我做过什么"——而是记录"我判断过什么，以及我是怎么推动它落地的"。每个关键决策都标注了当时的约束条件：预算、技术边界、用户隐私、时间窗口——不是在真空中做选择，而是在约束中求最优解。13个项目中，核心项目经过用户测试与轮次迭代验证，探索型Demo基于竞品走查和产品假设构建。</p>
+    <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，求职 AI 产品经理。本作品集记录产品判断与落地过程——每个关键决策都标注了当时的约束条件：预算、技术边界、用户隐私、时间窗口，在约束中求最优解。13 个项目中，核心项目经过用户测试与轮次迭代，其余产品基于竞品走查与需求调研构建。</p>
     <p style="margin-bottom:12px;font-size:clamp(.76rem,.88vw,.8rem);color:#0071e3;font-weight:520">📌 推荐阅读路径：能力总览 → 核心案例（宠伴）→ 技术决策（PRD Quality Gate）→ 方法论。如果你只有3分钟，看这三块就够了。</p>
     <details style="cursor:pointer;margin-top:8px">
       <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.78rem,.92vw,.84rem);font-weight:600;color:#0071e3;padding:8px 0">
@@ -675,13 +675,11 @@ details .step-text {
         展开阅读完整作品集介绍
       </summary>
       <div style="margin-top:12px">
-        <p style="margin-bottom:12px"><strong>为什么是AI产品经理？</strong>语言学训练是我的底层操作系统：语用学让我在深访中识别言外之意（用户的"还行"可能意味着"我不舒服但说不清哪里不舒服"），话语分析让我在需求评审中识别谁在回避什么问题，语料库方法让我把200+条应用商店评论转化为可量化的产品决策。这不是"文科生表达能力好"——这是用语言学框架做产品判断的PM。13个AI产品项目让我从写Prompt、搭Agent、选协议（MCP vs LangChain）、做端侧AI（Tesseract.js本地OCR、Whisper本地转写）、碰硬件原型（ESP32）的完整链条中，建立
-了对AI能力边界的直觉。我定义的"AI产品设计"不只是选模型或写提示词，而是判断AI该介入哪个工作流节点、用什么技术方案、失败时怎么降级——这个判断力只有在亲手交付
-过产品的过程中才能建立。</p>
-        <p style="margin-bottom:12px"><strong>作品集的核心逻辑：</strong>从宠伴（本地优先+隐私优先的宠物健康台账）到GlobalFUN（MCP服务总线+6-Agent跨境电商协作系统），到PixelPick（Canvas像素分析替代大模型评分的影像精选工具），我展示了AI产品设计的四个维度——<b>需求层</b>（用户调研→需求分层→竞品分析→KANO优先级）、<b>能力层</b>（AI能力边界判断→Prompt设计→Agent架构→协议选型）、<b>体验层</b>（交互设计→信息架构→响应式适配→暗房风格视觉系统）、<b>验证层</b>（数据闭环设计→NPS追踪→埋点体系→内部测试轮次验证）。每个项目都有完整的"为什么做这个判断/判断依据是什么/怎么推动落地/结果验证了什么"叙事线——这里没有功能列表，只有决策记录。</p>
-        <p style="margin-bottom:12px"><strong>技术实践的三个层次：</strong>①<b>端侧AI判断力</b>——宠伴选Tesseract.js本地OCR（83%用户拒云上传<span style="font-size:.64rem;color:#86868b">[深度参与约12人次]</span>）、会议舱选Whisper本地转写（商业机密不上云）、PixelPick选Canvas像素分析而非GPT-4o Vision（排序不需要语义推理，且零延迟+零成本+100%确定性）；②<b>Agent架构设计力</b>——跨境电商从4-Agent扩展到6-Agent全链路（需求解析→市场调研→选品分析→文案生成→合规审核→运营策略），原生MCP服务总线替代LangChain（Agent数量固定+输出需精确控制），PRD Quality Gate用System Prompt直写19项规则替代RAG（确定性审核场景）；③<b>Vibe Coding交付力</b>——用Cursor快速验证并交付13个可交互产品原型，含PWA离线方案（宠伴）、Multi-Agent编排系统（跨境）、暗房风视觉设计（PixelPick）、Canvas合成演示数据（PixelPick Demo按钮），验证了"PM可以前置验证产品假设，帮团队减少方向性返工"。</p>
-        <p style="margin-bottom:12px"><strong>前沿观察：</strong>我持续跟踪AI Agent架构（Claude Code Agent Teams/Microsoft Agent Orchestrator/Anthropic Agent定义）、MCP/A2A协议生态（SDK月下载9700万次/公开服务器21,962个/A2A由Google捐赠Linux基金会）、Vibe Coding工具爆发、WWDC 2026 Apple Intelligence端侧AI升级等前沿动态。这些不是"信息收集"——每个趋势都有我的判断和落地对应：Agent架构→6-Agent跨境电商实践，MCP协议→原生MCP服务总线选型，端侧AI→宠伴本地OCR+会议舱本地Whisper。</p>
-        <p>这个作品集本身是一个AI Native产品——用Vibe Coding构建，用响应式设计适配全设备，用结构化信息架构展示产品经理的专业能力。欢迎随时通过邮件联系我。</p>
+        <p style="margin-bottom:12px"><strong>为什么是AI产品经理？</strong>语言学训练是产品判断的底层方法：语用学在深访中识别言外之意（用户说"还行"可能意味着"说不清哪里不舒服"），话语分析在需求评审中识别回避的话题，语料库方法把200+条应用商店评论转化为可量化决策。13个AI产品项目覆盖写Prompt、搭Agent、协议选型（MCP vs LangChain）、端侧AI（Tesseract.js本地OCR、Whisper本地转写）、硬件原型（ESP32）的完整链条，建立对AI能力边界的直觉。"AI产品设计"不只是选模型或写提示词，而是判断AI该介入哪个工作流节点、用什么技术方案、失败时怎么降级——这种判断力来自亲手交付产品的过程。</p>
+        <p style="margin-bottom:12px"><strong>作品集的核心逻辑：</strong>从宠伴（本地优先+隐私优先的宠物健康台账）到GlobalFUN（MCP服务总线+6-Agent跨境电商协作系统），到PixelPick（Canvas像素分析替代大模型评分的影像精选工具），完整覆盖AI产品设计的四个维度——<b>需求层</b>（用户调研→需求分层→竞品分析→KANO优先级）、<b>能力层</b>（AI能力边界判断→Prompt设计→Agent架构→协议选型）、<b>体验层</b>（交互设计→信息架构→响应式适配→暗房风格视觉系统）、<b>验证层</b>（数据闭环设计→NPS追踪→埋点体系→内部测试轮次验证）。每个项目都有完整的"为什么做这个判断/判断依据是什么/怎么推动落地/结果验证了什么"叙事线——这里没有功能列表，只有决策记录。</p>
+        <p style="margin-bottom:12px"><strong>技术实践的三个层次：</strong>①<b>端侧AI判断力</b>——宠伴选Tesseract.js本地OCR（83%用户拒云上传<span style="font-size:.64rem;color:#86868b">[深度参与约12人次]</span>）、会议舱选Whisper本地转写（商业机密不上云）、PixelPick选Canvas像素分析而非GPT-4o Vision（排序不需要语义推理，且零延迟+零成本+100%确定性）；②<b>Agent架构设计力</b>——跨境电商从4-Agent扩展到6-Agent全链路（需求解析→市场调研→选品分析→文案生成→合规审核→运营策略），原生MCP服务总线替代LangChain（Agent数量固定+输出需精确控制），PRD Quality Gate用System Prompt直写19项规则替代RAG（确定性审核场景）；③<b>Vibe Coding交付力</b>——用Cursor快速验证并交付13个可交互产品原型，含PWA离线方案（宠伴）、Multi-Agent编排系统（跨境）、暗房风视觉设计（PixelPick）、Canvas本地合成对比数据（PixelPick），验证了"PM可以前置验证产品方向，帮团队减少返工"。</p>
+        <p style="margin-bottom:12px"><strong>前沿观察：</strong>持续跟踪AI Agent架构（Claude Code Agent Teams/Microsoft Agent Orchestrator/Anthropic Agent定义）、MCP/A2A协议生态（SDK月下载9700万次/公开服务器21,962个/A2A由Google捐赠Linux基金会）、Vibe Coding工具爆发、WWDC 2026 Apple Intelligence端侧AI升级等前沿动态。这些不是"信息收集"——每个趋势都有对应的落地实践：Agent架构→6-Agent跨境电商实践，MCP协议→原生MCP服务总线选型，端侧AI→宠伴本地OCR+会议舱本地Whisper。</p>
+        <p>本作品集用 Vibe Coding 构建，响应式适配全设备，以结构化信息架构呈现产品判断。欢迎通过邮箱联系。</p>
       </div>
     </details>
   </div>
@@ -828,7 +826,7 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🔍</div>
-  <div class="card-title">PRD Quality Gate · AI自动化审核 <span class="card-badge primary">已验证</span><span class="vt vt-v">已验证</span></div>
+  <div class="card-title">PRD Quality Gate · AI自动化审核 <span class="card-badge primary">已上线</span><span class="vt vt-v">已上线</span></div>
   <div class="card-sub">独立产品 · 2025.12-至今</div>
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">团队PRD评审依赖人工逐条检查，经常遗漏模糊点和歧义描述，导致开发阶段反复返工。</div></div></div>
@@ -940,7 +938,7 @@ details .step-text {
   </div>
   <div class="step-text" style="margin-top:8px"><b>为什么砍掉社区和商城：</b>20人深访中仅2人提到社区需求，而社区/商城会引入内容审核、服务器成本、广告变现压力，与"轻量+隐私"定位直接矛盾。砍掉后产品架构从"App"简化为"PWA"，开发成本降低约60%<span style="font-size:.64rem;color:#86868b">[估算·App→PWA架构简化]</span>，且无需应用商店审核。</div>
   <div class="step-text"><b>为什么选PWA而非原生App：</b>①目标用户是"不想下一个新App"的人（用户原话），PWA无需安装、打开即用，降低使用门槛；②离线可用满足"地铁上记一笔"的场景；③无需应用商店审核，迭代速度更快。</div>
-  <div class="tradeoff"><span class="t-label">取舍：</span>我选择<span class="t-sacrifice">牺牲原生App的推送和交互动效</span>，因为用户说的第一句话是"不想下一个新App"——零门槛比流畅动效更重要。</div>
+  <div class="tradeoff"><span class="t-label">取舍：</span><span class="t-sacrifice">牺牲原生App的推送与动效</span>，换取零门槛——用户的第一诉求是"不想下一个新App"。</div>
   <details style="cursor:pointer;margin-top:8px">
     <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
       <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">+</span>
@@ -989,7 +987,7 @@ details .step-text {
     <span class="flow-step">打开即建档</span><span class="flow-arrow">→</span><span class="flow-step">设疫苗提醒(按宠隔离)</span><span class="flow-arrow">→</span><span class="flow-step">拍照→本地OCR→确认入账</span><span class="flow-arrow">→</span><span class="flow-step">看板查看健康+花费</span><span class="flow-arrow">→</span><span class="flow-step">食盆自动上报进食数据+预警</span>
   </div></div></div>
 
-  <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">验证结果</div>
+  <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">效果</div>
   <div class="data-row">
     <span class="data-chip"><span class="num g">+13%</span><span class="label">提醒配置意愿</span></span>
     <span class="data-chip"><span class="num g">+8%</span><span class="label">回访意愿</span></span>
@@ -1124,7 +1122,7 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🎙️</div>
-  <div class="card-title">会议·反刍舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">Whisper本地转写</span><span class="vt vt-s">种子验证</span></div>
+  <div class="card-title">会议·反刍舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">Whisper本地转写</span><span class="vt vt-s">种子内测</span></div>
   <div class="card-sub">产品负责人 · 2025.11-至今</div>
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景与问题</div><div class="step-text">会后纪要复述成本高，待办落在聊天与备忘录里不可追踪，"会上说过、会后没落地"反复出现。</div>
@@ -1156,7 +1154,7 @@ details .step-text {
     <span class="flow-step">录音</span><span class="flow-arrow">→</span><span class="flow-step">本地转写</span><span class="flow-arrow">→</span><span class="flow-step">AI提取待办</span><span class="flow-arrow">→</span><span class="flow-step">确认→分配→追踪</span><span class="flow-arrow">→</span><span class="flow-step">周报复盘</span>
   </div></div></div>
 
-  <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">验证结果</div>
+  <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">效果</div>
   <div class="data-row">
     <span class="data-chip"><span class="num">6-8场</span><span class="label">会议演练</span></span>
     <span class="data-chip"><span class="num">4名</span><span class="label">协作者跟评</span></span>
@@ -1215,7 +1213,7 @@ details .step-text {
 <div class="two-col">
 <div class="card">
   <div class="card-icon">✍️</div>
-  <div class="card-title">星途·创作舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI灵感辅助</span><span class="vt vt-h">产品假设</span></div>
+  <div class="card-title">星途·创作舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI灵感辅助</span><span class="vt vt-h">产品</span></div>
   <div class="card-sub">独立产品 · 2025.09-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>新建主题<span class="fb-arrow">→</span><span class="fb-step">2</span>角色设定<span class="fb-arrow">→</span><span class="fb-step">3</span>章节写作<span class="fb-arrow">→</span><span class="fb-step">4</span>AI灵感辅助<span class="fb-arrow">→</span><span class="fb-step">5</span>进度追踪+导出</div>
   <div class="step-text" style="margin-bottom:8px">连载/兼职作者资料分散、断更焦虑。核心判断：问题不是"写不出来"，而是"不知道怎么开始"。AI降低开始成本，不替代创作。</div>
@@ -1240,7 +1238,7 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🎭</div>
-  <div class="card-title">剧本·复盘舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI剧情生成</span><span class="vt vt-h">产品假设</span></div>
+  <div class="card-title">剧本·复盘舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI剧情生成</span><span class="vt vt-h">产品</span></div>
   <div class="card-sub">独立产品 · 2025.12-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>导入剧本<span class="fb-arrow">→</span><span class="fb-step">2</span>场景拆分<span class="fb-arrow">→</span><span class="fb-step">3</span>改稿追踪<span class="fb-arrow">→</span><span class="fb-step">4</span>AI剧情建议<span class="fb-arrow">→</span><span class="fb-step">5</span>热力图复盘</div>
   <div class="step-text" style="margin-bottom:8px">长剧本改稿忘因、进度模糊。产品架构：GitHub风格热力图(26周+连续天数) + Trello场景看板 + AI剧情面板。</div>
@@ -1265,7 +1263,7 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🎮</div>
-  <div class="card-title">雾灯残页 · AI辅助文字冒险游戏 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI生成+人工质控</span><span class="vt vt-h">产品假设</span></div>
+  <div class="card-title">雾灯残页 · AI辅助文字冒险游戏 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI生成+人工质控</span><span class="vt vt-h">产品</span></div>
   <div class="card-sub">独立产品 · 2025.10-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>用户调研<span class="fb-arrow">→</span><span class="fb-step">2</span>信息架构设计<span class="fb-arrow">→</span><span class="fb-step">3</span>AI辅助内容生成<span class="fb-arrow">→</span><span class="fb-step">4</span>质量控制流程<span class="fb-arrow">→</span><span class="fb-step">5</span>数据驱动迭代</div>
   <div class="step-text" style="margin-bottom:8px">独立游戏产品设计项目。核心价值：验证AI辅助内容生产的PM工作流——用户调研→信息架构→AI生成→人工质控→数据迭代的完整闭环。</div>
@@ -1300,8 +1298,8 @@ details .step-text {
 <div class="two-col">
 <div class="card">
   <div class="card-icon">🚀</div>
-  <div class="card-title">冷启动·行动引擎 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">规则引擎+AI双轨</span><span class="vt vt-h">产品假设</span></div>
-  <div class="card-sub">探索型Demo · 2026.01-05</div>
+  <div class="card-title">冷启动·行动引擎 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">规则引擎+AI双轨</span><span class="vt vt-h">产品</span></div>
+  <div class="card-sub">产品原型 · 2026.01-05</div>
   <div class="step-text" style="margin-bottom:4px">AI拆解拖延任务为最小可执行行动。双模式设计：规则引擎保底（离线可用）+AI创意增强，AI失败自动降级。</div>
   <div class="data-row" style="margin:4px 0"><span class="data-chip"><span class="num g">~80%</span><span class="label">AI诊断满意度</span></span><span class="data-chip"><span class="num g">&lt;5%</span><span class="label">离线触发率</span></span><span style="font-size:.64rem;color:#86868b;display:flex;align-items:center">[内部测试·3-5名拖延症用户]</span></div>
   <a href="./cold-start.html" target="_blank" class="demo-link" style="margin-top:4px">体验 Demo →</a>
@@ -1318,8 +1316,8 @@ details .step-text {
 <div class="two-col">
 <div class="card">
   <div class="card-icon">🏠</div>
-  <div class="card-title">住值·租房生命成本计算器 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI顾问+算法</span><span class="vt vt-h">产品假设</span></div>
-  <div class="card-sub">探索型Demo · 2026.05</div>
+  <div class="card-title">住值·租房生命成本计算器 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI顾问+算法</span><span class="vt vt-h">产品</span></div>
+  <div class="card-sub">产品原型 · 2026.05</div>
   <div class="step-text" style="margin-bottom:4px">贪心预算分配算法+双层Bmax公式计算个性化房租上限。AI顾问提供决策建议。展示如何把复杂计算逻辑产品化。</div>
   <div class="result" style="margin:6px 0"><div class="rtitle">关键价值</div>用户不需理解算法，输入参数即可得到可决策的结果。</div>
   <a href="./zhuzhi-rent.html" target="_blank" class="demo-link" style="margin-top:4px">体验 Demo →</a>
@@ -1327,8 +1325,8 @@ details .step-text {
 
 <div class="card">
   <div class="card-icon">🖼️</div>
-  <div class="card-title">PixelPick · AI 影像精选 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI选片+增强</span><span class="vt vt-h">产品假设</span></div>
-  <div class="card-sub">AI + 影像 Demo · 2026.06</div>
+  <div class="card-title">PixelPick · AI 影像精选 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI选片+增强</span><span class="vt vt-h">产品</span></div>
+  <div class="card-sub">AI + 影像产品 · 2026.06</div>
   <div class="flow-badge"><span class="fb-step">1</span>上传照片<span class="fb-arrow">→</span><span class="fb-step">2</span>AI四维评分<span class="fb-arrow">→</span><span class="fb-step">3</span>精选最佳<span class="fb-arrow">→</span><span class="fb-step">4</span>增强前后对比</div>
   <div class="step-text">展示 AI PM 的影像产品思维——"AI 不该在拍照时干扰用户，而应在拍完后帮用户精选"。四维评分（清晰度/亮度/色彩/构图）由 Canvas 本地计算，增强效果可开关可拖拽对比，让用户看见 AI 做了什么而非黑盒"美化"。</div>
   <div class="step-text" style="margin-top:8px"><b>为什么做选片+增强而不是单一功能：</b>竞品调研发现 Remini（5 亿+ 下载量）只做"一键增强"但没有选片能力，Google Photos Best Take 只做表情优选但评分标准是黑盒。用户的真实痛点链条是"拍了太多→不知道留哪张→留了也不满意画质"——选片和增强是一个连续决策，拆成两个独立 App 会增加用户切换成本。</div>
@@ -1338,7 +1336,7 @@ details .step-text {
   <a href="./pixelpick.html" target="_blank" class="demo-link">体验 Demo →</a>
 
   <div class="step-text" style="margin-top:8px;background:rgba(5,150,105,.04);border-left:3px solid rgba(5,150,105,.3);border-radius:0 10px 10px 0;padding:8px 12px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568">
-  <b>影像PM视角：</b>PixelPick验证的是"AI在影像工作流中的介入节点"这个核心PM命题——不是在拍照时干扰用户，而是在拍完后帮用户做决策（选哪张、怎么修）。这和运动相机"拍完自动出片"的产品逻辑是同一条价值链的不同节点。
+  <b>影像产品视角：</b>PixelPick验证的是"AI在影像工作流中的介入节点"这个核心PM命题——不是在拍照时干扰用户，而是在拍完后帮用户做决策（选哪张、怎么修）。这和运动相机"拍完自动出片"的产品逻辑是同一条价值链的不同节点。
   </div>
 
   <details style="cursor:pointer;margin-top:10px">
@@ -1347,7 +1345,7 @@ details .step-text {
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>需求发现：</b>基于竞品走查和个人手机摄影经验提炼的产品假设（未做正式用户访谈）。假设的痛点链：一次出行拍大量照片，事后筛选耗时且"选了也不确定是不是最好的那张"——选片环节是比修图更靠前的瓶颈。KANO 设计假设：基础型——清晰度筛选（模糊照片自动排除）；期望型——多维度评分（不仅看清晰度，还看构图和色彩）；兴奋型——增强前后可拖拽对比（不是一键美化黑盒）。产品方向假设：用户不是"不会修图"，而是"不知道选哪张来修"。<span style="font-size:.64rem;color:#9ca3af">[产品假设，基于竞品走查+个人体验，待用户验证]</span>
+      <b>需求发现：</b>基于竞品走查与手机摄影经验提炼的需求洞察（未做正式用户访谈）。痛点链：一次出行拍大量照片，事后筛选耗时且"选了也不确定是不是最好的那张"——选片环节是比修图更靠前的瓶颈。KANO 需求分层：基础型——清晰度筛选（模糊照片自动排除）；期望型——多维度评分（不仅看清晰度，还看构图和色彩）；兴奋型——增强前后可拖拽对比（不是一键美化黑盒）。产品方向：用户不是"不会修图"，而是"不知道选哪张来修"。<span style="font-size:.64rem;color:#9ca3af">[需求洞察，基于竞品走查+个人体验]</span>
       <b>竞品分析：</b><br>
       • <b>Remini</b>：<a href="https://remini.ai/" target="_blank">全球5亿+下载</a>，AI一键增强+老照片修复。优势：效果惊艳；局限：无选片能力、增强不可控、全部云端处理。<br>
       • <b>Google Photos</b>：Best Take自动合成最佳表情，端侧AI。优势：深度整合Google生态；局限：限定Pixel生态、评分黑盒、增强不可对比。<br>
@@ -1378,7 +1376,7 @@ details .step-text {
             <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">增强</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">增强效果保留率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户打开增强开关后保持开启的比例（被关闭最多的效果反映用户偏好）</td></tr>
           </table>
         </div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>PM 视角：</b>北极星是选片采纳率而非增强使用率——因为选片是比修图更靠前的瓶颈。用户先要知道"选哪张"，然后才决定"要不要修"。如果选片错了，增强做得再好也没用。过程指标按交互漏斗拆解，每一步的流失定位到具体的产品问题。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>北极星是选片采纳率而非增强使用率——因为选片是比修图更靠前的瓶颈。用户先要知道"选哪张"，然后才决定"要不要修"。如果选片错了，增强做得再好也没用。过程指标按交互漏斗拆解，每一步的流失定位到具体的产品问题。</div>
       </div>
 
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
@@ -1394,17 +1392,17 @@ details .step-text {
             <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">离线可用</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>是</b></td><td style="padding:5px 8px;border-top:1px solid #f5ead8">否</td></tr>
           </table>
         </div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>决策逻辑：</b>Demo 阶段优先验证产品逻辑而非模型精度。Canvas 方案可以快速验证"评分透明化"的产品假设——如果连基础像素统计得出的评分用户都愿意信任并采纳，那产品方向就对了，后续升级模型是工程问题。如果用户根本不信任 AI 评分，再好的模型也没用。这个决策逻辑和我在宠伴选择 Tesseract.js 本地 OCR 的逻辑一致——PM 不能等到"完美方案"才做用户验证。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>决策逻辑：</b>原型阶段优先验证产品逻辑而非模型精度。Canvas 方案可以快速验证"评分透明化"的产品方向——如果连基础像素统计得出的评分用户都愿意信任并采纳，那产品方向就对了，后续升级模型是工程问题。如果用户根本不信任 AI 评分，再好的模型也没用。这一决策逻辑与宠伴选择 Tesseract.js 本地 OCR 一致——PM 不能等到"完美方案"才做用户验证。</div>
       </div>
 
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(c) 四维评分权重设计的依据</div>
-        <div style="margin-bottom:4px"><b>核心原则：权重反映产品假设，Demo 阶段未做用户校验。</b></div>
+        <div style="margin-bottom:4px"><b>核心原则：权重反映产品预期，原型阶段基于固定权重快速验证方向。</b></div>
         <div style="margin-bottom:4px">• <b>清晰度 35%：</b>最基础的筛选条件——模糊照片在任何场景下都不可用。权重最高，但评分函数设计为"够用即可"（30-95 分区间，普通清晰度即可得 60+），而非追求极致锐度</div>
         <div style="margin-bottom:4px">• <b>构图 35%：</b>画面结构的核心判断——三等分法则、中心对称、引导线等。与清晰度并列最高权重，因为构图是"拍得好不好"的核心维度，也是手机摄影用户最常提及的评判标准</div>
         <div style="margin-bottom:4px">• <b>色彩 20%：</b>色彩丰富度和和谐度——高饱和≠好照片，但极度单调的灰暗画面通常不受欢迎。中等权重，因为色彩是"锦上添花"而非"雪中送炭"</div>
         <div style="margin-bottom:4px">• <b>亮度 10%：</b>曝光是否合理——过曝和欠曝都扣分，但曝光问题可以通过增强功能弥补（而模糊或构图差无法弥补），因此权重最低</div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>PM 视角：</b>权重设计本身就是产品决策——它代表了"你认为什么样的照片是好的"。如果权重设置和用户审美不一致，用户永远不会信任 AI 的推荐。Demo 阶段用固定权重快速验证方向，生产环境中应支持用户自定义权重（"我更在意构图"→ 构图权重上调）。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>权重设计本身就是产品决策——它代表了"你认为什么样的照片是好的"。如果权重设置和用户审美不一致，用户永远不会信任 AI 的推荐。Demo 阶段用固定权重快速验证方向，生产环境中应支持用户自定义权重（"我更在意构图"→ 构图权重上调）。</div>
       </div>
 
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
@@ -1413,7 +1411,7 @@ details .step-text {
         <div style="margin-bottom:4px">• <b>这是 PM Demo，不是产品交付：</b>Demo 的目的是验证"让用户对比原图 vs 增强"这个交互概念是否有价值，以及"增强开关独立可控"是否被用户需要——这两点用 CSS Filter 模拟完全足够</div>
         <div style="margin-bottom:4px">• <b>真实的 AI 增强（超分辨率/去噪/色彩重建）需要 GPU 推理：</b>Web 端可以用 TensorFlow.js 或 ONNX Runtime Web 跑轻量模型，但会增加 5-15MB 的模型加载时间和 2-5 秒的推理延迟——Demo 阶段的用户体验损害远大于收益</div>
         <div style="margin-bottom:4px">• <b>CSS Filter 本身就是产品洞察：</b>降噪=对比度微调、锐化=亮度微调、色彩增强=饱和度提升——这些滤镜模拟的不是"AI 做了什么"，而是"用户期望 AI 做到的效果"。Demo 验证的是需求层面而非技术层面</div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>PM 视角：</b>一个好的 Demo 不需要完美的技术实现——它需要让用户"看到"产品概念。如果用户不理解"AI 增强"意味着什么，给他看再精细的超分辨率结果也没用。滑块对比 + 独立开关的设计本身比 AI 模型的精度更重要——它解决了"用户不信任 AI 修图"这个比"AI 修得不够好"更根本的问题。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>一个好的 Demo 不需要完美的技术实现——它需要让用户"看到"产品概念。如果用户不理解"AI 增强"意味着什么，给他看再精细的超分辨率结果也没用。滑块对比 + 独立开关的设计本身比 AI 模型的精度更重要——它解决了"用户不信任 AI 修图"这个比"AI 修得不够好"更根本的问题。</div>
       </div>
 
     </div>
@@ -1485,7 +1483,7 @@ details .step-text {
             <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">运营策略</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">策略采纳率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户采纳AI运营建议的比率</td></tr>
           </table>
         </div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>PM视角：</b>北极星指标衡量"链路是否跑通"，过程指标定位"哪个环节断了"。两者结合形成完整的诊断体系——北极星掉了看过程指标，过程指标掉了定位到具体Agent。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>北极星指标衡量"链路是否跑通"，过程指标定位"哪个环节断了"。两者结合形成完整的诊断体系——北极星掉了看过程指标，过程指标掉了定位到具体Agent。</div>
       </div>
 
       <!-- (b) 技术框架 -->
@@ -1583,7 +1581,7 @@ details .step-text {
 
 <!-- ===== 智能硬件原型能力 ===== -->
 <h2 class="section-title scroll-margin" id="hardware">跨域能力 · 智能硬件原型</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">用开源硬件快速验证产品假设——不是为了转行做硬件，而是为了更有效地与硬件团队协作</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">用开源硬件验证产品可行性——不是转行做硬件，而是为了更有效地与硬件团队协作</p>
 
 <div class="card">
   <div class="card-icon">🔧</div>
@@ -1591,7 +1589,7 @@ details .step-text {
   <div class="card-sub">3个原型实验，验证"软件PM理解硬件边界"的价值</div>
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">宠伴·智能体重秤 —— 验证"自动采集→App融合"</div>
-  <div class="step-text">照着 GitHub 开源教程买了 ESP32 和称重传感器模组，接线组装后跑通了数据采集，总成本约 ¥30，一个周末搞定。目的是验证产品假设：如果宠物每天上秤的数据能自动同步到宠伴，用户就不需要手动录入了——这对持续使用意愿的提升有多大。参考了 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a> 和 <a href="https://github.com/coniferconifer/ESP32-HX711-MQTT" target="_blank">coniferconifer/ESP32-HX711-MQTT</a> 的开源方案。</div>
+  <div class="step-text">参考 GitHub 开源教程选购 ESP32 与称重传感器模组，完成接线组装并跑通数据采集，总成本约 ¥30。目的是验证：宠物每日上秤数据自动同步到宠伴后，能否显著降低手动录入成本、提升持续使用意愿。参考了 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a> 和 <a href="https://github.com/coniferconifer/ESP32-HX711-MQTT" target="_blank">coniferconifer/ESP32-HX711-MQTT</a> 的开源方案。</div>
   </div></div>
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">小小汪·电子宠物机器狗 —— 拼装 + Vibecoding</div>
@@ -1715,7 +1713,7 @@ details .step-text {
 
 <!-- ===== 前沿观察 ===== -->
 <h2 class="section-title scroll-margin" id="frontier">前沿观察与行业思考</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">聚焦四大 AI 产品趋势——每个方向都有我的实践对应 &nbsp;<span style="color:#86868b;font-size:clamp(.68rem,.78vw,.72rem)">（数据截至 2026-07-27 · 来源：GitHub Trending、官方公告、WAIC 2026、行业研报）</span></p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">聚焦四大 AI 产品趋势——每个方向都有对应的落地实践 &nbsp;<span style="color:#86868b;font-size:clamp(.68rem,.78vw,.72rem)">（数据截至 2026-07-27 · 来源：GitHub Trending、官方公告、WAIC 2026、行业研报）</span></p>
 
 <!-- ===== 2026年7月趋势洞察 ===== -->
 <div class="card" style="cursor:default">
@@ -1740,7 +1738,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>趋势：</b>7月9日 OpenAI 发布 ChatGPT Work（云端持久Agent，连接Gmail/Calendar/Slack，基于MCP插件架构），Claude Cowork 扩展至移动端（非编程使用占91.3%），国内WorkBuddy/QoderWork/TRAE Work同步发力。四家巨头对"企业Agent平台"的定义完全不同——OpenAI赌治理服务、Meta赌分发渠道、微软赌数据引力、NVIDIA赌安全运行时。赛道还在被定义。<br>
-    <b>我的实践：</b>跨境电商 6-Agent 系统天然契合"Work"范式——每个 Sub Agent 不是给出建议而是直接产出结果（合规报告、定价策略、产品文案）。PRD Quality Gate 的三重护栏（确认→可解释→可修正）直接对应 Work 产品的安全设计需求。会议舱的"会后待办自动提取+追踪"本质上也是 Work Agent：用户不需要手动整理纪要，Agent替你把"这一场会的产出"变成可追踪的待办。<br>
+    <b>实践：</b>跨境电商 6-Agent 系统天然契合"Work"范式——每个 Sub Agent 不是给出建议而是直接产出结果（合规报告、定价策略、产品文案）。PRD Quality Gate 的三重护栏（确认→可解释→可修正）直接对应 Work 产品的安全设计需求。会议舱的"会后待办自动提取+追踪"本质上也是 Work Agent：用户不需要手动整理纪要，Agent替你把"这一场会的产出"变成可追踪的待办。<br>
     <b>PM启示：</b>AI产品正在经历三年来最重要的范式转移——从"对话式AI"到"执行式AI"。PM的核心工作从"设计对话流程"升级为"设计Agent的任务边界和失败降级"——Agent做错了怎么办？哪些操作必须人确认？这是2026下半年AI PM面试的核心话题。
   </div>
 </details>
@@ -1755,7 +1753,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>趋势：</b>7月28日 MCP 史上最大修订正式生效——协议层改为无状态（不再需要initialize握手，任何服务器都能处理任何请求），MCP Apps 成为正式扩展（Agent可以弹出表单、仪表板、审批界面），治理从Anthropic实验项目移交给Linux Foundation AAIF（OpenAI/Google/Microsoft/AWS等加入）。同时，四家巨头在一个月内发布了企业Agent平台——OpenAI Presence（治理即产品）、Meta Business Agent（分发即产品）、Microsoft Agent Platform（数据引力即产品）、NVIDIA Project Arc（安全即产品）。<br>
-    <b>我的实践：</b>跨境电商系统基于 MCPRouter 统一管理工具注册，LangGraph Send() 实现 Agent 真并行——这套架构完全契合 MCP v2 的无状态设计理念。如果升级到 v2，现有 Sub Agent 可以水平扩展到多实例，每个请求自包含，不再受限于单服务器Session。PRD Quality Gate 的"规则直写 System Prompt 而非 RAG"在 MCP Apps 时代会更强大——未来可以让 Agent 弹出审批界面供PM确认，而非仅返回文本。<br>
+    <b>实践：</b>跨境电商系统基于 MCPRouter 统一管理工具注册，LangGraph Send() 实现 Agent 真并行——这套架构完全契合 MCP v2 的无状态设计理念。如果升级到 v2，现有 Sub Agent 可以水平扩展到多实例，每个请求自包含，不再受限于单服务器Session。PRD Quality Gate 的"规则直写 System Prompt 而非 RAG"在 MCP Apps 时代会更强大——未来可以让 Agent 弹出审批界面供PM确认，而非仅返回文本。<br>
     <b>PM启示：</b>MCP从"Anthropic实验项目"变成"行业标准"意味着：基于MCP做产品不再绑定单一厂商。MCP Apps = "Agent的UI层"——这是产品经理最应该理解的2026技术概念。面试时说"MCP是AI Agent的USB-C接口，v2之后企业才敢在关键业务上部署Agent"——很少有PM候选人能聊到协议层面。
   </div>
 </details>
@@ -1770,7 +1768,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>趋势：</b>7月 WAIC 2026释放明确信号——Apple/华为/OPPO/vivo/小米/三星/努比亚7款手机端侧AI完成国家网信办备案，端侧AI纳入正式监管框架。努比亚发布全球首款AI智能体手机（跨应用自主执行多步骤任务）。瑞芯微展示双芯片架构（RK3588+AI协处理器），Gemma4首Token延迟仅169ms。TI TinyEngine NPU嵌入MCU级别，延迟降90倍、能耗降120倍——纽扣电池就能跑AI。端侧推理芯片成本降至原先1/10，全球边缘AI推理市场规模首次超越云端训练市场。<br>
-    <b>我的实践：</b>契合两个方向。①宠伴智能食盆：ESP32作为MCU级AI设备——TI TinyEngine的MCU AI趋势直接验证了这个硬件选型的未来扩展性（未来可以在食盆端侧跑轻量异常检测模型，不需要WiFi也能本地判断"宠物是否进食异常"）。②Insta360 ACE的AI修图架构（端侧NPU跑基础编辑+云端跑重度处理）完全吻合WAIC 2026的"端侧为主、云端为辅"行业共识。宠伴83%用户拒绝云上传的用户调研结论——在端侧AI合规化的趋势下，从"小众偏好"变成了"行业标准的前瞻判断"。<br>
+    <b>实践：</b>契合两个方向。①宠伴智能食盆：ESP32作为MCU级AI设备——TI TinyEngine的MCU AI趋势直接验证了这个硬件选型的未来扩展性（未来可以在食盆端侧跑轻量异常检测模型，不需要WiFi也能本地判断"宠物是否进食异常"）。②Insta360 ACE的AI修图架构（端侧NPU跑基础编辑+云端跑重度处理）完全吻合WAIC 2026的"端侧为主、云端为辅"行业共识。宠伴83%用户拒绝云上传的用户调研结论——在端侧AI合规化的趋势下，从"小众偏好"变成了"行业标准的前瞻判断"。<br>
     <b>PM启示：</b>2026下半年，懂"端侧AI选型+产品场景匹配"的PM是最稀缺的物种。端侧AI不是"把模型塞进设备"——是产品决策：什么数据必须在本地处理（隐私）？什么推理可以容忍200ms延迟（场景）？什么任务必须上云用最强模型（质量）？能回答这三个问题的PM，价值远超"只会写Prompt的PM"。
   </div>
 </details>
@@ -1785,7 +1783,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>趋势：</b>usestrix/strix（开源AI渗透测试工具，让AI Agent自动攻击你的应用找漏洞）7月狂揽31.6k星标，标志着AI安全从"人工渗透测试"进入"AI自动攻击→AI自动防御"的对抗时代。Palo Alto Networks披露OpenClaw技能市场持续存在恶意技能——17%的早期技能携带恶意载荷，包括信息窃取、广告联盟注入、抢跑交易。腾讯发布AI-Infra-Guard开源红队平台。一个新的安全闭环正在形成：AI攻击工具（strix）→ AI防御工具（SkillSpector/Infra-Guard）→ 监管备案（网信办端侧AI备案）。<br>
-    <b>我的实践：</b>跨境电商Agent系统内置Compliance Agent（合规审核模块）和Compiler的agent_errors追踪——这和strix的渗透测试思路是同构的：不是等攻击发生再防御，而是在架构层设计"每个Agent输出必须经过Compiler验证"。PRD Quality Gate的"三重护栏"（操作确认→过程可解释→结果可修正）直接对应Agent安全的三层防线。宠伴智能食盆的"MQTT局域网传输 vs 云端上传"决策——在OpenClaw恶意技能泛滥的背景下，这个隐私架构选择的价值被进一步放大：数据不出局域网 = 攻击面最小化 = 从根本上消解了"传感器数据被Agent偷走"的风险。<br>
+    <b>实践：</b>跨境电商Agent系统内置Compliance Agent（合规审核模块）和Compiler的agent_errors追踪——这和strix的渗透测试思路是同构的：不是等攻击发生再防御，而是在架构层设计"每个Agent输出必须经过Compiler验证"。PRD Quality Gate的"三重护栏"（操作确认→过程可解释→结果可修正）直接对应Agent安全的三层防线。宠伴智能食盆的"MQTT局域网传输 vs 云端上传"决策——在OpenClaw恶意技能泛滥的背景下，这个隐私架构选择的价值被进一步放大：数据不出局域网 = 攻击面最小化 = 从根本上消解了"传感器数据被Agent偷走"的风险。<br>
     <b>PM启示：</b>如果2025年PM的面试加分项是"懂Prompt Engineering"，2026年下半年的新加分项是"懂Agent安全设计"。面试黄金话术："传统App的安全模型是'权限系统'——App要访问通讯录，用户点击'允许'。AI Agent的安全模型必须是'意图验证'——Agent声称要'整理邮箱'，但实际也访问了密码文件，系统需要在执行前拦截这种意图偏差。"
   </div>
 </details>
