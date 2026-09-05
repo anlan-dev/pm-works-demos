@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <!-- 羊皮纸暖金底（创作舱品牌 #c9a87b 一族，避开宠伴棕红） -->
+    <linearGradient id="cr-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7e8cb"/>
+      <stop offset="0.5" stop-color="#efd6a7"/>
+      <stop offset="1" stop-color="#ddbc82"/>
+    </linearGradient>
+    <!-- 书脊/封底深暖金 -->
+    <linearGradient id="cr-cover" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfa25d"/>
+      <stop offset="1" stop-color="#a2762f"/>
+    </linearGradient>
+    <!-- 灵感星光暖金 -->
+    <linearGradient id="cr-star" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ecc985"/>
+      <stop offset="1" stop-color="#a87a2a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 品牌底（圆角暖金羊皮纸） -->
+  <rect x="32" y="32" width="448" height="448" rx="108" fill="url(#cr-bg)"/>
+
+  <!-- 书页封底 -->
+  <rect x="108" y="386" width="296" height="34" rx="14" fill="url(#cr-cover)"/>
+
+  <!-- 左页 -->
+  <path d="M250 386 L118 386 V278 Q118 262 134 262 H234 Q250 262 250 278 Z" fill="#fffdf4"/>
+  <!-- 右页 -->
+  <path d="M262 386 L394 386 V278 Q394 262 378 262 H278 Q262 262 262 278 Z" fill="#fffdf4"/>
+
+  <!-- 书页上的文字行（暖金） -->
+  <g fill="#d6b170">
+    <rect x="136" y="292" width="88" height="12" rx="6"/>
+    <rect x="136" y="322" width="66" height="12" rx="6"/>
+    <rect x="136" y="352" width="78" height="12" rx="6"/>
+    <rect x="288" y="292" width="88" height="12" rx="6"/>
+    <rect x="310" y="322" width="66" height="12" rx="6"/>
+    <rect x="298" y="352" width="78" height="12" rx="6"/>
+  </g>
+
+  <!-- 灵感星光投影 -->
+  <path d="M256 62 C260.2 103.3, 298.7 141.8, 340 146 C298.7 150.2, 260.2 188.7, 256 230 C251.8 188.7, 213.3 150.2, 172 146 C213.3 141.8, 251.8 103.3, 256 62 Z" fill="#7a5c22" opacity="0.16"/>
+  <!-- 灵感星光（四芒星） -->
+  <path d="M256 56 C260.2 97.3, 298.7 135.8, 340 140 C298.7 144.2, 260.2 182.7, 256 224 C251.8 182.7, 213.3 144.2, 172 140 C213.3 135.8, 251.8 97.3, 256 56 Z" fill="url(#cr-star)"/>
+
+  <!-- 点缀星点 -->
+  <circle cx="140" cy="84" r="7" fill="#a87a2a" opacity="0.85"/>
+  <circle cx="372" cy="84" r="7" fill="#a87a2a" opacity="0.85"/>
+  <circle cx="150" cy="188" r="5" fill="#c9994a" opacity="0.9"/>
+  <circle cx="360" cy="196" r="5" fill="#c9994a" opacity="0.9"/>
+</svg>
