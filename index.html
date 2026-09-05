@@ -654,7 +654,7 @@ details .step-text {
   <a href="#pet" class="ft-card ft-success">
     <span class="ft-icon">🐾</span>
     <span class="ft-label">核心案例 · 宠伴</span>
-    <span class="ft-hook">约12人次深度参与·86份问卷·NPS +12→+38 · 软硬件协同·隐私优先IoT</span>
+    <span class="ft-hook">约12位深访·86份问卷·NPS +12→+38 · 软硬件协同·隐私优先IoT</span>
   </a>
   <a href="#quality-gate" class="ft-card ft-accent">
     <span class="ft-icon">🔍</span>
@@ -667,7 +667,7 @@ details .step-text {
 <section style="background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(20px,3vw,32px);margin-bottom:clamp(20px,3vw,28px);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.04)">
   <h2 style="font-size:clamp(1.1rem,1.6vw,1.35rem);font-weight:600;letter-spacing:-.02em;margin-bottom:clamp(12px,1.8vw,18px);color:#1d1d1f">📖 关于这个作品集</h2>
   <div style="font-size:clamp(.82rem,.98vw,.88rem);color:#2d3a4b;line-height:1.75">
-    <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，求职 AI 产品经理。本作品集记录产品判断与落地过程——每个关键决策都标注了当时的约束条件：预算、技术边界、用户隐私、时间窗口，在约束中求最优解。13 个项目中，核心项目经过用户测试与轮次迭代，其余产品基于竞品走查与需求调研构建。</p>
+    <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，求职 AI 产品经理。本作品集记录产品判断与落地过程。每个关键决策都标注当时的约束条件：预算、技术边界、用户隐私、时间窗口，在约束中求最优解。13 个项目中，核心项目经过用户测试与轮次迭代，其余产品基于竞品走查与需求调研构建。</p>
     <p style="margin-bottom:12px;font-size:clamp(.76rem,.88vw,.8rem);color:#0071e3;font-weight:520">📌 推荐阅读路径：能力总览 → 核心案例（宠伴）→ 技术决策（PRD Quality Gate）→ 方法论。如果你只有3分钟，看这三块就够了。</p>
     <details style="cursor:pointer;margin-top:8px">
       <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.78rem,.92vw,.84rem);font-weight:600;color:#0071e3;padding:8px 0">
@@ -675,10 +675,10 @@ details .step-text {
         展开阅读完整作品集介绍
       </summary>
       <div style="margin-top:12px">
-        <p style="margin-bottom:12px"><strong>为什么是AI产品经理？</strong>语言学训练是产品判断的底层方法：语用学在深访中识别言外之意（用户说"还行"可能意味着"说不清哪里不舒服"），话语分析在需求评审中识别回避的话题，语料库方法把200+条应用商店评论转化为可量化决策。13个AI产品项目覆盖写Prompt、搭Agent、协议选型（MCP vs LangChain）、端侧AI（Tesseract.js本地OCR、Whisper本地转写）、硬件原型（ESP32）的完整链条，建立对AI能力边界的直觉。"AI产品设计"不只是选模型或写提示词，而是判断AI该介入哪个工作流节点、用什么技术方案、失败时怎么降级——这种判断力来自亲手交付产品的过程。</p>
-        <p style="margin-bottom:12px"><strong>作品集的核心逻辑：</strong>从宠伴（本地优先+隐私优先的宠物健康台账）到GlobalFUN（MCP服务总线+6-Agent跨境电商协作系统），到PixelPick（Canvas像素分析替代大模型评分的影像精选工具），完整覆盖AI产品设计的四个维度——<b>需求层</b>（用户调研→需求分层→竞品分析→KANO优先级）、<b>能力层</b>（AI能力边界判断→Prompt设计→Agent架构→协议选型）、<b>体验层</b>（交互设计→信息架构→响应式适配→暗房风格视觉系统）、<b>验证层</b>（数据闭环设计→NPS追踪→埋点体系→内部测试轮次验证）。每个项目都有完整的"为什么做这个判断/判断依据是什么/怎么推动落地/结果验证了什么"叙事线——这里没有功能列表，只有决策记录。</p>
-        <p style="margin-bottom:12px"><strong>技术实践的三个层次：</strong>①<b>端侧AI判断力</b>——宠伴选Tesseract.js本地OCR（83%用户拒云上传<span style="font-size:.64rem;color:#86868b">[深度参与约12人次]</span>）、会议舱选Whisper本地转写（商业机密不上云）、PixelPick选Canvas像素分析而非GPT-4o Vision（排序不需要语义推理，且零延迟+零成本+100%确定性）；②<b>Agent架构设计力</b>——跨境电商从4-Agent扩展到6-Agent全链路（需求解析→市场调研→选品分析→文案生成→合规审核→运营策略），原生MCP服务总线替代LangChain（Agent数量固定+输出需精确控制），PRD Quality Gate用System Prompt直写19项规则替代RAG（确定性审核场景）；③<b>Vibe Coding交付力</b>——用Cursor快速验证并交付13个可交互产品原型，含PWA离线方案（宠伴）、Multi-Agent编排系统（跨境）、暗房风视觉设计（PixelPick）、Canvas本地合成对比数据（PixelPick），验证了"PM可以前置验证产品方向，帮团队减少返工"。</p>
-        <p style="margin-bottom:12px"><strong>前沿观察：</strong>持续跟踪AI Agent架构（Claude Code Agent Teams/Microsoft Agent Orchestrator/Anthropic Agent定义）、MCP/A2A协议生态（SDK月下载9700万次/公开服务器21,962个/A2A由Google捐赠Linux基金会）、Vibe Coding工具爆发、WWDC 2026 Apple Intelligence端侧AI升级等前沿动态。这些不是"信息收集"——每个趋势都有对应的落地实践：Agent架构→6-Agent跨境电商实践，MCP协议→原生MCP服务总线选型，端侧AI→宠伴本地OCR+会议舱本地Whisper。</p>
+        <p style="margin-bottom:12px"><strong>为什么是AI产品经理？</strong>语言学训练是产品判断的底层方法：语用学在深访中识别言外之意（用户说"还行"可能意味着"说不清哪里不舒服"），话语分析在需求评审中识别回避的话题，语料库方法把200+条应用商店评论转化为可量化决策。13个AI产品项目覆盖写Prompt、搭Agent、协议选型（MCP vs LangChain）、端侧AI（Tesseract.js本地OCR、Whisper本地转写）、硬件原型（ESP32）的完整链条，建立对AI能力边界的直觉。"AI产品设计"不只是选模型或写提示词，而是判断AI该介入哪个工作流节点、用什么技术方案、失败时怎么降级：这种判断力来自亲手交付产品的过程。</p>
+        <p style="margin-bottom:12px"><strong>作品集的核心逻辑：</strong>从宠伴（本地优先+隐私优先的宠物健康台账）到GlobalFUN（MCP服务总线+6-Agent跨境电商协作系统），到PixelPick（Canvas像素分析替代大模型评分的影像精选工具），完整覆盖AI产品设计的四个维度：<b>需求层</b>（用户调研→需求分层→竞品分析→KANO优先级）、<b>能力层</b>（AI能力边界判断→Prompt设计→Agent架构→协议选型）、<b>体验层</b>（交互设计→信息架构→响应式适配→暗房风格视觉系统）、<b>验证层</b>（数据闭环设计→NPS追踪→埋点体系→内部测试轮次验证）。每个项目都有完整的"为什么做这个判断/判断依据是什么/怎么推动落地/结果验证了什么"叙事线：这里没有功能列表，只有决策记录。</p>
+        <p style="margin-bottom:12px"><strong>技术实践的三个层次：</strong>①<b>端侧AI判断力</b>：宠伴选Tesseract.js本地OCR（83%用户拒云上传<span style="font-size:.64rem;color:#86868b">[约12位深访]</span>）、会议舱选Whisper本地转写（商业机密不上云）、PixelPick选Canvas像素分析而非GPT-4o Vision（排序不需要语义推理，且零延迟+零成本+100%确定性）；②<b>Agent架构设计力</b>：跨境电商从4-Agent扩展到6-Agent全链路（需求解析→市场调研→选品分析→文案生成→合规审核→运营策略），原生MCP服务总线替代LangChain（Agent数量固定+输出需精确控制），PRD Quality Gate用System Prompt直写19项规则替代RAG（确定性审核场景）；③<b>Vibe Coding交付力</b>：用Cursor快速验证并交付13个可交互产品原型，含PWA离线方案（宠伴）、Multi-Agent编排系统（跨境）、暗房风视觉设计（PixelPick）、Canvas本地合成对比数据（PixelPick），验证了"PM可以前置验证产品方向，帮团队减少返工"。</p>
+        <p style="margin-bottom:12px"><strong>前沿观察：</strong>持续跟踪AI Agent架构（Claude Code Agent Teams/Microsoft Agent Orchestrator/Anthropic Agent定义）、MCP/A2A协议生态（SDK月下载9700万次/公开服务器21,962个/A2A由Google捐赠Linux基金会）、Vibe Coding工具爆发、WWDC 2026 Apple Intelligence端侧AI升级等前沿动态。这些不是"信息收集"：每个趋势都有对应的落地实践：Agent架构→6-Agent跨境电商实践，MCP协议→原生MCP服务总线选型，端侧AI→宠伴本地OCR+会议舱本地Whisper。</p>
         <p>本作品集用 Vibe Coding 构建，响应式适配全设备，以结构化信息架构呈现产品判断。欢迎通过邮箱联系。</p>
       </div>
     </details>
@@ -727,11 +727,11 @@ details .step-text {
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架</div><div class="step-text"><b>三管齐下：</b>①用户深度访谈（挖掘隐性需求）②SQL行为数据（验证用户真实行为）③应用商店差评分析（发现竞品未满足的需求）。交叉验证"用户说的"和"用户做的"，过滤伪需求。</div></div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：AI健身产品线 · 行为数据驱动</div><div class="step-text">通过SQL拆解AI纠错功能全链路（上传视频→触发分析→查看报告→分享）各环节转化数据，发现<b>「查看报告→分享」环节跳出率60%</b>——用户完成训练后才看到纠错报告，错误动作模式已经形成。同时发现<b>注册→首次AI激活仅50%</b>（最大转化瓶颈），AI分析失败41%因视频质量问题。由此驱动两项核心需求定义：①<b>"将反馈时机从训练后前置到训练中"</b>（实时纠错需求）；②<b>"上传前预检+新手引导3步化"</b>（激活优化→D1留存+9.3pp）。</div></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：AI健身教练产品线 · 行为数据驱动</div><div class="step-text">通过SQL拆解AI纠错功能全链路（上传视频→触发分析→查看报告→分享）各环节转化数据，发现<b>「查看报告→分享」环节跳出率60%</b>：用户完成训练后才看到纠错报告，错误动作模式已经形成。同时发现<b>注册→首次AI激活仅50%</b>（最大转化瓶颈），AI分析失败41%因视频质量问题。由此驱动两项核心需求定义：①<b>"将反馈时机从训练后前置到训练中"</b>（实时纠错需求）；②<b>"上传前预检+新手引导3步化"</b>（激活优化→D1留存+9.3pp）。</div></div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · 访谈+差评挖掘</div><div class="step-text"><b>约12位</b>宠物主深度访谈+应用商店差评分析，量化定义核心问题——<b>70%</b>用户每月遗忘疫苗接种，<b>83%</b>将隐私顾虑置于成本之上。主动砍掉社区/商城模块，聚焦轻量健康记录，确定"隐私优先+零成本"的产品定位。</div></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · 访谈+差评挖掘</div><div class="step-text"><b>约20位</b>宠物主访谈+应用商店差评分析，量化定义核心问题：<b>70%</b>用户每月遗忘疫苗接种，<b>83%</b>将隐私顾虑置于成本之上。主动砍掉社区/商城模块，聚焦轻量健康记录，确定"隐私优先+零成本"的产品定位。</div></div></div>
 
-  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：会议·反刍舱 · 场景观察</div><div class="step-text">访谈PM/项目协作人群，发现会后整理纪要平均耗时15-20分钟，漏项率约<b>30%</b>。核心矛盾不是"没有工具"，而是"工具太重"——用户需要的是"这一场会议的产出可被追踪"。明确不做大而全的协作套件，聚焦最小闭环。</div></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：会议·反刍舱 · 场景观察</div><div class="step-text">访谈PM/项目协作人群，发现会后整理纪要平均耗时15-20分钟，漏项率约<b>30%</b>。核心矛盾不是"没有工具"，而是"工具太重"：用户需要的是"这一场会议的产出可被追踪"。明确不做大而全的协作套件，聚焦最小闭环。</div></div></div>
 
   <!-- 语用学在深访中的实际应用 -->
   <details style="cursor:pointer;margin-top:12px">
@@ -744,9 +744,9 @@ details .step-text {
       <div style="overflow-x:auto;margin:10px 0;border:1px solid rgba(79,70,229,.12);border-radius:10px;background:#fff">
         <table style="width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);color:#2d3a4b">
           <tr style="background:rgba(79,70,229,.04)"><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3;white-space:nowrap">用户原话</th><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3;white-space:nowrap">语用学分析</th><th style="padding:7px 10px;text-align:left;font-weight:600;color:#3730a3">挖掘出的真实需求</th></tr>
-          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">宠伴用户："还行吧，能用"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">模糊限定词"还行吧"+会话终止信号"能用"——Grice合作原则的"量准则"被刻意违反（故意少给信息），用户在用礼貌策略掩饰不满</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">追问"哪个操作让你觉得卡？"→ 定位到疫苗记录路径需要5步才能完成一条录入，记录耗时缩短约60%后该用户从被动使用转为主动推荐</td></tr>
-          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">会议舱用户："会上说过、会后没落地"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">被动语态"没落地"回避责任归属——用户不是在抱怨某个工具，是在描述一个"没有谁负责"的系统性失败</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">拆解出"没落地"的三个子环节：没记录→没分配→没追踪。由此设计结构化待办+状态流转+漏项抽检闭环，而非又一个"协作平台"</td></tr>
-          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">健身产品用户："这个功能能不能也加一下？"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">表面是功能请求，深层是<b>替代行为</b>——用户加功能是在回避"现有功能不好用"这个更难开口的真问题。话语分析中这叫"话题替换"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">后退一步问"你现在用哪个功能实现这个需求？"→ 暴露了当前操作流程的断裂点，修复后在P0需求评审中被确认优先级最高</td></tr>
+          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">宠伴用户："还行吧，能用"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">模糊限定词"还行吧"+会话终止信号"能用"：Grice合作原则的"量准则"被刻意违反（故意少给信息），用户在用礼貌策略掩饰不满</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">追问"哪个操作让你觉得卡？"→ 定位到疫苗记录路径需要5步才能完成一条录入，记录耗时缩短约60%后该用户从被动使用转为主动推荐</td></tr>
+          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">会议舱用户："会上说过、会后没落地"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">被动语态"没落地"回避责任归属：用户不是在抱怨某个工具，是在描述一个"没有谁负责"的系统性失败</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">拆解出"没落地"的三个子环节：没记录→没分配→没追踪。由此设计结构化待办+状态流转+漏项抽检闭环，而非又一个"协作平台"</td></tr>
+          <tr><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">健身产品用户："这个功能能不能也加一下？"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">表面是功能请求，深层是<b>替代行为</b>：用户加功能是在回避"现有功能不好用"这个更难开口的真问题。话语分析中这叫"话题替换"</td><td style="padding:7px 10px;border-top:1px solid rgba(79,70,229,.06);vertical-align:top">后退一步问"你现在用哪个功能实现这个需求？"→ 暴露了当前操作流程的断裂点，修复后在P0需求评审中被确认优先级最高</td></tr>
         </table>
       </div>
       <div class="step-text">这套方法在深访、需求评审、评论分析三个环节复用：语用学在对话中找<b>信息缺口</b>（用户少说了什么），话语分析识别会议里的<b>回避信号</b>（谁在绕开什么话题），语料库方法把<b>200+条评论转化为可量化决策</b>。</div>
@@ -769,7 +769,7 @@ details .step-text {
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · 竞品功能对比</div><div class="step-text">对比4款宠物管理类App的疫苗提醒功能、隐私策略、付费模式，发现现有工具<b>重社交商城、轻健康记录</b>，隐私保护均弱于用户预期。由此确定"本地存储+零服务器"的技术差异化路线，把差异化写进PRD。</div></div></div>
 
-  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：跨境电商 · 市场格局分析</div><div class="step-text">调研跨境电商全链路痛点（需求模糊、市场信息碎片化、选品靠经验、文案多语言难、合规风险高、运营策略缺失），对比传统Chatbot与Multi-Agent协作的效率差异。发现用户"不知道该问什么"比"找不到答案"更致命，由此设计<b>"6-Agent全链路协作"</b>范式——从需求解析到运营策略，6个Agent各司其职，Orchestrator路由调度，系统主动推送结构化信息卡片。</div></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：跨境电商 · 市场格局分析</div><div class="step-text">调研跨境电商全链路痛点（需求模糊、市场信息碎片化、选品靠经验、文案多语言难、合规风险高、运营策略缺失），对比传统Chatbot与Multi-Agent协作的效率差异。发现用户"不知道该问什么"比"找不到答案"更致命，由此设计<b>"6-Agent全链路协作"</b>范式：从需求解析到运营策略，6个Agent各司其职，Orchestrator路由调度，系统主动推送结构化信息卡片。</div></div></div>
 </div>
 
 <!-- ===== PM核心能力：数据分析 ===== -->
@@ -784,7 +784,7 @@ details .step-text {
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">方法论框架：数据分析闭环五步</div><div class="step-text"><b>①定义核心指标</b>（转化率/NPS/留存/FAQ等，按产品阶段选北极星）→<b>②埋点事件设计</b>（事件名/触发时机/关键参数，与PRD同步交付）→<b>③SQL数据采集与漏斗拆解</b>（建表→写查询→定位流失点）→<b>④归因分析</b>（分群交叉/渠道对比/失败拆解，找到"为什么"而非只看"是什么"）→<b>⑤决策→验证→闭环</b>（数据驱动的优先级排序和效果追踪）。</div>
 
   <div style="margin-top:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px">
-    <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">实战案例：AI健身产品功能交叉分析 · 全链路留存归因</div>
+    <div style="font-weight:700;color:#0f172a;font-size:.84rem;margin-bottom:8px">实战案例：AI健身教练核心功能交叉分析 · 全链路留存归因</div>
     <div style="overflow-x:auto;margin:8px 0">
       <table style="width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);color:#2d3a4b">
         <tr style="background:#f0fdf4"><th style="padding:5px 8px;text-align:left;font-weight:600;color:#065f46">用户组合</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">人数</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">占比</th><th style="padding:5px 8px;text-align:center;font-weight:600;color:#065f46">D7留存</th></tr>
@@ -794,10 +794,10 @@ details .step-text {
       </table>
     </div>
     <div style="font-size:clamp(.7rem,.8vw,.74rem);color:#4a5568;line-height:1.5">
-      <b>归因：</b>全链路用户D7留存58%，是仅AI用户(32%)的<b>1.8倍</b>。"评估→纠错→恢复"闭环创造最强粘性——产品价值不是AI分析单点功能，是"一站式健康管理"的链路完整性。<br>
+      <b>归因：</b>全链路用户D7留存58%，是仅AI用户(32%)的<b>1.8倍</b>。"评估→纠错→恢复"闭环创造最强粘性：产品价值不是AI分析单点功能，是"一站式健康管理"的链路完整性。<br>
       <b>决策：</b>体态评估页增加"去训练"入口→驱动功能间联动，将单功能用户推向全链路。<br>
       <b>验证：</b>做过体态评估的用户后续AI分析使用率62.6%，比未评估用户(46.6%)高<b>+16pp</b>。<br>
-      <b>PM价值：</b>交叉分析不是"看哪个功能用的人多"——是用SQL把用户行为组合起来，发现"功能A×功能B"的协同效应远大于单独使用。这个洞察单看功能FAQ看不出来。
+      <b>PM价值：</b>交叉分析不是"看哪个功能用的人多"，是用SQL把用户行为组合起来，发现"功能A×功能B"的协同效应远大于单独使用。这个洞察单看功能FAQ看不出来。
     </div>
   </div></div></div>
 
@@ -805,7 +805,7 @@ details .step-text {
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · A/B验证体系</div><div class="step-text">建立"假设→实验→指标"验证体系：提醒配置意愿指数（任务完成率0.35+配置意愿量表0.35+主观耗时0.30）<b>+13%</b>，记录耗时缩短约<b>60%</b>，种子用户NPS <b>+12→+38</b>，转化率<b>42%</b>，7日留存<b>44%</b>。<span style="font-size:.72rem;color:#6e6e73">[内部测试·种子用户轮次验证]</span></div>
   <div style="margin-top:8px;background:rgba(100,130,160,.04);border-left:3px solid rgba(100,130,160,.35);border-radius:0 8px 8px 0;padding:8px 12px;font-size:clamp(.7rem,.8vw,.74rem);color:#4a5568;line-height:1.5">
-  <b>关于数据边界的说明：</b>以上量化指标（NPS/留存/转化率）均来自种子用户轮次验证，样本量有限。这些数据用于<b>方向判断</b>——产品有没有在变好、每次迭代有没有改善趋势——而非统计推断（NPS值不能直接代表市场规模）。下一阶段目标：在真实商业产品环境中积累自然流量下的转化和留存数据，验证同样方法论在大样本下的有效性。这不是"数据不够好"——这是对数据来源的诚实交代，也是对下一步的明确规划。
+  <b>关于数据边界的说明：</b>以上量化指标（NPS/留存/转化率）均来自种子用户轮次验证，样本量有限。这些数据用于<b>方向判断</b>：产品有没有在变好、每次迭代有没有改善趋势：而非统计推断（NPS值不能直接代表市场规模）。下一阶段目标：在真实商业产品环境中积累自然流量下的转化和留存数据，验证同样方法论在大样本下的有效性。这不是"数据不够好"：这是对数据来源的诚实交代，也是对下一步的明确规划。
   </div></div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">案例：PRD Quality Gate · 效果测评</div><div class="step-text">~5000字PRD实测<b>850ms</b>响应，检出<b>6/19</b>项合规项定位<b>13处</b>遗漏，验证System Prompt直写规则优于RAG检索的适用边界。用数据证明"确定性审核场景用Prompt直写、开放性场景用RAG"的技术选型结论。<span style="font-size:.72rem;color:#6e6e73">[内部实测·单次PRD样本]</span></div></div></div>
@@ -831,9 +831,9 @@ details .step-text {
 
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">团队PRD评审依赖人工逐条检查，经常遗漏模糊点和歧义描述，导致开发阶段反复返工。</div></div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 核心判断</div><div class="step-text">基于个人积累的<b>19项PRD质量检查清单</b>，识别到这部分工作可通过AI自动化——规则确定性强，适合System Prompt直写，无需RAG知识库。<b>核心判断：</b>PRD检查是确定性规则检查→System Prompt比RAG更稳定可控。</div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 核心判断</div><div class="step-text">基于个人积累的<b>19项PRD质量检查清单</b>，识别到这部分工作可通过AI自动化：规则确定性强，适合System Prompt直写，无需RAG知识库。<b>核心判断：</b>PRD检查是确定性规则检查→System Prompt比RAG更稳定可控。</div>
   <div class="step-text" style="margin-bottom:4px"><b>技术选型决策链：System Prompt直写 vs RAG检索</b></div>
-  <div class="step-text" style="margin-bottom:4px"><b>问题：</b>PRD检查是确定性规则审核——输入是PRD全文，输出是逐项0/1判定，规则固定不变。场景属性决定了技术方案：不需要检索外部知识，不需要动态上下文。</div>
+  <div class="step-text" style="margin-bottom:4px"><b>问题：</b>PRD检查是确定性规则审核：输入是PRD全文，输出是逐项0/1判定，规则固定不变。场景属性决定了技术方案：不需要检索外部知识，不需要动态上下文。</div>
   <div style="overflow-x:auto;margin:8px 0;border:1px solid #e2e8f0;border-radius:8px;background:#fff">
     <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
       <tr style="background:#f8fafc"><th style="padding:5px 8px;text-align:left;font-weight:600">方案</th><th style="padding:5px 8px;text-align:center;font-weight:600">遗漏检出</th><th style="padding:5px 8px;text-align:center;font-weight:600">Token消耗</th><th style="padding:5px 8px;text-align:center;font-weight:600">一致性</th><th style="padding:5px 8px;text-align:left;font-weight:600">适用场景</th></tr>
@@ -841,7 +841,7 @@ details .step-text {
       <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">RAG检索</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">8处/5000字</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center"><b style="color:#d97706">+60%</b></td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">~85%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">开放性知识检索</td></tr>
     </table>
   </div>
-  <div class="step-text" style="margin-bottom:8px"><b>PM判断：</b>两种方案都实测了同一份5000字PRD。System Prompt检出13处遗漏，RAG仅检出8处——因为RAG的检索噪声干扰了规则匹配。选System Prompt不是因为它"更简单"——是因为<b>数据证明它在这个场景下更有效</b>。选型结论：确定性审核用Prompt直写，开放性场景用RAG。不是哪个更好，是用对场景。</div>
+  <div class="step-text" style="margin-bottom:8px"><b>PM判断：</b>两种方案都实测了同一份5000字PRD。System Prompt检出13处遗漏，RAG仅检出8处，因为RAG的检索噪声干扰了规则匹配。选System Prompt不是因为它"更简单"，是因为<b>数据证明它在这个场景下更有效</b>。选型结论：确定性审核用Prompt直写，开放性场景用RAG。不是哪个更好，是用对场景。</div>
 
   <details style="cursor:pointer;margin-top:8px">
     <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
@@ -858,7 +858,7 @@ details .step-text {
           <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">0.8</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">65%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">16处</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">35%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">不可用</td></tr>
         </table>
       </div>
-      <div class="step-text" style="font-size:clamp(.68rem,.78vw,.72rem);color:#4a5568"><b>PM判断：</b>这不是"温度越低越好"的简单结论。Temp 0.0一致性100%但只检出8处（过于保守），Temp 0.5检出15处但18%幻觉率不可接受。Temp 0.2是最佳平衡点：>95%一致性+13处检出+<5%幻觉。这就是数据驱动的技术决策——不是选最好看的参数，是用对比测试找到适配场景的最优解。</div>
+      <div class="step-text" style="font-size:clamp(.68rem,.78vw,.72rem);color:#4a5568"><b>PM判断：</b>这不是"温度越低越好"的简单结论。Temp 0.0一致性100%但只检出8处（过于保守），Temp 0.5检出15处但18%幻觉率不可接受。Temp 0.2是最佳平衡点：>95%一致性+13处检出+<5%幻觉。这就是数据驱动的技术决策：不是选最好看的参数，是用对比测试找到适配场景的最优解。</div>
     </div>
   </details>
   <div class="step-text" style="margin-bottom:4px"><b>为什么用四维拆解（输入/逻辑/异常/评估）：</b>基于MECE原则将19项规则结构化到四个维度。实测<b>13处遗漏</b>分布如下：</div>
@@ -871,7 +871,7 @@ details .step-text {
       <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">评估侧</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">5</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">0</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">0</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">评估标准全部通过</td></tr>
     </table>
   </div>
-  <div class="step-text"><b>归因→决策→闭环：</b>13处遗漏中异常侧占7处（54%）——数据验证了"PRD最常遗漏异常流程"的行业共识。<b>决策：</b>针对异常侧遗漏，补第20项规则（异常流程完整性检查），用同一份PRD复测。<b>闭环：</b>复测确认新增规则有效堵住遗漏。这就是数据驱动的迭代——不是"加更多规则"，是"数据告诉我哪里漏最多→针对性补强→复测验证"。</div>
+  <div class="step-text"><b>归因→决策→闭环：</b>13处遗漏中异常侧占7处（54%）：数据验证了"PRD最常遗漏异常流程"的行业共识。<b>决策：</b>针对异常侧遗漏，补第20项规则（异常流程完整性检查），用同一份PRD复测。<b>闭环：</b>复测确认新增规则有效堵住遗漏。这就是数据驱动的迭代：不是"加更多规则"，是"数据告诉我哪里漏最多→针对性补强→复测验证"。</div>
   </div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>平台：</b>Dify Chatflow · <b>模型：</b>mimo-v2-flash · Temperature 0.2（控制幻觉）· <b>审核四维：</b>输入侧/逻辑侧/异常侧/评估侧 · <b>三重护栏：</b>操作确认→过程可解释→结果可修正</div></div></div>
@@ -919,7 +919,7 @@ details .step-text {
   <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">背景</div><div class="step-text">多宠家庭疫苗、驱虫、体检提醒分散在相册与群聊，易遗漏；记录路径长，持续使用意愿弱。</div></div></div>
 
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">问题定义 · 用户需求调研</div>
-  <div class="step-text"><b>调研方法：</b><b>约12位</b>宠物主深度访谈（40-60分钟/人，覆盖新手/多宠/流失/行业专家4类人群）+ <b>86份</b>问卷（有效<b>72份</b>）+ 4款头部App近6个月<b>200+</b>条评论LLM情感分析，交叉验证"用户说的"和"用户做的"。KANO分层：基础型（疫苗提醒+多宠档案）、期望型（本地OCR+花费视图）、兴奋型（AI周报+PWA离线），基础型优先交付。</div>
+  <div class="step-text"><b>调研方法：</b><b>约20位</b>宠物主访谈（约12位完成40-60分钟深度访谈，覆盖新手/多宠/流失/行业专家4类人群）+ <b>86份</b>问卷（有效<b>72份</b>）+ 4款头部App近6个月<b>200+</b>条评论LLM情感分析，交叉验证"用户说的"和"用户做的"。KANO分层：基础型（疫苗提醒+多宠档案）、期望型（本地OCR+花费视图）、兴奋型（AI周报+PWA离线），基础型优先交付。</div>
   <div class="step-text"><b>核心发现：</b>约<b>70%</b>用户每月至少遗忘一次接种节点；约<b>83%</b>不愿上传接种凭证到云端。由此确立"轻量健康记录册·隐私优先·零服务器依赖"的产品定位。</div>
   <div class="quote">「我不想为了记这个再下一个特别重的App，最好打开就能补一条。」——用户原话（已脱敏）</div>
   <div class="quote">「家里俩狗之前老搞混谁该驱虫了，现在分开看一目了然，总算不用拿本子记了。」——种子用户反馈</div></div></div>
@@ -938,16 +938,16 @@ details .step-text {
   </div>
   <div class="step-text" style="margin-top:8px"><b>为什么砍掉社区和商城：</b>20人深访中仅2人提到社区需求，而社区/商城会引入内容审核、服务器成本、广告变现压力，与"轻量+隐私"定位直接矛盾。砍掉后产品架构从"App"简化为"PWA"，开发成本降低约60%<span style="font-size:.64rem;color:#86868b">[估算·App→PWA架构简化]</span>，且无需应用商店审核。</div>
   <div class="step-text"><b>为什么选PWA而非原生App：</b>①目标用户是"不想下一个新App"的人（用户原话），PWA无需安装、打开即用，降低使用门槛；②离线可用满足"地铁上记一笔"的场景；③无需应用商店审核，迭代速度更快。</div>
-  <div class="tradeoff"><span class="t-label">取舍：</span><span class="t-sacrifice">牺牲原生App的推送与动效</span>，换取零门槛——用户的第一诉求是"不想下一个新App"。</div>
+  <div class="tradeoff"><span class="t-label">取舍：</span><span class="t-sacrifice">牺牲原生App的推送与动效</span>，换取零门槛：用户的第一诉求是"不想下一个新App"。</div>
   <details style="cursor:pointer;margin-top:8px">
     <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
       <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">+</span>
       更多决策分析（点击展开）
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px">
-      <div class="step-text"><b>为什么这样定位：</b>调研发现83%用户拒绝云上传，而竞品（宠物家、小爪在家）全部走云端路线。这意味着存在一个被忽略的细分市场——"只想要提醒功能、不想注册、不想上传数据"的轻量用户。与其和竞品在功能丰富度上竞争，不如在"零门槛+零隐私风险"上建立差异化。</div>
+      <div class="step-text"><b>为什么这样定位：</b>调研发现83%用户拒绝云上传，而竞品（宠物家、小爪在家）全部走云端路线。这意味着存在一个被忽略的细分市场："只想要提醒功能、不想注册、不想上传数据"的轻量用户。与其和竞品在功能丰富度上竞争，不如在"零门槛+零隐私风险"上建立差异化。</div>
       <div class="step-text"><b>为什么用KANO模型：</b>用户需求多样（提醒、OCR、花费、周报、导出），但MVP资源有限。KANO模型能区分"不做就流失"（基础型）和"做了有惊喜"（兴奋型），避免把资源浪费在"做了用户也无感"的功能上。实测验证：优先交付基础型需求后，NPS从+12提升到+38。</div>
-      <div class="step-text"><b>为什么从软件扩展到硬件：</b>纯软件形态下，建档→首条记录转化率42%，7日留存44%触达天花板——用户"平时想不起来打开"。智能食盆（ESP32+HX711称重传感器，BOM ¥74）自动上报进食数据，从"记录工具"升级为"监测系统"。选ESP32而非树莓派（成本¥18 vs ¥200+，深睡续航30天 vs 仅数小时）；选称重传感器而非摄像头（克级数据无隐私争议，不触发83%用户云端顾虑）。通信走MQTT局域网闭环，零云端流量，延续隐私优先定位。</div>
+      <div class="step-text"><b>为什么从软件扩展到硬件：</b>纯软件形态下，建档→首条记录转化率42%，7日留存44%触达天花板：用户"平时想不起来打开"。智能食盆（ESP32+HX711称重传感器，BOM ¥74）自动上报进食数据，从"记录工具"升级为"监测系统"。选ESP32而非树莓派（成本¥18 vs ¥200+，深睡续航30天 vs 仅数小时）；选称重传感器而非摄像头（克级数据无隐私争议，不触发83%用户云端顾虑）。通信走MQTT局域网闭环，零云端流量，延续隐私优先定位。</div>
     </div>
   </details>
 
@@ -958,14 +958,14 @@ details .step-text {
       场景映射（点击展开）
     </summary>
     <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
-      <div class="step-text"><b>为什么做场景映射：</b>用户的真实使用场景决定了产品形态——不是在真空中设计功能，而是在具体物理约束中做产品决策。</div>
+      <div class="step-text"><b>为什么做场景映射：</b>用户的真实使用场景决定了产品形态，而不是在真空中设计功能，而是在具体物理约束中做产品决策。</div>
       <div style="overflow-x:auto;margin:10px 0">
         <table class="scene-table">
           <tr><th>维度</th><th>场景分析</th></tr>
-          <tr><td>物理环境</td><td>家中沙发 / 宠物医院候诊 / 通勤地铁上——需要单手操作，光线条件多变</td></tr>
+          <tr><td>物理环境</td><td>家中沙发 / 宠物医院候诊 / 通勤地铁上，需要单手操作，光线条件多变</td></tr>
           <tr><td>行为状态</td><td>单手操作为主（另一只手牵狗/抱猫/拿接种本），不能长时间盯着屏幕</td></tr>
-          <tr><td>注意力状态</td><td>高度分心——需要 3 秒内完成一次疫苗记录，否则用户会放弃</td></tr>
-          <tr><td>时间约束</td><td>"地铁上记一笔"场景——从打开到完成全程不超过 30 秒</td></tr>
+          <tr><td>注意力状态</td><td>高度分心，需要 3 秒内完成一次疫苗记录，否则用户会放弃</td></tr>
+          <tr><td>时间约束</td><td>"地铁上记一笔"场景：从打开到完成全程不超过 30 秒</td></tr>
           <tr><td>网络条件</td><td>宠物医院信号差、地铁隧道无网 → PWA 离线可用是刚需，不是加分项</td></tr>
         </table>
       </div>
@@ -1005,7 +1005,7 @@ details .step-text {
       数据分析体系（点击展开）
     </summary>
     <div style="padding-left:clamp(32px,4vw,40px);margin-top:8px">
-      <div class="step-text"><b>全链路数据源清单：</b>①用户行为埋点：PWA页面停留时长、功能点击频次（提醒设置/OCR录入/看板查看）、任务完成率漏斗；②业务数据：疫苗记录条数、驱虫提醒配置率、花费录入频次、AI周报生成量；③用户反馈数据：种子用户访谈录音+文本（约12人次）、应用商店评论情感分析（200+条）；④问卷数据：86份结构化问卷（有效72份），含SUS可用性量表、NPS净推荐值、功能优先级排序。</div>
+      <div class="step-text"><b>全链路数据源清单：</b>①用户行为埋点：PWA页面停留时长、功能点击频次（提醒设置/OCR录入/看板查看）、任务完成率漏斗；②业务数据：疫苗记录条数、驱虫提醒配置率、花费录入频次、AI周报生成量；③用户反馈数据：种子用户访谈录音+文本（约12位）、应用商店评论情感分析（200+条）；④问卷数据：86份结构化问卷（有效72份），含SUS可用性量表、NPS净推荐值、功能优先级排序。</div>
       <div class="step-text"><b>核心分析指标体系：</b></div>
       <div style="overflow-x:auto;margin:8px 0;border:1px solid #e2e8f0;border-radius:10px;background:#fff">
         <table style="width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);color:#2d3a4b">
@@ -1030,7 +1030,7 @@ details .step-text {
       竞品分析摘要（点击展开）
     </summary>
     <div style="padding-left:clamp(32px,4vw,40px);margin-top:8px">
-      <div class="step-text"><b>竞品选取标准：</b>①直接竞品：小爪在家（宠物疫苗驱虫提醒，注册制云同步）、宠物家（宠物健康管理+商城，功能重叠度>60%）；②间接竞品：有宠（宠物社区+电商，含轻量健康记录但非核心）、波奇宠物（宠物电商为主，健康记录为辅）；③替代竞品：iOS日历提醒+备忘录、微信文件传输助手——用户当前实际使用的"土办法"，零成本但体验碎片化。[竞品数据来源：2025-2026年应用商店公开信息及行业报告]</div>
+      <div class="step-text"><b>竞品选取标准：</b>①直接竞品：小爪在家（宠物疫苗驱虫提醒，注册制云同步）、宠物家（宠物健康管理+商城，功能重叠度>60%）；②间接竞品：有宠（宠物社区+电商，含轻量健康记录但非核心）、波奇宠物（宠物电商为主，健康记录为辅）；③替代竞品：iOS日历提醒+备忘录、微信文件传输助手：用户当前实际使用的"土办法"，零成本但体验碎片化。[竞品数据来源：2025-2026年应用商店公开信息及行业报告]</div>
       <div class="step-text"><b>核心维度对比：</b></div>
       <div style="overflow-x:auto;margin:8px 0;border:1px solid #e2e8f0;border-radius:10px;background:#fff">
         <table style="width:100%;border-collapse:collapse;font-size:clamp(.7rem,.8vw,.76rem);color:#2d3a4b">
@@ -1086,7 +1086,7 @@ details .step-text {
         </table>
       </div>
       <div class="step-text"><b>核心逻辑：</b>V0 DIY验证"自动采集→App融合"链路（ESPHome→WiFi/MQTT→REST API，参考 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a>）；V1 接入FitBark 2（$49.95·零订阅·REST API），与"本地优先+零成本"理念最契合；V2 小佩全屋统一API（pypetkitapi开源库）；V3 多设备数据融合+<a href="https://www.gjpet.com/" target="_blank">宠智灵AI</a>异常检测，从记录工具升级为健康管家。差异化：市面产品均为"单设备单App"数据孤岛，宠伴做聚合层实现跨设备交叉分析。</div>
-      <div class="step-text" style="margin-top:10px"><b>扩展规划① · 摄像头AI行为识别（对齐V3 AI健康中枢）：</b>称重只能回答"吃了多少"，回答不了"状态如何"。接入家庭摄像头后，可自动捕捉活动量、进食行为、异常静止——补全称重之外的动态健康维度。技术选型对比：</div>
+      <div class="step-text" style="margin-top:10px"><b>扩展规划① · 摄像头AI行为识别（对齐V3 AI健康中枢）：</b>称重只能回答"吃了多少"，回答不了"状态如何"。接入家庭摄像头后，可自动捕捉活动量、进食行为、异常静止：补全称重之外的动态健康维度。技术选型对比：</div>
       <div style="overflow-x:auto;margin:10px 0">
         <table style="width:100%;border-collapse:collapse;font-size:clamp(.68rem,.78vw,.74rem);color:#2d3a4b">
           <tr style="background:#f0f7ff"><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">技术方案</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">关键点</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">运行环境</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">实时性</th><th style="padding:6px 8px;text-align:left;font-weight:600;color:#075985">适用场景</th></tr>
@@ -1095,8 +1095,8 @@ details .step-text {
           <tr><td style="padding:6px 8px;border-top:1px solid #dbeafe"><b>YOLO11</b></td><td style="padding:6px 8px;border-top:1px solid #dbeafe">COCO关键点</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">GPU/边缘/WebGPU</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">高帧率</td><td style="padding:6px 8px;border-top:1px solid #dbeafe">多任务+异常检测</td></tr>
         </table>
       </div>
-      <div class="step-text"><b>扩展规划② · 多传感器融合设计：</b>称重（进食量/饮水量·硬数据）+ 温湿度（环境风险）+ 摄像头视觉（行为异常）三通道交叉验证。单一传感器噪声大——宠物踩踏/打翻食盆会产生假称重信号，单纯看一条曲线容易误报。融合后按"信号可信度"加权：当"称重下降"与"视觉确认未进食"同时出现时，告警置信度才达到推送阈值。这套"多通道互为印证"的设计，延续了我在AI运动产品中验证过的"视觉+惯性双通道校验"思路——单一数据源易误判，交叉验证才可靠。</div>
-      <div class="step-text"><b>扩展规划③ · 端侧AI可行性：</b>2026年端侧推理成本降至1/10，TI TinyEngine等MCU级NPU将延迟降90倍、能耗降120倍——ESP32未来可直接在端侧运行轻量异常检测模型，无WiFi也能本地判断"进食是否异常"，隐私与功耗双赢，与宠伴"隐私优先"定位完全一致。</div>
+      <div class="step-text"><b>扩展规划② · 多传感器融合设计：</b>称重（进食量/饮水量·硬数据）+ 温湿度（环境风险）+ 摄像头视觉（行为异常）三通道交叉验证。单一传感器噪声大：宠物踩踏/打翻食盆会产生假称重信号，单纯看一条曲线容易误报。融合后按"信号可信度"加权：当"称重下降"与"视觉确认未进食"同时出现时，告警置信度才达到推送阈值。这套"多通道互为印证"的设计，延续了我在AI运动产品中验证过的"视觉+惯性双通道校验"思路：单一数据源易误判，交叉验证才可靠。</div>
+      <div class="step-text"><b>扩展规划③ · 端侧AI可行性：</b>2026年端侧推理成本降至1/10，TI TinyEngine等MCU级NPU将延迟降90倍、能耗降120倍：ESP32未来可直接在端侧运行轻量异常检测模型，无WiFi也能本地判断"进食是否异常"，隐私与功耗双赢，与宠伴"隐私优先"定位完全一致。</div>
       <div style="font-size:.72rem;color:#6e6e73;line-height:1.5;margin-top:8px"><b>技术参考：</b>pypetkitapi（MIT协议·pip install）· 萤石IoT开放平台 · 宠智灵AI（行为识别>92%准确率）· GitHub PetPulse。 [数据来源：PyPI/pypetkitapi 1.26.0、FitBark官网、PETKIT官网、宠智灵官网]</div>
     </div>
   </details>
@@ -1131,15 +1131,15 @@ details .step-text {
   <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">产品决策</div><div class="step-text"><b>不做</b>大而全协作套件。最小闭环：转写→结构化待办→状态追踪→周报复盘。</div></div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>4大核心模块：</b>语音转写（Whisper本地）→待办台账（结构化字段）→状态流转（待办→进行中→完成→归档状态机）→复盘笔记（短周期回顾）· 可选Node.js+Express+SQLite后端满足团队私有化部署</div>
-  <div class="step-text" style="margin-top:8px"><b>为什么选Whisper本地转写而非云端：</b>访谈发现"会议内容涉及商业机密"是用户最大顾虑。飞书妙记/通义听悟都走云端，数据上传后用户无法控制。Whisper本地转写牺牲少量准确率换取数据主权，符合目标用户的隐私需求——这和宠伴"本地优先"的决策逻辑一致。</div>
-  <div class="step-text"><b>为什么聚焦最小闭环而非大协作套件：</b>10人访谈中发现，用户不需要"又一个协作平台"——他们已经有飞书/钉钉/Notion。真正缺的是"会议中说的事有没有落地"。做最小闭环（转写→待办→状态→复盘）可以在不改变用户现有工具链的情况下补上缺失的一环。</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么选Whisper本地转写而非云端：</b>访谈发现"会议内容涉及商业机密"是用户最大顾虑。飞书妙记/通义听悟都走云端，数据上传后用户无法控制。Whisper本地转写牺牲少量准确率换取数据主权，符合目标用户的隐私需求：这和宠伴"本地优先"的决策逻辑一致。</div>
+  <div class="step-text"><b>为什么聚焦最小闭环而非大协作套件：</b>10人访谈中发现，用户不需要"又一个协作平台"：他们已经有飞书/钉钉/Notion。真正缺的是"会议中说的事有没有落地"。做最小闭环（转写→待办→状态→复盘）可以在不改变用户现有工具链的情况下补上缺失的一环。</div>
   <details style="cursor:pointer;margin-top:8px">
     <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
       <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.08);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">+</span>
       更多决策分析（点击展开）
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px">
-      <div class="step-text"><b>为什么做状态流转而非简单待办列表：</b>用户反馈"待办列了但没人管进度"——问题不是没有待办，而是待办没有生命周期。简单待办列表只有"完成/未完成"两态，但真实场景是"已分配→进行中→遇到阻塞→已完成"。状态流转让每条待办有"进度可查"，也支持漏项抽检——超过3天未流转的待办自动标红提醒。</div>
+      <div class="step-text"><b>为什么做状态流转而非简单待办列表：</b>用户反馈"待办列了但没人管进度"：问题不是没有待办，而是待办没有生命周期。简单待办列表只有"完成/未完成"两态，但真实场景是"已分配→进行中→遇到阻塞→已完成"。状态流转让每条待办有"进度可查"，也支持漏项抽检：超过3天未流转的待办自动标红提醒。</div>
     </div>
   </details>
 </div></div></div>
@@ -1170,14 +1170,14 @@ details .step-text {
       场景映射（点击展开）
     </summary>
     <div style="padding-left:clamp(28px,3.5vw,36px);margin-top:8px">
-      <div class="step-text"><b>为什么做场景映射：</b>会议场景的物理约束直接决定了产品技术选型——不是在真空中选 AI 方案，而是在隐私、网络、注意力约束中求最优解。</div>
+      <div class="step-text"><b>为什么做场景映射：</b>会议场景的物理约束直接决定了产品技术选型，而不是在真空中选 AI 方案，而是在隐私、网络、注意力约束中求最优解。</div>
       <div style="overflow-x:auto;margin:10px 0">
         <table class="scene-table">
           <tr><th>维度</th><th>场景分析</th></tr>
-          <tr><td>物理环境</td><td>会议室 / 咖啡厅 / 出差途中——背景噪音不可控，多人发言需区分说话人</td></tr>
+          <tr><td>物理环境</td><td>会议室 / 咖啡厅 / 出差途中：背景噪音不可控，多人发言需区分说话人</td></tr>
           <tr><td>行为状态</td><td>用户正在开会讨论，双手可能在记笔记/投屏，不能操作复杂界面</td></tr>
-          <tr><td>注意力状态</td><td>会议中高度专注讨论内容——会后回顾"刚才说了什么"而非实时看转写</td></tr>
-          <tr><td>时间约束</td><td>会后 5 分钟内需要看到结构化待办——否则"会后失忆"已经发生</td></tr>
+          <tr><td>注意力状态</td><td>会议中高度专注讨论内容：会后回顾"刚才说了什么"而非实时看转写</td></tr>
+          <tr><td>时间约束</td><td>会后 5 分钟内需要看到结构化待办，否则"会后失忆"已经发生</td></tr>
           <tr><td>网络条件</td><td>客户会议室可能无 Wi-Fi 权限、出差途中移动网络不稳 → 本地转写是刚需</td></tr>
           <tr><td>隐私要求</td><td>商业机密讨论（定价/合同/人事）→ 数据不能上传云端，客户合规硬约束</td></tr>
         </table>
@@ -1216,9 +1216,9 @@ details .step-text {
   <div class="card-title">星途·创作舱 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI灵感辅助</span><span class="vt vt-h">产品</span></div>
   <div class="card-sub">独立产品 · 2025.09-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>新建主题<span class="fb-arrow">→</span><span class="fb-step">2</span>角色设定<span class="fb-arrow">→</span><span class="fb-step">3</span>章节写作<span class="fb-arrow">→</span><span class="fb-step">4</span>AI灵感辅助<span class="fb-arrow">→</span><span class="fb-step">5</span>进度追踪+导出</div>
-  <div class="step-text" style="margin-bottom:8px">连载/兼职作者资料分散、断更焦虑。核心判断：用户卡在"开始"而非"写不出来"——AI 帮作者坐下，不替作者写。</div>
+  <div class="step-text" style="margin-bottom:8px">连载/兼职作者资料分散、断更焦虑。核心判断：用户卡在"开始"而非"写不出来"：AI 帮作者坐下，不替作者写。</div>
   <div class="step-text" style="margin-bottom:6px"><b>为什么聚焦"降低开始成本"而非提升写作质量：</b>访谈中兼职/连载作者最常卡住的不是"写不好"，而是坐下后打开文档不知从哪续[访谈定性判断]。AI 生成标题/开头/角色设定，降低的是"开始"的心理门槛；创作质量仍取决于作者。</div>
-  <div class="step-text" style="margin-bottom:6px"><b>为什么用健康分+进度追踪：</b>连载作者的隐性焦虑是"我这个月写了多少"。GitHub风格的贡献热力图把模糊的焦虑量化为可视数据——看到连续创作天数形成正向反馈，中断则触发提醒。这是行为设计中"损失厌恶"的应用：人们更害怕失去已有的连续记录，而非追求未来的写作目标。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么用健康分+进度追踪：</b>连载作者的隐性焦虑是"我这个月写了多少"。GitHub风格的贡献热力图把模糊的焦虑量化为可视数据：看到连续创作天数形成正向反馈，中断则触发提醒。这是行为设计中"损失厌恶"的应用：人们更害怕失去已有的连续记录，而非追求未来的写作目标。</div>
   <ul class="ft-list">
     <li>多主题+角色设定+章节状态流转</li><li>AI灵感生成（标题/开头/角色）</li>
     <li>写作目标+进度+时间线+健康分</li><li>周月报+快照+PWA</li>
@@ -1231,7 +1231,7 @@ details .step-text {
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>种子用户<b>3-5名</b>兼职/连载作者，问卷<b>45份</b>，竞品差评分析（汤圆创作/话本小说）；KANO：基础型（章节管理）、期望型（AI灵感辅助）、兴奋型（健康分+进度追踪）。<b>竞品：</b>直接——汤圆创作（中文网络文学创作平台，支持章节管理+社区互动）、话本小说（互动式小说创作平台，支持分支剧情）；间接——Notion写作模板（通用文档工具，非专项创作工具）、Claude/ChatGPT（通用AI助手，可辅助写作但无创作工作流管理）；替代——Word+网盘（传统方式，无AI辅助无进度追踪）。差异化：AI降低"开始成本"而非替代创作，聚焦创作工作流管理。[竞品数据来源：2025-2026年应用商店公开信息]<b>数据：</b>写作目标完成率、AI灵感使用率、章节状态流转漏斗、周活跃写作天数。
+      <b>调研：</b>种子用户<b>3-5名</b>兼职/连载作者，问卷<b>45份</b>，竞品差评分析（汤圆创作/话本小说）；KANO：基础型（章节管理）、期望型（AI灵感辅助）、兴奋型（健康分+进度追踪）。<b>竞品：</b>直接：汤圆创作（中文网络文学创作平台，支持章节管理+社区互动）、话本小说（互动式小说创作平台，支持分支剧情）；间接：Notion写作模板（通用文档工具，非专项创作工具）、Claude/ChatGPT（通用AI助手，可辅助写作但无创作工作流管理）；替代：Word+网盘（传统方式，无AI辅助无进度追踪）。差异化：AI降低"开始成本"而非替代创作，聚焦创作工作流管理。[竞品数据来源：2025-2026年应用商店公开信息]<b>数据：</b>写作目标完成率、AI灵感使用率、章节状态流转漏斗、周活跃写作天数。
     </div>
   </details>
 </div>
@@ -1242,8 +1242,8 @@ details .step-text {
   <div class="card-sub">独立产品 · 2025.12-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>导入剧本<span class="fb-arrow">→</span><span class="fb-step">2</span>场景拆分<span class="fb-arrow">→</span><span class="fb-step">3</span>改稿追踪<span class="fb-arrow">→</span><span class="fb-step">4</span>AI剧情建议<span class="fb-arrow">→</span><span class="fb-step">5</span>热力图复盘</div>
   <div class="step-text" style="margin-bottom:8px">长剧本改稿忘因、进度模糊。产品架构：GitHub风格热力图(26周+连续天数) + Trello场景看板 + AI剧情面板。</div>
-  <div class="step-text" style="margin-bottom:6px"><b>为什么用GitHub风格热力图：</b>编剧改稿是高频低量的工作（每天改一点），热力图把碎片化的修改行为可视化为"贡献日历"——26周的时间跨度让编剧看到自己的修改节奏，而不是只记得"最近改了什么"。借鉴GitHub是因为程序员群体已验证这个可视化模式对"持续性习惯追踪"的有效性。</div>
-  <div class="step-text" style="margin-bottom:6px"><b>为什么做Trello场景看板而非线性文档：</b>剧本是非线性的——改第3场可能影响第15场。线性文档（Word）让编剧只能从头翻到尾，而场景看板让每场戏独立成卡片，可拖拽排序、标记状态（草稿/初审/定稿），符合编剧"跳跃式修改"的真实工作方式。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么用GitHub风格热力图：</b>编剧改稿是高频低量的工作（每天改一点），热力图把碎片化的修改行为可视化为"贡献日历"：26周的时间跨度让编剧看到自己的修改节奏，而不是只记得"最近改了什么"。借鉴GitHub是因为程序员群体已验证这个可视化模式对"持续性习惯追踪"的有效性。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么做Trello场景看板而非线性文档：</b>剧本是非线性的：改第3场可能影响第15场。线性文档（Word）让编剧只能从头翻到尾，而场景看板让每场戏独立成卡片，可拖拽排序、标记状态（草稿/初审/定稿），符合编剧"跳跃式修改"的真实工作方式。</div>
   <ul class="ft-list">
     <li>热力图+场景看板+分场标签</li><li>AI剧情生成（走向/对白/场景）</li>
     <li>月度回顾+高频词+多格式导出</li>
@@ -1256,7 +1256,7 @@ details .step-text {
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>种子用户<b>3-5名</b>编剧/影视策划，问卷<b>38份</b>，竞品差评分析（Celtx/WriterSolo）；KANO：基础型（场景拆分、改稿记录）、期望型（AI剧情建议）、兴奋型（热力图复盘+高频词分析）。<b>竞品：</b>直接——Celtx、WriterSolo；间接——Notion编剧模板；替代——Excel改稿记录。差异化：GitHub热力图可视化改稿频率。<b>数据：</b>热力图活跃天数、AI建议采纳率、改稿追踪完整度、月度回顾生成率。
+      <b>调研：</b>种子用户<b>3-5名</b>编剧/影视策划，问卷<b>38份</b>，竞品差评分析（Celtx/WriterSolo）；KANO：基础型（场景拆分、改稿记录）、期望型（AI剧情建议）、兴奋型（热力图复盘+高频词分析）。<b>竞品：</b>直接：Celtx、WriterSolo；间接：Notion编剧模板；替代：Excel改稿记录。差异化：GitHub热力图可视化改稿频率。<b>数据：</b>热力图活跃天数、AI建议采纳率、改稿追踪完整度、月度回顾生成率。
     </div>
   </details>
 </div>
@@ -1266,9 +1266,9 @@ details .step-text {
   <div class="card-title">雾灯残页 · AI辅助文字冒险游戏 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI生成+人工质控</span><span class="vt vt-h">产品</span></div>
   <div class="card-sub">独立产品 · 2025.10-至今</div>
   <div class="flow-badge"><span class="fb-step">1</span>用户调研<span class="fb-arrow">→</span><span class="fb-step">2</span>信息架构设计<span class="fb-arrow">→</span><span class="fb-step">3</span>AI辅助内容生成<span class="fb-arrow">→</span><span class="fb-step">4</span>质量控制流程<span class="fb-arrow">→</span><span class="fb-step">5</span>数据驱动迭代</div>
-  <div class="step-text" style="margin-bottom:8px">独立游戏产品设计项目。核心价值：完整的 AI 辅助内容生产 PM 工作流——用户调研→信息架构→AI 生成→人工质控→数据迭代。</div>
-  <div class="step-text" style="margin-bottom:6px"><b>为什么做"AI辅助"而非"AI生成"：</b>文字冒险游戏的核心体验是"选择感"——玩家觉得自己的选择有意义。如果完全AI生成，分支逻辑会混乱，玩家很快发现"选什么都一样"。28条分支路径×6结局的架构是人工设计的，AI只负责填充文本内容（对白/描述），确保结构可控、体验一致。</div>
-  <div class="step-text" style="margin-bottom:6px"><b>为什么用暗骰机制：</b>传统文字冒险的属性检定是透明的（"力量15，检定成功"），暗骰让玩家看不到具体数值——这增加了不确定性带来的紧张感，也防止玩家"save scum"（反复读档刷结果）。5属性暗骰机制让每次选择都有真实后果，提升重玩价值。</div>
+  <div class="step-text" style="margin-bottom:8px">独立游戏产品设计项目。核心价值：完整的 AI 辅助内容生产 PM 工作流：用户调研→信息架构→AI 生成→人工质控→数据迭代。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么做"AI辅助"而非"AI生成"：</b>文字冒险游戏的核心体验是"选择感"：玩家觉得自己的选择有意义。如果完全AI生成，分支逻辑会混乱，玩家很快发现"选什么都一样"。28条分支路径×6结局的架构是人工设计的，AI只负责填充文本内容（对白/描述），确保结构可控、体验一致。</div>
+  <div class="step-text" style="margin-bottom:6px"><b>为什么用暗骰机制：</b>传统文字冒险的属性检定是透明的（"力量15，检定成功"），暗骰让玩家看不到具体数值：这增加了不确定性带来的紧张感，也防止玩家"save scum"（反复读档刷结果）。5属性暗骰机制让每次选择都有真实后果，提升重玩价值。</div>
   <ul class="ft-list">
     <li>用户调研：15款文字冒险游戏体验分析，提取核心玩法要素</li><li>信息架构：28条分支路径×6结局×5属性暗骰机制设计</li>
     <li>质量控制：建立AI生成→人工筛选精修的标准化流程</li><li>数据埋点：结局达成分布、分支路径覆盖率、用户留存追踪</li>
@@ -1282,7 +1282,7 @@ details .step-text {
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>体验<b>15款</b>文字冒险游戏（含Darkest Dungeon/Blasphemous/Castlevania），分析核心玩法要素与用户留存机制；KANO：基础型（分支剧情+存档读档）、期望型（属性检定+多结局）、兴奋型（暗骰机制+AI生图立绘）。<b>竞品：</b>直接——Ren'Py官方模板、TyranoBuilder；间接——AI Dungeon；替代——纯文字MUD。差异化：AI辅助内容生产的PM工作流（用户调研→信息架构→AI生成→人工质控→数据迭代）。<b>数据：</b>分支路径覆盖率（<b>28条</b>）、结局达成分布、AI生成内容质量控制效果（<b>697→17</b>破折号清洗）、用户留存追踪。
+      <b>调研：</b>体验<b>15款</b>文字冒险游戏（含Darkest Dungeon/Blasphemous/Castlevania），分析核心玩法要素与用户留存机制；KANO：基础型（分支剧情+存档读档）、期望型（属性检定+多结局）、兴奋型（暗骰机制+AI生图立绘）。<b>竞品：</b>直接：Ren'Py官方模板、TyranoBuilder；间接：AI Dungeon；替代：纯文字MUD。差异化：AI辅助内容生产的PM工作流（用户调研→信息架构→AI生成→人工质控→数据迭代）。<b>数据：</b>分支路径覆盖率（<b>28条</b>）、结局达成分布、AI生成内容质量控制效果（<b>697→17</b>破折号清洗）、用户留存追踪。
     </div>
   </details>
 </div>
@@ -1328,15 +1328,15 @@ details .step-text {
   <div class="card-title">PixelPick · AI 影像精选 <span class="card-badge primary" style="font-size:clamp(.58rem,.68vw,.62rem)">AI选片+增强</span><span class="vt vt-h">产品</span></div>
   <div class="card-sub">AI + 影像产品 · 2026.06</div>
   <div class="flow-badge"><span class="fb-step">1</span>上传照片<span class="fb-arrow">→</span><span class="fb-step">2</span>AI四维评分<span class="fb-arrow">→</span><span class="fb-step">3</span>精选最佳<span class="fb-arrow">→</span><span class="fb-step">4</span>增强前后对比</div>
-  <div class="step-text">展示 AI PM 的影像产品思维——"AI 不该在拍照时干扰用户，而应在拍完后帮用户精选"。四维评分（清晰度/亮度/色彩/构图）由 Canvas 本地计算，增强效果可开关可拖拽对比，让用户看见 AI 做了什么而非黑盒"美化"。</div>
-  <div class="step-text" style="margin-top:8px"><b>为什么做选片+增强而不是单一功能：</b>竞品调研发现 Remini（5 亿+ 下载量）只做"一键增强"但没有选片能力，Google Photos Best Take 只做表情优选但评分标准是黑盒。用户的真实痛点链条是"拍了太多→不知道留哪张→留了也不满意画质"——选片和增强是一个连续决策，拆成两个独立 App 会增加用户切换成本。</div>
-  <div class="step-text"><b>为什么四维评分需要透明化：</b>Google Photos 的 AI 选片只告诉你"这是最佳"，不告诉你"为什么"。用户不信任黑盒——摄影师的判断标准（构图/曝光/情绪）和 AI 的评分逻辑往往不一致。PixelPick 把四个维度的分数和进度条都展示出来，让用户理解 AI 的判断依据，才能信任 AI 的推荐。</div>
-  <div class="step-text"><b>为什么不用大模型做评分：</b>四维评分全部用 Canvas 像素数学实现——标准差算清晰度、均值算亮度、色相多样性算色彩、中心/边缘亮度差算构图——<b>没有调用任何 LLM API</b>。这是一个刻意的产品决策：选片的本质是排序而非理解，不需要语义推理能力。用大模型（如 GPT-4o Vision）反而引入三个问题——①延迟 800-2000ms vs Canvas 本地 < 50ms；②照片需上传到第三方服务器，与隐私优先的产品策略矛盾；③LLM 有温度参数，同一张照片两次打分可能不同，破坏用户信任。把 AI 用在不需要 AI 的地方不是能力展示，是反模式。</div>
-  <div class="result"><div class="rtitle">探索价值</div>验证影像工具类产品的核心 PM 命题——硬件决定能捕捉多少原始信息，软件决定能利用多少，AI 决定能从已有信息里重建多少。PixelPick 展示的是"AI 介入影像工作流的哪个节点"以及"如何让 AI 决策透明化"这两个 PM 关键判断。</div>
+  <div class="step-text">展示 AI PM 的影像产品思维："AI 不该在拍照时干扰用户，而应在拍完后帮用户精选"。四维评分（清晰度/亮度/色彩/构图）由 Canvas 本地计算，增强效果可开关可拖拽对比，让用户看见 AI 做了什么而非黑盒"美化"。</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么做选片+增强而不是单一功能：</b>竞品调研发现 Remini（5 亿+ 下载量）只做"一键增强"但没有选片能力，Google Photos Best Take 只做表情优选但评分标准是黑盒。用户的真实痛点链条是"拍了太多→不知道留哪张→留了也不满意画质"：选片和增强是一个连续决策，拆成两个独立 App 会增加用户切换成本。</div>
+  <div class="step-text"><b>为什么四维评分需要透明化：</b>Google Photos 的 AI 选片只告诉你"这是最佳"，不告诉你"为什么"。用户不信任黑盒：摄影师的判断标准（构图/曝光/情绪）和 AI 的评分逻辑往往不一致。PixelPick 把四个维度的分数和进度条都展示出来，让用户理解 AI 的判断依据，才能信任 AI 的推荐。</div>
+  <div class="step-text"><b>为什么不用大模型做评分：</b>四维评分全部用 Canvas 像素数学实现：标准差算清晰度、均值算亮度、色相多样性算色彩、中心/边缘亮度差算构图：<b>没有调用任何 LLM API</b>。这是一个刻意的产品决策：选片的本质是排序而非理解，不需要语义推理能力。用大模型（如 GPT-4o Vision）反而引入三个问题：①延迟 800-2000ms vs Canvas 本地 < 50ms；②照片需上传到第三方服务器，与隐私优先的产品策略矛盾；③LLM 有温度参数，同一张照片两次打分可能不同，破坏用户信任。把 AI 用在不需要 AI 的地方不是能力展示，是反模式。</div>
+  <div class="result"><div class="rtitle">探索价值</div>验证影像工具类产品的核心 PM 命题：硬件决定能捕捉多少原始信息，软件决定能利用多少，AI 决定能从已有信息里重建多少。PixelPick 展示的是"AI 介入影像工作流的哪个节点"以及"如何让 AI 决策透明化"这两个 PM 关键判断。</div>
   <a href="./pixelpick.html" target="_blank" class="demo-link">体验 Demo →</a>
 
   <div class="step-text" style="margin-top:8px;background:rgba(5,150,105,.04);border-left:3px solid rgba(5,150,105,.3);border-radius:0 10px 10px 0;padding:8px 12px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568">
-  <b>影像产品视角：</b>PixelPick验证的是"AI在影像工作流中的介入节点"这个核心PM命题——不是在拍照时干扰用户，而是在拍完后帮用户做决策（选哪张、怎么修）。这和运动相机"拍完自动出片"的产品逻辑是同一条价值链的不同节点。
+  <b>影像产品视角：</b>PixelPick验证的是"AI在影像工作流中的介入节点"这个核心PM命题：不是在拍照时干扰用户，而是在拍完后帮用户做决策（选哪张、怎么修）。这和运动相机"拍完自动出片"的产品逻辑是同一条价值链的不同节点。
   </div>
 
   <details style="cursor:pointer;margin-top:10px">
@@ -1345,13 +1345,13 @@ details .step-text {
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>需求发现：</b>基于竞品走查与手机摄影经验提炼的需求洞察（未做正式用户访谈）。痛点链：一次出行拍大量照片，事后筛选耗时且"选了也不确定是不是最好的那张"——选片环节是比修图更靠前的瓶颈。KANO 需求分层：基础型——清晰度筛选（模糊照片自动排除）；期望型——多维度评分（不仅看清晰度，还看构图和色彩）；兴奋型——增强前后可拖拽对比（不是一键美化黑盒）。产品方向：用户不是"不会修图"，而是"不知道选哪张来修"。<span style="font-size:.64rem;color:#9ca3af">[需求洞察，基于竞品走查+个人体验]</span>
+      <b>需求发现：</b>基于竞品走查与手机摄影经验提炼的需求洞察（未做正式用户访谈）。痛点链：一次出行拍大量照片，事后筛选耗时且"选了也不确定是不是最好的那张"：选片环节是比修图更靠前的瓶颈。KANO 需求分层：基础型：清晰度筛选（模糊照片自动排除）；期望型：多维度评分（不仅看清晰度，还看构图和色彩）；兴奋型：增强前后可拖拽对比（不是一键美化黑盒）。产品方向：用户不是"不会修图"，而是"不知道选哪张来修"。<span style="font-size:.64rem;color:#9ca3af">[需求洞察，基于竞品走查+个人体验]</span>
       <b>竞品分析：</b><br>
       • <b>Remini</b>：<a href="https://remini.ai/" target="_blank">全球5亿+下载</a>，AI一键增强+老照片修复。优势：效果惊艳；局限：无选片能力、增强不可控、全部云端处理。<br>
       • <b>Google Photos</b>：Best Take自动合成最佳表情，端侧AI。优势：深度整合Google生态；局限：限定Pixel生态、评分黑盒、增强不可对比。<br>
       • <b>间接竞品</b>：Adobe Lightroom（专业修图无选片）、VSCO（滤镜推荐无评分体系）；替代方案：手动翻相册。<br>
       • <b>差异化</b>：①选片+增强连续闭环②四维评分透明化③增强可开关可拖拽对比。 <span style="font-size:.64rem;color:#9ca3af">[竞品数据来源：Remini官网、AppBrain 2026年6月、Google Photos Help]</span>
-      <b>数据闭环：</b>核心指标——①选片采纳率（用户接受 AI 推荐最佳照片的比例）；②增强满意度（用户使用增强后不撤销的比例）；③拖拽对比交互率（进入对比视图后完成拖拽操作的比例，衡量"用户是否真的在对比"）。过程指标——照片上传完成率、评分查看深度（是否展开查看四维详情）、增强开关独立切换频率（哪个效果被关闭最多，反馈评分维度权重调整）。
+      <b>数据闭环：</b>核心指标：①选片采纳率（用户接受 AI 推荐最佳照片的比例）；②增强满意度（用户使用增强后不撤销的比例）；③拖拽对比交互率（进入对比视图后完成拖拽操作的比例，衡量"用户是否真的在对比"）。过程指标：照片上传完成率、评分查看深度（是否展开查看四维详情）、增强开关独立切换频率（哪个效果被关闭最多，反馈评分维度权重调整）。
     </div>
   </details>
 
@@ -1364,7 +1364,7 @@ details .step-text {
 
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(a) 北极星指标与过程指标</div>
-        <div style="margin-bottom:6px"><b>北极星指标：选片采纳率</b>——用户上传照片后，接受 AI 推荐的最佳照片（不手动更换）的比例。这个指标同时衡量"评分模型是否准确反映了用户审美"和"评分透明度是否建立了信任"。</div>
+        <div style="margin-bottom:6px"><b>北极星指标：选片采纳率</b>：用户上传照片后，接受 AI 推荐的最佳照片（不手动更换）的比例。这个指标同时衡量"评分模型是否准确反映了用户审美"和"评分透明度是否建立了信任"。</div>
         <div style="margin-bottom:6px"><b>过程指标（按交互步骤拆解）：</b></div>
         <div style="overflow-x:auto;margin:6px 0">
           <table style="width:100%;border-collapse:collapse;font-size:.7rem;color:#2d3a4b">
@@ -1376,7 +1376,7 @@ details .step-text {
             <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">增强</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">增强效果保留率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户打开增强开关后保持开启的比例（被关闭最多的效果反映用户偏好）</td></tr>
           </table>
         </div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>北极星是选片采纳率而非增强使用率——因为选片是比修图更靠前的瓶颈。用户先要知道"选哪张"，然后才决定"要不要修"。如果选片错了，增强做得再好也没用。过程指标按交互漏斗拆解，每一步的流失定位到具体的产品问题。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>北极星是选片采纳率而非增强使用率，因为选片是比修图更靠前的瓶颈。用户先要知道"选哪张"，然后才决定"要不要修"。如果选片错了，增强做得再好也没用。过程指标按交互漏斗拆解，每一步的流失定位到具体的产品问题。</div>
       </div>
 
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
@@ -1392,26 +1392,26 @@ details .step-text {
             <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">离线可用</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>是</b></td><td style="padding:5px 8px;border-top:1px solid #f5ead8">否</td></tr>
           </table>
         </div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>决策逻辑：</b>原型阶段优先验证产品逻辑而非模型精度。Canvas 方案可以快速验证"评分透明化"的产品方向——如果连基础像素统计得出的评分用户都愿意信任并采纳，那产品方向就对了，后续升级模型是工程问题。如果用户根本不信任 AI 评分，再好的模型也没用。这一决策逻辑与宠伴选择 Tesseract.js 本地 OCR 一致——PM 不能等到"完美方案"才做用户验证。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>决策逻辑：</b>原型阶段优先验证产品逻辑而非模型精度。Canvas 方案可以快速验证"评分透明化"的产品方向：如果连基础像素统计得出的评分用户都愿意信任并采纳，那产品方向就对了，后续升级模型是工程问题。如果用户根本不信任 AI 评分，再好的模型也没用。这一决策逻辑与宠伴选择 Tesseract.js 本地 OCR 一致：PM 不能等到"完美方案"才做用户验证。</div>
       </div>
 
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(c) 四维评分权重设计的依据</div>
         <div style="margin-bottom:4px"><b>核心原则：权重反映产品预期，原型阶段基于固定权重快速验证方向。</b></div>
-        <div style="margin-bottom:4px">• <b>清晰度 35%：</b>最基础的筛选条件——模糊照片在任何场景下都不可用。权重最高，但评分函数设计为"够用即可"（30-95 分区间，普通清晰度即可得 60+），而非追求极致锐度</div>
-        <div style="margin-bottom:4px">• <b>构图 35%：</b>画面结构的核心判断——三等分法则、中心对称、引导线等。与清晰度并列最高权重，因为构图是"拍得好不好"的核心维度，也是手机摄影用户最常提及的评判标准</div>
-        <div style="margin-bottom:4px">• <b>色彩 20%：</b>色彩丰富度和和谐度——高饱和≠好照片，但极度单调的灰暗画面通常不受欢迎。中等权重，因为色彩是"锦上添花"而非"雪中送炭"</div>
-        <div style="margin-bottom:4px">• <b>亮度 10%：</b>曝光是否合理——过曝和欠曝都扣分，但曝光问题可以通过增强功能弥补（而模糊或构图差无法弥补），因此权重最低</div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>权重设计本身就是产品决策——它代表了"你认为什么样的照片是好的"。如果权重设置和用户审美不一致，用户永远不会信任 AI 的推荐。Demo 阶段用固定权重快速验证方向，生产环境中应支持用户自定义权重（"我更在意构图"→ 构图权重上调）。</div>
+        <div style="margin-bottom:4px">• <b>清晰度 35%：</b>最基础的筛选条件：模糊照片在任何场景下都不可用。权重最高，但评分函数设计为"够用即可"（30-95 分区间，普通清晰度即可得 60+），而非追求极致锐度</div>
+        <div style="margin-bottom:4px">• <b>构图 35%：</b>画面结构的核心判断：三等分法则、中心对称、引导线等。与清晰度并列最高权重，因为构图是"拍得好不好"的核心维度，也是手机摄影用户最常提及的评判标准</div>
+        <div style="margin-bottom:4px">• <b>色彩 20%：</b>色彩丰富度和和谐度：高饱和≠好照片，但极度单调的灰暗画面通常不受欢迎。中等权重，因为色彩是"锦上添花"而非"雪中送炭"</div>
+        <div style="margin-bottom:4px">• <b>亮度 10%：</b>曝光是否合理：过曝和欠曝都扣分，但曝光问题可以通过增强功能弥补（而模糊或构图差无法弥补），因此权重最低</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>权重设计本身就是产品决策：它代表了"你认为什么样的照片是好的"。如果权重设置和用户审美不一致，用户永远不会信任 AI 的推荐。Demo 阶段用固定权重快速验证方向，生产环境中应支持用户自定义权重（"我更在意构图"→ 构图权重上调）。</div>
       </div>
 
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(d) 增强效果用 CSS Filter 而非真正 AI 增强的设计意图</div>
         <div style="margin-bottom:4px"><b>核心问题：为什么不用 Remini 式的真实 AI 增强？</b></div>
-        <div style="margin-bottom:4px">• <b>这是 PM Demo，不是产品交付：</b>Demo 的目的是验证"让用户对比原图 vs 增强"这个交互概念是否有价值，以及"增强开关独立可控"是否被用户需要——这两点用 CSS Filter 模拟完全足够</div>
-        <div style="margin-bottom:4px">• <b>真实的 AI 增强（超分辨率/去噪/色彩重建）需要 GPU 推理：</b>Web 端可以用 TensorFlow.js 或 ONNX Runtime Web 跑轻量模型，但会增加 5-15MB 的模型加载时间和 2-5 秒的推理延迟——Demo 阶段的用户体验损害远大于收益</div>
-        <div style="margin-bottom:4px">• <b>CSS Filter 本身就是产品洞察：</b>降噪=对比度微调、锐化=亮度微调、色彩增强=饱和度提升——这些滤镜模拟的不是"AI 做了什么"，而是"用户期望 AI 做到的效果"。Demo 验证的是需求层面而非技术层面</div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>一个好的 Demo 不需要完美的技术实现——它需要让用户"看到"产品概念。如果用户不理解"AI 增强"意味着什么，给他看再精细的超分辨率结果也没用。滑块对比 + 独立开关的设计本身比 AI 模型的精度更重要——它解决了"用户不信任 AI 修图"这个比"AI 修得不够好"更根本的问题。</div>
+        <div style="margin-bottom:4px">• <b>这是 PM Demo，不是产品交付：</b>Demo 的目的是验证"让用户对比原图 vs 增强"这个交互概念是否有价值，以及"增强开关独立可控"是否被用户需要：这两点用 CSS Filter 模拟完全足够</div>
+        <div style="margin-bottom:4px">• <b>真实的 AI 增强（超分辨率/去噪/色彩重建）需要 GPU 推理：</b>Web 端可以用 TensorFlow.js 或 ONNX Runtime Web 跑轻量模型，但会增加 5-15MB 的模型加载时间和 2-5 秒的推理延迟：Demo 阶段的用户体验损害远大于收益</div>
+        <div style="margin-bottom:4px">• <b>CSS Filter 本身就是产品洞察：</b>降噪=对比度微调、锐化=亮度微调、色彩增强=饱和度提升：这些滤镜模拟的不是"AI 做了什么"，而是"用户期望 AI 做到的效果"。Demo 验证的是需求层面而非技术层面</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>一个好的 Demo 不需要完美的技术实现：它需要让用户"看到"产品概念。如果用户不理解"AI 增强"意味着什么，给他看再精细的超分辨率结果也没用。滑块对比 + 独立开关的设计本身比 AI 模型的精度更重要：它解决了"用户不信任 AI 修图"这个比"AI 修得不够好"更根本的问题。</div>
       </div>
 
     </div>
@@ -1434,8 +1434,8 @@ details .step-text {
   <div class="flow-badge"><span class="fb-step">1</span>需求输入<span class="fb-arrow">→</span><span class="fb-step">2</span>市场调研<span class="fb-arrow">→</span><span class="fb-step">3</span>选品推荐<span class="fb-arrow">→</span><span class="fb-step">4</span>文案生成<span class="fb-arrow">→</span><span class="fb-step">5</span>合规审核<span class="fb-arrow">→</span><span class="fb-step">6</span>运营上架</div>
   <div class="arch-box"><b>LangGraph + MCP服务总线 + 6-Agent真并行：</b>需求解析Agent → LangGraph Send() 同时分发至市场调研/选品分析/合规审核（3 Agent 真并行），再汇总至文案生成+运营策略Agent，最终 Compiler 输出结构化卡片 + PM 决策链。覆盖跨境电商全链路闭环，不做传统问答Chatbot。v2 新增场景化 Demo（日本食品/韩国美妆/澳洲保健品），每个场景含完整比价→关税→合规→推荐 storyline。</div>
   <div class="step-text" style="margin-top:8px"><b>为什么选MCP服务总线而非传统API网关：</b>跨境电商涉及多语言/多市场/多环节，传统API网关是"请求-响应"模式，不支持Agent间上下文传递。MCP协议原生支持"工具描述+上下文传递"，让每个Agent能获取前序Agent的结构化输出，而非从头理解用户意图。v2 更进一步：通过 LangGraph Send() 实现 3 Agent 真并行（调研/选品/合规同时执行），相比 v1 的串行 list 分发，总延迟降低约 60%。</div>
-  <div class="step-text"><b>为什么从4-Agent扩展到6-Agent：</b>初版4-Agent（需求/调研/选品/运营）缺少"文案生成"和"合规审核"。用户反馈"选品推荐了但文案要自己写、合规要自己查"——这两个环节恰好是跨境电商最耗时且最容易出错的。拆分独立Agent后，每个Agent的System Prompt更聚焦（500-800 tokens），输出质量可控。如果合成单Agent，Prompt超4000 tokens会导致注意力分散。</div>
-  <div class="step-text"><b>为什么做结构化卡片推送而非传统Chatbot：</b>访谈发现用户"不知道该问什么"——跨境新人不知道该问关税、物流还是合规。传统Chatbot需要用户主动提问，而结构化卡片是Agent主动推送（"这是您选品的关税风险评估""以下是3套多语言文案方案"），把"搜索"变"推荐"，降低使用门槛。</div>
+  <div class="step-text"><b>为什么从4-Agent扩展到6-Agent：</b>初版4-Agent（需求/调研/选品/运营）缺少"文案生成"和"合规审核"。用户反馈"选品推荐了但文案要自己写、合规要自己查"：这两个环节恰好是跨境电商最耗时且最容易出错的。拆分独立Agent后，每个Agent的System Prompt更聚焦（500-800 tokens），输出质量可控。如果合成单Agent，Prompt超4000 tokens会导致注意力分散。</div>
+  <div class="step-text"><b>为什么做结构化卡片推送而非传统Chatbot：</b>访谈发现用户"不知道该问什么"：跨境新人不知道该问关税、物流还是合规。传统Chatbot需要用户主动提问，而结构化卡片是Agent主动推送（"这是您选品的关税风险评估""以下是3套多语言文案方案"），把"搜索"变"推荐"，降低使用门槛。</div>
   <div class="data-row" style="margin-top:10px">
     <span class="data-chip"><span class="num g">98.2%</span><span class="label">意图识别</span></span>
     <span class="data-chip"><span class="num g">180ms</span><span class="label">MCP延迟</span></span>
@@ -1456,7 +1456,7 @@ details .step-text {
       需求·竞品·数据
     </summary>
     <div style="padding-left:clamp(24px,3vw,32px);margin-top:6px;font-size:clamp(.72rem,.82vw,.76rem);color:#4a5568;line-height:1.5">
-      <b>调研：</b>访谈<b>8位</b>跨境电商用户（含代购、海淘新手），问卷<b>42份</b>，行业报告分析（海关总署/艾瑞咨询跨境报告）；KANO：基础型（商品浏览+拼团+多语言切换）、期望型（AI比价+关税计算+结构化信息推送）、兴奋型（6-Agent全链路协作+合规校验+多语言文案生成）。<b>竞品：</b>直接——<a href="https://xueqiu.com/1290568231/391301031" style="color:#0071e3" target="_blank">拼多多全球购（Temu Q1 2026 GMV达280亿美元，全球月活5.3亿）</a>、天猫国际（AI客服+智能翻译）；间接——亚马逊全球购（全球电商巨头，AI驱动个性化推荐）；替代——代购+转运公司（人工服务，高成本低效率）。差异化：MCP+6-Agent结构化推送，覆盖从需求解析到运营策略的完整闭环，区别于传统电商平台的单一AI推荐功能。[竞品数据来源：雪球PDD 2026Q1财报分析]<b>数据：</b>Agent卡片点击率、意图识别率（<b>98.2%</b><span style="font-size:.64rem;color:#86868b">[内部测试·100次调用均值]</span>）、MCP平均延迟（<b>180ms</b><span style="font-size:.64rem;color:#86868b">[内部测试·50次调用均值]</span>）、比价→下单转化漏斗、6-Agent协作流水线完成率。
+      <b>调研：</b>访谈<b>8位</b>跨境电商用户（含代购、海淘新手），问卷<b>42份</b>，行业报告分析（海关总署/艾瑞咨询跨境报告）；KANO：基础型（商品浏览+拼团+多语言切换）、期望型（AI比价+关税计算+结构化信息推送）、兴奋型（6-Agent全链路协作+合规校验+多语言文案生成）。<b>竞品：</b>直接：<a href="https://xueqiu.com/1290568231/391301031" style="color:#0071e3" target="_blank">拼多多全球购（Temu Q1 2026 GMV达280亿美元，全球月活5.3亿）</a>、天猫国际（AI客服+智能翻译）；间接：亚马逊全球购（全球电商巨头，AI驱动个性化推荐）；替代：代购+转运公司（人工服务，高成本低效率）。差异化：MCP+6-Agent结构化推送，覆盖从需求解析到运营策略的完整闭环，区别于传统电商平台的单一AI推荐功能。[竞品数据来源：雪球PDD 2026Q1财报分析]<b>数据：</b>Agent卡片点击率、意图识别率（<b>98.2%</b><span style="font-size:.64rem;color:#86868b">[内部测试·100次调用均值]</span>）、MCP平均延迟（<b>180ms</b><span style="font-size:.64rem;color:#86868b">[内部测试·50次调用均值]</span>）、比价→下单转化漏斗、6-Agent协作流水线完成率。
     </div>
   </details>
 
@@ -1470,7 +1470,7 @@ details .step-text {
       <!-- (a) 北极星指标与过程指标 -->
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(a) 北极星指标与过程指标</div>
-        <div style="margin-bottom:6px"><b>北极星指标：6-Agent协作流水线完成率</b>——即用户发起需求后，6个Agent全部成功执行并输出最终结果的比率。这个指标直接衡量"端到端价值交付"，因为它要求从需求解析到运营策略的每个环节都不能断裂。</div>
+        <div style="margin-bottom:6px"><b>北极星指标：6-Agent协作流水线完成率</b>：即用户发起需求后，6个Agent全部成功执行并输出最终结果的比率。这个指标直接衡量"端到端价值交付"，因为它要求从需求解析到运营策略的每个环节都不能断裂。</div>
         <div style="margin-bottom:6px"><b>过程指标（按Agent拆解）：</b></div>
         <div style="overflow-x:auto;margin:6px 0">
           <table style="width:100%;border-collapse:collapse;font-size:.7rem;color:#2d3a4b">
@@ -1483,7 +1483,7 @@ details .step-text {
             <tr><td style="padding:5px 8px;border-top:1px solid #d1fae5">运营策略</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">策略采纳率</td><td style="padding:5px 8px;border-top:1px solid #d1fae5">用户采纳AI运营建议的比率</td></tr>
           </table>
         </div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>北极星指标衡量"链路是否跑通"，过程指标定位"哪个环节断了"。两者结合形成完整的诊断体系——北极星掉了看过程指标，过程指标掉了定位到具体Agent。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>产品视角：</b>北极星指标衡量"链路是否跑通"，过程指标定位"哪个环节断了"。两者结合形成完整的诊断体系：北极星掉了看过程指标，过程指标掉了定位到具体Agent。</div>
       </div>
 
       <!-- (b) 技术框架 -->
@@ -1513,7 +1513,7 @@ details .step-text {
             <tr><td style="padding:5px 8px;border-top:1px solid #f5ead8">工具调用</td><td style="padding:5px 8px;border-top:1px solid #f5ead8">Agent 直接 new Tool()</td><td style="padding:5px 8px;border-top:1px solid #f5ead8"><b>MCPRouter 注入</b>（router.call() 统一管理）</td></tr>
           </table>
         </div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>迁移决策：</b>LangGraph 不是一个"大而全"的框架——它只做状态图编排（StateGraph + Node + Edge），不强制使用 LangChain 生态的其他组件。迁移后编排代码量减少约 48%，同时获得了真并行、自动状态合并和节点级错误隔离三个 v1 缺失的能力。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>迁移决策：</b>LangGraph 不是一个"大而全"的框架：它只做状态图编排（StateGraph + Node + Edge），不强制使用 LangChain 生态的其他组件。迁移后编排代码量减少约 48%，同时获得了真并行、自动状态合并和节点级错误隔离三个 v1 缺失的能力。</div>
       </div>
 
       <!-- (d) 为什么Sub Agent模式适合 -->
@@ -1529,7 +1529,7 @@ details .step-text {
       <!-- (e) v2 并行执行机制与通讯方式 -->
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:10px">
         <div style="font-weight:700;color:#0f172a;font-size:.8rem;margin-bottom:6px">(e) v2 并行执行机制与通讯方式</div>
-        <div style="margin-bottom:6px"><b>真并行实现：</b>Intent Parser 解析完成后，route_after_intent 返回 <code>[Send("market_analyst", state), Send("product_scout", state), Send("compliance", state)]</code>——LangGraph 将同一 state 副本 fan-out 至 3 个 Agent 节点，各自独立异步执行，最终在 Compiler 节点自动合并状态。</div>
+        <div style="margin-bottom:6px"><b>真并行实现：</b>Intent Parser 解析完成后，route_after_intent 返回 <code>[Send("market_analyst", state), Send("product_scout", state), Send("compliance", state)]</code>：LangGraph 将同一 state 副本 fan-out 至 3 个 Agent 节点，各自独立异步执行，最终在 Compiler 节点自动合并状态。</div>
         <div style="margin-bottom:6px"><b>错误恢复：</b>每个 Agent 节点由 _run_agent_safe() 包裹，单个 Agent 失败不阻断其他并行 Agent。失败信息写入 agent_errors，Compiler 在结果中展示"部分成功"状态，不丢失已成功的 Agent 结果。</div>
         <div style="margin-bottom:6px"><b>Sub Agent对Main Agent的输出结构：</b>针对通过筛选和未通过筛选两种情况，定义了不同的输出Schema：</div>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:10px;margin-bottom:8px;font-family:monospace;font-size:.68rem;line-height:1.5;white-space:pre-wrap;overflow-x:auto">
@@ -1553,7 +1553,7 @@ details .step-text {
   "blocked": true,
   "fallback": "运营策略Agent（生成合规整改建议）"
 }</div>
-        <div style="font-size:.68rem;color:#6e6e73"><b>设计决策：</b>通过/失败两种输出结构的核心差异在于：pass状态携带<code>next_agent</code>字段引导流转，fail状态携带<code>suggestion</code>和<code>fallback</code>字段提供补救路径。v2 中 LangGraph Compiler 统一处理状态汇总——不管 Agent 返回 pass 还是 fail，agent_errors 追踪部分失败，Compiler 输出"部分成功"卡片而非直接终止。</div>
+        <div style="font-size:.68rem;color:#6e6e73"><b>设计决策：</b>通过/失败两种输出结构的核心差异在于：pass状态携带<code>next_agent</code>字段引导流转，fail状态携带<code>suggestion</code>和<code>fallback</code>字段提供补救路径。v2 中 LangGraph Compiler 统一处理状态汇总：不管 Agent 返回 pass 还是 fail，agent_errors 追踪部分失败，Compiler 输出"部分成功"卡片而非直接终止。</div>
       </div>
 
     </div>
@@ -1581,27 +1581,27 @@ details .step-text {
 
 <!-- ===== 智能硬件原型能力 ===== -->
 <h2 class="section-title scroll-margin" id="hardware">跨域能力 · 智能硬件原型</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">用开源硬件小成本验证软硬协同的产品可行性——目标是与硬件团队高效协作，而非转行做硬件</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">用开源硬件小成本验证软硬协同的产品可行性：目标是与硬件团队高效协作，而非转行做硬件</p>
 
 <div class="card">
   <div class="card-icon">🔧</div>
   <div class="card-title">硬件动手实践</div>
   <div class="card-sub">3个原型实验，验证"软件PM理解硬件边界"的价值</div>
 
-  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">宠伴·智能体重秤 —— 验证"自动采集→App融合"</div>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">宠伴·智能体重秤 ： 验证"自动采集→App融合"</div>
   <div class="step-text">参考 GitHub 开源教程选购 ESP32 与称重传感器模组，完成接线组装并跑通数据采集，总成本约 ¥30。目的是验证：宠物每日上秤数据自动同步到宠伴后，能否显著降低手动录入成本、提升持续使用意愿。参考了 <a href="https://github.com/mblk/cat-scale" target="_blank">mblk/cat-scale</a> 和 <a href="https://github.com/coniferconifer/ESP32-HX711-MQTT" target="_blank">coniferconifer/ESP32-HX711-MQTT</a> 的开源方案。</div>
   </div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">小小汪·电子宠物机器狗 —— 拼装 + Vibecoding</div>
-  <div class="step-text">买了现成的PCB板和3D打印外壳，自己动手做了组装和固件配置，然后用 Vibe Coding 参考开源代码写了交互逻辑。最大的收获不是硬件本身，而是理解了"为什么加一个看起来很小的功能，硬件工程师说要改BOM"——从此评估需求时对技术方给的工期有了更实际的判断。参考了 <a href="https://oshwhub.com/" target="_blank">立创开源硬件平台</a> 的 smart-puppy 和 GitHub 上 <a href="https://github.com/PetoiCamp/OpenCat-Quadruped-Robot" target="_blank">PetoiCamp/OpenCat</a>。</div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">小小汪·电子宠物机器狗 ： 拼装 + Vibecoding</div>
+  <div class="step-text">买了现成的PCB板和3D打印外壳，自己动手做了组装和固件配置，然后用 Vibe Coding 参考开源代码写了交互逻辑。最大的收获不是硬件本身，而是理解了"为什么加一个看起来很小的功能，硬件工程师说要改BOM"：从此评估需求时对技术方给的工期有了更实际的判断。参考了 <a href="https://oshwhub.com/" target="_blank">立创开源硬件平台</a> 的 smart-puppy 和 GitHub 上 <a href="https://github.com/PetoiCamp/OpenCat-Quadruped-Robot" target="_blank">PetoiCamp/OpenCat</a>。</div>
   </div></div>
 
-  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">树莓派 + 语音控制 —— 探索"自然语言→硬件执行"</div>
-  <div class="step-text">买了树莓派和现成的传感器、舵机模组，按开源教程接线配置，用 Vibe Coding 实现了语音指令控制硬件动作。这是一个轻量的"AI+硬件"交互验证——用户说一句话，机器做出反应。虽然只是跑通了 Demo，但让我对端侧 AI 在 IoT 设备上的可行性有了直观判断。参考了 <a href="https://github.com/dinhnhat0401/OpenClaw" target="_blank">OpenClaw</a> 和 <a href="https://github.com/av4625/robot_dog" target="_blank">av4625/robot_dog</a> 的开源方案。</div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">树莓派 + 语音控制 ： 探索"自然语言→硬件执行"</div>
+  <div class="step-text">买了树莓派和现成的传感器、舵机模组，按开源教程接线配置，用 Vibe Coding 实现了语音指令控制硬件动作。这是一个轻量的"AI+硬件"交互验证：用户说一句话，机器做出反应。虽然只是跑通了 Demo，但让我对端侧 AI 在 IoT 设备上的可行性有了直观判断。参考了 <a href="https://github.com/dinhnhat0401/OpenClaw" target="_blank">OpenClaw</a> 和 <a href="https://github.com/av4625/robot_dog" target="_blank">av4625/robot_dog</a> 的开源方案。</div>
   </div></div>
 
   <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">为什么PM要碰硬件</div>
-  <div class="step-text"><b>不是为了会焊电路板。</b>是三个实际价值：①快速验证——买现成模组跟着开源教程跑通一个原型，在硬件团队排期前就能拿到初步数据，让需求评审有据可依；②技术判断力——亲手组装过、跑通过、改过代码，和硬件团队沟通时能更准确理解工期和成本背后的技术约束；③沟通效率——需求评审时，评估方案周期和成本的判断更接近实际，减少来回对齐的沟通成本。</div>
+  <div class="step-text"><b>不是为了会焊电路板。</b>是三个实际价值：①快速验证：买现成模组跟着开源教程跑通一个原型，在硬件团队排期前就能拿到初步数据，让需求评审有据可依；②技术判断力：亲手组装过、跑通过、改过代码，和硬件团队沟通时能更准确理解工期和成本背后的技术约束；③沟通效率：需求评审时，评估方案周期和成本的判断更接近实际，减少来回对齐的沟通成本。</div>
   </div></div>
 
 </div>
@@ -1612,7 +1612,7 @@ details .step-text {
 <div class="card">
   <div class="card-icon">🔄</div>
   <div class="card-title">底层逻辑：Harness 五步法</div>
-  <div class="card-sub">所有 AI 项目遵循同一思维链路——从用户任务出发，经过评测验证，用数据驱动迭代</div>
+  <div class="card-sub">所有 AI 项目遵循同一思维链路：从用户任务出发，经过评测验证，用数据驱动迭代</div>
   <div class="harness">
     <div class="htitle">功能点 → AI技术方案 → 评测集+MECE标准 → 跑评测找链路问题 → 改链路重测 → 展示分数改善</div>
     <div class="hstep"><span class="hnum">1</span><span>从<b>具体用户任务</b>出发，不是从模型能力出发</span></div>
@@ -1626,7 +1626,7 @@ details .step-text {
 <div class="card">
   <div class="card-icon">🚦</div>
   <div class="card-title">六道关卡（Stage Gate 1-6）</div>
-  <div class="card-sub">设计任何 AI 功能前，逐一验证这六关——任一关不通过就暂停</div>
+  <div class="card-sub">设计任何 AI 功能前，逐一验证这六关：任一关不通过就暂停</div>
   <div style="overflow-x:auto">
   <table class="gate-table">
     <tr><th>G</th><th>关卡</th><th>检查什么</th><th>我的实际应用</th></tr>
@@ -1642,7 +1642,7 @@ details .step-text {
 
 <!-- ===== AI Native 工作流 ===== -->
 <h2 class="section-title scroll-margin" id="ai-native">AI Native 工作流 <span style="font-size:clamp(.6rem,.7vw,.64rem);font-weight:400;color:#6e6e73;margin-left:8px">— 我怎么让 AI 做执行，我做判断</span></h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从"给人用的工具"到"给 AI 用的工具"——PM 的 AI 协作范式转变。不只是设计 AI 产品，更是自己使用 AI 工作。</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">从"给人用的工具"到"给 AI 用的工具"：PM 的 AI 协作范式转变。不只是设计 AI 产品，更是自己使用 AI 工作。</p>
 
 <div class="card ai-native">
   <div class="card-icon">🤖</div>
@@ -1682,7 +1682,7 @@ details .step-text {
   <!-- 第二层：人与AI的交互节点 -->
   <div style="margin-top:18px">
     <h4 style="font-size:clamp(.82rem,.96vw,.88rem);font-weight:600;color:#0f172a;margin-bottom:8px">第二层：我如何定义 AI 与人的交互节点</h4>
-    <div class="step-text" style="margin-bottom:8px">核心原则：AI 做执行，人做判断。每个 AI 工作流都必须在关键节点设置人的介入点——否则你不是在管理 AI，你只是在看 AI 表演。</div>
+    <div class="step-text" style="margin-bottom:8px">核心原则：AI 做执行，人做判断。每个 AI 工作流都必须在关键节点设置人的介入点，否则你不是在管理 AI，你只是在看 AI 表演。</div>
     <div style="overflow-x:auto;margin:10px 0">
       <table class="constraint-table" style="border:1px solid rgba(79,70,229,.15)">
         <tr><th>护栏</th><th>触发时机</th><th>人做什么</th><th>AI 做什么</th></tr>
@@ -1703,29 +1703,29 @@ details .step-text {
       <div class="an-skill-row"><span class="an-bullet">2</span><span><b>处理：</b>逐项 0/1 判定 + 引用原文定位 + 判断依据（用 Temp 0.2 控制一致性）</span></div>
       <div class="an-skill-row"><span class="an-bullet">3</span><span><b>输出：</b>结构化 JSON（pass/fail + reason + suggestion），不做自由文本</span></div>
       <div class="an-skill-row"><span class="an-bullet">4</span><span><b>与人交互节点：</b>提交确认（人→AI）→ 审核报告（AI→人）→ 人工可修改误判（人→系统）</span></div>
-      <div class="an-skill-row"><span class="an-bullet">5</span><span><b>AI 不可做的事：</b>替人做通过/不通过的最终决策——AI 只看规则，不替判断</span></div>
+      <div class="an-skill-row"><span class="an-bullet">5</span><span><b>AI 不可做的事：</b>替人做通过/不通过的最终决策：AI 只看规则，不替判断</span></div>
     </div>
-    <div class="step-text" style="margin-top:8px"><b>设计逻辑：</b>市面上大多数 Prompt 库按"写作/营销/编程"等 AI 能力分类，但 PM 的工作不是"写一篇文章"而是"定义需求→设计功能→写 PRD→评审→验收→复盘"。我的 Skill 设计遵循三个原则：①按 PM 工作流节点分类而非按 AI 能力分类；②输入输出必须结构化（JSON），方便 Agent 间流转；③每个 Skill 都定义"AI 不可做的事"——这是 PM 判断力的体现，不是技术问题。</div>
+    <div class="step-text" style="margin-top:8px"><b>设计逻辑：</b>市面上大多数 Prompt 库按"写作/营销/编程"等 AI 能力分类，但 PM 的工作不是"写一篇文章"而是"定义需求→设计功能→写 PRD→评审→验收→复盘"。我的 Skill 设计遵循三个原则：①按 PM 工作流节点分类而非按 AI 能力分类；②输入输出必须结构化（JSON），方便 Agent 间流转；③每个 Skill 都定义"AI 不可做的事"：这是 PM 判断力的体现，不是技术问题。</div>
   </div>
 
-  <div class="quote" style="margin-top:14px">同样的一件事，开发的逻辑是做一个好用的工具给用户；AI Native 的逻辑是写一套 Skill——既然工作流程是固定的、区别在于设计上，那就直接在 Skill 里定好边界以及和人交互的节点，剩下的交给 AI 完成。</div>
+  <div class="quote" style="margin-top:14px">同样的一件事，开发的逻辑是做一个好用的工具给用户；AI Native 的逻辑是写一套 Skill：既然工作流程是固定的、区别在于设计上，那就直接在 Skill 里定好边界以及和人交互的节点，剩下的交给 AI 完成。</div>
 </div>
 
 <!-- ===== 前沿观察 ===== -->
 <h2 class="section-title scroll-margin" id="frontier">前沿观察与行业思考</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">下面不是行业简报，是四个<b>我反复验证过的判断</b>——每个判断都由最新行业信号佐证，并在作品集里有一个产品决策做印证（更新至 2026-08）。</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">下面不是行业简报，是四个<b>我反复验证过的判断</b>：每个判断都由最新行业信号佐证，并在作品集里有一个产品决策做印证（更新至 2026-08）。</p>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
     <span class="card-icon" style="margin:0">⚡</span>
     <div style="flex:1">
-      <div class="card-title" style="font-size:1.05rem">判断一：Agent 的价值单位变了——从"回答质量"变成"任务完成率"</div>
+      <div class="card-title" style="font-size:1.05rem">判断一：Agent 的价值单位变了：从"回答质量"变成"任务完成率"</div>
       <div class="card-sub" style="margin-bottom:0">AI 产品不再以"答得好不好"取胜，而以"替你把事做完没有"取胜</div>
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>判断：</b>2026 下半年，AI 产品的竞争点从对话质量转移到任务闭环——用户不再满足于"AI 回答了"，而是"AI 把这一件事办成了"。这要求产品设计以<b>执行链路</b>为单位，而不是以对话轮次为单位。<br>
-    <b>佐证：</b>7 月 ChatGPT Work / Claude Cowork / WorkBuddy 几乎同时发布（WorkBuddy 非编程使用占比 91.3%）——巨头集体从"聊天"转向"替用户干活"；"执行式 AI"取代"对话式 AI"成为共识。<br>
+    <b>判断：</b>2026 下半年，AI 产品的竞争点从对话质量转移到任务闭环：用户不再满足于"AI 回答了"，而是"AI 把这一件事办成了"。这要求产品设计以<b>执行链路</b>为单位，而不是以对话轮次为单位。<br>
+    <b>佐证：</b>7 月 ChatGPT Work / Claude Cowork / WorkBuddy 几乎同时发布（WorkBuddy 非编程使用占比 91.3%）：巨头集体从"聊天"转向"替用户干活"；"执行式 AI"取代"对话式 AI"成为共识。<br>
     <b>在作品集里：</b>跨境电商 6-Agent 从第一天就让每个 Sub-Agent 直接产出结果（合规报告 / 定价策略 / 产品文案），而不是给用户建议；会议舱把"这一场会议的产出"变成可追踪、有状态流转的待办闭环。我在个人产品里验证的正是"任务闭环优先"。
   </div>
 </details>
@@ -1739,9 +1739,9 @@ details .step-text {
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>判断：</b>多供应商 Agent 协作会成为默认形态，谁能统一工具描述与调用协议，谁就掌握生态入口——所以"用协议组织 Agent"比"绑定某家 SDK"更接近终局。<br>
+    <b>判断：</b>多供应商 Agent 协作会成为默认形态，谁能统一工具描述与调用协议，谁就掌握生态入口：所以"用协议组织 Agent"比"绑定某家 SDK"更接近终局。<br>
     <b>佐证：</b>8.18 Anthropic 合并 MCP v2.0 草案、OpenAI 工程师任共同 reviewer（统一工具 Schema、异步流式传输、跨 Agent 上下文传播）；Gartner 显示 62% Fortune 500 把"协议不兼容"列为多供应商 Agent 最大障碍；Google 未签名，阵营分叉风险显现。<br>
-    <b>在作品集里：</b>GlobalFUN v2 在 v2.0 草案之前就采用 MCPRouter + 原生 MCP 服务总线编排 6 个 Sub-Agent，而非绑定单一厂商 SDK——押注协议标准化的方向被 v2.0 直接验证。
+    <b>在作品集里：</b>GlobalFUN v2 在 v2.0 草案之前就采用 MCPRouter + 原生 MCP 服务总线编排 6 个 Sub-Agent，而非绑定单一厂商 SDK：押注协议标准化的方向被 v2.0 直接验证。
   </div>
 </details>
 
@@ -1754,8 +1754,8 @@ details .step-text {
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>判断：</b>模型能力会被快速追平，而"怎么编排 Agent、怎么验证它真的有用"成为新的稀缺能力——PM 的价值从选模型转向设计与评测。<br>
-    <b>佐证：</b>8.13 DeepSeek Harness 开源（6 天 16 万 star，不锁模型，官方插件可把 Claude Code / Codex 当子代理）；Composio 实测 DeepSeek V4-Flash 真实多步任务 240 次仅 129 次通过——基准分高不代表编排可用，评测是硬功夫。<br>
+    <b>判断：</b>模型能力会被快速追平，而"怎么编排 Agent、怎么验证它真的有用"成为新的稀缺能力：PM 的价值从选模型转向设计与评测。<br>
+    <b>佐证：</b>8.13 DeepSeek Harness 开源（6 天 16 万 star，不锁模型，官方插件可把 Claude Code / Codex 当子代理）；Composio 实测 DeepSeek V4-Flash 真实多步任务 240 次仅 129 次通过：基准分高不代表编排可用，评测是硬功夫。<br>
     <b>在作品集里：</b>PRD Quality Gate 用评测集驱动迭代：同一份 PRD、19 项规则检出 13 处遗漏后不盲目加规则，而是归因"异常流程占 54%"、补第 20 项规则、再用同一份 PRD 复测验证。跨境电商把 6-Agent 当作可插拔组件而非写死链路。
   </div>
 </details>
@@ -1769,9 +1769,9 @@ details .step-text {
     </div>
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
-    <b>判断：</b>端侧 AI 的本质是一组产品约束的取舍：隐私数据不出设备、推理延迟可容忍、离线可用——先回答这三个问题，再谈模型。隐私不是小众偏好，是被监管验证过的行业标准。<br>
+    <b>判断：</b>端侧 AI 的本质是一组产品约束的取舍：隐私数据不出设备、推理延迟可容忍、离线可用：先回答这三个问题，再谈模型。隐私不是小众偏好，是被监管验证过的行业标准。<br>
     <b>佐证：</b>7 月 WAIC 2026，7 款手机端侧 AI 完成国家备案，端侧推理成本降至 1/10，端侧 AI 纳入正式监管框架。<br>
-    <b>在作品集里：</b>宠伴 83% 用户拒云上传 → 选 Tesseract.js 本地 OCR、Whisper 本地转写（商业机密不上云）；PixelPick 四维评分用 Canvas 本地像素计算而非调用视觉大模型——零上传、零延迟、评分确定性（同一张照片两次结果一致，用户才敢信任 AI 推荐）。
+    <b>在作品集里：</b>宠伴 83% 用户拒云上传 → 选 Tesseract.js 本地 OCR、Whisper 本地转写（商业机密不上云）；PixelPick 四维评分用 Canvas 本地像素计算而非调用视觉大模型：零上传、零延迟、评分确定性（同一张照片两次结果一致，用户才敢信任 AI 推荐）。
   </div>
 </details>
 
@@ -1786,7 +1786,7 @@ details .step-text {
     </div>
     <div style="flex:1;min-width:160px;max-width:220px">
       <p style="font-size:clamp(.95rem,1.3vw,1.1rem);font-weight:600">🛠️ 判断力驱动落地</p>
-      <p style="font-size:clamp(.74rem,.88vw,.82rem);color:#4a5568">每个项目从判断 AI 能力边界出发，用 Vibe Coding 快速验证方案，再用 PRD 推动团队交付——决策前置，返工后置</p>
+      <p style="font-size:clamp(.74rem,.88vw,.82rem);color:#4a5568">每个项目从判断 AI 能力边界出发，用 Vibe Coding 快速验证方案，再用 PRD 推动团队交付：决策前置，返工后置</p>
     </div>
     <div style="flex:1;min-width:160px;max-width:220px">
       <p style="font-size:clamp(.95rem,1.3vw,1.1rem);font-weight:600">🤖 AI 判断力</p>
@@ -1794,7 +1794,7 @@ details .step-text {
     </div>
     <div style="flex:1;min-width:160px;max-width:220px">
       <p style="font-size:clamp(.95rem,1.3vw,1.1rem);font-weight:600">📱 软硬协同 × 影像 AI</p>
-      <p style="font-size:clamp(.74rem,.88vw,.82rem);color:#4a5568">能理解硬件约束下的软件体验设计：运动相机软件 PM（Insta360）经验 + 宠伴智能食盆硬件落地（ESP32 + MQTT 局域网）——硬件决定能捕捉多少，软件决定能利用多少，AI 决定能重建多少</p>
+      <p style="font-size:clamp(.74rem,.88vw,.82rem);color:#4a5568">能理解硬件约束下的软件体验设计：运动相机软件 PM（Insta360）经验 + 宠伴智能食盆硬件落地（ESP32 + MQTT 局域网）：硬件决定能捕捉多少，软件决定能利用多少，AI 决定能重建多少</p>
     </div>
   </div>
 </div>
