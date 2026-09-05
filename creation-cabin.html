@@ -31,7 +31,7 @@
     <meta name="twitter:title" content="星途·创作舱 · 巡游轨迹/角色/多格式工坊">
     <meta name="twitter:description" content="网文/剧本沉浸式写作桌面，角色设定、大纲管理、多格式导出一站式搞定。">
     <link rel="manifest" href="creation-manifest.json">
-    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="apple-touch-icon" href="./creation-icon.svg">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
@@ -916,7 +916,6 @@
     @keyframes skeleton-pulse { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   </style>
     <link rel="stylesheet" href="./dev-flow.css">
-    <link rel="stylesheet" href="./neumorphic-shared.css">
   <meta name="copyright" content="© 2026 王天娇 · 个人作品，著作权归作者所有，未经授权禁止转载、商用或二次分发">
 </head>
 <body>
@@ -1694,9 +1693,8 @@
             navigator.clipboard?.writeText(text).then(() => showToast('已复制到剪贴板'));
         });
         document.getElementById('aiApplyToEditorBtn')?.addEventListener('click', () => {
-            const text = document.getElementById('aiResultContent').textContent;
-            const ta = document.getElementById('chapterTextarea');
-            if (ta) { ta.value += '\n\n' + text; ta.dispatchEvent(new Event('input')); showToast('已应用到编辑器'); }
+            if (!document.getElementById('aiResultContent').textContent.trim()) { showToast('请先生成灵感内容'); return; }
+            showToast('章节正文在本地编辑，请用「📋 复制」取用灵感');
         });
 
         document.getElementById('createSnapshotBtn')?.addEventListener('click',()=>{ createSnapshot('手动快照'); saveData(); showToast('快照已创建'); });

@@ -1,4 +1,6 @@
 const CACHE_NAME = 'pet-vaccine-cache-v1';
+// 本应用(宠伴)专属缓存前缀：activate 只清理本应用自己的历史缓存，不清除创作舱/demo 的缓存
+const CACHE_PREFIX = 'pet-vaccine-cache';
 
 const CORE_ASSETS = [
   './pet-vaccine.html',
@@ -15,7 +17,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+      Promise.all(keys.filter((k) => k.startsWith(CACHE_PREFIX) && k !== CACHE_NAME).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
 });
@@ -28,7 +30,11 @@ self.addEventListener('fetch', (event) => {
       const copy = res.clone();
       caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(() => {});
       return res;
-    }).catch(() => caches.match(req).then((c) => c || caches.match('./pet-vaccine.html')))
+    }).catch(() => caches.match(req).then((c) => {
+      if (c) return c;
+      // 导航请求离线且缓存无命中时才回退到本应用(宠伴)入口页，避免回退成其它应用的页面；非导航未缓存资源交回浏览器处理
+      if (req.mode === 'navigate') return caches.match('./pet-vaccine.html');
+    }))
   );
 });
 

@@ -1,4 +1,6 @@
 const CACHE_NAME = 'demo-cache-v1';
+// demo 页缓存前缀：activate 只清理 demo 自身的历史缓存，不清除宠伴/创作舱的缓存
+const CACHE_PREFIX = 'demo-cache';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -7,7 +9,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+      Promise.all(keys.filter((k) => k.startsWith(CACHE_PREFIX) && k !== CACHE_NAME).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
 });
