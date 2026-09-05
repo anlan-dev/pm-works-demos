@@ -178,22 +178,29 @@ a{color:#0071e3;text-decoration:none}
 @keyframes heroReveal{to{opacity:1;transform:none}}
 body.anim-off .card,body.anim-off .section-title,body.anim-off .divider,body.anim-off .hero *{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
 
-/* ===== Speed Mode ===== */
-body.speed-active{padding-top:36px}
+/* ===== 精简速览模式 ===== */
+body.speed-active{padding-top:34px}
 body.speed-active .card{border-left:3px solid #0071e3;background:linear-gradient(135deg,rgba(0,113,227,.02),rgba(255,255,255,1))}
-body.speed-active .section-title::after{content:'⚡';margin-left:8px;font-size:.8em;opacity:.5}
 body.speed-active .harness{border-color:#93c5fd;background:linear-gradient(135deg,#eff6ff,#f0f4ff)}
 body.speed-active .quote{border-left-color:#0071e3;background:rgba(0,113,227,.06)}
 body.speed-active .result{border-color:rgba(0,113,227,.2);background:rgba(0,113,227,.04)}
-body.speed-active details{border:1px dashed #93c5fd;border-radius:10px;padding:8px 12px;margin-top:10px;background:rgba(0,113,227,.02)}
+body.speed-active details{border:1px dashed #93c5fd;border-radius:10px;padding:6px 12px;margin-top:10px;background:rgba(0,113,227,.02)}
 body.speed-active .step-num{background:rgba(0,113,227,.15)}
-/* 快速浏览=精简速览：隐藏长论述与折叠细节，只留标题骨架与结论数据 */
-body.speed-active .step-text{display:none}
-body.speed-active details{display:none}
+/* 精简速览：每块内容默认只露出标题与一句要点，点击条目在“要点/全文”间切换；折叠块(details)保留可展开 */
 body.speed-active #aboutSec{display:none}
 body.speed-active .quote{display:none}
-body.speed-active .step-body .step-title{font-weight:600}
 body.speed-active .method-intro{display:none}
+body.speed-active .step{cursor:pointer}
+body.speed-active .step:hover{background:rgba(0,113,227,.035)}
+body.speed-active .step>.step-body>.step-text{max-height:3.2em;overflow:hidden}
+body.speed-active .step.open>.step-body>.step-text{max-height:none;overflow:visible}
+body.speed-active .step>.step-body>.step-title{font-weight:600}
+body.speed-active .step>.step-body>.step-title::after{content:'';font-size:.72em;color:#0071e3;font-weight:500;margin-left:8px;white-space:nowrap}
+body.speed-active .step:not(.open)>.step-body>.step-title::after{content:'▾ 展开'}
+body.speed-active .step.open>.step-body>.step-title::after{content:'▴ 收起'}
+/* 精简速览顶栏 */
+#speedBanner .speed-hint{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.8;font-weight:400}
+@media(max-width:480px){#speedBanner .speed-hint{display:none}}
 
 /* ===== Progress Bar ===== */
 .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#0071e3,#0a84ff,#5856d6);z-index:10001;width:0%;transition:width 50ms linear;border-radius:0 2px 2px 0}
@@ -611,10 +618,11 @@ details .step-text {
   <a href="#frontier" class="drawer-link"><span class="nav-icon">🔬</span> 前沿观察</a>
 </nav>
 
-<!-- Speed mode banner -->
-<div id="speedBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;align-items:center;justify-content:center;gap:8px;padding:8px 16px;background:linear-gradient(135deg,#0071e3,#0a84ff);color:#fff;font-size:13px;font-weight:600;letter-spacing:.3px;box-shadow:0 2px 12px rgba(0,113,227,.3)">
-  <span>⚡ 快速浏览模式已开启</span>
-  <span style="opacity:.7;font-weight:400">· 仅保留标题骨架与核心结论 · 退出后查看详情</span>
+<!-- 精简速览顶栏 -->
+<div id="speedBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;align-items:center;gap:10px;padding:7px clamp(12px,2vw,20px);background:linear-gradient(135deg,#0071e3,#0a84ff);color:#fff;font-size:13px;font-weight:600;letter-spacing:.2px;box-shadow:0 2px 12px rgba(0,113,227,.3)">
+  <span style="white-space:nowrap;flex-shrink:0">⚡ 精简速览</span>
+  <span class="speed-hint">每条内容先看一句要点 · 点击可展开</span>
+  <button id="speedExit" onclick="toggleSpeed()" title="退出精简速览" style="flex-shrink:0;padding:4px 14px;border-radius:999px;border:none;background:#fff;color:#0071e3;font-size:12px;font-weight:600;cursor:pointer">退出</button>
 </div>
 
 <div class="container">
@@ -646,27 +654,28 @@ details .step-text {
     <div class="data-chip"><span class="num">20+</span>用户深访</div>
   </div>
   <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-    <button id="speedBtn" style="padding:6px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;font-size:13px;cursor:pointer;color:#1d1d1f;font-weight:500;transition:all .15s" onclick="toggleSpeed()">⚡ 快速浏览模式</button>
-    <button id="animBtn" style="padding:6px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;font-size:13px;cursor:pointer;color:#1d1d1f;font-weight:500;transition:all .15s" onclick="toggleAnim()">🎬 关闭动画</button>
+    <button id="speedBtn" title="切换精简速览与完整内容" style="padding:6px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;font-size:13px;cursor:pointer;color:#1d1d1f;font-weight:500;transition:all .15s" onclick="toggleSpeed()">⚡ 精简速览</button>
+    <button id="animBtn" title="切换页面滚动动效" style="padding:6px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:#fff;font-size:13px;cursor:pointer;color:#1d1d1f;font-weight:500;transition:all .15s" onclick="toggleAnim()">🎬 关闭动效</button>
   </div>
 </header>
 
-<!-- ===== 快速通道 · 3分钟阅读路径 ===== -->
+<!-- ===== 快速入口 · 面试官3分钟阅读路径 ===== -->
+<div style="font-size:clamp(.76rem,.9vw,.82rem);color:#64748b;font-weight:600;letter-spacing:.1px;margin:0 0 clamp(8px,1.2vw,12px)">🎯 3 分钟了解我，从这三张卡片进入：</div>
 <div class="fast-track">
   <a href="#comp" class="ft-card ft-primary">
     <span class="ft-icon">🧠</span>
-    <span class="ft-label">AI PM核心能力</span>
-    <span class="ft-hook">能力矩阵 · 需求发现(语用学) · 竞品分析 · 数据分析(漏斗→归因→决策)</span>
+    <span class="ft-label">能力总览</span>
+    <span class="ft-hook">需求（语用学深访）、竞品、数据的判断方法，每一层都落到具体项目与证据上</span>
   </a>
   <a href="#pet" class="ft-card ft-success">
     <span class="ft-icon">🐾</span>
     <span class="ft-label">核心案例 · 宠伴</span>
-    <span class="ft-hook">约12位深访·86份问卷·NPS +12→+38 · 软硬件协同·隐私优先IoT</span>
+    <span class="ft-hook">0→1 健康台账：访谈 20 位宠物主定位 83% 隐私顾虑 → 砍社区商城 → 本地优先；NPS +12→+38</span>
   </a>
   <a href="#quality-gate" class="ft-card ft-accent">
     <span class="ft-icon">🔍</span>
     <span class="ft-label">技术决策 · PRD Quality Gate</span>
-    <span class="ft-hook">System Prompt vs RAG · Temp调优 · 四维拆解→补规则→复测闭环</span>
+    <span class="ft-hook">System Prompt vs RAG 完整选型链 + 评测集迭代：一次 PRD 检出 13 处遗漏 → 归因 → 补规则 → 复测</span>
   </a>
 </div>
 
@@ -674,19 +683,18 @@ details .step-text {
 <section id="aboutSec" style="background:#fff;border-radius:clamp(14px,2vw,18px);padding:clamp(20px,3vw,32px);margin-bottom:clamp(20px,3vw,28px);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 12px rgba(0,0,0,.04)">
   <h2 style="font-size:clamp(1.1rem,1.6vw,1.35rem);font-weight:600;letter-spacing:-.02em;margin-bottom:clamp(12px,1.8vw,18px);color:#1d1d1f">📖 关于这个作品集</h2>
   <div style="font-size:clamp(.82rem,.98vw,.88rem);color:#2d3a4b;line-height:1.75">
-    <p style="margin-bottom:12px">我是王天娇，香港理工大学语言学硕士，求职 AI 产品经理。本作品集记录产品判断与落地过程。每个关键决策都标注当时的约束条件：预算、技术边界、用户隐私、时间窗口，在约束中求最优解。13 个项目中，核心项目经过用户测试与轮次迭代，其余产品基于竞品走查与需求调研构建。</p>
-    <p style="margin-bottom:12px;font-size:clamp(.76rem,.88vw,.8rem);color:#0071e3;font-weight:520">📌 推荐阅读路径：能力总览 → 核心案例（宠伴）→ 技术决策（PRD Quality Gate）→ 方法论。如果你只有3分钟，看这三块就够了。</p>
+    <p style="margin-bottom:12px">王天娇，香港理工大学语言学硕士，求职 AI 产品经理。本作品集记录产品判断与落地过程，每个决策都标注当时的约束（预算、技术边界、用户隐私、时间窗口）与取舍。13 个项目中，核心案例经过用户测试与多轮迭代，其余项目基于竞品走查与需求调研完成初版。</p>
+    <p style="margin-bottom:12px;font-size:clamp(.76rem,.88vw,.8rem);color:#0f766e;font-weight:520;border-left:2px solid rgba(13,148,136,.35);padding-left:10px">🤖 这个作品集本身是一次 AI Native 实践：需求与判断由我完成，编码执行交给 AI；13 个 demo 按场景验证端侧识别、多 Agent 编排、MCP 协议与本地推理的适用边界。AI 用在哪、不用在哪，本身就是产品决策。</p>
+    <p style="margin-bottom:12px;font-size:clamp(.76rem,.88vw,.8rem);color:#0071e3;font-weight:520">📌 3 分钟路径：能力总览 → 核心案例（宠伴）→ 技术决策（PRD Quality Gate）。时间有限时，先看这三块。</p>
     <details style="cursor:pointer;margin-top:8px">
       <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.78rem,.92vw,.84rem);font-weight:600;color:#0071e3;padding:8px 0">
         <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.1);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0">▶</span>
-        展开阅读完整作品集介绍
+        展开 · 我判断一件事的方法
       </summary>
       <div style="margin-top:12px">
-        <p style="margin-bottom:12px"><strong>为什么是AI产品经理？</strong>语言学训练是产品判断的底层方法：语用学在深访中识别言外之意（用户说"还行"可能意味着"说不清哪里不舒服"），话语分析在需求评审中识别回避的话题，语料库方法把200+条应用商店评论转化为可量化决策。13个AI产品项目覆盖写Prompt、搭Agent、协议选型（MCP vs LangChain）、端侧AI（Tesseract.js本地OCR、Whisper本地转写）、硬件原型（ESP32）的完整链条，建立对AI能力边界的直觉。"AI产品设计"不只是选模型或写提示词，而是判断AI该介入哪个工作流节点、用什么技术方案、失败时怎么降级：这种判断力来自亲手交付产品的过程。</p>
-        <p style="margin-bottom:12px"><strong>作品集的核心逻辑：</strong>从宠伴（本地优先+隐私优先的宠物健康台账）到GlobalFUN（MCP服务总线+6-Agent跨境电商协作系统），到PixelPick（Canvas像素分析替代大模型评分的影像精选工具），完整覆盖AI产品设计的四个维度：<b>需求层</b>（用户调研→需求分层→竞品分析→KANO优先级）、<b>能力层</b>（AI能力边界判断→Prompt设计→Agent架构→协议选型）、<b>体验层</b>（交互设计→信息架构→响应式适配→暗房风格视觉系统）、<b>验证层</b>（数据闭环设计→NPS追踪→埋点体系→内部测试轮次验证）。每个项目都有完整的"为什么做这个判断/判断依据是什么/怎么推动落地/结果验证了什么"叙事线：这里没有功能列表，只有决策记录。</p>
-        <p style="margin-bottom:12px"><strong>技术实践的三个层次：</strong>①<b>端侧AI判断力</b>：宠伴选Tesseract.js本地OCR（83%用户拒云上传<span style="font-size:.64rem;color:#86868b">[约12位深访]</span>）、会议舱选Whisper本地转写（商业机密不上云）、PixelPick选Canvas像素分析而非GPT-4o Vision（排序不需要语义推理，且零延迟+零成本+100%确定性）；②<b>Agent架构设计力</b>：跨境电商从4-Agent扩展到6-Agent全链路（需求解析→市场调研→选品分析→文案生成→合规审核→运营策略），原生MCP服务总线替代LangChain（Agent数量固定+输出需精确控制），PRD Quality Gate用System Prompt直写19项规则替代RAG（确定性审核场景）；③<b>Vibe Coding交付力</b>：用Cursor快速验证并交付13个可交互产品原型，含PWA离线方案（宠伴）、Multi-Agent编排系统（跨境）、暗房风视觉设计（PixelPick）、Canvas本地合成对比数据（PixelPick），验证了"PM可以前置验证产品方向，帮团队减少返工"。</p>
-        <p style="margin-bottom:12px"><strong>前沿观察：</strong>持续跟踪AI Agent架构（Claude Code Agent Teams/Microsoft Agent Orchestrator/Anthropic Agent定义）、MCP/A2A协议生态（SDK月下载9700万次/公开服务器21,962个/A2A由Google捐赠Linux基金会）、Vibe Coding工具爆发、WWDC 2026 Apple Intelligence端侧AI升级等前沿动态。这些不是"信息收集"：每个趋势都有对应的落地实践：Agent架构→6-Agent跨境电商实践，MCP协议→原生MCP服务总线选型，端侧AI→宠伴本地OCR+会议舱本地Whisper。</p>
-        <p>本作品集用 Vibe Coding 构建，响应式适配全设备，以结构化信息架构呈现产品判断。欢迎通过邮箱联系。</p>
+        <p style="margin-bottom:12px"><strong>为什么做 AI 产品：</strong>语言学提供方法：语用学听言外之意、话语分析识别回避话题、语料库把 200+ 条评论转成量化决策。</p>
+        <p style="margin-bottom:12px"><strong>项目叙事线：</strong>每个项目按"判断 → 依据 → 落地 → 验证"展开，没有功能清单，只有决策记录。</p>
+        <p><strong>怎么读：</strong>需求 / AI 技术选型 / 体验 / 验证四层能力贯穿 13 个项目，详见下方各板块。</p>
       </div>
     </details>
   </div>
@@ -1847,12 +1855,12 @@ function toggleAnim(){
   if(animOn){
     body.classList.remove('anim-off');
     body.classList.add('anim-ready');
-    btn.textContent='🎬 关闭动画';
+    btn.textContent='🎬 关闭动效';
     btn.style.background='#fff';btn.style.color='#1d1d1f';btn.style.borderColor='rgba(0,0,0,.12)';
   }else{
     body.classList.add('anim-off');
     body.classList.remove('anim-ready');
-    btn.textContent='🎬 开启动画';
+    btn.textContent='🎬 开启动效';
     btn.style.background='#0071e3';btn.style.color='#fff';btn.style.borderColor='#0071e3';
   }
 }
@@ -1898,31 +1906,39 @@ function onScroll(){
 window.addEventListener('scroll',onScroll,{passive:true});
 onScroll();
 
-// 快速浏览模式
+// 精简速览模式
 let speedMode=false;
-function toggleSpeed(){
-  speedMode=!speedMode;
+function setSpeed(on){
+  speedMode=on;
   const btn=document.getElementById('speedBtn');
   const banner=document.getElementById('speedBanner');
   if(speedMode){
-    btn.textContent='📖 正常浏览';
-    btn.style.background='#0071e3';
-    btn.style.color='#fff';
-    btn.style.borderColor='#0071e3';
+    btn.textContent='📖 完整内容';
+    btn.style.background='#0071e3';btn.style.color='#fff';btn.style.borderColor='#0071e3';
     banner.style.display='flex';
     document.body.classList.add('speed-active');
     document.querySelectorAll('details').forEach(d=>d.open=false);
+    document.querySelectorAll('.step.open').forEach(s=>s.classList.remove('open'));
     document.documentElement.style.scrollBehavior='auto';
   }else{
-    btn.textContent='⚡ 快速浏览模式';
-    btn.style.background='#fff';
-    btn.style.color='#1d1d1f';
-    btn.style.borderColor='rgba(0,0,0,.12)';
+    btn.textContent='⚡ 精简速览';
+    btn.style.background='#fff';btn.style.color='#1d1d1f';btn.style.borderColor='rgba(0,0,0,.12)';
     banner.style.display='none';
     document.body.classList.remove('speed-active');
     document.documentElement.style.scrollBehavior='smooth';
   }
 }
+function toggleSpeed(){ setSpeed(!speedMode); }
+
+// 精简速览内：点击任意条目，在“一句要点 / 完整内容”间切换
+document.addEventListener('click',(e)=>{
+  if(!document.body.classList.contains('speed-active'))return;
+  if(e.target.closest('a')||e.target.closest('summary')||e.target.closest('button')||e.target.closest('input'))return;
+  const sel=window.getSelection&&window.getSelection();
+  if(sel&&!sel.isCollapsed)return;
+  const step=e.target.closest('.step');
+  if(step)step.classList.toggle('open');
+});
 
 // ===== 侧边抽屉菜单 =====
 (function(){
