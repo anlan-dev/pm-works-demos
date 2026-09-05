@@ -843,7 +843,11 @@ details .step-text {
     </div>
   </div></div></div>
 
-  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：高尔夫产品 · 全模块埋点体系</div><div class="step-text">基于原型Demo定义全模块埋点事件体系（共<b>26个事件覆盖11个页面</b>），其中单杆轨迹模块8个事件（首页点击→导入视频→相册/相机选择→轨迹颜色→重播/导出）为核心工作。定义事件名、触发时机、关键参数（trace_color颜色选择等），输出埋点验收标准。用SQL验证单杆轨迹核心漏斗（导入→导出）的事件触发率与参数完整性。</div></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">案例：高尔夫产品 · 全模块埋点体系</div>
+  <div class="step-text"><b>交付物：</b>全模块埋点事件体系（26 个事件覆盖 11 个页面），核心为单杆轨迹模块 8 个事件（首页点击→导入视频→相册/相机选择→轨迹颜色→重播/导出）。</div>
+  <div class="step-text"><b>规范：</b>定义事件名/触发时机/关键参数（如 trace_color），并输出埋点验收标准。</div>
+  <div class="step-text"><b>验证：</b>用 SQL 校验单杆轨迹核心漏斗（导入→导出）的事件触发率与参数完整性。</div>
+</div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">案例：宠伴 · A/B验证体系</div><div class="step-text">建立"假设→实验→指标"验证体系：提醒配置意愿指数（任务完成率0.35+配置意愿量表0.35+主观耗时0.30）<b>+13%</b>，记录耗时缩短约<b>60%</b>，种子用户NPS <b>+12→+38</b>，转化率<b>42%</b>，7日留存<b>44%</b>。<span style="font-size:.72rem;color:#6e6e73">[内部测试·种子用户轮次验证]</span></div>
   <div style="margin-top:8px;background:rgba(100,130,160,.04);border-left:3px solid rgba(100,130,160,.35);border-radius:0 8px 8px 0;padding:8px 12px;font-size:clamp(.7rem,.8vw,.74rem);color:#4a5568;line-height:1.5">
@@ -883,7 +887,8 @@ details .step-text {
       <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">RAG检索</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">8处/5000字</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center"><b style="color:#d97706">+60%</b></td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">~85%</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">开放性知识检索</td></tr>
     </table>
   </div>
-  <div class="step-text" style="margin-bottom:8px"><b>PM判断：</b>两种方案都实测了同一份5000字PRD。System Prompt检出13处遗漏，RAG仅检出8处，因为RAG的检索噪声干扰了规则匹配。选System Prompt不是因为它"更简单"，是因为<b>数据证明它在这个场景下更有效</b>。选型结论：确定性审核用Prompt直写，开放性场景用RAG。不是哪个更好，是用对场景。</div>
+  <div class="step-text" style="margin-bottom:8px"><b>PM 判断（实测同一份 5000 字 PRD）：</b>System Prompt 检出 13 处遗漏、RAG 仅 8 处：RAG 的检索噪声干扰了规则匹配。</div>
+  <div class="step-text" style="margin-bottom:8px"><b>选型结论：</b>确定性审核用 Prompt 直写、开放性场景用 RAG：不是哪个更好，是用对场景。选 System Prompt 不是因为"更简单"，而是数据证明它在此场景更有效。</div>
 
   <details style="cursor:pointer;margin-top:8px">
     <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#4a5568">
@@ -913,7 +918,9 @@ details .step-text {
       <tr><td style="padding:5px 8px;border-top:1px solid #f1f5f9">评估侧</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">5</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">0</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9;text-align:center">0</td><td style="padding:5px 8px;border-top:1px solid #f1f5f9">评估标准全部通过</td></tr>
     </table>
   </div>
-  <div class="step-text"><b>归因→决策→闭环：</b>13处遗漏中异常侧占7处（54%）：数据验证了"PRD最常遗漏异常流程"的行业共识。<b>决策：</b>针对异常侧遗漏，补第20项规则（异常流程完整性检查），用同一份PRD复测。<b>闭环：</b>复测确认新增规则有效堵住遗漏。这就是数据驱动的迭代：不是"加更多规则"，是"数据告诉我哪里漏最多→针对性补强→复测验证"。</div>
+  <div class="step-text"><b>归因：</b>13 处遗漏中异常侧占 7 处（54%），验证"PRD 最常遗漏异常流程"的行业共识。</div>
+  <div class="step-text"><b>决策：</b>针对异常侧，补第 20 项规则（异常流程完整性检查），用同一份 PRD 复测。</div>
+  <div class="step-text"><b>闭环：</b>复测确认新增规则有效堵住遗漏：不是"加更多规则"，而是"数据告诉哪里漏最多 → 针对性补强 → 复测验证"。</div>
   </div></div>
 
   <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">产品架构</div><div class="arch-box"><b>平台：</b>Dify Chatflow · <b>模型：</b>mimo-v2-flash · Temperature 0.2（控制幻觉）· <b>审核四维：</b>输入侧/逻辑侧/异常侧/评估侧 · <b>三重护栏：</b>操作确认→过程可解释→结果可修正</div></div></div>
@@ -1482,9 +1489,12 @@ details .step-text {
   <div class="card-sub">行业垂直探索 · 2026.01-05</div>
   <div class="flow-badge"><span class="fb-step">1</span>需求输入<span class="fb-arrow">→</span><span class="fb-step">2</span>市场调研<span class="fb-arrow">→</span><span class="fb-step">3</span>选品推荐<span class="fb-arrow">→</span><span class="fb-step">4</span>文案生成<span class="fb-arrow">→</span><span class="fb-step">5</span>合规审核<span class="fb-arrow">→</span><span class="fb-step">6</span>运营上架</div>
   <div class="arch-box"><b>LangGraph + MCP服务总线 + 6-Agent真并行：</b>需求解析Agent → LangGraph Send() 同时分发至市场调研/选品分析/合规审核（3 Agent 真并行），再汇总至文案生成+运营策略Agent，最终 Compiler 输出结构化卡片 + PM 决策链。覆盖跨境电商全链路闭环，不做传统问答Chatbot。v2 新增场景化 Demo（日本食品/韩国美妆/澳洲保健品），每个场景含完整比价→关税→合规→推荐 storyline。</div>
-  <div class="step-text" style="margin-top:8px"><b>为什么选MCP服务总线而非传统API网关：</b>跨境电商涉及多语言/多市场/多环节，传统API网关是"请求-响应"模式，不支持Agent间上下文传递。MCP协议原生支持"工具描述+上下文传递"，让每个Agent能获取前序Agent的结构化输出，而非从头理解用户意图。v2 更进一步：通过 LangGraph Send() 实现 3 Agent 真并行（调研/选品/合规同时执行），相比 v1 的串行 list 分发，总延迟降低约 60%。</div>
-  <div class="step-text"><b>为什么从4-Agent扩展到6-Agent：</b>初版4-Agent（需求/调研/选品/运营）缺少"文案生成"和"合规审核"。用户反馈"选品推荐了但文案要自己写、合规要自己查"：这两个环节恰好是跨境电商最耗时且最容易出错的。拆分独立Agent后，每个Agent的System Prompt更聚焦（500-800 tokens），输出质量可控。如果合成单Agent，Prompt超4000 tokens会导致注意力分散。</div>
-  <div class="step-text"><b>为什么做结构化卡片推送而非传统Chatbot：</b>访谈发现用户"不知道该问什么"：跨境新人不知道该问关税、物流还是合规。传统Chatbot需要用户主动提问，而结构化卡片是Agent主动推送（"这是您选品的关税风险评估""以下是3套多语言文案方案"），把"搜索"变"推荐"，降低使用门槛。</div>
+  <div class="step-text" style="margin-top:8px"><b>为什么选 MCP 服务总线而非传统 API 网关：</b>MCP 原生支持"工具描述 + 上下文传递"，Agent 之间可直接传递结构化输出；传统 API 网关是"请求-响应"式，不支持 Agent 间上下文。</div>
+  <div class="step-text"><b>v2 落地：</b>用 LangGraph Send() 实现 3 Agent 真并行（调研/选品/合规同时执行），相比 v1 串行分发延迟降低约 60%。</div>
+  <div class="step-text"><b>为什么从 4-Agent 扩到 6-Agent：</b>初版缺"文案生成"与"合规审核"，用户反馈"选品给了但文案要自己写、合规要自己查"；这两环恰好最耗时、最容易出错。</div>
+  <div class="step-text"><b>拆分后的收益：</b>每个 Agent 的 System Prompt 更聚焦（500–800 tokens），输出质量可控；合成单 Agent 会让 Prompt 超 4000 tokens、注意力分散。</div>
+  <div class="step-text"><b>为什么做结构化卡片推送而非传统 Chatbot：</b>访谈发现用户"不知道该问什么"（该问关税、物流还是合规）。</div>
+  <div class="step-text">做法：Agent 主动推送结构化卡片（"这是该选品的关税风险评估""以下是 3 套多语言文案方案"），把"用户搜索"变成"系统推荐"，降低使用门槛。</div>
   <div class="data-row" style="margin-top:10px">
     <span class="data-chip"><span class="num g">98.2%</span><span class="label">意图识别</span></span>
     <span class="data-chip"><span class="num g">180ms</span><span class="label">MCP延迟</span></span>
