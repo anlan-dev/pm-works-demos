@@ -189,18 +189,42 @@ body.speed-active .quote{border-left-color:#0071e3;background:rgba(0,113,227,.06
 body.speed-active .result{border-color:rgba(0,113,227,.2);background:rgba(0,113,227,.04)}
 body.speed-active details{border:1px dashed #93c5fd;border-radius:10px;padding:6px 12px;margin-top:10px;background:rgba(0,113,227,.02)}
 body.speed-active .step-num{background:rgba(0,113,227,.15)}
-/* 精简速览：每块内容默认只露出标题与一句要点，点击条目在“要点/全文”间切换；折叠块(details)保留可展开 */
+/* 精简速览：每块默认只露出“标题骨架 + 数据要点”，正文最多两行；点击条目或打开折叠块可读全文 */
 body.speed-active #aboutSec{display:none}
 body.speed-active .quote{display:none}
 body.speed-active .method-intro{display:none}
 body.speed-active .step{cursor:pointer}
 body.speed-active .step:hover{background:rgba(0,113,227,.035)}
-body.speed-active .step>.step-body>.step-text{max-height:3.2em;overflow:hidden}
-body.speed-active .step.open>.step-body>.step-text{max-height:none;overflow:visible}
 body.speed-active .step>.step-body>.step-title{font-weight:600}
 body.speed-active .step>.step-body>.step-title::after{content:'';font-size:.72em;color:#0071e3;font-weight:500;margin-left:8px;white-space:nowrap}
 body.speed-active .step:not(.open)>.step-body>.step-title::after{content:'▾ 展开'}
 body.speed-active .step.open>.step-body>.step-title::after{content:'▴ 收起'}
+/* 正文收敛为最多两行并带省略号，不做半行截断；细读时点击条目或打开折叠块恢复全文 */
+body.speed-active p,
+body.speed-active .card-sub,
+body.speed-active .step-text,
+body.speed-active .arch-box,
+body.speed-active .comp-value,
+body.speed-active .result{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+body.speed-active .ft-list li:nth-child(n+3){display:none}
+body.speed-active table{display:none}
+body.speed-active .an-flow{display:none}
+body.speed-active .step.open p,
+body.speed-active .step.open .card-sub,
+body.speed-active .step.open .step-text,
+body.speed-active .step.open .arch-box,
+body.speed-active .step.open .comp-value,
+body.speed-active .step.open .result,
+body.speed-active details[open] p,
+body.speed-active details[open] .card-sub,
+body.speed-active details[open] .step-text,
+body.speed-active details[open] .arch-box,
+body.speed-active details[open] .comp-value,
+body.speed-active details[open] .result{display:block;-webkit-line-clamp:unset;overflow:visible}
+body.speed-active .step.open .ft-list li,
+body.speed-active details[open] .ft-list li{display:list-item}
+body.speed-active .step.open table,
+body.speed-active details[open] table{display:table}
 /* 精简速览顶栏 */
 #speedBanner .speed-hint{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.8;font-weight:400}
 @media(max-width:480px){#speedBanner .speed-hint{display:none}}
@@ -641,14 +665,13 @@ details .step-text {
   </div>
   <div class="edu">香港理工大学 · 语言学硕士（QS全球前50）<br>陕西师范大学 · 汉语言文学学士（211）</div>
   <div class="tags">
-    <span class="tag accent">语用学×产品洞察</span><span class="tag accent">Agent架构</span>
-    <span class="tag accent">Prompt Engineering</span><span class="tag accent">用户研究</span>
+    <span class="tag accent">语用学×产品洞察</span><span class="tag accent">Agent 编排与评测</span>
+    <span class="tag accent">Prompt 工程</span><span class="tag accent">用户研究</span>
     <span class="tag accent">数据分析</span><span class="tag accent">竞品分析</span>
   </div>
   <div class="tags" style="margin-top:4px">
-    <span class="tag">Dify</span><span class="tag">LangChain</span><span class="tag">MCP</span><span class="tag">RAG</span><span class="tag">本地化部署</span>
-    <span class="tag">Cursor</span><span class="tag">SQL</span><span class="tag">Python</span>
-    <span class="tag">Axure</span><span class="tag">Figma</span>
+    <span class="tag">MCP v2.0 协议</span><span class="tag">Multi-Agent 编排</span><span class="tag">Agent 评测集</span><span class="tag">DeepSeek Harness</span><span class="tag">端侧 AI 推理</span>
+    <span class="tag">RAG</span><span class="tag">Dify</span><span class="tag">PWA 离线</span><span class="tag">Cursor</span><span class="tag">Python</span>
   </div>
   <div class="data-row" style="justify-content:center;margin-top:14px">
     <div class="data-chip"><span class="num">13</span>个可交互产品原型</div>
