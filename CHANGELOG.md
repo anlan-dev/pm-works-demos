@@ -24,6 +24,8 @@
 - 创作舱独立品牌图标 creation-icon.svg，并同步 manifest 与 SW 缓存清单
 - SW 同源治理：三份 Service Worker 仅清理自身缓存前缀、导航回退限定各自应用入口，避免互相清缓存与离线回退漂移
 - 口径修正：demo-hub AI 能力集成数 6→9（逐条核对后）；PRD Quality Gate 移除重复的"已上线"徽章
+- 精简速览细节优化：正文以"两行 + 省略号"收敛（消除硬截断产生的半行文字残影），列表默认收前两条、表格整块收纳，点击条目/折叠块可恢复全文
+- 头部标签更新为前沿口径：Agent 编排与评测 / MCP v2.0 协议 / Multi-Agent 编排 / Agent 评测集 / DeepSeek Harness / 端侧 AI 推理（替换 LangChain、Agent 架构等旧表述）
 
 ## 2026-08
 
