@@ -1857,23 +1857,26 @@ details .step-text {
   </div>
 </details>
 
-<details style="cursor:pointer;margin-top:2px">
-  <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#64748b;opacity:.92">
-    <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.06);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">📎</span>
-    本页核心信号的官方一手来源（点击展开 · 2026-09）
+<details class="card" style="cursor:pointer;margin-top:clamp(20px,2.6vw,28px)">
+  <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
+    <span class="card-icon" style="margin:0">📎</span>
+    <div style="flex:1;min-width:0">
+      <div class="card-title" style="font-size:clamp(.96rem,1.1vw,1.04rem)">本页核心信号的官方一手来源</div>
+      <div class="card-sub" style="margin-bottom:0">9 条官方原文，每条都可点验（美团 · 字节 · Anthropic · Google · OpenAI · DeepSeek · 2026-09）</div>
+    </div>
   </summary>
-  <div style="padding-left:clamp(28px,3vw,36px);margin-top:8px;font-size:clamp(.7rem,.8vw,.74rem);color:#6e6e73;line-height:1.9">
-    美团 CatPaw 发布 · 内部 9 万员工 / 3 万 Agent 规模（2026.07.28）：<a href="https://tech.meituan.com/2026/07/28/CatPaw-LongCat.html" target="_blank" rel="noopener">tech.meituan.com/2026/07/28/CatPaw-LongCat.html</a><br>
-    美团《Agent 评测漫谈》（2026.08.07）：<a href="https://tech.meituan.com/2026/08/07/Agent-Evaluation.html" target="_blank" rel="noopener">tech.meituan.com/2026/08/07/Agent-Evaluation.html</a><br>
-    美团《用 Agent 评测思路管理 AI Coding：31 万行代码重构实践》（2026.05.07）：<a href="https://tech.meituan.com/2026/05/07/Agent-AI-Coding.html" target="_blank" rel="noopener">tech.meituan.com/2026/05/07/Agent-AI-Coding.html</a><br>
-    字节 Seed2.1 官方发布 · GDPVal / ALE 真实任务评测（2026.06.23）：<a href="https://seed.bytedance.com/zh/blog/seed2-1-officially-released-advancing-ai-productivity" target="_blank" rel="noopener">seed.bytedance.com/blog/seed2-1</a><br>
-    字节火山引擎 Mobile Use Agent · MCP + Skills（2026.04.15）：<a href="https://developer.volcengine.com/articles/7628489608359395369" target="_blank" rel="noopener">developer.volcengine.com/articles/7628489608359395369</a><br>
-    Anthropic Claude Cowork 发布说明 · 预览→企业 GA→移动/网页（2026.01-07）：<a href="https://support.claude.com/zh-CN/articles/12138966-%E5%8F%91%E5%B8%83%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">support.claude.com（Claude 发布说明）</a><br>
-    Google Gemini 3.5 Flash 官方发布 · frontier intelligence with action（2026.05.19）：<a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5/" target="_blank" rel="noopener">blog.google/gemini-3-5</a><br>
-    OpenAI GPT-5.6 August Updates System Card（2026.08.06）：<a href="https://cdn.openai.com/pdf/GPT_5_6_August_Updates.pdf" target="_blank" rel="noopener">openai.com（GPT-5.6 System Card PDF）</a><br>
-    DeepSeek Harness 官方仓库 · MIT 开源 Agent 运行时（2026.08.13）：<a href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" rel="noopener">github.com/deepseek-ai/deepseek-harness</a><br>
-    上述信号在我作品集里的落点：见各判断卡末尾"在作品集里"。
-  </div>
+  <ul style="list-style:none;margin:14px 0 2px;padding:0 clamp(8px,1vw,14px) 0 clamp(36px,4vw,48px);font-size:clamp(.76rem,.88vw,.8rem);color:#4b5563;line-height:1.75">
+    <li style="margin:5px 0;overflow-wrap:break-word">美团 CatPaw 发布 · 内部 9 万员工 / 3 万 Agent 规模（2026.07.28）：<a href="https://tech.meituan.com/2026/07/28/CatPaw-LongCat.html" target="_blank" rel="noopener">tech.meituan.com/2026/07/28/CatPaw-LongCat.html</a></li>
+    <li style="margin:5px 0;overflow-wrap:break-word">美团《Agent 评测漫谈》（2026.08.07）：<a href="https://tech.meituan.com/2026/08/07/Agent-Evaluation.html" target="_blank" rel="noopener">tech.meituan.com/2026/08/07/Agent-Evaluation.html</a></li>
+    <li style="margin:5px 0;overflow-wrap:break-word">美团《用 Agent 评测思路管理 AI Coding：31 万行代码重构实践》（2026.05.07）：<a href="https://tech.meituan.com/2026/05/07/Agent-AI-Coding.html" target="_blank" rel="noopener">tech.meituan.com/2026/05/07/Agent-AI-Coding.html</a></li>
+    <li style="margin:5px 0;overflow-wrap:break-word">字节 Seed2.1 官方发布 · GDPVal / ALE 真实任务评测（2026.06.23）：<a href="https://seed.bytedance.com/zh/blog/seed2-1-officially-released-advancing-ai-productivity" target="_blank" rel="noopener">seed.bytedance.com/blog/seed2-1</a></li>
+    <li style="margin:5px 0;overflow-wrap:break-word">字节火山引擎 Mobile Use Agent · MCP + Skills（2026.04.15）：<a href="https://developer.volcengine.com/articles/7628489608359395369" target="_blank" rel="noopener">developer.volcengine.com/articles/7628489608359395369</a></li>
+    <li style="margin:5px 0;overflow-wrap:break-word">Anthropic Claude Cowork 发布说明 · 预览→企业 GA→移动/网页（2026.01-07）：<a href="https://support.claude.com/zh-CN/articles/12138966-%E5%8F%91%E5%B8%83%E8%AF%B4%E6%98%8E" target="_blank" rel="noopener">support.claude.com（Claude 发布说明）</a></li>
+    <li style="margin:5px 0;overflow-wrap:break-word">Google Gemini 3.5 Flash 官方发布 · frontier intelligence with action（2026.05.19）：<a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5/" target="_blank" rel="noopener">blog.google/gemini-3-5</a></li>
+    <li style="margin:5px 0;overflow-wrap:break-word">OpenAI GPT-5.6 August Updates System Card（2026.08.06）：<a href="https://cdn.openai.com/pdf/GPT_5_6_August_Updates.pdf" target="_blank" rel="noopener">openai.com（GPT-5.6 System Card PDF）</a></li>
+    <li style="margin:5px 0;overflow-wrap:break-word">DeepSeek Harness 官方仓库 · MIT 开源 Agent 运行时（2026.08.13）：<a href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" rel="noopener">github.com/deepseek-ai/deepseek-harness</a></li>
+    <li style="margin:9px 0 0;color:#6e6e73">上述信号在我作品集里的落点：见各判断卡末尾"在作品集里"。</li>
+  </ul>
 </details>
 
 <!-- ===== Capability Summary ===== -->
