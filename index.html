@@ -1795,7 +1795,7 @@ details .step-text {
 
 <!-- ===== 前沿观察 ===== -->
 <h2 class="section-title scroll-margin" id="frontier">前沿观察与行业思考</h2>
-<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">下面不是行业简报，是四个<b>我反复验证过的判断</b>：每个判断都由最新行业信号佐证，并在作品集里有一个产品决策做印证（更新至 2026-08）。</p>
+<p style="font-size:clamp(.8rem,.9vw,.84rem);color:#6e6e73;margin-bottom:18px">下面不是行业简报，是四个<b>我反复验证过的判断</b>：每条关键信号都能溯源到官方原文，并在作品集里有一个产品决策做印证（2026-09 更新）。</p>
 
 <details class="card" style="cursor:pointer">
   <summary style="list-style:none;display:flex;align-items:flex-start;gap:10px">
@@ -1807,7 +1807,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>判断：</b>2026 下半年，AI 产品的竞争点从对话质量转移到任务闭环：用户不再满足于"AI 回答了"，而是"AI 把这一件事办成了"。这要求产品设计以<b>执行链路</b>为单位，而不是以对话轮次为单位。<br>
-    <b>佐证：</b>7 月 ChatGPT Work / Claude Cowork / WorkBuddy 几乎同时发布（WorkBuddy 非编程使用占比 91.3%）：巨头集体从"聊天"转向"替用户干活"；"执行式 AI"取代"对话式 AI"成为共识。<br>
+    <b>佐证：</b>海外 ChatGPT Work / Claude Cowork 相继把入口从"聊天"改为"完成任务"；国内同步规模化：美团 CatPaw 已在内部 <b>9 万员工、3 万个 Agent</b> 规模落地、云端 7×24 运行（官方，2026.07）；字节 Seed2.1 官方定位从"一次回答"转向"端到端交付"（官方，2026.06）。<br>
     <b>在作品集里：</b>跨境电商 6-Agent 从第一天就让每个 Sub-Agent 直接产出结果（合规报告 / 定价策略 / 产品文案），而不是给用户建议；会议舱把"这一场会议的产出"变成可追踪、有状态流转的待办闭环。我在个人产品里验证的正是"任务闭环优先"。
   </div>
 </details>
@@ -1822,7 +1822,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>判断：</b>多供应商 Agent 协作会成为默认形态，谁能统一工具描述与调用协议，谁就掌握生态入口：所以"用协议组织 Agent"比"绑定某家 SDK"更接近终局。<br>
-    <b>佐证：</b>8.18 Anthropic 合并 MCP v2.0 草案、OpenAI 工程师任共同 reviewer（统一工具 Schema、异步流式传输、跨 Agent 上下文传播）；Gartner 显示 62% Fortune 500 把"协议不兼容"列为多供应商 Agent 最大障碍；Google 未签名，阵营分叉风险显现。<br>
+    <b>佐证：</b>8.18 Anthropic 合并 MCP v2.0 草案、OpenAI 工程师任共同 reviewer（统一工具 Schema、异步流式传输、跨 Agent 上下文传播）；Gartner 显示 62% Fortune 500 把"协议不兼容"列为多供应商 Agent 最大障碍；Google 未签名，阵营分叉风险显现。生态外扩实证：字节火山 Mobile Use Agent 原生支持 <b>MCP + Skills</b>、扣子 2.5 已内置（官方，2026.04）——协议生态正从桌面扩向移动端。<br>
     <b>在作品集里：</b>GlobalFUN v2 在 v2.0 草案之前就采用 MCPRouter + 原生 MCP 服务总线编排 6 个 Sub-Agent，而非绑定单一厂商 SDK：押注协议标准化的方向被 v2.0 直接验证。
   </div>
 </details>
@@ -1837,7 +1837,7 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>判断：</b>模型能力会被快速追平，而"怎么编排 Agent、怎么验证它真的有用"成为新的稀缺能力：PM 的价值从选模型转向设计与评测。<br>
-    <b>佐证：</b>8.13 DeepSeek Harness 开源（6 天 16 万 star，不锁模型，官方插件可把 Claude Code / Codex 当子代理）；Composio 实测 DeepSeek V4-Flash 真实多步任务 240 次仅 129 次通过：基准分高不代表编排可用，评测是硬功夫。<br>
+    <b>佐证：</b>8.13 DeepSeek Harness 开源（6 天 16 万 star，不锁模型，官方插件可把 Claude Code / Codex 当子代理）；Composio 实测 DeepSeek V4-Flash 真实多步任务 240 次仅 129 次通过：基准分高不代表编排可用，评测是硬功夫。头部厂商同步把评测重心迁到真实任务：字节 Seed2.1 用 <b>GDPVal（真实任务经济价值）与 ALE（新任务泛化）</b>做评估（官方，2026.06）；美团把 Agent 评测体系用于 <b>31 万行代码 AI 重构</b>的生产管理（官方，2026.05）。<br>
     <b>在作品集里：</b>PRD Quality Gate 用评测集驱动迭代：同一份 PRD、19 项规则检出 13 处遗漏后不盲目加规则，而是归因"异常流程占 54%"、补第 20 项规则、再用同一份 PRD 复测验证。跨境电商把 6-Agent 当作可插拔组件而非写死链路。
   </div>
 </details>
@@ -1852,8 +1852,23 @@ details .step-text {
   </summary>
   <div class="step-text" style="margin-top:12px;padding-left:clamp(36px,4vw,48px)">
     <b>判断：</b>端侧 AI 的本质是一组产品约束的取舍：隐私数据不出设备、推理延迟可容忍、离线可用：先回答这三个问题，再谈模型。隐私不是小众偏好，是被监管验证过的行业标准。<br>
-    <b>佐证：</b>7 月 WAIC 2026，7 款手机端侧 AI 完成国家备案，端侧推理成本降至 1/10，端侧 AI 纳入正式监管框架。<br>
+    <b>佐证：</b>7 月 WAIC 2026，7 款手机端侧 AI 完成国家备案，端侧推理成本降至 1/10，端侧 AI 纳入正式监管框架。分端运行印证：字节用"云手机 + 视觉模型"执行移动端任务（官方，2026.04），美团 CatPaw 移动端发起任务、云端 7×24 长跑（官方，2026.07）——算力放端上还是云端，正成为按场景定夺的产品决策。<br>
     <b>在作品集里：</b>宠伴 83% 用户拒云上传 → 选 Tesseract.js 本地 OCR、Whisper 本地转写（商业机密不上云）；PixelPick 四维评分用 Canvas 本地像素计算而非调用视觉大模型：零上传、零延迟、评分确定性（同一张照片两次结果一致，用户才敢信任 AI 推荐）。
+  </div>
+</details>
+
+<details style="cursor:pointer;margin-top:2px">
+  <summary style="list-style:none;display:flex;align-items:center;gap:6px;font-size:clamp(.72rem,.82vw,.76rem);font-weight:600;color:#64748b;opacity:.92">
+    <span style="width:22px;height:22px;border-radius:6px;background:rgba(0,113,227,.06);color:#0071e3;display:flex;align-items:center;justify-content:center;font-size:.62rem;flex-shrink:0">📎</span>
+    本页核心信号的官方一手来源（点击展开 · 2026-09）
+  </summary>
+  <div style="padding-left:clamp(28px,3vw,36px);margin-top:8px;font-size:clamp(.7rem,.8vw,.74rem);color:#6e6e73;line-height:1.9">
+    美团 CatPaw 发布 · 内部 9 万员工 / 3 万 Agent 规模（2026.07.28）：<a href="https://tech.meituan.com/2026/07/28/CatPaw-LongCat.html" target="_blank" rel="noopener">tech.meituan.com/2026/07/28/CatPaw-LongCat.html</a><br>
+    美团《Agent 评测漫谈》（2026.08.07）：<a href="https://tech.meituan.com/2026/08/07/Agent-Evaluation.html" target="_blank" rel="noopener">tech.meituan.com/2026/08/07/Agent-Evaluation.html</a><br>
+    美团《用 Agent 评测思路管理 AI Coding：31 万行代码重构实践》（2026.05.07）：<a href="https://tech.meituan.com/2026/05/07/Agent-AI-Coding.html" target="_blank" rel="noopener">tech.meituan.com/2026/05/07/Agent-AI-Coding.html</a><br>
+    字节 Seed2.1 官方发布 · GDPVal / ALE 真实任务评测（2026.06.23）：<a href="https://seed.bytedance.com/zh/blog/seed2-1-officially-released-advancing-ai-productivity" target="_blank" rel="noopener">seed.bytedance.com/blog/seed2-1</a><br>
+    字节火山引擎 Mobile Use Agent · MCP + Skills（2026.04.15）：<a href="https://developer.volcengine.com/articles/7628489608359395369" target="_blank" rel="noopener">developer.volcengine.com/articles/7628489608359395369</a><br>
+    上述信号在我作品集里的落点：见各判断卡末尾"在作品集里"。
   </div>
 </details>
 
