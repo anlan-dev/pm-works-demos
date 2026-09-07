@@ -27,6 +27,7 @@
 - 精简速览细节优化：正文以"两行 + 省略号"收敛（消除硬截断产生的半行文字残影），列表默认收前两条、表格整块收纳，点击条目/折叠块可恢复全文
 - 头部标签更新为前沿口径：Agent 编排与评测 / MCP v2.0 协议 / Multi-Agent 编排 / Agent 评测集 / DeepSeek Harness / 端侧 AI 推理（替换 LangChain、Agent 架构等旧表述）
 - 前沿观察加固：四张判断卡佐证补入美团 CatPaw、Agent 评测体系与字节 Seed2.1、Mobile Use Agent 等官方一手信号，落款更新至 2026-09，并新增"官方一手来源"可点验折叠区
+- 前沿观察扩厂：补 Anthropic Cowork（企业 GA / 90% 非编程使用）、Google Gemini 3.5（MCP Atlas / GDPval / Gemini Spark）、OpenAI GPT-5.6 System Card；修正 DeepSeek Harness 描述（删除 star 数字）；来源折叠区新增 4 条官方链接
 
 ## 2026-08
 
