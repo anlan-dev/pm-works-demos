@@ -5,12 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>雾灯残页 / Mistlamp Fragments</title>
-<link rel="stylesheet" href="mistlamp-style.css">
-  <meta name="copyright" content="© 2026 王天娇 · 个人作品，著作权归作者所有，未经授权禁止转载、商用或二次分发">
+<link rel="stylesheet" href="mistlamp-style.css"> <meta name="copyright" content="© 2026 王天娇 · 个人作品，著作权归作者所有，未经授权禁止转载、商用或二次分发">
 </head>
-<body>
-
-<div id="menu-overlay">
+<body> <div id="menu-overlay">
 <h1>雾灯残页</h1>
 <div class="sub-title">MISTLAMP FRAGMENTS</div>
 <div class="tagline">灯影落在指节，像一行未干的墨迹。</div>
@@ -19,9 +16,7 @@
 <button class="menu-btn" id="btn-ngplus" onclick="G.newGamePlus()" disabled style="display:none">开启新周目</button>
 <button class="menu-btn" id="btn-del" onclick="G.deleteSave()">删除存档</button>
 <div class="menu-footer">中文静态网页试玩版 · 点击推进叙事</div>
-</div>
-
-<div id="game" class="hidden">
+</div> <div id="game" class="hidden">
 <div id="header">
 <h1>雾灯残页</h1>
 <div class="sub" id="loop-label">经折第 1 序</div>
@@ -31,9 +26,7 @@
 <div id="narrative"></div>
 <div id="choices"></div>
 <div id="continue-indicator"><span class="arrow">▾</span>点击继续</div>
-</div>
-
-<div id="ending-panel">
+</div> <div id="ending-panel">
 <div class="ep-inner">
 <div class="ep-divider"></div>
 <div class="ep-title" id="ep-title"></div>
@@ -46,17 +39,13 @@
 <button class="ep-btn" onclick="G.replayEnding()">重读结局</button>
 </div>
 </div>
-</div>
-
-<button id="btn-toggle-clue" onclick="G.toggleClue()">线索</button>
+</div> <button id="btn-toggle-clue" onclick="G.toggleClue()">线索</button>
 <div id="clue-panel">
 <h4>线索档案</h4>
 <div id="clue-rows"></div>
 <div class="section-title">同行微记</div>
 <div id="bond-rows"></div>
-</div>
-
-<script>
+</div> <script>
 const SAVE_KEY="mistlamp_save";
 function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
@@ -78,15 +67,15 @@ const DVIS={critical_success:"✦ 大成功",critical_failure:"✧ 大失败",su
 const ALL_ENDINGS=["DAWN","CANDLELIGHT","THRONE","ASCENSION","CYCLE","AUTHOR","PILGRIM","JUDGEMENT","COVENANT"];
 const END_NAMES={DAWN:"黎明",CANDLELIGHT:"烛光",THRONE:"王座",ASCENSION:"升华",CYCLE:"轮回",AUTHOR:"执笔",PILGRIM:"朝圣",JUDGEMENT:"审判",COVENANT:"盟约"};
 const END_TYPES={DAWN:"Connection",CANDLELIGHT:"Martyrdom",THRONE:"Dominion",ASCENSION:"Transcendence",CYCLE:"Endurance",AUTHOR:"Meta",PILGRIM:"Pilgrimage",JUDGEMENT:"Revelation",COVENANT:"Mercy"};
-const END_ICONS={DAWN:"☀",CANDLELIGHT:"🕯",THRONE:"♛",ASCENSION:"✦",CYCLE:"↻",AUTHOR:"✎",PILGRIM:"☚",JUDGEMENT:"⚖",COVENANT:"⚭"};
+const END_ICONS={DAWN:"",CANDLELIGHT:"",THRONE:"",ASCENSION:"",CYCLE:"↻",AUTHOR:"",PILGRIM:"",JUDGEMENT:"",COVENANT:""};
 
 // ============================================================
 // 游戏核心 — 点击推进式叙事引擎
 // ============================================================
 const G={
 state:null,
-_q:[],          // 消息队列
-_clickResolve:null,  // 等待点击的 resolve
+_q:[], // 消息队列
+_clickResolve:null, // 等待点击的 resolve
 _skipHeld:false,
 
 init(){
@@ -539,58 +528,52 @@ s.loop_count++
 };
 
 G.init();
-</script>
-
-
-<script>
+</script> <script>
 // 版权徽标（悬浮、不占文档流、自动避让右下角固定元素，移动端缩小降透明度）
 (function(){
-  if (document.getElementById('pf-badge')) return;
-  var b = document.createElement('div');
-  b.id = 'pf-badge';
-  function applySize(){
-    var narrow = window.innerWidth <= 640;
-    b.style.fontSize = narrow ? '9px' : '11px';
-    b.style.padding = narrow ? '4px 9px' : '6px 12px';
-    b.style.opacity = narrow ? '.35' : '.5';
-  }
-  b.style.cssText = 'position:fixed;right:10px;z-index:2147483647;line-height:1;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;transition:opacity .2s;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);user-select:none;';
-  b.textContent = '© 2026 王天娇';
-  b.title = '王天娇产品经理作品集';
-  b.addEventListener('click', function(){ window.open('https://anlan-dev.github.io/pm-works-demos/','_blank','noopener'); });
-  b.addEventListener('mouseenter', function(){ b.style.opacity='1'; });
-  b.addEventListener('mouseleave', applySize);
-  document.body.appendChild(b);
-  function place(){
-    applySize();
-    var maxTop = 10;
-    var vh = window.innerHeight;
-    var vw = window.innerWidth;
-    var all = document.body.getElementsByTagName('*');
-    for (var i=0;i<all.length;i++){
-      var el = all[i];
-      if (el === b) continue;
-      var cs = window.getComputedStyle(el);
-      if (cs.position !== 'fixed') continue;
-      var bt = parseFloat(cs.bottom);
-      if (isNaN(bt) || bt > 160) continue;
-      var elH = el.offsetHeight || 0;
-      var elW = el.offsetWidth || 0;
-      if (elH >= vh * 0.8 && elW >= vw * 0.8) continue;
-      if (cs.pointerEvents === 'none' && (parseFloat(cs.opacity) || 1) < 0.05) continue;
-      var rt = parseFloat(cs.right);
-      var rightish = (!isNaN(rt) && rt < 140) || (isNaN(rt) && elW >= vw * 0.5);
-      if (!rightish) continue;
-      var top = bt + elH;
-      if (top > maxTop) maxTop = top;
-    }
-    b.style.bottom = (maxTop + 8) + 'px';
-  }
-  place();
-  window.addEventListener('resize', place);
-  window.addEventListener('load', place);
-})();</script>
-
-
-</body>
+ if (document.getElementById('pf-badge')) return;
+ var b = document.createElement('div');
+ b.id = 'pf-badge';
+ function applySize(){
+ var narrow = window.innerWidth <= 640;
+ b.style.fontSize = narrow ? '9px' : '11px';
+ b.style.padding = narrow ? '4px 9px' : '6px 12px';
+ b.style.opacity = narrow ? '.35' : '.5';
+ }
+ b.style.cssText = 'position:fixed;right:10px;z-index:2147483647;line-height:1;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;transition:opacity .2s;cursor:pointer;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);user-select:none;';
+ b.textContent = '© 2026 王天娇';
+ b.title = '王天娇产品经理作品集';
+ b.addEventListener('click', function(){ window.open('https://anlan-dev.github.io/pm-works-demos/','_blank','noopener'); });
+ b.addEventListener('mouseenter', function(){ b.style.opacity='1'; });
+ b.addEventListener('mouseleave', applySize);
+ document.body.appendChild(b);
+ function place(){
+ applySize();
+ var maxTop = 10;
+ var vh = window.innerHeight;
+ var vw = window.innerWidth;
+ var all = document.body.getElementsByTagName('*');
+ for (var i=0;i<all.length;i++){
+ var el = all[i];
+ if (el === b) continue;
+ var cs = window.getComputedStyle(el);
+ if (cs.position !== 'fixed') continue;
+ var bt = parseFloat(cs.bottom);
+ if (isNaN(bt) || bt > 160) continue;
+ var elH = el.offsetHeight || 0;
+ var elW = el.offsetWidth || 0;
+ if (elH >= vh * 0.8 && elW >= vw * 0.8) continue;
+ if (cs.pointerEvents === 'none' && (parseFloat(cs.opacity) || 1) < 0.05) continue;
+ var rt = parseFloat(cs.right);
+ var rightish = (!isNaN(rt) && rt < 140) || (isNaN(rt) && elW >= vw * 0.5);
+ if (!rightish) continue;
+ var top = bt + elH;
+ if (top > maxTop) maxTop = top;
+ }
+ b.style.bottom = (maxTop + 8) + 'px';
+ }
+ place();
+ window.addEventListener('resize', place);
+ window.addEventListener('load', place);
+})();</script> </body>
 </html>
