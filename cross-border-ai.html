@@ -18,6 +18,12 @@
  ╚══════════════════════════════════════════════════════════════╝
  --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title> GlobalFUN · 全球好物跨境拼团</title> <meta name="description" content="GlobalFUN — AI 智能推荐跨境拼团平台，多语言切换、实时汇率、拼团下单全流程体验。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="GlobalFUN · 全球好物跨境拼团"> <meta property="og:description" content="AI 智能推荐跨境拼团平台，多语言切换、实时汇率、拼团下单全流程体验。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="GlobalFUN · 全球好物跨境拼团"> <meta name="twitter:description" content="AI 智能推荐跨境拼团平台，多语言切换、实时汇率、拼团下单全流程体验。"> <style> /* ===== 企业服务类：深蓝+白卡片 ===== */
  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+/* ===== Touch Polish v1 ===== */
+@media (hover:none){
+  input:not([type]),input[type="text"],input[type="search"],input[type="email"],input[type="tel"],input[type="url"],input[type="password"],input[type="number"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{font-size:16px!important}
+}
+/* ===== /Touch Polish v1 ===== */
+
 /* ===== Mobile Baseline v1 ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (hover:none){
@@ -685,29 +691,29 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .primary-btn {
  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
  }
- .primary-btn:hover {
+ @media (hover:hover){.primary-btn:hover {
  transform: translateY(-2px);
  box-shadow: 0 12px 24px rgba(37,99,235,0.25), var(--neu-shadow);
- }
+ }}
  .primary-btn:active {
  transform: translateY(1px) scale(0.98);
  box-shadow: var(--neu-shadow-inset);
  }
  
  /* 卡片悬停效果 */
- .neu-card:hover {
+ @media (hover:hover){.neu-card:hover {
  transform: translateY(-2px);
  box-shadow: 0 8px 24px rgba(0,0,0,0.08), var(--neu-shadow);
- }
+ }}
  
  /* 推荐卡片悬停 */
  .ai-rec-item {
  transition: all 0.2s ease;
  }
- .ai-rec-item:hover {
+ @media (hover:hover){.ai-rec-item:hover {
  background: rgba(255,255,255,0.12);
  transform: translateY(-2px);
- }
+ }}
  
  /* 倒计时脉冲 */
  .time-box {
@@ -812,10 +818,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  padding: 12px !important;
  transition: all 0.2s ease;
  }
- #agentMatrix .agent-card:hover {
+ @media (hover:hover){#agentMatrix .agent-card:hover {
  transform: translateY(-2px);
  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
- }
+ }}
 
  /* AI推荐卡片4列 */
  .ai-rec-grid {
@@ -1957,7 +1963,7 @@ input, textarea, select {
 
 /* AI推荐卡片hover增强 */
 .ai-rec-item { transition: all 0.2s ease; cursor: pointer; }
-.ai-rec-item:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+@media (hover:hover){.ai-rec-item:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.12); }}
 .ai-rec-item:active { transform: scale(0.97); }
 
 /* 按钮点击反馈 */
@@ -2096,9 +2102,9 @@ input, textarea, select {
  user-select: none;
  transition: background 0.2s;
 }
-.mcp-arch-header:hover {
+@media (hover:hover){.mcp-arch-header:hover {
  background: var(--primary-soft);
-}
+}}
 .mcp-arch-header .icon {
  width: 32px;
  height: 32px;

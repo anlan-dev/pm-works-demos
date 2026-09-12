@@ -16,6 +16,12 @@
  ║ comparison-table / ai-recommendation ║
  ╚══════════════════════════════════════════════════════════════╝
  --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title>住值 · 租房生命成本计算器</title> <meta name="description" content="住值 · 租房生命成本计算器 — 贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="住值 · 租房生命成本计算器"> <meta property="og:description" content="贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="住值 · 租房生命成本计算器"> <meta name="twitter:description" content="贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏡</text></svg>"> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> <style>
+/* ===== Touch Polish v1 ===== */
+@media (hover:none){
+  input:not([type]),input[type="text"],input[type="search"],input[type="email"],input[type="tel"],input[type="url"],input[type="password"],input[type="number"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{font-size:16px!important}
+}
+/* ===== /Touch Polish v1 ===== */
+
 /* ===== Mobile Baseline v1 ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (hover:none){
@@ -170,7 +176,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  transition: 0.15s;
  box-shadow: var(--shadow);
  }
- .theme-dot:hover { transform: scale(0.92); }
+ @media (hover:hover){.theme-dot:hover { transform: scale(0.92); }}
  .theme-dot.active { box-shadow: var(--shadow-inset); border-color: var(--accent); }
  .theme-dot.t-light { background: #f5f5f7; }
  .theme-dot.t-dark { background: #2a2a2a; }
@@ -314,7 +320,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  color: var(--text);
  font-family: inherit;
  }
- .btn:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }
+ @media (hover:hover){.btn:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }}
  .btn:active { box-shadow: var(--shadow-inset); transform: scale(0.97); }
 
  .btn-primary {
@@ -323,9 +329,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  color: #fff;
  box-shadow: 0 3px 12px color-mix(in srgb, var(--accent) 38%, transparent), var(--shadow);
  }
- .btn-primary:hover {
+ @media (hover:hover){.btn-primary:hover {
  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 48%, transparent), var(--shadow-hover);
- }
+ }}
  .btn-primary:active { box-shadow: var(--shadow-inset); }
 
  .btn-accent-outline {
@@ -378,7 +384,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  gap: 16px;
  transition: 0.2s;
  }
- .plan-card:hover { box-shadow: var(--shadow-hover); }
+ @media (hover:hover){.plan-card:hover { box-shadow: var(--shadow-hover); }}
 
  .plan-header {
  display: flex;
@@ -509,7 +515,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  padding: 4px;
  transition: 0.15s;
  }
- .delete-btn:hover { color: var(--red); }
+ @media (hover:hover){.delete-btn:hover { color: var(--red); }}
 
  @media (max-width: 480px) {
  .delete-btn { font-size: 1rem; padding: 3px; }
@@ -810,7 +816,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  color: var(--text);
  font-family: inherit;
  }
- .sort-btn:hover { box-shadow: var(--shadow-hover); }
+ @media (hover:hover){.sort-btn:hover { box-shadow: var(--shadow-hover); }}
  .sort-btn.active { box-shadow: var(--shadow-inset); color: var(--accent); font-weight: 600; }
 
  @media (max-width: 480px) {
@@ -992,7 +998,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  transition: 0.18s;
  color: var(--text);
  }
- .settings-fab:hover { box-shadow: var(--shadow-hover); transform: scale(0.95); }
+ @media (hover:hover){.settings-fab:hover { box-shadow: var(--shadow-hover); transform: scale(0.95); }}
 
  @media (max-width: 480px) {
  .settings-fab {
@@ -1101,7 +1107,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  color: var(--text);
  font-family: inherit;
  }
- .ai-btn:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }
+ @media (hover:hover){.ai-btn:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }}
  .ai-btn:active { box-shadow: var(--shadow-inset); }
  .ai-btn.busy {
  opacity: 0.8;
@@ -1305,7 +1311,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  border: none;
  font-family: inherit;
  }
- .ob-skip:hover { color: var(--text); }
+ @media (hover:hover){.ob-skip:hover { color: var(--text); }}
 
  @media (max-width: 480px) {
  .ob-actions { gap: 8px; }
@@ -1332,7 +1338,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  color: var(--muted);
  font-family: inherit;
  }
- .help-btn:hover { box-shadow: var(--shadow-hover); color: var(--text); }
+ @media (hover:hover){.help-btn:hover { box-shadow: var(--shadow-hover); color: var(--text); }}
 
  @media (max-width: 480px) {
  .help-btn {
