@@ -1,5 +1,11 @@
 /* ===== 雾灯残页 / Mistlamp Fragments — 哥特暗色叙事风 ===== */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap');
+/* ===== Mobile Baseline v1 ===== */
+@media (hover:none){
+  a:active,button:active,[onclick]:active,[role="button"]:active,summary:active{opacity:.7}
+}
+/* ===== /Mobile Baseline v1 ===== */
+
 
 :root {
   --bg: #0c0b09;

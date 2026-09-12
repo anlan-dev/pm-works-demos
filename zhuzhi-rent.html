@@ -15,7 +15,14 @@
  ║ Components: dual-axis-chart / slider-input / cost-card ║
  ║ comparison-table / ai-recommendation ║
  ╚══════════════════════════════════════════════════════════════╝
- --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title>住值 · 租房生命成本计算器</title> <meta name="description" content="住值 · 租房生命成本计算器 — 贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="住值 · 租房生命成本计算器"> <meta property="og:description" content="贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="住值 · 租房生命成本计算器"> <meta name="twitter:description" content="贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏡</text></svg>"> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> <style> * { margin: 0; padding: 0; box-sizing: border-box; }
+ --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title>住值 · 租房生命成本计算器</title> <meta name="description" content="住值 · 租房生命成本计算器 — 贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="住值 · 租房生命成本计算器"> <meta property="og:description" content="贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="住值 · 租房生命成本计算器"> <meta name="twitter:description" content="贪心算法计算真实租房预算，通勤/健康/交通隐性成本全算清，AI 租房顾问多方案对比。"> <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏡</text></svg>"> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script> <style>
+/* ===== Mobile Baseline v1 ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (hover:none){
+  a:active,button:active,[onclick]:active,[role="button"]:active,summary:active{opacity:.7}
+}
+/* ===== /Mobile Baseline v1 ===== */
+ * { margin: 0; padding: 0; box-sizing: border-box; }
 
  /* ===== 工具效率类：财务绿+白卡片 ===== */
  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
@@ -84,6 +91,7 @@
  flex-direction: column;
  align-items: center;
  min-height: 100vh;
+  min-height:100dvh;
  line-height: 1.5;
  transition: background 0.3s, color 0.3s;
  -webkit-font-smoothing: antialiased;

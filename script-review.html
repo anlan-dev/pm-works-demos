@@ -16,7 +16,14 @@
  ║ Components: heatmap-board / word-cloud / scene-card ║
  ║ progress-bar / filter-tabs / ai-panel ║
  ╚══════════════════════════════════════════════════════════════╝
- --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title>剧本·进度复盘｜写作管理 · 完整功能版</title> <meta name="description" content="剧本·进度复盘 — 长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="剧本·进度复盘"> <meta property="og:description" content="长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="剧本·进度复盘"> <meta name="twitter:description" content="长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <style> * {
+ --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title>剧本·进度复盘｜写作管理 · 完整功能版</title> <meta name="description" content="剧本·进度复盘 — 长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="剧本·进度复盘"> <meta property="og:description" content="长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="剧本·进度复盘"> <meta name="twitter:description" content="长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <style>
+/* ===== Mobile Baseline v1 ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (hover:none){
+  a:active,button:active,[onclick]:active,[role="button"]:active,summary:active{opacity:.7}
+}
+/* ===== /Mobile Baseline v1 ===== */
+ * {
  box-sizing: border-box;
  margin: 0;
  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', 'Apple Color Emoji', sans-serif;
@@ -153,6 +160,7 @@
  body {
  background: var(--bg-body);
  min-height: 100vh;
+  min-height:100dvh;
  padding: 24px 20px;
  display: flex;
  justify-content: center;
