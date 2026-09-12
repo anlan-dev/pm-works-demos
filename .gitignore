@@ -37,9 +37,13 @@ desktop.ini
 # 面试准备（个人自用，禁止推送）
 面试准备/
 
+# Agent 交接状态（本机下一会话用，不进公开 Demo 仓库）
+.agents/
+
 # IDE 文件
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 
