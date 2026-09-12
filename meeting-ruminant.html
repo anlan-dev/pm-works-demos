@@ -18,6 +18,12 @@
  ╚══════════════════════════════════════════════════════════════╝
  --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title>会议·反刍舱｜AI 复盘 & 行动管理 · 完整版</title> <meta name="description" content="会议·反刍舱 — AI 驱动的会议复盘工具，语音转录、行动项提取、历史反刍、待办管理一站式完成。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="会议·反刍舱｜AI 复盘 & 行动管理"> <meta property="og:description" content="AI 驱动的会议复盘工具，语音转录、行动项提取、历史反刍、待办管理一站式完成。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="会议·反刍舱｜AI 复盘 & 行动管理"> <meta name="twitter:description" content="AI 驱动的会议复盘工具，语音转录、行动项提取、历史反刍、待办管理一站式完成。"> <style> /* ===== 基础变量与主题 ===== */
  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+/* ===== Touch Polish v1 ===== */
+@media (hover:none){
+  input:not([type]),input[type="text"],input[type="search"],input[type="email"],input[type="tel"],input[type="url"],input[type="password"],input[type="number"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{font-size:16px!important}
+}
+/* ===== /Touch Polish v1 ===== */
+
 /* ===== Mobile Baseline v1 ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (hover:none){
@@ -157,13 +163,13 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  border-color: var(--accent-color);
  color: white;
  }
- .btn-primary:hover { opacity: 0.88; }
- body.theme-ink .btn-primary:hover { opacity: 1; }
+ @media (hover:hover){.btn-primary:hover { opacity: 0.88; }
+ body.theme-ink .btn-primary:hover { opacity: 1; }}
  .btn-outline {
  border-color: var(--accent-color);
  color: var(--accent-color);
  }
- .btn-outline:hover { background: var(--accent-light); }
+ @media (hover:hover){.btn-outline:hover { background: var(--accent-light); }}
  textarea {
  width: 100%;
  padding: 14px;
@@ -235,7 +241,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  cursor: pointer; border: 1px solid var(--card-border);
  display: flex; justify-content: space-between; align-items: center;
  }
- .history-item:hover { background: var(--history-hover); }
+ @media (hover:hover){.history-item:hover { background: var(--history-hover); }}
  .flex-between { display: flex; justify-content: space-between; align-items: center; }
  .meeting-top-toolbar.auto-hide-hidden { transform: translateY(calc(-100% - 4px)); opacity: 0.92; }
  .pre-block {
@@ -277,11 +283,11 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  transition: opacity 0.2s;
  max-width: min(210px, calc(100vw - 16px));
  }
- .feedback-label:hover { opacity: 0.82; }
+ @media (hover:hover){.feedback-label:hover { opacity: 0.82; }}
  .feedback-label a {
  color: var(--accent-color); text-decoration: none; font-weight: 500;
  }
- .feedback-label a:hover { text-decoration: underline; }
+ @media (hover:hover){.feedback-label a:hover { text-decoration: underline; }}
 
  .export-dropdown { position: relative; display: inline-block; }
  .export-content {
@@ -290,18 +296,18 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  border-radius: 16px; border: 1px solid var(--card-border);
  z-index: 10; padding: 6px 0;
  }
- .export-dropdown:hover .export-content { display: block; }
+ @media (hover:hover){.export-dropdown:hover .export-content { display: block; }}
  .export-content button {
  background: none; border: none; width: 100%; text-align: left;
  padding: 8px 16px; cursor: pointer; color: var(--text-primary);
  }
- .export-content button:hover { background: var(--accent-light); }
+ @media (hover:hover){.export-content button:hover { background: var(--accent-light); }}
 
  .reminder-panel { background: var(--accent-light); border-radius: 20px; padding: 14px; margin-top: 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
  .custom-remind { width: 70px; padding: 6px; border-radius: 30px; border: 1px solid var(--accent-border); background: var(--card-bg); }
  .stats-badge { background: var(--accent-color); color: white; border-radius: 20px; padding: 2px 10px; font-size: 0.8rem; margin-left: 6px; }
  .delete-history { margin-left: 8px; color: #b91c1c; cursor: pointer; opacity: 0.7; }
- .delete-history:hover { opacity: 1; }
+ @media (hover:hover){.delete-history:hover { opacity: 1; }}
  .endpoint-hint { font-size:0.75rem; opacity:0.7; margin-left:8px; }
 
  /* ===== 2026 UI polish + responsive ===== */
@@ -316,7 +322,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  box-shadow: 0 12px 28px rgba(0,0,0,0.05);
  }
  .btn { border-radius: 999px; transition: all 0.18s ease; }
- .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }
+ @media (hover:hover){.btn:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); }}
  textarea, .api-config input, .custom-remind {
  border-radius: 12px;
  }
@@ -346,7 +352,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
  /* ===== 浮动快捷 FAB ===== */
  .fab-meeting { position: fixed; right: 16px; bottom: 24px; width: 52px; height: 52px; border-radius: 50%; background: var(--accent-color); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,113,227,.35); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.5rem; transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease, background .2s ease; -webkit-tap-highlight-color:transparent; outline:none }
- .fab-meeting:hover { transform: scale(1.08); box-shadow: 0 6px 22px rgba(0,113,227,.45) }
+ @media (hover:hover){.fab-meeting:hover { transform: scale(1.08); box-shadow: 0 6px 22px rgba(0,113,227,.45) }}
  .fab-meeting:active { transform: scale(.93); transition: transform .1s ease }
  .fab-meeting.active { transform: rotate(45deg); background: var(--text-primary); color: var(--bg-body) }
  .fab-meeting-backdrop { position: fixed; inset: 0; z-index: 18; background: rgba(0,0,0,.18); opacity: 0; pointer-events: none; transition: opacity .25s ease }
@@ -540,10 +546,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  max-width: 160px;
  text-align: center;
  }
- .graph-node:hover {
+ @media (hover:hover){.graph-node:hover {
  transform: scale(1.05);
  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
- }
+ }}
  .graph-node.topic-node {
  background: rgba(0,113,227,0.15);
  border: 2px solid var(--accent-color);

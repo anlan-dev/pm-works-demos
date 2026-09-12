@@ -109,11 +109,11 @@ body {
   min-height: 48px;
 }
 
-.menu-btn:hover {
+@media (hover:hover){.menu-btn:hover {
   background: rgba(184,144,94,0.12);
   border-color: var(--accent);
   color: var(--accent);
-}
+}}
 
 .menu-btn:active {
   transform: scale(0.97);
@@ -131,9 +131,9 @@ body {
   font-weight: 600;
 }
 
-.menu-btn.primary:hover {
+@media (hover:hover){.menu-btn.primary:hover {
   background: linear-gradient(135deg, var(--accent2), var(--accent));
-}
+}}
 
 .menu-footer {
   font-family: var(--font-ui);
@@ -194,10 +194,10 @@ body {
   min-width: 36px;
 }
 
-#btn-save-top:hover {
+@media (hover:hover){#btn-save-top:hover {
   color: var(--accent);
   border-color: var(--accent);
-}
+}}
 
 /* ===== 属性栏 ===== */
 #stats-bar {
@@ -374,11 +374,11 @@ body {
   min-height: 48px;
 }
 
-.choice-btn:hover {
+@media (hover:hover){.choice-btn:hover {
   background: rgba(184,144,94,0.1);
   border-color: var(--accent);
   color: var(--accent);
-}
+}}
 
 .choice-btn:active {
   transform: scale(0.98);
@@ -405,9 +405,9 @@ body {
   transition: all 0.15s;
 }
 
-#btn-toggle-clue:hover {
+@media (hover:hover){#btn-toggle-clue:hover {
   background: rgba(184,144,94,0.15);
-}
+}}
 
 #clue-panel {
   display: none;
@@ -595,10 +595,10 @@ body {
   min-height: 48px;
 }
 
-.ep-btn:hover {
+@media (hover:hover){.ep-btn:hover {
   background: rgba(184,144,94,0.1);
   border-color: var(--accent);
-}
+}}
 
 .ep-btn:active {
   transform: scale(0.97);
@@ -640,7 +640,7 @@ body {
 /* PC端 */
 @media (min-width: 1024px) {
   #game { max-width: 720px; }
-  .choice-btn:hover { transform: translateX(4px); }
+  @media (hover:hover){.choice-btn:hover { transform: translateX(4px); }}
 }
 
 /* 横屏小屏 */

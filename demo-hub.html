@@ -2,6 +2,10 @@
 <!-- (c)2026 WangTianJiao anlan-dev pm-works-demos | All Rights Reserved | 保留所有权利: 禁止转载/商用/二次分发/冒充 -->
 <html lang="zh-CN" data-app="hub">
 <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title>Demo 导航页 · 王天娇 AI 产品经理作品集</title> <meta name="description" content="AI 产品经理作品集导航页，涵盖宠伴、会议舱、跨境电商、PixelPick 影像精选、雾灯残页等 10 个从 0 到 1 的可交互产品"> <style>
+/* ===== Touch Polish v1 ===== */
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+/* ===== /Touch Polish v1 ===== */
+
 /* ===== Mobile Baseline v1 ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (hover:none){
@@ -175,10 +179,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  box-shadow: var(--shadow-sm);
  }
  
- .metric-card:hover {
+ @media (hover:hover){.metric-card:hover {
  transform: translateY(-4px);
  box-shadow: var(--shadow-md);
- }
+ }}
  
  .metric-icon {
  font-size: 36px;
@@ -235,10 +239,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  font-family: inherit;
  }
  
- button:hover, .link-btn:hover {
+ @media (hover:hover){button:hover, .link-btn:hover {
  transform: translateY(-2px);
  box-shadow: var(--shadow-md);
- }
+ }}
  
  button:active, .link-btn:active {
  transform: translateY(0);
@@ -251,10 +255,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  box-shadow: var(--shadow-md), var(--shadow-glow);
  }
  
- button.primary:hover {
+ @media (hover:hover){button.primary:hover {
  background: #4338ca;
  box-shadow: var(--shadow-lg), var(--shadow-glow);
- }
+ }}
  
  button .icon {
  font-size: 18px;
@@ -271,9 +275,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  box-shadow: var(--shadow-sm);
  }
  
- .group:hover {
+ @media (hover:hover){.group:hover {
  box-shadow: var(--shadow-md);
- }
+ }}
  
  .group-head {
  padding: 24px 28px;
@@ -325,7 +329,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  transition: var(--transition);
  }
  
- .item:hover {
+ @media (hover:hover){.item:hover {
  border-color: var(--accent-light);
  box-shadow: var(--shadow-md), 0 0 0 1px rgba(79, 70, 229, 0.1);
  transform: translateY(-4px);
@@ -333,7 +337,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  
  .item:hover::before {
  opacity: 1;
- }
+ }}
  
  .item-header {
  display: flex;
@@ -409,9 +413,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  font-weight: 500;
  }
  
- .footer a:hover {
+ @media (hover:hover){.footer a:hover {
  text-decoration: underline;
- }
+ }}
  
  /* 响应式 - 移动端优先 */
  @media (max-width: 1024px) {

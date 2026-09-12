@@ -61,7 +61,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  padding: clamp(12px, 2vw, 18px); text-align: center;
  transition: box-shadow 0.2s ease, transform 0.2s ease;
  }
- .stat-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+ @media (hover:hover){.stat-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }}
  .stat-num { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; color: var(--accent); }
  .stat-label { font-size: clamp(0.68rem, 0.85vw, 0.78rem); color: var(--muted); margin-top: 4px; }
 
@@ -79,7 +79,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  padding: clamp(16px, 2.5vw, 24px); margin-bottom: clamp(12px, 2vw, 18px);
  transition: box-shadow 0.2s ease, border-color 0.2s ease;
  }
- .story-block:hover { box-shadow: var(--shadow-hover); border-color: var(--accent); }
+ @media (hover:hover){.story-block:hover { box-shadow: var(--shadow-hover); border-color: var(--accent); }}
  .story-block h3 { font-size: clamp(0.95rem, 1.2vw, 1.1rem); font-weight: 600; margin-bottom: 10px; }
  .story-block p { font-size: clamp(0.78rem, 0.95vw, 0.88rem); line-height: 1.7; color: var(--text); margin-bottom: 8px; }
 
@@ -91,7 +91,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  border-radius: var(--btn-radius); box-shadow: var(--shadow);
  transition: all .2s; list-style: disclosure-closed;
  }
- details summary:hover { box-shadow: var(--shadow-hover); }
+ @media (hover:hover){details summary:hover { box-shadow: var(--shadow-hover); }}
  details .detail-body {
  background: var(--card-bg); border: 1px solid var(--card-border);
  border-radius: clamp(14px, 2vw, 18px); box-shadow: var(--shadow-inset);
@@ -119,7 +119,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  background: var(--card-bg); border: 1px solid var(--card-border);
  color: var(--text); box-shadow: var(--shadow); transition: all .2s;
  }
- .file-link:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }
+ @media (hover:hover){.file-link:hover { box-shadow: var(--shadow-hover); transform: scale(0.98); }}
 
  .back-link {
  display: inline-flex; align-items: center; gap: 4px;
@@ -184,8 +184,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  @media (min-width: 1024px) {
  .container { max-width: 800px; }
  .stats-grid { grid-template-columns: repeat(6, 1fr); }
- .story-block:hover { transform: translateY(-2px); }
- details summary:hover { transform: translateY(-1px); }
+ @media (hover:hover){.story-block:hover { transform: translateY(-2px); }
+ details summary:hover { transform: translateY(-1px); }}
  }
 
  /* 横屏小屏适配 */

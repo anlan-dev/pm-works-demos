@@ -17,6 +17,12 @@
  ║ progress-bar / filter-tabs / ai-panel ║
  ╚══════════════════════════════════════════════════════════════╝
  --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title>剧本·进度复盘｜写作管理 · 完整功能版</title> <meta name="description" content="剧本·进度复盘 — 长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="剧本·进度复盘"> <meta property="og:description" content="长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="剧本·进度复盘"> <meta name="twitter:description" content="长剧本创作进度管理工具，高频词分析、热力图看板、场景复盘、AI 剧情生成。"> <style>
+/* ===== Touch Polish v1 ===== */
+@media (hover:none){
+  input:not([type]),input[type="text"],input[type="search"],input[type="email"],input[type="tel"],input[type="url"],input[type="password"],input[type="number"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{font-size:16px!important}
+}
+/* ===== /Touch Polish v1 ===== */
+
 /* ===== Mobile Baseline v1 ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (hover:none){
@@ -534,9 +540,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  padding: 0;
  line-height: 1;
  }
- .close-modal-icon:hover {
+ @media (hover:hover){.close-modal-icon:hover {
  color: var(--text-primary);
- }
+ }}
  .tag-selector {
  display: flex;
  flex-wrap: wrap;
@@ -765,10 +771,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
  max-width: min(250px, calc(100vw - 16px));
  }
- .dev-credit:hover {
+ @media (hover:hover){.dev-credit:hover {
  opacity: 0.82;
  cursor: default;
- }
+ }}
  .dev-credit .demo-note {
  font-size: 0.5rem;
  opacity: 0.7;
@@ -1001,7 +1007,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .heatmap-grid { display: flex; gap: 3px; overflow-x: auto; padding-bottom: 6px; }
  .heatmap-week { display: flex; flex-direction: column; gap: 3px; }
  .heatmap-cell { width: 14px; height: 14px; border-radius: 3px; background: var(--form-bg); border: 1px solid var(--card-border); cursor: pointer; transition: transform 0.1s; }
- .heatmap-cell:hover { transform: scale(1.4); z-index: 2; }
+ @media (hover:hover){.heatmap-cell:hover { transform: scale(1.4); z-index: 2; }}
  .heatmap-cell.lv1 { background: #9be9a8; border-color: #9be9a8; }
  .heatmap-cell.lv2 { background: #40c463; border-color: #40c463; }
  .heatmap-cell.lv3 { background: #30a14e; border-color: #30a14e; }
@@ -1021,7 +1027,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .heatmap-stats .stat-label { font-size: 0.72rem; color: var(--text-muted); }
  .heatmap-legend { display: flex; align-items: center; gap: 4px; font-size: 0.65rem; color: var(--text-muted); margin-top: 8px; }
  .heatmap-legend .heatmap-cell { cursor: default; }
- .heatmap-legend .heatmap-cell:hover { transform: none; }
+ @media (hover:hover){.heatmap-legend .heatmap-cell:hover { transform: none; }}
  .heatmap-tooltip { position: fixed; background: var(--toast-bg); color: var(--toast-text); padding: 4px 10px; border-radius: 8px; font-size: 0.72rem; pointer-events: none; z-index: 3000; white-space: nowrap; opacity: 0; transition: opacity 0.15s; }
  .heatmap-tooltip.show { opacity: 1; }
 
@@ -1776,6 +1782,18 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  });
  cell.addEventListener('mouseleave', () => {
  tooltip.classList.remove('show');
+ });
+ // 触屏没有 hover：点按也要能看当天记录条数
+ cell.addEventListener('click', (e) => {
+ const date = cell.dataset.date;
+ const count = cell.dataset.count;
+ tooltip.textContent = `${date}: ${count} 条记录`;
+ const ttW = 150;
+ tooltip.style.left = Math.max(8, Math.min(e.clientX + 10, window.innerWidth - ttW)) + 'px';
+ tooltip.style.top = Math.max(8, e.clientY - 34) + 'px';
+ tooltip.classList.add('show');
+ clearTimeout(cell._ttTimer);
+ cell._ttTimer = setTimeout(() => tooltip.classList.remove('show'), 2400);
  });
  });
  }
