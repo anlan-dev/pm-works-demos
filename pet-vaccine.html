@@ -47,7 +47,14 @@
  if (window.devicePixelRatio > 1) {
  document.documentElement.setAttribute('data-retina', 'true');
  }
- })(); </script> <title>宠伴·健康台账 — 养宠全周期档案</title> <meta name="description" content="宠伴·健康台账 — 养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="宠伴·健康台账 — 养宠全周期档案"> <meta property="og:description" content="养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="宠伴·健康台账 — 养宠全周期档案"> <meta name="twitter:description" content="养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。"> <link rel="stylesheet" href="./dev-flow.css"> <link rel="manifest" href="manifest.json"> <link rel="apple-touch-icon" href="icon.svg"> <meta name="apple-mobile-web-app-status-bar-style" content="default"> <!-- Tesseract.js 核心库 --> <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script> <!-- SheetJS 用于导出 Excel --> <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script> <!-- Chart.js 用于数据看板 --> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script> <style> :root{
+ })(); </script> <title>宠伴·健康台账 — 养宠全周期档案</title> <meta name="description" content="宠伴·健康台账 — 养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="宠伴·健康台账 — 养宠全周期档案"> <meta property="og:description" content="养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="宠伴·健康台账 — 养宠全周期档案"> <meta name="twitter:description" content="养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。"> <link rel="stylesheet" href="./dev-flow.css"> <link rel="manifest" href="manifest.json"> <link rel="apple-touch-icon" href="icon.svg"> <meta name="apple-mobile-web-app-status-bar-style" content="default"> <!-- Tesseract.js 核心库 --> <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script> <!-- SheetJS 用于导出 Excel --> <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script> <!-- Chart.js 用于数据看板 --> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script> <style>
+/* ===== Mobile Baseline v1 ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (hover:none){
+  a:active,button:active,[onclick]:active,[role="button"]:active,summary:active{opacity:.7}
+}
+/* ===== /Mobile Baseline v1 ===== */
+ :root{
  /* 工具效率类：白卡片+浅灰画布 */
  --bg: #f5f5f7;
  --header-bg: rgba(255,255,255,0.92);
@@ -143,6 +150,7 @@
  background: var(--bg);
  padding-bottom: 84px;
  min-height: 100vh;
+  min-height:100dvh;
  color: var(--text);
  line-height: 1.5;
  letter-spacing: -0.01em;
