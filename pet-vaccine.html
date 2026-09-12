@@ -48,6 +48,12 @@
  document.documentElement.setAttribute('data-retina', 'true');
  }
  })(); </script> <title>宠伴·健康台账 — 养宠全周期档案</title> <meta name="description" content="宠伴·健康台账 — 养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="宠伴·健康台账 — 养宠全周期档案"> <meta property="og:description" content="养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。OCR 识别 + Excel 导出 + 数据看板。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="宠伴·健康台账 — 养宠全周期档案"> <meta name="twitter:description" content="养宠全周期档案管理，疫苗接种、驱虫记录、费用支出一目了然。"> <link rel="stylesheet" href="./dev-flow.css"> <link rel="manifest" href="manifest.json"> <link rel="apple-touch-icon" href="icon.svg"> <meta name="apple-mobile-web-app-status-bar-style" content="default"> <!-- Tesseract.js 核心库 --> <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script> <!-- SheetJS 用于导出 Excel --> <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script> <!-- Chart.js 用于数据看板 --> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script> <style>
+/* ===== Touch Polish v1 ===== */
+@media (hover:none){
+  input:not([type]),input[type="text"],input[type="search"],input[type="email"],input[type="tel"],input[type="url"],input[type="password"],input[type="number"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{font-size:16px!important}
+}
+/* ===== /Touch Polish v1 ===== */
+
 /* ===== Mobile Baseline v1 ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (hover:none){
@@ -276,8 +282,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  font-weight: 500;
  transition: all 0.18s ease;
  }
- .btn:hover { opacity: 0.92; }
- body[data-theme="ink"] .btn:hover { opacity: 1; }
+ @media (hover:hover){.btn:hover { opacity: 0.92; }
+ body[data-theme="ink"] .btn:hover { opacity: 1; }}
  .btn-primary { background: var(--primary); border-color: var(--primary-border); color: white; }
  .btn-link { background: transparent; border: none; color: var(--muted); text-decoration: underline; padding: 4px 8px; }
  .input-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
@@ -318,7 +324,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .pet-avatar-small img { width: 100%; height: 100%; object-fit: cover; }
 
  /* 提醒项悬停 */
- .reminder-item:hover { background: color-mix(in srgb, var(--panel-bg) 70%, white 30%) !important; transition: 0.2s; }
+ @media (hover:hover){.reminder-item:hover { background: color-mix(in srgb, var(--panel-bg) 70%, white 30%) !important; transition: 0.2s; }}
 
  /* OCR 样式 */
  .preprocess-controls { margin-top: 15px; padding: 12px; background: var(--panel-bg); border-radius: 16px; }
@@ -340,7 +346,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
  /* 浮动快捷 + */
  .fab { position: fixed; right: 16px; bottom: 88px; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,113,227,0.3); cursor: pointer; z-index: 20; border: none; user-select: none; font-size: 1.38rem; opacity: 1; transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease, opacity .25s ease; -webkit-tap-highlight-color:transparent; outline:none }
- .fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0,113,227,.4) }
+ @media (hover:hover){.fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0,113,227,.4) }}
  .fab:active { transform: scale(.93); box-shadow: 0 2px 8px rgba(0,113,227,.25); transition: transform .1s ease, box-shadow .1s ease }
  .fab.active { transform: rotate(45deg); background: var(--text); color: var(--bg) }
  body[data-theme="night"] .fab.active { background: #e5e5ea; color: #1c1c1e }
@@ -393,7 +399,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  
  /* 平板端增强：双栏布局优化 */
  .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
- .card:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(16,24,40,0.08); }
+ @media (hover:hover){.card:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(16,24,40,0.08); }}
  
  /* 平板端：输入组优化 */
  .input-group { flex-wrap: wrap; }
@@ -449,7 +455,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  
  /* PC端增强：卡片网格布局 */
  .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
- .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(16,24,40,0.1); }
+ @media (hover:hover){.card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(16,24,40,0.1); }}
  
  /* PC端：表单横向排列 */
  .input-group { flex-wrap: nowrap; }
@@ -744,7 +750,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .toast { animation: toastIn 0.3s ease-out; }
  .toast.hide { animation: toastOut 0.25s ease-in forwards; }
  /* Pet avatar bounce on hover */
- .pet-avatar:hover { animation: avatarBounce 0.4s ease; }
+ @media (hover:hover){.pet-avatar:hover { animation: avatarBounce 0.4s ease; }}
  @keyframes avatarBounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
  /* Page transition */
  .page { transition: opacity 0.2s ease; }
@@ -1049,16 +1055,16 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  
  /* 卡片悬停效果 */
  .card { transition: transform var(--transition-normal), box-shadow var(--transition-normal); }
- .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+ @media (hover:hover){.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }}
  
  /* 按钮悬停效果 */
  .btn { transition: all var(--transition-fast); }
- .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+ @media (hover:hover){.btn:hover { opacity: 0.9; transform: translateY(-1px); }}
  .btn:active { transform: translateY(0) scale(0.98); }
  
  /* 浮动按钮动画 */
  .fab { transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
- .fab:hover { transform: scale(1.1); box-shadow: var(--shadow-xl); }
+ @media (hover:hover){.fab:hover { transform: scale(1.1); box-shadow: var(--shadow-xl); }}
  .fab:active { transform: scale(0.95); }
  
  /* 标签页切换动画 */
@@ -1067,7 +1073,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  
  /* 列表项动画 */
  .vaccine-item, .expense-item, .deworm-item { transition: all var(--transition-normal); }
- .vaccine-item:hover, .expense-item:hover, .deworm-item:hover { transform: translateX(4px); }
+ @media (hover:hover){.vaccine-item:hover, .expense-item:hover, .deworm-item:hover { transform: translateX(4px); }}
  
  /* 进度条动画 */
  .progress-fill { transition: width 0.5s ease; }

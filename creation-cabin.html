@@ -16,6 +16,12 @@
  ╚══════════════════════════════════════════════════════════════╝
  --> <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover"> <title> 星途·创作舱 · 巡游轨迹/角色/多格式工坊</title> <meta name="description" content="星途·创作舱 — 网文/剧本沉浸式写作桌面，角色设定、大纲管理、多格式导出一站式搞定。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="星途·创作舱 · 巡游轨迹/角色/多格式工坊"> <meta property="og:description" content="网文/剧本沉浸式写作桌面，角色设定、大纲管理、多格式导出一站式搞定。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="星途·创作舱 · 巡游轨迹/角色/多格式工坊"> <meta name="twitter:description" content="网文/剧本沉浸式写作桌面，角色设定、大纲管理、多格式导出一站式搞定。"> <link rel="manifest" href="creation-manifest.json"> <link rel="apple-touch-icon" href="./creation-icon.svg"> <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script> <style> /* ===== 消费娱乐类：品牌色渐变+白卡片 ===== */
  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600&display=swap');
+/* ===== Touch Polish v1 ===== */
+@media (hover:none){
+  input:not([type]),input[type="text"],input[type="search"],input[type="email"],input[type="tel"],input[type="url"],input[type="password"],input[type="number"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{font-size:16px!important}
+}
+/* ===== /Touch Polish v1 ===== */
+
 /* ===== Mobile Baseline v1 ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (hover:none){
@@ -107,10 +113,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  body.theme-ink .app-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--header-bg); }
  .greeting-wrapper { display: inline-flex; align-items: center; gap: 8px; background: var(--tag-bg); padding: 4px 12px; border-radius: 40px; font-size: 0.9rem; font-weight: normal; }
  .greeting-text { cursor: pointer; user-select: none; transition: opacity 0.2s; }
- .greeting-text:hover { opacity: 0.7; }
+ @media (hover:hover){.greeting-text:hover { opacity: 0.7; }}
  .greeting-actions { display: inline-flex; gap: 6px; }
  .icon-btn { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-secondary); padding: 0 4px; border-radius: 30px; transition: 0.1s; }
- .icon-btn:hover { background: var(--btn-border); }
+ @media (hover:hover){.icon-btn:hover { background: var(--btn-border); }}
  .header-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
  .mode-toggle-btn { border: 1px solid var(--btn-border); border-radius: 999px; background: var(--btn-bg); color: var(--text-primary); min-height: 32px; min-width: 32px; height: 32px; width: 32px; padding: 0; cursor: pointer; font-size: 0.92rem; line-height: 1; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 32px; }
  .mode-panel { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -236,7 +242,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  transition: opacity 0.2s, background 0.2s;
  pointer-events: auto;
  }
- .dev-credit:hover { opacity: 0.82; background: color-mix(in srgb, var(--record-bg) 90%, transparent); }
+ @media (hover:hover){.dev-credit:hover { opacity: 0.82; background: color-mix(in srgb, var(--record-bg) 90%, transparent); }}
  .dev-credit a {
  color: var(--accent-border);
  text-decoration: none;
@@ -244,9 +250,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  border-bottom: 1px dotted var(--accent-border);
  font-size: 0.62rem;
  }
- .dev-credit a:hover {
+ @media (hover:hover){.dev-credit a:hover {
  border-bottom: 1px solid;
- }
+ }}
  .demo-note {
  font-size: 0.52rem;
  opacity: 0.8;
@@ -312,10 +318,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  border-radius: 999px;
  transition: all 0.18s ease;
  }
- .btn:hover, .btn-sm:hover, .btn-primary:hover, .btn-icon:hover, .theme-btn:hover {
+ @media (hover:hover){.btn:hover, .btn-sm:hover, .btn-primary:hover, .btn-icon:hover, .theme-btn:hover {
  transform: translateY(-1px);
  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
- }
+ }}
  .btn-primary {
  background: var(--accent-border);
  border-color: var(--accent-border);
@@ -731,8 +737,11 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  opacity: 0.85;
  padding: 0;
  }
- .dev-credit-dismiss:hover { opacity: 1; color: var(--text-primary); }
- .dev-credit { position: fixed; padding-left: 30px; }
+ @media (hover:hover){.dev-credit-dismiss:hover { opacity: 1; color: var(--text-primary); }}
+/* 视觉尺寸保持 22px，把可点区域扩到 34px（WCAG 2.2 SC 2.5.8 目标尺寸） */
+.dev-credit-dismiss::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; }
+.dev-credit-dismiss:active { opacity: 1; color: var(--text-primary); }
+.dev-credit { position: fixed; padding-left: 30px; }
 
  /* ===== 消费娱乐类补充变量 ===== */
  :root {
@@ -802,7 +811,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  min-height: 38px;
  transition: all 0.2s ease !important;
  }
- .btn:hover,
+ @media (hover:hover){.btn:hover,
  .btn-sm:hover,
  .btn-primary:hover,
  .btn-icon:hover,
@@ -813,7 +822,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .icon-btn:hover {
  box-shadow: var(--soft-shadow-raised-hover) !important;
  transform: scale(0.98);
- }
+ }}
  .btn:active,
  .btn-sm:active,
  .btn-primary:active,

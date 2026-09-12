@@ -15,6 +15,12 @@
  ║ modal-sheet / progress-indicator / timer ║
  ╚══════════════════════════════════════════════════════════════╝
  --> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-style" content="default"> <title>COLD START · 冷启动行动引擎</title> <meta name="description" content="冷启动 · 拖延行动引擎 — 别想了，开始。把拖延变成可执行的第一步。"> <!-- Open Graph / Facebook --> <meta property="og:type" content="website"> <meta property="og:title" content="COLD START · 冷启动行动引擎"> <meta property="og:description" content="别想了，开始。把拖延变成可执行的第一步。"> <meta property="og:site_name" content="王天娇作品集"> <meta property="og:locale" content="zh_CN"> <!-- Twitter --> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:title" content="COLD START · 冷启动行动引擎"> <meta name="twitter:description" content="别想了，开始。把拖延变成可执行的第一步。"> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"> <style>
+/* ===== Touch Polish v1 ===== */
+@media (hover:none){
+  input:not([type]),input[type="text"],input[type="search"],input[type="email"],input[type="tel"],input[type="url"],input[type="password"],input[type="number"],input[type="date"],input[type="time"],input[type="datetime-local"],select,textarea{font-size:16px!important}
+}
+/* ===== /Touch Polish v1 ===== */
+
 /* ===== Mobile Baseline v1 ===== */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (hover:none){
@@ -44,7 +50,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .nr{background:var(--bg2);border-radius:var(--r2);box-shadow:var(--sd);transition:box-shadow .2s,transform .15s}
  .ni{background:var(--bg);border-radius:var(--r2);box-shadow:inset 4px 4px 8px rgba(0,0,0,.06),inset -4px -4px 8px rgba(255,255,255,.5)}
  .nb{background:var(--bg);border:none;border-radius:var(--r4);padding:14px 28px;font-family:inherit;font-size:.95rem;font-weight:600;color:var(--text);cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:-5px -5px 12px var(--sl),5px 5px 12px var(--sd);transition:all .2s;user-select:none}
- .nb:hover{box-shadow:-3px -3px 8px var(--sl),3px 3px 8px var(--sd);transform:scale(.98)}
+ @media (hover:hover){.nb:hover{box-shadow:-3px -3px 8px var(--sl),3px 3px 8px var(--sd);transform:scale(.98)}}
  .nb:active{box-shadow:inset 4px 4px 8px rgba(0,0,0,.08),inset -4px -4px 8px rgba(255,255,255,.4);transform:scale(.97)}
  .nb.accent{color:var(--accent)}
  .nb.danger{color:var(--accent3)}
@@ -96,7 +102,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .launch-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
  .char-hint{font-size:.75rem;color:var(--text3)}
  .btn-launch{background:var(--bg);border:none;border-radius:var(--r4);padding:16px 36px;font-family:inherit;font-size:1.05rem;font-weight:700;color:var(--text);cursor:pointer;display:inline-flex;align-items:center;gap:10px;box-shadow:-8px -8px 18px var(--sl),8px 8px 18px var(--sd);transition:all .2s;letter-spacing:1px;white-space:nowrap}
- .btn-launch:hover{box-shadow:-5px -5px 12px var(--sl),5px 5px 12px var(--sd);transform:scale(.98)}
+ @media (hover:hover){.btn-launch:hover{box-shadow:-5px -5px 12px var(--sl),5px 5px 12px var(--sd);transform:scale(.98)}}
  .btn-launch:active{box-shadow:inset 5px 5px 10px rgba(0,0,0,.08),inset -5px -5px 10px rgba(255,255,255,.4);transform:scale(.97)}
  .btn-launch.busy{box-shadow:inset 5px 5px 10px rgba(0,0,0,.08),inset -5px -5px 10px rgba(255,255,255,.4);cursor:wait;opacity:.85}
  @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
@@ -127,7 +133,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  /* 计划步骤 */
  .steps{display:flex;flex-direction:column;gap:10px}
  .step{padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer}
- .step:hover{box-shadow:-4px -4px 10px var(--sl),4px 4px 10px var(--sd)}
+ @media (hover:hover){.step:hover{box-shadow:-4px -4px 10px var(--sl),4px 4px 10px var(--sd)}}
  .step.done{box-shadow:inset 3px 3px 6px rgba(0,0,0,.06),inset -3px -3px 6px rgba(255,255,255,.4)}
  .step.done .step-txt{text-decoration:line-through;color:var(--text3)}
  .step-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;color:var(--text2);flex-shrink:0;box-shadow:-3px -3px 7px var(--sl),3px 3px 7px var(--sd);transition:all .2s}
@@ -139,14 +145,14 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .step.done .step-ck svg{color:var(--accent)}
  .step-actions{display:flex;gap:6px;flex-shrink:0}
  .step-act{width:28px;height:28px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);box-shadow:-2px -2px 5px var(--sl),2px 2px 5px var(--sd);transition:all .15s;font-size:.72rem}
- .step-act:hover{box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.4)}
- .step-act.del:hover{color:var(--accent3)}
+ @media (hover:hover){.step-act:hover{box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.4)}
+ .step-act.del:hover{color:var(--accent3)}}
  .add-step-bar{padding:14px 20px;cursor:pointer;color:var(--text3);font-size:.85rem;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
- .add-step-bar:hover{box-shadow:-3px -3px 7px var(--sl),3px 3px 7px var(--sd);color:var(--text)}
+ @media (hover:hover){.add-step-bar:hover{box-shadow:-3px -3px 7px var(--sl),3px 3px 7px var(--sd);color:var(--text)}}
  .ai-adjust-bar{margin-top:16px;padding:16px;border-radius:var(--r2);box-shadow:inset 3px 3px 6px rgba(0,0,0,.06),inset -3px -3px 6px rgba(255,255,255,.45);display:flex;gap:8px;align-items:center}
  .ai-adjust-bar input{flex:1;border:none;background:transparent;font-family:inherit;font-size:.88rem;color:var(--text);outline:none}
  .ai-adjust-bar button{padding:8px 16px;border:none;border-radius:var(--r1);background:var(--bg);color:var(--accent);cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:600;box-shadow:-2px -2px 5px var(--sl),2px 2px 5px var(--sd);transition:all .15s;white-space:nowrap}
- .ai-adjust-bar button:hover{box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.4)}
+ @media (hover:hover){.ai-adjust-bar button:hover{box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.4)}}
  .ai-adjust-bar button:disabled{opacity:.4;cursor:default}
  .step-edit-form{padding:14px 20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
  .step-edit-form input{border:none;background:var(--bg);font-family:inherit;font-size:.88rem;color:var(--text);outline:none;border-radius:var(--r1);padding:8px 12px;box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.45)}
@@ -154,7 +160,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .step-edit-form .s-dur{width:70px}
  .step-edit-form .s-date{width:130px}
  .step-edit-form button{border:none;border-radius:var(--r1);background:var(--bg);cursor:pointer;font-family:inherit;font-size:.78rem;padding:8px 14px;font-weight:600;box-shadow:-2px -2px 5px var(--sl),2px 2px 5px var(--sd);transition:all .15s}
- .step-edit-form button:hover{box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.4)}
+ @media (hover:hover){.step-edit-form button:hover{box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.4)}}
 
  /* ===== 任务页 ===== */
  .task-header{display:flex;align-items:center;justify-content:space-between;padding:8px 0 16px}
@@ -177,8 +183,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .task-meta{display:flex;align-items:center;gap:8px;margin-top:3px;font-size:.72rem;color:var(--text3)}
  .task-tag{padding:2px 8px;border-radius:20px;box-shadow:inset 1px 1px 3px rgba(0,0,0,.04),inset -1px -1px 3px rgba(255,255,255,.35);font-size:.68rem;color:var(--text2)}
  .task-del{width:28px;height:28px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text3);box-shadow:-2px -2px 5px var(--sl),2px 2px 5px var(--sd);transition:all .15s;flex-shrink:0;opacity:.35;pointer-events:auto}
- .task-item:hover .task-del{opacity:1}
- .task-del:hover{color:var(--accent3);box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.4)}
+ @media (hover:hover){.task-item:hover .task-del{opacity:1}
+ .task-del:hover{color:var(--accent3);box-shadow:inset 2px 2px 4px rgba(0,0,0,.06),inset -2px -2px 4px rgba(255,255,255,.4)}}
  .task-del svg{width:14px;height:14px}
 
  /* 新增任务弹窗 */
@@ -214,7 +220,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .hist-title{font-size:.82rem;font-weight:600;color:var(--text2);letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
  .hist-title svg{width:16px;height:16px;color:var(--text3)}
  .hist-item{padding:18px 20px;margin-bottom:10px;cursor:pointer}
- .hist-item:hover{box-shadow:-5px -5px 12px var(--sl),5px 5px 12px var(--sd)}
+ @media (hover:hover){.hist-item:hover{box-shadow:-5px -5px 12px var(--sl),5px 5px 12px var(--sd)}}
  .hist-item:active{box-shadow:inset 3px 3px 6px rgba(0,0,0,.06),inset -3px -3px 6px rgba(255,255,255,.4)}
  .hist-goal{font-size:.95rem;font-weight:500;margin-bottom:8px}
  .hist-bar{height:6px;border-radius:3px;box-shadow:inset 2px 2px 4px rgba(0,0,0,.05),inset -2px -2px 4px rgba(255,255,255,.4);overflow:hidden;margin-bottom:6px}
@@ -391,7 +397,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  cursor: pointer;
  transition: all .2s;
  }
- .onboarding-btn:hover { opacity: .9; transform: scale(1.02); }
+ @media (hover:hover){.onboarding-btn:hover { opacity: .9; transform: scale(1.02); }}
  .onboarding-skip {
  display: block;
  margin-top: 12px;
@@ -402,9 +408,9 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
  /* Footer badge */
  .footer-badge{position:fixed;bottom:calc(68px + var(--safe-b));right:12px;display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:.7rem;color:var(--text3);opacity:.4;transition:opacity .3s;z-index:10;pointer-events:none}
- .footer-badge:hover{opacity:.7}
+ @media (hover:hover){.footer-badge:hover{opacity:.7}}
  .footer-badge a{color:var(--text3);text-decoration:none;pointer-events:auto}
- .footer-badge a:hover{text-decoration:underline}
+ @media (hover:hover){.footer-badge a:hover{text-decoration:underline}}
  @media(min-width:768px){.footer-badge{bottom:12px;right:16px}}
 
  /* Toast */
