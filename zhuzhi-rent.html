@@ -1782,8 +1782,8 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
 
  for (var r = 0; r <= maxRent * 1.2; r += step) {
  labels.push('¥' + r.toLocaleString());
- var mockPlan = { rent: r, commuteTime: Tc, transportCost: M, workDays: personalValues.defaultD, workHours: personalValues.defaultTw, monthlySalary: sal, name: '模拟' };
- var result = computePlan(mockPlan);
+ var sweepPlan = { rent: r, commuteTime: Tc, transportCost: M, workDays: personalValues.defaultD, workHours: personalValues.defaultTw, monthlySalary: sal };
+ var result = computePlan(sweepPlan);
  netData.push(Math.round(result.N));
  rentRatioData.push(Math.round(result.rent_ratio * 100));
  if (result.N >= 0 && breakEvenRent === 0) breakEvenRent = r;
@@ -2020,9 +2020,9 @@ html{-webkit-tap-highlight-color:transparent}a,button,[onclick],summary,select,i
  saveValues();
  syncInputsFromValues();
  plans = [
- { id: 'demo1', name: '公司旁单间', monthlySalary: 15000, rent: 3200, commuteTime: 0.5, transportCost: 80, workDays: 22, workHours: 8 },
- { id: 'demo2', name: '地铁沿线合租', monthlySalary: 15000, rent: 2000, commuteTime: 1.5, transportCost: 200, workDays: 22, workHours: 8 },
- { id: 'demo3', name: '郊区整租', monthlySalary: 15000, rent: 1500, commuteTime: 2.5, transportCost: 350, workDays: 22, workHours: 8 }
+ { id: 'demo1', name: '示例·公司旁单间', monthlySalary: 15000, rent: 3200, commuteTime: 0.5, transportCost: 80, workDays: 22, workHours: 8 },
+ { id: 'demo2', name: '示例·地铁沿线合租', monthlySalary: 15000, rent: 2000, commuteTime: 1.5, transportCost: 200, workDays: 22, workHours: 8 },
+ { id: 'demo3', name: '示例·郊区整租', monthlySalary: 15000, rent: 1500, commuteTime: 2.5, transportCost: 350, workDays: 22, workHours: 8 }
  ];
  savePlans();
  hideOnboard();
