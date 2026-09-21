@@ -217,7 +217,7 @@
 
 ## 📬 联系
 
-- **📧** Wangtj0212@outlook.com
+- **GitHub**：[@anlan-dev](https://github.com/anlan-dev) — 私信或提 Issue 均可
 - **🔗 在线演示主页**：https://anlan-dev.github.io/pm-works-demos/
 
 ---
